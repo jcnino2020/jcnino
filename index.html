@@ -393,53 +393,60 @@
 <script>
   const BASE = "https://raw.githubusercontent.com/jcnino2020/jcninonuevo-portfolio/refs/heads/main/images/";
 
-const allPhotos = [
- {id:1, src:BASE+"GH-01.JPG", w:900, h:600},
- {id:2, src:BASE+"GH-02.JPG", w:900, h:600},
- {id:3, src:BASE+"GH-03.JPG", w:900, h:600},
- {id:4, src:BASE+"GH-03.1.JPG", w:900, h:600},
- {id:5, src:BASE+"GH-04.JPG", w:900, h:600},
- {id:6, src:BASE+"GH-05.JPG", w:900, h:600},
- {id:7, src:BASE+"GH-06.JPG", w:900, h:600},
- {id:8, src:BASE+"GH-07.JPG", w:800, h:1067},
- {id:9, src:BASE+"GH-08.JPG", w:900, h:600},
- {id:10, src:BASE+"GH-09.JPG", w:800, h:1000},
- {id:11, src:BASE+"GH-10.JPG", w:900, h:600},
- {id:12, src:BASE+"GH-11.JPG", w:800, h:1067},
- {id:13, src:BASE+"GH-12.JPG", w:900, h:600},
- {id:14, src:BASE+"GH-13.JPG", w:900, h:600},
- {id:15, src:BASE+"GH-14.JPG", w:900, h:600},
- {id:16, src:BASE+"GH-15.JPG", w:900, h:600},
- {id:17, src:BASE+"GH-16.JPG", w:900, h:600},
- {id:18, src:BASE+"GH-17.JPG", w:900, h:600},
- {id:19, src:BASE+"GH-18.JPG", w:900, h:600},
- {id:20, src:BASE+"GH-19.JPG", w:900, h:600},
- {id:21, src:BASE+"GH-20.JPG", w:900, h:600},
- {id:22, src:BASE+"GH-21.JPG", w:900, h:600},
- {id:23, src:BASE+"GH-22.JPG", w:900, h:600},
- {id:24, src:BASE+"GH-24.JPG", w:900, h:600},
- {id:25, src:BASE+"GH-26.JPG", w:900, h:600},
- {id:26, src:BASE+"GH-27.JPG", w:900, h:600},
- {id:27, src:BASE+"GH-28.JPG", w:900, h:600},
- {id:28, src:BASE+"GH-29.JPG", w:900, h:600},
- {id:29, src:BASE+"GH-30.JPG", w:900, h:600},
- {id:30, src:BASE+"GH-31.JPG", w:900, h:600},
- {id:31, src:BASE+"GH-32.JPG", w:900, h:600},
- {id:32, src:BASE+"GH-33.JPG", w:900, h:600},
- {id:33, src:BASE+"GH-34.JPG", w:900, h:600},
- {id:34, src:BASE+"GH-35.JPG", w:900, h:600},
- {id:35, src:BASE+"GH-36.JPG", w:900, h:600},
- {id:36, src:BASE+"GH-37.JPG", w:900, h:600},
- {id:37, src:BASE+"GH-38.JPG", w:900, h:600},
- {id:38, src:BASE+"GN-39.JPG", w:900, h:600},
- {id:39, src:BASE+"GH-40.JPG", w:900, h:600}
+const imageFiles = [
+"GH-01.JPG",
+"GH-02.JPG",
+"GH-03.JPG",
+"GH-03.1.JPG",
+"GH-04.JPG",
+"GH-05.JPG",
+"GH-06.JPG",
+"GH-07.JPG",
+"GH-08.JPG",
+"GH-09.JPG",
+"GH-10.JPG",
+"GH-11.JPG",
+"GH-12.JPG",
+"GH-13.JPG",
+"GH-14.JPG",
+"GH-15.JPG",
+"GH-16.JPG",
+"GH-17.JPG",
+"GH-18.JPG",
+"GH-19.JPG",
+"GH-20.JPG",
+"GH-21.JPG",
+"GH-22.JPG",
+"GH-24.JPG",
+"GH-26.JPG",
+"GH-27.JPG",
+"GH-28.JPG",
+"GH-29.JPG",
+"GH-30.JPG",
+"GH-31.JPG",
+"GH-32.JPG",
+"GH-33.JPG",
+"GH-34.JPG",
+"GH-35.JPG",
+"GH-36.JPG",
+"GH-37.JPG",
+"GH-38.JPG",
+"GN-39.JPG",
+"GH-40.JPG"
 ];
+
+const allPhotos = imageFiles
+  .sort((a,b)=>a.localeCompare(b, undefined, {numeric:true}))
+  .map((file,i)=>({
+    id:i,
+    src:BASE+file
+  }));
 
 function buildCard(p, gallery) {
   const wrap = document.createElement('div');
   wrap.className = 'gallery-item relative rounded-xl overflow-hidden cursor-pointer';
   wrap.innerHTML = `
-    <img src="${p.src}" alt="${p.title}" loading="lazy"
+    <img src="${p.src}" alt="${p.src.split('/').pop().replace('.JPG','')}" loading="lazy"
       class="w-full h-auto block"
       onerror="this.src='https://placehold.co/900x600/111/333?text=Photo'" />
     <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
