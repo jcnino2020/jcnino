@@ -5,139 +5,153 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>School Events — Portfolio</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   
 <script>
   tailwind.config = {
     theme: {
       extend: {
         colors: {
-          'ink':    '#000000',
-          'ink-2':  '#0a0a0a',
-          'ink-3':  '#111111',
-          'ink-4':  '#1a1a1a',
-          'ink-5':  '#222222',
-          'mute':   '#555555',
-          'subtle': '#333333',
-          'dim':    '#888888',
-          'light':  '#bbbbbb',
-          'chalk':  '#e8e8e8',
-          'white':  '#ffffff',
+          'bg':    '#000000',
+          'surface': '#0f0f0f',
+          'border': '#1f1f1f',
+          'text-main': '#ffffff',
+          'text-muted': '#a0a0a0',
+          'accent': '#ffffff',
         },
-        fontFamily: { sans: ['Inter','system-ui','sans-serif'] },
+        fontFamily: {
+          sans: ['Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
+        },
       },
     },
   }
+
+  document.addEventListener('contextmenu', e => e.preventDefault());
+  document.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && ['s', 'u', 'a'].includes(e.key.toLowerCase())) e.preventDefault();
+  });
 </script>
 
-  
 <style>
-  *, *::before, *::after { box-sizing: border-box; }
   html { scroll-behavior: smooth; background: #000; }
-  body { background: #000; color: #e8e8e8; -webkit-font-smoothing: antialiased; }
+  body { 
+    background: #000; 
+    color: #fff; 
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; 
+    -webkit-font-smoothing: antialiased; 
+    letter-spacing: -0.01em;
+    line-height: 1.5;
+  }
 
   ::selection { background: #fff; color: #000; }
 
-  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { background: #000; }
-  ::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
-  ::-webkit-scrollbar-thumb:hover { background: #666; }
+  ::-webkit-scrollbar-thumb { background: #222; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #333; }
 
-  /* Nav underline */
+  /* Nav */
   .nav-link { position: relative; }
   .nav-link::after {
-    content:''; display:block; height:1px; background:#fff;
-    transform:scaleX(0); transition:transform .25s ease;
+    content:''; display:block; height:2px; background:#fff;
+    transform:scaleX(0); transition:transform .3s cubic-bezier(0.22, 1, 0.36, 1);
     transform-origin:left;
   }
   .nav-link:hover::after, .nav-link.active::after { transform:scaleX(1); }
-  .nav-link.active { color:#fff; }
 
   /* Gallery */
-  .gallery-item { transition: transform .2s ease, box-shadow .2s ease; }
-  .gallery-item:hover { transform: translateY(-4px); box-shadow: 0 20px 50px rgba(0,0,0,.9); }
-  .gallery-item:hover .img-overlay { opacity: 1 !important; }
+  .gallery-item { transition: transform .4s ease, opacity .4s ease; }
+  .gallery-item:hover { transform: scale(1.02); z-index: 10; }
+  .gallery-item:hover img { filter: brightness(1); }
+  .gallery-item img { filter: brightness(0.85); transition: filter .4s ease; }
 
-  .gallery-grid { columns: 3; column-gap: 12px; }
-  @media(max-width:768px){ .gallery-grid{ columns:2; } }
-  @media(max-width:480px){ .gallery-grid{ columns:1; } }
-  .gallery-grid .gallery-item { break-inside:avoid; margin-bottom:12px; display:block; }
+  /* Grid Layout matching index */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  @media (max-width:1024px) {
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width:640px) {
+    .gallery-grid { grid-template-columns: 1fr; }
+  }
 
   /* Lightbox */
-  #lightbox { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-
-  /* Tab active */
-  .tab-btn { color: #555; border-bottom: 1px solid transparent; transition: all .2s; }
-  .tab-btn:hover { color: #bbb; }
-  .tab-btn.active { color: #fff; border-bottom-color: #fff; }
-
-  /* Fade in */
-  .fade-in { animation: fadeUp .6s ease both; }
-  @keyframes fadeUp {
-    from { opacity:0; transform:translateY(20px); }
-    to   { opacity:1; transform:translateY(0); }
-  }
+  #lightbox { backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); }
 
   /* Mobile menu */
-  #mobile-menu { transition: max-height .3s ease, opacity .3s ease; }
-  #mobile-menu.closed { max-height:0; opacity:0; overflow:hidden; }
-  #mobile-menu.open   { max-height:500px; opacity:1; }
+  #mobile-menu { transition: max-height .4s ease, opacity .4s ease; }
+  #mobile-menu.closed { max-height:0; opacity:0; overflow:hidden; pointer-events: none; }
+  #mobile-menu.open   { max-height:500px; opacity:1; pointer-events: auto; }
 
-  /* Page hero */
-  .page-hero { background: #000; border-bottom: 1px solid #1a1a1a; }
-
-  /* Card hover */
-  .card-item { transition: all .2s ease; }
-  .card-item:hover { background: #111; border-color: #333 !important; }
-
-  /* Btn */
-  .btn-white {
-    background: #fff; color: #000; font-weight: 600;
-    transition: background .2s, color .2s;
+  img {
+    -webkit-user-drag: none;
+    user-drag: none;
+    pointer-events: none;
   }
-  .btn-white:hover { background: #ddd; }
-
-  .btn-outline {
-    border: 1px solid #333; color: #888;
-    transition: border-color .2s, color .2s;
+  
+  /* Sort Buttons */
+  .sort-btn { 
+    border: 1px solid #1f1f1f;
+    transition: all .3s; 
   }
-  .btn-outline:hover { border-color: #888; color: #e8e8e8; }
-
-  /* Sort btn */
-  .sort-btn { transition: all .2s; color: #555; }
-  .sort-btn:hover { color: #bbb; }
-  .sort-btn.active-sort { color: #fff; border-color: #555 !important; }
-
-  /* Input focus */
-  input:focus, textarea:focus {
-    outline: none;
-    border-color: #555 !important;
+  .sort-btn:hover { border-color: #333; }
+  .sort-btn.active { 
+    border-color: #fff; 
+    background: rgba(255,255,255,0.1);
   }
 </style>
 
 </head>
-<body class="font-sans min-h-screen">
-  
-<nav class="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-md border-b border-white/[0.06]">
-  <div class="max-w-7xl mx-auto px-5 sm:px-8">
-    <div class="flex items-center justify-between h-14">
-      <a href="index.html" class="text-white font-light text-sm tracking-[0.25em] uppercase hover:text-chalk transition-colors">
-        Portfolio
+<body class="min-h-screen">
+
+<!-- Navigation -->
+<nav class="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/[0.05]">
+  <div class="max-w-7xl mx-auto px-6 sm:px-10">
+    <div class="flex items-center justify-between h-20">
+      <a href="index.html" class="flex items-center">
+        <img src="images/logo.png" alt="Portfolio" class="h-5 w-auto opacity-90 hover:opacity-100 transition-opacity" />
       </a>
-      <div class="hidden md:flex items-center gap-8"><a href="index.html" class="nav-link  text-dim hover:text-white text-xs font-medium pb-0.5 uppercase tracking-widest transition-colors">Home</a><a href="drone-shots.html" class="nav-link  text-dim hover:text-white text-xs font-medium pb-0.5 uppercase tracking-widest transition-colors">Drone Shots</a><a href="framed-moments.html" class="nav-link  text-dim hover:text-white text-xs font-medium pb-0.5 uppercase tracking-widest transition-colors">Framed Moments</a><a href="school-events.html" class="nav-link active text-dim hover:text-white text-xs font-medium pb-0.5 uppercase tracking-widest transition-colors">School Events</a><a href="video-projects.html" class="nav-link  text-dim hover:text-white text-xs font-medium pb-0.5 uppercase tracking-widest transition-colors">Video Projects</a></div>
-      <a href="index.html#contact" class="hidden md:block btn-outline text-xs font-semibold uppercase tracking-widest px-5 py-2 rounded-full">Contact</a>
-      <button id="hamburger" class="md:hidden text-dim hover:text-white p-1.5 rounded transition-colors" aria-label="Menu">
-        <svg id="ham-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
-        <svg id="close-icon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/></svg>
+      
+      <!-- Desktop Nav -->
+      <div class="hidden md:flex items-center gap-10">
+        <a href="index.html" class="nav-link text-text-muted hover:text-white text-sm font-bold tracking-wide transition-colors">Home</a>
+        <a href="drone-shots.html" class="nav-link text-text-muted hover:text-white text-sm font-bold tracking-wide transition-colors">Drone</a>
+        <a href="framed-moments.html" class="nav-link text-text-muted hover:text-white text-sm font-bold tracking-wide transition-colors">Framed</a>
+        <a href="school-events.html" class="nav-link active text-white text-sm font-bold tracking-wide transition-colors">Events</a>
+        <a href="video-projects.html" class="nav-link text-text-muted hover:text-white text-sm font-bold tracking-wide transition-colors">Video</a>
+      </div>
+      
+      <div class="hidden md:flex items-center gap-6">
+        <a href="index.html#contact" class="px-6 py-2.5 bg-white text-black text-sm font-bold rounded-full hover:bg-opacity-90 transition-all hover:scale-105">Contact</a>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button id="hamburger" class="md:hidden text-white p-2 rounded-lg hover:bg-white/10 transition-colors" aria-label="Menu">
+        <svg id="ham-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/></svg>
       </button>
     </div>
+
+    <!-- Mobile Menu -->
     <div id="mobile-menu" class="closed md:hidden">
-      <div class="pb-5 flex flex-col gap-4 border-t border-white/[0.06] pt-4"><a href="index.html" class="text-dim hover:text-white text-sm font-medium transition-colors">Home</a><a href="drone-shots.html" class="text-dim hover:text-white text-sm font-medium transition-colors">Drone Shots</a><a href="framed-moments.html" class="text-dim hover:text-white text-sm font-medium transition-colors">Framed Moments</a><a href="school-events.html" class="text-dim hover:text-white text-sm font-medium transition-colors">School Events</a><a href="video-projects.html" class="text-dim hover:text-white text-sm font-medium transition-colors">Video Projects</a>
-        <a href="index.html#contact" class="btn-outline text-xs font-semibold uppercase tracking-widest px-5 py-2.5 rounded-full text-center">Contact</a>
+      <div class="py-6 flex flex-col gap-5 border-t border-white/10">
+        <a href="index.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Home</a>
+        <a href="drone-shots.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Drone Shots</a>
+        <a href="framed-moments.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Framed Moments</a>
+        <a href="school-events.html" class="text-white text-2xl font-bold transition-colors">School Events</a>
+        <a href="video-projects.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Video Projects</a>
+        <div class="pt-4 border-t border-white/10">
+          <a href="index.html#contact" class="block text-center btn-white w-full py-3 rounded-full text-lg font-bold bg-white text-black">Get in Touch</a>
+        </div>
       </div>
     </div>
   </div>
 </nav>
+
 <script>
   (function(){
     const btn=document.getElementById('hamburger');
@@ -157,151 +171,205 @@
   })();
 </script>
 
+<!-- Main Content -->
+<div class="pt-20">
   
-<div class="pt-14">
-  <!-- Hero -->
-  <div class="page-hero">
-    <div class="max-w-7xl mx-auto px-5 sm:px-8 py-20 fade-in">
-      <p class="text-white/20 text-xs font-mono uppercase tracking-[0.3em] mb-5">event coverage</p>
-      <h1 class="text-5xl md:text-6xl font-light text-white mb-4 tracking-tight">School Events</h1>
-      <p class="text-white/30 text-base max-w-lg font-light leading-relaxed">Publication-grade coverage of school activities, ceremonies, and campus life.</p>
-    </div>
-  </div>
-
-  <!-- Gallery -->
-  <section class="py-14">
-    <div class="max-w-7xl mx-auto px-5 sm:px-8">
-      <div class="flex items-center justify-between mb-8 flex-wrap gap-4">
-        <p class="text-white/20 text-xs font-mono" id="photo-count"></p>
+  <!-- Header Section -->
+  <section class="py-24 border-b border-border">
+    <div class="max-w-7xl mx-auto px-6 sm:px-10">
+      <div class="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 mb-8">
+        <div>
+          <p class="text-text-muted text-xs font-bold uppercase tracking-[0.3em] mb-4">Category 03</p>
+          <h1 class="text-4xl sm:text-5xl text-white font-bold">School Events</h1>
+          <p class="text-text-muted text-lg max-w-lg mt-4">Publication-grade coverage of school activities, ceremonies, and campus life.</p>
+        </div>
+        
+        <!-- Sorting Controls -->
         <div class="flex gap-3">
-          <button onclick="setSort('newest')" id="sort-newest"
-            class="sort-btn active-sort px-4 py-1.5 rounded-full text-xs font-mono border border-white/10">
+          <button onclick="setSort('newest')" id="sort-newest" class="sort-btn active px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider text-white">
             Newest
           </button>
-          <button onclick="setSort('oldest')" id="sort-oldest"
-            class="sort-btn px-4 py-1.5 rounded-full text-xs font-mono border border-white/[0.05]">
+          <button onclick="setSort('oldest')" id="sort-oldest" class="sort-btn px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider text-text-muted">
             Oldest
           </button>
         </div>
       </div>
+      
+      <div class="flex justify-end">
+         <p class="text-text-muted text-xs font-bold" id="photo-count"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+  <section class="py-12">
+    <div class="max-w-7xl mx-auto px-6 sm:px-10">
       <div class="gallery-grid" id="main-grid"></div>
     </div>
   </section>
+
 </div>
 
 <script>
-  const photos = [{"id": 1, "title": "GH-01", "meta": "JPG \u00b7 4896\u00d73264 \u00b7 1.8 MB", "src": "https://placehold.co/900x600/111/555?text=GH-01", "w": 900, "h": 600}, {"id": 5, "title": "GH-05", "meta": "JPG \u00b7 4896\u00d73264 \u00b7 1.8 MB", "src": "https://placehold.co/900x600/0d0d0d/444?text=GH-05", "w": 900, "h": 600}, {"id": 7, "title": "GH-07", "meta": "JPG \u00b7 4896\u00d73264 \u00b7 4.5 MB", "src": "https://placehold.co/800x1067/151515/555?text=GH-07", "w": 800, "h": 1067}, {"id": 20250417, "title": "EVT-2025", "meta": "JPG \u00b7 4896\u00d73264 \u00b7 1010 KB", "src": "https://placehold.co/900x600/111/444?text=EVT-2025", "w": 900, "h": 600}, {"id": 16, "title": "SE-01", "meta": "JPG \u00b7 4896\u00d73264 \u00b7 2.3 MB", "src": "https://placehold.co/900x600/0a0a0a/555?text=SE-01", "w": 900, "h": 600}, {"id": 17, "title": "SE-02", "meta": "JPG \u00b7 3264\u00d74896 \u00b7 2.8 MB", "src": "https://placehold.co/650x975/111/444?text=SE-02", "w": 650, "h": 975}];
+  const BASE = "https://raw.githubusercontent.com/jcnino2020/jcninonuevo-portfolio/refs/heads/main/images/";
+
+  // Filtered list for School Events based on previous data mapping
+  // Excluding Drone (02,03,06,08,13,16,19,22,27,30,33,36,40) 
+  // and Framed (04,09,10,11,14,17,20,24,28,31,34,37,39)
+  const eventFiles = [
+    "GH-01.JPG", "GH-05.JPG", "GH-07.JPG", "GH-15.JPG", 
+    "GH-18.JPG", "GH-21.JPG", "GH-26.JPG", "GH-29.JPG", 
+    "GH-32.JPG", "GH-35.JPG", "GH-38.JPG"
+  ];
+
+  // Generate photo objects
+  const allPhotos = eventFiles
+    .sort((a, b) => a.localeCompare(b, undefined, {numeric:true}))
+    .map((file, i) => ({
+      id: i,
+      src: BASE + file,
+      title: file.replace('.JPG', '')
+    }));
+
+  let currentGallery = [];
   let sortOrder = 'newest';
-  
-function buildCard(p, gallery) {
-  const wrap = document.createElement('div');
-  wrap.className = 'gallery-item relative rounded-xl overflow-hidden cursor-pointer border border-white/[0.06]';
-  wrap.innerHTML = `
-    <img src="${p.src}" alt="${p.title}" loading="lazy"
-      class="w-full h-auto block"
-      onerror="this.src='https://placehold.co/900x600/111/333?text=Photo'" />
-    <div class="img-overlay absolute inset-0 bg-black/40 flex items-end p-3" style="opacity:0;transition:opacity .2s;">
-      <svg class="w-4 h-4 text-white/60 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-      </svg>
-    </div>
-  `;
-  wrap.addEventListener('click', () => openLightbox(p, gallery));
-  return wrap;
-}
+
+  function buildCard(p, gallery) {
+    const wrap = document.createElement('div');
+    wrap.className = 'gallery-item relative rounded-xl overflow-hidden cursor-pointer';
+    wrap.innerHTML = `
+      <img src="${p.src}" alt="${p.title}" loading="lazy"
+        class="w-full h-auto block"
+        onerror="this.src='https://placehold.co/900x600/111/333?text=Photo'" />
+      <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+        <div class="flex justify-between items-end w-full">
+          <p class="text-white font-bold text-sm">${p.title}</p>
+          <svg class="w-5 h-5 text-white opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+        </div>
+      </div>
+    `;
+    wrap.addEventListener('click', () => openLightbox(p, gallery));
+    return wrap;
+  }
 
   function setSort(order) {
     sortOrder = order;
-    document.querySelectorAll('.sort-btn').forEach(b=>b.classList.remove('active-sort'));
-    document.getElementById('sort-'+order).classList.add('active-sort');
+    document.querySelectorAll('.sort-btn').forEach(b => {
+      b.classList.remove('active');
+      b.classList.add('text-text-muted');
+      b.classList.remove('text-white');
+    });
+    const activeBtn = document.getElementById('sort-' + order);
+    activeBtn.classList.add('active');
+    activeBtn.classList.remove('text-text-muted');
+    activeBtn.classList.add('text-white');
     renderGrid();
   }
+
   function renderGrid() {
     const grid = document.getElementById('main-grid');
     grid.innerHTML = '';
-    const sorted = [...photos].sort((a,b)=> sortOrder==='newest' ? b.id-a.id : a.id-b.id);
+    
+    let sorted = [...allPhotos];
+    
+    if (sortOrder === 'newest') {
+      sorted.reverse(); 
+    } else {
+      sorted.sort((a, b) => a.id - b.id);
+    }
+    
+    currentGallery = sorted;
     document.getElementById('photo-count').textContent = sorted.length + ' photos';
     sorted.forEach(p => grid.appendChild(buildCard(p, sorted)));
   }
+
   renderGrid();
 </script>
 
-  
-<footer class="bg-ink border-t border-white/[0.06] py-10">
-  <div class="max-w-7xl mx-auto px-5 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-5">
-    <span class="text-white/20 text-xs font-light tracking-widest uppercase">Portfolio &copy; <span class="year"></span></span>
-    <p class="text-white/10 text-xs font-mono">Tailwind CSS &bull; Vercel</p>
-    <div class="flex gap-6">
-      <a href="index.html"           class="text-white/20 hover:text-white/60 text-xs uppercase tracking-widest transition-colors">Home</a>
-      <a href="drone-shots.html"     class="text-white/20 hover:text-white/60 text-xs uppercase tracking-widest transition-colors">Drone</a>
-      <a href="framed-moments.html"  class="text-white/20 hover:text-white/60 text-xs uppercase tracking-widest transition-colors">Framed</a>
-      <a href="school-events.html"   class="text-white/20 hover:text-white/60 text-xs uppercase tracking-widest transition-colors">Events</a>
-      <a href="video-projects.html"  class="text-white/20 hover:text-white/60 text-xs uppercase tracking-widest transition-colors">Video</a>
+<footer class="bg-bg border-t border-border py-12">
+  <div class="max-w-7xl mx-auto px-6 sm:px-10 flex flex-col md:flex-row items-center justify-between gap-6">
+    <div class="flex flex-col items-center md:items-start gap-2">
+       <span class="text-white text-sm font-bold tracking-wider uppercase">Portfolio &copy; <span class="year"></span></span>
+       <p class="text-text-muted text-xs">Bacolod City, Philippines</p>
     </div>
+    
+    <div class="flex flex-wrap justify-center gap-8">
+       <a href="index.html" class="text-text-muted hover:text-white text-sm font-bold transition-colors">Home</a>
+       <a href="drone-shots.html" class="text-text-muted hover:text-white text-sm font-bold transition-colors">Drone</a>
+       <a href="framed-moments.html" class="text-text-muted hover:text-white text-sm font-bold transition-colors">Framed</a>
+       <a href="school-events.html" class="text-white text-sm font-bold transition-colors">Events</a>
+       <a href="video-projects.html" class="text-text-muted hover:text-white text-sm font-bold transition-colors">Video</a>
+    </div>
+    
+    <p class="text-text-muted text-xs font-bold">Built with Tailwind CSS</p>
   </div>
 </footer>
 <script>document.querySelectorAll('.year').forEach(e=>e.textContent=new Date().getFullYear());</script>
 
-  
-<div id="lightbox" class="fixed inset-0 z-[9999] bg-black/96 hidden flex-col items-center justify-center p-4 md:p-8">
+<!-- Lightbox -->
+<div id="lightbox" class="fixed inset-0 z-[9999] bg-black/98 hidden flex-col items-center justify-center p-4 md:p-8">
   <button onclick="closeLightbox()"
-    class="absolute top-5 right-5 w-10 h-10 flex items-center justify-center text-white/40 hover:text-white transition-colors rounded-full border border-white/10 hover:border-white/30">
-    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    class="absolute top-6 right-6 w-12 h-12 flex items-center justify-center text-white hover:bg-white/10 transition-colors rounded-full border border-white/10">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/>
     </svg>
   </button>
+  
   <button onclick="prevImage()"
-    class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center text-white/40 hover:text-white transition-colors border border-white/10 hover:border-white/30 rounded-full">
-    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    class="absolute left-4 top-1/2 -translate-y-1/2 w-14 h-14 flex items-center justify-center text-white hover:bg-white/10 transition-colors border border-white/10 rounded-full">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"/>
     </svg>
   </button>
+  
   <button onclick="nextImage()"
-    class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center text-white/40 hover:text-white transition-colors border border-white/10 hover:border-white/30 rounded-full">
-    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    class="absolute right-4 top-1/2 -translate-y-1/2 w-14 h-14 flex items-center justify-center text-white hover:bg-white/10 transition-colors border border-white/10 rounded-full">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"/>
     </svg>
   </button>
-  <img id="lightbox-img" src="" alt=""
-    class="max-w-full max-h-[82vh] object-contain" />
-  <div class="mt-5 text-center">
-    <p id="lightbox-title" class="text-white/80 text-sm font-medium"></p>
-    <p id="lightbox-meta"  class="text-white/30 text-xs mt-1 font-mono"></p>
-  </div>
-  <p id="lightbox-counter" class="absolute bottom-5 text-white/20 text-xs font-mono"></p>
+  
+  <img id="lightbox-img" src="" alt="" class="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl" />
+  <p id="lightbox-counter" class="absolute bottom-6 text-white text-xs font-bold tracking-widest"></p>
 </div>
 
-  
 <script>
-  let currentGallery=[], currentIndex=0;
+  let currentIndex=0;
+  
   function openLightbox(photo, gallery){
-    currentGallery=gallery; currentIndex=gallery.indexOf(photo);
+    currentGallery=gallery; 
+    currentIndex=gallery.indexOf(photo);
     syncLightbox();
     const lb=document.getElementById('lightbox');
     lb.classList.remove('hidden'); lb.classList.add('flex');
     document.body.style.overflow='hidden';
   }
+  
   function syncLightbox(){
-    const p=currentGallery[currentIndex];
-    document.getElementById('lightbox-img').src=p.src;
-    document.getElementById('lightbox-img').alt=p.title;
-    document.getElementById('lightbox-title').textContent=p.title;
-    document.getElementById('lightbox-meta').textContent=p.meta;
-    document.getElementById('lightbox-counter').textContent=(currentIndex+1)+' / '+currentGallery.length;
+    const p = currentGallery[currentIndex];
+    const src = p.src;
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox-img').alt = p.title;
+    document.getElementById('lightbox-counter').textContent = (currentIndex+1) + ' / ' + currentGallery.length;
   }
+
   function closeLightbox(){
     document.getElementById('lightbox').classList.add('hidden');
     document.getElementById('lightbox').classList.remove('flex');
     document.body.style.overflow='';
   }
+  
   function prevImage(){ currentIndex=(currentIndex-1+currentGallery.length)%currentGallery.length; syncLightbox(); }
   function nextImage(){ currentIndex=(currentIndex+1)%currentGallery.length; syncLightbox(); }
+  
   document.addEventListener('keydown',e=>{
     if(e.key==='Escape') closeLightbox();
     if(e.key==='ArrowLeft') prevImage();
     if(e.key==='ArrowRight') nextImage();
   });
+  
   document.getElementById('lightbox').addEventListener('click',e=>{
     if(e.target===document.getElementById('lightbox')) closeLightbox();
   });
