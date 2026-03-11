@@ -211,14 +211,54 @@
 </div>
 
 <script>
-  const BASE = "https://raw.githubusercontent.com/jcnino2020/jcninonuevo-portfolio/refs/heads/main/images/";
+  const BASE = "https://raw.githubusercontent.com/jcnino2020/jcninonuevo-portfolio/refs/heads/main/images/Framed%20Moments/";
 
   // Filtered list for Framed Moments based on previous data mapping
-  const framedFiles = [
-    "GH-04.JPG", "GH-09.JPG", "GH-10.JPG", "GH-11.JPG", 
-    "GH-14.JPG", "GH-17.JPG", "GH-20.JPG", "GH-24.JPG", 
-    "GH-28.JPG", "GH-31.JPG", "GH-34.JPG", "GH-37.JPG", "GN-39.JPG"
-  ];
+const framedFiles = [
+"FM-01.JPG",
+"FM-02.JPG",
+"FM-03.JPG",
+"FM-04.JPG",
+"FM-05.JPG",
+"FM-06.JPG",
+"FM-07.JPG",
+"FM-09.JPG",
+"FM-10.JPG",
+"FM-11.JPG",
+"FM-12.JPG",
+"FM-13.JPG",
+"FM-14.JPG",
+"FM-15.JPG",
+"FM-16.JPG",
+"FM-17.JPG",
+"FM-18.JPG",
+"FM-19.JPG",
+"FM-20.JPG",
+"FM-21.JPG",
+"FM-22.JPG",
+"FM-23.JPG",
+"FM-24.JPG",
+"FM-25.JPG",
+"FM-26.JPG",
+"FM-27.JPG",
+"FM-28.JPG",
+"FM-29.JPG",
+"FM-30.JPG",
+"FM-31.JPG",
+"FM-32.JPG",
+"FM-33.JPG",
+"FM-34.JPG",
+"FM-35.JPG",
+"FM-36.JPG",
+"FM-38.JPG",
+"FM-39.JPG",
+"FM-40.JPG",
+"FM-41.JPG",
+"FM-42.JPG",
+"FM-43.JPG",
+"FM-44.JPG",
+"GH-12.JPG"
+];
 
   // Generate photo objects
   const allPhotos = framedFiles
@@ -236,9 +276,13 @@
     const wrap = document.createElement('div');
     wrap.className = 'gallery-item relative rounded-xl overflow-hidden cursor-pointer';
     wrap.innerHTML = `
-      <img src="${p.src}" alt="${p.title}" loading="lazy"
-        class="w-full h-auto block"
-        onerror="this.src='https://placehold.co/900x600/111/333?text=Photo'" />
+  <img src="${p.src}"
+       alt="${p.title}"
+       loading="lazy"
+       decoding="async"
+       fetchpriority="low"
+       class="w-full h-auto block"
+       onerror="this.src='https://placehold.co/900x600/111/333?text=Photo'" />
       <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
         <div class="flex justify-between items-end w-full">
           <p class="text-white font-bold text-sm">${p.title}</p>

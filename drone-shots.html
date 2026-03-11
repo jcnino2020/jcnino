@@ -206,23 +206,24 @@
 </div>
 
 <script>
-  const BASE = "https://raw.githubusercontent.com/jcnino2020/jcninonuevo-portfolio/refs/heads/main/images/";
+  const BASE = "https://raw.githubusercontent.com/jcnino2020/jcninonuevo-portfolio/refs/heads/main/images/Drone%20Shots/";
 
   // Full data list (Filtered for Drone category)
-  const allPhotos = [
-    {"id": 4,  "cat": "drone",  "title": "GH-02", "src": BASE+"GH-02.JPG", "w": 900, "h": 600},
-    {"id": 5,  "cat": "drone",  "title": "GH-03", "src": BASE+"GH-03.JPG", "w": 900, "h": 600},
-    {"id": 8,  "cat": "drone",  "title": "GH-06", "src": BASE+"GH-06.JPG", "w": 900, "h": 600},
-    {"id": 14, "cat": "drone",  "title": "GH-13", "src": BASE+"GH-13.JPG", "w": 900, "h": 600},
-    {"id": 17, "cat": "drone",  "title": "GH-16", "src": BASE+"GH-16.JPG", "w": 900, "h": 600},
-    {"id": 20, "cat": "drone",  "title": "GH-19", "src": BASE+"GH-19.JPG", "w": 900, "h": 600},
-    {"id": 23, "cat": "drone",  "title": "GH-22", "src": BASE+"GH-22.JPG", "w": 900, "h": 600},
-    {"id": 26, "cat": "drone",  "title": "GH-27", "src": BASE+"GH-27.JPG", "w": 900, "h": 600},
-    {"id": 29, "cat": "drone",  "title": "GH-30", "src": BASE+"GH-30.JPG", "w": 900, "h": 600},
-    {"id": 32, "cat": "drone",  "title": "GH-33", "src": BASE+"GH-33.JPG", "w": 900, "h": 600},
-    {"id": 35, "cat": "drone",  "title": "GH-36", "src": BASE+"GH-36.JPG", "w": 900, "h": 600},
-    {"id": 38, "cat": "drone",  "title": "GH-40", "src": BASE+"GH-40.JPG", "w": 900, "h": 600}
-  ];
+const allPhotos = [
+  {"id": 1,  "cat": "drone", "title": "Drone-001", "src": BASE+"Drone-001.JPG", "w": 900, "h": 600},
+  {"id": 2,  "cat": "drone", "title": "Drone-002", "src": BASE+"Drone-002.JPG", "w": 900, "h": 600},
+  {"id": 3,  "cat": "drone", "title": "Drone-003", "src": BASE+"Drone-003.JPG", "w": 900, "h": 600},
+  {"id": 4,  "cat": "drone", "title": "Drone-004", "src": BASE+"Drone-004.JPG", "w": 900, "h": 600},
+  {"id": 5,  "cat": "drone", "title": "Drone-005", "src": BASE+"Drone-005.JPG", "w": 900, "h": 600},
+  {"id": 6,  "cat": "drone", "title": "Drone-006", "src": BASE+"Drone-006.JPG", "w": 900, "h": 600},
+  {"id": 7,  "cat": "drone", "title": "Drone-007", "src": BASE+"Drone-007.JPG", "w": 900, "h": 600},
+  {"id": 8,  "cat": "drone", "title": "Drone-008", "src": BASE+"Drone-008.JPG", "w": 900, "h": 600},
+  {"id": 9,  "cat": "drone", "title": "Drone-009", "src": BASE+"Drone-009.JPG", "w": 900, "h": 600},
+  {"id": 10, "cat": "drone", "title": "Drone-010", "src": BASE+"Drone-010.JPG", "w": 900, "h": 600},
+  {"id": 11, "cat": "drone", "title": "Drone-012", "src": BASE+"Drone-012.JPG", "w": 900, "h": 600},
+  {"id": 12, "cat": "drone", "title": "GH-23", "src": BASE+"GH-23.JPG", "w": 900, "h": 600},
+  {"id": 13, "cat": "drone", "title": "TR-19", "src": BASE+"TR-19.JPG", "w": 900, "h": 600}
+];
 
   let sortOrder = 'newest';
   let currentGallery = [];
@@ -231,9 +232,13 @@
     const wrap = document.createElement('div');
     wrap.className = 'gallery-item relative rounded-xl overflow-hidden cursor-pointer';
     wrap.innerHTML = `
-      <img src="${p.src}" alt="${p.title}" loading="lazy"
-        class="w-full h-auto block"
-        onerror="this.src='https://placehold.co/900x600/111/333?text=Photo'" />
+        <img src="${p.src}"
+       alt="${p.title}"
+       loading="lazy"
+       decoding="async"
+       fetchpriority="low"
+       class="w-full h-auto block"
+       onerror="this.src='https://placehold.co/900x600/111/333?text=Photo'" />
       <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
         <div class="flex justify-between items-end w-full">
           <p class="text-white font-bold text-sm">${p.title}</p>

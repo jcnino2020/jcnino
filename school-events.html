@@ -211,16 +211,85 @@
 </div>
 
 <script>
-  const BASE = "https://raw.githubusercontent.com/jcnino2020/jcninonuevo-portfolio/refs/heads/main/images/";
+  const BASE = "https://raw.githubusercontent.com/jcnino2020/jcninonuevo-portfolio/refs/heads/main/images/School%20Events/";
 
   // Filtered list for School Events based on previous data mapping
   // Excluding Drone (02,03,06,08,13,16,19,22,27,30,33,36,40) 
   // and Framed (04,09,10,11,14,17,20,24,28,31,34,37,39)
-  const eventFiles = [
-    "GH-01.JPG", "GH-05.JPG", "GH-07.JPG", "GH-15.JPG", 
-    "GH-18.JPG", "GH-21.JPG", "GH-26.JPG", "GH-29.JPG", 
-    "GH-32.JPG", "GH-35.JPG", "GH-38.JPG"
-  ];
+const eventFiles = [
+"SE-01.JPG",
+"SE-02.JPG",
+"SE-03.JPG",
+"SE-04.JPG",
+"SE-05.JPG",
+"SE-06.JPG",
+"SE-07.JPG",
+"SE-08.JPG",
+"SE-09.JPG",
+"SE-10.JPG",
+"SE-11.JPG",
+"SE-12.JPG",
+"SE-13.JPG",
+"SE-14.JPG",
+"SE-15.JPG",
+"SE-16.JPG",
+"SE-17.JPG",
+"SE-18.JPG",
+"SE-19.JPG",
+"SE-20.JPG",
+"SE-21.JPG",
+"SE-22.JPG",
+"SE-23.JPG",
+"SE-24.JPG",
+"SE-25.JPG",
+"SE-26.JPG",
+"SE-27.JPG",
+"SE-28.JPG",
+"SE-29.JPG",
+"SE-30.JPG",
+"SE-31.JPG",
+"SE-32.JPG",
+"SE-33.JPG",
+"SE-34.JPG",
+"SE-35.JPG",
+"SE-36.JPG",
+"SE-37.JPG",
+"SE-38.JPG",
+"SE-39.JPG",
+"SE-40.JPG",
+"SE-41.JPG",
+"SE-42.JPG",
+"SE-43.JPG",
+"SE-44.JPG",
+"SE-45.JPG",
+"SE-46.JPG",
+"SE-47.JPG",
+"SE-48.JPG",
+"SE-49.JPG",
+"SE-50.JPG",
+"SE-51.JPG",
+"SE-52.JPG",
+"SE-53.JPG",
+"SE-54.JPG",
+"SE-55.JPG",
+"SE-56.JPG",
+"SE-57.JPG",
+"SE-58.JPG",
+"SE-59.JPG",
+"SE-60.JPG",
+"SE-61.JPG",
+"SE-62.JPG",
+"SE-63.JPG",
+"SE-64.JPG",
+"SE-65.JPG",
+"SE-66.JPG",
+"SE-67.JPG",
+"SE-68.JPG",
+"SE-69.JPG",
+"SE-70.JPG",
+"SE-71.JPG",
+"SE-72.JPG"
+];
 
   // Generate photo objects
   const allPhotos = eventFiles
@@ -238,10 +307,14 @@
     const wrap = document.createElement('div');
     wrap.className = 'gallery-item relative rounded-xl overflow-hidden cursor-pointer';
     wrap.innerHTML = `
-      <img src="${p.src}" alt="${p.title}" loading="lazy"
-        class="w-full h-auto block"
-        onerror="this.src='https://placehold.co/900x600/111/333?text=Photo'" />
-      <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+  <img src="${p.src}"
+       alt="${p.title}"
+       loading="lazy"
+       decoding="async"
+       fetchpriority="low"
+       class="w-full h-auto block"
+       onerror="this.src='https://placehold.co/900x600/111/333?text=Photo'" />
+       <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
         <div class="flex justify-between items-end w-full">
           <p class="text-white font-bold text-sm">${p.title}</p>
           <svg class="w-5 h-5 text-white opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
