@@ -28,6 +28,16 @@
       },
     },
   }
+
+    // Disable right-click
+  document.addEventListener('contextmenu', e => e.preventDefault());
+
+  // Disable common save shortcuts
+  document.addEventListener('keydown', e => {
+    if (
+      (e.ctrlKey || e.metaKey) && ['s', 'u', 'a'].includes(e.key.toLowerCase())
+    ) e.preventDefault();
+  });
 </script>
 
   
@@ -113,6 +123,13 @@
     outline: none;
     border-color: #555 !important;
   }
+
+  img {
+  -webkit-user-drag: none;
+  user-drag: none;
+  pointer-events: none;
+}
+
 </style>
 
 </head>
@@ -442,7 +459,6 @@ function syncLightbox(){
   document.getElementById('lightbox-img').alt = p.title;
   document.getElementById('lightbox-counter').textContent = (currentIndex+1) + ' / ' + currentGallery.length;
 }
-That's it
 
   function closeLightbox(){
     document.getElementById('lightbox').classList.add('hidden');
