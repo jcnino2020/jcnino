@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#ff5d64',
+            'primary-dark': '#d94350',
+            'nav-dark': '#001529',
+            'nav-darker': '#000c17',
+            'bg-soft': '#f5f5f5',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #f1f1f1; }
+    ::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #ff5d64; }
+
+    /* Nav underline animation */
+    .nav-link::after {
+      content: '';
+      display: block;
+      height: 2px;
+      background: #ff5d64;
+      transform: scaleX(0);
+      transition: transform 0.25s ease;
+    }
+    .nav-link:hover::after,
+    .nav-link.active::after { transform: scaleX(1); }
+    .nav-link.active { color: #ff5d64; }
+
+    /* Gallery grid item hover */
+    .gallery-item { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .gallery-item:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.15); }
+    .gallery-item:hover .img-overlay { opacity: 1; }
+    .img-overlay { transition: opacity 0.2s ease; opacity: 0; }
+
+    /* Lightbox */
+    #lightbox { backdrop-filter: blur(8px); }
+
+    /* Section fade-in */
+    .section-content { animation: fadeUp 0.5s ease both; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Mobile menu */
+    #mobile-menu { transition: max-height 0.3s ease, opacity 0.3s ease; }
+    #mobile-menu.hidden-menu { max-height: 0; opacity: 0; overflow: hidden; }
+    #mobile-menu.open-menu { max-height: 400px; opacity: 1; }
+
+    /* Tab active */
+    .tab-btn.active {
+      color: #ff5d64;
+      border-bottom: 2px solid #ff5d64;
+    }
+
+    /* Masonry-ish grid for gallery */
+    .gallery-grid {
+      columns: 3;
+      column-gap: 12px;
+    }
+    @media (max-width: 768px) { .gallery-grid { columns: 2; } }
+    @media (max-width: 480px) { .gallery-grid { columns: 1; } }
+    .gallery-grid .gallery-item {
+      break-inside: avoid;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    /* Hero typing cursor */
+    .cursor { animation: blink 1s step-end infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+  </style>
+</head>
+<body class="bg-bg-soft font-sans text-gray-800">
+
+  <!-- ═══════════════════════ NAVBAR ═══════════════════════ -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 bg-nav-dark shadow-lg transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-16">
+
+        <!-- Logo -->
+        <a href="#home" class="flex items-center gap-2 group">
+          <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-bold text-sm group-hover:scale-110 transition-transform">P</div>
+          <span class="text-white font-semibold text-lg tracking-wide">Portfolio</span>
+        </a>
+
+        <!-- Desktop nav links -->
+        <div class="hidden md:flex items-center gap-6">
+          <a href="#drone-shots"    class="nav-link text-gray-300 hover:text-white text-sm font-medium pb-1 transition-colors">Drone Shots</a>
+          <a href="#framed-moments" class="nav-link text-gray-300 hover:text-white text-sm font-medium pb-1 transition-colors">Framed Moments</a>
+          <a href="#school-events"  class="nav-link text-gray-300 hover:text-white text-sm font-medium pb-1 transition-colors">School Events</a>
+          <a href="#video-projects" class="nav-link text-gray-300 hover:text-white text-sm font-medium pb-1 transition-colors">Video Projects</a>
+          <a href="#gallery"        class="nav-link text-gray-300 hover:text-white text-sm font-medium pb-1 transition-colors">Gallery</a>
+          <a href="#contact" class="ml-2 bg-primary hover:bg-primary-dark text-white text-sm font-semibold px-4 py-2 rounded-full transition-colors">Contact</a>
+        </div>
+
+        <!-- Mobile hamburger -->
+        <button id="hamburger" class="md:hidden text-gray-300 hover:text-white p-2 rounded focus:outline-none" aria-label="Toggle menu">
+          <svg id="ham-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+          <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Mobile menu -->
+      <div id="mobile-menu" class="hidden-menu md:hidden">
+        <div class="pb-4 flex flex-col gap-3 border-t border-white/10 pt-4">
+          <a href="#drone-shots"    class="text-gray-300 hover:text-primary text-sm font-medium transition-colors px-1">Drone Shots</a>
+          <a href="#framed-moments" class="text-gray-300 hover:text-primary text-sm font-medium transition-colors px-1">Framed Moments</a>
+          <a href="#school-events"  class="text-gray-300 hover:text-primary text-sm font-medium transition-colors px-1">School Events</a>
+          <a href="#video-projects" class="text-gray-300 hover:text-primary text-sm font-medium transition-colors px-1">Video Projects</a>
+          <a href="#gallery"        class="text-gray-300 hover:text-primary text-sm font-medium transition-colors px-1">Gallery</a>
+          <a href="#contact"        class="bg-primary text-white text-sm font-semibold px-4 py-2 rounded-full text-center transition-colors hover:bg-primary-dark">Contact</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════ HERO ═══════════════════════ -->
+  <section id="home" class="relative min-h-screen bg-nav-dark flex items-center justify-center overflow-hidden">
+    <!-- Subtle bg pattern -->
+    <div class="absolute inset-0 opacity-5" style="background-image: radial-gradient(circle, #ff5d64 1px, transparent 1px); background-size: 40px 40px;"></div>
+    <!-- Gradient overlay -->
+    <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-bg-soft to-transparent"></div>
+
+    <div class="relative z-10 text-center px-6 max-w-4xl mx-auto">
+      <div class="mb-6 inline-flex items-center gap-2 bg-white/10 text-gray-300 text-sm px-4 py-2 rounded-full border border-white/10">
+        <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+        Available for projects
+      </div>
+      <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
+        Capturing<br/>
+        <span class="text-primary">Moments</span><br/>
+        <span class="text-gray-400 text-4xl md:text-5xl font-light">that matter.</span>
+      </h1>
+      <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+        Photography &amp; videography portfolio — from aerial drone shots to school events and framed editorial moments.
+      </p>
+      <div class="flex flex-wrap gap-4 justify-center">
+        <a href="#gallery" class="bg-primary hover:bg-primary-dark text-white font-semibold px-8 py-3 rounded-full transition-colors shadow-lg shadow-primary/30">
+          View Gallery
+        </a>
+        <a href="#contact" class="border border-white/30 text-white hover:bg-white/10 font-semibold px-8 py-3 rounded-full transition-colors">
+          Get in Touch
+        </a>
+      </div>
+
+      <!-- Scroll indicator -->
+      <div class="mt-20 animate-bounce">
+        <svg class="w-6 h-6 text-gray-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ SECTION TEMPLATE (reused for each category) ═══════════════════════ -->
+
+  <!-- DRONE SHOTS -->
+  <section id="drone-shots" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 section-content">
+      <div class="flex items-end justify-between mb-10">
+        <div>
+          <p class="text-primary text-sm font-semibold uppercase tracking-widest mb-2">From Above</p>
+          <h2 class="text-4xl font-bold text-gray-900">Drone Shots</h2>
+        </div>
+        <span class="text-gray-400 text-sm">Aerial perspective</span>
+      </div>
+      <div class="gallery-grid" id="drone-grid">
+        <!-- JS populated -->
+      </div>
+    </div>
+  </section>
+
+  <!-- FRAMED MOMENTS -->
+  <section id="framed-moments" class="py-20 bg-bg-soft">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 section-content">
+      <div class="flex items-end justify-between mb-10">
+        <div>
+          <p class="text-primary text-sm font-semibold uppercase tracking-widest mb-2">Editorial</p>
+          <h2 class="text-4xl font-bold text-gray-900">Framed Moments</h2>
+        </div>
+        <span class="text-gray-400 text-sm">Street &amp; documentary</span>
+      </div>
+      <div class="gallery-grid" id="framed-grid">
+      </div>
+    </div>
+  </section>
+
+  <!-- SCHOOL EVENTS -->
+  <section id="school-events" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 section-content">
+      <div class="flex items-end justify-between mb-10">
+        <div>
+          <p class="text-primary text-sm font-semibold uppercase tracking-widest mb-2">Publication</p>
+          <h2 class="text-4xl font-bold text-gray-900">School Events</h2>
+        </div>
+        <span class="text-gray-400 text-sm">Event coverage</span>
+      </div>
+      <div class="gallery-grid" id="school-grid">
+      </div>
+    </div>
+  </section>
+
+  <!-- VIDEO PROJECTS -->
+  <section id="video-projects" class="py-20 bg-nav-dark">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 section-content">
+      <div class="flex items-end justify-between mb-10">
+        <div>
+          <p class="text-primary text-sm font-semibold uppercase tracking-widest mb-2">Motion</p>
+          <h2 class="text-4xl font-bold text-white">Video Projects</h2>
+        </div>
+        <span class="text-gray-500 text-sm">Final Cut Pro edits</span>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" id="video-grid">
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ GALLERY HIGHLIGHTS ═══════════════════════ -->
+  <section id="gallery" class="py-20 bg-bg-soft">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="text-center mb-12">
+        <p class="text-primary text-sm font-semibold uppercase tracking-widest mb-2">Best of</p>
+        <h2 class="text-4xl font-bold text-gray-900 mb-3">Gallery Highlights</h2>
+        <p class="text-gray-500 max-w-xl mx-auto">A curated selection of my favourite shots across all categories.</p>
+      </div>
+
+      <!-- Category tabs -->
+      <div class="flex flex-wrap gap-2 justify-center mb-10">
+        <button class="tab-btn active px-5 py-2 text-sm font-semibold text-gray-600 border-b-2 border-transparent transition-all" data-tab="all">All</button>
+        <button class="tab-btn px-5 py-2 text-sm font-semibold text-gray-600 border-b-2 border-transparent transition-all" data-tab="drone">Drone</button>
+        <button class="tab-btn px-5 py-2 text-sm font-semibold text-gray-600 border-b-2 border-transparent transition-all" data-tab="framed">Framed</button>
+        <button class="tab-btn px-5 py-2 text-sm font-semibold text-gray-600 border-b-2 border-transparent transition-all" data-tab="events">Events</button>
+      </div>
+
+      <div class="gallery-grid" id="highlights-grid">
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ ABOUT / GEAR ═══════════════════════ -->
+  <section id="about" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="grid md:grid-cols-2 gap-16 items-center">
+        <div>
+          <p class="text-primary text-sm font-semibold uppercase tracking-widest mb-2">About</p>
+          <h2 class="text-4xl font-bold text-gray-900 mb-5">The Photographer</h2>
+          <p class="text-gray-600 leading-relaxed mb-5">
+            3rd year IT student and photo/video editor for the school yearbook. I shoot with a Nikon Z50 and a set of Viltrox primes, covering everything from drone aerials to school publication events.
+          </p>
+          <p class="text-gray-600 leading-relaxed mb-8">
+            Based in Bacolod City, Philippines. I edit photos in Lightroom Classic and handle casual video work in Final Cut Pro on an M1 MacBook Air.
+          </p>
+          <a href="#contact" class="bg-primary hover:bg-primary-dark text-white font-semibold px-7 py-3 rounded-full transition-colors inline-flex items-center gap-2">
+            Work with me
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </a>
+        </div>
+
+        <div class="space-y-4">
+          <h3 class="text-lg font-bold text-gray-800 mb-4">Gear</h3>
+          <div class="space-y-3">
+            <div class="flex items-start gap-3 p-4 bg-bg-soft rounded-xl">
+              <span class="text-2xl">📷</span>
+              <div>
+                <p class="font-semibold text-gray-800 text-sm">Camera</p>
+                <p class="text-gray-500 text-sm">Nikon Z50</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3 p-4 bg-bg-soft rounded-xl">
+              <span class="text-2xl">🔭</span>
+              <div>
+                <p class="font-semibold text-gray-800 text-sm">Lenses</p>
+                <p class="text-gray-500 text-sm">Viltrox 25mm f/1.7 · 56mm f/1.7 · 85mm f/2 EVO</p>
+                <p class="text-gray-500 text-sm">Nikon Z DX 16-50mm · 50-250mm VR</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3 p-4 bg-bg-soft rounded-xl">
+              <span class="text-2xl">💻</span>
+              <div>
+                <p class="font-semibold text-gray-800 text-sm">Editing</p>
+                <p class="text-gray-500 text-sm">M1 MacBook Air · Lightroom Classic · Final Cut Pro</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3 p-4 bg-bg-soft rounded-xl">
+              <span class="text-2xl">💾</span>
+              <div>
+                <p class="font-semibold text-gray-800 text-sm">Storage</p>
+                <p class="text-gray-500 text-sm">Samsung T7 Shield 1TB SSD · WD My Passport 2TB HDD</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ CONTACT ═══════════════════════ -->
+  <section id="contact" class="py-20 bg-nav-dark">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+      <p class="text-primary text-sm font-semibold uppercase tracking-widest mb-2">Let's talk</p>
+      <h2 class="text-4xl font-bold text-white mb-4">Get in Touch</h2>
+      <p class="text-gray-400 mb-10">Got a project, event coverage, or just want to collaborate? Send me a message.</p>
+
+      <form id="contact-form" class="bg-white/5 border border-white/10 rounded-2xl p-8 text-left space-y-5" onsubmit="handleSubmit(event)">
+        <div class="grid sm:grid-cols-2 gap-5">
+          <div>
+            <label class="block text-gray-400 text-sm mb-2 font-medium">Name</label>
+            <input type="text" placeholder="Your name" required
+              class="w-full bg-white/10 border border-white/20 text-white placeholder-gray-500 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary transition-colors" />
+          </div>
+          <div>
+            <label class="block text-gray-400 text-sm mb-2 font-medium">Email</label>
+            <input type="email" placeholder="your@email.com" required
+              class="w-full bg-white/10 border border-white/20 text-white placeholder-gray-500 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary transition-colors" />
+          </div>
+        </div>
+        <div>
+          <label class="block text-gray-400 text-sm mb-2 font-medium">Subject</label>
+          <input type="text" placeholder="Event coverage, collaboration, etc."
+            class="w-full bg-white/10 border border-white/20 text-white placeholder-gray-500 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary transition-colors" />
+        </div>
+        <div>
+          <label class="block text-gray-400 text-sm mb-2 font-medium">Message</label>
+          <textarea rows="5" placeholder="Tell me about your project..." required
+            class="w-full bg-white/10 border border-white/20 text-white placeholder-gray-500 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary transition-colors resize-none"></textarea>
+        </div>
+        <button type="submit"
+          class="w-full bg-primary hover:bg-primary-dark text-white font-semibold py-3 rounded-xl transition-colors flex items-center justify-center gap-2">
+          <span>Send Message</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+        </button>
+        <p id="form-success" class="text-green-400 text-sm text-center hidden">Message sent! I'll get back to you soon.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+  <footer class="bg-nav-darker border-t border-white/5 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <div class="w-6 h-6 rounded-full bg-primary flex items-center justify-center text-white font-bold text-xs">P</div>
+        <span class="text-gray-500 text-sm">Portfolio &copy; <span id="year"></span></span>
+      </div>
+      <p class="text-gray-600 text-xs">Built with Tailwind CSS &bull; Hosted on Vercel</p>
+      <div class="flex gap-5">
+        <a href="#home"    class="text-gray-500 hover:text-primary text-xs transition-colors">Home</a>
+        <a href="#gallery" class="text-gray-500 hover:text-primary text-xs transition-colors">Gallery</a>
+        <a href="#about"   class="text-gray-500 hover:text-primary text-xs transition-colors">About</a>
+        <a href="#contact" class="text-gray-500 hover:text-primary text-xs transition-colors">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════ LIGHTBOX ═══════════════════════ -->
+  <div id="lightbox" class="fixed inset-0 z-[9999] bg-black/90 hidden flex-col items-center justify-center p-4">
+    <button onclick="closeLightbox()" class="absolute top-5 right-5 text-white/70 hover:text-white transition-colors">
+      <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+    <button onclick="prevImage()" class="absolute left-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition-colors p-2">
+      <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+    </button>
+    <button onclick="nextImage()" class="absolute right-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition-colors p-2">
+      <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+    </button>
+
+    <img id="lightbox-img" src="" alt="" class="max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl" />
+    <div class="mt-4 text-center">
+      <p id="lightbox-title" class="text-white font-semibold text-sm"></p>
+      <p id="lightbox-meta"  class="text-gray-400 text-xs mt-1"></p>
+    </div>
+    <p class="absolute bottom-5 text-gray-600 text-xs" id="lightbox-counter"></p>
+  </div>
+
+  <!-- ═══════════════════════ JAVASCRIPT ═══════════════════════ -->
+  <script>
+    // ─── DATA ────────────────────────────────────────────────────
+    // Replace src values with your actual image paths/URLs.
+    // Aspect ratios let the masonry grid look natural with placeholders.
+
+    const photos = [
+      // Drone Shots
+      { id:'GH-06', cat:'drone',  title:'Aerial View 06', meta:'JPG · 4896×3264 · 3.8MB', src:'https://placehold.co/900x600/001529/ff5d64?text=GH-06',  w:900, h:600 },
+      { id:'GH-03', cat:'drone',  title:'Aerial View 03', meta:'JPG · 4896×3264 · 1.7MB', src:'https://placehold.co/900x600/001529/ff5d64?text=GH-03',  w:900, h:600 },
+      { id:'GH-08', cat:'drone',  title:'Aerial View 08', meta:'JPG · 4760×3173 · 1.5MB', src:'https://placehold.co/900x598/001a30/ff5d64?text=GH-08',  w:900, h:598 },
+      { id:'GH-02', cat:'drone',  title:'Aerial View 02', meta:'JPG · 4896×3264 · 1.7MB', src:'https://placehold.co/900x600/000c20/ff5d64?text=GH-02',  w:900, h:600 },
+      // Framed Moments
+      { id:'GH-11', cat:'framed', title:'Framed 11',      meta:'JPG · 4896×3264 · 1.9MB', src:'https://placehold.co/800x1067/1a1a2e/ff5d64?text=GH-11', w:800, h:1067 },
+      { id:'GH-10', cat:'framed', title:'Framed 10',      meta:'JPG · 4896×3264 · 3MB',   src:'https://placehold.co/900x600/16213e/ff5d64?text=GH-10',  w:900, h:600 },
+      { id:'GH-09', cat:'framed', title:'Framed 09',      meta:'JPG · 4896×3264 · 3.5MB', src:'https://placehold.co/800x1000/0f3460/ff5d64?text=GH-09', w:800, h:1000 },
+      { id:'GH-04', cat:'framed', title:'Framed 04',      meta:'JPG · 4896×3264 · 1.5MB', src:'https://placehold.co/900x675/1a1a2e/ff5d64?text=GH-04',  w:900, h:675 },
+      // School Events
+      { id:'GH-01', cat:'events', title:'Event Shot 01',  meta:'JPG · 4896×3264 · 1.8MB', src:'https://placehold.co/900x600/2d1b69/ff5d64?text=GH-01',  w:900, h:600 },
+      { id:'GH-05', cat:'events', title:'Event Shot 05',  meta:'JPG · 4896×3264 · 1.8MB', src:'https://placehold.co/900x600/12052a/ff5d64?text=GH-05',  w:900, h:600 },
+      { id:'GH-07', cat:'events', title:'Event Shot 07',  meta:'JPG · 4896×3264 · 4.5MB', src:'https://placehold.co/800x1067/1a0533/ff5d64?text=GH-07', w:800, h:1067 },
+      { id:'20250417', cat:'events', title:'Event 2025',  meta:'JPG · 4896×3264 · 1010KB',src:'https://placehold.co/900x600/0d0221/ff5d64?text=EVT',    w:900, h:600 },
+    ];
+
+    const videos = [
+      { id:'V-01', title:'School Highlights Reel 2024', thumb:'https://placehold.co/640x360/001529/ff5d64?text=▶ School+Reel', duration:'3:42', tags:['Event', 'FCP'] },
+      { id:'V-02', title:'Graduation Day Cinematic',    thumb:'https://placehold.co/640x360/001a30/ff5d64?text=▶ Grad+Day',   duration:'5:18', tags:['Cinematic', 'FCP'] },
+      { id:'V-03', title:'Campus Life B-Roll',           thumb:'https://placehold.co/640x360/000c20/ff5d64?text=▶ B-Roll',    duration:'2:05', tags:['B-Roll', 'Drone'] },
+    ];
+
+    // ─── RENDER GALLERY GRIDS ────────────────────────────────────
+    let currentGallery = [];
+    let currentIndex   = 0;
+
+    function createCard(photo, galleryRef) {
+      const wrap = document.createElement('div');
+      wrap.className = 'gallery-item relative rounded-xl overflow-hidden cursor-pointer bg-white shadow-sm';
+      wrap.dataset.id  = photo.id;
+      wrap.dataset.cat = photo.cat;
+
+      const aspectPct = ((photo.h / photo.w) * 100).toFixed(2);
+      wrap.innerHTML = `
+        <div style="padding-bottom:${aspectPct}%; position:relative;">
+          <img src="${photo.src}" alt="${photo.title}" loading="lazy"
+               class="absolute inset-0 w-full h-full object-cover"
+               onerror="this.src='https://placehold.co/900x600/f5f5f5/ccc?text=Photo'" />
+          <div class="img-overlay absolute inset-0 bg-black/50 flex flex-col items-center justify-center gap-2 text-white">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/>
+            </svg>
+            <p class="text-xs font-semibold tracking-wide">${photo.id}</p>
+          </div>
+        </div>
+        <div class="p-3">
+          <p class="font-semibold text-xs text-gray-800">${photo.id}</p>
+          <p class="text-gray-400 text-xs mt-0.5">${photo.meta}</p>
+        </div>
+      `;
+      wrap.addEventListener('click', () => openLightbox(photo, galleryRef));
+      return wrap;
+    }
+
+    function renderGrid(containerId, photos) {
+      const grid = document.getElementById(containerId);
+      if (!grid) return;
+      grid.innerHTML = '';
+      photos.forEach(p => grid.appendChild(createCard(p, photos)));
+    }
+
+    function renderVideos() {
+      const grid = document.getElementById('video-grid');
+      if (!grid) return;
+      grid.innerHTML = '';
+      videos.forEach(v => {
+        const card = document.createElement('div');
+        card.className = 'bg-white/5 border border-white/10 rounded-xl overflow-hidden hover:border-primary/40 transition-colors cursor-pointer group';
+        card.innerHTML = `
+          <div class="relative">
+            <img src="${v.thumb}" alt="${v.title}" class="w-full object-cover aspect-video" />
+            <div class="absolute inset-0 flex items-center justify-center">
+              <div class="w-14 h-14 rounded-full bg-primary/90 flex items-center justify-center group-hover:scale-110 transition-transform shadow-xl">
+                <svg class="w-6 h-6 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+            </div>
+            <span class="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-0.5 rounded">${v.duration}</span>
+          </div>
+          <div class="p-4">
+            <h3 class="text-white font-semibold text-sm mb-2">${v.title}</h3>
+            <div class="flex gap-2 flex-wrap">${v.tags.map(t=>`<span class="text-xs bg-primary/20 text-primary px-2 py-0.5 rounded-full">${t}</span>`).join('')}</div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // ─── LIGHTBOX ─────────────────────────────────────────────────
+    function openLightbox(photo, gallery) {
+      currentGallery = gallery;
+      currentIndex   = gallery.indexOf(photo);
+      showLightboxPhoto();
+      const lb = document.getElementById('lightbox');
+      lb.classList.remove('hidden');
+      lb.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function showLightboxPhoto() {
+      const p = currentGallery[currentIndex];
+      document.getElementById('lightbox-img').src   = p.src;
+      document.getElementById('lightbox-img').alt   = p.title;
+      document.getElementById('lightbox-title').textContent = p.title;
+      document.getElementById('lightbox-meta').textContent  = p.meta;
+      document.getElementById('lightbox-counter').textContent = `${currentIndex + 1} / ${currentGallery.length}`;
+    }
+
+    function closeLightbox() {
+      const lb = document.getElementById('lightbox');
+      lb.classList.add('hidden');
+      lb.classList.remove('flex');
+      document.body.style.overflow = '';
+    }
+
+    function prevImage() {
+      currentIndex = (currentIndex - 1 + currentGallery.length) % currentGallery.length;
+      showLightboxPhoto();
+    }
+
+    function nextImage() {
+      currentIndex = (currentIndex + 1) % currentGallery.length;
+      showLightboxPhoto();
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape')     closeLightbox();
+      if (e.key === 'ArrowLeft')  prevImage();
+      if (e.key === 'ArrowRight') nextImage();
+    });
+
+    document.getElementById('lightbox').addEventListener('click', e => {
+      if (e.target === document.getElementById('lightbox')) closeLightbox();
+    });
+
+    // ─── TABS (Gallery Highlights) ────────────────────────────────
+    function renderHighlights(filter) {
+      const filtered = filter === 'all' ? photos : photos.filter(p => p.cat === filter);
+      renderGrid('highlights-grid', filtered);
+    }
+
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderHighlights(btn.dataset.tab);
+      });
+    });
+
+    // ─── MOBILE MENU ──────────────────────────────────────────────
+    const hamburger  = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const hamIcon    = document.getElementById('ham-icon');
+    const closeIcon  = document.getElementById('close-icon');
+    let menuOpen = false;
+
+    hamburger.addEventListener('click', () => {
+      menuOpen = !menuOpen;
+      mobileMenu.classList.toggle('hidden-menu', !menuOpen);
+      mobileMenu.classList.toggle('open-menu',   menuOpen);
+      hamIcon.classList.toggle('hidden',   menuOpen);
+      closeIcon.classList.toggle('hidden', !menuOpen);
+    });
+
+    // Close mobile menu on link click
+    mobileMenu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        menuOpen = false;
+        mobileMenu.classList.add('hidden-menu');
+        mobileMenu.classList.remove('open-menu');
+        hamIcon.classList.remove('hidden');
+        closeIcon.classList.add('hidden');
+      });
+    });
+
+    // ─── ACTIVE NAV ON SCROLL ─────────────────────────────────────
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(l => {
+            l.classList.toggle('active', l.getAttribute('href') === '#' + entry.target.id);
+          });
+        }
+      });
+    }, { threshold: 0.3 });
+
+    sections.forEach(s => observer.observe(s));
+
+    // ─── CONTACT FORM ─────────────────────────────────────────────
+    function handleSubmit(e) {
+      e.preventDefault();
+      document.getElementById('form-success').classList.remove('hidden');
+      e.target.reset();
+      setTimeout(() => document.getElementById('form-success').classList.add('hidden'), 5000);
+    }
+
+    // ─── INIT ─────────────────────────────────────────────────────
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    renderGrid('drone-grid',  photos.filter(p => p.cat === 'drone'));
+    renderGrid('framed-grid', photos.filter(p => p.cat === 'framed'));
+    renderGrid('school-grid', photos.filter(p => p.cat === 'events'));
+    renderHighlights('all');
+    renderVideos();
+  </script>
+</body>
+</html>
