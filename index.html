@@ -12,14 +12,17 @@
     theme: {
       extend: {
         colors: {
-          primary:      '#ff5d64',
-          'primary-dark':'#d94350',
-          'nav':        '#001529',
-          'nav-deep':   '#000c17',
-          'surface':    '#0d1b2a',
-          'surface-2':  '#112236',
-          'surface-3':  '#162d44',
-          'border-dim': 'rgba(255,255,255,0.07)',
+          'ink':    '#000000',
+          'ink-2':  '#0a0a0a',
+          'ink-3':  '#111111',
+          'ink-4':  '#1a1a1a',
+          'ink-5':  '#222222',
+          'mute':   '#555555',
+          'subtle': '#333333',
+          'dim':    '#888888',
+          'light':  '#bbbbbb',
+          'chalk':  '#e8e8e8',
+          'white':  '#ffffff',
         },
         fontFamily: { sans: ['Inter','system-ui','sans-serif'] },
       },
@@ -29,83 +32,108 @@
 
   
 <style>
-  html { scroll-behavior: smooth; background: #0a1628; }
-  body { background: #0a1628; color: #e2e8f0; }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; background: #000; }
+  body { background: #000; color: #e8e8e8; -webkit-font-smoothing: antialiased; }
 
-  ::-webkit-scrollbar { width: 5px; }
-  ::-webkit-scrollbar-track { background: #0a1628; }
-  ::-webkit-scrollbar-thumb { background: #ff5d64; border-radius: 3px; }
+  ::selection { background: #fff; color: #000; }
 
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: #000; }
+  ::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+  ::-webkit-scrollbar-thumb:hover { background: #666; }
+
+  /* Nav underline */
   .nav-link { position: relative; }
   .nav-link::after {
-    content:''; display:block; height:2px; background:#ff5d64;
+    content:''; display:block; height:1px; background:#fff;
     transform:scaleX(0); transition:transform .25s ease;
-    transform-origin: left;
+    transform-origin:left;
   }
   .nav-link:hover::after, .nav-link.active::after { transform:scaleX(1); }
-  .nav-link.active { color:#ff5d64; }
+  .nav-link.active { color:#fff; }
 
+  /* Gallery */
   .gallery-item { transition: transform .2s ease, box-shadow .2s ease; }
-  .gallery-item:hover { transform:translateY(-4px); box-shadow:0 16px 40px rgba(0,0,0,.5); }
-  .gallery-item:hover .img-overlay { opacity:1; }
-  .img-overlay { transition:opacity .2s ease; opacity:0; }
+  .gallery-item:hover { transform: translateY(-4px); box-shadow: 0 20px 50px rgba(0,0,0,.9); }
+  .gallery-item:hover .img-overlay { opacity: 1 !important; }
 
-  .gallery-grid { columns:3; column-gap:14px; }
+  .gallery-grid { columns: 3; column-gap: 12px; }
   @media(max-width:768px){ .gallery-grid{ columns:2; } }
   @media(max-width:480px){ .gallery-grid{ columns:1; } }
-  .gallery-grid .gallery-item { break-inside:avoid; margin-bottom:14px; display:block; }
+  .gallery-grid .gallery-item { break-inside:avoid; margin-bottom:12px; display:block; }
 
-  #lightbox { backdrop-filter:blur(10px); }
+  /* Lightbox */
+  #lightbox { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
 
-  .tab-btn.active { color:#ff5d64; border-bottom:2px solid #ff5d64; }
+  /* Tab active */
+  .tab-btn { color: #555; border-bottom: 1px solid transparent; transition: all .2s; }
+  .tab-btn:hover { color: #bbb; }
+  .tab-btn.active { color: #fff; border-bottom-color: #fff; }
 
-  .fade-in { animation: fadeUp .5s ease both; }
+  /* Fade in */
+  .fade-in { animation: fadeUp .6s ease both; }
   @keyframes fadeUp {
-    from { opacity:0; transform:translateY(18px); }
+    from { opacity:0; transform:translateY(20px); }
     to   { opacity:1; transform:translateY(0); }
   }
 
-  #mobile-menu { transition:max-height .3s ease, opacity .3s ease; }
+  /* Mobile menu */
+  #mobile-menu { transition: max-height .3s ease, opacity .3s ease; }
   #mobile-menu.closed { max-height:0; opacity:0; overflow:hidden; }
   #mobile-menu.open   { max-height:500px; opacity:1; }
 
-  .page-hero { background: linear-gradient(135deg, #001529 0%, #0a1628 60%, #0d1b2a 100%); }
-  .card-glow:hover { box-shadow: 0 0 0 1px rgba(255,93,100,.3), 0 20px 50px rgba(0,0,0,.6); }
+  /* Page hero */
+  .page-hero { background: #000; border-bottom: 1px solid #1a1a1a; }
+
+  /* Card hover */
+  .card-item { transition: all .2s ease; }
+  .card-item:hover { background: #111; border-color: #333 !important; }
+
+  /* Btn */
+  .btn-white {
+    background: #fff; color: #000; font-weight: 600;
+    transition: background .2s, color .2s;
+  }
+  .btn-white:hover { background: #ddd; }
+
+  .btn-outline {
+    border: 1px solid #333; color: #888;
+    transition: border-color .2s, color .2s;
+  }
+  .btn-outline:hover { border-color: #888; color: #e8e8e8; }
+
+  /* Sort btn */
+  .sort-btn { transition: all .2s; color: #555; }
+  .sort-btn:hover { color: #bbb; }
+  .sort-btn.active-sort { color: #fff; border-color: #555 !important; }
+
+  /* Input focus */
+  input:focus, textarea:focus {
+    outline: none;
+    border-color: #555 !important;
+  }
 </style>
 
 </head>
 <body class="font-sans min-h-screen">
   
-<nav class="fixed top-0 left-0 right-0 z-50 bg-nav/95 backdrop-blur-md border-b border-white/5">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6">
-    <div class="flex items-center justify-between h-16">
-      <a href="index.html" class="flex items-center gap-2 group">
-        <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-bold text-sm group-hover:scale-110 transition-transform">P</div>
-        <span class="text-white font-semibold text-lg tracking-wide">Portfolio</span>
+<nav class="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-md border-b border-white/[0.06]">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="flex items-center justify-between h-14">
+      <a href="index.html" class="text-white font-light text-sm tracking-[0.25em] uppercase hover:text-chalk transition-colors">
+        Portfolio
       </a>
-      <div class="hidden md:flex items-center gap-6">
-        <a href="index.html" class="nav-link active text-gray-400 hover:text-white text-sm font-medium pb-1 transition-colors">Home</a>
-<a href="drone-shots.html" class="nav-link  text-gray-400 hover:text-white text-sm font-medium pb-1 transition-colors">Drone Shots</a>
-<a href="framed-moments.html" class="nav-link  text-gray-400 hover:text-white text-sm font-medium pb-1 transition-colors">Framed Moments</a>
-<a href="school-events.html" class="nav-link  text-gray-400 hover:text-white text-sm font-medium pb-1 transition-colors">School Events</a>
-<a href="video-projects.html" class="nav-link  text-gray-400 hover:text-white text-sm font-medium pb-1 transition-colors">Video Projects</a>
-
-        <a href="index.html#contact" class="ml-2 bg-primary hover:bg-primary-dark text-white text-sm font-semibold px-4 py-2 rounded-full transition-colors">Contact</a>
-      </div>
-      <button id="hamburger" class="md:hidden text-gray-400 hover:text-white p-2 rounded" aria-label="Toggle menu">
-        <svg id="ham-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-        <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      <div class="hidden md:flex items-center gap-8"><a href="index.html" class="nav-link active text-dim hover:text-white text-xs font-medium pb-0.5 uppercase tracking-widest transition-colors">Home</a><a href="drone-shots.html" class="nav-link  text-dim hover:text-white text-xs font-medium pb-0.5 uppercase tracking-widest transition-colors">Drone Shots</a><a href="framed-moments.html" class="nav-link  text-dim hover:text-white text-xs font-medium pb-0.5 uppercase tracking-widest transition-colors">Framed Moments</a><a href="school-events.html" class="nav-link  text-dim hover:text-white text-xs font-medium pb-0.5 uppercase tracking-widest transition-colors">School Events</a><a href="video-projects.html" class="nav-link  text-dim hover:text-white text-xs font-medium pb-0.5 uppercase tracking-widest transition-colors">Video Projects</a></div>
+      <a href="index.html#contact" class="hidden md:block btn-outline text-xs font-semibold uppercase tracking-widest px-5 py-2 rounded-full">Contact</a>
+      <button id="hamburger" class="md:hidden text-dim hover:text-white p-1.5 rounded transition-colors" aria-label="Menu">
+        <svg id="ham-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        <svg id="close-icon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/></svg>
       </button>
     </div>
     <div id="mobile-menu" class="closed md:hidden">
-      <div class="pb-4 flex flex-col gap-3 border-t border-white/10 pt-4">
-        <a href="index.html" class="text-gray-400 hover:text-primary text-sm font-medium transition-colors px-1">Home</a>
-<a href="drone-shots.html" class="text-gray-400 hover:text-primary text-sm font-medium transition-colors px-1">Drone Shots</a>
-<a href="framed-moments.html" class="text-gray-400 hover:text-primary text-sm font-medium transition-colors px-1">Framed Moments</a>
-<a href="school-events.html" class="text-gray-400 hover:text-primary text-sm font-medium transition-colors px-1">School Events</a>
-<a href="video-projects.html" class="text-gray-400 hover:text-primary text-sm font-medium transition-colors px-1">Video Projects</a>
-
-        <a href="index.html#contact" class="bg-primary text-white text-sm font-semibold px-4 py-2 rounded-full text-center">Contact</a>
+      <div class="pb-5 flex flex-col gap-4 border-t border-white/[0.06] pt-4"><a href="index.html" class="text-dim hover:text-white text-sm font-medium transition-colors">Home</a><a href="drone-shots.html" class="text-dim hover:text-white text-sm font-medium transition-colors">Drone Shots</a><a href="framed-moments.html" class="text-dim hover:text-white text-sm font-medium transition-colors">Framed Moments</a><a href="school-events.html" class="text-dim hover:text-white text-sm font-medium transition-colors">School Events</a><a href="video-projects.html" class="text-dim hover:text-white text-sm font-medium transition-colors">Video Projects</a>
+        <a href="index.html#contact" class="btn-outline text-xs font-semibold uppercase tracking-widest px-5 py-2.5 rounded-full text-center">Contact</a>
       </div>
     </div>
   </div>
@@ -131,307 +159,261 @@
 
   
 <div>
-  <!-- ── HERO ── -->
-  <section id="home" class="relative min-h-screen bg-nav flex items-center justify-center overflow-hidden">
-    <div class="absolute inset-0" style="background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(255,93,100,.08) 0%,transparent 70%);"></div>
-    <div class="absolute inset-0 opacity-[0.04]" style="background-image:radial-gradient(circle,#ff5d64 1px,transparent 1px);background-size:36px 36px;"></div>
-    <div class="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#0a1628] to-transparent"></div>
-
+  <section id="home" class="relative min-h-screen bg-black flex items-center justify-center overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none"
+      style="background:radial-gradient(ellipse 100% 70% at 50% 30%,rgba(255,255,255,0.02) 0%,transparent 70%);"></div>
+    <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent"></div>
     <div class="relative z-10 text-center px-6 max-w-4xl mx-auto fade-in">
-      <div class="mb-6 inline-flex items-center gap-2 bg-white/5 text-gray-400 text-sm px-4 py-2 rounded-full border border-white/10">
-        <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-        Open for projects &amp; collabs
-      </div>
-      <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
-        Capturing<br/>
-        <span class="text-primary">Moments</span><br/>
-        <span class="text-gray-600 text-4xl md:text-5xl font-light">that matter.</span>
+      <p class="text-white/20 text-xs font-mono uppercase tracking-[0.4em] mb-10">Photography &amp; Video</p>
+      <h1 class="text-6xl md:text-8xl font-extralight text-white mb-6 leading-none tracking-tight">
+        Capturing<br/><span class="font-bold italic">Moments.</span>
       </h1>
-      <p class="text-gray-500 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
-        Photography &amp; videography — drone aerials, editorial frames, school event coverage, and cinematic video projects.
+      <p class="text-white/30 text-base md:text-lg max-w-xl mx-auto mb-12 font-light leading-relaxed">
+        Drone aerials, editorial frames, school event coverage &amp; cinematic video — Bacolod City.
       </p>
       <div class="flex flex-wrap gap-4 justify-center">
-        <a href="#gallery" class="bg-primary hover:bg-primary-dark text-white font-semibold px-8 py-3 rounded-full transition-colors shadow-lg shadow-primary/25">
-          View Gallery
+        <a href="#gallery" class="btn-white px-8 py-3 rounded-full text-sm uppercase tracking-widest">View Gallery</a>
+        <a href="#contact" class="btn-outline px-8 py-3 rounded-full text-sm uppercase tracking-widest">Contact</a>
+      </div>
+    </div>
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+      <svg class="w-4 h-4 text-white/15" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 9l-7 7-7-7"/>
+      </svg>
+    </div>
+  </section>
+
+  <section class="py-16 bg-black border-y border-white/[0.05]">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/[0.05]">
+        <a href="drone-shots.html" class="group bg-black hover:bg-ink-3 transition-colors p-8 flex flex-col gap-5">
+          <p class="text-white/15 text-xs font-mono uppercase tracking-widest">01</p>
+          <h3 class="text-white/70 group-hover:text-white font-light text-xl transition-colors">Drone Shots</h3>
+          <p class="text-white/20 text-xs font-light leading-relaxed">Aerial perspective — landscapes &amp; cityscapes.</p>
+          <div class="mt-auto"><svg class="w-4 h-4 text-white/20 group-hover:text-white/60 transition-all group-hover:translate-x-1 transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></div>
         </a>
-        <a href="#contact" class="border border-white/15 text-gray-300 hover:border-primary/40 hover:text-white font-semibold px-8 py-3 rounded-full transition-colors">
-          Get in Touch
+        <a href="framed-moments.html" class="group bg-black hover:bg-ink-3 transition-colors p-8 flex flex-col gap-5">
+          <p class="text-white/15 text-xs font-mono uppercase tracking-widest">02</p>
+          <h3 class="text-white/70 group-hover:text-white font-light text-xl transition-colors">Framed Moments</h3>
+          <p class="text-white/20 text-xs font-light leading-relaxed">Street, editorial &amp; documentary frames.</p>
+          <div class="mt-auto"><svg class="w-4 h-4 text-white/20 group-hover:text-white/60 transition-all group-hover:translate-x-1 transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></div>
+        </a>
+        <a href="school-events.html" class="group bg-black hover:bg-ink-3 transition-colors p-8 flex flex-col gap-5">
+          <p class="text-white/15 text-xs font-mono uppercase tracking-widest">03</p>
+          <h3 class="text-white/70 group-hover:text-white font-light text-xl transition-colors">School Events</h3>
+          <p class="text-white/20 text-xs font-light leading-relaxed">Yearbook-grade event &amp; ceremony coverage.</p>
+          <div class="mt-auto"><svg class="w-4 h-4 text-white/20 group-hover:text-white/60 transition-all group-hover:translate-x-1 transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></div>
+        </a>
+        <a href="video-projects.html" class="group bg-black hover:bg-ink-3 transition-colors p-8 flex flex-col gap-5">
+          <p class="text-white/15 text-xs font-mono uppercase tracking-widest">04</p>
+          <h3 class="text-white/70 group-hover:text-white font-light text-xl transition-colors">Video Projects</h3>
+          <p class="text-white/20 text-xs font-light leading-relaxed">FCP edits — reels, films &amp; B-roll.</p>
+          <div class="mt-auto"><svg class="w-4 h-4 text-white/20 group-hover:text-white/60 transition-all group-hover:translate-x-1 transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></div>
         </a>
       </div>
     </div>
   </section>
 
-  <!-- ── CATEGORY CARDS ── -->
-  <section class="py-20 bg-[#0a1628]">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6">
-      <div class="text-center mb-12 fade-in">
-        <p class="text-primary text-sm font-semibold uppercase tracking-widest mb-2">Browse by category</p>
-        <h2 class="text-3xl font-bold text-white">What I Shoot</h2>
-      </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 fade-in">
-        <a href="drone-shots.html"
-           class="card-glow group relative overflow-hidden rounded-2xl bg-surface border border-white/5 hover:border-primary/30 transition-all p-6 flex flex-col gap-4">
-          <span class="text-4xl">🚁</span>
-          <div>
-            <h3 class="text-white font-bold mb-1">Drone Shots</h3>
-            <p class="text-gray-600 text-xs leading-relaxed">Aerial perspectives shot from above.</p>
-          </div>
-          <span class="text-primary text-xs font-semibold flex items-center gap-1 mt-auto group-hover:gap-2 transition-all">
-            View gallery
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-          </span>
-        </a>
-        <a href="framed-moments.html"
-           class="card-glow group relative overflow-hidden rounded-2xl bg-surface border border-white/5 hover:border-primary/30 transition-all p-6 flex flex-col gap-4">
-          <span class="text-4xl">🖼</span>
-          <div>
-            <h3 class="text-white font-bold mb-1">Framed Moments</h3>
-            <p class="text-gray-600 text-xs leading-relaxed">Street, editorial &amp; documentary frames.</p>
-          </div>
-          <span class="text-primary text-xs font-semibold flex items-center gap-1 mt-auto group-hover:gap-2 transition-all">
-            View gallery
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-          </span>
-        </a>
-        <a href="school-events.html"
-           class="card-glow group relative overflow-hidden rounded-2xl bg-surface border border-white/5 hover:border-primary/30 transition-all p-6 flex flex-col gap-4">
-          <span class="text-4xl">🎓</span>
-          <div>
-            <h3 class="text-white font-bold mb-1">School Events</h3>
-            <p class="text-gray-600 text-xs leading-relaxed">Yearbook-grade event coverage.</p>
-          </div>
-          <span class="text-primary text-xs font-semibold flex items-center gap-1 mt-auto group-hover:gap-2 transition-all">
-            View gallery
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-          </span>
-        </a>
-        <a href="video-projects.html"
-           class="card-glow group relative overflow-hidden rounded-2xl bg-surface border border-white/5 hover:border-primary/30 transition-all p-6 flex flex-col gap-4">
-          <span class="text-4xl">🎬</span>
-          <div>
-            <h3 class="text-white font-bold mb-1">Video Projects</h3>
-            <p class="text-gray-600 text-xs leading-relaxed">FCP edits — reels, films &amp; B-roll.</p>
-          </div>
-          <span class="text-primary text-xs font-semibold flex items-center gap-1 mt-auto group-hover:gap-2 transition-all">
-            View projects
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-          </span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── GALLERY HIGHLIGHTS ── -->
-  <section id="gallery" class="py-20 bg-surface">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6">
-      <div class="text-center mb-12 fade-in">
-        <p class="text-primary text-sm font-semibold uppercase tracking-widest mb-2">Best of</p>
-        <h2 class="text-3xl font-bold text-white mb-3">Gallery Highlights</h2>
-        <p class="text-gray-600 max-w-lg mx-auto text-sm">A curated selection across all categories.</p>
-      </div>
-      <div class="flex flex-wrap gap-2 justify-center mb-10">
-        <button class="tab-btn active px-5 py-2 text-sm font-semibold text-gray-500 border-b-2 border-transparent transition-all" data-tab="all">All</button>
-        <button class="tab-btn px-5 py-2 text-sm font-semibold text-gray-500 border-b-2 border-transparent transition-all" data-tab="drone">Drone</button>
-        <button class="tab-btn px-5 py-2 text-sm font-semibold text-gray-500 border-b-2 border-transparent transition-all" data-tab="framed">Framed</button>
-        <button class="tab-btn px-5 py-2 text-sm font-semibold text-gray-500 border-b-2 border-transparent transition-all" data-tab="events">Events</button>
-      </div>
-      <div class="gallery-grid fade-in" id="highlights-grid"></div>
-      <div class="text-center mt-12">
-        <a href="drone-shots.html" class="inline-flex items-center gap-2 border border-white/10 hover:border-primary/40 text-gray-400 hover:text-primary text-sm font-semibold px-6 py-3 rounded-full transition-all">
-          Browse full gallery
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── ABOUT / GEAR ── -->
-  <section id="about" class="py-20 bg-[#0a1628]">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6">
-      <div class="grid md:grid-cols-2 gap-16 items-center fade-in">
+  <section id="gallery" class="py-20 bg-ink-2">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8">
+      <div class="flex items-end justify-between mb-12 flex-wrap gap-4">
         <div>
-          <p class="text-primary text-sm font-semibold uppercase tracking-widest mb-2">About</p>
-          <h2 class="text-4xl font-bold text-white mb-5">The Photographer</h2>
-          <p class="text-gray-500 leading-relaxed mb-5">
-            3rd year IT student and photo/video editor for the school yearbook. I shoot with a Nikon Z50 and a set of Viltrox primes,
-            covering everything from drone aerials to school publication events.
-          </p>
-          <p class="text-gray-500 leading-relaxed mb-8">
-            Based in Bacolod City, Philippines. I edit photos in Lightroom Classic and handle video work in Final Cut Pro on an M1 MacBook Air.
-          </p>
-          <a href="#contact" class="bg-primary hover:bg-primary-dark text-white font-semibold px-7 py-3 rounded-full transition-colors inline-flex items-center gap-2">
-            Work with me
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-          </a>
+          <p class="text-white/20 text-xs font-mono uppercase tracking-[0.3em] mb-3">Selected work</p>
+          <h2 class="text-3xl font-light text-white">Gallery Highlights</h2>
         </div>
-        <div class="space-y-3">
-          <h3 class="text-base font-bold text-gray-300 mb-4">Gear</h3>
-          <div class="flex items-start gap-3 p-4 bg-surface border border-white/5 rounded-xl"><span class="text-2xl">📷</span><div><p class="font-semibold text-gray-300 text-sm">Camera</p><p class="text-gray-600 text-sm">Nikon Z50</p></div></div>
-          <div class="flex items-start gap-3 p-4 bg-surface border border-white/5 rounded-xl"><span class="text-2xl">🔭</span><div><p class="font-semibold text-gray-300 text-sm">Lenses</p><p class="text-gray-600 text-sm">Viltrox 25mm f/1.7 · 56mm f/1.7 · 85mm f/2 EVO</p><p class="text-gray-600 text-sm">Nikon Z DX 16-50mm · 50-250mm VR</p></div></div>
-          <div class="flex items-start gap-3 p-4 bg-surface border border-white/5 rounded-xl"><span class="text-2xl">💻</span><div><p class="font-semibold text-gray-300 text-sm">Editing</p><p class="text-gray-600 text-sm">M1 MacBook Air · Lightroom Classic · Final Cut Pro</p></div></div>
-          <div class="flex items-start gap-3 p-4 bg-surface border border-white/5 rounded-xl"><span class="text-2xl">💾</span><div><p class="font-semibold text-gray-300 text-sm">Storage</p><p class="text-gray-600 text-sm">Samsung T7 Shield 1TB SSD · WD My Passport 2TB HDD</p></div></div>
+        <div class="flex gap-3">
+          <button class="tab-btn active px-5 py-1.5 text-xs font-mono uppercase tracking-widest" data-tab="all">All</button>
+          <button class="tab-btn px-5 py-1.5 text-xs font-mono uppercase tracking-widest" data-tab="drone">Drone</button>
+          <button class="tab-btn px-5 py-1.5 text-xs font-mono uppercase tracking-widest" data-tab="framed">Framed</button>
+          <button class="tab-btn px-5 py-1.5 text-xs font-mono uppercase tracking-widest" data-tab="events">Events</button>
+        </div>
+      </div>
+      <div class="gallery-grid" id="highlights-grid"></div>
+      <div class="text-center mt-14 pt-8 border-t border-white/[0.05]">
+        <a href="drone-shots.html" class="btn-outline inline-flex items-center gap-3 px-8 py-3 rounded-full text-xs font-mono uppercase tracking-widest">
+          Browse full archive
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="py-20 bg-black border-y border-white/[0.05]">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8">
+      <div class="grid md:grid-cols-2 gap-20 items-start">
+        <div class="fade-in">
+          <p class="text-white/20 text-xs font-mono uppercase tracking-[0.3em] mb-5">About</p>
+          <h2 class="text-4xl font-light text-white mb-8 leading-snug">The<br/>Photographer.</h2>
+          <p class="text-white/40 leading-relaxed mb-5 font-light text-sm">3rd year IT student and photo/video editor for the school yearbook. Nikon Z50 with Viltrox primes, covering everything from drone aerials to school publication events.</p>
+          <p class="text-white/40 leading-relaxed font-light text-sm">Based in Bacolod City, Philippines. Editing in Lightroom Classic and Final Cut Pro on an M1 MacBook Air.</p>
+        </div>
+        <div class="fade-in space-y-2">
+          <p class="text-white/20 text-xs font-mono uppercase tracking-[0.3em] mb-5">Gear</p>
+          <div class="flex justify-between items-center py-4 border-b border-white/[0.06]"><span class="text-white/30 text-xs font-mono uppercase tracking-widest">Camera</span><span class="text-white/60 text-sm font-light">Nikon Z50</span></div>
+          <div class="flex justify-between items-start py-4 border-b border-white/[0.06] gap-4"><span class="text-white/30 text-xs font-mono uppercase tracking-widest flex-shrink-0">Lenses</span><div class="text-right"><p class="text-white/60 text-sm font-light">Viltrox 25mm f/1.7 · 56mm f/1.7 · 85mm f/2</p><p class="text-white/40 text-xs font-light mt-0.5">Nikon 16-50mm VR · 50-250mm VR</p></div></div>
+          <div class="flex justify-between items-center py-4 border-b border-white/[0.06]"><span class="text-white/30 text-xs font-mono uppercase tracking-widest">Editing</span><span class="text-white/60 text-sm font-light">Lightroom Classic · Final Cut Pro</span></div>
+          <div class="flex justify-between items-center py-4 border-b border-white/[0.06]"><span class="text-white/30 text-xs font-mono uppercase tracking-widest">Machine</span><span class="text-white/60 text-sm font-light">M1 MacBook Air</span></div>
+          <div class="flex justify-between items-center py-4"><span class="text-white/30 text-xs font-mono uppercase tracking-widest">Storage</span><span class="text-white/60 text-sm font-light text-right">T7 Shield 1TB · WD 2TB HDD</span></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ── CONTACT ── -->
-  <section id="contact" class="py-20 bg-nav">
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 text-center">
-      <p class="text-primary text-sm font-semibold uppercase tracking-widest mb-2">Let's talk</p>
-      <h2 class="text-4xl font-bold text-white mb-4">Get in Touch</h2>
-      <p class="text-gray-600 mb-10 text-sm">Got a project, event to cover, or just want to collab? Hit me up.</p>
-      <form id="contact-form" onsubmit="handleSubmit(event)"
-        class="bg-white/[0.03] border border-white/8 rounded-2xl p-8 text-left space-y-5">
+  <section id="contact" class="py-20 bg-ink-2">
+    <div class="max-w-2xl mx-auto px-5 sm:px-8">
+      <div class="mb-12 fade-in">
+        <p class="text-white/20 text-xs font-mono uppercase tracking-[0.3em] mb-3">Contact</p>
+        <h2 class="text-4xl font-light text-white mb-3">Get in Touch.</h2>
+        <p class="text-white/30 text-sm font-light">Event coverage, yearbook work, or just a collab.</p>
+      </div>
+      <form id="contact-form" onsubmit="handleSubmit(event)" class="space-y-5 fade-in">
         <div class="grid sm:grid-cols-2 gap-5">
           <div>
-            <label class="block text-gray-500 text-xs mb-2 font-semibold uppercase tracking-wide">Name</label>
-            <input type="text" placeholder="Your name" required
-              class="w-full bg-white/[0.05] border border-white/10 text-gray-200 placeholder-gray-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary transition-colors" />
+            <label class="block text-white/20 text-xs font-mono uppercase tracking-widest mb-2">Name</label>
+            <input type="text" placeholder="Your name" required class="w-full bg-ink-3 border border-white/[0.08] text-white/70 placeholder-white/15 rounded-sm px-4 py-3 text-sm font-light" />
           </div>
           <div>
-            <label class="block text-gray-500 text-xs mb-2 font-semibold uppercase tracking-wide">Email</label>
-            <input type="email" placeholder="your@email.com" required
-              class="w-full bg-white/[0.05] border border-white/10 text-gray-200 placeholder-gray-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary transition-colors" />
+            <label class="block text-white/20 text-xs font-mono uppercase tracking-widest mb-2">Email</label>
+            <input type="email" placeholder="your@email.com" required class="w-full bg-ink-3 border border-white/[0.08] text-white/70 placeholder-white/15 rounded-sm px-4 py-3 text-sm font-light" />
           </div>
         </div>
         <div>
-          <label class="block text-gray-500 text-xs mb-2 font-semibold uppercase tracking-wide">Subject</label>
-          <input type="text" placeholder="Event coverage, yearbook, etc."
-            class="w-full bg-white/[0.05] border border-white/10 text-gray-200 placeholder-gray-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary transition-colors" />
+          <label class="block text-white/20 text-xs font-mono uppercase tracking-widest mb-2">Subject</label>
+          <input type="text" placeholder="Event coverage, yearbook, collab..." class="w-full bg-ink-3 border border-white/[0.08] text-white/70 placeholder-white/15 rounded-sm px-4 py-3 text-sm font-light" />
         </div>
         <div>
-          <label class="block text-gray-500 text-xs mb-2 font-semibold uppercase tracking-wide">Message</label>
-          <textarea rows="5" placeholder="Tell me about your project..." required
-            class="w-full bg-white/[0.05] border border-white/10 text-gray-200 placeholder-gray-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary transition-colors resize-none"></textarea>
+          <label class="block text-white/20 text-xs font-mono uppercase tracking-widest mb-2">Message</label>
+          <textarea rows="5" placeholder="Tell me about your project..." required class="w-full bg-ink-3 border border-white/[0.08] text-white/70 placeholder-white/15 rounded-sm px-4 py-3 text-sm resize-none font-light"></textarea>
         </div>
-        <button type="submit"
-          class="w-full bg-primary hover:bg-primary-dark text-white font-semibold py-3 rounded-xl transition-colors flex items-center justify-center gap-2">
+        <button type="submit" class="btn-white w-full py-3.5 rounded-sm text-sm font-semibold uppercase tracking-widest flex items-center justify-center gap-2">
           Send Message
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
         </button>
-        <p id="form-success" class="text-green-400 text-sm text-center hidden">Sent! I'll get back to you soon.</p>
+        <p id="form-success" class="text-white/40 text-xs text-center font-mono hidden">Message sent. I'll get back to you.</p>
       </form>
     </div>
   </section>
 </div>
 
 <script>
-  const allPhotos = [{"id": 6, "cat": "drone", "title": "GH-06", "meta": "JPG \u00b7 4896\u00d73264 \u00b7 3.8 MB", "src": "https://placehold.co/900x600/001529/ff5d64?text=GH-06", "w": 900, "h": 600}, {"id": 11, "cat": "framed", "title": "GH-11", "meta": "JPG \u00b7 4896\u00d73264 \u00b7 1.9 MB", "src": "https://placehold.co/800x1067/0f1c2e/ff5d64?text=GH-11", "w": 800, "h": 1067}, {"id": 1, "cat": "events", "title": "GH-01", "meta": "JPG \u00b7 4896\u00d73264 \u00b7 1.8 MB", "src": "https://placehold.co/900x600/0d1b2a/ff5d64?text=GH-01", "w": 900, "h": 600}, {"id": 3, "cat": "drone", "title": "GH-03", "meta": "JPG \u00b7 4896\u00d73264 \u00b7 1.7 MB", "src": "https://placehold.co/900x600/001a30/ff5d64?text=GH-03", "w": 900, "h": 600}, {"id": 10, "cat": "framed", "title": "GH-10", "meta": "JPG \u00b7 4896\u00d73264 \u00b7 3.0 MB", "src": "https://placehold.co/900x600/0d1929/ff5d64?text=GH-10", "w": 900, "h": 600}, {"id": 7, "cat": "events", "title": "GH-07", "meta": "JPG \u00b7 4896\u00d73264 \u00b7 4.5 MB", "src": "https://placehold.co/800x1067/091524/ff5d64?text=GH-07", "w": 800, "h": 1067}, {"id": 8, "cat": "drone", "title": "GH-08", "meta": "JPG \u00b7 4760\u00d73173 \u00b7 1.5 MB", "src": "https://placehold.co/900x599/000c20/ff5d64?text=GH-08", "w": 900, "h": 599}, {"id": 9, "cat": "framed", "title": "GH-09", "meta": "JPG \u00b7 4896\u00d73264 \u00b7 3.5 MB", "src": "https://placehold.co/800x1000/0a1525/ff5d64?text=GH-09", "w": 800, "h": 1000}, {"id": 5, "cat": "events", "title": "GH-05", "meta": "JPG \u00b7 4896\u00d73264 \u00b7 1.8 MB", "src": "https://placehold.co/900x600/0a1628/ff5d64?text=GH-05", "w": 900, "h": 600}];
+  const allPhotos = [{"id": 6, "cat": "drone", "title": "GH-06", "meta": "JPG \u00b7 4896\u00d73264 \u00b7 3.8 MB", "src": "https://placehold.co/900x600/111/555?text=GH-06", "w": 900, "h": 600}, {"id": 11, "cat": "framed", "title": "GH-11", "meta": "JPG \u00b7 4896\u00d73264 \u00b7 1.9 MB", "src": "https://placehold.co/800x1067/0d0d0d/444?text=GH-11", "w": 800, "h": 1067}, {"id": 1, "cat": "events", "title": "GH-01", "meta": "JPG \u00b7 4896\u00d73264 \u00b7 1.8 MB", "src": "https://placehold.co/900x600/111/555?text=GH-01", "w": 900, "h": 600}, {"id": 3, "cat": "drone", "title": "GH-03", "meta": "JPG \u00b7 4896\u00d73264 \u00b7 1.7 MB", "src": "https://placehold.co/900x600/151515/444?text=GH-03", "w": 900, "h": 600}, {"id": 10, "cat": "framed", "title": "GH-10", "meta": "JPG \u00b7 4896\u00d73264 \u00b7 3.0 MB", "src": "https://placehold.co/900x600/0a0a0a/555?text=GH-10", "w": 900, "h": 600}, {"id": 7, "cat": "events", "title": "GH-07", "meta": "JPG \u00b7 4896\u00d73264 \u00b7 4.5 MB", "src": "https://placehold.co/800x1067/111/444?text=GH-07", "w": 800, "h": 1067}, {"id": 8, "cat": "drone", "title": "GH-08", "meta": "JPG \u00b7 4760\u00d73173 \u00b7 1.5 MB", "src": "https://placehold.co/900x599/0d0d0d/555?text=GH-08", "w": 900, "h": 599}, {"id": 9, "cat": "framed", "title": "GH-09", "meta": "JPG \u00b7 4896\u00d73264 \u00b7 3.5 MB", "src": "https://placehold.co/800x1000/151515/444?text=GH-09", "w": 800, "h": 1000}, {"id": 5, "cat": "events", "title": "GH-05", "meta": "JPG \u00b7 4896\u00d73264 \u00b7 1.8 MB", "src": "https://placehold.co/900x600/0a0a0a/555?text=GH-05", "w": 900, "h": 600}];
+  
+function buildCard(p, gallery) {
+  const wrap = document.createElement('div');
+  wrap.className = 'gallery-item relative rounded-xl overflow-hidden cursor-pointer border border-white/[0.06]';
+  wrap.innerHTML = `
+    <img src="${p.src}" alt="${p.title}" loading="lazy"
+      class="w-full h-auto block"
+      onerror="this.src='https://placehold.co/900x600/111/333?text=Photo'" />
+    <div class="img-overlay absolute inset-0 bg-black/40 flex items-end p-3" style="opacity:0;transition:opacity .2s;">
+      <svg class="w-4 h-4 text-white/60 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+      </svg>
+    </div>
+  `;
+  wrap.addEventListener('click', () => openLightbox(p, gallery));
+  return wrap;
+}
 
   function renderHighlights(filter) {
     const grid = document.getElementById('highlights-grid');
     grid.innerHTML = '';
-    const filtered = filter === 'all' ? allPhotos : allPhotos.filter(p => p.cat === filter);
-    filtered.forEach(p => {
-      const wrap = document.createElement('div');
-      wrap.className = 'gallery-item card-glow relative rounded-xl overflow-hidden cursor-pointer bg-surface border border-white/5';
-      const pct = ((p.h/p.w)*100).toFixed(2);
-      wrap.innerHTML = `
-        <div style="padding-bottom:${pct}%;position:relative;">
-          <img src="${p.src}" alt="${p.title}" loading="lazy" class="absolute inset-0 w-full h-full object-cover" />
-          <div class="img-overlay absolute inset-0 bg-black/50 flex items-center justify-center">
-            <span class="bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">View</span>
-          </div>
-        </div>
-        <div class="p-3">
-          <p class="font-semibold text-xs text-gray-300">${p.title}</p>
-          <p class="text-gray-600 text-xs mt-0.5">${p.meta}</p>
-        </div>
-      `;
-      wrap.addEventListener('click', () => openLightbox(p, filtered));
-      grid.appendChild(wrap);
-    });
+    const filtered = filter==='all' ? allPhotos : allPhotos.filter(p=>p.cat===filter);
+    filtered.forEach(p => grid.appendChild(buildCard(p, filtered)));
   }
-
-  document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
       btn.classList.add('active');
       renderHighlights(btn.dataset.tab);
     });
   });
-
   function handleSubmit(e) {
     e.preventDefault();
     document.getElementById('form-success').classList.remove('hidden');
     e.target.reset();
-    setTimeout(() => document.getElementById('form-success').classList.add('hidden'), 5000);
+    setTimeout(()=>document.getElementById('form-success').classList.add('hidden'),5000);
   }
-
   renderHighlights('all');
 </script>
 
   
-<footer class="bg-nav-deep border-t border-white/5 py-8">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-    <div class="flex items-center gap-2">
-      <div class="w-6 h-6 rounded-full bg-primary flex items-center justify-center text-white font-bold text-xs">P</div>
-      <span class="text-gray-600 text-sm">Portfolio &copy; <span class="year"></span></span>
-    </div>
-    <p class="text-gray-700 text-xs">Built with Tailwind CSS &bull; Hosted on Vercel</p>
-    <div class="flex gap-5">
-      <a href="index.html"           class="text-gray-600 hover:text-primary text-xs transition-colors">Home</a>
-      <a href="drone-shots.html"     class="text-gray-600 hover:text-primary text-xs transition-colors">Drone</a>
-      <a href="framed-moments.html"  class="text-gray-600 hover:text-primary text-xs transition-colors">Framed</a>
-      <a href="school-events.html"   class="text-gray-600 hover:text-primary text-xs transition-colors">Events</a>
-      <a href="video-projects.html"  class="text-gray-600 hover:text-primary text-xs transition-colors">Video</a>
+<footer class="bg-ink border-t border-white/[0.06] py-10">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-5">
+    <span class="text-white/20 text-xs font-light tracking-widest uppercase">Portfolio &copy; <span class="year"></span></span>
+    <p class="text-white/10 text-xs font-mono">Tailwind CSS &bull; Vercel</p>
+    <div class="flex gap-6">
+      <a href="index.html"           class="text-white/20 hover:text-white/60 text-xs uppercase tracking-widest transition-colors">Home</a>
+      <a href="drone-shots.html"     class="text-white/20 hover:text-white/60 text-xs uppercase tracking-widest transition-colors">Drone</a>
+      <a href="framed-moments.html"  class="text-white/20 hover:text-white/60 text-xs uppercase tracking-widest transition-colors">Framed</a>
+      <a href="school-events.html"   class="text-white/20 hover:text-white/60 text-xs uppercase tracking-widest transition-colors">Events</a>
+      <a href="video-projects.html"  class="text-white/20 hover:text-white/60 text-xs uppercase tracking-widest transition-colors">Video</a>
     </div>
   </div>
 </footer>
 <script>document.querySelectorAll('.year').forEach(e=>e.textContent=new Date().getFullYear());</script>
 
   
-<!-- LIGHTBOX -->
-<div id="lightbox" class="fixed inset-0 z-[9999] bg-black/92 hidden flex-col items-center justify-center p-4">
-  <button onclick="closeLightbox()" class="absolute top-5 right-5 text-white/60 hover:text-white transition-colors">
-    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+<div id="lightbox" class="fixed inset-0 z-[9999] bg-black/96 hidden flex-col items-center justify-center p-4 md:p-8">
+  <button onclick="closeLightbox()"
+    class="absolute top-5 right-5 w-10 h-10 flex items-center justify-center text-white/40 hover:text-white transition-colors rounded-full border border-white/10 hover:border-white/30">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/>
+    </svg>
   </button>
-  <button onclick="prevImage()" class="absolute left-4 top-1/2 -translate-y-1/2 text-white/60 hover:text-primary transition-colors p-2">
-    <svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+  <button onclick="prevImage()"
+    class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center text-white/40 hover:text-white transition-colors border border-white/10 hover:border-white/30 rounded-full">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"/>
+    </svg>
   </button>
-  <button onclick="nextImage()" class="absolute right-4 top-1/2 -translate-y-1/2 text-white/60 hover:text-primary transition-colors p-2">
-    <svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+  <button onclick="nextImage()"
+    class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center text-white/40 hover:text-white transition-colors border border-white/10 hover:border-white/30 rounded-full">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"/>
+    </svg>
   </button>
-  <img id="lightbox-img" src="" alt="" class="max-w-full max-h-[80vh] object-contain rounded-xl shadow-2xl" />
+  <img id="lightbox-img" src="" alt=""
+    class="max-w-full max-h-[82vh] object-contain" />
   <div class="mt-5 text-center">
-    <p id="lightbox-title" class="text-white font-semibold text-sm"></p>
-    <p id="lightbox-meta"  class="text-gray-500 text-xs mt-1"></p>
+    <p id="lightbox-title" class="text-white/80 text-sm font-medium"></p>
+    <p id="lightbox-meta"  class="text-white/30 text-xs mt-1 font-mono"></p>
   </div>
-  <p id="lightbox-counter" class="absolute bottom-5 text-gray-600 text-xs"></p>
+  <p id="lightbox-counter" class="absolute bottom-5 text-white/20 text-xs font-mono"></p>
 </div>
 
   
 <script>
-  let currentGallery = [], currentIndex = 0;
-  function openLightbox(photo, gallery) {
-    currentGallery = gallery; currentIndex = gallery.indexOf(photo);
+  let currentGallery=[], currentIndex=0;
+  function openLightbox(photo, gallery){
+    currentGallery=gallery; currentIndex=gallery.indexOf(photo);
     syncLightbox();
-    const lb = document.getElementById('lightbox');
+    const lb=document.getElementById('lightbox');
     lb.classList.remove('hidden'); lb.classList.add('flex');
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow='hidden';
   }
-  function syncLightbox() {
-    const p = currentGallery[currentIndex];
-    document.getElementById('lightbox-img').src   = p.src;
-    document.getElementById('lightbox-img').alt   = p.title;
-    document.getElementById('lightbox-title').textContent = p.title;
-    document.getElementById('lightbox-meta').textContent  = p.meta;
-    document.getElementById('lightbox-counter').textContent = (currentIndex+1)+' / '+currentGallery.length;
+  function syncLightbox(){
+    const p=currentGallery[currentIndex];
+    document.getElementById('lightbox-img').src=p.src;
+    document.getElementById('lightbox-img').alt=p.title;
+    document.getElementById('lightbox-title').textContent=p.title;
+    document.getElementById('lightbox-meta').textContent=p.meta;
+    document.getElementById('lightbox-counter').textContent=(currentIndex+1)+' / '+currentGallery.length;
   }
-  function closeLightbox() {
-    const lb = document.getElementById('lightbox');
-    lb.classList.add('hidden'); lb.classList.remove('flex');
-    document.body.style.overflow = '';
+  function closeLightbox(){
+    document.getElementById('lightbox').classList.add('hidden');
+    document.getElementById('lightbox').classList.remove('flex');
+    document.body.style.overflow='';
   }
-  function prevImage() { currentIndex=(currentIndex-1+currentGallery.length)%currentGallery.length; syncLightbox(); }
-  function nextImage() { currentIndex=(currentIndex+1)%currentGallery.length; syncLightbox(); }
-  document.addEventListener('keydown', e => {
+  function prevImage(){ currentIndex=(currentIndex-1+currentGallery.length)%currentGallery.length; syncLightbox(); }
+  function nextImage(){ currentIndex=(currentIndex+1)%currentGallery.length; syncLightbox(); }
+  document.addEventListener('keydown',e=>{
     if(e.key==='Escape') closeLightbox();
     if(e.key==='ArrowLeft') prevImage();
     if(e.key==='ArrowRight') nextImage();
   });
-  document.getElementById('lightbox').addEventListener('click', e => {
+  document.getElementById('lightbox').addEventListener('click',e=>{
     if(e.target===document.getElementById('lightbox')) closeLightbox();
   });
 </script>

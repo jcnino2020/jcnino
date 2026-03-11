@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>School Events — Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          'ink':    '#000000',
+          'ink-2':  '#0a0a0a',
+          'ink-3':  '#111111',
+          'ink-4':  '#1a1a1a',
+          'ink-5':  '#222222',
+          'mute':   '#555555',
+          'subtle': '#333333',
+          'dim':    '#888888',
+          'light':  '#bbbbbb',
+          'chalk':  '#e8e8e8',
+          'white':  '#ffffff',
+        },
+        fontFamily: { sans: ['Inter','system-ui','sans-serif'] },
+      },
+    },
+  }
+</script>
+
+  
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; background: #000; }
+  body { background: #000; color: #e8e8e8; -webkit-font-smoothing: antialiased; }
+
+  ::selection { background: #fff; color: #000; }
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: #000; }
+  ::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+  ::-webkit-scrollbar-thumb:hover { background: #666; }
+
+  /* Nav underline */
+  .nav-link { position: relative; }
+  .nav-link::after {
+    content:''; display:block; height:1px; background:#fff;
+    transform:scaleX(0); transition:transform .25s ease;
+    transform-origin:left;
+  }
+  .nav-link:hover::after, .nav-link.active::after { transform:scaleX(1); }
+  .nav-link.active { color:#fff; }
+
+  /* Gallery */
+  .gallery-item { transition: transform .2s ease, box-shadow .2s ease; }
+  .gallery-item:hover { transform: translateY(-4px); box-shadow: 0 20px 50px rgba(0,0,0,.9); }
+  .gallery-item:hover .img-overlay { opacity: 1 !important; }
+
+  .gallery-grid { columns: 3; column-gap: 12px; }
+  @media(max-width:768px){ .gallery-grid{ columns:2; } }
+  @media(max-width:480px){ .gallery-grid{ columns:1; } }
+  .gallery-grid .gallery-item { break-inside:avoid; margin-bottom:12px; display:block; }
+
+  /* Lightbox */
+  #lightbox { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+
+  /* Tab active */
+  .tab-btn { color: #555; border-bottom: 1px solid transparent; transition: all .2s; }
+  .tab-btn:hover { color: #bbb; }
+  .tab-btn.active { color: #fff; border-bottom-color: #fff; }
+
+  /* Fade in */
+  .fade-in { animation: fadeUp .6s ease both; }
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(20px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+
+  /* Mobile menu */
+  #mobile-menu { transition: max-height .3s ease, opacity .3s ease; }
+  #mobile-menu.closed { max-height:0; opacity:0; overflow:hidden; }
+  #mobile-menu.open   { max-height:500px; opacity:1; }
+
+  /* Page hero */
+  .page-hero { background: #000; border-bottom: 1px solid #1a1a1a; }
+
+  /* Card hover */
+  .card-item { transition: all .2s ease; }
+  .card-item:hover { background: #111; border-color: #333 !important; }
+
+  /* Btn */
+  .btn-white {
+    background: #fff; color: #000; font-weight: 600;
+    transition: background .2s, color .2s;
+  }
+  .btn-white:hover { background: #ddd; }
+
+  .btn-outline {
+    border: 1px solid #333; color: #888;
+    transition: border-color .2s, color .2s;
+  }
+  .btn-outline:hover { border-color: #888; color: #e8e8e8; }
+
+  /* Sort btn */
+  .sort-btn { transition: all .2s; color: #555; }
+  .sort-btn:hover { color: #bbb; }
+  .sort-btn.active-sort { color: #fff; border-color: #555 !important; }
+
+  /* Input focus */
+  input:focus, textarea:focus {
+    outline: none;
+    border-color: #555 !important;
+  }
+</style>
+
+</head>
+<body class="font-sans min-h-screen">
+  
+<nav class="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-md border-b border-white/[0.06]">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="flex items-center justify-between h-14">
+      <a href="index.html" class="text-white font-light text-sm tracking-[0.25em] uppercase hover:text-chalk transition-colors">
+        Portfolio
+      </a>
+      <div class="hidden md:flex items-center gap-8"><a href="index.html" class="nav-link  text-dim hover:text-white text-xs font-medium pb-0.5 uppercase tracking-widest transition-colors">Home</a><a href="drone-shots.html" class="nav-link  text-dim hover:text-white text-xs font-medium pb-0.5 uppercase tracking-widest transition-colors">Drone Shots</a><a href="framed-moments.html" class="nav-link  text-dim hover:text-white text-xs font-medium pb-0.5 uppercase tracking-widest transition-colors">Framed Moments</a><a href="school-events.html" class="nav-link active text-dim hover:text-white text-xs font-medium pb-0.5 uppercase tracking-widest transition-colors">School Events</a><a href="video-projects.html" class="nav-link  text-dim hover:text-white text-xs font-medium pb-0.5 uppercase tracking-widest transition-colors">Video Projects</a></div>
+      <a href="index.html#contact" class="hidden md:block btn-outline text-xs font-semibold uppercase tracking-widest px-5 py-2 rounded-full">Contact</a>
+      <button id="hamburger" class="md:hidden text-dim hover:text-white p-1.5 rounded transition-colors" aria-label="Menu">
+        <svg id="ham-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        <svg id="close-icon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div id="mobile-menu" class="closed md:hidden">
+      <div class="pb-5 flex flex-col gap-4 border-t border-white/[0.06] pt-4"><a href="index.html" class="text-dim hover:text-white text-sm font-medium transition-colors">Home</a><a href="drone-shots.html" class="text-dim hover:text-white text-sm font-medium transition-colors">Drone Shots</a><a href="framed-moments.html" class="text-dim hover:text-white text-sm font-medium transition-colors">Framed Moments</a><a href="school-events.html" class="text-dim hover:text-white text-sm font-medium transition-colors">School Events</a><a href="video-projects.html" class="text-dim hover:text-white text-sm font-medium transition-colors">Video Projects</a>
+        <a href="index.html#contact" class="btn-outline text-xs font-semibold uppercase tracking-widest px-5 py-2.5 rounded-full text-center">Contact</a>
+      </div>
+    </div>
+  </div>
+</nav>
+<script>
+  (function(){
+    const btn=document.getElementById('hamburger');
+    const menu=document.getElementById('mobile-menu');
+    const ham=document.getElementById('ham-icon');
+    const x=document.getElementById('close-icon');
+    let open=false;
+    btn.addEventListener('click',()=>{
+      open=!open;
+      menu.className='md:hidden '+(open?'open':'closed');
+      ham.classList.toggle('hidden',open); x.classList.toggle('hidden',!open);
+    });
+    menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
+      open=false; menu.className='md:hidden closed';
+      ham.classList.remove('hidden'); x.classList.add('hidden');
+    }));
+  })();
+</script>
+
+  
+<div class="pt-14">
+  <!-- Hero -->
+  <div class="page-hero">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8 py-20 fade-in">
+      <p class="text-white/20 text-xs font-mono uppercase tracking-[0.3em] mb-5">event coverage</p>
+      <h1 class="text-5xl md:text-6xl font-light text-white mb-4 tracking-tight">School Events</h1>
+      <p class="text-white/30 text-base max-w-lg font-light leading-relaxed">Publication-grade coverage of school activities, ceremonies, and campus life.</p>
+    </div>
+  </div>
+
+  <!-- Gallery -->
+  <section class="py-14">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8">
+      <div class="flex items-center justify-between mb-8 flex-wrap gap-4">
+        <p class="text-white/20 text-xs font-mono" id="photo-count"></p>
+        <div class="flex gap-3">
+          <button onclick="setSort('newest')" id="sort-newest"
+            class="sort-btn active-sort px-4 py-1.5 rounded-full text-xs font-mono border border-white/10">
+            Newest
+          </button>
+          <button onclick="setSort('oldest')" id="sort-oldest"
+            class="sort-btn px-4 py-1.5 rounded-full text-xs font-mono border border-white/[0.05]">
+            Oldest
+          </button>
+        </div>
+      </div>
+      <div class="gallery-grid" id="main-grid"></div>
+    </div>
+  </section>
+</div>
+
+<script>
+  const photos = [{"id": 1, "title": "GH-01", "meta": "JPG \u00b7 4896\u00d73264 \u00b7 1.8 MB", "src": "https://placehold.co/900x600/111/555?text=GH-01", "w": 900, "h": 600}, {"id": 5, "title": "GH-05", "meta": "JPG \u00b7 4896\u00d73264 \u00b7 1.8 MB", "src": "https://placehold.co/900x600/0d0d0d/444?text=GH-05", "w": 900, "h": 600}, {"id": 7, "title": "GH-07", "meta": "JPG \u00b7 4896\u00d73264 \u00b7 4.5 MB", "src": "https://placehold.co/800x1067/151515/555?text=GH-07", "w": 800, "h": 1067}, {"id": 20250417, "title": "EVT-2025", "meta": "JPG \u00b7 4896\u00d73264 \u00b7 1010 KB", "src": "https://placehold.co/900x600/111/444?text=EVT-2025", "w": 900, "h": 600}, {"id": 16, "title": "SE-01", "meta": "JPG \u00b7 4896\u00d73264 \u00b7 2.3 MB", "src": "https://placehold.co/900x600/0a0a0a/555?text=SE-01", "w": 900, "h": 600}, {"id": 17, "title": "SE-02", "meta": "JPG \u00b7 3264\u00d74896 \u00b7 2.8 MB", "src": "https://placehold.co/650x975/111/444?text=SE-02", "w": 650, "h": 975}];
+  let sortOrder = 'newest';
+  
+function buildCard(p, gallery) {
+  const wrap = document.createElement('div');
+  wrap.className = 'gallery-item relative rounded-xl overflow-hidden cursor-pointer border border-white/[0.06]';
+  wrap.innerHTML = `
+    <img src="${p.src}" alt="${p.title}" loading="lazy"
+      class="w-full h-auto block"
+      onerror="this.src='https://placehold.co/900x600/111/333?text=Photo'" />
+    <div class="img-overlay absolute inset-0 bg-black/40 flex items-end p-3" style="opacity:0;transition:opacity .2s;">
+      <svg class="w-4 h-4 text-white/60 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+      </svg>
+    </div>
+  `;
+  wrap.addEventListener('click', () => openLightbox(p, gallery));
+  return wrap;
+}
+
+  function setSort(order) {
+    sortOrder = order;
+    document.querySelectorAll('.sort-btn').forEach(b=>b.classList.remove('active-sort'));
+    document.getElementById('sort-'+order).classList.add('active-sort');
+    renderGrid();
+  }
+  function renderGrid() {
+    const grid = document.getElementById('main-grid');
+    grid.innerHTML = '';
+    const sorted = [...photos].sort((a,b)=> sortOrder==='newest' ? b.id-a.id : a.id-b.id);
+    document.getElementById('photo-count').textContent = sorted.length + ' photos';
+    sorted.forEach(p => grid.appendChild(buildCard(p, sorted)));
+  }
+  renderGrid();
+</script>
+
+  
+<footer class="bg-ink border-t border-white/[0.06] py-10">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-5">
+    <span class="text-white/20 text-xs font-light tracking-widest uppercase">Portfolio &copy; <span class="year"></span></span>
+    <p class="text-white/10 text-xs font-mono">Tailwind CSS &bull; Vercel</p>
+    <div class="flex gap-6">
+      <a href="index.html"           class="text-white/20 hover:text-white/60 text-xs uppercase tracking-widest transition-colors">Home</a>
+      <a href="drone-shots.html"     class="text-white/20 hover:text-white/60 text-xs uppercase tracking-widest transition-colors">Drone</a>
+      <a href="framed-moments.html"  class="text-white/20 hover:text-white/60 text-xs uppercase tracking-widest transition-colors">Framed</a>
+      <a href="school-events.html"   class="text-white/20 hover:text-white/60 text-xs uppercase tracking-widest transition-colors">Events</a>
+      <a href="video-projects.html"  class="text-white/20 hover:text-white/60 text-xs uppercase tracking-widest transition-colors">Video</a>
+    </div>
+  </div>
+</footer>
+<script>document.querySelectorAll('.year').forEach(e=>e.textContent=new Date().getFullYear());</script>
+
+  
+<div id="lightbox" class="fixed inset-0 z-[9999] bg-black/96 hidden flex-col items-center justify-center p-4 md:p-8">
+  <button onclick="closeLightbox()"
+    class="absolute top-5 right-5 w-10 h-10 flex items-center justify-center text-white/40 hover:text-white transition-colors rounded-full border border-white/10 hover:border-white/30">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/>
+    </svg>
+  </button>
+  <button onclick="prevImage()"
+    class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center text-white/40 hover:text-white transition-colors border border-white/10 hover:border-white/30 rounded-full">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"/>
+    </svg>
+  </button>
+  <button onclick="nextImage()"
+    class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center text-white/40 hover:text-white transition-colors border border-white/10 hover:border-white/30 rounded-full">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"/>
+    </svg>
+  </button>
+  <img id="lightbox-img" src="" alt=""
+    class="max-w-full max-h-[82vh] object-contain" />
+  <div class="mt-5 text-center">
+    <p id="lightbox-title" class="text-white/80 text-sm font-medium"></p>
+    <p id="lightbox-meta"  class="text-white/30 text-xs mt-1 font-mono"></p>
+  </div>
+  <p id="lightbox-counter" class="absolute bottom-5 text-white/20 text-xs font-mono"></p>
+</div>
+
+  
+<script>
+  let currentGallery=[], currentIndex=0;
+  function openLightbox(photo, gallery){
+    currentGallery=gallery; currentIndex=gallery.indexOf(photo);
+    syncLightbox();
+    const lb=document.getElementById('lightbox');
+    lb.classList.remove('hidden'); lb.classList.add('flex');
+    document.body.style.overflow='hidden';
+  }
+  function syncLightbox(){
+    const p=currentGallery[currentIndex];
+    document.getElementById('lightbox-img').src=p.src;
+    document.getElementById('lightbox-img').alt=p.title;
+    document.getElementById('lightbox-title').textContent=p.title;
+    document.getElementById('lightbox-meta').textContent=p.meta;
+    document.getElementById('lightbox-counter').textContent=(currentIndex+1)+' / '+currentGallery.length;
+  }
+  function closeLightbox(){
+    document.getElementById('lightbox').classList.add('hidden');
+    document.getElementById('lightbox').classList.remove('flex');
+    document.body.style.overflow='';
+  }
+  function prevImage(){ currentIndex=(currentIndex-1+currentGallery.length)%currentGallery.length; syncLightbox(); }
+  function nextImage(){ currentIndex=(currentIndex+1)%currentGallery.length; syncLightbox(); }
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape') closeLightbox();
+    if(e.key==='ArrowLeft') prevImage();
+    if(e.key==='ArrowRight') nextImage();
+  });
+  document.getElementById('lightbox').addEventListener('click',e=>{
+    if(e.target===document.getElementById('lightbox')) closeLightbox();
+  });
+</script>
+
+</body>
+</html>
