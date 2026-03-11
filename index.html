@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>JC Niñonuevo | Portfolio</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   
 <script>
   tailwind.config = {
@@ -87,17 +88,6 @@
 
   /* Lightbox */
   #lightbox { backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); }
-
-  /* Animations */
-  .fade-up { animation: fadeUp .8s ease forwards; opacity: 0; }
-  @keyframes fadeUp {
-    from { opacity:0; transform:translateY(30px); }
-    to   { opacity:1; transform:translateY(0); }
-  }
-  
-  .stagger-1 { animation-delay: 0.1s; }
-  .stagger-2 { animation-delay: 0.2s; }
-  .stagger-3 { animation-delay: 0.3s; }
 
   /* Mobile menu */
   #mobile-menu { transition: max-height .4s ease, opacity .4s ease; }
@@ -198,7 +188,7 @@
       <div class="grid lg:grid-cols-12 gap-12 lg:gap-20 items-center">
         
         <!-- Left Column: Text -->
-        <div class="lg:col-span-6 fade-up">
+        <div class="lg:col-span-6 hero-text">
           <p class="text-text-muted text-sm font-bold uppercase tracking-[0.2em] mb-6">Photography & Cinematography</p>
           <!-- Changed to Sans Serif (Helvetica) with heavy weight contrast -->
           <h1 class="text-6xl sm:text-7xl lg:text-8xl text-white mb-8 leading-none tracking-tight font-bold">
@@ -219,7 +209,7 @@
         </div>
 
         <!-- Right Column: Featured Visual -->
-        <div class="lg:col-span-6 fade-up stagger-2 relative">
+        <div class="lg:col-span-6 relative hero-image">
           <div class="aspect-[3/2] rounded-2xl overflow-hidden bg-surface relative group">
             <img src="https://raw.githubusercontent.com/jcnino2020/jcninonuevo-portfolio/refs/heads/main/images/GH-01.JPG" alt="Featured Shot" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" />
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
@@ -567,6 +557,18 @@ renderHighlights('all');
   
   document.getElementById('lightbox').addEventListener('click',e=>{
     if(e.target===document.getElementById('lightbox')) closeLightbox();
+  });
+</script>
+
+<script>
+  // GSAP Animations
+  document.addEventListener('DOMContentLoaded', () => {
+    gsap.from('.hero-text', {
+      duration: 0.8, y: 30, opacity: 0, ease: 'power3.out',
+    });
+    gsap.from('.hero-image', {
+      duration: 0.8, y: 30, opacity: 0, ease: 'power3.out', delay: 0.2
+    });
   });
 </script>
 
