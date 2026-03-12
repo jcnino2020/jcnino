@@ -565,6 +565,40 @@
   });
 </script>
 
+<!-- Lightbox: Touch Swipe Support -->
+<script>
+  (function () {
+    const lb = document.getElementById('lightbox');
+    let startX = 0, startY = 0;
+
+    lb.addEventListener('touchstart', e => {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+    }, { passive: true });
+
+    lb.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - startX;
+      const dy = e.changedTouches[0].clientY - startY;
+      const absX = Math.abs(dx);
+      const absY = Math.abs(dy);
+
+      // Swipe left/right → next/prev image
+      if (absX > 50 && absY < 80) {
+        e.preventDefault(); // block accidental background-click close
+        if (dx < 0) nextImage();
+        else prevImage();
+        return;
+      }
+
+      // Swipe down → close lightbox
+      if (absY > 90 && absX < 60) {
+        e.preventDefault();
+        closeLightbox();
+      }
+    }, { passive: false }); // passive: false required for preventDefault
+  })();
+</script>
+
 <!-- =============================================
      GSAP + ScrollTrigger
      CDN: gsap@3.13 (fully free, all plugins)
