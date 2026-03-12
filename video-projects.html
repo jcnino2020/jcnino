@@ -6,9 +6,7 @@
   <title>Video Projects | JC Niñonuevo</title>
   <link rel="icon" type="image/png" href="images/favicon.png">
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  
+
 <script>
   tailwind.config = {
     theme: {
@@ -76,12 +74,15 @@
     user-drag: none;
     pointer-events: none;
   }
+
+  /* Prevent flash before GSAP fires */
+  .gsap-header-item { opacity: 0; }
 </style>
 
 </head>
 <body class="min-h-screen">
 
-<nav class="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/[0.05]">
+<nav id="main-nav" class="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/[0.05]">
   <div class="max-w-7xl mx-auto px-6 sm:px-10">
     <div class="flex items-center justify-between h-20">
       <a href="index.html" class="flex items-center">
@@ -114,47 +115,64 @@
         <a href="school-events.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">School Events</a>
         <a href="video-projects.html" class="text-white text-2xl font-bold transition-colors">Video Projects</a>
         <div class="pt-4 border-t border-white/10">
-          <a href="index.html#contact" class="block text-center btn-white w-full py-3 rounded-full text-lg font-bold bg-white text-black">Get in Touch</a>
+          <a href="index.html#contact" class="block text-center w-full py-3 rounded-full text-lg font-bold bg-white text-black">Get in Touch</a>
         </div>
       </div>
     </div>
   </div>
 </nav>
 
+<!-- Mobile menu: GSAP calls are inside click handlers, safe with bottom-loaded GSAP -->
 <script>
   (function(){
-    const btn=document.getElementById('hamburger');
-    const menu=document.getElementById('mobile-menu');
-    const ham=document.getElementById('ham-icon');
-    const x=document.getElementById('close-icon');
-    let open=false;
-    btn.addEventListener('click',()=>{
-      open=!open;
-      if(open) { menu.classList.remove('closed'); gsap.to(menu, {height:'auto', opacity:1, duration:0.4, ease:'power2.out'}); }
-      else { gsap.to(menu, {height:0, opacity:0, duration:0.3, ease:'power2.in', onComplete:()=>menu.classList.add('closed')}); }
-      ham.classList.toggle('hidden',open); x.classList.toggle('hidden',!open);
+    const btn  = document.getElementById('hamburger');
+    const menu = document.getElementById('mobile-menu');
+    const ham  = document.getElementById('ham-icon');
+    const x    = document.getElementById('close-icon');
+    let open = false;
+    btn.addEventListener('click', () => {
+      open = !open;
+      if (open) {
+        menu.classList.remove('closed');
+        gsap.fromTo(menu,
+          { height: 0, opacity: 0 },
+          { height: 'auto', opacity: 1, duration: 0.4, ease: 'power2.out' }
+        );
+      } else {
+        gsap.to(menu, {
+          height: 0, opacity: 0,
+          duration: 0.3, ease: 'power2.in',
+          onComplete: () => menu.classList.add('closed')
+        });
+      }
+      ham.classList.toggle('hidden', open);
+      x.classList.toggle('hidden', !open);
     });
-    menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
-      open=false; menu.className='md:hidden closed';
-      ham.classList.remove('hidden'); x.classList.add('hidden');
+    menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      open = false;
+      menu.className = 'md:hidden closed';
+      ham.classList.remove('hidden');
+      x.classList.add('hidden');
     }));
   })();
 </script>
 
 <div class="pt-20">
-  
-  <section class="py-12 border-b border-border">
+
+  <!-- Page Header -->
+  <section id="page-header" class="py-12 border-b border-border">
     <div class="max-w-7xl mx-auto px-6 sm:px-10">
       <div class="flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
         <div>
-          <p class="text-text-muted text-xs font-bold uppercase mb-4">Category 04</p>
-          <h1 class="text-4xl sm:text-5xl text-white font-bold">Video Projects</h1>
-          <p class="text-text-muted text-lg max-w-lg mt-4">Edited in Final Cut Pro on M1 MacBook Air. Reels, cinematic films, and B-roll cuts.</p>
+          <p id="header-eyebrow" class="gsap-header-item text-text-muted text-xs font-bold uppercase mb-4">Category 04</p>
+          <h1 id="header-title" class="gsap-header-item text-4xl sm:text-5xl text-white font-bold">Video Projects</h1>
+          <p id="header-desc" class="gsap-header-item text-text-muted text-lg max-w-lg mt-4">Edited in Final Cut Pro on M1 MacBook Air. Reels, cinematic films, and B-roll cuts.</p>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- Video Grid -->
   <section class="py-24">
     <div class="max-w-7xl mx-auto px-6 sm:px-10">
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6" id="video-grid"></div>
@@ -166,7 +184,6 @@
 <script>
   const BASE = "https://raw.githubusercontent.com/jcnino2020/jcninonuevo-portfolio/refs/heads/main/images/";
 
-  
   const videos = [
     {
       id: 1,
@@ -181,8 +198,8 @@
       id: 2,
       title: "Graduation Day Cinematic",
       desc: "Cinematic edit of graduation ceremonies with color-graded footage.",
-      youtubeId: "dQw4w9WgXcQ", 
-      thumb: BASE + "GH-02.JPG", 
+      youtubeId: "dQw4w9WgXcQ",
+      thumb: BASE + "GH-02.JPG",
       duration: "5:18",
       tags: ['Cinematic', 'FCP']
     },
@@ -190,7 +207,7 @@
       id: 3,
       title: "Campus Life B-Roll",
       desc: "Atmospheric walk around campus — handheld and drone footage.",
-      youtubeId: "dQw4w9WgXcQ", 
+      youtubeId: "dQw4w9WgXcQ",
       thumb: BASE + "GH-03.JPG",
       duration: "2:05",
       tags: ['B-Roll', 'Drone']
@@ -199,7 +216,7 @@
       id: 4,
       title: "Yearbook Feature Film",
       desc: "Documentary-style yearbook video featuring student profiles.",
-      youtubeId: "dQw4w9WgXcQ", 
+      youtubeId: "dQw4w9WgXcQ",
       thumb: BASE + "GH-04.JPG",
       duration: "8:30",
       tags: ['Documentary', 'Yearbook']
@@ -208,7 +225,7 @@
       id: 5,
       title: "Sports Day Coverage",
       desc: "Fast-paced edit of intramural sports day highlights.",
-      youtubeId: "dQw4w9WgXcQ", 
+      youtubeId: "dQw4w9WgXcQ",
       thumb: BASE + "GH-05.JPG",
       duration: "4:12",
       tags: ['Sports', 'Fast-Cut']
@@ -217,7 +234,7 @@
       id: 6,
       title: "Organization Intro Reel",
       desc: "Short intro reel for a student organization.",
-      youtubeId: "dQw4w9WgXcQ", 
+      youtubeId: "dQw4w9WgXcQ",
       thumb: BASE + "GH-06.JPG",
       duration: "1:30",
       tags: ['Branding', 'Motion']
@@ -225,13 +242,13 @@
   ];
 
   const grid = document.getElementById('video-grid');
-  
+
   videos.forEach(v => {
     const card = document.createElement('div');
     card.className = 'video-card group relative rounded-xl overflow-hidden cursor-pointer bg-surface border border-border hover:border-white/30 transition-all duration-300';
-    
-    const videoSrc = v.youtubeId 
-      ? `https://www.youtube.com/embed/${v.youtubeId}?autoplay=1` 
+
+    const videoSrc = v.youtubeId
+      ? `https://www.youtube.com/embed/${v.youtubeId}?autoplay=1`
       : v.src;
 
     card.innerHTML = `
@@ -254,25 +271,18 @@
         </div>
       </div>
     `;
-    
+
     card.addEventListener('click', () => openLightbox(videoSrc, v.title));
     grid.appendChild(card);
   });
-
-  gsap.registerPlugin(ScrollTrigger);
-  gsap.from(".video-card", {
-    y: 30, opacity: 0, duration: 0.6, stagger: 0.1, ease: "power2.out",
-    scrollTrigger: { trigger: "#video-grid", start: "top 90%" }
-  });
 </script>
 
-<footer class="bg-bg border-t border-border py-12">
+<footer id="site-footer" class="bg-bg border-t border-border py-12">
   <div class="max-w-7xl mx-auto px-6 sm:px-10 flex flex-col md:flex-row items-center justify-between gap-6">
     <div class="flex flex-col items-center md:items-start gap-2">
        <span class="text-white text-sm font-bold tracking-wider uppercase">JC Niñonuevo &copy; <span class="year"></span></span>
        <p class="text-text-muted text-xs">Bacolod City, Philippines</p>
     </div>
-    
     <div class="flex flex-wrap justify-center gap-8">
        <a href="index.html" class="text-text-muted hover:text-white text-sm font-bold transition-colors">Home</a>
        <a href="drone-shots.html" class="text-text-muted hover:text-white text-sm font-bold transition-colors">Drone</a>
@@ -280,13 +290,12 @@
        <a href="school-events.html" class="text-text-muted hover:text-white text-sm font-bold transition-colors">Events</a>
        <a href="video-projects.html" class="text-white text-sm font-bold transition-colors">Video</a>
     </div>
-    
-        <p class="text-text-muted text-xs font-bold">Updated March 2026</p>
-
+    <p class="text-text-muted text-xs font-bold">Updated March 2026</p>
   </div>
 </footer>
-<script>document.querySelectorAll('.year').forEach(e=>e.textContent=new Date().getFullYear());</script>
+<script>document.querySelectorAll('.year').forEach(e => e.textContent = new Date().getFullYear());</script>
 
+<!-- Lightbox -->
 <div id="lightbox" class="fixed inset-0 z-[9999] bg-black/98 hidden flex-col items-center justify-center p-4 md:p-8">
   <button onclick="closeLightbox()"
     class="absolute top-6 right-6 w-12 h-12 flex items-center justify-center text-white hover:bg-white/10 transition-colors rounded-full border border-white/10 z-50">
@@ -294,48 +303,126 @@
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/>
     </svg>
   </button>
-  
-  <div class="w-full max-w-5xl aspect-video bg-black rounded-lg overflow-hidden shadow-2xl">
-     <iframe id="lightbox-video" class="w-full h-full" 
-             src="" 
-             title="Video Player" 
-             frameborder="0" 
-             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-             allowfullscreen>
-     </iframe>
+  <div id="lightbox-player" class="w-full max-w-5xl aspect-video bg-black rounded-lg overflow-hidden shadow-2xl">
+    <iframe id="lightbox-video" class="w-full h-full"
+      src="" title="Video Player" frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen>
+    </iframe>
   </div>
-  
   <p id="lightbox-title" class="text-white text-lg font-bold mt-6 text-center"></p>
 </div>
 
 <script>
-  function openLightbox(src, title){
-    const lb = document.getElementById('lightbox');
+  function openLightbox(src, title) {
+    const lb    = document.getElementById('lightbox');
     const video = document.getElementById('lightbox-video');
+    const player = document.getElementById('lightbox-player');
     const titleEl = document.getElementById('lightbox-title');
-    
+
     video.src = src;
     titleEl.textContent = title;
-    
-    lb.classList.remove('hidden'); 
+
+    lb.classList.remove('hidden');
     lb.classList.add('flex');
-    document.body.style.overflow='hidden';
+    document.body.style.overflow = 'hidden';
+
+    gsap.fromTo(lb,
+      { opacity: 0 },
+      { opacity: 1, duration: 0.3, ease: 'power2.out' }
+    );
+    gsap.fromTo(player,
+      { scale: 0.94, opacity: 0 },
+      { scale: 1, opacity: 1, duration: 0.4, ease: 'power3.out' }
+    );
   }
 
-  function closeLightbox(){
-    const lb = document.getElementById('lightbox');
+  function closeLightbox() {
+    const lb    = document.getElementById('lightbox');
     const video = document.getElementById('lightbox-video');
-    
-    video.src = ''; 
-    
-    lb.classList.add('hidden');
-    lb.classList.remove('flex');
-    document.body.style.overflow='';
+    gsap.to(lb, {
+      opacity: 0,
+      duration: 0.25,
+      ease: 'power2.in',
+      onComplete: () => {
+        video.src = '';
+        lb.classList.add('hidden');
+        lb.classList.remove('flex');
+        document.body.style.overflow = '';
+      }
+    });
   }
-  
+
   document.addEventListener('keydown', e => {
-    if(e.key === 'Escape') closeLightbox();
+    if (e.key === 'Escape') closeLightbox();
   });
+
+  document.getElementById('lightbox').addEventListener('click', e => {
+    if (e.target === document.getElementById('lightbox')) closeLightbox();
+  });
+</script>
+
+<!-- GSAP + ScrollTrigger -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/ScrollTrigger.min.js"></script>
+
+<script>
+  gsap.registerPlugin(ScrollTrigger);
+
+  // ── 1. NAV: slide down on load
+  gsap.from('#main-nav', {
+    y: -80, opacity: 0,
+    duration: 0.9, ease: 'power3.out'
+  });
+
+  // ── 2. PAGE HEADER: staggered timeline on load (above fold — no ScrollTrigger)
+  const headerTl = gsap.timeline({ delay: 0.3 });
+  headerTl
+    .fromTo('#header-eyebrow',
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }
+    )
+    .fromTo('#header-title',
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' },
+      '-=0.35'
+    )
+    .fromTo('#header-desc',
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' },
+      '-=0.4'
+    );
+
+  // ── 3. VIDEO CARDS: fromTo with ScrollTrigger — safe, explicit states
+  // Only 6 cards so stagger is fast; ScrollTrigger handles near-fold edge case
+  gsap.fromTo('.video-card',
+    { y: 40, opacity: 0 },
+    {
+      y: 0, opacity: 1,
+      duration: 0.65,
+      stagger: 0.1,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '#video-grid',
+        start: 'top 88%',
+        once: true
+      }
+    }
+  );
+
+  // ── 4. FOOTER: fade up on scroll
+  gsap.fromTo('#site-footer',
+    { y: 30, opacity: 0 },
+    {
+      y: 0, opacity: 1,
+      duration: 0.6, ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '#site-footer',
+        start: 'top 95%',
+        once: true
+      }
+    }
+  );
 </script>
 
 </body>
