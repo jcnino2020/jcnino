@@ -196,9 +196,9 @@
     },
     {
       id: 2,
-      title: "Graduation Day Cinematic",
+      title: "Lakawon Island",
       desc: "Cinematic edit of graduation ceremonies with color-graded footage.",
-      youtubeId: "dQw4w9WgXcQ",
+      youtubeId: "xxNbJqgspqg",
       thumb: BASE + "GH-02.JPG",
       duration: "5:18",
       tags: ['Cinematic', 'FCP']
@@ -263,13 +263,9 @@
         </div>
         <span class="absolute bottom-3 right-3 text-white/70 text-xs font-bold bg-black/50 px-2 py-1 rounded">${v.duration}</span>
       </div>
-      <div class="p-6">
-        <h3 class="text-white font-bold text-lg mb-2">${v.title}</h3>
-        <p class="text-text-muted text-sm leading-relaxed mb-4">${v.desc}</p>
-        <div class="flex gap-2 flex-wrap">
-          ${v.tags.map(t => `<span class="text-xs text-text-muted border border-border px-3 py-1 rounded-full">${t}</span>`).join('')}
-        </div>
-      </div>
+<div class="p-5">
+  <h3 class="text-white font-bold text-lg">${v.title}</h3>
+</div>
     `;
 
     card.addEventListener('click', () => openLightbox(videoSrc, v.title));
