@@ -179,13 +179,12 @@
     "Drone-009.JPG","Drone-010.JPG","Drone-012.JPG","TR-19.JPG", "GH-23.JPG"
   ];
 
-  const allPhotos = droneFiles
-    .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
-    .map((file, i) => ({
-      id: i,
-      src: BASE + file,
-      title: file.replace('.JPG', '')
-    }));
+const allPhotos = droneFiles
+  .map((file, i) => ({
+    id: i,
+    src: BASE + file,
+    title: file.replace('.JPG', '')
+  }));
 
   let currentGallery = [];
 
