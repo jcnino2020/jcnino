@@ -346,124 +346,62 @@
 <script>document.querySelectorAll('.year').forEach(e => e.textContent = new Date().getFullYear());</script>
 
 <!-- Lightbox -->
-<div id="lightbox"
-     class="fixed inset-0 z-[9999] bg-black/98 hidden flex-col items-center justify-center p-4 md:p-8">
- 
+<div id="lightbox" class="fixed inset-0 z-[9999] bg-black/98 hidden flex-col items-center justify-center p-4 md:p-8">
   <button onclick="closeLightbox()"
-    class="absolute top-6 right-6 w-12 h-12 flex items-center justify-center
-           text-white hover:bg-white/10 transition-colors rounded-full
-           border border-white/10 z-50">
+    class="absolute top-6 right-6 w-12 h-12 flex items-center justify-center text-white hover:bg-white/10 transition-colors rounded-full border border-white/10 z-50">
     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-            d="M6 18L18 6M6 6l12 12"/>
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/>
     </svg>
   </button>
- 
-  <!-- YT IFrame API mounts here -->
-  <div id="lightbox-player"
-       class="w-full max-w-5xl aspect-video bg-black rounded-lg overflow-hidden shadow-2xl">
-    <div id="yt-player"></div>
+  <div id="lightbox-player" class="w-full max-w-5xl aspect-video bg-black rounded-lg overflow-hidden shadow-2xl">
+    <iframe id="lightbox-video" class="w-full h-full"
+      src="" title="Video Player" frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen>
+    </iframe>
   </div>
- 
   <p id="lightbox-title" class="text-white text-lg font-bold mt-6 text-center"></p>
 </div>
- 
+
 <script>
-  /* ── YouTube IFrame API bootstrap ───────────────────── */
-  let ytPlayer      = null;   // the YT.Player instance
-  let pendingVideoId = null;  // video to load once API is ready
-  let ytReady       = false;
- 
-  // Called automatically by the YT API once the script loads
-  function onYouTubeIframeAPIReady() {
-    ytReady = true;
-    if (pendingVideoId) {
-      _createOrLoadPlayer(pendingVideoId);
-      pendingVideoId = null;
-    }
-  }
- 
-  function _createOrLoadPlayer(videoId) {
-    if (!ytPlayer) {
-      // First open: create the player
-      ytPlayer = new YT.Player('yt-player', {
-        videoId: videoId,
-        playerVars: {
-          autoplay:       1,
-          controls:       1,
-          rel:            0,
-          iv_load_policy: 3,
-          modestbranding: 1,
-        },
-        events: {
-          onReady: _onPlayerReady,
-        }
-      });
-    } else {
-      // Subsequent opens: just load a new video
-      ytPlayer.loadVideoById(videoId);
-    }
-  }
- 
-  function _onPlayerReady(event) {
-    // Push the highest available quality.
-    // setPlaybackQualityRange is the modern method (Chrome ≥ M94).
-    // Fall back to the older suggestedQuality as belt-and-suspenders.
-    const p = event.target;
-    if (typeof p.setPlaybackQualityRange === 'function') {
-      p.setPlaybackQualityRange('hd1080', 'hd1080');
-    }
-    // Older fallback — deprecated but still respected by some clients
-    if (typeof p.setPlaybackQuality === 'function') {
-      p.setPlaybackQuality('hd1080');
-    }
-    p.playVideo();
-  }
- 
-  /* ── Lightbox open / close ───────────────────────────── */
   function openLightbox(src, title) {
-    // src is still the full embed URL from your card scripts.
-    // Extract the videoId from it so we can use the JS API.
-    const match = src.match(/embed\/([^?]+)/);
-    const videoId = match ? match[1] : null;
-    if (!videoId) return;
- 
-    const lb      = document.getElementById('lightbox');
-    const player  = document.getElementById('lightbox-player');
+    const lb    = document.getElementById('lightbox');
+    const video = document.getElementById('lightbox-video');
+    const player = document.getElementById('lightbox-player');
     const titleEl = document.getElementById('lightbox-title');
- 
+
+    video.src = src;
     titleEl.textContent = title;
+
     lb.classList.remove('hidden');
     lb.classList.add('flex');
     document.body.style.overflow = 'hidden';
- 
-    gsap.fromTo(lb,    { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'power2.out' });
-    gsap.fromTo(player, { scale: 0.94, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: 'power3.out' });
- 
-    if (ytReady) {
-      _createOrLoadPlayer(videoId);
-    } else {
-      pendingVideoId = videoId;   // will be picked up in onYouTubeIframeAPIReady
-    }
+
+    gsap.fromTo(lb,
+      { opacity: 0 },
+      { opacity: 1, duration: 0.3, ease: 'power2.out' }
+    );
+    gsap.fromTo(player,
+      { scale: 0.94, opacity: 0 },
+      { scale: 1, opacity: 1, duration: 0.4, ease: 'power3.out' }
+    );
   }
- 
+
   function closeLightbox() {
-    const lb = document.getElementById('lightbox');
+    const lb    = document.getElementById('lightbox');
+    const video = document.getElementById('lightbox-video');
     gsap.to(lb, {
-      opacity: 0, duration: 0.25, ease: 'power2.in',
+      opacity: 0,
+      duration: 0.25,
+      ease: 'power2.in',
       onComplete: () => {
-        if (ytPlayer) ytPlayer.stopVideo();
+        video.src = '';
         lb.classList.add('hidden');
         lb.classList.remove('flex');
         document.body.style.overflow = '';
       }
     });
   }
- 
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
-  document.getElementById('lightbox').addEventListener('click', e => {
-    if (e.target === document.getElementById('lightbox')) closeLightbox();
-  });
 
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') closeLightbox();
@@ -507,8 +445,6 @@
     }, { passive: false }); // passive: false required for preventDefault
   })();
 </script>
-
-<script src="https://www.youtube.com/iframe_api"></script>
 
 <!-- GSAP + ScrollTrigger -->
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/gsap.min.js"></script>
