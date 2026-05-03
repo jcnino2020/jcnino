@@ -3,25 +3,31 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Portfolio - JC Niñonuevo</title>
+  <title>Portfolio | JC Niñonuevo</title>
   <link rel="icon" type="image/png" href="images/favicon.png">
-  <!-- Open Graph / Facebook Messenger Preview -->
-<meta property="og:type"        content="website" />
-<meta property="og:url"         content="https://jcnino2020.github.io/jcnino/" />
-<meta property="og:title"       content="Portfolio | JC Niñonuevo" />
-<meta property="og:description" content="Photography & cinematography portfolio. Drone aerials, editorial street frames, and cinematic storytelling. Based in Bacolod City." />
-<meta property="og:image"       content="https://raw.githubusercontent.com/jcnino2020/jcnino/refs/heads/main/images/preview.jpg" />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
-<meta property="og:site_name"   content="JC Niñonuevo Portfolio" />
+  
+  <!-- SEO & Metadata -->
+  <meta name="description" content="Photography & cinematography portfolio of JC Niñonuevo. Drone aerials, editorial street frames, and cinematic storytelling. Based in Bacolod City.">
+  <meta name="keywords" content="photography, cinematography, drone, bacolod, portfolio, JC Niñonuevo">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://jcnino2020.github.io/jcnino/">
+  <meta property="og:title" content="Portfolio | JC Niñonuevo">
+  <meta property="og:description" content="Photography & cinematography portfolio. Drone aerials, editorial street frames, and cinematic storytelling. Based in Bacolod City.">
+  <meta property="og:image" content="images/preview.jpg">
 
-<!-- Twitter/X Card (bonus) -->
-<meta name="twitter:card"        content="summary_large_image" />
-<meta name="twitter:title"       content="Portfolio | JC Niñonuevo" />
-<meta name="twitter:description" content="Photography & cinematography portfolio. Based in Bacolod City." />
-<meta name="twitter:image"       content="https://raw.githubusercontent.com/jcnino2020/jcnino/refs/heads/main/images/GH-01.JPG" />
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://jcnino2020.github.io/jcnino/">
+  <meta name="twitter:title" content="Portfolio | JC Niñonuevo">
+  <meta name="twitter:description" content="Photography & cinematography portfolio. Based in Bacolod City.">
+  <meta name="twitter:image" content="images/GH-01.JPG">
 
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/portfolio.css">
+
+
   
 <script>
   tailwind.config = {
@@ -41,86 +47,7 @@
       },
     },
   }
-
-
-  document.addEventListener('keydown', e => {
-    if ((e.ctrlKey || e.metaKey) && ['s', 'u', 'a'].includes(e.key.toLowerCase())) e.preventDefault();
-  });
 </script>
-
-<style>
-html { scroll-behavior: smooth; background: #000; }
-body { 
-  background: #000; 
-  color: #fff; 
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; 
-  -webkit-font-smoothing: antialiased; 
-  letter-spacing: -0.01em;
-  line-height: 1.5;
-  overflow-x: hidden;
-}
-
-
-
-  ::selection { background: #fff; color: #000; }
-
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: #000; }
-  ::-webkit-scrollbar-thumb { background: #222; border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: #333; }
-
-
-  /* Gallery */
-  .gallery-item { transition: transform .4s ease, opacity .4s ease; }
-  .gallery-item:hover { transform: scale(1.02); z-index: 10; }
-  .gallery-item:hover img { filter: brightness(1); }
-  .gallery-item img { filter: brightness(1); transition: filter .4s ease; }
-
-  .gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-  }
-
-  @media (max-width:1024px) {
-    .gallery-grid { grid-template-columns: repeat(2, 1fr); }
-  }
-  @media (max-width:640px) {
-    .gallery-grid { grid-template-columns: 1fr; }
-  }
-
-  /* Lightbox */
-  #lightbox { backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); }
-
-  /* Mobile menu */
-  #mobile-menu { transition: max-height .4s ease, opacity .4s ease; }
-  #mobile-menu.closed { max-height:0; opacity:0; overflow:hidden; pointer-events: none; }
-  #mobile-menu.open   { max-height:500px; opacity:1; pointer-events: auto; }
-
-  img {
-    -webkit-user-drag: none;
-    user-drag: none;
-  }
-  
-  /* Form Styling */
-  input, textarea {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid #333;
-    transition: all .3s;
-  }
-  input:focus, textarea:focus {
-    background: rgba(255,255,255,0.05);
-    border-color: #fff;
-    outline: none;
-  }
-
-  /* GSAP initial hidden state for hero elements - prevents flash */
-  .gsap-hero-item { opacity: 0; }
-
-  section[id] {
-  scroll-margin-top: 80px;
-}
-</style>
 
 </head>
 <body class="min-h-screen">
@@ -170,24 +97,8 @@ body {
   </div>
 </nav>
 
-<script>
-  (function(){
-    const btn=document.getElementById('hamburger');
-    const menu=document.getElementById('mobile-menu');
-    const ham=document.getElementById('ham-icon');
-    const x=document.getElementById('close-icon');
-    let open=false;
-    btn.addEventListener('click',()=>{
-      open=!open;
-      menu.className='md:hidden '+(open?'open':'closed');
-      ham.classList.toggle('hidden',open); x.classList.toggle('hidden',!open);
-    });
-    menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
-      open=false; menu.className='md:hidden closed';
-      ham.classList.remove('hidden'); x.classList.add('hidden');
-    }));
-  })();
-</script>
+<!-- Assets -->
+<script src="assets/portfolio.js" defer></script>
 
 <!-- Main Content -->
 <div>
@@ -220,7 +131,7 @@ body {
         <!-- Right Column: Featured Visual -->
         <div id="hero-img-col" class="gsap-hero-item lg:col-span-6 relative">
           <div class="aspect-[3/2] rounded-2xl overflow-hidden bg-surface relative group">
-            <img src="https://raw.githubusercontent.com/jcnino2020/jcnino/refs/heads/main/images/GH-01.JPG" alt="Featured Shot" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" />
+            <img src="images/GH-01.JPG" alt="Aerial view of Lakawon Island by JC Niñonuevo" fetchpriority="high" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" />
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
             <div class="absolute bottom-0 left-0 right-0 p-8">
                <p class="text-2xl text-white font-bold">Lakawon Island</p>
@@ -240,8 +151,8 @@ body {
       <!-- 01 Drone Shots -->
       <a href="drone-shots.html" class="service-card group border border-border hover:border-white/30 transition-all duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden">
         <!-- BG Image -->
-        <img src="https://raw.githubusercontent.com/jcnino2020/jcnino/refs/heads/main/images/Drone%20Shots/Drone-006.JPG"
-          alt="" class="absolute inset-0 w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-700" />
+        <img src="images/Drone%20Shots/Drone-006.JPG"
+          alt="Drone aerial photography by JC Niñonuevo" class="absolute inset-0 w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-700" />
         <!-- Overlay -->
         <div class="absolute inset-0 bg-black/55 group-hover:bg-black/40 transition-colors duration-300"></div>
         <!-- Glow orb -->
@@ -258,8 +169,8 @@ body {
 
       <!-- 02 Framed Moments -->
       <a href="framed-moments.html" class="service-card group border border-border hover:border-white/30 transition-all duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden">
-        <img src="https://raw.githubusercontent.com/jcnino2020/jcnino/refs/heads/main/images/Framed%20Moments/FM-01.JPG"
-          alt="" class="absolute inset-0 w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-700" />
+        <img src="images/Framed%20Moments/FM-01.JPG"
+          alt="Street and editorial photography by JC Niñonuevo" class="absolute inset-0 w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-700" />
         <div class="absolute inset-0 bg-black/55 group-hover:bg-black/40 transition-colors duration-300"></div>
         <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl transform translate-x-10 -translate-y-10 group-hover:scale-150 transition-transform duration-500"></div>
         <div class="relative z-10">
@@ -274,8 +185,8 @@ body {
 
       <!-- 03 School Events -->
       <a href="school-events.html" class="service-card group border border-border hover:border-white/30 transition-all duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden">
-        <img src="https://raw.githubusercontent.com/jcnino2020/jcnino/refs/heads/main/images/School%20Events/SE-01.JPG"
-          alt="" class="absolute inset-0 w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-700" />
+        <img src="images/School%20Events/SE-01.JPG"
+          alt="School event photography by JC Niñonuevo" class="absolute inset-0 w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-700" />
         <div class="absolute inset-0 bg-black/55 group-hover:bg-black/40 transition-colors duration-300"></div>
         <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl transform translate-x-10 -translate-y-10 group-hover:scale-150 transition-transform duration-500"></div>
         <div class="relative z-10">
@@ -290,8 +201,8 @@ body {
 
       <!-- 04 Video Projects -->
       <a href="video-projects.html" class="service-card group border border-border hover:border-white/30 transition-all duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden">
-        <img src="https://raw.githubusercontent.com/jcnino2020/jcnino/refs/heads/main/images/VP.jpg"
-          alt="" class="absolute inset-0 w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-700" />
+        <img src="images/VP.jpg"
+          alt="Video project thumbnail by JC Niñonuevo" class="absolute inset-0 w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-700" />
         <div class="absolute inset-0 bg-black/55 group-hover:bg-black/40 transition-colors duration-300"></div>
         <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl transform translate-x-10 -translate-y-10 group-hover:scale-150 transition-transform duration-500"></div>
         <div class="relative z-10">
@@ -307,6 +218,45 @@ body {
     </div>
   </div>
 </section>
+
+  <!-- Selected Work Section -->
+  <section id="selected-work" class="py-24 border-t border-border">
+    <div class="max-w-7xl mx-auto px-6 sm:px-10">
+      <div class="mb-16">
+        <p class="text-text-muted text-xs font-bold uppercase mb-4">Featured Projects</p>
+        <h2 class="text-4xl sm:text-5xl text-white font-bold">Selected Work</h2>
+      </div>
+      <div class="grid md:grid-cols-3 gap-8">
+        <!-- Project 01 -->
+        <div class="p-8 bg-surface border border-border rounded-2xl hover:border-white/20 transition-all group">
+          <div class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center mb-6 group-hover:bg-white/10 transition-colors">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5s3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-2">The La Salle Yearbook</h3>
+          <p class="text-white/60 text-sm font-bold uppercase tracking-widest mb-4">Photo and Video Editor</p>
+          <p class="text-text-muted leading-relaxed">Event coverage, portraits, publication-ready photo selection, and visual storytelling for school yearbook documentation.</p>
+        </div>
+        <!-- Project 02 -->
+        <div class="p-8 bg-surface border border-border rounded-2xl hover:border-white/20 transition-all group">
+          <div class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center mb-6 group-hover:bg-white/10 transition-colors">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-2">Tigris Publication</h3>
+          <p class="text-white/60 text-sm font-bold uppercase tracking-widest mb-4">Photo and Video Editor / Apertura Editor</p>
+          <p class="text-text-muted leading-relaxed">Campus publication work focused on photojournalism, visual coverage, and student media storytelling.</p>
+        </div>
+        <!-- Project 03 -->
+        <div class="p-8 bg-surface border border-border rounded-2xl hover:border-white/20 transition-all group">
+          <div class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center mb-6 group-hover:bg-white/10 transition-colors">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-2">Video and Travel Projects</h3>
+          <p class="text-white/60 text-sm font-bold uppercase tracking-widest mb-4">Editor and Visual Storyteller</p>
+          <p class="text-text-muted leading-relaxed">Short-form videos, travel edits, B-roll sequences, and cinematic social media cuts edited with Final Cut Pro.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- Gallery Section -->
   <section id="gallery" class="py-24 border-t border-border">
@@ -366,6 +316,7 @@ body {
       <div id="contact-header" class="text-center mb-12">
         <p class="text-text-muted text-xs font-bold uppercase mb-4">Contact</p>
         <h2 class="text-4xl sm:text-5xl text-white mb-4 font-bold">Let's Collaborate.</h2>
+        <p class="text-text-muted text-lg max-w-lg mx-auto mb-6">Available for school events, portraits, editorial-style shoots, documentation, and video editing projects.</p>
         <p class="text-text-muted text-lg max-w-md mx-auto">Connect with me on social media or send an email.</p>
       </div>
       
@@ -412,8 +363,6 @@ body {
 </div>
 
 <script>
-  const BASE = "https://raw.githubusercontent.com/jcnino2020/jcnino/refs/heads/main/images/";
-
   const imageFiles = [
     "GH-01.JPG","GH-02.JPG","GH-03.JPG","GH-03.1.JPG","GH-04.JPG",
     "GH-05.JPG","GH-06.JPG","GH-07.JPG","GH-08.JPG","GH-09.JPG",
@@ -427,13 +376,17 @@ body {
 
   const allPhotos = imageFiles
     .sort((a,b) => a.localeCompare(b, undefined, {numeric:true}))
-    .map((file,i) => ({ id:i, src: BASE+file }));
+    .map((file,i) => ({ 
+        id:i, 
+        src: 'images/'+file,
+        alt: 'Portfolio highlights photograph by JC Niñonuevo'
+    }));
 
   function buildCard(p, gallery) {
     const wrap = document.createElement('div');
     wrap.className = 'gallery-item relative rounded-xl overflow-hidden cursor-pointer';
     wrap.innerHTML = `
-      <img src="${p.src}" alt="${p.src.split('/').pop().replace('.JPG','')}" loading="lazy"
+      <img src="${p.src}" alt="${p.alt}" loading="lazy" decoding="async" fetchpriority="low"
         class="w-full h-auto block"
         onerror="this.src='https://placehold.co/900x600/111/333?text=Photo'" />
       <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
@@ -448,11 +401,11 @@ body {
     return wrap;
   }
 
-  function renderHighlights(filter) {
+  function renderHighlights() {
     const grid = document.getElementById('highlights-grid');
+    if(!grid) return;
     grid.innerHTML = '';
-    const filtered = filter === 'all' ? [...allPhotos] : allPhotos.filter(p => p.cat === filter);
-    filtered.forEach(p => grid.appendChild(buildCard(p, filtered)));
+    allPhotos.forEach(p => grid.appendChild(buildCard(p, allPhotos)));
 
     // GSAP: animate gallery items after render
     requestAnimationFrame(() => {
@@ -471,7 +424,7 @@ body {
     });
   }
 
-  renderHighlights('all');
+  window.addEventListener('load', renderHighlights);
 </script>
 
 <footer id="site-footer" class="bg-bg border-t border-border py-12">
@@ -490,139 +443,33 @@ body {
     <p class="text-text-muted text-xs font-bold">Updated March 2026</p>
   </div>
 </footer>
-<script>document.querySelectorAll('.year').forEach(e=>e.textContent=new Date().getFullYear());</script>
+
 
 <!-- Lightbox -->
-<div id="lightbox" class="fixed inset-0 z-[9999] bg-black/98 hidden flex-col items-center justify-center p-4 md:p-8">
-  <button onclick="closeLightbox()"
+<div id="lightbox" class="fixed inset-0 z-[9999] bg-black/98 hidden flex-col items-center justify-center p-4 md:p-8" role="dialog" aria-modal="true" aria-label="Image lightbox">
+  <button onclick="closeLightbox()" aria-label="Close lightbox"
     class="absolute top-6 right-6 w-12 h-12 flex items-center justify-center text-white hover:bg-white/10 transition-colors rounded-full border border-white/10">
     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/>
     </svg>
   </button>
-  <button onclick="prevImage()"
+  <button onclick="prevImage()" aria-label="Previous image"
     class="absolute left-4 top-1/2 -translate-y-1/2 w-14 h-14 flex items-center justify-center text-white hover:bg-white/10 transition-colors border border-white/10 rounded-full">
     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"/>
     </svg>
   </button>
-  <button onclick="nextImage()"
+  <button onclick="nextImage()" aria-label="Next image"
     class="absolute right-4 top-1/2 -translate-y-1/2 w-14 h-14 flex items-center justify-center text-white hover:bg-white/10 transition-colors border border-white/10 rounded-full">
     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"/>
     </svg>
   </button>
   <img id="lightbox-img" src="" alt="" class="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl" />
-  <p id="lightbox-counter" class="absolute bottom-6 text-white text-xs font-bold tracking-widest"></p>
+  <p id="lightbox-counter" class="absolute bottom-6 text-white text-xs font-bold tracking-widest" aria-live="polite"></p>
 </div>
 
-<script>
-  let currentGallery = [], currentIndex = 0;
 
-  function openLightbox(photo, gallery) {
-    currentGallery = gallery;
-    currentIndex = gallery.indexOf(photo);
-    syncLightbox();
-    const lb = document.getElementById('lightbox');
-    lb.classList.remove('hidden');
-    lb.classList.add('flex');
-    document.body.style.overflow = 'hidden';
-    // GSAP: fade + scale in
-    gsap.fromTo(lb,
-      { opacity: 0 },
-      { opacity: 1, duration: 0.3, ease: 'power2.out' }
-    );
-    gsap.fromTo('#lightbox-img',
-      { scale: 0.94, opacity: 0 },
-      { scale: 1, opacity: 1, duration: 0.4, ease: 'power3.out' }
-    );
-  }
-
-  function syncLightbox() {
-    const p = currentGallery[currentIndex];
-    document.getElementById('lightbox-img').src = p.src;
-    document.getElementById('lightbox-img').alt = p.src;
-    document.getElementById('lightbox-counter').textContent = (currentIndex + 1) + ' / ' + currentGallery.length;
-  }
-
-  function closeLightbox() {
-    const lb = document.getElementById('lightbox');
-    // GSAP: fade out, then hide
-    gsap.to(lb, {
-      opacity: 0,
-      duration: 0.25,
-      ease: 'power2.in',
-      onComplete: () => {
-        lb.classList.add('hidden');
-        lb.classList.remove('flex');
-        document.body.style.overflow = '';
-      }
-    });
-  }
-
-  function prevImage() {
-    currentIndex = (currentIndex - 1 + currentGallery.length) % currentGallery.length;
-    // GSAP: quick slide transition
-    gsap.fromTo('#lightbox-img',
-      { x: -30, opacity: 0 },
-      { x: 0, opacity: 1, duration: 0.25, ease: 'power2.out' }
-    );
-    syncLightbox();
-  }
-
-  function nextImage() {
-    currentIndex = (currentIndex + 1) % currentGallery.length;
-    gsap.fromTo('#lightbox-img',
-      { x: 30, opacity: 0 },
-      { x: 0, opacity: 1, duration: 0.25, ease: 'power2.out' }
-    );
-    syncLightbox();
-  }
-
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeLightbox();
-    if (e.key === 'ArrowLeft') prevImage();
-    if (e.key === 'ArrowRight') nextImage();
-  });
-
-  document.getElementById('lightbox').addEventListener('click', e => {
-    if (e.target === document.getElementById('lightbox')) closeLightbox();
-  });
-</script>
-
-<!-- Lightbox: Touch Swipe Support -->
-<script>
-  (function () {
-    const lb = document.getElementById('lightbox');
-    let startX = 0, startY = 0;
-
-    lb.addEventListener('touchstart', e => {
-      startX = e.touches[0].clientX;
-      startY = e.touches[0].clientY;
-    }, { passive: true });
-
-    lb.addEventListener('touchend', e => {
-      const dx = e.changedTouches[0].clientX - startX;
-      const dy = e.changedTouches[0].clientY - startY;
-      const absX = Math.abs(dx);
-      const absY = Math.abs(dy);
-
-      // Swipe left/right → next/prev image
-      if (absX > 50 && absY < 80) {
-        e.preventDefault(); // block accidental background-click close
-        if (dx < 0) nextImage();
-        else prevImage();
-        return;
-      }
-
-      // Swipe down → close lightbox
-      if (absY > 90 && absX < 60) {
-        e.preventDefault();
-        closeLightbox();
-      }
-    }, { passive: false }); // passive: false required for preventDefault
-  })();
-</script>
 
 <!-- =============================================
      GSAP + ScrollTrigger

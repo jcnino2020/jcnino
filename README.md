@@ -19,6 +19,15 @@ Static photography and video portfolio for JC Niñonuevo, featuring drone aerial
 - GSAP and ScrollTrigger via CDN
 - GitHub Pages for hosting and vercel.app
 
+## Recent Improvements
+
+- **Asset Centralization**: Reusable CSS and JS logic migrated to `assets/` to ensure consistency and easier maintenance.
+- **Enhanced UX**: Removed right-click context menu restrictions to respect browser defaults.
+- **Accessibility**: Implemented accessible lightboxes with ARIA roles, labels, and full keyboard/swipe navigation.
+- **Performance**: Optimized asset loading with `defer`, `fetchpriority`, and replaced remote image URLs with relative local paths.
+- **SEO & Metadata**: Added comprehensive Open Graph and Twitter card support across all main pages.
+- **Selected Work**: New featured projects section on the homepage to highlight professional experience.
+
 ## Run Locally
 
 Open `index.html` directly in a browser, or serve the folder with any static server:

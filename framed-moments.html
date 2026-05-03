@@ -3,9 +3,27 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Framed Moments - JC Niñonuevo</title>
+  <title>Framed Moments | JC Niñonuevo</title>
   <link rel="icon" type="image/png" href="images/favicon.png">
+  
+  <!-- SEO & Metadata -->
+  <meta name="description" content="A collection of quick glimpses — peaceful nature scenes and busy city lights. Street and editorial photography by JC Niñonuevo.">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://jcnino2020.github.io/jcnino/framed-moments.html">
+  <meta property="og:title" content="Framed Moments | JC Niñonuevo">
+  <meta property="og:description" content="A collection of quick glimpses — peaceful nature scenes and busy city lights.">
+  <meta property="og:image" content="images/Framed%20Moments/FM-01.JPG">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Framed Moments | JC Niñonuevo">
+  <meta name="twitter:description" content="A collection of quick glimpses — peaceful nature scenes and busy city lights.">
+  <meta name="twitter:image" content="images/Framed%20Moments/FM-01.JPG">
+
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/portfolio.css">
   
 <script>
   tailwind.config = {
@@ -25,60 +43,7 @@
       },
     },
   }
-
-
-  document.addEventListener('keydown', e => {
-    if ((e.ctrlKey || e.metaKey) && ['s', 'u', 'a'].includes(e.key.toLowerCase())) e.preventDefault();
-  });
 </script>
-
-<style>
-  html { scroll-behavior: smooth; background: #000; }
-  body { 
-    background: #000; 
-    color: #fff; 
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; 
-    -webkit-font-smoothing: antialiased; 
-    letter-spacing: -0.01em;
-    line-height: 1.5;
-  }
-
-  ::selection { background: #fff; color: #000; }
-
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: #000; }
-  ::-webkit-scrollbar-thumb { background: #222; border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: #333; }
-
-
-
-  .gallery-item { transition: transform .4s ease; }
-  .gallery-item:hover { transform: scale(1.02); z-index: 10; }
-  .gallery-item:hover img { filter: brightness(1); }
-  .gallery-item img { filter: brightness(1); transition: filter .4s ease; }
-
-  .gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-  }
-  @media (max-width:1024px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width:640px)  { .gallery-grid { grid-template-columns: 1fr; } }
-
-  #lightbox { backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); }
-
-  #mobile-menu { transition: max-height .4s ease, opacity .4s ease; }
-  #mobile-menu.closed { max-height:0; opacity:0; overflow:hidden; pointer-events: none; }
-  #mobile-menu.open   { max-height:500px; opacity:1; pointer-events: auto; }
-
-  img {
-    -webkit-user-drag: none;
-    user-drag: none;
-  }
-
-  /* Prevent flash before GSAP fires */
-  .gsap-header-item { opacity: 0; }
-</style>
 
 </head>
 <body class="min-h-screen">
@@ -123,24 +88,8 @@
   </div>
 </nav>
 
-<script>
-  (function(){
-    const btn=document.getElementById('hamburger');
-    const menu=document.getElementById('mobile-menu');
-    const ham=document.getElementById('ham-icon');
-    const x=document.getElementById('close-icon');
-    let open=false;
-    btn.addEventListener('click',()=>{
-      open=!open;
-      menu.className='md:hidden '+(open?'open':'closed');
-      ham.classList.toggle('hidden',open); x.classList.toggle('hidden',!open);
-    });
-    menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
-      open=false; menu.className='md:hidden closed';
-      ham.classList.remove('hidden'); x.classList.add('hidden');
-    }));
-  })();
-</script>
+<!-- Assets -->
+<script src="assets/portfolio.js" defer></script>
 
 <div class="pt-20">
 
@@ -166,13 +115,8 @@
       <div class="gallery-grid" id="main-grid"></div>
     </div>
   </section>
-
-</div>
-
-<script>
-  const BASE = "https://raw.githubusercontent.com/jcnino2020/jcnino/refs/heads/main/images/Framed%20Moments/";
-
-  const framedFiles = [
+  <script>
+  const imageFiles = [
     "FM-01.JPG","FM-02.JPG","FM-03.JPG","FM-04.JPG","FM-05.JPG",
     "FM-06.JPG","FM-07.JPG","FM-09.JPG","FM-10.JPG","FM-11.JPG",
     "FM-12.JPG","FM-13.JPG","FM-14.JPG","FM-15.JPG","FM-16.JPG",
@@ -184,21 +128,19 @@
     "FM-43.JPG","FM-44.JPG"
   ];
 
-  const allPhotos = framedFiles
+  const allPhotos = imageFiles
     .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
     .map((file, i) => ({
       id: i,
-      src: BASE + file,
-      title: file.replace('.JPG', '')
+      src: 'images/Framed%20Moments/' + file,
+      alt: 'Street and editorial photograph by JC Niñonuevo'
     }));
-
-  let currentGallery = [];
 
   function buildCard(p, gallery) {
     const wrap = document.createElement('div');
     wrap.className = 'gallery-item relative rounded-xl overflow-hidden cursor-pointer';
     wrap.innerHTML = `
-      <img src="${p.src}" alt="${p.title}" loading="lazy" decoding="async" fetchpriority="low"
+      <img src="${p.src}" alt="${p.alt}" loading="lazy" decoding="async" fetchpriority="low"
         class="w-full h-auto block"
         onerror="this.src='https://placehold.co/900x600/111/333?text=Photo'" />
       <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
@@ -215,15 +157,10 @@
 
   function renderGrid() {
     const grid = document.getElementById('main-grid');
+    if(!grid) return;
     grid.innerHTML = '';
-
-    const sorted = [...allPhotos].sort((a, b) =>
-      a.title.localeCompare(b.title, undefined, { numeric: true })
-    );
-
-    currentGallery = sorted;
-    document.getElementById('photo-count').textContent = sorted.length + ' photos';
-    sorted.forEach(p => grid.appendChild(buildCard(p, sorted)));
+    document.getElementById('photo-count').textContent = allPhotos.length + ' photos';
+    allPhotos.forEach(p => grid.appendChild(buildCard(p, allPhotos)));
 
     // GSAP: batch animate gallery items as they enter viewport
     requestAnimationFrame(() => {
@@ -244,8 +181,10 @@
     });
   }
 
-  renderGrid();
+  window.addEventListener('load', renderGrid);
 </script>
+
+</div>
 
 <footer id="site-footer" class="bg-bg border-t border-border py-12">
   <div class="max-w-7xl mx-auto px-6 sm:px-10 flex flex-col md:flex-row items-center justify-between gap-6">
@@ -263,136 +202,33 @@
     <p class="text-text-muted text-xs font-bold">Updated March 2026</p>
   </div>
 </footer>
-<script>document.querySelectorAll('.year').forEach(e=>e.textContent=new Date().getFullYear());</script>
+
 
 <!-- Lightbox -->
-<div id="lightbox" class="fixed inset-0 z-[9999] bg-black/98 hidden flex-col items-center justify-center p-4 md:p-8">
-  <button onclick="closeLightbox()"
+<div id="lightbox" class="fixed inset-0 z-[9999] bg-black/98 hidden flex-col items-center justify-center p-4 md:p-8" role="dialog" aria-modal="true" aria-label="Image lightbox">
+  <button onclick="closeLightbox()" aria-label="Close lightbox"
     class="absolute top-6 right-6 w-12 h-12 flex items-center justify-center text-white hover:bg-white/10 transition-colors rounded-full border border-white/10">
     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/>
     </svg>
   </button>
-  <button onclick="prevImage()"
+  <button onclick="prevImage()" aria-label="Previous image"
     class="absolute left-4 top-1/2 -translate-y-1/2 w-14 h-14 flex items-center justify-center text-white hover:bg-white/10 transition-colors border border-white/10 rounded-full">
     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"/>
     </svg>
   </button>
-  <button onclick="nextImage()"
+  <button onclick="nextImage()" aria-label="Next image"
     class="absolute right-4 top-1/2 -translate-y-1/2 w-14 h-14 flex items-center justify-center text-white hover:bg-white/10 transition-colors border border-white/10 rounded-full">
     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"/>
     </svg>
   </button>
   <img id="lightbox-img" src="" alt="" class="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl" />
-  <p id="lightbox-counter" class="absolute bottom-6 text-white text-xs font-bold tracking-widest"></p>
+  <p id="lightbox-counter" class="absolute bottom-6 text-white text-xs font-bold tracking-widest" aria-live="polite"></p>
 </div>
 
-<script>
-  let currentIndex = 0;
 
-  function openLightbox(photo, gallery) {
-    currentGallery = gallery;
-    currentIndex = gallery.indexOf(photo);
-    syncLightbox();
-    const lb = document.getElementById('lightbox');
-    lb.classList.remove('hidden');
-    lb.classList.add('flex');
-    document.body.style.overflow = 'hidden';
-    gsap.fromTo(lb,
-      { opacity: 0 },
-      { opacity: 1, duration: 0.3, ease: 'power2.out' }
-    );
-    gsap.fromTo('#lightbox-img',
-      { scale: 0.94, opacity: 0 },
-      { scale: 1, opacity: 1, duration: 0.4, ease: 'power3.out' }
-    );
-  }
-
-  function syncLightbox() {
-    const p = currentGallery[currentIndex];
-    document.getElementById('lightbox-img').src = p.src;
-    document.getElementById('lightbox-img').alt = p.title;
-    document.getElementById('lightbox-counter').textContent = (currentIndex + 1) + ' / ' + currentGallery.length;
-  }
-
-  function closeLightbox() {
-    const lb = document.getElementById('lightbox');
-    gsap.to(lb, {
-      opacity: 0,
-      duration: 0.25,
-      ease: 'power2.in',
-      onComplete: () => {
-        lb.classList.add('hidden');
-        lb.classList.remove('flex');
-        document.body.style.overflow = '';
-      }
-    });
-  }
-
-  function prevImage() {
-    currentIndex = (currentIndex - 1 + currentGallery.length) % currentGallery.length;
-    gsap.fromTo('#lightbox-img',
-      { x: -30, opacity: 0 },
-      { x: 0, opacity: 1, duration: 0.25, ease: 'power2.out' }
-    );
-    syncLightbox();
-  }
-
-  function nextImage() {
-    currentIndex = (currentIndex + 1) % currentGallery.length;
-    gsap.fromTo('#lightbox-img',
-      { x: 30, opacity: 0 },
-      { x: 0, opacity: 1, duration: 0.25, ease: 'power2.out' }
-    );
-    syncLightbox();
-  }
-
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeLightbox();
-    if (e.key === 'ArrowLeft') prevImage();
-    if (e.key === 'ArrowRight') nextImage();
-  });
-
-  document.getElementById('lightbox').addEventListener('click', e => {
-    if (e.target === document.getElementById('lightbox')) closeLightbox();
-  });
-</script>
-
-<!-- Lightbox: Touch Swipe Support -->
-<script>
-  (function () {
-    const lb = document.getElementById('lightbox');
-    let startX = 0, startY = 0;
-
-    lb.addEventListener('touchstart', e => {
-      startX = e.touches[0].clientX;
-      startY = e.touches[0].clientY;
-    }, { passive: true });
-
-    lb.addEventListener('touchend', e => {
-      const dx = e.changedTouches[0].clientX - startX;
-      const dy = e.changedTouches[0].clientY - startY;
-      const absX = Math.abs(dx);
-      const absY = Math.abs(dy);
-
-      // Swipe left/right → next/prev image
-      if (absX > 50 && absY < 80) {
-        e.preventDefault(); // block accidental background-click close
-        if (dx < 0) nextImage();
-        else prevImage();
-        return;
-      }
-
-      // Swipe down → close lightbox
-      if (absY > 90 && absX < 60) {
-        e.preventDefault();
-        closeLightbox();
-      }
-    }, { passive: false }); // passive: false required for preventDefault
-  })();
-</script>
 
 <!-- GSAP + ScrollTrigger -->
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/gsap.min.js"></script>

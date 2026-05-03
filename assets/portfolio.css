@@ -1,0 +1,157 @@
+/* 
+  Portfolio Central Design System 
+  JC Niñonuevo Portfolio
+*/
+
+:root {
+  --bg: #000000;
+  --surface: #0f0f0f;
+  --border: #1f1f1f;
+  --text-main: #ffffff;
+  --text-muted: #a0a0a0;
+  --accent: #ffffff;
+}
+
+html { 
+  scroll-behavior: smooth; 
+  background: var(--bg); 
+}
+
+body { 
+  background: var(--bg); 
+  color: var(--text-main); 
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; 
+  -webkit-font-smoothing: antialiased; 
+  letter-spacing: -0.01em;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+::selection { 
+  background: var(--text-main); 
+  color: var(--bg); 
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: #222; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #333; }
+
+/* Gallery Grid System */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 1024px) {
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .gallery-grid { grid-template-columns: 1fr; }
+}
+
+/* Gallery Item */
+.gallery-item { 
+  transition: transform .4s ease, opacity .4s ease; 
+  position: relative;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.gallery-item:hover { 
+  transform: scale(1.02); 
+  z-index: 10; 
+}
+
+.gallery-item img { 
+  filter: brightness(1); 
+  transition: filter .4s ease; 
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Service & Category Cards */
+.service-card {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Mobile Menu Transitions */
+#mobile-menu { 
+  transition: max-height .4s ease, opacity .4s ease; 
+}
+#mobile-menu.closed { 
+  max-height: 0; 
+  opacity: 0; 
+  overflow: hidden; 
+  pointer-events: none; 
+}
+#mobile-menu.open { 
+  max-height: 500px; 
+  opacity: 1; 
+  pointer-events: auto; 
+}
+
+/* Lightbox Styling */
+#lightbox { 
+  backdrop-filter: blur(20px) saturate(180%); 
+  -webkit-backdrop-filter: blur(20px) saturate(180%); 
+}
+
+/* Video & Projects */
+.video-card {
+  transition: transform 0.4s ease;
+}
+.video-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Utility: Image Drag & Protection removal side effect */
+img {
+  -webkit-user-drag: none;
+  user-drag: none;
+}
+
+/* Form Styling */
+input, textarea {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid #333;
+  transition: all .3s;
+}
+input:focus, textarea:focus {
+  background: rgba(255,255,255,0.05);
+  border-color: #fff;
+  outline: none;
+}
+
+/* Section Spacing */
+section[id] {
+  scroll-margin-top: 80px;
+}
+
+/* Focus Visible */
+:focus-visible {
+  outline: 2px solid var(--text-main);
+  outline-offset: 4px;
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* GSAP Prevents Flash */
+.gsap-hero-item, .gsap-header-item, .gsap-reveal {
+  opacity: 0;
+}
