@@ -26,7 +26,7 @@
     },
   }
 
-  document.addEventListener('contextmenu', e => e.preventDefault());
+
   document.addEventListener('keydown', e => {
     if ((e.ctrlKey || e.metaKey) && ['s', 'u', 'a'].includes(e.key.toLowerCase())) e.preventDefault();
   });
@@ -74,7 +74,6 @@
   img {
     -webkit-user-drag: none;
     user-drag: none;
-    pointer-events: none;
   }
 
   /* Prevent flash before GSAP fires */
