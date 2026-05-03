@@ -45,7 +45,7 @@ video_body = """
       <p class="text-white/20 text-xs font-mono uppercase tracking-[0.3em] mb-5">motion work</p>
       <h1 class="text-5xl md:text-6xl font-light text-white mb-4 tracking-tight">Video Projects</h1>
       <p class="text-white/30 text-base max-w-lg font-light leading-relaxed">
-        Edited in Final Cut Pro on M1 MacBook Air. Reels, cinematic films, and B-roll cuts.
+        Edited in Final Cut Pro on M5 MacBook Air. Reels, cinematic films, and B-roll cuts.
       </p>
     </div>
   </div>
@@ -190,14 +190,14 @@ index_body = f"""
           <p class="text-white/20 text-xs font-mono uppercase tracking-[0.3em] mb-5">About</p>
           <h2 class="text-4xl font-light text-white mb-8 leading-snug">The<br/>Photographer.</h2>
           <p class="text-white/40 leading-relaxed mb-5 font-light text-sm">3rd year IT student and photo/video editor for the school yearbook. Nikon Z50 with Viltrox primes, covering everything from drone aerials to school publication events.</p>
-          <p class="text-white/40 leading-relaxed font-light text-sm">Based in Bacolod City, Philippines. Editing in Lightroom Classic and Final Cut Pro on an M1 MacBook Air.</p>
+          <p class="text-white/40 leading-relaxed mb-5 font-light text-sm">Based in Bacolod City, Philippines. Editing in Lightroom Classic and Final Cut Pro on an M5 MacBook Air.</p>
         </div>
         <div class="fade-in space-y-2">
           <p class="text-white/20 text-xs font-mono uppercase tracking-[0.3em] mb-5">Gear</p>
           <div class="flex justify-between items-center py-4 border-b border-white/[0.06]"><span class="text-white/30 text-xs font-mono uppercase tracking-widest">Camera</span><span class="text-white/60 text-sm font-light">Nikon Z50</span></div>
           <div class="flex justify-between items-start py-4 border-b border-white/[0.06] gap-4"><span class="text-white/30 text-xs font-mono uppercase tracking-widest flex-shrink-0">Lenses</span><div class="text-right"><p class="text-white/60 text-sm font-light">Viltrox 25mm f/1.7 · 56mm f/1.7 · 85mm f/2</p><p class="text-white/40 text-xs font-light mt-0.5">Nikon 16-50mm VR · 50-250mm VR</p></div></div>
           <div class="flex justify-between items-center py-4 border-b border-white/[0.06]"><span class="text-white/30 text-xs font-mono uppercase tracking-widest">Editing</span><span class="text-white/60 text-sm font-light">Lightroom Classic · Final Cut Pro</span></div>
-          <div class="flex justify-between items-center py-4 border-b border-white/[0.06]"><span class="text-white/30 text-xs font-mono uppercase tracking-widest">Machine</span><span class="text-white/60 text-sm font-light">M1 MacBook Air</span></div>
+          <div class="flex justify-between items-center py-4 border-b border-white/[0.06]"><span class="text-white/30 text-xs font-mono uppercase tracking-widest">Machine</span><span class="text-white/60 text-sm font-light">M5 MacBook Air</span></div>
           <div class="flex justify-between items-center py-4"><span class="text-white/30 text-xs font-mono uppercase tracking-widest">Storage</span><span class="text-white/60 text-sm font-light text-right">T7 Shield 1TB · WD 2TB HDD</span></div>
         </div>
       </div>
