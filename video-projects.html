@@ -178,7 +178,7 @@
     {
       id: 5,
       title: "Japan 2019 Trip",
-      youtubeId: "7Uw7Ce3Uw7Ce3XrhI",
+      youtubeId: "7Uw7Ce3XrhI",
       thumb: "images/Video%20Thumbnails/VI-05.jpg",
       duration: "7:13",
     },
@@ -215,7 +215,7 @@
           <h3 class="text-white font-bold text-lg">${v.title}</h3>
         </div>
       `;
-      card.addEventListener('click', () => openLightbox(videoSrc, v.title));
+      card.addEventListener('click', () => openVideoLightbox(videoSrc, v.title));
       grid.appendChild(card);
     });
   }
@@ -255,7 +255,7 @@
           <h3 class="text-white font-bold text-lg">${v.title}</h3>
         </div>
       `;
-      card.addEventListener('click', () => openLightbox(videoSrc, v.title));
+      card.addEventListener('click', () => openVideoLightbox(videoSrc, v.title));
       grid2.appendChild(card);
     });
   }
@@ -285,29 +285,29 @@
 
 
 <!-- Lightbox -->
-<div id="lightbox" class="fixed inset-0 z-[9999] bg-black/98 hidden flex-col items-center justify-center p-4 md:p-8" role="dialog" aria-modal="true" aria-label="Video lightbox">
-  <button onclick="closeLightbox()" aria-label="Close lightbox"
+<div id="video-lightbox" class="fixed inset-0 z-[9999] bg-black/98 hidden flex-col items-center justify-center p-4 md:p-8" role="dialog" aria-modal="true" aria-label="Video lightbox">
+  <button onclick="closeVideoLightbox()" aria-label="Close lightbox"
     class="absolute top-6 right-6 w-12 h-12 flex items-center justify-center text-white hover:bg-white/10 transition-colors rounded-full border border-white/10 z-50">
     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/>
     </svg>
   </button>
-  <div id="lightbox-player" class="w-full max-w-5xl aspect-video bg-black rounded-lg overflow-hidden shadow-2xl">
-    <iframe id="lightbox-video" class="w-full h-full"
+  <div id="video-player-container" class="w-full max-w-5xl aspect-video bg-black rounded-lg overflow-hidden shadow-2xl">
+    <iframe id="video-iframe" class="w-full h-full"
       src="" title="Video Player" frameborder="0"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
       allowfullscreen>
     </iframe>
   </div>
-  <p id="lightbox-title" class="text-white text-lg font-bold mt-6 text-center"></p>
+  <p id="video-title" class="text-white text-lg font-bold mt-6 text-center"></p>
 </div>
 
 <script>
-  function openLightbox(src, title) {
-    const lb    = document.getElementById('lightbox');
-    const video = document.getElementById('lightbox-video');
-    const player = document.getElementById('lightbox-player');
-    const titleEl = document.getElementById('lightbox-title');
+  function openVideoLightbox(src, title) {
+    const lb    = document.getElementById('video-lightbox');
+    const video = document.getElementById('video-iframe');
+    const container = document.getElementById('video-player-container');
+    const titleEl = document.getElementById('video-title');
 
     video.src = src;
     titleEl.textContent = title;
@@ -320,15 +320,15 @@
       { opacity: 0 },
       { opacity: 1, duration: 0.3, ease: 'power2.out' }
     );
-    gsap.fromTo(player,
+    gsap.fromTo(container,
       { scale: 0.94, opacity: 0 },
       { scale: 1, opacity: 1, duration: 0.4, ease: 'power3.out' }
     );
   }
 
-  function closeLightbox() {
-    const lb    = document.getElementById('lightbox');
-    const video = document.getElementById('lightbox-video');
+  function closeVideoLightbox() {
+    const lb    = document.getElementById('video-lightbox');
+    const video = document.getElementById('video-iframe');
     gsap.to(lb, {
       opacity: 0,
       duration: 0.25,
@@ -343,11 +343,11 @@
   }
 
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'Escape') closeVideoLightbox();
   });
 
-  document.getElementById('lightbox').addEventListener('click', e => {
-    if (e.target === document.getElementById('lightbox')) closeLightbox();
+  document.getElementById('video-lightbox').addEventListener('click', e => {
+    if (e.target === document.getElementById('video-lightbox')) closeVideoLightbox();
   });
 </script>
 
