@@ -137,21 +137,118 @@
     "SE-71.JPG","SE-72.JPG"
   ];
 
+  const altTexts = [
+    'Students posing for a yearbook group photograph at USLS',
+    'Candid moment of students during a school activity',
+    'Faculty and student gathering at a school ceremony',
+    'Photojournalism coverage of a school cultural event',
+    'Portrait of a student officer during a formal assembly',
+    'Behind-the-scenes moment at a campus production shoot',
+    'Wide-angle coverage of an auditorium graduation ceremony',
+    'Student performers on stage during a school theatre night',
+    'Documentary photo of a campus community extension activity',
+    'Candid coverage of students during a seminar workshop',
+    'Award ceremony moment with students receiving recognition',
+    'Environmental portrait of a student in school uniform',
+    'Group photo of student organization members outdoors',
+    'Photojournalism shot from a school sports competition',
+    'Faculty portrait during a department event or colloquium',
+    'Behind-the-scenes coverage of a school media production',
+    'Yearbook-quality candid of students in casual interaction',
+    'Wide establishing shot of a campus open-air ceremony',
+    'Student dancers performing at a school cultural night',
+    'Dramatic lighting portrait from a school theatre production',
+    'Campus journalism moment with student press coverage',
+    'Students celebrating after an intramural sports event',
+    'Formal portrait session for a student publication',
+    'Candid group moment from a school retreat or formation',
+    'Photojournalism coverage of a school civic celebration',
+    'Student council gathering with officers in formal attire',
+    'Wide coverage of a school gymnasium during graduation rites',
+    'Environmental candid of students between class sessions',
+    'School event coverage showing crowd and stage setup',
+    'Intimate candid portrait of a student in soft window light',
+    'Faculty awards night with formal plaque presentations',
+    'Wide hallway shot of students during a campus event',
+    'Yearbook photo of a student organization in formation',
+    'Editorial portrait of a student at a campus landmark',
+    'School event photo of guests and keynote speaker setup',
+    'Photojournalism shot of a community outreach program',
+    'Student performers backstage during a school production',
+    'Documentary moment from a campus cultural fair booth',
+    'Candid photo of students during a field trip or excursion',
+    'Wide shot of an academic convocation or recognition day',
+    'Group portrait of yearbook committee members on campus',
+    'Action shot of student athletes during a school sports meet',
+    'Photojournalism coverage of a formal student investiture',
+    'Candid moment from a school club recruitment event',
+    'Editorial portrait with dramatic side-lighting in campus studio',
+    'Documentary photo of student volunteers at a service project',
+    'Group candid from a batch party or school social gathering',
+    'Wide coverage of a ceremony held in the school chapel',
+    'Portrait of a student organization officer in leadership pose',
+    'School event photo of faculty speaking at a podium',
+    'Candid moment of students reviewing for an academic quiz',
+    'Editorial photo of student artist at a campus exhibit',
+    'Documentary coverage of a student-run symposium panel',
+    'Yearbook-style formal group pose on campus grounds',
+    'Photojournalism moment from a graduation mass ceremony',
+    'Candid of students at a science and technology fair booth',
+    'Wide shot of cheering students at an intramural opening',
+    'Environmental portrait of a student leader at school office',
+    'Candid documentary moment from a school media workshop',
+    'Group photo of students during an overnight leadership camp',
+    'School event photo of a cultural dance performance',
+    'Candid portrait of students bonding during a school break',
+    'Editorial coverage of a campus sustainability or green program',
+    'Documentary photo from an academic research presentation',
+    'Wide establishing shot of a school campus at dusk',
+    'Photojournalism coverage of a student government inauguration',
+    'Candid moment at a departmental alumni homecoming event',
+    'Yearbook portrait of graduating students in academic regalia',
+    'Editorial photo of students at a cross-campus collaboration event',
+    'School event coverage with crowd and banner in foreground',
+    'Environmental group portrait of a student media organization',
+    'Candid editorial moment captured during a school recognition ceremony',
+  ];
+
   const allPhotos = imageFiles
     .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
-    .map((file, i) => ({
-      id: i,
-      src: 'images/School%20Events/' + file,
-      alt: 'School event photograph by JC Niñonuevo'
-    }));
+    .map((file, i) => {
+      const base = file.replace(/\.jpe?g$/i, '');
+      return {
+        id: i,
+        src: 'images/School%20Events/' + file,
+        subfolder: 'School Events',
+        base: base,
+        alt: altTexts[i] || ('School event photograph by JC Niñonuevo — ' + base)
+      };
+    });
 
   function buildCard(p, gallery) {
     const wrap = document.createElement('div');
     wrap.className = 'gallery-item relative rounded-xl overflow-hidden cursor-pointer';
+    const b = p.base;
+    const sf = p.subfolder;
     wrap.innerHTML = `
-      <img src="${p.src}" alt="${p.alt}" loading="lazy" decoding="async" fetchpriority="low"
-        class="w-full h-auto block"
-        onerror="this.src='https://placehold.co/900x600/111/333?text=Photo'" />
+      <picture>
+        <source
+          type="image/webp"
+          srcset="
+            images/optimized/800/${sf}/${b}-800.webp 800w,
+            images/optimized/1200/${sf}/${b}-1200.webp 1200w,
+            images/optimized/1600/${sf}/${b}-1600.webp 1600w
+          "
+          sizes="(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        />
+        <img
+          src="images/optimized/1200/${sf}/${b}-1200.webp"
+          alt="${p.alt}"
+          loading="lazy"
+          decoding="async"
+          class="w-full h-auto block"
+          onerror="this.parentElement.parentElement.querySelector('img').src='${p.src}'" />
+      </picture>
       <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
         <div class="flex justify-between items-end w-full">
           <svg class="w-5 h-5 text-white opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">

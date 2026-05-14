@@ -125,20 +125,59 @@
     "Drone-009.JPG","Drone-010.JPG","Drone-012.JPG","TR-19.JPG", "GH-23.JPG"
   ];
 
+  const altTexts = [
+    'Aerial drone view of Negros Occidental landscape and horizon',
+    'Overhead drone shot of coastline and blue sea from above',
+    'Bird\'s-eye perspective of mountainous terrain and forest',
+    'Aerial view of agricultural fields and farming communities',
+    'Drone capture of river systems cutting through lowland terrain',
+    'Elevated aerial shot of coastal highway and beachside strip',
+    'Wide drone panorama of Bacolod City urban spread at dusk',
+    'Aerial drone photo of island formation surrounded by sea',
+    'Overhead view of rural barangay surrounded by croplands',
+    'Drone aerial of sugar cane fields and industrial mill',
+    'High-altitude drone shot of provincial town roads and plaza',
+    'Travel aerial photograph of scenic Philippine landscape',
+    'Drone aerial of campus grounds and open-air corridors',
+  ];
+
 const allPhotos = imageFiles
-  .map((file, i) => ({
-    id: i,
-    src: 'images/Drone%20Shots/' + file,
-    alt: 'Drone aerial photograph by JC Niñonuevo'
-  }));
+  .map((file, i) => {
+    const base = file.replace(/\.jpe?g$/i, '');
+    return {
+      id: i,
+      src: 'images/Drone%20Shots/' + file,
+      srcDecoded: 'images/Drone Shots/' + file,
+      subfolder: 'Drone Shots',
+      base: base,
+      alt: altTexts[i] || ('Drone aerial photograph by JC Niñonuevo — ' + base)
+    };
+  });
 
   function buildCard(p, gallery) {
     const wrap = document.createElement('div');
     wrap.className = 'gallery-item relative rounded-xl overflow-hidden cursor-pointer';
+    const b = p.base;
+    const sf = p.subfolder;
     wrap.innerHTML = `
-      <img src="${p.src}" alt="${p.alt}" loading="lazy" decoding="async" fetchpriority="low"
-        class="w-full h-auto block"
-        onerror="this.src='https://placehold.co/900x600/111/333?text=Photo'" />
+      <picture>
+        <source
+          type="image/webp"
+          srcset="
+            images/optimized/800/${sf}/${b}-800.webp 800w,
+            images/optimized/1200/${sf}/${b}-1200.webp 1200w,
+            images/optimized/1600/${sf}/${b}-1600.webp 1600w
+          "
+          sizes="(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        />
+        <img
+          src="images/optimized/1200/${sf}/${b}-1200.webp"
+          alt="${p.alt}"
+          loading="lazy"
+          decoding="async"
+          class="w-full h-auto block"
+          onerror="this.parentElement.parentElement.querySelector('img').src='${p.src}'" />
+      </picture>
       <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
         <div class="flex justify-between items-end w-full">
           <svg class="w-5 h-5 text-white opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">

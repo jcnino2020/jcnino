@@ -22,7 +22,7 @@
   <meta name="twitter:url" content="https://jcnino2020.github.io/jcnino/">
   <meta name="twitter:title" content="Portfolio | JC Niñonuevo">
   <meta name="twitter:description" content="Photography & cinematography portfolio. Based in Bacolod City.">
-  <meta name="twitter:image" content="images/GH-01.JPG">
+  <meta name="twitter:image" content="images/optimized/1200/GH-01-1200.webp">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="assets/portfolio.css">
@@ -131,7 +131,22 @@
         <!-- Right Column: Featured Visual -->
         <div id="hero-img-col" class="gsap-hero-item lg:col-span-6 relative">
           <div class="aspect-[3/2] rounded-2xl overflow-hidden bg-surface relative group">
-            <img src="images/GH-01.JPG" alt="Aerial view of Lakawon Island by JC Niñonuevo" fetchpriority="high" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" />
+            <picture>
+              <source
+                type="image/webp"
+                srcset="
+                  images/optimized/800/GH-01-800.webp 800w,
+                  images/optimized/1200/GH-01-1200.webp 1200w,
+                  images/optimized/1600/GH-01-1600.webp 1600w,
+                  images/optimized/2048/GH-01-2048.webp 2048w
+                "
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+              <img src="images/optimized/1200/GH-01-1200.webp" alt="Aerial view of Lakawon Island by JC Niñonuevo"
+                fetchpriority="high" loading="eager" decoding="async"
+                width="1200" height="800"
+                class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" />
+            </picture>
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
             <div class="absolute bottom-0 left-0 right-0 p-8">
                <p class="text-2xl text-white font-bold">Lakawon Island</p>
@@ -151,8 +166,12 @@
       <!-- 01 Drone Shots -->
       <a href="drone-shots.html" class="service-card group border border-border hover:border-white/30 transition-all duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden">
         <!-- BG Image -->
-        <img src="images/Drone%20Shots/Drone-006.JPG"
-          alt="Drone aerial photography by JC Niñonuevo" class="absolute inset-0 w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-700" />
+        <picture class="absolute inset-0 w-full h-full">
+          <source type="image/webp" srcset="images/optimized/800/Drone Shots/Drone-006-800.webp 800w, images/optimized/1200/Drone Shots/Drone-006-1200.webp 1200w" sizes="(max-width: 768px) 100vw, 25vw" />
+          <img src="images/optimized/800/Drone Shots/Drone-006-800.webp"
+            alt="Aerial view of Negros Island landscape captured by drone" loading="lazy" decoding="async" width="800" height="533"
+            class="w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-700" />
+        </picture>
         <!-- Overlay -->
         <div class="absolute inset-0 bg-black/55 group-hover:bg-black/40 transition-colors duration-300"></div>
         <!-- Glow orb -->
@@ -169,8 +188,12 @@
 
       <!-- 02 Framed Moments -->
       <a href="framed-moments.html" class="service-card group border border-border hover:border-white/30 transition-all duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden">
-        <img src="images/Framed%20Moments/FM-01.JPG"
-          alt="Street and editorial photography by JC Niñonuevo" class="absolute inset-0 w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-700" />
+        <picture class="absolute inset-0 w-full h-full">
+          <source type="image/webp" srcset="images/optimized/800/Framed Moments/FM-01-800.webp 800w, images/optimized/1200/Framed Moments/FM-01-1200.webp 1200w" sizes="(max-width: 768px) 100vw, 25vw" />
+          <img src="images/optimized/800/Framed Moments/FM-01-800.webp"
+            alt="Street and editorial portrait photography by JC Niñonuevo" loading="lazy" decoding="async" width="800" height="533"
+            class="w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-700" />
+        </picture>
         <div class="absolute inset-0 bg-black/55 group-hover:bg-black/40 transition-colors duration-300"></div>
         <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl transform translate-x-10 -translate-y-10 group-hover:scale-150 transition-transform duration-500"></div>
         <div class="relative z-10">
@@ -185,8 +208,12 @@
 
       <!-- 03 School Events -->
       <a href="school-events.html" class="service-card group border border-border hover:border-white/30 transition-all duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden">
-        <img src="images/School%20Events/SE-01.JPG"
-          alt="School event photography by JC Niñonuevo" class="absolute inset-0 w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-700" />
+        <picture class="absolute inset-0 w-full h-full">
+          <source type="image/webp" srcset="images/optimized/800/School Events/SE-01-800.webp 800w, images/optimized/1200/School Events/SE-01-1200.webp 1200w" sizes="(max-width: 768px) 100vw, 25vw" />
+          <img src="images/optimized/800/School Events/SE-01-800.webp"
+            alt="School event and campus life photography by JC Niñonuevo" loading="lazy" decoding="async" width="800" height="533"
+            class="w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-700" />
+        </picture>
         <div class="absolute inset-0 bg-black/55 group-hover:bg-black/40 transition-colors duration-300"></div>
         <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl transform translate-x-10 -translate-y-10 group-hover:scale-150 transition-transform duration-500"></div>
         <div class="relative z-10">
@@ -201,8 +228,12 @@
 
       <!-- 04 Video Projects -->
       <a href="video-projects.html" class="service-card group border border-border hover:border-white/30 transition-all duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden">
-        <img src="images/VP.jpg"
-          alt="Video project thumbnail by JC Niñonuevo" class="absolute inset-0 w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-700" />
+        <picture class="absolute inset-0 w-full h-full">
+          <source type="image/webp" srcset="images/optimized/800/VP-800.webp 800w, images/optimized/1200/VP-1200.webp 1200w" sizes="(max-width: 768px) 100vw, 25vw" />
+          <img src="images/optimized/800/VP-800.webp"
+            alt="Cinematic video and film projects by JC Niñonuevo" loading="lazy" decoding="async" width="800" height="533"
+            class="w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-700" />
+        </picture>
         <div class="absolute inset-0 bg-black/55 group-hover:bg-black/40 transition-colors duration-300"></div>
         <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl transform translate-x-10 -translate-y-10 group-hover:scale-150 transition-transform duration-500"></div>
         <div class="relative z-10">
@@ -365,6 +396,7 @@
 </div>
 
 <script>
+  // All GH/GN image files (root images/ folder)
   const imageFiles = [
     "GH-01.JPG","GH-02.JPG","GH-03.JPG","GH-03.1.JPG","GH-04.JPG",
     "GH-05.JPG","GH-06.JPG","GH-07.JPG","GH-08.JPG","GH-09.JPG",
@@ -376,21 +408,84 @@
     "GH-37.JPG","GH-38.JPG","GN-39.JPG","GH-40.JPG"
   ];
 
+  // Descriptive alt text per image (index matches sorted order)
+  const altTexts = [
+    'Aerial view of Lakawon Island resort, Cadiz City',
+    'Coastal aerial photograph of Negros Occidental shoreline',
+    'Overhead drone shot of agricultural fields and greenery',
+    'Abstract aerial pattern of rice fields and pathways',
+    'Sunset aerial view over Bacolod City skyline',
+    'Aerial panorama of mountainous terrain and forest canopy',
+    'Bird\'s-eye view of a community and rooftop architecture',
+    'Drone photograph of coastal waters and sandbar formation',
+    'Aerial view of campus grounds and open-air corridors',
+    'Elevated perspective of city streets and urban sprawl',
+    'Aerial capture of river winding through rural landscape',
+    'Drone shot showing geometric patterns of croplands',
+    'Wide aerial view of coastline meeting the sea at dusk',
+    'Overhead perspective of lush tropical vegetation',
+    'Drone photograph of a lakeside community and water reflections',
+    'Aerial view of farmland parcels separated by tree lines',
+    'High-altitude shot of Bacolod sugar mill and surrounding fields',
+    'Bird\'s-eye drone capture of harbor and fishing boats',
+    'Aerial photo of a forested hillside at golden hour',
+    'Overhead drone view of urban park and recreation area',
+    'Aerial image of a winding mountain road through forest',
+    'Drone shot of beachfront and coastal resort facilities',
+    'Elevated view of school campus buildings and grounds',
+    'Aerial photo of coastal wetlands and mangrove cover',
+    'Drone overhead shot of city center plaza and monuments',
+    'Aerial view of suburban residential area and streets',
+    'Drone capture of agricultural terraces and irrigation',
+    'High aerial photograph of open sea and reef formations',
+    'Overhead view of rural barangay and community structures',
+    'Aerial photo of Bacolod City lakefront promenade',
+    'Drone image of riverside community and bamboo groves',
+    'Aerial shot of coastal highway and beachside landscape',
+    'Bird\'s-eye view of a Philippine provincial town center',
+    'Drone aerial of distant mountain ranges at sunrise',
+    'Overhead view of construction site and urban development',
+    'Aerial drone capture of Silay Heritage City rooftops',
+    'Drone photograph of island resort surrounded by blue sea',
+    'Aerial view of open grassland and scattered trees',
+    'Overhead drone shot of river delta and estuary',
+  ];
+
   const allPhotos = imageFiles
     .sort((a,b) => a.localeCompare(b, undefined, {numeric:true}))
-    .map((file,i) => ({ 
-        id:i, 
-        src: 'images/'+file,
-        alt: 'Portfolio highlights photograph by JC Niñonuevo'
-    }));
+    .map((file, i) => {
+      const base = file.replace(/\.jpe?g$/i, ''); // e.g. "GH-01"
+      return {
+        id: i,
+        src: 'images/' + file,
+        base: base,
+        alt: altTexts[i] || ('Portfolio photograph by JC Niñonuevo — ' + base)
+      };
+    });
 
   function buildCard(p, gallery) {
     const wrap = document.createElement('div');
     wrap.className = 'gallery-item relative rounded-xl overflow-hidden cursor-pointer';
+    const b = p.base;
     wrap.innerHTML = `
-      <img src="${p.src}" alt="${p.alt}" loading="lazy" decoding="async" fetchpriority="low"
-        class="w-full h-auto block"
-        onerror="this.src='https://placehold.co/900x600/111/333?text=Photo'" />
+      <picture>
+        <source
+          type="image/webp"
+          srcset="
+            images/optimized/800/${b}-800.webp 800w,
+            images/optimized/1200/${b}-1200.webp 1200w,
+            images/optimized/1600/${b}-1600.webp 1600w
+          "
+          sizes="(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        />
+        <img
+          src="images/optimized/1200/${b}-1200.webp"
+          alt="${p.alt}"
+          loading="lazy"
+          decoding="async"
+          class="w-full h-auto block"
+          onerror="this.parentElement.parentElement.querySelector('img').src='${p.src}'" />
+      </picture>
       <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
         <div class="flex justify-between items-end w-full">
           <svg class="w-5 h-5 text-white opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">

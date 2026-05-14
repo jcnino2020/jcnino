@@ -83,14 +83,47 @@ function openLightbox(photo, gallery) {
     }
 }
 
+/**
+ * Convert a gallery image src to its 2048px WebP counterpart.
+ * Handles paths like:
+ *   images/GH-01.JPG                        → images/optimized/2048/GH-01-2048.webp
+ *   images/Drone%20Shots/Drone-001.JPG      → images/optimized/2048/Drone Shots/Drone-001-2048.webp
+ *   images/Framed%20Moments/FM-01.JPG       → images/optimized/2048/Framed Moments/FM-01-2048.webp
+ *   images/School%20Events/SE-01.JPG        → images/optimized/2048/School Events/SE-01-2048.webp
+ *   images/Video%20Thumbnails/VI-01.jpg     → images/optimized/2048/Video Thumbnails/VI-01-2048.webp
+ */
+function getLightboxSrc(src) {
+    // Decode any percent-encoded chars in the path
+    const decoded = decodeURIComponent(src);
+    // Match pattern: images/[optional subfolder/]FILENAME.EXT
+    const match = decoded.match(/^images\/(?:(.+)\/)?([^\/]+)\.(jpe?g|png|webp)$/i);
+    if (!match) return src; // fallback — return original
+    const subfolder = match[1] || null;  // e.g. "Drone Shots", or null for root
+    const baseName  = match[2];           // e.g. "GH-01"
+    const webpName  = `${baseName}-2048.webp`;
+    if (subfolder) {
+        return `images/optimized/2048/${subfolder}/${webpName}`;
+    } else {
+        return `images/optimized/2048/${webpName}`;
+    }
+}
+
 function syncLightbox() {
     const p = currentGallery[currentIndex];
     const img = document.getElementById('lightbox-img');
     const counter = document.getElementById('lightbox-counter');
-    
+
     if (img) {
-        img.src = p.src;
+        const webpSrc = getLightboxSrc(p.src);
+        img.src = webpSrc;
         img.alt = p.alt || p.title || 'Portfolio Image';
+        // Fallback to original if optimized WebP not found
+        img.onerror = function() {
+            if (img.src !== p.src) {
+                img.src = p.src;
+                img.onerror = null;
+            }
+        };
     }
     if (counter) {
         counter.textContent = `${currentIndex + 1} / ${currentGallery.length}`;

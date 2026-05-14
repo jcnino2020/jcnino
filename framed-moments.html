@@ -128,21 +128,88 @@
     "FM-43.JPG","FM-44.JPG"
   ];
 
+  const altTexts = [
+    'Street portrait of a person in soft natural light, Bacolod City',
+    'Candid editorial moment captured on a busy city street',
+    'Quiet nature scene with layered foliage and dappled light',
+    'Dramatic black and white street portrait in an urban setting',
+    'Peaceful countryside landscape at soft golden hour',
+    'Vibrant street scene with passing motorbikes and market stalls',
+    'Close-up editorial portrait with bokeh background',
+    'Silhouette of a person against a bright doorway frame',
+    'Wide street scene showing everyday life in the Philippines',
+    'Moody atmospheric photo of an alley and ambient light',
+    'Documentary-style photo of local vendors and community',
+    'Architectural detail of heritage facade and ornamental ironwork',
+    'Environmental portrait of a subject in their natural space',
+    'Travel photograph of a scenic viewpoint and mountain backdrop',
+    'Street photography of a crowd in motion during an event',
+    'Golden hour portrait with warm ambient city light',
+    'Quiet dawn scene with mist over open fields',
+    'Macro close-up of botanical detail and texture',
+    'Candid street photograph of pedestrians and storefronts',
+    'Portrait with strong directional shadow and high contrast',
+    'Minimalist composition with geometric urban shapes',
+    'Documentary image of everyday life in a Philippine barangay',
+    'Reflective water surface with mirrored city skyline at night',
+    'Low-angle street perspective looking up at building facades',
+    'Soft editorial portrait of a subject in dappled shade',
+    'Spontaneous candid moment caught in a public marketplace',
+    'Textured wall detail with peeling paint and weathered surface',
+    'Environmental portrait in a narrow heritage-district alley',
+    'Long-exposure night photograph with light streaks and motion blur',
+    'Travel portrait showing a subject against a scenic backdrop',
+    'Moody close-up with selective focus on eyes and expression',
+    'Street food scene with steam and warm ambient light',
+    'Wide panoramic city scene during the blue hour of dusk',
+    'Editorial portrait with bold geometric shadow and contrast',
+    'Candid capture of a laugh and natural unposed expression',
+    'Architectural photography of a heritage church facade',
+    'Contemplative portrait in soft overcast light',
+    'Street scene at twilight with glowing storefront signs',
+    'Documentary photo of a festive community gathering',
+    'Intimate editorial frame with shallow depth of field',
+    'Travel photograph at a Philippine coastal town at low tide',
+    'Soft silhouette portrait against an open evening sky',
+  ];
+
   const allPhotos = imageFiles
     .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
-    .map((file, i) => ({
-      id: i,
-      src: 'images/Framed%20Moments/' + file,
-      alt: 'Street and editorial photograph by JC Niñonuevo'
-    }));
+    .map((file, i) => {
+      const base = file.replace(/\.jpe?g$/i, '');
+      return {
+        id: i,
+        src: 'images/Framed%20Moments/' + file,
+        subfolder: 'Framed Moments',
+        base: base,
+        alt: altTexts[i] || ('Street and editorial photograph by JC Niñonuevo — ' + base)
+      };
+    });
 
   function buildCard(p, gallery) {
     const wrap = document.createElement('div');
     wrap.className = 'gallery-item relative rounded-xl overflow-hidden cursor-pointer';
+    const b = p.base;
+    const sf = p.subfolder;
     wrap.innerHTML = `
-      <img src="${p.src}" alt="${p.alt}" loading="lazy" decoding="async" fetchpriority="low"
-        class="w-full h-auto block"
-        onerror="this.src='https://placehold.co/900x600/111/333?text=Photo'" />
+      <picture>
+        <source
+          type="image/webp"
+          srcset="
+            images/optimized/800/${sf}/${b}-800.webp 800w,
+            images/optimized/1200/${sf}/${b}-1200.webp 1200w,
+            images/optimized/1600/${sf}/${b}-1600.webp 1600w
+          "
+          sizes="(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        />
+        <img
+          src="images/optimized/1200/${sf}/${b}-1200.webp"
+          alt="${p.alt}"
+          loading="lazy"
+          decoding="async"
+          class="w-full h-auto block"
+          onerror="this.parentElement.parentElement.querySelector('img').src='${p.src}'" />
+      </picture>
       <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
         <div class="flex justify-between items-end w-full">
           <svg class="w-5 h-5 text-white opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
