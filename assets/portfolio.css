@@ -116,7 +116,7 @@ body {
    previous image remains visible until the new one finishes downloading.
 */
 #lightbox-img.lb-loading {
-  opacity: 0 !important;
+  opacity: 0;
 }
 
 /* Immediately stop any lingering animations once the image is ready */

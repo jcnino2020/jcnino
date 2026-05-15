@@ -167,20 +167,35 @@ function syncLightbox(direction = null) {
 
     if (img) {
         const webpSrc = getLightboxSrc(p.src);
-
-        // Stop any current animations and hide image immediately to prevent "sticking"
-        if (window.gsap) gsap.killTweensOf(img);
-        img.style.opacity = '0';
-
-        // Show loading state if not already cached
         const probe = new Image();
         probe.src = webpSrc;
-        if (!probe.complete) {
-            img.classList.add('lb-loading');
-        }
 
-        img.src = webpSrc;
-        img.alt = p.alt || p.title || 'Portfolio Image';
+        // Helper to perform the actual source swap
+        const startLoading = () => {
+            img.src = webpSrc;
+            img.alt = p.alt || p.title || 'Portfolio Image';
+            
+            // Show loading state if not already cached
+            if (!probe.complete) {
+                img.classList.add('lb-loading');
+            }
+        };
+
+        // Transition: Fade out the old image before showing the new one
+        if (window.gsap && (direction === 'next' || direction === 'prev')) {
+            gsap.to(img, { 
+                opacity: 0, 
+                x: direction === 'next' ? -40 : 40, 
+                duration: 0.15, 
+                ease: 'power2.in',
+                onComplete: startLoading
+            });
+        } else {
+            // Instant hide for initial open or jumps
+            if (window.gsap) gsap.killTweensOf(img);
+            img.style.opacity = '0';
+            startLoading();
+        }
 
         // Trigger smooth entry once loaded
         img.onload = function() {
@@ -203,7 +218,7 @@ function syncLightbox(direction = null) {
                         scale: 1, 
                         duration: 0.4, 
                         ease: direction === 'open' ? 'power3.out' : 'power2.out',
-                        clearProps: 'transform' // clean up x/scale after animation
+                        clearProps: 'transform'
                     }
                 );
             } else {
