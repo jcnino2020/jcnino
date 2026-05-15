@@ -106,21 +106,20 @@ body {
 
 /* Lightbox image loading state */
 #lightbox-img {
-  transition: opacity 0.15s ease;
+  /* Remove CSS transitions to let GSAP handle animations exclusively */
+  will-change: transform, opacity;
 }
 
-/* Shown only while the full-res 2048 WebP is still loading.
-   A gentle brightness pulse signals "loading" without a visible spinner. */
+/* 
+   Hide the image immediately while the new source is loading.
+   This prevents the 'ghosting' or 'sticking' effect where the 
+   previous image remains visible until the new one finishes downloading.
+*/
 #lightbox-img.lb-loading {
-  animation: lb-pulse 1s ease-in-out infinite;
+  opacity: 0 !important;
 }
 
-@keyframes lb-pulse {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.55; }
-}
-
-/* Immediately stop the pulse once the image is ready */
+/* Immediately stop any lingering animations once the image is ready */
 #lightbox-img:not(.lb-loading) {
   animation: none;
 }

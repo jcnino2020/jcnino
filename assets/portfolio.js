@@ -112,7 +112,6 @@ function preloadNearbyImages(gallery, index) {
 function openLightbox(photo, gallery) {
     currentGallery = gallery;
     currentIndex = gallery.indexOf(photo);
-    syncLightbox();
 
     const lb = document.getElementById('lightbox');
     if (!lb) return;
@@ -121,19 +120,18 @@ function openLightbox(photo, gallery) {
     lb.classList.add('flex');
     document.body.style.overflow = 'hidden';
 
-    // GSAP: fade + scale in
+    // GSAP: fade in the backdrop
     if (window.gsap) {
         gsap.fromTo(lb,
             { opacity: 0 },
             { opacity: 1, duration: 0.3, ease: 'power2.out' }
         );
-        gsap.fromTo('#lightbox-img',
-            { scale: 0.94, opacity: 0 },
-            { scale: 1, opacity: 1, duration: 0.4, ease: 'power3.out' }
-        );
     }
 
-    // Preload the 3 images before and 3 after the current one at 1600px
+    // syncLightbox will handle the image entry animation in its onload
+    syncLightbox('open');
+    
+    // Preload nearby images
     preloadNearbyImages(currentGallery, currentIndex);
 }
 
@@ -162,7 +160,7 @@ function getLightboxSrc(src) {
     }
 }
 
-function syncLightbox() {
+function syncLightbox(direction = null) {
     const p = currentGallery[currentIndex];
     const img = document.getElementById('lightbox-img');
     const counter = document.getElementById('lightbox-counter');
@@ -170,8 +168,11 @@ function syncLightbox() {
     if (img) {
         const webpSrc = getLightboxSrc(p.src);
 
-        // Show loading state only if the image isn't already cached
-        // (img.complete is true immediately for cached resources)
+        // Stop any current animations and hide image immediately to prevent "sticking"
+        if (window.gsap) gsap.killTweensOf(img);
+        img.style.opacity = '0';
+
+        // Show loading state if not already cached
         const probe = new Image();
         probe.src = webpSrc;
         if (!probe.complete) {
@@ -181,11 +182,36 @@ function syncLightbox() {
         img.src = webpSrc;
         img.alt = p.alt || p.title || 'Portfolio Image';
 
-        // Clear loading state once the image is ready
+        // Trigger smooth entry once loaded
         img.onload = function() {
             img.classList.remove('lb-loading');
+            
+            if (window.gsap) {
+                let xOffset = 0;
+                if (direction === 'next') xOffset = 40;
+                if (direction === 'prev') xOffset = -40;
+
+                gsap.fromTo(img,
+                    { 
+                        x: xOffset, 
+                        opacity: 0, 
+                        scale: direction === 'open' ? 0.94 : 0.98 
+                    },
+                    { 
+                        x: 0, 
+                        opacity: 1, 
+                        scale: 1, 
+                        duration: 0.4, 
+                        ease: direction === 'open' ? 'power3.out' : 'power2.out',
+                        clearProps: 'transform' // clean up x/scale after animation
+                    }
+                );
+            } else {
+                img.style.opacity = '1';
+            }
         };
-        // Fallback to original JPG if optimized WebP not found
+
+        // Fallback to original if optimized WebP fails
         img.onerror = function() {
             img.classList.remove('lb-loading');
             if (img.src !== p.src) {
@@ -224,28 +250,14 @@ function closeLightbox() {
 function prevImage() {
     if (currentGallery.length === 0) return;
     currentIndex = (currentIndex - 1 + currentGallery.length) % currentGallery.length;
-
-    if (window.gsap) {
-        gsap.fromTo('#lightbox-img',
-            { x: -30, opacity: 0 },
-            { x: 0, opacity: 1, duration: 0.25, ease: 'power2.out' }
-        );
-    }
-    syncLightbox();
+    syncLightbox('prev');
     preloadNearbyImages(currentGallery, currentIndex);
 }
 
 function nextImage() {
     if (currentGallery.length === 0) return;
     currentIndex = (currentIndex + 1) % currentGallery.length;
-
-    if (window.gsap) {
-        gsap.fromTo('#lightbox-img',
-            { x: 30, opacity: 0 },
-            { x: 0, opacity: 1, duration: 0.25, ease: 'power2.out' }
-        );
-    }
-    syncLightbox();
+    syncLightbox('next');
     preloadNearbyImages(currentGallery, currentIndex);
 }
 
