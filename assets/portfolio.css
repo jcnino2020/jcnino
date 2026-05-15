@@ -104,6 +104,27 @@ body {
   -webkit-backdrop-filter: blur(20px) saturate(180%); 
 }
 
+/* Lightbox image loading state */
+#lightbox-img {
+  transition: opacity 0.15s ease;
+}
+
+/* Shown only while the full-res 2048 WebP is still loading.
+   A gentle brightness pulse signals "loading" without a visible spinner. */
+#lightbox-img.lb-loading {
+  animation: lb-pulse 1s ease-in-out infinite;
+}
+
+@keyframes lb-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.55; }
+}
+
+/* Immediately stop the pulse once the image is ready */
+#lightbox-img:not(.lb-loading) {
+  animation: none;
+}
+
 /* Video & Projects */
 .video-card {
   transition: transform 0.4s ease;

@@ -58,11 +58,62 @@ function updateYear() {
 let currentGallery = [];
 let currentIndex = 0;
 
+/**
+ * Preload cache — tracks URLs already requested to avoid duplicate fetches.
+ * Persists for the lifetime of the page session.
+ */
+const preloadCache = new Set();
+
+/**
+ * Resolve a gallery src to its 1600px WebP counterpart for preloading.
+ * (Same logic as getLightboxSrc but targeting the 1600/ folder.)
+ */
+function getPreloadSrc(src) {
+    const decoded = decodeURIComponent(src);
+    const match = decoded.match(/^images\/(?:(.+)\/)?([^\/]+)\.(jpe?g|png|webp)$/i);
+    if (!match) return null;
+    const subfolder = match[1] || null;
+    const baseName  = match[2];
+    const webpName  = `${baseName}-1600.webp`;
+    return subfolder
+        ? `images/optimized/1600/${subfolder}/${webpName}`
+        : `images/optimized/1600/${webpName}`;
+}
+
+/**
+ * Preload the ±3 images around the current index using the 1600px WebP.
+ * Uses the Image() constructor so the browser caches the response;
+ * subsequent requests for the same URL are served instantly from cache.
+ * @param {Array}  gallery  - The current photo array
+ * @param {number} index    - The current active index
+ */
+function preloadNearbyImages(gallery, index) {
+    if (!gallery || gallery.length === 0) return;
+    const RANGE = 3;
+    for (let offset = -RANGE; offset <= RANGE; offset++) {
+        if (offset === 0) continue; // current image is already displayed
+        const targetIndex = index + offset;
+        // Edge-case guard: skip out-of-bounds indexes
+        if (targetIndex < 0 || targetIndex >= gallery.length) continue;
+        const photo = gallery[targetIndex];
+        if (!photo || !photo.src) continue;
+        const preloadUrl = getPreloadSrc(photo.src);
+        if (!preloadUrl) continue;
+        // Skip if already in cache (no duplicate requests)
+        if (preloadCache.has(preloadUrl)) continue;
+        preloadCache.add(preloadUrl);
+        const img = new Image();
+        img.src = preloadUrl;
+        // No onerror needed — failed preloads are silently ignored;
+        // the lightbox fallback chain handles it at display time.
+    }
+}
+
 function openLightbox(photo, gallery) {
     currentGallery = gallery;
     currentIndex = gallery.indexOf(photo);
     syncLightbox();
-    
+
     const lb = document.getElementById('lightbox');
     if (!lb) return;
 
@@ -81,6 +132,9 @@ function openLightbox(photo, gallery) {
             { scale: 1, opacity: 1, duration: 0.4, ease: 'power3.out' }
         );
     }
+
+    // Preload the 3 images before and 3 after the current one at 1600px
+    preloadNearbyImages(currentGallery, currentIndex);
 }
 
 /**
@@ -115,10 +169,25 @@ function syncLightbox() {
 
     if (img) {
         const webpSrc = getLightboxSrc(p.src);
+
+        // Show loading state only if the image isn't already cached
+        // (img.complete is true immediately for cached resources)
+        const probe = new Image();
+        probe.src = webpSrc;
+        if (!probe.complete) {
+            img.classList.add('lb-loading');
+        }
+
         img.src = webpSrc;
         img.alt = p.alt || p.title || 'Portfolio Image';
-        // Fallback to original if optimized WebP not found
+
+        // Clear loading state once the image is ready
+        img.onload = function() {
+            img.classList.remove('lb-loading');
+        };
+        // Fallback to original JPG if optimized WebP not found
         img.onerror = function() {
+            img.classList.remove('lb-loading');
             if (img.src !== p.src) {
                 img.src = p.src;
                 img.onerror = null;
@@ -155,7 +224,7 @@ function closeLightbox() {
 function prevImage() {
     if (currentGallery.length === 0) return;
     currentIndex = (currentIndex - 1 + currentGallery.length) % currentGallery.length;
-    
+
     if (window.gsap) {
         gsap.fromTo('#lightbox-img',
             { x: -30, opacity: 0 },
@@ -163,12 +232,13 @@ function prevImage() {
         );
     }
     syncLightbox();
+    preloadNearbyImages(currentGallery, currentIndex);
 }
 
 function nextImage() {
     if (currentGallery.length === 0) return;
     currentIndex = (currentIndex + 1) % currentGallery.length;
-    
+
     if (window.gsap) {
         gsap.fromTo('#lightbox-img',
             { x: 30, opacity: 0 },
@@ -176,6 +246,7 @@ function nextImage() {
         );
     }
     syncLightbox();
+    preloadNearbyImages(currentGallery, currentIndex);
 }
 
 function initLightboxListeners() {
