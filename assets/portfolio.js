@@ -185,9 +185,9 @@ function syncLightbox(direction = null) {
         if (window.gsap && (direction === 'next' || direction === 'prev')) {
             gsap.to(img, { 
                 opacity: 0, 
-                x: direction === 'next' ? -40 : 40, 
-                duration: 0.15, 
-                ease: 'power2.in',
+                x: direction === 'next' ? -30 : 30, 
+                duration: 0.1, 
+                ease: 'power2.inOut',
                 onComplete: startLoading
             });
         } else {
@@ -203,21 +203,21 @@ function syncLightbox(direction = null) {
             
             if (window.gsap) {
                 let xOffset = 0;
-                if (direction === 'next') xOffset = 40;
-                if (direction === 'prev') xOffset = -40;
+                if (direction === 'next') xOffset = 30;
+                if (direction === 'prev') xOffset = -30;
 
                 gsap.fromTo(img,
                     { 
                         x: xOffset, 
                         opacity: 0, 
-                        scale: direction === 'open' ? 0.94 : 0.98 
+                        scale: direction === 'open' ? 0.96 : 0.99 
                     },
                     { 
                         x: 0, 
                         opacity: 1, 
                         scale: 1, 
-                        duration: 0.4, 
-                        ease: direction === 'open' ? 'power3.out' : 'power2.out',
+                        duration: 0.25, 
+                        ease: 'power2.out',
                         clearProps: 'transform'
                     }
                 );
