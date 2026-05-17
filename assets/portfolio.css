@@ -152,7 +152,7 @@ input:focus, textarea:focus {
 
 /* Section Spacing */
 section[id] {
-  scroll-margin-top: 56px;
+  scroll-margin-top: 64px;
 }
 @media (min-width: 768px) {
   section[id] {
