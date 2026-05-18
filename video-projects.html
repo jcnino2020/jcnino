@@ -108,57 +108,9 @@
 
 </div>
 
+<script src="assets/gallery-data.js"></script>
 <script>
-  const videos = [
-    {
-      id: 1,
-      title: "Manila 2024",
-      youtubeId: "K_9mOUj-flY",
-      thumb: "images/optimized/800/Video Thumbnails/VI-01-800.webp",
-      thumbFallback: "images/Video%20Thumbnails/VI-01.jpg",
-      duration: "1:01",
-    },
-    {
-      id: 2,
-      title: "USLS Campus Montage",
-      youtubeId: "fddAYV8uWgc",
-      thumb: "images/optimized/800/Video Thumbnails/VI-07-800.webp",
-      thumbFallback: "images/Video%20Thumbnails/VI-07.jpg",
-      duration: "0:41",
-    },
-    {
-      id: 3,
-      title: "Cebu-Bohol Trip",
-      youtubeId: "pWc_Zazh_s4",
-      thumb: "images/optimized/800/Video Thumbnails/VI-03-800.webp",
-      thumbFallback: "images/Video%20Thumbnails/VI-03.jpg",
-      duration: "5:07",
-    },
-    {
-      id: 4,
-      title: "Liceo Yearbook 2022 Pictorial BTS",
-      youtubeId: "hJMdcnx4vAo",
-      thumb: "images/optimized/800/Video Thumbnails/VI-04-800.webp",
-      thumbFallback: "images/Video%20Thumbnails/VI-04.jpg",
-      duration: "0:51",
-    },
-    {
-      id: 5,
-      title: "Japan 2019 Trip",
-      youtubeId: "7Uw7Ce3XrhI",
-      thumb: "images/optimized/800/Video Thumbnails/VI-05-800.webp",
-      thumbFallback: "images/Video%20Thumbnails/VI-05.jpg",
-      duration: "7:13",
-    },
-    {
-      id: 6,
-      title: "Lacson Tourism Strip 2024",
-      youtubeId: "HZMddybaJfk",
-      thumb: "images/optimized/800/Video Thumbnails/VI-06-800.webp",
-      thumbFallback: "images/Video%20Thumbnails/VI-06.jpg",
-      duration: "4:58",
-    },
-  ];
+  const videos = window.galleryData.videos;
 
   function renderVideoGrid() {
     const grid = document.getElementById('video-grid');
@@ -177,7 +129,7 @@
           <div class="absolute inset-0 flex items-center justify-center">
             <div class="w-16 h-16 rounded-full border border-white/30 flex items-center justify-center
               group-hover:border-white group-hover:scale-110 transition-all duration-300 bg-black/50 backdrop-blur-sm">
-              <svg class="w-6 h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
             </div>
           </div>
           <span class="absolute bottom-3 right-3 text-white/70 text-xs font-bold bg-black/50 px-2 py-1 rounded">${v.duration}</span>
@@ -193,14 +145,7 @@
 </script>
 
 <script>
-  const videos2 = [
-    { id: 7,  title: "Bocal-Bocal Spring Resort (NegOcc)", youtubeId: "aF5C4z8kE9Y", thumb: "images/optimized/800/Video Thumbnails/NASE-01-800.webp", thumbFallback: "images/Video%20Thumbnails/NASE-01.jpg", duration: "11:02" },
-    { id: 8,  title: "Lakawon Island (NegOcc)", youtubeId: "CdWwZO6up68", thumb: "images/optimized/800/Video Thumbnails/NASE-07-800.webp", thumbFallback: "images/Video%20Thumbnails/NASE-07.jpg", duration: "3:00" },
-    { id: 9,  title: "Silay Public Plaza (NegOcc)", youtubeId: "yZpwDZSbuvE", thumb: "images/optimized/800/Video Thumbnails/NASE-03-800.webp", thumbFallback: "images/Video%20Thumbnails/NASE-03.jpg", duration: "2:41" },
-    { id: 10, title: "DSB-San Carlos (NegOcc)", youtubeId: "EIlJnMlqwR0", thumb: "images/optimized/800/Video Thumbnails/NASE-04-800.webp", thumbFallback: "images/Video%20Thumbnails/NASE-04.jpg", duration: "2:41" },
-    { id: 11, title: "Bacolod Public Plaza (NegOcc)", youtubeId: "i8wu38esF8c", thumb: "images/optimized/800/Video Thumbnails/NASE-05-800.webp", thumbFallback: "images/Video%20Thumbnails/NASE-05.jpg", duration: "4:01" },
-    { id: 12, title: "Capitol Park and Lagoon (NegOcc)", youtubeId: "dSKSR867PfQ", thumb: "images/optimized/800/Video Thumbnails/NASE-06-800.webp", thumbFallback: "images/Video%20Thumbnails/NASE-06.jpg", duration: "5:01" },
-  ];
+  const videos2 = window.galleryData.videos2;
 
   function renderVideoGrid2() {
     const grid2 = document.getElementById('video-grid-2');
@@ -219,7 +164,7 @@
           <div class="absolute inset-0 flex items-center justify-center">
             <div class="w-16 h-16 rounded-full border border-white/30 flex items-center justify-center
               group-hover:border-white group-hover:scale-110 transition-all duration-300 bg-black/50 backdrop-blur-sm">
-              <svg class="w-6 h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
             </div>
           </div>
           <span class="absolute bottom-3 right-3 text-white/70 text-xs font-bold bg-black/50 px-2 py-1 rounded">${v.duration}</span>
@@ -236,6 +181,14 @@
   document.addEventListener('DOMContentLoaded', () => {
     renderVideoGrid();
     renderVideoGrid2();
+
+    // Safely add click listener to the dynamically injected video-lightbox background
+    const videoLightbox = document.getElementById('video-lightbox');
+    if (videoLightbox) {
+      videoLightbox.addEventListener('click', e => {
+        if (e.target === videoLightbox) closeVideoLightbox();
+      });
+    }
   });
 </script>
 
@@ -251,6 +204,8 @@
     const video = document.getElementById('video-iframe');
     const container = document.getElementById('video-player-container');
     const titleEl = document.getElementById('video-title');
+
+    if (!lb || !video) return;
 
     video.src = src;
     titleEl.textContent = title;
@@ -272,6 +227,8 @@
   function closeVideoLightbox() {
     const lb    = document.getElementById('video-lightbox');
     const video = document.getElementById('video-iframe');
+    if (!lb || !video) return;
+
     gsap.to(lb, {
       opacity: 0,
       duration: 0.25,
@@ -286,11 +243,12 @@
   }
 
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeVideoLightbox();
-  });
-
-  document.getElementById('video-lightbox').addEventListener('click', e => {
-    if (e.target === document.getElementById('video-lightbox')) closeVideoLightbox();
+    if (e.key === 'Escape') {
+      const lb = document.getElementById('video-lightbox');
+      if (lb && !lb.classList.contains('hidden')) {
+        closeVideoLightbox();
+      }
+    }
   });
 </script>
 

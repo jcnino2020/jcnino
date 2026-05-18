@@ -132,6 +132,9 @@ function injectComponents() {
     // Determine current page context
     const path = window.location.pathname;
     const page = path.split('/').pop() || 'index.html';
+    
+    // Normalize page names by stripping the .html extension to support clean/extensionless URLs
+    const normPage = page.replace(/\.html$/, '') || 'index';
 
     // 1. Inject Navbar
     if (!document.getElementById('main-nav')) {
@@ -141,17 +144,20 @@ function injectComponents() {
     // Toggle Nav Link Active classes
     document.querySelectorAll('#nav-links a, #mobile-menu a').forEach(a => {
         const pageAttr = a.getAttribute('data-page');
-        if (pageAttr && (page === pageAttr || (page === '' && pageAttr === 'index.html'))) {
-            a.classList.remove('text-text-muted');
-            a.classList.add('text-white', 'active');
-        } else {
-            a.classList.remove('text-white', 'active');
-            a.classList.add('text-text-muted');
+        if (pageAttr) {
+            const normAttr = pageAttr.replace(/\.html$/, '');
+            if (normPage === normAttr || (normPage === 'index' && normAttr === 'index')) {
+                a.classList.remove('text-text-muted');
+                a.classList.add('text-white', 'active');
+            } else {
+                a.classList.remove('text-white', 'active');
+                a.classList.add('text-text-muted');
+            }
         }
     });
 
     // 2. Inject Lightboxes
-    if (page !== 'video-projects.html') {
+    if (normPage !== 'video-projects') {
         if (!document.getElementById('lightbox')) {
             document.body.insertAdjacentHTML('beforeend', imageLightboxHtml);
         }
@@ -169,12 +175,15 @@ function injectComponents() {
     // Toggle Footer Link Active classes
     document.querySelectorAll('#site-footer a').forEach(a => {
         const pageAttr = a.getAttribute('data-page');
-        if (pageAttr && (page === pageAttr || (page === '' && pageAttr === 'index.html'))) {
-            a.classList.remove('text-text-muted');
-            a.classList.add('text-white');
-        } else {
-            a.classList.remove('text-white');
-            a.classList.add('text-text-muted');
+        if (pageAttr) {
+            const normAttr = pageAttr.replace(/\.html$/, '');
+            if (normPage === normAttr || (normPage === 'index' && normAttr === 'index')) {
+                a.classList.remove('text-text-muted');
+                a.classList.add('text-white');
+            } else {
+                a.classList.remove('text-white');
+                a.classList.add('text-text-muted');
+            }
         }
     });
 }

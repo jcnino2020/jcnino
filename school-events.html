@@ -80,112 +80,18 @@
 
 </div>
 
+<script src="assets/gallery-data.js"></script>
 <script>
-  const imageFiles = [
-    "SE-01.JPG","SE-02.JPG","SE-03.JPG","SE-04.JPG","SE-05.JPG",
-    "SE-06.JPG","SE-07.JPG","SE-08.JPG","SE-09.JPG","SE-10.JPG",
-    "SE-11.JPG","SE-12.JPG","SE-13.JPG","SE-14.JPG","SE-15.JPG",
-    "SE-16.JPG","SE-17.JPG","SE-18.JPG","SE-19.JPG","SE-20.JPG",
-    "SE-21.JPG","SE-22.JPG","SE-23.JPG","SE-24.JPG","SE-25.JPG",
-    "SE-26.JPG","SE-27.JPG","SE-28.JPG","SE-29.JPG","SE-30.JPG",
-    "SE-31.JPG","SE-32.JPG","SE-33.JPG","SE-34.JPG","SE-35.JPG",
-    "SE-36.JPG","SE-37.JPG","SE-38.JPG","SE-39.JPG","SE-40.JPG",
-    "SE-41.JPG","SE-42.JPG","SE-43.JPG","SE-44.JPG","SE-45.JPG",
-    "SE-46.JPG","SE-47.JPG","SE-48.JPG","SE-49.JPG","SE-50.JPG",
-    "SE-51.JPG","SE-52.JPG","SE-53.JPG","SE-54.JPG","SE-55.JPG",
-    "SE-56.JPG","SE-57.JPG","SE-58.JPG","SE-59.JPG","SE-60.JPG",
-    "SE-61.JPG","SE-62.JPG","SE-63.JPG","SE-64.JPG","SE-65.JPG",
-    "SE-66.JPG","SE-67.JPG","SE-68.JPG","SE-69.JPG","SE-70.JPG",
-    "SE-71.JPG","SE-72.JPG"
-  ];
-
-  const altTexts = [
-    'Students posing for a yearbook group photograph at USLS',
-    'Candid moment of students during a school activity',
-    'Faculty and student gathering at a school ceremony',
-    'Photojournalism coverage of a school cultural event',
-    'Portrait of a student officer during a formal assembly',
-    'Behind-the-scenes moment at a campus production shoot',
-    'Wide-angle coverage of an auditorium graduation ceremony',
-    'Student performers on stage during a school theatre night',
-    'Documentary photo of a campus community extension activity',
-    'Candid coverage of students during a seminar workshop',
-    'Award ceremony moment with students receiving recognition',
-    'Environmental portrait of a student in school uniform',
-    'Group photo of student organization members outdoors',
-    'Photojournalism shot from a school sports competition',
-    'Faculty portrait during a department event or colloquium',
-    'Behind-the-scenes coverage of a school media production',
-    'Yearbook-quality candid of students in casual interaction',
-    'Wide establishing shot of a campus open-air ceremony',
-    'Student dancers performing at a school cultural night',
-    'Dramatic lighting portrait from a school theatre production',
-    'Campus journalism moment with student press coverage',
-    'Students celebrating after an intramural sports event',
-    'Formal portrait session for a student publication',
-    'Candid group moment from a school retreat or formation',
-    'Photojournalism coverage of a school civic celebration',
-    'Student council gathering with officers in formal attire',
-    'Wide coverage of a school gymnasium during graduation rites',
-    'Environmental candid of students between class sessions',
-    'School event coverage showing crowd and stage setup',
-    'Intimate candid portrait of a student in soft window light',
-    'Faculty awards night with formal plaque presentations',
-    'Wide hallway shot of students during a campus event',
-    'Yearbook photo of a student organization in formation',
-    'Editorial portrait of a student at a campus landmark',
-    'School event photo of guests and keynote speaker setup',
-    'Photojournalism shot of a community outreach program',
-    'Student performers backstage during a school production',
-    'Documentary moment from a campus cultural fair booth',
-    'Candid photo of students during a field trip or excursion',
-    'Wide shot of an academic convocation or recognition day',
-    'Group portrait of yearbook committee members on campus',
-    'Action shot of student athletes during a school sports meet',
-    'Photojournalism coverage of a formal student investiture',
-    'Candid moment from a school club recruitment event',
-    'Editorial portrait with dramatic side-lighting in campus studio',
-    'Documentary photo of student volunteers at a service project',
-    'Group candid from a batch party or school social gathering',
-    'Wide coverage of a ceremony held in the school chapel',
-    'Portrait of a student organization officer in leadership pose',
-    'School event photo of faculty speaking at a podium',
-    'Candid moment of students reviewing for an academic quiz',
-    'Editorial photo of student artist at a campus exhibit',
-    'Documentary coverage of a student-run symposium panel',
-    'Yearbook-style formal group pose on campus grounds',
-    'Photojournalism moment from a graduation mass ceremony',
-    'Candid of students at a science and technology fair booth',
-    'Wide shot of cheering students at an intramural opening',
-    'Environmental portrait of a student leader at school office',
-    'Candid documentary moment from a school media workshop',
-    'Group photo of students during an overnight leadership camp',
-    'School event photo of a cultural dance performance',
-    'Candid portrait of students bonding during a school break',
-    'Editorial coverage of a campus sustainability or green program',
-    'Documentary photo from an academic research presentation',
-    'Wide establishing shot of a school campus at dusk',
-    'Photojournalism coverage of a student government inauguration',
-    'Candid moment at a departmental alumni homecoming event',
-    'Yearbook portrait of graduating students in academic regalia',
-    'Editorial photo of students at a cross-campus collaboration event',
-    'School event coverage with crowd and banner in foreground',
-    'Environmental group portrait of a student media organization',
-    'Candid editorial moment captured during a school recognition ceremony',
-  ];
-
-  const allPhotos = imageFiles
-    .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
-    .map((file, i) => {
-      const base = file.replace(/\.jpe?g$/i, '');
-      return {
-        id: i,
-        src: 'images/School%20Events/' + file,
-        subfolder: 'School Events',
-        base: base,
-        alt: altTexts[i] || ('School event photograph by JC Niñonuevo — ' + base)
-      };
-    });
+  const allPhotos = window.galleryData.events.map((p, i) => {
+    const base = p.file.replace(/\.jpe?g$/i, '');
+    return {
+      id: i,
+      src: 'images/School%20Events/' + p.file,
+      subfolder: 'School Events',
+      base: base,
+      alt: p.alt || ('School event photograph by JC Niñonuevo — ' + base)
+    };
+  });
 
   function buildCard(p, gallery) {
     const wrap = document.createElement('div');

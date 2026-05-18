@@ -382,73 +382,17 @@
   </button>
 </div>
 
+<script src="assets/gallery-data.js"></script>
 <script>
-  // All GH/GN image files (root images/ folder)
-  const imageFiles = [
-    "GH-01.JPG","GH-02.JPG","GH-03.JPG","GH-03.1.JPG","GH-04.JPG",
-    "GH-05.JPG","GH-06.JPG","GH-07.JPG","GH-08.JPG","GH-09.JPG",
-    "GH-10.JPG","GH-11.JPG","GH-12.JPG","GH-13.JPG","GH-14.JPG",
-    "GH-15.JPG","GH-16.JPG","GH-17.JPG","GH-18.JPG","GH-19.JPG",
-    "GH-20.JPG","GH-21.JPG","GH-22.JPG","GH-24.JPG","GH-26.JPG",
-    "GH-27.JPG","GH-28.JPG","GH-29.JPG","GH-30.JPG","GH-31.JPG",
-    "GH-32.JPG","GH-33.JPG","GH-34.JPG","GH-35.JPG","GH-36.JPG",
-    "GH-37.JPG","GH-38.JPG","GN-39.JPG","GH-40.JPG"
-  ];
-
-  // Descriptive alt text per image (index matches sorted order)
-  const altTexts = [
-    'Aerial view of Lakawon Island resort, Cadiz City',
-    'Coastal aerial photograph of Negros Occidental shoreline',
-    'Overhead drone shot of agricultural fields and greenery',
-    'Abstract aerial pattern of rice fields and pathways',
-    'Sunset aerial view over Bacolod City skyline',
-    'Aerial panorama of mountainous terrain and forest canopy',
-    'Bird\'s-eye view of a community and rooftop architecture',
-    'Drone photograph of coastal waters and sandbar formation',
-    'Aerial view of campus grounds and open-air corridors',
-    'Elevated perspective of city streets and urban sprawl',
-    'Aerial capture of river winding through rural landscape',
-    'Drone shot showing geometric patterns of croplands',
-    'Wide aerial view of coastline meeting the sea at dusk',
-    'Overhead perspective of lush tropical vegetation',
-    'Drone photograph of a lakeside community and water reflections',
-    'Aerial view of farmland parcels separated by tree lines',
-    'High-altitude shot of Bacolod sugar mill and surrounding fields',
-    'Bird\'s-eye drone capture of harbor and fishing boats',
-    'Aerial photo of a forested hillside at golden hour',
-    'Overhead drone view of urban park and recreation area',
-    'Aerial image of a winding mountain road through forest',
-    'Drone shot of beachfront and coastal resort facilities',
-    'Elevated view of school campus buildings and grounds',
-    'Aerial photo of coastal wetlands and mangrove cover',
-    'Drone overhead shot of city center plaza and monuments',
-    'Aerial view of suburban residential area and streets',
-    'Drone capture of agricultural terraces and irrigation',
-    'High aerial photograph of open sea and reef formations',
-    'Overhead view of rural barangay and community structures',
-    'Aerial photo of Bacolod City lakefront promenade',
-    'Drone image of riverside community and bamboo groves',
-    'Aerial shot of coastal highway and beachside landscape',
-    'Bird\'s-eye view of a Philippine provincial town center',
-    'Drone aerial of distant mountain ranges at sunrise',
-    'Overhead view of construction site and urban development',
-    'Aerial drone capture of Silay Heritage City rooftops',
-    'Drone photograph of island resort surrounded by blue sea',
-    'Aerial view of open grassland and scattered trees',
-    'Overhead drone shot of river delta and estuary',
-  ];
-
-  const allPhotos = imageFiles
-    .sort((a,b) => a.localeCompare(b, undefined, {numeric:true}))
-    .map((file, i) => {
-      const base = file.replace(/\.jpe?g$/i, ''); // e.g. "GH-01"
-      return {
-        id: i,
-        src: 'images/' + file,
-        base: base,
-        alt: altTexts[i] || ('Portfolio photograph by JC Niñonuevo — ' + base)
-      };
-    });
+  const allPhotos = window.galleryData.highlights.map((p, i) => {
+    const base = p.file.replace(/\.jpe?g$/i, ''); // e.g. "GH-01"
+    return {
+      id: i,
+      src: 'images/' + p.file,
+      base: base,
+      alt: p.alt || ('Portfolio photograph by JC Niñonuevo — ' + base)
+    };
+  });
 
   function buildCard(p, gallery) {
     const wrap = document.createElement('div');

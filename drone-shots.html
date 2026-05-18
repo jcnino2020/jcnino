@@ -80,39 +80,17 @@
 
 </div>
 
+<script src="assets/gallery-data.js"></script>
 <script>
-  const imageFiles = [
-    "Drone-001.JPG","Drone-002.JPG","Drone-003.JPG","Drone-004.JPG",
-    "Drone-005.JPG","Drone-006.JPG","Drone-007.JPG","Drone-008.JPG",
-    "Drone-009.JPG","Drone-010.JPG","Drone-012.JPG","TR-19.JPG", "GH-23.JPG"
-  ];
-
-  const altTexts = [
-    'Aerial drone view of Negros Occidental landscape and horizon',
-    'Overhead drone shot of coastline and blue sea from above',
-    'Bird\'s-eye perspective of mountainous terrain and forest',
-    'Aerial view of agricultural fields and farming communities',
-    'Drone capture of river systems cutting through lowland terrain',
-    'Elevated aerial shot of coastal highway and beachside strip',
-    'Wide drone panorama of Bacolod City urban spread at dusk',
-    'Aerial drone photo of island formation surrounded by sea',
-    'Overhead view of rural barangay surrounded by croplands',
-    'Drone aerial of sugar cane fields and industrial mill',
-    'High-altitude drone shot of provincial town roads and plaza',
-    'Travel aerial photograph of scenic Philippine landscape',
-    'Drone aerial of campus grounds and open-air corridors',
-  ];
-
-const allPhotos = imageFiles
-  .map((file, i) => {
-    const base = file.replace(/\.jpe?g$/i, '');
+  const allPhotos = window.galleryData.drone.map((p, i) => {
+    const base = p.file.replace(/\.jpe?g$/i, '');
     return {
       id: i,
-      src: 'images/Drone%20Shots/' + file,
-      srcDecoded: 'images/Drone Shots/' + file,
+      src: 'images/Drone%20Shots/' + p.file,
+      srcDecoded: 'images/Drone Shots/' + p.file,
       subfolder: 'Drone Shots',
       base: base,
-      alt: altTexts[i] || ('Drone aerial photograph by JC Niñonuevo — ' + base)
+      alt: p.alt || ('Drone aerial photograph by JC Niñonuevo — ' + base)
     };
   });
 

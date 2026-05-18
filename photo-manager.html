@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>JC Niñonuevo | Photo & Video Manager</title>
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stack -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Outfit', 'sans-serif'],
+          },
+          colors: {
+            'bg-main': '#030303',
+            'surface-dark': '#0a0a0a',
+            'card-glass': 'rgba(255, 255, 255, 0.02)',
+            'border-glass': 'rgba(255, 255, 255, 0.08)',
+            'accent': '#ffffff',
+            'accent-dim': '#a0a0a0',
+            'success': '#10b981',
+            'danger': '#ef4444'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #030303;
+      color: #ffffff;
+      overflow-x: hidden;
+    }
+    
+    /* Scrollbar Styling */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(0,0,0,0.2);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .glass {
+      background: rgba(255, 255, 255, 0.02);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .glass-input {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+    .glass-input:focus {
+      background: rgba(255, 255, 255, 0.07);
+      border-color: rgba(255, 255, 255, 0.3);
+      outline: none;
+      box-shadow: 0 0 15px rgba(255,255,255,0.05);
+    }
+
+    /* Glow Effect */
+    .glow-hover:hover {
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.1);
+    }
+
+    /* Drag & Drop Visuals */
+    .drag-over {
+      border-color: #ffffff !important;
+      background: rgba(255, 255, 255, 0.06) !important;
+      scale: 0.99;
+    }
+
+    .sortable-ghost {
+      opacity: 0.3;
+      border: 2px dashed rgba(255, 255, 255, 0.4);
+    }
+    
+    .sortable-chosen {
+      scale: 1.03;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    }
+
+    /* Toast Animation */
+    @keyframes slideUp {
+      from { transform: translateY(100px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .toast-active {
+      animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+  </style>
+
+  <!-- Load Database File -->
+  <script src="assets/gallery-data.js"></script>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- Header Banner -->
+  <header class="glass sticky top-0 z-40 px-6 py-4 flex items-center justify-between border-b border-border-glass">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center font-bold text-sm bg-white/5">
+        JN
+      </div>
+      <div>
+        <h1 class="text-lg font-bold tracking-tight">JC NIÑONUEVO</h1>
+        <p class="text-[10px] uppercase tracking-widest text-accent-dim font-medium">Portfolio Content Manager</p>
+      </div>
+    </div>
+
+    <!-- Active Save Area -->
+    <div class="flex items-center gap-3">
+      <div id="save-status" class="text-xs text-accent-dim hidden sm:flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-success animate-pulse"></span> Dynamic Mode Connected
+      </div>
+
+      <!-- Connect Folder Button -->
+      <button onclick="connectProjectFolder()" id="folder-btn" class="px-4 py-2 border border-white/20 hover:border-white hover:text-black text-xs font-bold rounded-full transition-all flex items-center gap-2">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+        <span id="folder-btn-text">Connect Project Folder</span>
+      </button>
+      
+      <!-- Save Options Dropdown -->
+      <div class="relative inline-block text-left" id="save-dropdown-wrapper">
+        <button onclick="toggleSaveDropdown()" class="px-5 py-2.5 bg-white text-black text-sm font-bold rounded-full hover:bg-opacity-90 transition-all flex items-center gap-2 glow-hover shadow-lg">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
+          Save Changes
+          <svg class="w-3 h-3 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        
+        <div id="save-dropdown" class="origin-top-right absolute right-0 mt-2 w-64 rounded-xl shadow-2xl glass hidden z-50 overflow-hidden border border-white/10">
+          <div class="py-1">
+            <button onclick="saveChangesDirectly()" class="w-full text-left px-4 py-3 text-sm text-white hover:bg-white/5 flex items-center gap-3 border-b border-white/5">
+              <span class="flex h-7 w-7 items-center justify-center rounded-lg bg-white/10 text-white"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 4H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-2m-4-1v8m0 0l3-3m-3 3L9 8"/></svg></span>
+              <div>
+                <p class="font-bold">Direct File Overwrite</p>
+                <p class="text-[10px] text-accent-dim">Write directly to gallery-data.js</p>
+              </div>
+            </button>
+            <button onclick="downloadDatabase()" class="w-full text-left px-4 py-3 text-sm text-white hover:bg-white/5 flex items-center gap-3 border-b border-white/5">
+              <span class="flex h-7 w-7 items-center justify-center rounded-lg bg-white/10 text-white"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg></span>
+              <div>
+                <p class="font-bold">Download File (.js)</p>
+                <p class="text-[10px] text-accent-dim">Download and replace in assets/</p>
+              </div>
+            </button>
+            <button onclick="copyToClipboard()" class="w-full text-left px-4 py-3 text-sm text-white hover:bg-white/5 flex items-center gap-3">
+              <span class="flex h-7 w-7 items-center justify-center rounded-lg bg-white/10 text-white"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg></span>
+              <div>
+                <p class="font-bold">Copy Source Code</p>
+                <p class="text-[10px] text-accent-dim">Copy and replace manually</p>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Workspace -->
+  <div class="flex-1 flex flex-col md:flex-row">
+    
+    <!-- Sidebar Category Selector -->
+    <aside class="w-full md:w-72 bg-surface-dark border-r border-border-glass flex flex-col shrink-0">
+      <div class="p-6 border-b border-border-glass hidden md:block">
+        <p class="text-xs font-bold uppercase tracking-widest text-accent-dim">Category Workspace</p>
+        <p class="text-[10px] text-accent-dim mt-1">Select a category to modify, drag to reorder photos, or double click to edit details.</p>
+      </div>
+      
+      <nav class="flex md:flex-col overflow-x-auto md:overflow-x-visible p-3 md:p-4 gap-1 select-none">
+        <button onclick="switchTab('highlights')" id="tab-highlights" class="tab-btn w-full px-4 py-3 rounded-lg text-left text-sm font-bold transition-all flex items-center justify-between border border-transparent whitespace-nowrap md:whitespace-normal">
+          <span class="flex items-center gap-3">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+            Gallery Highlights
+          </span>
+          <span id="badge-highlights" class="bg-white/10 text-white text-[10px] px-2 py-0.5 rounded-full font-medium ml-2">0</span>
+        </button>
+        
+        <button onclick="switchTab('drone')" id="tab-drone" class="tab-btn w-full px-4 py-3 rounded-lg text-left text-sm font-bold transition-all flex items-center justify-between border border-transparent whitespace-nowrap md:whitespace-normal">
+          <span class="flex items-center gap-3">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+            Drone Shots (01)
+          </span>
+          <span id="badge-drone" class="bg-white/10 text-white text-[10px] px-2 py-0.5 rounded-full font-medium ml-2">0</span>
+        </button>
+        
+        <button onclick="switchTab('framed')" id="tab-framed" class="tab-btn w-full px-4 py-3 rounded-lg text-left text-sm font-bold transition-all flex items-center justify-between border border-transparent whitespace-nowrap md:whitespace-normal">
+          <span class="flex items-center gap-3">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            Framed Moments (02)
+          </span>
+          <span id="badge-framed" class="bg-white/10 text-white text-[10px] px-2 py-0.5 rounded-full font-medium ml-2">0</span>
+        </button>
+        
+        <button onclick="switchTab('events')" id="tab-events" class="tab-btn w-full px-4 py-3 rounded-lg text-left text-sm font-bold transition-all flex items-center justify-between border border-transparent whitespace-nowrap md:whitespace-normal">
+          <span class="flex items-center gap-3">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+            School Events (03)
+          </span>
+          <span id="badge-events" class="bg-white/10 text-white text-[10px] px-2 py-0.5 rounded-full font-medium ml-2">0</span>
+        </button>
+        
+        <button onclick="switchTab('videos')" id="tab-videos" class="tab-btn w-full px-4 py-3 rounded-lg text-left text-sm font-bold transition-all flex items-center justify-between border border-transparent whitespace-nowrap md:whitespace-normal">
+          <span class="flex items-center gap-3">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            Video Projects (04)
+          </span>
+          <span id="badge-videos" class="bg-white/10 text-white text-[10px] px-2 py-0.5 rounded-full font-medium ml-2">0</span>
+        </button>
+        
+        <button onclick="switchTab('videos2')" id="tab-videos2" class="tab-btn w-full px-4 py-3 rounded-lg text-left text-sm font-bold transition-all flex items-center justify-between border border-transparent whitespace-nowrap md:whitespace-normal">
+          <span class="flex items-center gap-3">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7.5 12h9m-9-3h9m-9 6h9M4 20h16a2 2 0 002-2V6a2 2 0 00-2-2H4a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            Negros Aerials SE Videos
+          </span>
+          <span id="badge-videos2" class="bg-white/10 text-white text-[10px] px-2 py-0.5 rounded-full font-medium ml-2">0</span>
+        </button>
+      </nav>
+      
+      <!-- Instructional glass panel -->
+      <div class="mt-auto p-4 m-4 rounded-xl glass border border-white/5 text-[11px] text-accent-dim hidden md:flex flex-col gap-2">
+        <p class="font-bold text-white flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> Pro-Tip</p>
+        <p>1. Drag a photo card and release to visually reorder it.</p>
+        <p>2. To add multiple photos, click the "+ Add Photos" button or drag and drop image files directly into the grid.</p>
+        <p>3. Directly modify Alt tags to boost your Google Images SEO search rank!</p>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 flex flex-col min-w-0">
+      
+      <!-- Top Action bar -->
+      <section class="p-6 border-b border-border-glass flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h2 id="category-title" class="text-2xl font-bold tracking-tight">Gallery Highlights</h2>
+          <p id="category-subtitle" class="text-xs text-accent-dim mt-1">Manage main highlights displayed on index.html grid.</p>
+        </div>
+        
+        <div class="flex items-center gap-3 w-full sm:w-auto">
+          <!-- Hidden inputs for custom triggers -->
+          <input type="file" id="media-file-picker" multiple accept="image/*" class="hidden" onchange="handleFileSelect(event)"/>
+          <input type="file" id="video-file-picker" multiple accept="image/*" class="hidden" onchange="handleFileSelect(event)"/>
+          
+          <button onclick="triggerFilePicker()" class="w-full sm:w-auto px-4 py-2 border border-white/20 text-white rounded-full hover:bg-white hover:text-black font-bold text-xs transition-all flex items-center justify-center gap-2">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+            <span id="add-btn-text">Add Photos</span>
+          </button>
+          
+          <button onclick="openVideoAddModal()" id="add-video-btn" class="w-full sm:w-auto px-4 py-2 bg-white/5 border border-white/10 text-white rounded-full hover:bg-white hover:text-black font-bold text-xs transition-all flex items-center justify-center gap-2 hidden">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            Add New Video
+          </button>
+        </div>
+      </section>
+
+      <!-- Drag and Drop Drop-Zone Overlay -->
+      <div id="drop-zone" class="m-6 p-10 rounded-xl border border-dashed border-white/20 bg-white/[0.01] flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-300 hover:border-white/40"
+           ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)" onclick="triggerFilePicker()">
+        <svg class="w-10 h-10 text-accent-dim mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+        <p class="text-sm font-bold mb-1">Drag and drop new images here</p>
+        <p class="text-[11px] text-accent-dim">Supports JPG/PNG/WebP. Filenames will match automatically. Click to browse files.</p>
+      </div>
+
+      <!-- Main Dynamic Grid Panel -->
+      <div class="flex-1 overflow-y-auto px-6 pb-24">
+        
+        <!-- Empty State -->
+        <div id="empty-state" class="hidden flex flex-col items-center justify-center text-center py-20">
+          <p class="text-lg font-bold">No items found</p>
+          <p class="text-xs text-accent-dim mt-1">Click the add button above or drag files here to start.</p>
+        </div>
+
+        <div id="workspace-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-6 select-none">
+          <!-- Dynamic cards injected here -->
+        </div>
+      </div>
+    </main>
+
+    <!-- Side Edit Drawer (Glassmorphic) -->
+    <aside id="edit-drawer" class="fixed right-0 top-0 bottom-0 w-full sm:w-[500px] glass border-l border-white/10 z-50 translate-x-full transition-transform duration-300 shadow-2xl flex flex-col overflow-hidden">
+      <div class="p-6 border-b border-white/10 flex items-center justify-between">
+        <div>
+          <h3 class="font-bold text-lg">Modify Media</h3>
+          <p class="text-[10px] text-accent-dim mt-0.5">Edit file information & descriptions</p>
+        </div>
+        <button onclick="closeEditDrawer()" class="h-8 w-8 rounded-full border border-white/10 hover:border-white/30 flex items-center justify-center transition-colors">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      
+      <div class="flex-1 overflow-y-auto p-6 space-y-6">
+        <!-- Preview Thumb -->
+        <div class="rounded-lg overflow-hidden bg-black/40 border border-white/5 aspect-[3/2] flex items-center justify-center relative group">
+          <img id="drawer-preview" src="" alt="Edit Preview" class="w-full h-full object-cover"/>
+          <div id="drawer-video-indicator" class="absolute inset-0 flex items-center justify-center bg-black/60 hidden">
+            <svg class="w-12 h-12 text-white/80" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+        </div>
+
+        <!-- Replace Image Dropzone -->
+        <div id="replace-image-container" class="space-y-2">
+          <label class="text-[11px] font-bold text-accent-dim uppercase tracking-wider block">Replace Image File (Keeps Filename)</label>
+          <div id="replace-dropzone" class="p-8 rounded-lg border border-dashed border-white/10 hover:border-white/30 bg-white/[0.01] flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-300"
+               ondragover="handleReplaceDragOver(event)" ondragleave="handleReplaceDragLeave(event)" ondrop="handleReplaceDrop(event)" onclick="triggerReplaceFilePicker()">
+            <svg class="w-8 h-8 text-accent-dim mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            <p class="text-xs font-semibold text-white">Drag new photo here, or click to browse</p>
+            <p class="text-[10px] text-accent-dim mt-0.5">Keeps filename & metadata. Resized WebP files auto-generate.</p>
+          </div>
+          <input type="file" id="replace-file-picker" accept="image/*" class="hidden" onchange="handleReplaceFileSelect(event)"/>
+          
+          <!-- Pending replace status -->
+          <div id="replace-status-area" class="hidden flex items-center justify-between p-2.5 bg-white/5 rounded-lg border border-white/5">
+            <span class="text-[10px] text-success font-medium flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-success animate-pulse"></span> New Photo Loaded
+            </span>
+            <button onclick="writeReplacedImageToDisk()" id="write-img-btn" class="px-3 py-1 bg-white text-black text-[9px] font-bold rounded hover:bg-opacity-90 transition-all flex items-center gap-1">
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
+              Write Files to Folder
+            </button>
+          </div>
+        </div>
+
+        <!-- Form fields (Photos) -->
+        <div id="drawer-form-photos" class="space-y-5">
+          <div class="space-y-2">
+            <label class="text-[11px] font-bold text-accent-dim uppercase tracking-wider block">File Name</label>
+            <input type="text" id="edit-filename" class="w-full px-4 py-2.5 rounded-lg glass-input text-sm text-white" placeholder="e.g. Drone-001.JPG"/>
+            <p class="text-[10px] text-accent-dim">Matches the physical file in your images/ directory.</p>
+          </div>
+
+          <div class="space-y-2">
+            <label class="text-[11px] font-bold text-accent-dim uppercase tracking-wider block">SEO Alternative Description (Alt Text)</label>
+            <textarea id="edit-alt" rows="4" class="w-full px-4 py-2.5 rounded-lg glass-input text-sm text-white resize-none" placeholder="Explain what is in the photograph..."></textarea>
+            <p class="text-[10px] text-accent-dim">Crucial for Google search ranking. Describe the setting and subject.</p>
+          </div>
+        </div>
+
+        <!-- Form fields (Videos) -->
+        <div id="drawer-form-videos" class="space-y-5 hidden">
+          <div class="space-y-2">
+            <label class="text-[11px] font-bold text-accent-dim uppercase tracking-wider block">Video Title</label>
+            <input type="text" id="edit-video-title" class="w-full px-4 py-2.5 rounded-lg glass-input text-sm text-white" placeholder="e.g. Manila 2024 Montage"/>
+          </div>
+
+          <div class="space-y-2">
+            <label class="text-[11px] font-bold text-accent-dim uppercase tracking-wider block">YouTube Video ID</label>
+            <input type="text" id="edit-video-id" class="w-full px-4 py-2.5 rounded-lg glass-input text-sm text-white" placeholder="e.g. K_9mOUj-flY"/>
+            <p class="text-[10px] text-accent-dim">The code in your YouTube URL (after v= or in share link).</p>
+          </div>
+
+          <div class="space-y-2">
+            <label class="text-[11px] font-bold text-accent-dim uppercase tracking-wider block">Duration</label>
+            <input type="text" id="edit-video-duration" class="w-full px-4 py-2.5 rounded-lg glass-input text-sm text-white" placeholder="e.g. 1:01"/>
+          </div>
+
+          <div class="space-y-2">
+            <label class="text-[11px] font-bold text-accent-dim uppercase tracking-wider block">Thumbnail Image Path</label>
+            <input type="text" id="edit-video-thumb" class="w-full px-4 py-2.5 rounded-lg glass-input text-sm text-white" placeholder="e.g. images/optimized/800/Video Thumbnails/VI-01-800.webp"/>
+          </div>
+
+          <div class="space-y-2">
+            <label class="text-[11px] font-bold text-accent-dim uppercase tracking-wider block">Fallback Thumbnail Path</label>
+            <input type="text" id="edit-video-fallback" class="w-full px-4 py-2.5 rounded-lg glass-input text-sm text-white" placeholder="e.g. images/Video Thumbnails/VI-01.jpg"/>
+          </div>
+        </div>
+      </div>
+      
+      <div class="p-6 border-t border-white/10 bg-surface-dark flex gap-3">
+        <button onclick="deleteActiveItem()" class="flex-1 py-3 border border-danger/30 hover:border-danger hover:bg-danger/10 text-danger rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+          Delete Item
+        </button>
+        <button onclick="applyDrawerEdits()" class="flex-1 py-3 bg-white text-black hover:bg-opacity-90 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2">
+          Apply Edits
+        </button>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Notification Toast -->
+  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 px-6 py-3.5 rounded-xl glass border border-white/10 shadow-2xl flex items-center gap-3 hidden z-50">
+    <div id="toast-icon-success" class="h-5 w-5 bg-success/20 text-success rounded-full flex items-center justify-center"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></div>
+    <div id="toast-icon-error" class="h-5 w-5 bg-danger/20 text-danger rounded-full flex items-center justify-center"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg></div>
+    <p id="toast-message" class="text-xs font-semibold"></p>
+  </div>
+
+  <!-- UI & Drag-Drop Script Logic -->
+  <script>
+    let currentCategory = 'highlights';
+    let localData = JSON.parse(JSON.stringify(window.galleryData)); // clone window database
+    let activeEditIndex = null;
+    let draggedIndex = null;
+    let projectDirHandle = null;
+    let pendingReplaceBlob = null;
+
+    // Connect Project Folder using showDirectoryPicker
+    async function connectProjectFolder() {
+      try {
+        projectDirHandle = await window.showDirectoryPicker();
+        const btn = document.getElementById('folder-btn');
+        const text = document.getElementById('folder-btn-text');
+        btn.className = "px-4 py-2 border border-success text-success bg-success/5 hover:bg-success/15 text-xs font-bold rounded-full transition-all flex items-center gap-2";
+        text.textContent = "✓ Project Linked";
+        showToast("Project folder linked successfully! Auto-saving and WebP resizing enabled.", "success");
+      } catch (err) {
+        if (err.name !== 'AbortError') {
+          showToast("Failed to link project folder. Please try again.", "error");
+          console.error(err);
+        }
+      }
+    }
+
+    // Drag & Drop Replace Handlers
+    function handleReplaceDragOver(e) {
+      e.preventDefault();
+      document.getElementById('replace-dropzone').classList.add('border-white');
+    }
+
+    function handleReplaceDragLeave() {
+      document.getElementById('replace-dropzone').classList.remove('border-white');
+    }
+
+    function handleReplaceDrop(e) {
+      e.preventDefault();
+      document.getElementById('replace-dropzone').classList.remove('border-white');
+      const files = e.dataTransfer.files;
+      if (files.length > 0) {
+        loadPendingReplace(files[0]);
+      }
+    }
+
+    function triggerReplaceFilePicker() {
+      document.getElementById('replace-file-picker').click();
+    }
+
+    function handleReplaceFileSelect(e) {
+      const files = e.target.files;
+      if (files.length > 0) {
+        loadPendingReplace(files[0]);
+      }
+    }
+
+    function loadPendingReplace(file) {
+      pendingReplaceBlob = file;
+      
+      // Update image preview in edit drawer
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        document.getElementById('drawer-preview').src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+
+      // Display pending badge and write action
+      document.getElementById('replace-status-area').classList.remove('hidden');
+      showToast("New photo loaded! Click 'Write Files to Folder' to apply the change.", "success");
+    }
+
+    // Resize image to exact WebP specification in browser
+    function resizeImageToWebP(file, width) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            const scale = width / img.width;
+            const targetWidth = img.width > width ? width : img.width;
+            const targetHeight = img.width > width ? img.height * scale : img.height;
+            
+            canvas.width = targetWidth;
+            canvas.height = targetHeight;
+            
+            ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
+            canvas.toBlob((blob) => {
+              if (blob) {
+                resolve(blob);
+              } else {
+                reject(new Error("Canvas conversion failed"));
+              }
+            }, 'image/webp', 0.85);
+          };
+          img.onerror = () => reject(new Error("Image load failed"));
+          img.src = e.target.result;
+        };
+        reader.onerror = () => reject(new Error("File read failed"));
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // Write file binary directly to local project structure
+    async function writeBlobToPath(dirHandle, pathSegments, blob) {
+      let currentHandle = dirHandle;
+      for (let i = 0; i < pathSegments.length - 1; i++) {
+        currentHandle = await currentHandle.getDirectoryHandle(pathSegments[i], { create: true });
+      }
+      const fileHandle = await currentHandle.getFileHandle(pathSegments[pathSegments.length - 1], { create: true });
+      const writable = await fileHandle.createWritable();
+      await writable.write(blob);
+      await writable.close();
+    }
+
+    // Save and optimize the physical image files on disk
+    async function writeReplacedImageToDisk() {
+      if (!pendingReplaceBlob) {
+        showToast("No pending photo selected.", "error");
+        return;
+      }
+      if (!projectDirHandle) {
+        showToast("Please link your local Project Folder first by clicking the button in the top header!", "error");
+        return;
+      }
+
+      const writeBtn = document.getElementById('write-img-btn');
+      const originalText = writeBtn.innerHTML;
+      writeBtn.disabled = true;
+      writeBtn.textContent = "Writing...";
+
+      try {
+        const item = localData[currentCategory][activeEditIndex];
+        const filename = item.file;
+        const base = filename.replace(/\.[^/.]+$/, "");
+        
+        let rawPath = [];
+        let optimizedFolder = "";
+        
+        if (currentCategory === 'highlights') {
+          rawPath = ['images', filename];
+        } else if (currentCategory === 'drone') {
+          rawPath = ['images', 'Drone Shots', filename];
+          optimizedFolder = 'Drone Shots';
+        } else if (currentCategory === 'framed') {
+          rawPath = ['images', 'Framed Moments', filename];
+          optimizedFolder = 'Framed Moments';
+        } else if (currentCategory === 'events') {
+          rawPath = ['images', 'School Events', filename];
+          optimizedFolder = 'School Events';
+        }
+
+        // 1. Write the original raw file
+        await writeBlobToPath(projectDirHandle, rawPath, pendingReplaceBlob);
+
+        // 2. Generate and write optimized WebPs (800, 1200, 1600, 2048)
+        const widths = [800, 1200, 1600];
+        if (currentCategory === 'highlights') {
+          widths.push(2048);
+        }
+
+        for (const w of widths) {
+          const webpBlob = await resizeImageToWebP(pendingReplaceBlob, w);
+          let webpPath = [];
+          if (optimizedFolder) {
+            webpPath = ['images', 'optimized', String(w), optimizedFolder, `${base}-${w}.webp`];
+          } else {
+            webpPath = ['images', 'optimized', String(w), `${base}-${w}.webp`];
+          }
+          await writeBlobToPath(projectDirHandle, webpPath, webpBlob);
+        }
+
+        showToast(`Successfully replaced "${filename}" and auto-generated ${widths.length} optimized responsive webp sizes!`, "success");
+        
+        pendingReplaceBlob = null;
+        document.getElementById('replace-status-area').classList.add('hidden');
+        
+        // Refresh thumbnail caches on screen
+        const cacheBuster = `?t=${Date.now()}`;
+        const preview = document.getElementById('drawer-preview');
+        preview.src = resolveThumbPath(item, activeEditIndex) + cacheBuster;
+        renderGrid();
+        
+      } catch (err) {
+        showToast("Error writing files to disk. Verify directory permissions.", "error");
+        console.error(err);
+      } finally {
+        writeBtn.disabled = false;
+        writeBtn.innerHTML = originalText;
+      }
+    }
+
+    // Load standard categories and badges
+    function initManager() {
+      updateBadges();
+      switchTab('highlights');
+      
+      // Close dropdown when clicking outside
+      document.addEventListener('click', function(e) {
+        const wrapper = document.getElementById('save-dropdown-wrapper');
+        const dropdown = document.getElementById('save-dropdown');
+        if (!wrapper.contains(e.target)) {
+          dropdown.classList.add('hidden');
+        }
+      });
+    }
+
+    function updateBadges() {
+      document.getElementById('badge-highlights').textContent = localData.highlights.length;
+      document.getElementById('badge-drone').textContent = localData.drone.length;
+      document.getElementById('badge-framed').textContent = localData.framed.length;
+      document.getElementById('badge-events').textContent = localData.events.length;
+      document.getElementById('badge-videos').textContent = localData.videos.length;
+      document.getElementById('badge-videos2').textContent = localData.videos2.length;
+    }
+
+    function switchTab(category) {
+      currentCategory = category;
+      closeEditDrawer();
+      
+      // Update Tab Styles
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('bg-white', 'text-black', 'border-white/10');
+        btn.classList.add('text-accent-dim', 'hover:bg-white/5');
+      });
+      const activeBtn = document.getElementById(`tab-${category}`);
+      activeBtn.classList.add('bg-white', 'text-black');
+      activeBtn.classList.remove('text-accent-dim', 'hover:bg-white/5');
+
+      // Adjust Top Action bar text
+      const titles = {
+        highlights: { title: "Gallery Highlights", sub: "Manage main highlights displayed on index.html grid.", btn: "Add Photos", isVid: false },
+        drone: { title: "Drone Shots (01)", sub: "Aerial view photos loaded inside drone-shots.html.", btn: "Add Photos", isVid: false },
+        framed: { title: "Framed Moments (02)", sub: "Street and editorial moments loaded inside framed-moments.html.", btn: "Add Photos", isVid: false },
+        events: { title: "School Events (03)", sub: "Yearbook, student gatherings and event coverage inside school-events.html.", btn: "Add Photos", isVid: false },
+        videos: { title: "Video Projects (04)", sub: "Main travel and yearbook Reels/Montages in video-projects.html.", btn: "Add Video", isVid: true },
+        videos2: { title: "Negros Aerials SE Videos", sub: "YouTube aerial videos in video-projects.html.", btn: "Add Video", isVid: true }
+      };
+
+      document.getElementById('category-title').textContent = titles[category].title;
+      document.getElementById('category-subtitle').textContent = titles[category].sub;
+      document.getElementById('add-btn-text').textContent = titles[category].btn;
+
+      if(titles[category].isVid) {
+        document.getElementById('drop-zone').classList.add('hidden');
+        document.getElementById('add-video-btn').classList.remove('hidden');
+        document.getElementById('media-file-picker').setAttribute('accept', 'image/*'); // fallback
+      } else {
+        document.getElementById('drop-zone').classList.remove('hidden');
+        document.getElementById('add-video-btn').classList.add('hidden');
+      }
+
+      renderGrid();
+    }
+
+    // Resolve visual asset path for previews
+    function resolveThumbPath(item, index) {
+      if (currentCategory === 'videos' || currentCategory === 'videos2') {
+        return item.thumb;
+      }
+      const file = item.file;
+      const base = file.replace(/\.jpe?g$/i, '');
+      if (currentCategory === 'highlights') {
+        return `images/optimized/800/${base}-800.webp`;
+      } else if (currentCategory === 'drone') {
+        return `images/optimized/800/Drone Shots/${base}-800.webp`;
+      } else if (currentCategory === 'framed') {
+        return `images/optimized/800/Framed Moments/${base}-800.webp`;
+      } else if (currentCategory === 'events') {
+        return `images/optimized/800/School Events/${base}-800.webp`;
+      }
+      return `images/${file}`;
+    }
+
+    function resolveOriginalPath(item) {
+      if (currentCategory === 'videos' || currentCategory === 'videos2') {
+        return item.thumbFallback || item.thumb;
+      }
+      const file = item.file;
+      if (currentCategory === 'highlights') return `images/${file}`;
+      if (currentCategory === 'drone') return `images/Drone Shots/${file}`;
+      if (currentCategory === 'framed') return `images/Framed Moments/${file}`;
+      if (currentCategory === 'events') return `images/School Events/${file}`;
+      return `images/${file}`;
+    }
+
+    // Render workspace cards
+    function renderGrid() {
+      const container = document.getElementById('workspace-grid');
+      const emptyState = document.getElementById('empty-state');
+      container.innerHTML = '';
+      
+      const list = localData[currentCategory];
+      
+      if (!list || list.length === 0) {
+        emptyState.classList.remove('hidden');
+        return;
+      }
+      emptyState.classList.add('hidden');
+
+      list.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'glass rounded-xl overflow-hidden cursor-pointer flex flex-col relative transition-all duration-300 hover:border-white/20 select-none group';
+        card.setAttribute('draggable', 'true');
+        card.setAttribute('data-index', index);
+        
+        // Register drag events
+        card.addEventListener('dragstart', handleCardDragStart);
+        card.addEventListener('dragover', handleCardDragOver);
+        card.addEventListener('drop', handleCardDrop);
+        card.addEventListener('dragend', handleCardDragEnd);
+        card.addEventListener('dblclick', () => openEditDrawer(index));
+
+        const isVid = (currentCategory === 'videos' || currentCategory === 'videos2');
+        const titleText = isVid ? item.title : item.file;
+        const subtext = isVid ? `YouTube: ${item.youtubeId}` : (item.alt || 'No SEO alt text specified');
+
+        card.innerHTML = `
+          <!-- Card Thumbnail -->
+          <div class="aspect-[3/2] overflow-hidden bg-black/30 border-b border-white/5 relative flex items-center justify-center shrink-0">
+            <img src="${resolveThumbPath(item, index)}" 
+                 onerror="this.src='${resolveOriginalPath(item)}'; this.onerror=function(){this.src='images/favicon.png'}" 
+                 alt="${subtext}" 
+                 loading="lazy"
+                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
+            
+            <!-- Index Overlay Badge -->
+            <div class="absolute top-2.5 left-2.5 px-2 py-0.5 bg-black/70 backdrop-blur-md rounded text-[9px] font-bold text-white/90 border border-white/5">
+              #${index + 1}
+            </div>
+
+            <!-- Video duration -->
+            ${isVid ? `<div class="absolute bottom-2 right-2 px-1.5 py-0.5 bg-black/70 backdrop-blur-md rounded text-[9px] font-bold text-white">${item.duration}</div>` : ''}
+
+            <!-- Drag Handle indicator -->
+            <div class="absolute top-2.5 right-2.5 cursor-grab active:cursor-grabbing p-1 rounded bg-black/60 backdrop-blur-sm border border-white/5 opacity-0 group-hover:opacity-100 transition-opacity">
+              <svg class="w-3.5 h-3.5 text-white/80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </div>
+          </div>
+
+          <!-- Description Footer -->
+          <div class="p-3.5 flex flex-col flex-1 min-w-0">
+            <h4 class="text-xs font-bold text-white truncate mb-1" title="${titleText}">${titleText}</h4>
+            <p class="text-[10px] text-accent-dim line-clamp-2 leading-relaxed flex-1" title="${subtext}">${subtext}</p>
+            
+            <div class="flex items-center justify-between border-t border-white/5 mt-3 pt-2">
+              <button onclick="event.stopPropagation(); deleteItem(${index})" class="text-danger hover:bg-danger/10 p-1.5 rounded transition-colors" title="Delete Item">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+              </button>
+              <button onclick="event.stopPropagation(); openEditDrawer(${index})" class="text-white bg-white/5 hover:bg-white/10 px-2.5 py-1 rounded text-[10px] font-bold border border-white/5 transition-all">
+                Edit Details
+              </button>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // HTML5 Sortable Drag & Drop logic
+    function handleCardDragStart(e) {
+      draggedIndex = parseInt(this.getAttribute('data-index'));
+      e.dataTransfer.effectAllowed = 'move';
+      this.classList.add('sortable-chosen');
+      
+      // Fallback ghost style setup
+      setTimeout(() => this.classList.add('sortable-ghost'), 0);
+    }
+
+    function handleCardDragOver(e) {
+      if (e.preventDefault) {
+        e.preventDefault(); 
+      }
+      e.dataTransfer.dropEffect = 'move';
+      return false;
+    }
+
+    function handleCardDrop(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const targetIndex = parseInt(this.getAttribute('data-index'));
+      
+      if (draggedIndex !== null && draggedIndex !== targetIndex) {
+        // Swap or move logic
+        const list = localData[currentCategory];
+        const draggedItem = list.splice(draggedIndex, 1)[0];
+        list.splice(targetIndex, 0, draggedItem);
+        
+        renderGrid();
+        updateBadges();
+        showToast("Order updated visually! Remember to save changes.", "success");
+      }
+    }
+
+    function handleCardDragEnd() {
+      this.classList.remove('sortable-chosen', 'sortable-ghost');
+      draggedIndex = null;
+    }
+
+    // Dropzone overlay triggers
+    function handleDragOver(e) {
+      e.preventDefault();
+      document.getElementById('drop-zone').classList.add('drag-over');
+    }
+
+    function handleDragLeave() {
+      document.getElementById('drop-zone').classList.remove('drag-over');
+    }
+
+    function handleDrop(e) {
+      e.preventDefault();
+      document.getElementById('drop-zone').classList.remove('drag-over');
+      
+      const files = e.dataTransfer.files;
+      if (files.length > 0) {
+        addFilesToList(files);
+      }
+    }
+
+    function triggerFilePicker() {
+      if(currentCategory === 'videos' || currentCategory === 'videos2') {
+        openVideoAddModal();
+      } else {
+        document.getElementById('media-file-picker').click();
+      }
+    }
+
+    function handleFileSelect(e) {
+      const files = e.target.files;
+      if (files.length > 0) {
+        addFilesToList(files);
+      }
+    }
+
+    // Import visual files
+    function addFilesToList(files) {
+      const list = localData[currentCategory];
+      let addedCount = 0;
+
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const name = file.name;
+        
+        // Prevent duplicate filenames in the same workspace category
+        if (list.some(item => item.file.toLowerCase() === name.toLowerCase())) {
+          continue;
+        }
+
+        // Generate a friendly initial Alt Text using the filename base
+        const base = name.replace(/\.[^/.]+$/, "");
+        const formattedBase = base.replace(/[-_]/g, ' ');
+        const altText = `Portfolio photograph by JC Niñonuevo — ${formattedBase}`;
+
+        list.push({
+          file: name,
+          alt: altText
+        });
+        addedCount++;
+      }
+
+      if (addedCount > 0) {
+        renderGrid();
+        updateBadges();
+        showToast(`Successfully added ${addedCount} photo(s)! Edit details to customize alt tags.`, "success");
+      } else {
+        showToast("Selected file(s) are already inside this category grid.", "error");
+      }
+    }
+
+    // Edit Modal drawer actions
+    function openEditDrawer(index) {
+      activeEditIndex = index;
+      const item = localData[currentCategory][index];
+      const drawer = document.getElementById('edit-drawer');
+      
+      // Update preview thumb
+      const preview = document.getElementById('drawer-preview');
+      preview.src = resolveThumbPath(item, index);
+      preview.onerror = function() {
+        this.src = resolveOriginalPath(item);
+        this.onerror = function() { this.src = 'images/favicon.png'; }
+      };
+
+      const isVid = (currentCategory === 'videos' || currentCategory === 'videos2');
+      const vidIndicator = document.getElementById('drawer-video-indicator');
+      
+      // Reset pending replace state
+      pendingReplaceBlob = null;
+      document.getElementById('replace-status-area').classList.add('hidden');
+
+      if(isVid) {
+        document.getElementById('replace-image-container').classList.add('hidden');
+        vidIndicator.classList.remove('hidden');
+        document.getElementById('drawer-form-photos').classList.add('hidden');
+        document.getElementById('drawer-form-videos').classList.remove('hidden');
+
+        document.getElementById('edit-video-title').value = item.title || '';
+        document.getElementById('edit-video-id').value = item.youtubeId || '';
+        document.getElementById('edit-video-duration').value = item.duration || '';
+        document.getElementById('edit-video-thumb').value = item.thumb || '';
+        document.getElementById('edit-video-fallback').value = item.thumbFallback || '';
+      } else {
+        document.getElementById('replace-image-container').classList.remove('hidden');
+        vidIndicator.classList.add('hidden');
+        document.getElementById('drawer-form-photos').classList.remove('hidden');
+        document.getElementById('drawer-form-videos').classList.add('hidden');
+
+        document.getElementById('edit-filename').value = item.file || '';
+        document.getElementById('edit-alt').value = item.alt || '';
+      }
+
+      drawer.classList.remove('translate-x-full');
+    }
+
+    function closeEditDrawer() {
+      document.getElementById('edit-drawer').classList.add('translate-x-full');
+      activeEditIndex = null;
+    }
+
+    function applyDrawerEdits() {
+      if (activeEditIndex === null) return;
+      const item = localData[currentCategory][activeEditIndex];
+      const isVid = (currentCategory === 'videos' || currentCategory === 'videos2');
+
+      if (isVid) {
+        item.title = document.getElementById('edit-video-title').value.trim();
+        item.youtubeId = document.getElementById('edit-video-id').value.trim();
+        item.duration = document.getElementById('edit-video-duration').value.trim();
+        item.thumb = document.getElementById('edit-video-thumb').value.trim();
+        item.thumbFallback = document.getElementById('edit-video-fallback').value.trim();
+        
+        if(!item.title || !item.youtubeId) {
+          showToast("Video Title and YouTube Video ID are required.", "error");
+          return;
+        }
+      } else {
+        item.file = document.getElementById('edit-filename').value.trim();
+        item.alt = document.getElementById('edit-alt').value.trim();
+
+        if(!item.file) {
+          showToast("File name cannot be left empty.", "error");
+          return;
+        }
+      }
+
+      renderGrid();
+      closeEditDrawer();
+      showToast("Edits applied! Click Save Changes above to save to disk.", "success");
+    }
+
+    // Delete single items
+    function deleteItem(index) {
+      if (confirm("Are you sure you want to delete this item? This cannot be undone until saved.")) {
+        localData[currentCategory].splice(index, 1);
+        renderGrid();
+        updateBadges();
+        showToast("Item deleted from temporary state.", "success");
+      }
+    }
+
+    function deleteActiveItem() {
+      if (activeEditIndex !== null) {
+        deleteItem(activeEditIndex);
+        closeEditDrawer();
+      }
+    }
+
+    // Add Video Modals
+    function openVideoAddModal() {
+      const title = prompt("Enter video title:");
+      if (!title) return;
+      const yid = prompt("Enter YouTube Video ID (e.g. K_9mOUj-flY):");
+      if (!yid) return;
+      const dur = prompt("Enter video duration (e.g. 1:00):", "1:00");
+      if (!dur) return;
+
+      const list = localData[currentCategory];
+      const nextId = list.reduce((max, item) => Math.max(max, item.id || 0), 0) + 1;
+
+      // Guessing thumbnail schemes based on original format
+      const thumbNumber = String(nextId).padStart(2, '0');
+      const prefix = currentCategory === 'videos2' ? 'NASE' : 'VI';
+      
+      const newItem = {
+        id: nextId,
+        title: title,
+        youtubeId: yid,
+        thumb: `images/optimized/800/Video Thumbnails/${prefix}-${thumbNumber}-800.webp`,
+        thumbFallback: `images/Video Thumbnail/${prefix}-${thumbNumber}.jpg`,
+        duration: dur
+      };
+
+      list.push(newItem);
+      renderGrid();
+      updateBadges();
+      showToast("New video project created. Click edit details to customize thumbnail pathways.", "success");
+    }
+
+    // Top action bar save toggle
+    function toggleSaveDropdown() {
+      const dropdown = document.getElementById('save-dropdown');
+      dropdown.classList.toggle('hidden');
+    }
+
+    // Compile database to valid JavaScript
+    function compileDatabase() {
+      const jsCode = `/**
+ * JC Niñonuevo Portfolio
+ * Gallery & Video Database
+ * Centralized file for easy photo/video management
+ */
+window.galleryData = ${JSON.stringify(localData, null, 2)};
+`;
+      return jsCode;
+    }
+
+    // Direct Saving with File System Access API
+    async function saveChangesDirectly() {
+      toggleSaveDropdown();
+      try {
+        const content = compileDatabase();
+        // Prompt save handle
+        const handle = await window.showSaveFilePicker({
+          suggestedName: 'gallery-data.js',
+          types: [{
+            description: 'JavaScript Files',
+            accept: {
+              'text/javascript': ['.js'],
+            }
+          }]
+        });
+        const writable = await handle.createWritable();
+        await writable.write(content);
+        await writable.close();
+        
+        // Sync local storage / window cache
+        window.galleryData = JSON.parse(JSON.stringify(localData));
+        showToast("Database written directly to assets/gallery-data.js successfully!", "success");
+      } catch (err) {
+        if (err.name !== 'AbortError') {
+          showToast("Write permission refused or browser incompatible. Try downloading the file.", "error");
+          console.error(err);
+        }
+      }
+    }
+
+    // Fallback direct download
+    function downloadDatabase() {
+      toggleSaveDropdown();
+      const content = compileDatabase();
+      const blob = new Blob([content], { type: 'text/javascript' });
+      const url = URL.createObjectURL(blob);
+      
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'gallery-data.js';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      showToast("gallery-data.js downloaded! Please copy it to assets/ gallery-data.js in your workspace.", "success");
+    }
+
+    // Fallback Copy to Clipboard
+    function copyToClipboard() {
+      toggleSaveDropdown();
+      const content = compileDatabase();
+      navigator.clipboard.writeText(content).then(() => {
+        showToast("Source code copied to your clipboard! Paste directly inside assets/gallery-data.js.", "success");
+      }).catch(err => {
+        showToast("Failed to copy source code to clipboard.", "error");
+        console.error(err);
+      });
+    }
+
+    // Elegant Custom Toast
+    function showToast(message, type = "success") {
+      const toast = document.getElementById('toast');
+      const msg = document.getElementById('toast-message');
+      const iconSuccess = document.getElementById('toast-icon-success');
+      const iconError = document.getElementById('toast-icon-error');
+
+      msg.textContent = message;
+      
+      if (type === "success") {
+        iconSuccess.classList.remove('hidden');
+        iconError.classList.add('hidden');
+      } else {
+        iconSuccess.classList.add('hidden');
+        iconError.classList.remove('hidden');
+      }
+
+      toast.classList.remove('hidden');
+      toast.classList.add('toast-active');
+
+      setTimeout(() => {
+        toast.classList.add('hidden');
+        toast.classList.remove('toast-active');
+      }, 5000);
+    }
+
+    // Run init
+    window.addEventListener('DOMContentLoaded', initManager);
+  </script>
+</body>
+</html>
