@@ -181,14 +181,6 @@
   document.addEventListener('DOMContentLoaded', () => {
     renderVideoGrid();
     renderVideoGrid2();
-
-    // Safely add click listener to the dynamically injected video-lightbox background
-    const videoLightbox = document.getElementById('video-lightbox');
-    if (videoLightbox) {
-      videoLightbox.addEventListener('click', e => {
-        if (e.target === videoLightbox) closeVideoLightbox();
-      });
-    }
   });
 </script>
 
@@ -206,6 +198,16 @@
     const titleEl = document.getElementById('video-title');
 
     if (!lb || !video) return;
+
+    // Safely attach the click outside to close listener once the elements are guaranteed to exist
+    if (!lb.dataset.listenerAttached) {
+      lb.addEventListener('click', e => {
+        if (container && !container.contains(e.target)) {
+          closeVideoLightbox();
+        }
+      });
+      lb.dataset.listenerAttached = 'true';
+    }
 
     video.src = src;
     titleEl.textContent = title;
