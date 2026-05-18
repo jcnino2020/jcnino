@@ -7,8 +7,8 @@ window.galleryData = {
   highlights: [
     { file: "GH-01.JPG", alt: "Aerial view of Lakawon Island resort, Cadiz City" },
     { file: "GH-02.JPG", alt: "Coastal aerial photograph of Negros Occidental shoreline" },
-    { file: "GH-03.JPG", alt: "Overhead drone shot of agricultural fields and greenery" },
     { file: "GH-03.1.JPG", alt: "Abstract aerial pattern of rice fields and pathways" },
+    { file: "GH-03.JPG", alt: "Overhead drone shot of agricultural fields and greenery" },
     { file: "GH-04.JPG", alt: "Sunset aerial view over Bacolod City skyline" },
     { file: "GH-05.JPG", alt: "Aerial panorama of mountainous terrain and forest canopy" },
     { file: "GH-06.JPG", alt: "Bird's-eye view of a community and rooftop architecture" },
