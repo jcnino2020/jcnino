@@ -53,49 +53,7 @@
 <body class="min-h-screen">
 
 <!-- Navigation -->
-<nav id="main-nav" class="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/20">
-  <div class="max-w-7xl mx-auto px-6 sm:px-10">
-    <div class="flex items-center justify-between h-16 md:h-20">
-      <a href="index.html" class="flex items-center">
-        <img src="images/logo.png" alt="Portfolio" class="h-5 w-auto opacity-90 hover:opacity-100 transition-opacity" />
-      </a>
-      
-      <!-- Desktop Nav -->
-      <div class="hidden md:flex items-center gap-10" id="nav-links">
-        <a href="index.html" class="nav-link active text-white text-sm font-bold tracking-wide transition-colors">Home</a>
-        <a href="drone-shots.html" class="nav-link text-text-muted hover:text-white text-sm font-bold tracking-wide transition-colors">Drone</a>
-        <a href="framed-moments.html" class="nav-link text-text-muted hover:text-white text-sm font-bold tracking-wide transition-colors">Framed</a>
-        <a href="school-events.html" class="nav-link text-text-muted hover:text-white text-sm font-bold tracking-wide transition-colors">Events</a>
-        <a href="video-projects.html" class="nav-link text-text-muted hover:text-white text-sm font-bold tracking-wide transition-colors">Video</a>
-      </div>
-      
-      <div class="hidden md:flex items-center gap-6" id="nav-cta">
-        <a href="#contact" class="px-6 py-2.5 bg-white text-black text-sm font-bold rounded-full hover:bg-opacity-90 transition-all hover:scale-105">Contact</a>
-      </div>
-
-      <!-- Mobile Menu Button -->
-      <button id="hamburger" class="md:hidden text-white p-2 rounded-lg hover:bg-white/10 transition-colors" aria-label="Menu">
-        <svg id="ham-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
-        <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/></svg>
-      </button>
-    </div>
-
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="closed md:hidden">
-      <div class="py-6 flex flex-col gap-5 border-t border-white/10">
-        <a href="index.html" class="text-white text-2xl font-bold transition-colors">Home</a>
-        <a href="drone-shots.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Drone Shots</a>
-        <a href="framed-moments.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Framed Moments</a>
-        <a href="school-events.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">School Events</a>
-        <a href="video-projects.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Video Projects</a>
-        <div class="pt-4 border-t border-white/10">
-          <!-- AFTER (matches drone-shots.html exactly) -->
-<a href="#contact" class="block text-center bg-white text-black w-full py-3 rounded-full text-lg font-bold">Get in Touch</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</nav>
+<div id="navbar-placeholder"></div>
 
 <!-- Assets -->
 <script src="assets/portfolio.js" defer></script>
@@ -110,7 +68,7 @@
         
         <!-- Left Column: Text -->
         <div class="lg:col-span-6">
-          <p id="hero-eyebrow" class="gsap-hero-item text-text-muted text-sm font-bold uppercase tracking-[0.2em] mb-6">Photo & Video</p>
+          <p id="hero-eyebrow" class="gsap-hero-item text-text-muted text-sm font-bold uppercase tracking-normal mb-6">Photo & Video</p>
           <h1 id="hero-title" class="gsap-hero-item text-6xl sm:text-7xl lg:text-8xl text-white mb-8 leading-none tracking-tight font-bold">
             Framing <br/><span class="font-light opacity-90">Stories.</span>
           </h1>
@@ -155,101 +113,130 @@
           </div>
         </div>
       </div>
+
+      <!-- Scroll Down Indicator Arrow (Smooth scroll to 4 category grids) -->
+      <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer z-20 group" onclick="document.getElementById('services-section').scrollIntoView({ behavior: 'smooth' })" aria-label="Scroll down to category grids">
+        <span class="text-xs sm:text-sm uppercase tracking-normal text-white/60 group-hover:text-white transition-colors font-bold">Discover</span>
+        <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full border border-white/20 flex items-center justify-center bg-black/50 backdrop-blur-sm group-hover:border-white/40 group-hover:bg-black/70 transition-all shadow-lg">
+          <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white/70 group-hover:text-white group-hover:translate-y-0.5 transition-all animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+          </svg>
+        </div>
+      </div>
+
     </div>
   </section>
 
-  <!-- Services/Category Grid -->
-<section id="services-section" class="py-12 md:py-24 border-t border-border">
-  <div class="max-w-7xl mx-auto px-6 sm:px-10">
-    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+  <!-- Categories Section -->
+  <section id="services-section" class="py-12 md:py-24 border-t border-border">
+    <div class="max-w-7xl mx-auto px-6 sm:px-10">
+      
+      <!-- New Header in Exact Same Style as Gallery Highlights -->
+      <div id="services-header" class="mb-8 md:mb-12">
+        <p class="text-text-muted text-xs font-bold uppercase">Categories</p>
+      </div>
 
-      <!-- 01 Drone Shots -->
-      <a href="drone-shots.html" class="service-card group border border-border hover:border-white/30 transition-all duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden">
-        <!-- BG Image -->
-        <picture class="absolute inset-0 w-full h-full">
-          <source type="image/webp" srcset="images/optimized/800/Drone Shots/Drone-006-800.webp 800w, images/optimized/1200/Drone Shots/Drone-006-1200.webp 1200w" sizes="(max-width: 768px) 100vw, 25vw" />
-          <img src="images/optimized/800/Drone Shots/Drone-006-800.webp"
-            alt="Aerial view of Negros Island landscape captured by drone" loading="lazy" decoding="async" width="800" height="533"
-            class="w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-700" />
-        </picture>
-        <!-- Overlay -->
-        <div class="absolute inset-0 bg-black/55 group-hover:bg-black/40 transition-colors duration-300"></div>
-        <!-- Glow orb -->
-        <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl transform translate-x-10 -translate-y-10 group-hover:scale-150 transition-transform duration-500"></div>
-        <div class="relative z-10">
-          <span class="text-xs font-bold text-white/60">01</span>
-          <h3 class="text-2xl font-bold text-white mt-2">Drone Shots</h3>
-        </div>
-        <div class="relative z-10 flex items-center justify-between">
-          <p class="text-white/70 text-sm font-bold">Aerial Views</p>
-          <svg class="w-5 h-5 text-white transform group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-        </div>
-      </a>
+      <!-- The 4 Categories Grid -->
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <!-- 01 Drone Shots -->
+        <a href="drone-shots.html" class="service-card group border border-border hover:border-white/30 transition-all duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden">
+          <!-- BG Image -->
+          <picture class="absolute inset-0 w-full h-full">
+            <source type="image/webp" srcset="images/optimized/800/Drone Shots/Drone-006-800.webp 800w, images/optimized/1200/Drone Shots/Drone-006-1200.webp 1200w" sizes="(max-width: 768px) 100vw, 25vw" />
+            <img src="images/optimized/800/Drone Shots/Drone-006-800.webp"
+              alt="Aerial view of Negros Island landscape captured by drone" loading="lazy" decoding="async" width="800" height="533"
+              class="w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-700" />
+          </picture>
+          <!-- Overlay -->
+          <div class="absolute inset-0 bg-black/60 group-hover:bg-black/45 transition-colors duration-300"></div>
+          <!-- Glow orb -->
+          <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl transform translate-x-10 -translate-y-10 group-hover:scale-150 transition-transform duration-500"></div>
+          <div class="relative z-10">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-white/50 tracking-normal">01</span>
+              <span class="text-[10px] font-bold text-white/70 uppercase tracking-normal">Aerial Views</span>
+            </div>
+            <h3 class="text-2xl font-bold text-white mt-3">Drone Shots</h3>
+          </div>
+          <div class="relative z-10 flex items-center justify-between">
+            <span class="text-xs text-white/80 font-medium group-hover:underline">View Gallery</span>
+            <svg class="w-4 h-4 text-white transform group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </div>
+        </a>
 
-      <!-- 02 Framed Moments -->
-      <a href="framed-moments.html" class="service-card group border border-border hover:border-white/30 transition-all duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden">
-        <picture class="absolute inset-0 w-full h-full">
-          <source type="image/webp" srcset="images/optimized/800/Framed Moments/FM-01-800.webp 800w, images/optimized/1200/Framed Moments/FM-01-1200.webp 1200w" sizes="(max-width: 768px) 100vw, 25vw" />
-          <img src="images/optimized/800/Framed Moments/FM-01-800.webp"
-            alt="Street and editorial portrait photography by JC Niñonuevo" loading="lazy" decoding="async" width="800" height="533"
-            class="w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-700" />
-        </picture>
-        <div class="absolute inset-0 bg-black/55 group-hover:bg-black/40 transition-colors duration-300"></div>
-        <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl transform translate-x-10 -translate-y-10 group-hover:scale-150 transition-transform duration-500"></div>
-        <div class="relative z-10">
-          <span class="text-xs font-bold text-white/60">02</span>
-          <h3 class="text-2xl font-bold text-white mt-2">Framed Moments</h3>
-        </div>
-        <div class="relative z-10 flex items-center justify-between">
-          <p class="text-white/70 text-sm font-bold">Street & Editorial</p>
-          <svg class="w-5 h-5 text-white transform group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-        </div>
-      </a>
+        <!-- 02 Framed Moments -->
+        <a href="framed-moments.html" class="service-card group border border-border hover:border-white/30 transition-all duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden">
+          <picture class="absolute inset-0 w-full h-full">
+            <source type="image/webp" srcset="images/optimized/800/Framed Moments/FM-01-800.webp 800w, images/optimized/1200/Framed Moments/FM-01-1200.webp 1200w" sizes="(max-width: 768px) 100vw, 25vw" />
+            <img src="images/optimized/800/Framed Moments/FM-01-800.webp"
+              alt="Street and editorial portrait photography by JC Niñonuevo" loading="lazy" decoding="async" width="800" height="533"
+              class="w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-700" />
+          </picture>
+          <div class="absolute inset-0 bg-black/60 group-hover:bg-black/45 transition-colors duration-300"></div>
+          <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl transform translate-x-10 -translate-y-10 group-hover:scale-150 transition-transform duration-500"></div>
+          <div class="relative z-10">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-white/50 tracking-normal">02</span>
+              <span class="text-[10px] font-bold text-white/70 uppercase tracking-normal">Street & Editorial</span>
+            </div>
+            <h3 class="text-2xl font-bold text-white mt-3">Framed Moments</h3>
+          </div>
+          <div class="relative z-10 flex items-center justify-between">
+            <span class="text-xs text-white/80 font-medium group-hover:underline">View Gallery</span>
+            <svg class="w-4 h-4 text-white transform group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </div>
+        </a>
 
-      <!-- 03 School Events -->
-      <a href="school-events.html" class="service-card group border border-border hover:border-white/30 transition-all duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden">
-        <picture class="absolute inset-0 w-full h-full">
-          <source type="image/webp" srcset="images/optimized/800/School Events/SE-01-800.webp 800w, images/optimized/1200/School Events/SE-01-1200.webp 1200w" sizes="(max-width: 768px) 100vw, 25vw" />
-          <img src="images/optimized/800/School Events/SE-01-800.webp"
-            alt="School event and campus life photography by JC Niñonuevo" loading="lazy" decoding="async" width="800" height="533"
-            class="w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-700" />
-        </picture>
-        <div class="absolute inset-0 bg-black/55 group-hover:bg-black/40 transition-colors duration-300"></div>
-        <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl transform translate-x-10 -translate-y-10 group-hover:scale-150 transition-transform duration-500"></div>
-        <div class="relative z-10">
-          <span class="text-xs font-bold text-white/60">03</span>
-          <h3 class="text-2xl font-bold text-white mt-2">School Events</h3>
-        </div>
-        <div class="relative z-10 flex items-center justify-between">
-          <p class="text-white/70 text-sm font-bold">Yearbook & Events</p>
-          <svg class="w-5 h-5 text-white transform group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-        </div>
-      </a>
+        <!-- 03 School Events -->
+        <a href="school-events.html" class="service-card group border border-border hover:border-white/30 transition-all duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden">
+          <picture class="absolute inset-0 w-full h-full">
+            <source type="image/webp" srcset="images/optimized/800/School Events/SE-01-800.webp 800w, images/optimized/1200/School Events/SE-01-1200.webp 1200w" sizes="(max-width: 768px) 100vw, 25vw" />
+            <img src="images/optimized/800/School Events/SE-01-800.webp"
+              alt="School event and campus life photography by JC Niñonuevo" loading="lazy" decoding="async" width="800" height="533"
+              class="w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-700" />
+          </picture>
+          <div class="absolute inset-0 bg-black/60 group-hover:bg-black/45 transition-colors duration-300"></div>
+          <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl transform translate-x-10 -translate-y-10 group-hover:scale-150 transition-transform duration-500"></div>
+          <div class="relative z-10">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-white/50 tracking-normal">03</span>
+              <span class="text-[10px] font-bold text-white/70 uppercase tracking-normal">Yearbook & Events</span>
+            </div>
+            <h3 class="text-2xl font-bold text-white mt-3">School Events</h3>
+          </div>
+          <div class="relative z-10 flex items-center justify-between">
+            <span class="text-xs text-white/80 font-medium group-hover:underline">View Gallery</span>
+            <svg class="w-4 h-4 text-white transform group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </div>
+        </a>
 
-      <!-- 04 Video Projects -->
-      <a href="video-projects.html" class="service-card group border border-border hover:border-white/30 transition-all duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden">
-        <picture class="absolute inset-0 w-full h-full">
-          <source type="image/webp" srcset="images/optimized/800/VP-800.webp 800w, images/optimized/1200/VP-1200.webp 1200w" sizes="(max-width: 768px) 100vw, 25vw" />
-          <img src="images/optimized/800/VP-800.webp"
-            alt="Cinematic video and film projects by JC Niñonuevo" loading="lazy" decoding="async" width="800" height="533"
-            class="w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-700" />
-        </picture>
-        <div class="absolute inset-0 bg-black/55 group-hover:bg-black/40 transition-colors duration-300"></div>
-        <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl transform translate-x-10 -translate-y-10 group-hover:scale-150 transition-transform duration-500"></div>
-        <div class="relative z-10">
-          <span class="text-xs font-bold text-white/60">04</span>
-          <h3 class="text-2xl font-bold text-white mt-2">Video Projects</h3>
-        </div>
-        <div class="relative z-10 flex items-center justify-between">
-          <p class="text-white/70 text-sm font-bold">Reels & Films</p>
-          <svg class="w-5 h-5 text-white transform group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-        </div>
-      </a>
+        <!-- 04 Video Projects -->
+        <a href="video-projects.html" class="service-card group border border-border hover:border-white/30 transition-all duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden">
+          <picture class="absolute inset-0 w-full h-full">
+            <source type="image/webp" srcset="images/optimized/800/VP-800.webp 800w, images/optimized/1200/VP-1200.webp 1200w" sizes="(max-width: 768px) 100vw, 25vw" />
+            <img src="images/optimized/800/VP-800.webp"
+              alt="Cinematic video and film projects by JC Niñonuevo" loading="lazy" decoding="async" width="800" height="533"
+              class="w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-700" />
+          </picture>
+          <div class="absolute inset-0 bg-black/60 group-hover:bg-black/45 transition-colors duration-300"></div>
+          <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl transform translate-x-10 -translate-y-10 group-hover:scale-150 transition-transform duration-500"></div>
+          <div class="relative z-10">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-white/50 tracking-normal">04</span>
+              <span class="text-[10px] font-bold text-white/70 uppercase tracking-normal">Reels & Films</span>
+            </div>
+            <h3 class="text-2xl font-bold text-white mt-3">Video Projects</h3>
+          </div>
+          <div class="relative z-10 flex items-center justify-between">
+            <span class="text-xs text-white/80 font-medium group-hover:underline">Watch Videos</span>
+            <svg class="w-4 h-4 text-white transform group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </div>
+        </a>
 
+      </div>
     </div>
-  </div>
-</section>
-
+  </section>
 
   <!-- Gallery Section -->
   <section id="gallery" class="py-12 md:py-24 border-t border-border">
@@ -280,7 +267,7 @@
         <div id="about-right" class="lg:col-span-7 lg:pl-12 border-l-0 lg:border-l border-border">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
             <div>
-              <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4">Camera Kit</h4>
+              <h4 class="text-white font-bold text-sm uppercase tracking-normal mb-4">Camera Kit</h4>
               <ul class="space-y-3 text-text-muted">
                 <li class="flex justify-between border-b border-white/5 pb-2"><span>Body</span><span class="text-white font-bold">Nikon Z50</span></li>
                 <li class="flex justify-between border-b border-white/5 pb-2"><span>Primes</span><span class="text-white font-bold text-right">Viltrox 25/56/85</span></li>
@@ -288,7 +275,7 @@
               </ul>
             </div>
             <div>
-              <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4">Workflow</h4>
+              <h4 class="text-white font-bold text-sm uppercase tracking-normal mb-4">Workflow</h4>
               <ul class="space-y-3 text-text-muted">
                 <li class="flex justify-between border-b border-white/5 pb-2"><span>Photo</span><span class="text-white font-bold">Lightroom Classic</span></li>
                 <li class="flex justify-between border-b border-white/5 pb-2"><span>Video</span><span class="text-white font-bold">Final Cut Pro</span></li>
@@ -316,7 +303,7 @@
             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5s3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
           </div>
           <h3 class="text-xl font-bold text-white mb-2">The La Salle Yearbook</h3>
-          <p class="text-white/60 text-sm font-bold uppercase tracking-widest mb-4">Photo and Video Editor</p>
+          <p class="text-white/60 text-sm font-bold uppercase tracking-normal mb-4">Photo and Video Editor</p>
           <p class="text-text-muted leading-relaxed">Event coverage, portraits, publication-ready photo selection, and visual storytelling for school yearbook documentation.</p>
         </div>
         <!-- Project 02 -->
@@ -325,7 +312,7 @@
             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
           </div>
           <h3 class="text-xl font-bold text-white mb-2">Tigris Publication</h3>
-          <p class="text-white/60 text-sm font-bold uppercase tracking-widest mb-4">Photo and Video Editor / Apertura Editor</p>
+          <p class="text-white/60 text-sm font-bold uppercase tracking-normal mb-4">Photo and Video Editor / Apertura Editor</p>
           <p class="text-text-muted leading-relaxed">Campus publication work focused on photojournalism, visual coverage, and student media storytelling.</p>
         </div>
         <!-- Project 03 -->
@@ -334,7 +321,7 @@
             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
           </div>
           <h3 class="text-xl font-bold text-white mb-2">Video and Travel Projects</h3>
-          <p class="text-white/60 text-sm font-bold uppercase tracking-widest mb-4">Editor and Visual Storyteller</p>
+          <p class="text-white/60 text-sm font-bold uppercase tracking-normal mb-4">Editor and Visual Storyteller</p>
           <p class="text-text-muted leading-relaxed">Short-form videos, travel edits, B-roll sequences, and cinematic social media cuts edited with Final Cut Pro.</p>
         </div>
       </div>
@@ -524,47 +511,11 @@
   document.addEventListener('DOMContentLoaded', renderHighlights);
 </script>
 
-<footer id="site-footer" class="bg-bg border-t border-border py-8 md:py-12">
-  <div class="max-w-7xl mx-auto px-6 sm:px-10 flex flex-col md:flex-row items-center justify-between gap-6">
-    <div class="flex flex-col items-center md:items-start gap-2">
-       <span class="text-white text-sm"><span class="font-bold">JC</span><span class="font-light">Niñonuevo</span> &copy; <span class="year"></span></span>
-       <p class="text-text-muted text-xs">Bacolod City, Philippines</p>
-    </div>
-    <div class="flex flex-wrap justify-center gap-8">
-       <a href="index.html" class="text-text-muted hover:text-white text-sm font-bold transition-colors">Home</a>
-       <a href="drone-shots.html" class="text-text-muted hover:text-white text-sm font-bold transition-colors">Drone</a>
-       <a href="framed-moments.html" class="text-text-muted hover:text-white text-sm font-bold transition-colors">Framed</a>
-       <a href="school-events.html" class="text-text-muted hover:text-white text-sm font-bold transition-colors">Events</a>
-       <a href="video-projects.html" class="text-text-muted hover:text-white text-sm font-bold transition-colors">Video</a>
-    </div>
-    <p class="text-text-muted text-xs font-bold">Updated March 2026</p>
-  </div>
-</footer>
+<div id="footer-placeholder"></div>
 
 
 <!-- Lightbox -->
-<div id="lightbox" class="fixed inset-0 z-[9999] bg-black/98 hidden flex-col items-center justify-center p-4 md:p-8" role="dialog" aria-modal="true" aria-label="Image lightbox">
-  <button onclick="closeLightbox()" aria-label="Close lightbox"
-    class="absolute top-6 right-6 w-12 h-12 flex items-center justify-center text-white hover:bg-white/10 transition-colors rounded-full border border-white/10">
-    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/>
-    </svg>
-  </button>
-  <button onclick="prevImage()" aria-label="Previous image"
-    class="absolute left-4 top-1/2 -translate-y-1/2 w-14 h-14 flex items-center justify-center text-white hover:bg-white/10 transition-colors border border-white/10 rounded-full">
-    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"/>
-    </svg>
-  </button>
-  <button onclick="nextImage()" aria-label="Next image"
-    class="absolute right-4 top-1/2 -translate-y-1/2 w-14 h-14 flex items-center justify-center text-white hover:bg-white/10 transition-colors border border-white/10 rounded-full">
-    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"/>
-    </svg>
-  </button>
-  <img id="lightbox-img" src="" alt="" class="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl" />
-  <p id="lightbox-counter" class="absolute bottom-6 text-white text-xs font-bold tracking-widest" aria-live="polite"></p>
-</div>
+<div id="lightbox-placeholder"></div>
 
 
 

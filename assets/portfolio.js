@@ -4,10 +4,180 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+    injectComponents();
     initMobileMenu();
     updateYear();
     initLightboxListeners();
+    initInteractiveEffects();
 });
+
+/**
+ * Global templates for Navigation, Footer, and Lightbox Elements.
+ * This completely isolates layout changes to this single JavaScript file
+ * and avoids fetching HTML over CORS, supporting direct local execution.
+ */
+const navHtml = `
+<nav id="main-nav" class="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/20">
+  <div class="max-w-7xl mx-auto px-6 sm:px-10">
+    <div class="flex items-center justify-between h-16 md:h-20">
+      <a href="index.html" class="flex items-center">
+        <img src="images/logo.png" alt="Portfolio" class="h-5 w-auto opacity-90 hover:opacity-100 transition-opacity" />
+      </a>
+      
+      <!-- Desktop Nav -->
+      <div class="hidden md:flex items-center gap-10" id="nav-links">
+        <a href="index.html" data-page="index.html" class="nav-link text-text-muted hover:text-white text-sm font-bold tracking-normal transition-colors">Home</a>
+        <a href="drone-shots.html" data-page="drone-shots.html" class="nav-link text-text-muted hover:text-white text-sm font-bold tracking-normal transition-colors">Drone</a>
+        <a href="framed-moments.html" data-page="framed-moments.html" class="nav-link text-text-muted hover:text-white text-sm font-bold tracking-normal transition-colors">Framed</a>
+        <a href="school-events.html" data-page="school-events.html" class="nav-link text-text-muted hover:text-white text-sm font-bold tracking-normal transition-colors">Events</a>
+        <a href="video-projects.html" data-page="video-projects.html" class="nav-link text-text-muted hover:text-white text-sm font-bold tracking-normal transition-colors">Videos</a>
+      </div>
+      
+      <div class="hidden md:flex items-center gap-6" id="nav-cta">
+        <a href="index.html#contact" class="px-6 py-2.5 bg-white text-black text-sm font-bold rounded-full hover:bg-opacity-90 transition-all hover:scale-105">Contact</a>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button id="hamburger" class="md:hidden text-white p-2 rounded-lg hover:bg-white/10 transition-colors" aria-label="Menu">
+        <svg id="ham-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="closed md:hidden">
+      <div class="py-6 flex flex-col gap-5 border-t border-white/10">
+        <a href="index.html" data-page="index.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Home</a>
+        <a href="drone-shots.html" data-page="drone-shots.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Drone Shots</a>
+        <a href="framed-moments.html" data-page="framed-moments.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Framed Moments</a>
+        <a href="school-events.html" data-page="school-events.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">School Events</a>
+        <a href="video-projects.html" data-page="video-projects.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Video Projects</a>
+        <div class="pt-4 border-t border-white/10">
+          <a href="index.html#contact" class="block text-center w-full py-3 rounded-full text-lg font-bold bg-white text-black">Get in Touch</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+`;
+
+const footerHtml = `
+<footer id="site-footer" class="bg-bg border-t border-border py-8 md:py-12">
+  <div class="max-w-7xl mx-auto px-6 sm:px-10 flex flex-col md:flex-row items-center justify-between gap-6">
+    <div class="flex flex-col items-center md:items-start gap-2">
+       <span class="text-white text-sm"><span class="font-bold">JC</span><span class="font-light">Niñonuevo</span> &copy; <span class="year"></span></span>
+       <p class="text-text-muted text-xs">Bacolod City, Philippines</p>
+    </div>
+    <div class="flex flex-wrap justify-center gap-8">
+       <a href="index.html" data-page="index.html" class="text-text-muted hover:text-white text-sm font-bold transition-colors">Home</a>
+       <a href="drone-shots.html" data-page="drone-shots.html" class="text-text-muted hover:text-white text-sm font-bold transition-colors">Drone</a>
+       <a href="framed-moments.html" data-page="framed-moments.html" class="text-text-muted hover:text-white text-sm font-bold transition-colors">Framed</a>
+       <a href="school-events.html" data-page="school-events.html" class="text-text-muted hover:text-white text-sm font-bold transition-colors">Events</a>
+       <a href="video-projects.html" data-page="video-projects.html" class="text-text-muted hover:text-white text-sm font-bold transition-colors">Videos</a>
+    </div>
+    <p class="text-text-muted text-xs font-bold">Updated March 2026</p>
+  </div>
+</footer>
+`;
+
+const imageLightboxHtml = `
+<div id="lightbox" class="fixed inset-0 z-[9999] bg-black/98 hidden flex-col items-center justify-center p-4 md:p-8" role="dialog" aria-modal="true" aria-label="Image lightbox">
+  <button onclick="closeLightbox()" aria-label="Close lightbox"
+    class="absolute top-6 right-6 z-50 w-12 h-12 flex items-center justify-center text-white bg-black/50 backdrop-blur-md hover:bg-white/10 transition-all rounded-full border border-white/10">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/>
+    </svg>
+  </button>
+  <button onclick="prevImage()" aria-label="Previous image"
+    class="absolute left-4 md:left-12 lg:left-24 xl:left-40 top-1/2 -translate-y-1/2 z-50 w-12 h-12 md:w-14 md:h-14 flex items-center justify-center text-white bg-black/50 backdrop-blur-md hover:bg-white/10 transition-all border border-white/10 rounded-full">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"/>
+    </svg>
+  </button>
+  <button onclick="nextImage()" aria-label="Next image"
+    class="absolute right-4 md:right-12 lg:right-24 xl:right-40 top-1/2 -translate-y-1/2 z-50 w-12 h-12 md:w-14 md:h-14 flex items-center justify-center text-white bg-black/50 backdrop-blur-md hover:bg-white/10 transition-all border border-white/10 rounded-full">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"/>
+    </svg>
+  </button>
+  <img id="lightbox-img" src="" alt="" class="max-w-full max-h-[85vh] object-contain rounded-2xl shadow-2xl" />
+  <p id="lightbox-counter" class="absolute bottom-6 text-white text-xs font-bold tracking-normal" aria-live="polite"></p>
+</div>
+`;
+
+const videoLightboxHtml = `
+<div id="video-lightbox" class="fixed inset-0 z-[9999] bg-black/98 hidden flex-col items-center justify-center p-4 md:p-8" role="dialog" aria-modal="true" aria-label="Video lightbox">
+  <button onclick="closeVideoLightbox()" aria-label="Close lightbox"
+    class="absolute top-6 right-6 z-50 w-12 h-12 flex items-center justify-center text-white bg-black/50 backdrop-blur-md hover:bg-white/10 transition-all rounded-full border border-white/10">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/>
+    </svg>
+  </button>
+  <div id="video-player-container" class="w-full max-w-5xl aspect-video bg-black rounded-lg overflow-hidden shadow-2xl">
+    <iframe id="video-iframe" class="w-full h-full"
+      src="" title="Video Player" frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+      referrerpolicy="strict-origin-when-cross-origin">
+    </iframe>
+  </div>
+  <p id="video-title" class="text-white text-lg font-bold mt-6 text-center"></p>
+</div>
+`;
+
+/**
+ * Dynamic Component Injector
+ */
+function injectComponents() {
+    // Determine current page context
+    const path = window.location.pathname;
+    const page = path.split('/').pop() || 'index.html';
+
+    // 1. Inject Navbar
+    if (!document.getElementById('main-nav')) {
+        document.body.insertAdjacentHTML('afterbegin', navHtml);
+    }
+
+    // Toggle Nav Link Active classes
+    document.querySelectorAll('#nav-links a, #mobile-menu a').forEach(a => {
+        const pageAttr = a.getAttribute('data-page');
+        if (pageAttr && (page === pageAttr || (page === '' && pageAttr === 'index.html'))) {
+            a.classList.remove('text-text-muted');
+            a.classList.add('text-white', 'active');
+        } else {
+            a.classList.remove('text-white', 'active');
+            a.classList.add('text-text-muted');
+        }
+    });
+
+    // 2. Inject Lightboxes
+    if (page !== 'video-projects.html') {
+        if (!document.getElementById('lightbox')) {
+            document.body.insertAdjacentHTML('beforeend', imageLightboxHtml);
+        }
+    } else {
+        if (!document.getElementById('video-lightbox')) {
+            document.body.insertAdjacentHTML('beforeend', videoLightboxHtml);
+        }
+    }
+
+    // 3. Inject Footer
+    if (!document.getElementById('site-footer')) {
+        document.body.insertAdjacentHTML('beforeend', footerHtml);
+    }
+
+    // Toggle Footer Link Active classes
+    document.querySelectorAll('#site-footer a').forEach(a => {
+        const pageAttr = a.getAttribute('data-page');
+        if (pageAttr && (page === pageAttr || (page === '' && pageAttr === 'index.html'))) {
+            a.classList.remove('text-text-muted');
+            a.classList.add('text-white');
+        } else {
+            a.classList.remove('text-white');
+            a.classList.add('text-text-muted');
+        }
+    });
+}
 
 /**
  * Mobile Menu Toggle logic
@@ -22,12 +192,18 @@ function initMobileMenu() {
 
     let open = false;
     
-    btn.addEventListener('click', () => {
+    // Remote any duplicate events
+    const newBtn = btn.cloneNode(true);
+    btn.parentNode.replaceChild(newBtn, btn);
+    
+    newBtn.addEventListener('click', () => {
         open = !open;
         menu.classList.toggle('open', open);
         menu.classList.toggle('closed', !open);
-        if (ham) ham.classList.toggle('hidden', open);
-        if (x) x.classList.toggle('hidden', !open);
+        const hamIcon = document.getElementById('ham-icon');
+        const closeIcon = document.getElementById('close-icon');
+        if (hamIcon) hamIcon.classList.toggle('hidden', open);
+        if (closeIcon) closeIcon.classList.toggle('hidden', !open);
     });
 
     // Close menu on link click
@@ -36,8 +212,10 @@ function initMobileMenu() {
             open = false;
             menu.classList.add('closed');
             menu.classList.remove('open');
-            if (ham) ham.classList.remove('hidden');
-            if (x) x.classList.add('hidden');
+            const hamIcon = document.getElementById('ham-icon');
+            const closeIcon = document.getElementById('close-icon');
+            if (hamIcon) hamIcon.classList.remove('hidden');
+            if (closeIcon) closeIcon.classList.add('hidden');
         });
     });
 }
@@ -48,6 +226,23 @@ function initMobileMenu() {
 function updateYear() {
     document.querySelectorAll('.year').forEach(e => {
         e.textContent = new Date().getFullYear();
+    });
+}
+
+/**
+ * Premium Interactive Effects: Mouse-Tilt Card Glare
+ */
+function initInteractiveEffects() {
+    // Mouse Glare overlay tracking on categories & project cards
+    const cards = document.querySelectorAll('.service-card, .video-card, #selected-work > div > div');
+    cards.forEach(card => {
+        card.addEventListener('mousemove', e => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+        });
     });
 }
 
