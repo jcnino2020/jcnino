@@ -385,7 +385,7 @@
 <script src="assets/gallery-data.js"></script>
 <script>
   const allPhotos = window.galleryData.highlights.map((p, i) => {
-    const base = p.file.replace(/\.jpe?g$/i, ''); // e.g. "GH-01"
+    const base = p.file.replace(/\.[^/.]+$/, ""); // e.g. "GH-01"
     return {
       id: i,
       src: 'images/' + p.file,

@@ -83,7 +83,7 @@
 <script src="assets/gallery-data.js"></script>
 <script>
   const allPhotos = window.galleryData.drone.map((p, i) => {
-    const base = p.file.replace(/\.jpe?g$/i, '');
+    const base = p.file.replace(/\.[^/.]+$/, "");
     return {
       id: i,
       src: 'images/Drone%20Shots/' + p.file,

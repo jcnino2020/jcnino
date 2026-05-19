@@ -137,8 +137,9 @@ function injectComponents() {
     const normPage = page.replace(/\.html$/, '') || 'index';
 
     // 1. Inject Navbar
-    if (!document.getElementById('main-nav')) {
-        document.body.insertAdjacentHTML('afterbegin', navHtml);
+    const navPlaceholder = document.getElementById('navbar-placeholder');
+    if (navPlaceholder && !document.getElementById('main-nav')) {
+        navPlaceholder.innerHTML = navHtml;
     }
 
     // Toggle Nav Link Active classes
@@ -157,19 +158,23 @@ function injectComponents() {
     });
 
     // 2. Inject Lightboxes
-    if (normPage !== 'video-projects') {
-        if (!document.getElementById('lightbox')) {
-            document.body.insertAdjacentHTML('beforeend', imageLightboxHtml);
-        }
-    } else {
-        if (!document.getElementById('video-lightbox')) {
-            document.body.insertAdjacentHTML('beforeend', videoLightboxHtml);
+    const lightboxPlaceholder = document.getElementById('lightbox-placeholder');
+    if (lightboxPlaceholder) {
+        if (normPage !== 'video-projects') {
+            if (!document.getElementById('lightbox')) {
+                lightboxPlaceholder.innerHTML = imageLightboxHtml;
+            }
+        } else {
+            if (!document.getElementById('video-lightbox')) {
+                lightboxPlaceholder.innerHTML = videoLightboxHtml;
+            }
         }
     }
 
     // 3. Inject Footer
-    if (!document.getElementById('site-footer')) {
-        document.body.insertAdjacentHTML('beforeend', footerHtml);
+    const footerPlaceholder = document.getElementById('footer-placeholder');
+    if (footerPlaceholder && !document.getElementById('site-footer')) {
+        footerPlaceholder.innerHTML = footerHtml;
     }
 
     // Toggle Footer Link Active classes

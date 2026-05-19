@@ -83,7 +83,7 @@
 <script src="assets/gallery-data.js"></script>
 <script>
   const allPhotos = window.galleryData.events.map((p, i) => {
-    const base = p.file.replace(/\.jpe?g$/i, '');
+    const base = p.file.replace(/\.[^/.]+$/, "");
     return {
       id: i,
       src: 'images/School%20Events/' + p.file,

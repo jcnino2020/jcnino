@@ -665,7 +665,7 @@
         return item.thumb;
       }
       const file = item.file;
-      const base = file.replace(/\.jpe?g$/i, '');
+      const base = file.replace(/\.[^/.]+$/, "");
       if (currentCategory === 'highlights') {
         return `images/optimized/800/${base}-800.webp`;
       } else if (currentCategory === 'drone') {
@@ -992,7 +992,7 @@
         title: title,
         youtubeId: yid,
         thumb: `images/optimized/800/Video Thumbnails/${prefix}-${thumbNumber}-800.webp`,
-        thumbFallback: `images/Video Thumbnail/${prefix}-${thumbNumber}.jpg`,
+        thumbFallback: `images/Video Thumbnails/${prefix}-${thumbNumber}.jpg`,
         duration: dur
       };
 
