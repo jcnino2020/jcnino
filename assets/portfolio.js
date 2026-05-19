@@ -266,6 +266,7 @@ function initInteractiveEffects() {
  */
 let currentGallery = [];
 let currentIndex = 0;
+let swipeTriggered = false;
 
 /**
  * Preload cache — tracks URLs already requested to avoid duplicate fetches.
@@ -335,6 +336,10 @@ function openLightbox(photo, gallery) {
             { opacity: 0 },
             { opacity: 1, duration: 0.3, ease: 'power2.out' }
         );
+        const img = document.getElementById('lightbox-img');
+        if (img) {
+            gsap.set(img, { x: 0, y: 0, opacity: 0 });
+        }
     }
 
     // syncLightbox will handle the image entry animation in its onload
@@ -391,19 +396,20 @@ function syncLightbox(direction = null) {
         };
 
         // Transition: Fade out the old image before showing the new one
-        if (window.gsap && (direction === 'next' || direction === 'prev')) {
+        if (window.gsap && (direction === 'next' || direction === 'prev') && !swipeTriggered) {
             gsap.to(img, { 
                 opacity: 0, 
                 x: direction === 'next' ? -30 : 30, 
-                duration: 0.1, 
+                duration: 0.15, 
                 ease: 'power2.inOut',
                 onComplete: startLoading
             });
         } else {
-            // Instant hide for initial open or jumps
+            // Instant hide or direct jump for initial open, vertical/swipe loads
             if (window.gsap) gsap.killTweensOf(img);
             img.style.opacity = '0';
             startLoading();
+            swipeTriggered = false; // Reset the flag
         }
 
         // Trigger smooth entry once loaded
@@ -418,11 +424,13 @@ function syncLightbox(direction = null) {
                 gsap.fromTo(img,
                     { 
                         x: xOffset, 
+                        y: 0,
                         opacity: 0, 
                         scale: direction === 'open' ? 0.96 : 0.99 
                     },
                     { 
                         x: 0, 
+                        y: 0,
                         opacity: 1, 
                         scale: 1, 
                         duration: 0.25, 
@@ -432,6 +440,7 @@ function syncLightbox(direction = null) {
                 );
             } else {
                 img.style.opacity = '1';
+                img.style.transform = '';
             }
         };
 
@@ -462,12 +471,21 @@ function closeLightbox() {
                 lb.classList.add('hidden');
                 lb.classList.remove('flex');
                 document.body.style.overflow = '';
+                const img = document.getElementById('lightbox-img');
+                if (img) {
+                    gsap.set(img, { clearProps: 'all' });
+                }
             }
         });
     } else {
         lb.classList.add('hidden');
         lb.classList.remove('flex');
         document.body.style.overflow = '';
+        const img = document.getElementById('lightbox-img');
+        if (img) {
+            img.style.transform = '';
+            img.style.opacity = '';
+        }
     }
 }
 
@@ -504,23 +522,136 @@ function initLightboxListeners() {
 
     // Swipe Support
     let startX = 0, startY = 0;
+    let isDragging = false;
+    let dragDirection = null; // 'horizontal' or 'vertical'
+
     lb.addEventListener('touchstart', e => {
         startX = e.touches[0].clientX;
         startY = e.touches[0].clientY;
+        isDragging = true;
+        dragDirection = null;
+        
+        const img = document.getElementById('lightbox-img');
+        if (img && window.gsap) {
+            gsap.killTweensOf(img);
+        }
+    }, { passive: true });
+
+    lb.addEventListener('touchmove', e => {
+        if (!isDragging) return;
+        
+        const img = document.getElementById('lightbox-img');
+        if (!img) return;
+        
+        const dx = e.touches[0].clientX - startX;
+        const dy = e.touches[0].clientY - startY;
+        const absX = Math.abs(dx);
+        const absY = Math.abs(dy);
+        
+        if (!dragDirection && (absX > 10 || absY > 10)) {
+            dragDirection = absX > absY ? 'horizontal' : 'vertical';
+        }
+        
+        if (dragDirection === 'horizontal') {
+            const xVal = dx * 0.85;
+            const opacity = Math.max(0.3, 1 - Math.abs(xVal) / (window.innerWidth * 0.6));
+            if (window.gsap) {
+                gsap.set(img, { x: xVal, opacity: opacity });
+            } else {
+                img.style.transform = `translateX(${xVal}px)`;
+                img.style.opacity = opacity;
+            }
+        } else if (dragDirection === 'vertical') {
+            const yVal = dy * 0.85;
+            const opacity = Math.max(0.3, 1 - Math.abs(yVal) / (window.innerHeight * 0.6));
+            if (window.gsap) {
+                gsap.set(img, { y: yVal, opacity: opacity });
+            } else {
+                img.style.transform = `translateY(${yVal}px)`;
+                img.style.opacity = opacity;
+            }
+        }
     }, { passive: true });
 
     lb.addEventListener('touchend', e => {
+        if (!isDragging) return;
+        isDragging = false;
+        
+        const img = document.getElementById('lightbox-img');
+        if (!img) return;
+        
         const dx = e.changedTouches[0].clientX - startX;
         const dy = e.changedTouches[0].clientY - startY;
         const absX = Math.abs(dx);
         const absY = Math.abs(dy);
-
-        if (absX > 50 && absY < 80) {
-            if (dx < 0) nextImage();
-            else prevImage();
-        } else if (absY > 90 && absX < 60) {
-            closeLightbox();
+        
+        if (dragDirection === 'horizontal') {
+            if (absX > 80) {
+                const targetX = dx < 0 ? -window.innerWidth : window.innerWidth;
+                if (window.gsap) {
+                    gsap.to(img, {
+                        x: targetX,
+                        opacity: 0,
+                        duration: 0.2,
+                        ease: 'power2.in',
+                        onComplete: () => {
+                            swipeTriggered = true;
+                            if (dx < 0) {
+                                nextImage();
+                            } else {
+                                prevImage();
+                            }
+                        }
+                    });
+                } else {
+                    if (dx < 0) nextImage();
+                    else prevImage();
+                }
+            } else {
+                if (window.gsap) {
+                    gsap.to(img, {
+                        x: 0,
+                        opacity: 1,
+                        duration: 0.25,
+                        ease: 'back.out(1.2)'
+                    });
+                } else {
+                    img.style.transform = '';
+                    img.style.opacity = '1';
+                }
+            }
+        } else if (dragDirection === 'vertical') {
+            if (absY > 120) {
+                const targetY = dy > 0 ? window.innerHeight : -window.innerHeight;
+                if (window.gsap) {
+                    gsap.to(img, {
+                        y: targetY,
+                        opacity: 0,
+                        duration: 0.2,
+                        ease: 'power2.in',
+                        onComplete: () => {
+                            closeLightbox();
+                        }
+                    });
+                } else {
+                    closeLightbox();
+                }
+            } else {
+                if (window.gsap) {
+                    gsap.to(img, {
+                        y: 0,
+                        opacity: 1,
+                        duration: 0.25,
+                        ease: 'back.out(1.2)'
+                    });
+                } else {
+                    img.style.transform = '';
+                    img.style.opacity = '1';
+                }
+            }
         }
+        
+        dragDirection = null;
     }, { passive: true });
 }
 
