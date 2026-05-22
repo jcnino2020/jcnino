@@ -105,9 +105,10 @@ const imageLightboxHtml = `
     </svg>
   </button>
   <img id="lightbox-img" src="" alt="" class="max-w-full max-h-[85vh] object-contain rounded-2xl shadow-2xl" />
-  <div class="absolute bottom-6 flex flex-col items-center gap-3 select-none">
+  <div class="absolute bottom-6 flex flex-row items-center gap-4 select-none bg-black/60 backdrop-blur-xl px-5 py-2.5 rounded-full border border-white/10 shadow-lg">
     <p id="lightbox-counter" class="text-white text-xs font-bold tracking-normal" aria-live="polite"></p>
-    <button id="lightbox-like-btn" onclick="toggleImageLike()" class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/30 text-white transition-all duration-300 hover:scale-105 active:scale-95 group">
+    <div class="w-[1px] h-3.5 bg-white/20"></div>
+    <button id="lightbox-like-btn" onclick="toggleImageLike()" class="flex items-center gap-2 text-white hover:scale-105 active:scale-95 transition-all duration-300 group">
       <svg id="lightbox-like-icon" class="w-4 h-4 text-white group-hover:text-red-500 transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
       </svg>
