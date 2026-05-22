@@ -480,6 +480,11 @@ function syncLightbox(direction = null) {
 
     // Update Heart Likes System inside the lightbox
     updateLightboxLikeUI();
+
+    // Track unique views
+    if (p && p.base) {
+        trackImageView(p.base);
+    }
 }
 
 function closeLightbox() {
@@ -709,19 +714,54 @@ function revealOnScroll(elements, options = {}) {
  * ============================================================================
  */
 let portfolioLikes = {};
+let portfolioViews = {};
 const LIKES_API_URL = '/api/likes';
+const VIEWS_API_URL = '/api/views';
 
-// Load all items counts on launch
+// Load all items counts and views on launch
 async function loadPortfolioLikes() {
     try {
-        const res = await fetch(LIKES_API_URL);
+        const [likesRes, viewsRes] = await Promise.all([
+            fetch(LIKES_API_URL),
+            fetch(VIEWS_API_URL).catch(() => null)
+        ]);
+        if (likesRes && likesRes.ok) {
+            portfolioLikes = await likesRes.json();
+        }
+        if (viewsRes && viewsRes.ok) {
+            portfolioViews = await viewsRes.json();
+        }
+        updateLightboxLikeUI();
+        updateVideoLightboxLikeUI();
+    } catch (e) {
+        console.warn('MongoDB metrics connection deferred: Running in dynamic mock mode.', e);
+    }
+}
+
+// Track unique image/video view per session
+async function trackImageView(itemId) {
+    if (!itemId) return;
+    const sessionKey = 'viewed_' + itemId;
+    if (sessionStorage.getItem(sessionKey) === 'true') {
+        return; // Already counted this session
+    }
+    
+    // Optimistic cache update
+    sessionStorage.setItem(sessionKey, 'true');
+    portfolioViews[itemId] = (portfolioViews[itemId] || 0) + 1;
+    
+    try {
+        const res = await fetch(VIEWS_API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ itemId })
+        });
         if (res.ok) {
-            portfolioLikes = await res.json();
-            updateLightboxLikeUI();
-            updateVideoLightboxLikeUI();
+            const data = await res.json();
+            portfolioViews[itemId] = data.count;
         }
     } catch (e) {
-        console.warn('MongoDB likes connection deferred: Running in dynamic mock mode.', e);
+        console.error('MongoDB views sync issue:', e);
     }
 }
 
@@ -744,6 +784,8 @@ function initVideoLightboxObserver() {
                         if (youtubeId) {
                             window.activeVideoId = youtubeId;
                             updateVideoLightboxLikeUI();
+                            // Track unique views
+                            trackImageView(youtubeId);
                         }
                     }
                 }
