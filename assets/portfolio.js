@@ -9,6 +9,10 @@ document.addEventListener('DOMContentLoaded', () => {
     updateYear();
     initLightboxListeners();
     initInteractiveEffects();
+    
+    // Initialize Likes & Hearts System
+    loadPortfolioLikes();
+    initVideoLightboxObserver();
 });
 
 /**
@@ -101,7 +105,15 @@ const imageLightboxHtml = `
     </svg>
   </button>
   <img id="lightbox-img" src="" alt="" class="max-w-full max-h-[85vh] object-contain rounded-2xl shadow-2xl" />
-  <p id="lightbox-counter" class="absolute bottom-6 text-white text-xs font-bold tracking-normal" aria-live="polite"></p>
+  <div class="absolute bottom-6 flex flex-col items-center gap-3 select-none">
+    <p id="lightbox-counter" class="text-white text-xs font-bold tracking-normal" aria-live="polite"></p>
+    <button id="lightbox-like-btn" onclick="toggleImageLike()" class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/30 text-white transition-all duration-300 hover:scale-105 active:scale-95 group">
+      <svg id="lightbox-like-icon" class="w-4 h-4 text-white group-hover:text-red-500 transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+      </svg>
+      <span id="lightbox-like-count" class="text-xs font-bold min-w-[10px]">0</span>
+    </button>
+  </div>
 </div>
 `;
 
@@ -121,7 +133,15 @@ const videoLightboxHtml = `
       referrerpolicy="strict-origin-when-cross-origin">
     </iframe>
   </div>
-  <p id="video-title" class="text-white text-lg font-bold mt-6 text-center"></p>
+  <div class="flex flex-col sm:flex-row items-center justify-between w-full max-w-5xl mt-6 px-2 gap-4">
+    <p id="video-title" class="text-white text-lg font-bold text-center sm:text-left"></p>
+    <button id="video-like-btn" onclick="toggleVideoLike()" class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/30 text-white transition-all duration-300 hover:scale-105 active:scale-95 group shrink-0">
+      <svg id="video-like-icon" class="w-4 h-4 text-white group-hover:text-red-500 transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+      </svg>
+      <span id="video-like-count" class="text-xs font-bold min-w-[10px]">0</span>
+    </button>
+  </div>
 </div>
 `;
 
@@ -456,6 +476,9 @@ function syncLightbox(direction = null) {
     if (counter) {
         counter.textContent = `${currentIndex + 1} / ${currentGallery.length}`;
     }
+
+    // Update Heart Likes System inside the lightbox
+    updateLightboxLikeUI();
 }
 
 function closeLightbox() {
@@ -678,3 +701,170 @@ function revealOnScroll(elements, options = {}) {
         );
     });
 }
+
+/**
+ * ============================================================================
+ * REAL-TIME PORTFOLIO LIKES SYSTEM (MONGODB & VERCEL SERVERLESS BACKEND)
+ * ============================================================================
+ */
+let portfolioLikes = {};
+const LIKES_API_URL = '/api/likes';
+
+// Load all items counts on launch
+async function loadPortfolioLikes() {
+    try {
+        const res = await fetch(LIKES_API_URL);
+        if (res.ok) {
+            portfolioLikes = await res.json();
+            updateLightboxLikeUI();
+            updateVideoLightboxLikeUI();
+        }
+    } catch (e) {
+        console.warn('MongoDB likes connection deferred: Running in dynamic mock mode.', e);
+    }
+}
+
+// Observe and automatically intercept Vercel/HTML5 video lightboxes
+function initVideoLightboxObserver() {
+    const videoLightbox = document.getElementById('video-lightbox');
+    if (!videoLightbox) return;
+
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.attributeName === 'class') {
+                const isHidden = videoLightbox.classList.contains('hidden');
+                if (!isHidden) {
+                    // Extract YouTube ID dynamically
+                    const iframe = document.getElementById('video-iframe');
+                    const src = iframe ? iframe.src : '';
+                    if (src) {
+                        const match = src.match(/\/embed\/([^/?]+)/);
+                        const youtubeId = match ? match[1] : '';
+                        if (youtubeId) {
+                            window.activeVideoId = youtubeId;
+                            updateVideoLightboxLikeUI();
+                        }
+                    }
+                }
+            }
+        });
+    });
+
+    observer.observe(videoLightbox, { attributes: true });
+}
+
+// Sync photo likes to the glassmorphic lightbox UI
+function updateLightboxLikeUI() {
+    const countSpan = document.getElementById('lightbox-like-count');
+    const icon = document.getElementById('lightbox-like-icon');
+    if (!countSpan || !icon) return;
+
+    const p = currentGallery[currentIndex];
+    if (!p || !p.base) return;
+
+    const photoId = p.base;
+    const likes = portfolioLikes[photoId] || 0;
+    countSpan.textContent = likes;
+
+    const hasLiked = localStorage.getItem('liked_' + photoId) === 'true';
+    if (hasLiked) {
+        icon.classList.remove('text-white');
+        icon.classList.add('text-red-500', 'fill-current');
+    } else {
+        icon.classList.remove('text-red-500', 'fill-current');
+        icon.classList.add('text-white');
+    }
+}
+
+// Sync video likes to the video lightbox UI
+function updateVideoLightboxLikeUI() {
+    const countSpan = document.getElementById('video-like-count');
+    const icon = document.getElementById('video-like-icon');
+    if (!countSpan || !icon || !window.activeVideoId) return;
+
+    const videoId = window.activeVideoId;
+    const likes = portfolioLikes[videoId] || 0;
+    countSpan.textContent = likes;
+
+    const hasLiked = localStorage.getItem('liked_' + videoId) === 'true';
+    if (hasLiked) {
+        icon.classList.remove('text-white');
+        icon.classList.add('text-red-500', 'fill-current');
+    } else {
+        icon.classList.remove('text-red-500', 'fill-current');
+        icon.classList.add('text-white');
+    }
+}
+
+// Toggle likes for active photo
+async function toggleImageLike() {
+    const p = currentGallery[currentIndex];
+    if (!p || !p.base) return;
+
+    const photoId = p.base;
+    const hasLiked = localStorage.getItem('liked_' + photoId) === 'true';
+    
+    // Fast Optimistic UI render
+    if (hasLiked) {
+        localStorage.removeItem('liked_' + photoId);
+        portfolioLikes[photoId] = Math.max(0, (portfolioLikes[photoId] || 1) - 1);
+    } else {
+        localStorage.setItem('liked_' + photoId, 'true');
+        portfolioLikes[photoId] = (portfolioLikes[photoId] || 0) + 1;
+    }
+    updateLightboxLikeUI();
+
+    // Perform real database request in background
+    try {
+        const res = await fetch(LIKES_API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ itemId: photoId, decrement: hasLiked })
+        });
+        if (res.ok) {
+            const data = await res.json();
+            portfolioLikes[photoId] = data.count;
+            updateLightboxLikeUI();
+        }
+    } catch (e) {
+        console.error('MongoDB sync issue:', e);
+    }
+}
+
+// Toggle likes for active video
+async function toggleVideoLike() {
+    if (!window.activeVideoId) return;
+
+    const videoId = window.activeVideoId;
+    const hasLiked = localStorage.getItem('liked_' + videoId) === 'true';
+    
+    // Fast Optimistic UI render
+    if (hasLiked) {
+        localStorage.removeItem('liked_' + videoId);
+        portfolioLikes[videoId] = Math.max(0, (portfolioLikes[videoId] || 1) - 1);
+    } else {
+        localStorage.setItem('liked_' + videoId, 'true');
+        portfolioLikes[videoId] = (portfolioLikes[videoId] || 0) + 1;
+    }
+    updateVideoLightboxLikeUI();
+
+    // Perform real database request in background
+    try {
+        const res = await fetch(LIKES_API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ itemId: videoId, decrement: hasLiked })
+        });
+        if (res.ok) {
+            const data = await res.json();
+            portfolioLikes[videoId] = data.count;
+            updateVideoLightboxLikeUI();
+        }
+    } catch (e) {
+        console.error('MongoDB sync issue:', e);
+    }
+}
+
+// Export handlers to window for HTML inline access
+window.toggleImageLike = toggleImageLike;
+window.toggleVideoLike = toggleVideoLike;
