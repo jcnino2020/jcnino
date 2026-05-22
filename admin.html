@@ -1686,15 +1686,14 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
         </tr>
       `;
 
-      let logs = [];
+      let logs = null;
+      let fetchError = null;
       const token = sessionStorage.getItem('pm_auth') || '';
+      const isLocal = window.location.hostname === 'localhost' || 
+                      window.location.hostname === '127.0.0.1' || 
+                      window.location.protocol === 'file:';
 
       try {
-        if (token === 'sandbox_authorized') {
-          // Bypass live fetch directly in local sandbox mode
-          throw new Error('Sandbox mode active, use fallbacks');
-        }
-
         const res = await fetch('/api/logs', {
           method: 'GET',
           headers: {
@@ -1702,41 +1701,61 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
           }
         });
 
-        if (!res.ok) throw new Error('Unauthorized or failed to retrieve logs');
+        if (!res.ok) {
+          throw new Error(`Unauthorized or failed to retrieve logs (Status: ${res.status})`);
+        }
         logs = await res.json();
       } catch (err) {
-        console.warn("Could not load database security logs, using sandbox fallbacks:", err);
+        fetchError = err;
+        console.error("Fetch error for security logs:", err);
       }
 
-      // Check if logs are empty or failed, then load pre-populated realistic mock logs
-      if (!Array.isArray(logs) || logs.length === 0) {
-        logs = [
-          {
-            _id: "mock-1",
-            timestamp: new Date(Date.now() - 60000).toISOString(), // 1 min ago
-            status: "Success",
-            ip: "112.198.115.42",
-            userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36",
-            geo: { city: "Bacolod City", country: "PH", region: "06" }
-          },
-          {
-            _id: "mock-2",
-            timestamp: new Date(Date.now() - 1200000).toISOString(), // 20 mins ago
-            status: "Failed",
-            ip: "103.14.62.198",
-            userAgent: "Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 Mobile/15E148 Safari/604.1",
-            geo: { city: "Manila", country: "PH", region: "NCR" }
-          },
-          {
-            _id: "mock-3",
-            timestamp: new Date(Date.now() - 36000000).toISOString(), // 10 hours ago
-            status: "Success",
-            ip: "127.0.0.1",
-            userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Safari/605.1.15",
-            geo: { city: "Local Host", country: "PH", region: "06" }
-          }
-        ];
+      // If fetch failed, check if we should fall back to mock data locally
+      if (logs === null) {
+        if (isLocal) {
+          console.warn("Using sandbox mock fallbacks in local environment");
+          logs = [
+            {
+              _id: "mock-1",
+              timestamp: new Date(Date.now() - 60000).toISOString(),
+              status: "Success",
+              ip: "112.198.115.42",
+              userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36",
+              geo: { city: "Bacolod City", country: "PH", region: "06" }
+            },
+            {
+              _id: "mock-2",
+              timestamp: new Date(Date.now() - 1200000).toISOString(),
+              status: "Failed",
+              ip: "103.14.62.198",
+              userAgent: "Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 Mobile/15E148 Safari/604.1",
+              geo: { city: "Manila", country: "PH", region: "NCR" }
+            },
+            {
+              _id: "mock-3",
+              timestamp: new Date(Date.now() - 36000000).toISOString(),
+              status: "Success",
+              ip: "127.0.0.1",
+              userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Safari/605.1.15",
+              geo: { city: "Local Host", country: "PH", region: "06" }
+            }
+          ];
+        } else {
+          // Production error: do not render fake data
+          document.getElementById('security-total-attempts').textContent = '0';
+          document.getElementById('security-success-logins').textContent = '0';
+          document.getElementById('security-failed-attempts').textContent = '0';
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="5" class="py-8 text-center text-danger font-semibold">
+                Failed to sync security logs: ${fetchError ? fetchError.message : 'Database offline or unauthorized access'}.
+              </td>
+            </tr>
+          `;
+          return;
+        }
       }
+
 
       // Render overview counters
       const total = logs.length;
