@@ -265,6 +265,14 @@
           </span>
           <span id="badge-analytics" class="bg-success/20 text-success text-[10px] px-2 py-0.5 rounded-full font-medium ml-2">Live</span>
         </button>
+
+        <button onclick="switchTab('security')" id="tab-security" class="tab-btn w-full px-4 py-3 rounded-lg text-left text-sm font-bold transition-all flex items-center justify-between border border-transparent whitespace-nowrap md:whitespace-normal mt-1">
+          <span class="flex items-center gap-3">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            Security Audit Logs
+          </span>
+          <span id="badge-security" class="bg-danger/20 text-danger text-[10px] px-2 py-0.5 rounded-full font-medium ml-2">Secure</span>
+        </button>
       </nav>
       
       <!-- Instructional glass panel -->
@@ -387,8 +395,60 @@
                     </th>
                   </tr>
                 </thead>
-                <tbody id="analytics-tbody" class="divide-y divide-white/5">
-                  <!-- Sorted rows loaded dynamically -->
+          </div>
+        </div>
+
+        <!-- Security Logs Panel -->
+        <div id="security-panel" class="hidden space-y-8 select-none">
+          <!-- Overview Cards -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <!-- Total Attempts -->
+            <div class="glass p-6 rounded-xl flex items-center justify-between">
+              <div>
+                <p class="text-[10px] uppercase tracking-widest text-accent-dim font-bold">Total Attempts</p>
+                <h3 id="security-total-attempts" class="text-3xl font-bold mt-1 text-white">0</h3>
+              </div>
+              <div class="h-10 w-10 bg-white/5 border border-white/10 rounded-lg flex items-center justify-center text-white">
+                <svg class="w-5 h-5 text-accent-dim" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+              </div>
+            </div>
+            <!-- Successful Logins -->
+            <div class="glass p-6 rounded-xl flex items-center justify-between">
+              <div>
+                <p class="text-[10px] uppercase tracking-widest text-accent-dim font-bold">Successful Logins</p>
+                <h3 id="security-success-logins" class="text-3xl font-bold mt-1 text-success">0</h3>
+              </div>
+              <div class="h-10 w-10 bg-success/10 border border-success/20 rounded-lg flex items-center justify-center text-success">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+              </div>
+            </div>
+            <!-- Failed Attempts -->
+            <div class="glass p-6 rounded-xl flex items-center justify-between">
+              <div>
+                <p class="text-[10px] uppercase tracking-widest text-accent-dim font-bold">Failed Attempts</p>
+                <h3 id="security-failed-attempts" class="text-3xl font-bold mt-1 text-danger">0</h3>
+              </div>
+              <div class="h-10 w-10 bg-danger/10 border border-danger/20 rounded-lg flex items-center justify-center text-danger">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Logs Audit Grid Table -->
+          <div class="glass rounded-xl overflow-hidden border border-white/10">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse text-sm">
+                <thead>
+                  <tr class="border-b border-white/10 bg-white/[0.02]">
+                    <th class="py-4 px-6 font-bold text-xs uppercase tracking-wider text-accent-dim">Timestamp</th>
+                    <th class="py-4 px-6 font-bold text-xs uppercase tracking-wider text-accent-dim">Status</th>
+                    <th class="py-4 px-6 font-bold text-xs uppercase tracking-wider text-accent-dim">IP Address</th>
+                    <th class="py-4 px-6 font-bold text-xs uppercase tracking-wider text-accent-dim">Location</th>
+                    <th class="py-4 px-6 font-bold text-xs uppercase tracking-wider text-accent-dim">Device / Browser</th>
+                  </tr>
+                </thead>
+                <tbody id="security-tbody" class="divide-y divide-white/5 text-xs">
+                  <!-- Dynamic rows loaded here -->
                 </tbody>
               </table>
             </div>
@@ -875,7 +935,8 @@
         events: { title: "School Events (03)", sub: "Yearbook, student gatherings and event coverage inside school-events.html.", btn: "Add Photos", isVid: false },
         videos: { title: "Video Projects (04)", sub: "Main travel and yearbook Reels/Montages in video-projects.html.", btn: "Add Video", isVid: true },
         videos2: { title: "Negros Aerials SE Videos", sub: "YouTube aerial videos in video-projects.html.", btn: "Add Video", isVid: true },
-        analytics: { title: "Analytics & Engagement", sub: "Real-time, GDPR-compliant tracking of image views, likes, and photo engagement.", btn: "", isVid: false }
+        analytics: { title: "Analytics & Engagement", sub: "Real-time, GDPR-compliant tracking of image views, likes, and photo engagement.", btn: "", isVid: false },
+        security: { title: "Security Audit Logs", sub: "Comprehensive real-time tracking of administrator login attempts, device specifications, and geo-IP verification.", btn: "", isVid: false }
       };
 
       document.getElementById('category-title').textContent = titles[category].title;
@@ -883,11 +944,13 @@
       document.getElementById('add-btn-text').textContent = titles[category].btn;
 
       const isAnalytics = (category === 'analytics');
+      const isSecurity = (category === 'security');
       const addBtn = document.querySelector('[onclick="triggerFilePicker()"]');
       const addVidBtn = document.getElementById('add-video-btn');
       const dropZone = document.getElementById('drop-zone');
       const grid = document.getElementById('workspace-grid');
       const panel = document.getElementById('analytics-panel');
+      const securityPanel = document.getElementById('security-panel');
       const emptyState = document.getElementById('empty-state');
 
       if (isAnalytics) {
@@ -896,12 +959,24 @@
         if (dropZone) dropZone.classList.add('hidden');
         if (grid) grid.classList.add('hidden');
         if (emptyState) emptyState.classList.add('hidden');
+        if (securityPanel) securityPanel.classList.add('hidden');
         if (panel) panel.classList.remove('hidden');
         
         fetchAnalyticsAndRender();
+      } else if (isSecurity) {
+        if (addBtn) addBtn.classList.add('hidden');
+        if (addVidBtn) addVidBtn.classList.add('hidden');
+        if (dropZone) dropZone.classList.add('hidden');
+        if (grid) grid.classList.add('hidden');
+        if (emptyState) emptyState.classList.add('hidden');
+        if (panel) panel.classList.add('hidden');
+        if (securityPanel) securityPanel.classList.remove('hidden');
+        
+        fetchSecurityLogsAndRender();
       } else {
         if (addBtn) addBtn.classList.remove('hidden');
         if (panel) panel.classList.add('hidden');
+        if (securityPanel) securityPanel.classList.add('hidden');
         if (grid) grid.classList.remove('hidden');
 
         if (titles[category].isVid) {
@@ -1587,6 +1662,126 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
       });
 
       renderAnalyticsGrid();
+    }
+
+    async function fetchSecurityLogsAndRender() {
+      const tbody = document.getElementById('security-tbody');
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="5" class="py-8 text-center text-accent-dim font-bold">
+            <div class="flex items-center justify-center gap-2">
+              <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Retrieving secure audit logs...
+            </div>
+          </td>
+        </tr>
+      `;
+
+      try {
+        const token = sessionStorage.getItem('pm_auth') || '';
+        const res = await fetch('/api/logs', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if (!res.ok) throw new Error('Unauthorized or failed to retrieve logs');
+
+        const logs = await res.json();
+
+        // Render overview counters
+        const total = logs.length;
+        const success = logs.filter(l => l.status === 'Success').length;
+        const failed = logs.filter(l => l.status === 'Failed').length;
+
+        document.getElementById('security-total-attempts').textContent = total;
+        document.getElementById('security-success-logins').textContent = success.toLocaleString();
+        document.getElementById('security-failed-attempts').textContent = failed.toLocaleString();
+
+        tbody.innerHTML = '';
+
+        if (logs.length === 0) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="5" class="py-8 text-center text-accent-dim font-medium">No login attempts recorded yet.</td>
+            </tr>
+          `;
+          return;
+        }
+
+        logs.forEach(log => {
+          const tr = document.createElement('tr');
+          tr.className = 'hover:bg-white/[0.01] transition-colors';
+
+          // Format Date
+          const date = new Date(log.timestamp);
+          const dateStr = date.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+          const timeStr = date.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+          // Status Badge
+          const isSuccess = log.status === 'Success';
+          const statusBadge = isSuccess
+            ? `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold bg-success/15 text-success border border-success/10">Success</span>`
+            : `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold bg-danger/15 text-danger border border-danger/10">Failed</span>`;
+
+          // Parse Vercel Geo data
+          const city = log.geo?.city !== 'Unknown' ? log.geo?.city : '';
+          const country = log.geo?.country !== 'Unknown' ? log.geo?.country : '';
+          const locStr = [city, country].filter(Boolean).join(', ') || 'Unknown Location';
+
+          // Basic User Agent parser for friendly output
+          let device = 'Desktop';
+          let browser = 'Unknown Browser';
+          const ua = log.userAgent || '';
+          
+          if (/mobile/i.test(ua)) {
+            device = 'Mobile';
+            if (/iphone/i.test(ua)) device = 'iPhone';
+            else if (/ipad/i.test(ua)) device = 'iPad';
+            else if (/android/i.test(ua)) device = 'Android Device';
+          } else if (/macintosh/i.test(ua)) {
+            device = 'Mac';
+          } else if (/windows/i.test(ua)) {
+            device = 'Windows PC';
+          } else if (/linux/i.test(ua)) {
+            device = 'Linux PC';
+          }
+
+          if (/chrome/i.test(ua) && !/edge|opr/i.test(ua)) browser = 'Chrome';
+          else if (/safari/i.test(ua) && !/chrome/i.test(ua)) browser = 'Safari';
+          else if (/firefox/i.test(ua)) browser = 'Firefox';
+          else if (/edge/i.test(ua)) browser = 'Edge';
+          else if (/opera|opr/i.test(ua)) browser = 'Opera';
+
+          const deviceStr = `${device} (${browser})`;
+
+          tr.innerHTML = `
+            <td class="py-3.5 px-6 font-medium text-white/90">
+              <div>${dateStr}</div>
+              <div class="text-[10px] text-accent-dim mt-0.5">${timeStr}</div>
+            </td>
+            <td class="py-3.5 px-6 font-semibold">${statusBadge}</td>
+            <td class="py-3.5 px-6 font-mono text-white/80">${log.ip}</td>
+            <td class="py-3.5 px-6 text-accent-dim font-medium">${locStr}</td>
+            <td class="py-3.5 px-6 text-accent-dim truncate max-w-[200px]" title="${ua}">${deviceStr}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+
+      } catch (err) {
+        console.error(err);
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="5" class="py-8 text-center text-danger font-semibold">
+              Failed to sync security logs. Verify MongoDB Atlas connectivity.
+            </td>
+          </tr>
+        `;
+      }
     }
 
     // Run init
