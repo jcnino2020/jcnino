@@ -6,10 +6,8 @@
   <title>JC Niñonuevo | Photo & Video Manager</title>
   <link rel="icon" type="image/png" href="images/favicon.png">
   
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Fonts & Core Stylesheet -->
+  <link rel="stylesheet" href="assets/portfolio.css">
   
   <!-- CSS Stack -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -18,13 +16,20 @@
       theme: {
         extend: {
           fontFamily: {
-            sans: ['Outfit', 'sans-serif'],
+            sans: ['Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
           },
           colors: {
-            'bg-main': '#030303',
-            'surface-dark': '#0a0a0a',
+            'bg': '#000000',
+            'surface': '#0f0f0f',
+            'border': '#1f1f1f',
+            'text-main': '#ffffff',
+            'text-muted': '#a0a0a0',
+            
+            // Backward-compatible surface mappings for existing CMS styles
+            'bg-main': '#000000',
+            'surface-dark': '#0f0f0f',
             'card-glass': 'rgba(255, 255, 255, 0.02)',
-            'border-glass': 'rgba(255, 255, 255, 0.08)',
+            'border-glass': '#1f1f1f',
             'accent': '#ffffff',
             'accent-dim': '#a0a0a0',
             'success': '#10b981',
@@ -37,7 +42,7 @@
 
   <style>
     body {
-      background-color: #030303;
+      background-color: #000000;
       color: #ffffff;
       overflow-x: hidden;
     }
@@ -393,7 +398,7 @@
     </main>
 
     <!-- Side Edit Drawer (Glassmorphic) -->
-    <aside id="edit-drawer" class="fixed right-0 top-0 bottom-0 w-full sm:w-[500px] bg-[#0a0a0a]/98 backdrop-blur-2xl border-l border-white/10 z-50 translate-x-full transition-transform duration-300 shadow-2xl flex flex-col overflow-hidden">
+    <aside id="edit-drawer" class="fixed right-0 top-0 bottom-0 w-full sm:w-[500px] bg-surface-dark/98 backdrop-blur-2xl border-l border-white/10 z-50 translate-x-full transition-transform duration-300 shadow-2xl flex flex-col overflow-hidden">
       <div class="p-6 border-b border-white/10 flex items-center justify-between">
         <div>
           <h3 class="font-bold text-lg">Modify Media</h3>
@@ -501,8 +506,8 @@
   </div>
 
   <!-- Lock Screen Overlay -->
-  <div id="login-overlay" class="fixed inset-0 z-[9999] bg-[#030303] flex items-center justify-center p-6 select-none">
-    <div id="login-card" class="w-full max-w-md p-8 md:p-10 rounded-2xl border border-white/10 bg-[#0a0a0a]/80 backdrop-blur-2xl shadow-2xl flex flex-col items-center text-center space-y-6">
+  <div id="login-overlay" class="fixed inset-0 z-[9999] bg-bg-main flex items-center justify-center p-6 select-none">
+    <div id="login-card" class="w-full max-w-md p-8 md:p-10 rounded-2xl border border-white/10 bg-surface-dark/80 backdrop-blur-2xl shadow-2xl flex flex-col items-center text-center space-y-6">
       <div class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center font-bold text-sm bg-white/5 text-white">
         JN
       </div>
