@@ -290,12 +290,7 @@
       <!-- Top Action bar -->
       <section class="p-6 border-b border-border-glass flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <div class="flex items-center gap-3 flex-wrap sm:flex-nowrap">
-            <h2 id="category-title" class="text-2xl font-bold tracking-tight">Gallery Highlights</h2>
-            <div id="sandbox-badge" class="hidden">
-              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold bg-amber-500/15 text-amber-400 border border-amber-500/20 select-none animate-pulse">Sandbox Mode</span>
-            </div>
-          </div>
+          <h2 id="category-title" class="text-2xl font-bold tracking-tight">Gallery Highlights</h2>
           <p id="category-subtitle" class="text-xs text-accent-dim mt-1">Manage main highlights displayed on index.html grid.</p>
         </div>
         
@@ -929,12 +924,6 @@
       currentCategory = category;
       closeEditDrawer();
       
-      // Hide sandbox badge by default
-      const sandboxBadge = document.getElementById('sandbox-badge');
-      if (sandboxBadge) {
-        sandboxBadge.classList.add('hidden');
-      }
-      
       // Update Tab Styles
       document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.classList.remove('bg-white', 'text-black', 'border-white/10');
@@ -1478,76 +1467,21 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
 
       let views = {};
       let likes = {};
-      let isMockActive = false;
-      let databaseError = null;
 
       try {
         const [viewsRes, likesRes] = await Promise.all([
-          fetch('/api/views').then(async r => {
-            if (!r.ok) {
-              if (r.status === 500) {
-                const errData = await r.json().catch(() => ({}));
-                throw new Error(errData.error || `Server Error ${r.status}`);
-              }
-              throw new Error(`HTTP Error ${r.status}`);
-            }
-            return r.json();
-          }),
-          fetch('/api/likes').then(async r => {
-            if (!r.ok) {
-              if (r.status === 500) {
-                const errData = await r.json().catch(() => ({}));
-                throw new Error(errData.error || `Server Error ${r.status}`);
-              }
-              throw new Error(`HTTP Error ${r.status}`);
-            }
-            return r.json();
-          })
+          fetch('/api/views').then(r => r.ok ? r.json() : {}).catch(() => null),
+          fetch('/api/likes').then(r => r.ok ? r.json() : {}).catch(() => null)
         ]);
 
         views = viewsRes || {};
         likes = likesRes || {};
-        
-        if (views._mock || likes._mock) {
-          isMockActive = true;
-        }
       } catch (err) {
-        databaseError = err;
-        console.warn("Could not load database metrics, using sandbox fallbacks:", err);
-        isMockActive = true;
+        console.warn("Could not load database metrics, using sandbox fallbacks", err);
       }
 
-      const isLocal = window.location.hostname === 'localhost' || 
-                      window.location.hostname === '127.0.0.1' || 
-                      window.location.protocol === 'file:';
-
-      if (isMockActive) {
-        if (!isLocal) {
-          // Production error: show error screen
-          document.getElementById('analytics-total-views').textContent = '0';
-          document.getElementById('analytics-total-likes').textContent = '0';
-          document.getElementById('analytics-avg-engagement').textContent = '0.0%';
-          tbody.innerHTML = `
-            <tr>
-              <td colspan="5" class="py-8 text-center text-danger font-semibold">
-                <div class="flex flex-col items-center gap-2">
-                  <span class="text-sm">Database Sync Error: ${databaseError ? databaseError.message : 'Database offline or unauthorized access'}</span>
-                  <span class="text-[10px] text-accent-dim max-w-md font-light leading-relaxed">
-                    If this is a production deployment, please verify you have set the <code class="px-1 py-0.5 bg-white/10 rounded font-mono text-[9px]">MONGODB_URI</code> environment variable inside your Vercel project dashboard and redeployed.
-                  </span>
-                </div>
-              </td>
-            </tr>
-          `;
-          return;
-        }
-
-        // Local sandbox fallback
-        const sandboxBadge = document.getElementById('sandbox-badge');
-        if (sandboxBadge) {
-          sandboxBadge.classList.remove('hidden');
-        }
-
+      const isMock = Object.keys(views).length === 0;
+      if (isMock) {
         views = {
           "GH-01": 142,
           "GH-02": 88,
@@ -1754,7 +1688,6 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
 
       let logs = null;
       let fetchError = null;
-      let isMockActive = false;
       const token = sessionStorage.getItem('pm_auth') || '';
       const isLocal = window.location.hostname === 'localhost' || 
                       window.location.hostname === '127.0.0.1' || 
@@ -1769,17 +1702,9 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
         });
 
         if (!res.ok) {
-          if (res.status === 500) {
-            const errData = await res.json().catch(() => ({}));
-            throw new Error(errData.error || `Server Error ${res.status}`);
-          }
           throw new Error(`Unauthorized or failed to retrieve logs (Status: ${res.status})`);
         }
         logs = await res.json();
-        
-        if (logs && logs.length > 0 && logs[0].mock) {
-          isMockActive = true;
-        }
       } catch (err) {
         fetchError = err;
         console.error("Fetch error for security logs:", err);
@@ -1788,7 +1713,6 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
       // If fetch failed, check if we should fall back to mock data locally
       if (logs === null) {
         if (isLocal) {
-          isMockActive = true;
           console.warn("Using sandbox mock fallbacks in local environment");
           logs = [
             {
@@ -1824,12 +1748,7 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
           tbody.innerHTML = `
             <tr>
               <td colspan="5" class="py-8 text-center text-danger font-semibold">
-                <div class="flex flex-col items-center gap-2">
-                  <span class="text-sm">Database Sync Error: ${fetchError ? fetchError.message : 'Database offline or unauthorized access'}</span>
-                  <span class="text-[10px] text-accent-dim max-w-md font-light leading-relaxed">
-                    If this is a production deployment, make sure you have added the <code class="px-1 py-0.5 bg-white/10 rounded font-mono text-[9px]">MONGODB_URI</code> environment variable in your Vercel project settings and redeployed.
-                  </span>
-                </div>
+                Failed to sync security logs: ${fetchError ? fetchError.message : 'Database offline or unauthorized access'}.
               </td>
             </tr>
           `;
@@ -1837,12 +1756,6 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
         }
       }
 
-      if (isMockActive) {
-        const sandboxBadge = document.getElementById('sandbox-badge');
-        if (sandboxBadge) {
-          sandboxBadge.classList.remove('hidden');
-        }
-      }
 
       // Render overview counters
       const total = logs.length;

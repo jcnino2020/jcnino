@@ -1,4 +1,26 @@
-import { connectToDatabase, getHasMongo } from './_db.js';
+import { MongoClient } from 'mongodb';
+
+let cachedClient = null;
+let cachedDb = null;
+
+async function connectToDatabase() {
+  if (cachedClient && cachedDb) {
+    return { client: cachedClient, db: cachedDb };
+  }
+
+  const uri = process.env.MONGODB_URI;
+  if (!uri) {
+    throw new Error('Please define the MONGODB_URI environment variable inside .env');
+  }
+
+  const client = new MongoClient(uri);
+  await client.connect();
+  // Connection string specifies the database (e.g. 'jcnino' or default)
+  const db = client.db();
+  cachedClient = client;
+  cachedDb = db;
+  return { client, db };
+}
 
 // In-memory fallback dictionary for local development if MONGODB_URI is missing
 let localMockLikes = {
@@ -22,17 +44,13 @@ export default async function handler(req, res) {
     return;
   }
 
-  const hasMongo = getHasMongo();
+  const hasMongo = !!process.env.MONGODB_URI;
 
   try {
-    if (!hasMongo && process.env.NODE_ENV === 'production') {
-      return res.status(500).json({ error: 'Database environment variable MONGODB_URI is not configured in Vercel project settings.' });
-    }
-
     if (req.method === 'GET') {
       if (!hasMongo) {
-        // Return mock data with mock flag
-        return res.status(200).json({ ...localMockLikes, _mock: true });
+        // Return mock data
+        return res.status(200).json(localMockLikes);
       }
 
       const { db } = await connectToDatabase();

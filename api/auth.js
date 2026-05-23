@@ -1,4 +1,25 @@
-import { connectToDatabase, getHasMongo } from './_db.js';
+import { MongoClient } from 'mongodb';
+
+let cachedClient = null;
+let cachedDb = null;
+
+async function connectToDatabase() {
+  if (cachedClient && cachedDb) {
+    return { client: cachedClient, db: cachedDb };
+  }
+
+  const uri = process.env.MONGODB_URI;
+  if (!uri) {
+    throw new Error('Please define the MONGODB_URI environment variable inside .env');
+  }
+
+  const client = new MongoClient(uri);
+  await client.connect();
+  const db = client.db();
+  cachedClient = client;
+  cachedDb = db;
+  return { client, db };
+}
 
 // Serverless Auth & Logging Function
 export default async function handler(req, res) {
@@ -52,7 +73,7 @@ export default async function handler(req, res) {
     };
 
     // Save attempt to MongoDB if connection string is configured
-    const hasMongo = getHasMongo();
+    const hasMongo = !!process.env.MONGODB_URI;
     if (hasMongo) {
       try {
         const { db } = await connectToDatabase();
