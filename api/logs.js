@@ -1,25 +1,4 @@
-import { MongoClient } from 'mongodb';
-
-let cachedClient = null;
-let cachedDb = null;
-
-async function connectToDatabase() {
-  if (cachedClient && cachedDb) {
-    return { client: cachedClient, db: cachedDb };
-  }
-
-  const uri = process.env.MONGODB_URI;
-  if (!uri) {
-    throw new Error('Please define the MONGODB_URI environment variable inside .env');
-  }
-
-  const client = new MongoClient(uri);
-  await client.connect();
-  const db = client.db();
-  cachedClient = client;
-  cachedDb = db;
-  return { client, db };
-}
+import { connectToDatabase, getHasMongo } from './_db.js';
 
 // Sandbox local in-memory mock logs if MongoDB is absent
 let localMockLogs = [
@@ -89,12 +68,16 @@ export default async function handler(req, res) {
     return res.status(401).json({ error: 'Unauthorized administrative access' });
   }
 
-  const hasMongo = !!process.env.MONGODB_URI;
+  const hasMongo = getHasMongo();
 
   try {
     if (!hasMongo) {
+      if (process.env.NODE_ENV === 'production') {
+        return res.status(500).json({ error: 'Database environment variable MONGODB_URI is not configured in Vercel project settings.' });
+      }
       // Local development mock logs
-      return res.status(200).json(localMockLogs);
+      const flaggedLogs = localMockLogs.map(log => ({ ...log, mock: true }));
+      return res.status(200).json(flaggedLogs);
     }
 
     const { db } = await connectToDatabase();

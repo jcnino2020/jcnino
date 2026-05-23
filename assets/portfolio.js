@@ -105,6 +105,9 @@ const imageLightboxHtml = `
     </svg>
   </button>
   <img id="lightbox-img" src="" alt="" class="max-w-full max-h-[85vh] object-contain rounded-2xl shadow-2xl" />
+  <div id="lightbox-loader" class="absolute inset-0 flex items-center justify-center pointer-events-none hidden z-30">
+    <div class="spinner"></div>
+  </div>
   <div class="absolute bottom-6 flex flex-row items-center gap-4 select-none bg-black/60 backdrop-blur-xl px-5 py-2.5 rounded-full border border-white/10 shadow-lg">
     <p id="lightbox-counter" class="text-white text-xs font-bold tracking-normal" aria-live="polite"></p>
     <div class="w-[1px] h-3.5 bg-white/20"></div>
@@ -413,6 +416,11 @@ function syncLightbox(direction = null) {
             // Show loading state if not already cached
             if (!probe.complete) {
                 img.classList.add('lb-loading');
+                const loader = document.getElementById('lightbox-loader');
+                if (loader) {
+                    loader.classList.remove('hidden');
+                    loader.classList.add('flex');
+                }
             }
         };
 
@@ -436,6 +444,11 @@ function syncLightbox(direction = null) {
         // Trigger smooth entry once loaded
         img.onload = function() {
             img.classList.remove('lb-loading');
+            const loader = document.getElementById('lightbox-loader');
+            if (loader) {
+                loader.classList.add('hidden');
+                loader.classList.remove('flex');
+            }
             
             if (window.gsap) {
                 let xOffset = 0;
@@ -468,6 +481,11 @@ function syncLightbox(direction = null) {
         // Fallback to original if optimized WebP fails
         img.onerror = function() {
             img.classList.remove('lb-loading');
+            const loader = document.getElementById('lightbox-loader');
+            if (loader) {
+                loader.classList.add('hidden');
+                loader.classList.remove('flex');
+            }
             if (img.src !== p.src) {
                 img.src = p.src;
                 img.onerror = null;
@@ -504,6 +522,11 @@ function closeLightbox() {
                 if (img) {
                     gsap.set(img, { clearProps: 'all' });
                 }
+                const loader = document.getElementById('lightbox-loader');
+                if (loader) {
+                    loader.classList.add('hidden');
+                    loader.classList.remove('flex');
+                }
             }
         });
     } else {
@@ -514,6 +537,11 @@ function closeLightbox() {
         if (img) {
             img.style.transform = '';
             img.style.opacity = '';
+        }
+        const loader = document.getElementById('lightbox-loader');
+        if (loader) {
+            loader.classList.add('hidden');
+            loader.classList.remove('flex');
         }
     }
 }
