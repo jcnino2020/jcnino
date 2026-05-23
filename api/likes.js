@@ -55,12 +55,19 @@ export default async function handler(req, res) {
 
       const { db } = await connectToDatabase();
       const likesCollection = db.collection('likes');
+
+      // Auto-correct any existing negative like counts in the database
+      await likesCollection.updateMany(
+        { count: { $lt: 0 } },
+        { $set: { count: 0 } }
+      );
+
       const likesList = await likesCollection.find({}).toArray();
       
       // Convert list to simple key-value map: { [itemId]: count }
       const likesMap = {};
       likesList.forEach(doc => {
-        likesMap[doc._id] = doc.count || 0;
+        likesMap[doc._id] = Math.max(0, doc.count || 0);
       });
 
       return res.status(200).json(likesMap);
@@ -94,11 +101,17 @@ export default async function handler(req, res) {
         { upsert: true }
       );
 
+      // Ensure count is never negative in the database
+      await likesCollection.updateOne(
+        { _id: itemId, count: { $lt: 0 } },
+        { $set: { count: 0 } }
+      );
+
       // Fetch the updated value to return it
       const updatedDoc = await likesCollection.findOne({ _id: itemId });
       const updatedCount = updatedDoc ? updatedDoc.count : 0;
 
-      return res.status(200).json({ itemId, count: Math.max(0, updatedCount) });
+      return res.status(200).json({ itemId, count: updatedCount });
     }
 
     res.status(405).json({ error: 'Method not allowed' });
