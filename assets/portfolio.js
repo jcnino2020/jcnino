@@ -79,7 +79,7 @@ const footerHtml = `
        <a href="school-events.html" data-page="school-events.html" class="text-text-muted hover:text-white text-sm font-bold transition-colors">Events</a>
        <a href="video-projects.html" data-page="video-projects.html" class="text-text-muted hover:text-white text-sm font-bold transition-colors">Videos</a>
     </div>
-    <p class="text-text-muted text-xs font-bold">Updated March 2026</p>
+    <p class="text-text-muted text-xs font-bold">Updated May 2026</p>
   </div>
 </footer>
 `;
