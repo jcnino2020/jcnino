@@ -277,5 +277,32 @@ window.galleryData = {
       thumbFallback: "images/Video%20Thumbnails/NASE-06.jpg",
       duration: "5:01"
     }
-  ]
+  ],
+  settings: {
+    about: {
+      bio: "Jan Carlo G. Niñonuevo is a photographer and IT enthusiast pursuing a Bachelor of Science in Information Technology at the University of St. La Salle. With experience in photojournalism and video editing, he has contributed to various media and student organizations, including The La Salle Yearbook, Tigris, Liceo de La Salle Yearbook, and MULTER Productions. Combining his technical and creative skills, he aims to work on innovative projects integrating technology and media.",
+      kitBody: "Nikon Z50",
+      kitPrimes: "Viltrox 25/56/85",
+      kitZooms: "16-50/50-250",
+      workPhoto: "Lightroom Classic",
+      workVideo: "Final Cut Pro",
+      workMachine: "M5 MacBook Air"
+    },
+    socials: {
+      facebook: "https://facebook.com/jcninoo",
+      instagram: "https://instagram.com/photos.jcnino",
+      email: "jcninonuevo@gmail.com"
+    },
+    seo: {
+      title: "Portfolio | JC Niñonuevo",
+      description: "Photography & cinematography portfolio of JC Niñonuevo. Drone aerials, editorial street frames, and cinematic storytelling. Based in Bacolod City.",
+      keywords: "photography, cinematography, drone, bacolod, portfolio, JC Niñonuevo"
+    },
+    app: {
+      maintenanceMode: false,
+      accentColor: "default",
+      sessionTimeout: 15
+    }
+  }
 };
+

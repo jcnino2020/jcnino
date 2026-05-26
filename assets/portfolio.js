@@ -4,6 +4,7 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+    applyGlobalSettings();
     injectComponents();
     initMobileMenu();
     updateYear();
@@ -1281,4 +1282,154 @@ window.toggleVideoLike = toggleVideoLike;
 window.openVideoLightbox = openVideoLightbox;
 window.closeVideoLightbox = closeVideoLightbox;
 window.changeYTPlaybackSpeed = changeYTPlaybackSpeed;
+window.applyGlobalSettings = applyGlobalSettings;
+
+/**
+ * Dynamic Global Settings & Customizations Injection
+ */
+function applyGlobalSettings() {
+    if (!window.galleryData || !window.galleryData.settings) return;
+    const settings = window.galleryData.settings;
+
+    // 1. Maintenance Mode
+    if (settings.app && settings.app.maintenanceMode) {
+        // Prevent layout flash and show beautiful full-screen overlay
+        const maintenanceOverlay = document.createElement('div');
+        maintenanceOverlay.id = 'maintenance-overlay';
+        maintenanceOverlay.className = 'fixed inset-0 z-[99999] bg-black/95 backdrop-blur-2xl flex items-center justify-center p-6 text-center select-none';
+        maintenanceOverlay.innerHTML = `
+            <div class="max-w-md p-10 rounded-2xl border border-white/10 bg-white/[0.01] shadow-2xl flex flex-col items-center space-y-6">
+                <div class="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center bg-white/5 text-white font-bold text-lg animate-pulse">
+                    JN
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold tracking-tight text-white">Undergoing Maintenance</h2>
+                    <p class="text-sm text-text-muted mt-2">JC is currently updating and expanding his galleries. Please come back shortly!</p>
+                </div>
+                <div class="h-[1px] bg-white/10 w-full"></div>
+                <div class="flex gap-4">
+                    <a href="${settings.socials.facebook}" target="_blank" class="text-xs font-bold text-white hover:underline">Facebook</a>
+                    <span class="text-white/20">•</span>
+                    <a href="${settings.socials.instagram}" target="_blank" class="text-xs font-bold text-white hover:underline">Instagram</a>
+                    <span class="text-white/20">•</span>
+                    <a href="mailto:${settings.socials.email}" class="text-xs font-bold text-white hover:underline">Email</a>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(maintenanceOverlay);
+        document.body.style.overflow = 'hidden';
+        return; // Halt other dynamics since site is in maintenance
+    }
+
+    // 2. Dynamic SEO & Metadata Injections
+    if (settings.seo) {
+        if (settings.seo.title) {
+            document.title = settings.seo.title;
+        }
+        if (settings.seo.description) {
+            let descEl = document.querySelector('meta[name="description"]');
+            if (!descEl) {
+                descEl = document.createElement('meta');
+                descEl.name = 'description';
+                document.head.appendChild(descEl);
+            }
+            descEl.content = settings.seo.description;
+            
+            // Update Open Graph and Twitter metatags if present
+            const ogDesc = document.querySelector('meta[property="og:description"]');
+            if (ogDesc) ogDesc.content = settings.seo.description;
+            const twDesc = document.querySelector('meta[name="twitter:description"]');
+            if (twDesc) twDesc.content = settings.seo.description;
+        }
+        if (settings.seo.keywords) {
+            let keyEl = document.querySelector('meta[name="keywords"]');
+            if (!keyEl) {
+                keyEl = document.createElement('meta');
+                keyEl.name = 'keywords';
+                document.head.appendChild(keyEl);
+            }
+            keyEl.content = settings.seo.keywords;
+        }
+        if (settings.seo.title) {
+            const ogTitle = document.querySelector('meta[property="og:title"]');
+            if (ogTitle) ogTitle.content = settings.seo.title;
+            const twTitle = document.querySelector('meta[name="twitter:title"]');
+            if (twTitle) twTitle.content = settings.seo.title;
+        }
+    }
+
+    // 3. Dynamic Accent Colors Integration
+    if (settings.app && settings.app.accentColor && settings.app.accentColor !== 'default') {
+        let hex = '#ffffff';
+        const colorName = settings.app.accentColor;
+        if (colorName === 'emerald') hex = '#10b981';
+        else if (colorName === 'violet') hex = '#8b5cf6';
+        else if (colorName === 'gold') hex = '#f59e0b';
+
+        const customCss = `
+            :root {
+                --accent: ${hex} !important;
+            }
+            /* Smooth overrides for dynamic items */
+            .active, .nav-link.active, .nav-link.active::after {
+                color: var(--accent) !important;
+            }
+            .contact-link:hover, .service-card:hover {
+                border-color: var(--accent) !important;
+            }
+            .glow-hover:hover {
+                box-shadow: 0 0 25px rgba(${hex.match(/\w\w/g).map(x => parseInt(x, 16)).join(', ')}, 0.2) !important;
+            }
+            /* Override custom buttons or accents styled via inline white colors */
+            .bg-accent, [onclick*="scrollIntoView"] .w-10 {
+                border-color: var(--accent) !important;
+            }
+        `;
+        let styleEl = document.getElementById('dynamic-accent-style');
+        if (!styleEl) {
+            styleEl = document.createElement('style');
+            styleEl.id = 'dynamic-accent-style';
+            document.head.appendChild(styleEl);
+        }
+        styleEl.innerHTML = customCss;
+    }
+
+    // 4. Dynamic About Profile Bio & Camera Kit
+    if (settings.about) {
+        const bioEl = document.getElementById('about-bio');
+        if (bioEl) bioEl.textContent = settings.about.bio;
+
+        const kitBody = document.getElementById('about-kit-body');
+        if (kitBody) kitBody.textContent = settings.about.kitBody;
+
+        const kitPrimes = document.getElementById('about-kit-primes');
+        if (kitPrimes) kitPrimes.textContent = settings.about.kitPrimes;
+
+        const kitZooms = document.getElementById('about-kit-zooms');
+        if (kitZooms) kitZooms.textContent = settings.about.kitZooms;
+
+        const workPhoto = document.getElementById('about-work-photo');
+        if (workPhoto) workPhoto.textContent = settings.about.workPhoto;
+
+        const workVideo = document.getElementById('about-work-video');
+        if (workVideo) workVideo.textContent = settings.about.workVideo;
+
+        const workMachine = document.getElementById('about-work-machine');
+        if (workMachine) workMachine.textContent = settings.about.workMachine;
+    }
+
+    // 5. Dynamic Social Icons & Email Addresses
+    if (settings.socials) {
+        const fbLink = document.querySelector('a[href*="facebook.com"]');
+        if (fbLink) fbLink.href = settings.socials.facebook;
+
+        const igLink = document.querySelector('a[href*="instagram.com"]');
+        if (igLink) igLink.href = settings.socials.instagram;
+
+        const emailLinks = document.querySelectorAll('a[href^="mailto:"]');
+        emailLinks.forEach(link => {
+            link.href = 'mailto:' + settings.socials.email;
+        });
+    }
+}
 
