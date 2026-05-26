@@ -3,389 +3,218 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Portfolio | JC Niñonuevo</title>
+  <title>JC Niñonuevo | Photo & Video</title>
   <link rel="icon" type="image/png" href="images/favicon.png">
   
   <!-- SEO & Metadata -->
   <meta name="description" content="Photography & cinematography portfolio of JC Niñonuevo. Drone aerials, editorial street frames, and cinematic storytelling. Based in Bacolod City.">
-  <meta name="keywords" content="photography, cinematography, drone, bacolod, portfolio, JC Niñonuevo">
   
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://jcnino2020.github.io/jcnino/">
-  <meta property="og:title" content="Portfolio | JC Niñonuevo">
-  <meta property="og:description" content="Photography & cinematography portfolio. Drone aerials, editorial street frames, and cinematic storytelling. Based in Bacolod City.">
-  <meta property="og:image" content="images/preview.jpg">
-
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:url" content="https://jcnino2020.github.io/jcnino/">
-  <meta name="twitter:title" content="Portfolio | JC Niñonuevo">
-  <meta name="twitter:description" content="Photography & cinematography portfolio. Based in Bacolod City.">
-  <meta name="twitter:image" content="images/optimized/1200/GH-01-1200.webp">
-
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="assets/portfolio.css">
-
-
   
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        colors: {
-          'bg':    '#000000',
-          'surface': '#0f0f0f',
-          'border': '#1f1f1f',
-          'text-main': '#ffffff',
-          'text-muted': '#a0a0a0',
-          'accent': '#ffffff',
-        },
-        fontFamily: {
-          sans: ['Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'bg':    '#000000',
+            'surface': '#0f0f0f',
+            'border': '#1f1f1f',
+            'text-main': '#ffffff',
+            'text-muted': '#a0a0a0',
+            'accent': '#ffffff',
+          },
+          fontFamily: {
+            sans: ['Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
+          },
         },
       },
-    },
-  }
-</script>
-
+    }
+  </script>
+  <style>
+    :root {
+      --accent: 255, 255, 255;
+      --accent-color: #ffffff;
+      --accent-glow: rgba(255, 255, 255, 0.08);
+    }
+    .text-accent {
+      color: #ffffff !important;
+    }
+    .border-accent {
+      border-color: #ffffff !important;
+    }
+    .bg-accent {
+      background-color: #ffffff !important;
+    }
+    .glow-hover:hover {
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.15) !important;
+    }
+  </style>
 </head>
-<body class="min-h-screen">
+<body class="min-h-screen bg-black text-white" data-theme="obsidian">
 
 <!-- Navigation -->
-<div id="navbar-placeholder"></div>
+<nav class="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/[0.05]">
+  <div class="max-w-7xl mx-auto px-6 sm:px-10">
+    <div class="flex items-center justify-between h-20">
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-full border border-accent/30 flex items-center justify-center font-bold text-xs bg-accent/5 text-accent">JN</div>
+        <span class="text-white font-bold tracking-tight text-sm uppercase">JC NIÑONUEVO</span>
+      </a>
+      
+      <!-- Desktop Nav -->
+      <div class="hidden md:flex items-center gap-8">
+        <a href="index.html" class="text-xs font-bold uppercase tracking-wider text-accent font-bold transition-colors">Home</a>
+        <a href="drone-shots.html" class="text-xs font-bold uppercase tracking-wider text-text-muted hover:text-accent transition-colors">Drone</a>
+        <a href="framed-moments.html" class="text-xs font-bold uppercase tracking-wider text-text-muted hover:text-accent transition-colors">Framed</a>
+        <a href="school-events.html" class="text-xs font-bold uppercase tracking-wider text-text-muted hover:text-accent transition-colors">Events</a>
+        <a href="video-projects.html" class="text-xs font-bold uppercase tracking-wider text-text-muted hover:text-accent transition-colors">Videos</a>
+      </div>
 
-<!-- Assets -->
+      <a href="index.html#contact" class="hidden md:inline-flex px-6 py-2.5 border border-accent/25 hover:bg-accent hover:text-black font-bold text-xs rounded-full transition-all">Contact</a>
+    </div>
+  </div>
+</nav>
+
 <script src="assets/portfolio.js" defer></script>
 
-<!-- Main Content -->
+
 <div>
-  
-  <!-- Hero Section -->
-<section id="home" class="relative min-h-screen flex items-center pt-16 md:pt-20 overflow-hidden">
-    <div class="max-w-7xl mx-auto px-6 sm:px-10 w-full pt-10 pb-20 md:py-20">
-      <div class="grid lg:grid-cols-12 gap-12 lg:gap-20 items-center">
-        
-        <!-- Left Column: Text -->
-        <div class="lg:col-span-6">
-          <p id="hero-eyebrow" class="gsap-hero-item text-text-muted text-sm font-bold uppercase tracking-normal mb-6">Photo & Video</p>
-          <h1 id="hero-title" class="gsap-hero-item text-6xl sm:text-7xl lg:text-8xl text-white mb-8 leading-none tracking-tight font-bold">
-            Framing <br/><span class="font-light opacity-90">Stories.</span>
-          </h1>
-          <p id="hero-desc" class="gsap-hero-item text-text-muted text-lg sm:text-xl max-w-lg mb-12 leading-relaxed font-normal">
-            A visual journey through drone aerials, editorial street frames, and cinematic storytelling. Based in Bacolod City.
-          </p>
-          <div id="hero-buttons" class="gsap-hero-item flex flex-wrap gap-5">
-            <a href="#gallery" class="inline-flex items-center gap-3 px-8 py-4 bg-white text-black font-bold text-sm rounded-full hover:bg-opacity-90 transition-all group">
-              Explore Gallery
-              <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-            </a>
-            <a href="#about" class="inline-flex items-center gap-3 px-8 py-4 border border-white/20 text-white font-bold text-sm rounded-full hover:bg-white/5 transition-all">
-              About Me
-            </a>
-          </div>
-        </div>
-
-        <!-- Right Column: Featured Visual -->
-        <div id="hero-img-col" class="gsap-hero-item lg:col-span-6 relative">
-          <div class="aspect-[3/2] rounded-2xl overflow-hidden bg-surface relative group">
-            <picture>
-              <source
-                type="image/webp"
-                srcset="
-                  images/optimized/800/GH-01-800.webp 800w,
-                  images/optimized/1200/GH-01-1200.webp 1200w,
-                  images/optimized/1600/GH-01-1600.webp 1600w,
-                  images/optimized/2048/GH-01-2048.webp 2048w
-                "
-                sizes="(max-width: 768px) 100vw, 50vw"
-              />
-              <img src="images/optimized/1200/GH-01-1200.webp" alt="Aerial view of Lakawon Island by JC Niñonuevo"
-                fetchpriority="high" loading="eager" decoding="async"
-                width="1200" height="800"
-                class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" />
-            </picture>
-            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-            <div class="absolute bottom-0 left-0 right-0 p-8">
-               <p class="text-2xl text-white font-bold">Lakawon Island</p>
-               <p class="text-white/70 text-sm mt-1">Cadiz City</p>
-            </div>
-          </div>
-        </div>
+  <section id="home" class="relative min-h-screen bg-black flex items-center justify-center overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none"
+      style="background:radial-gradient(ellipse 100% 70% at 50% 30%,rgba(255,255,255,0.02) 0%,transparent 70%);"></div>
+    <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent"></div>
+    <div class="relative z-10 text-center px-6 max-w-4xl mx-auto fade-in">
+      <p class="text-accent/30 text-xs font-mono uppercase tracking-[0.4em] mb-10">Photography & Video</p>
+      <h1 class="text-6xl md:text-8xl font-extralight text-white mb-6 leading-none tracking-tight">
+        Capturing<br/><span class="font-bold italic">Moments.</span>
+      </h1>
+      <p class="text-white/30 text-base md:text-lg max-w-xl mx-auto mb-12 font-light leading-relaxed">
+        Drone aerials, editorial frames, school event coverage & cinematic video — Bacolod City.
+      </p>
+      <div class="flex flex-wrap gap-4 justify-center">
+        <a href="#gallery" class="px-8 py-3 rounded-full text-xs font-mono uppercase tracking-widest bg-accent text-black hover:bg-opacity-90 transition-all font-bold">View Gallery</a>
+        <a href="#contact" class="px-8 py-3 rounded-full text-xs font-mono uppercase tracking-widest border border-accent/25 text-white hover:bg-accent/5 transition-all font-bold">Contact</a>
       </div>
-
-      <!-- Scroll Down Indicator Arrow (Smooth scroll to 4 category grids) -->
-      <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer z-20 group" onclick="document.getElementById('services-section').scrollIntoView({ behavior: 'smooth' })" aria-label="Scroll down to category grids">
-        <span class="text-xs sm:text-sm uppercase tracking-normal text-white/60 group-hover:text-white transition-colors font-bold">Discover</span>
-        <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full border border-white/20 flex items-center justify-center bg-black/50 backdrop-blur-sm group-hover:border-white/40 group-hover:bg-black/70 transition-all shadow-lg">
-          <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white/70 group-hover:text-white group-hover:translate-y-0.5 transition-all animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
-          </svg>
-        </div>
-      </div>
-
+    </div>
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+      <svg class="w-4 h-4 text-white/15" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 9l-7 7-7-7"/>
+      </svg>
     </div>
   </section>
 
-  <!-- Categories Section -->
-  <section id="services-section" class="py-10 md:py-16 border-t border-border">
-    <div class="max-w-7xl mx-auto px-6 sm:px-10">
-      
-      <!-- New Header in Exact Same Style as Gallery Highlights -->
-      <div id="services-header" class="mb-6 md:mb-10">
-        <p class="text-text-muted text-xs font-bold uppercase">Categories</p>
-      </div>
-
-      <!-- The 4 Categories Grid -->
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        
-        <!-- 01 Drone Shots -->
-        <a href="drone-shots.html" class="service-card group border border-border hover:border-white/30 transition-all duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden">
-          <!-- BG Image -->
-          <picture class="absolute inset-0 w-full h-full">
-            <source type="image/webp" srcset="images/optimized/800/Drone Shots/Drone-006-800.webp 800w, images/optimized/1200/Drone Shots/Drone-006-1200.webp 1200w" sizes="(max-width: 768px) 100vw, 25vw" />
-            <img src="images/optimized/800/Drone Shots/Drone-006-800.webp"
-              alt="Aerial view of Negros Island landscape captured by drone" loading="lazy" decoding="async" width="800" height="533"
-              class="w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-700" />
-          </picture>
-          <!-- Overlay -->
-          <div class="absolute inset-0 bg-black/60 group-hover:bg-black/45 transition-colors duration-300"></div>
-          <!-- Glow orb -->
-          <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl transform translate-x-10 -translate-y-10 group-hover:scale-150 transition-transform duration-500"></div>
-          <div class="relative z-10">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-bold text-white/50 tracking-normal">01</span>
-              <span class="text-[10px] font-bold text-white/70 uppercase tracking-normal">Aerial Views</span>
-            </div>
-            <h3 class="text-2xl font-bold text-white mt-3">Drone Shots</h3>
-          </div>
-          <div class="relative z-10 flex items-center justify-between">
-            <span class="text-xs text-white/80 font-medium group-hover:underline">View Gallery</span>
-            <svg class="w-4 h-4 text-white transform group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-          </div>
+  <section class="py-16 bg-black border-y border-white/[0.05]">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/[0.05]">
+        <a href="drone-shots.html" class="group bg-black hover:bg-surface transition-colors p-8 flex flex-col gap-5 border border-white/[0.03]">
+          <p class="text-white/15 text-xs font-mono uppercase tracking-widest">01</p>
+          <h3 class="text-white/70 group-hover:text-accent font-light text-xl transition-colors">Drone Shots</h3>
+          <p class="text-white/20 text-xs font-light leading-relaxed">Aerial perspective — landscapes &amp; cityscapes.</p>
+          <div class="mt-auto"><svg class="w-4 h-4 text-white/20 group-hover:text-accent transition-all group-hover:translate-x-1 transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></div>
         </a>
-
-        <!-- 02 Framed Moments -->
-        <a href="framed-moments.html" class="service-card group border border-border hover:border-white/30 transition-all duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden">
-          <picture class="absolute inset-0 w-full h-full">
-            <source type="image/webp" srcset="images/optimized/800/Framed Moments/FM-01-800.webp 800w, images/optimized/1200/Framed Moments/FM-01-1200.webp 1200w" sizes="(max-width: 768px) 100vw, 25vw" />
-            <img src="images/optimized/800/Framed Moments/FM-01-800.webp"
-              alt="Street and editorial portrait photography by JC Niñonuevo" loading="lazy" decoding="async" width="800" height="533"
-              class="w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-700" />
-          </picture>
-          <div class="absolute inset-0 bg-black/60 group-hover:bg-black/45 transition-colors duration-300"></div>
-          <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl transform translate-x-10 -translate-y-10 group-hover:scale-150 transition-transform duration-500"></div>
-          <div class="relative z-10">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-bold text-white/50 tracking-normal">02</span>
-              <span class="text-[10px] font-bold text-white/70 uppercase tracking-normal">Street & Editorial</span>
-            </div>
-            <h3 class="text-2xl font-bold text-white mt-3">Framed Moments</h3>
-          </div>
-          <div class="relative z-10 flex items-center justify-between">
-            <span class="text-xs text-white/80 font-medium group-hover:underline">View Gallery</span>
-            <svg class="w-4 h-4 text-white transform group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-          </div>
+        <a href="framed-moments.html" class="group bg-black hover:bg-surface transition-colors p-8 flex flex-col gap-5 border border-white/[0.03]">
+          <p class="text-white/15 text-xs font-mono uppercase tracking-widest">02</p>
+          <h3 class="text-white/70 group-hover:text-accent font-light text-xl transition-colors">Framed Moments</h3>
+          <p class="text-white/20 text-xs font-light leading-relaxed">Street, editorial &amp; documentary frames.</p>
+          <div class="mt-auto"><svg class="w-4 h-4 text-white/20 group-hover:text-accent transition-all group-hover:translate-x-1 transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></div>
         </a>
-
-        <!-- 03 School Events -->
-        <a href="school-events.html" class="service-card group border border-border hover:border-white/30 transition-all duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden">
-          <picture class="absolute inset-0 w-full h-full">
-            <source type="image/webp" srcset="images/optimized/800/School Events/SE-01-800.webp 800w, images/optimized/1200/School Events/SE-01-1200.webp 1200w" sizes="(max-width: 768px) 100vw, 25vw" />
-            <img src="images/optimized/800/School Events/SE-01-800.webp"
-              alt="School event and campus life photography by JC Niñonuevo" loading="lazy" decoding="async" width="800" height="533"
-              class="w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-700" />
-          </picture>
-          <div class="absolute inset-0 bg-black/60 group-hover:bg-black/45 transition-colors duration-300"></div>
-          <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl transform translate-x-10 -translate-y-10 group-hover:scale-150 transition-transform duration-500"></div>
-          <div class="relative z-10">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-bold text-white/50 tracking-normal">03</span>
-              <span class="text-[10px] font-bold text-white/70 uppercase tracking-normal">Yearbook & Events</span>
-            </div>
-            <h3 class="text-2xl font-bold text-white mt-3">School Events</h3>
-          </div>
-          <div class="relative z-10 flex items-center justify-between">
-            <span class="text-xs text-white/80 font-medium group-hover:underline">View Gallery</span>
-            <svg class="w-4 h-4 text-white transform group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-          </div>
+        <a href="school-events.html" class="group bg-black hover:bg-surface transition-colors p-8 flex flex-col gap-5 border border-white/[0.03]">
+          <p class="text-white/15 text-xs font-mono uppercase tracking-widest">03</p>
+          <h3 class="text-white/70 group-hover:text-accent font-light text-xl transition-colors">School Events</h3>
+          <p class="text-white/20 text-xs font-light leading-relaxed">Yearbook-grade event &amp; ceremony coverage.</p>
+          <div class="mt-auto"><svg class="w-4 h-4 text-white/20 group-hover:text-accent transition-all group-hover:translate-x-1 transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></div>
         </a>
-
-        <!-- 04 Video Projects -->
-        <a href="video-projects.html" class="service-card group border border-border hover:border-white/30 transition-all duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden">
-          <picture class="absolute inset-0 w-full h-full">
-            <source type="image/webp" srcset="images/optimized/800/VP-800.webp 800w, images/optimized/1200/VP-1200.webp 1200w" sizes="(max-width: 768px) 100vw, 25vw" />
-            <img src="images/optimized/800/VP-800.webp"
-              alt="Cinematic video and film projects by JC Niñonuevo" loading="lazy" decoding="async" width="800" height="533"
-              class="w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-700" />
-          </picture>
-          <div class="absolute inset-0 bg-black/60 group-hover:bg-black/45 transition-colors duration-300"></div>
-          <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl transform translate-x-10 -translate-y-10 group-hover:scale-150 transition-transform duration-500"></div>
-          <div class="relative z-10">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-bold text-white/50 tracking-normal">04</span>
-              <span class="text-[10px] font-bold text-white/70 uppercase tracking-normal">Reels & Films</span>
-            </div>
-            <h3 class="text-2xl font-bold text-white mt-3">Video Projects</h3>
-          </div>
-          <div class="relative z-10 flex items-center justify-between">
-            <span class="text-xs text-white/80 font-medium group-hover:underline">Watch Videos</span>
-            <svg class="w-4 h-4 text-white transform group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-          </div>
+        <a href="video-projects.html" class="group bg-black hover:bg-surface transition-colors p-8 flex flex-col gap-5 border border-white/[0.03]">
+          <p class="text-white/15 text-xs font-mono uppercase tracking-widest">04</p>
+          <h3 class="text-white/70 group-hover:text-accent font-light text-xl transition-colors">Video Projects</h3>
+          <p class="text-white/20 text-xs font-light leading-relaxed">FCP edits — reels, films &amp; B-roll.</p>
+          <div class="mt-auto"><svg class="w-4 h-4 text-white/20 group-hover:text-accent transition-all group-hover:translate-x-1 transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></div>
         </a>
-
       </div>
     </div>
   </section>
 
-  <!-- Gallery Section -->
-  <section id="gallery" class="py-10 md:py-16 border-t border-border">
-    <div class="max-w-7xl mx-auto px-6 sm:px-10">
-      <div id="gallery-header" class="flex flex-col md:flex-row items-start md:items-end justify-between mb-6 md:mb-10 gap-6">
+  <section id="gallery" class="py-20 bg-surface">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8">
+      <div class="flex items-end justify-between mb-12 flex-wrap gap-4 border-b border-white/5 pb-6">
         <div>
-          <p class="text-text-muted text-xs font-bold uppercase mb-4">Gallery Highlights</p>
-          <h2 class="text-4xl sm:text-5xl text-white font-bold">Visual Journal</h2>
+          <p class="text-accent/30 text-xs font-mono uppercase tracking-[0.3em] mb-3">Selected work</p>
+          <h2 class="text-3xl font-light text-white">Gallery Highlights</h2>
         </div>
       </div>
       <div class="gallery-grid" id="highlights-grid"></div>
-    </div>
-  </section>
-
-  <!-- About Section -->
-<section id="about" class="py-10 md:py-16 bg-surface border-y border-border overflow-hidden">
-    <div class="max-w-7xl mx-auto px-6 sm:px-10">
-      <div class="grid lg:grid-cols-12 gap-16 items-center">
-        
-        <div id="about-left" class="lg:col-span-5">
-          <p class="text-text-muted text-xs font-bold uppercase mb-4">About</p>
-          <h2 class="text-4xl sm:text-5xl text-white mb-6 leading-tight font-bold">The Photographer.</h2>
-          <p class="text-text-muted text-lg leading-relaxed mb-6">
-            Jan Carlo G. Niñonuevo is a photographer and IT enthusiast pursuing a Bachelor of Science in Information Technology at the University of St. La Salle. With experience in photojournalism and video editing, he has contributed to various media and student organizations, including The La Salle Yearbook, Tigris, Liceo de La Salle Yearbook, and MULTER Productions. Combining his technical and creative skills, he aims to work on innovative projects integrating technology and media.
-          </p>
-        </div>
-
-        <div id="about-right" class="lg:col-span-7 lg:pl-12 border-l-0 lg:border-l border-border">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
-            <div>
-              <h4 class="text-white font-bold text-sm uppercase tracking-normal mb-4">Camera Kit</h4>
-              <ul class="space-y-3 text-text-muted">
-                <li class="flex justify-between border-b border-white/5 pb-2"><span>Body</span><span class="text-white font-bold">Nikon Z50</span></li>
-                <li class="flex justify-between border-b border-white/5 pb-2"><span>Primes</span><span class="text-white font-bold text-right">Viltrox 25/56/85</span></li>
-                <li class="flex justify-between border-b border-white/5 pb-2"><span>Zooms</span><span class="text-white font-bold">16-50/50-250</span></li>
-              </ul>
-            </div>
-            <div>
-              <h4 class="text-white font-bold text-sm uppercase tracking-normal mb-4">Workflow</h4>
-              <ul class="space-y-3 text-text-muted">
-                <li class="flex justify-between border-b border-white/5 pb-2"><span>Photo</span><span class="text-white font-bold">Lightroom Classic</span></li>
-                <li class="flex justify-between border-b border-white/5 pb-2"><span>Video</span><span class="text-white font-bold">Final Cut Pro</span></li>
-                <li class="flex justify-between border-b border-white/5 pb-2"><span>Machine</span><span class="text-white font-bold">M5 MacBook Air</span></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- Selected Work Section -->
-  <section id="selected-work" class="py-10 md:py-16 border-t border-border">
-    <div class="max-w-7xl mx-auto px-6 sm:px-10">
-      <div class="mb-6 md:mb-10">
-        <p class="text-text-muted text-xs font-bold uppercase mb-4">Featured Projects</p>
-        <h2 class="text-4xl sm:text-5xl text-white font-bold">Selected Work</h2>
-      </div>
-      <div class="grid md:grid-cols-3 gap-8">
-        <!-- Project 01 -->
-        <div class="p-8 bg-surface border border-border rounded-2xl hover:border-white/20 transition-all group">
-          <div class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center mb-6 group-hover:bg-white/10 transition-colors">
-            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5s3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-          </div>
-          <h3 class="text-xl font-bold text-white mb-2">The La Salle Yearbook</h3>
-          <p class="text-white/60 text-sm font-bold uppercase tracking-normal mb-4">Photo and Video Editor</p>
-          <p class="text-text-muted leading-relaxed">Event coverage, portraits, publication-ready photo selection, and visual storytelling for school yearbook documentation.</p>
-        </div>
-        <!-- Project 02 -->
-        <div class="p-8 bg-surface border border-border rounded-2xl hover:border-white/20 transition-all group">
-          <div class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center mb-6 group-hover:bg-white/10 transition-colors">
-            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
-          </div>
-          <h3 class="text-xl font-bold text-white mb-2">Tigris Publication</h3>
-          <p class="text-white/60 text-sm font-bold uppercase tracking-normal mb-4">Photo and Video Editor / Apertura Editor</p>
-          <p class="text-text-muted leading-relaxed">Campus publication work focused on photojournalism, visual coverage, and student media storytelling.</p>
-        </div>
-        <!-- Project 03 -->
-        <div class="p-8 bg-surface border border-border rounded-2xl hover:border-white/20 transition-all group">
-          <div class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center mb-6 group-hover:bg-white/10 transition-colors">
-            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-          </div>
-          <h3 class="text-xl font-bold text-white mb-2">Video and Travel Projects</h3>
-          <p class="text-white/60 text-sm font-bold uppercase tracking-normal mb-4">Editor and Visual Storyteller</p>
-          <p class="text-text-muted leading-relaxed">Short-form videos, travel edits, B-roll sequences, and cinematic social media cuts edited with Final Cut Pro.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- Contact Section -->
-  <section id="contact" class="py-10 md:py-16 border-t border-border relative overflow-hidden">
-    <div class="absolute inset-0 pointer-events-none opacity-5" style="background-image: radial-gradient(#fff 1px, transparent 1px); background-size: 20px 20px;"></div>
-    <div class="max-w-3xl mx-auto px-6 sm:px-10 relative z-10">
-      <div id="contact-header" class="text-center mb-8 md:mb-12">
-        <p class="text-text-muted text-xs font-bold uppercase mb-4">Contact</p>
-        <h2 class="text-4xl sm:text-5xl text-white mb-4 font-bold">Let's Collaborate.</h2>
-        <p class="text-text-muted text-lg max-w-lg mx-auto mb-6">Available for school events, portraits, editorial-style shoots, documentation, and video editing projects.</p>
-        <p class="text-text-muted text-lg max-w-md mx-auto">Connect with me on social media or send an email.</p>
-      </div>
-      
-      <div id="contact-links" class="space-y-4 p-8 bg-surface border border-border rounded-2xl shadow-2xl">
-        <a href="https://facebook.com/jcninoo" target="_blank" class="contact-link flex items-center justify-between p-5 bg-black/20 border border-white/10 rounded-xl hover:bg-white hover:text-black transition-all duration-300 group">
-          <div class="flex items-center gap-4">
-            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/></svg>
-            <span class="font-bold text-lg">Facebook</span>
-          </div>
-          <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-        </a>
-
-        <a href="https://instagram.com/photos.jcnino" target="_blank" class="contact-link flex items-center justify-between p-5 bg-black/20 border border-white/10 rounded-xl hover:bg-white hover:text-black transition-all duration-300 group">
-          <div class="flex items-center gap-4">
-            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-            <span class="font-bold text-lg">Instagram</span>
-          </div>
-          <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-        </a>
-
-        <a href="mailto:jcninonuevo@gmail.com" class="contact-link flex items-center justify-between p-5 bg-black/20 border border-white/10 rounded-xl hover:bg-white hover:text-black transition-all duration-300 group">
-          <div class="flex items-center gap-4">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-            <span class="font-bold text-lg">Email</span>
-          </div>
-          <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+      <div class="text-center mt-14 pt-8 border-t border-white/[0.05]">
+        <a href="drone-shots.html" class="inline-flex items-center gap-3 px-8 py-3 rounded-full text-xs font-mono uppercase tracking-widest border border-accent/20 text-white hover:bg-accent/5 transition-all">
+          Browse full archive
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
         </a>
       </div>
     </div>
   </section>
-</div>
 
-<!-- Back to Top -->
-<div class="flex justify-center py-12 border-t border-border">
-  <button
-    onclick="window.scrollTo({top:0,behavior:'smooth'})"
-    aria-label="Back to top"
-    class="flex items-center gap-2 px-6 py-3 border border-white/20 text-white text-sm font-bold rounded-full hover:bg-white hover:text-black transition-all duration-300 group">
-    <svg class="w-4 h-4 transform group-hover:-translate-y-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>
-    </svg>
-    Back to Top
-  </button>
+  <section id="about" class="py-20 bg-black border-y border-white/[0.05]">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8">
+      <div class="grid md:grid-cols-2 gap-20 items-start">
+        <div class="fade-in">
+          <p class="text-accent/30 text-xs font-mono uppercase tracking-[0.3em] mb-5">About</p>
+          <h2 class="text-4xl font-light text-white mb-8 leading-snug">The<br/>Photographer.</h2>
+          <p class="text-white/40 leading-relaxed mb-5 font-light text-sm">3rd year IT student and photo/video editor for the school yearbook. Nikon Z50 with Viltrox primes, covering everything from drone aerials to school publication events.</p>
+          <p class="text-white/40 leading-relaxed mb-5 font-light text-sm">Based in Bacolod City, Philippines. Editing in Lightroom Classic and Final Cut Pro on an M5 MacBook Air.</p>
+        </div>
+        <div class="fade-in space-y-2">
+          <p class="text-accent/30 text-xs font-mono uppercase tracking-[0.3em] mb-5">Gear Checklist</p>
+          <div class="flex justify-between items-center py-4 border-b border-white/[0.06]"><span class="text-white/30 text-xs font-mono uppercase tracking-widest">Camera</span><span class="text-white/60 text-sm font-light">Nikon Z50</span></div>
+          <div class="flex justify-between items-start py-4 border-b border-white/[0.06] gap-4"><span class="text-white/30 text-xs font-mono uppercase tracking-widest flex-shrink-0">Lenses</span><div class="text-right"><p class="text-white/60 text-sm font-light">Viltrox 25mm f/1.7 · 56mm f/1.7 · 85mm f/2</p><p class="text-white/40 text-xs font-light mt-0.5">Nikon 16-50mm VR · 50-250mm VR</p></div></div>
+          <div class="flex justify-between items-center py-4 border-b border-white/[0.06]"><span class="text-white/30 text-xs font-mono uppercase tracking-widest">Editing</span><span class="text-white/60 text-sm font-light">Lightroom Classic · Final Cut Pro</span></div>
+          <div class="flex justify-between items-center py-4 border-b border-white/[0.06]"><span class="text-white/30 text-xs font-mono uppercase tracking-widest">Machine</span><span class="text-white/60 text-sm font-light">M5 MacBook Air</span></div>
+          <div class="flex justify-between items-center py-4"><span class="text-white/30 text-xs font-mono uppercase tracking-widest">Storage</span><span class="text-white/60 text-sm font-light text-right">T7 Shield 1TB · WD 2TB HDD</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="py-20 bg-surface">
+    <div class="max-w-2xl mx-auto px-5 sm:px-8 border border-white/5 bg-black/10 rounded-2xl p-8 md:p-12 shadow-2xl">
+      <div class="mb-12 text-center">
+        <p class="text-accent/30 text-xs font-mono uppercase tracking-[0.3em] mb-3">Contact</p>
+        <h2 class="text-4xl font-light text-white mb-3">Get in Touch.</h2>
+        <p class="text-white/30 text-sm font-light">Available for event coverage, yearbook assignments, or creative collaborations.</p>
+      </div>
+      <form id="contact-form" onsubmit="handleSubmit(event)" class="space-y-5">
+        <div class="grid sm:grid-cols-2 gap-5">
+          <div>
+            <label class="block text-white/20 text-xs font-mono uppercase tracking-widest mb-2">Name</label>
+            <input type="text" placeholder="Your name" required class="w-full bg-surface border border-white/[0.08] text-white/70 placeholder-white/15 rounded-xl px-4 py-3 text-sm font-light outline-none focus:border-white/30" />
+          </div>
+          <div>
+            <label class="block text-white/20 text-xs font-mono uppercase tracking-widest mb-2">Email</label>
+            <input type="email" placeholder="your@email.com" required class="w-full bg-surface border border-white/[0.08] text-white/70 placeholder-white/15 rounded-xl px-4 py-3 text-sm font-light outline-none focus:border-white/30" />
+          </div>
+        </div>
+        <div>
+          <label class="block text-white/20 text-xs font-mono uppercase tracking-widest mb-2">Subject</label>
+          <input type="text" placeholder="Event coverage, collaboration..." class="w-full bg-surface border border-white/[0.08] text-white/70 placeholder-white/15 rounded-xl px-4 py-3 text-sm font-light outline-none focus:border-white/30" />
+        </div>
+        <div>
+          <label class="block text-white/20 text-xs font-mono uppercase tracking-widest mb-2">Message</label>
+          <textarea rows="5" placeholder="Tell me about your project specifications..." required class="w-full bg-surface border border-white/[0.08] text-white/70 placeholder-white/15 rounded-xl px-4 py-3 text-sm resize-none font-light outline-none focus:border-white/30"></textarea>
+        </div>
+        <button type="submit" class="w-full py-3.5 bg-accent text-black rounded-full text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-opacity-90 transition-all shadow-lg glow-hover">
+
+          Send Message
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+        </button>
+        <p id="form-success" class="text-white/40 text-xs text-center font-mono hidden mt-3">✓ Message sent! I'll get back to you shortly.</p>
+      </form>
+    </div>
+  </section>
 </div>
 
 <script src="assets/gallery-data.js"></script>
 <script>
   const allPhotos = window.galleryData.highlights.map((p, i) => {
-    const base = p.file.replace(/\.[^/.]+$/, ""); // e.g. "GH-01"
+    const base = p.file.replace(/\.[^/.]+$/, "");
     return {
       id: i,
       src: 'images/' + p.file,
@@ -393,256 +222,86 @@
       alt: p.alt || ('Portfolio photograph by JC Niñonuevo — ' + base)
     };
   });
+  
+function buildCard(p, gallery) {
+  const wrap = document.createElement('div');
+  wrap.className = 'gallery-item relative rounded-xl overflow-hidden cursor-pointer border border-white/[0.06]';
+  wrap.innerHTML = `
+    <img src="${p.src}" alt="${p.alt}" loading="lazy"
+      class="w-full h-auto block"
+      onerror="this.src='https://placehold.co/900x600/111/333?text=Photo'" />
+    <div class="img-overlay absolute inset-0 bg-black/40 flex items-end p-3" style="opacity:0;transition:opacity .2s;">
+      <svg class="w-4 h-4 text-white/60 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+      </svg>
+    </div>
+  `;
+  wrap.addEventListener('click', () => openLightbox(p, gallery));
+  return wrap;
+}
 
-  function buildCard(p, gallery) {
-    const wrap = document.createElement('div');
-    wrap.className = 'gallery-item relative rounded-xl overflow-hidden cursor-pointer';
-    const b = p.base;
-    wrap.innerHTML = `
-      <picture>
-        <source
-          type="image/webp"
-          srcset="
-            images/optimized/800/${b}-800.webp 800w,
-            images/optimized/1200/${b}-1200.webp 1200w,
-            images/optimized/1600/${b}-1600.webp 1600w
-          "
-          sizes="(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 33vw"
-        />
-        <img
-          src="images/optimized/1200/${b}-1200.webp"
-          alt="${p.alt}"
-          loading="lazy"
-          decoding="async"
-          class="w-full h-auto block"
-          onerror="this.parentElement.parentElement.querySelector('img').src='${p.src}'" />
-      </picture>
-      <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
-        <div class="flex justify-between items-end w-full">
-          <svg class="w-5 h-5 text-white opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-          </svg>
-        </div>
-      </div>
-    `;
-    wrap.addEventListener('click', () => openLightbox(p, gallery));
-    return wrap;
-  }
 
   function renderHighlights() {
     const grid = document.getElementById('highlights-grid');
-    if(!grid) return;
+    if (!grid) return;
     grid.innerHTML = '';
     allPhotos.forEach(p => grid.appendChild(buildCard(p, allPhotos)));
-
-    // GSAP: animate gallery items after render
+    
     requestAnimationFrame(() => {
       ScrollTrigger.batch('#highlights-grid .gallery-item', {
-        onEnter: batch => gsap.from(batch, {
-          y: 50,
-          opacity: 0,
-          duration: 0.6,
-          stagger: 0.06,
-          ease: 'power3.out',
-          clearProps: 'transform,opacity'
-        }),
+        onEnter: batch => gsap.fromTo(batch,
+          { y: 50, opacity: 0 },
+          {
+            y: 0, opacity: 1,
+            duration: 0.6,
+            stagger: 0.06,
+            ease: 'power3.out',
+            clearProps: 'transform,opacity'
+          }
+        ),
         once: true,
         start: 'top 92%'
       });
     });
   }
-
+  
+  function handleSubmit(e) {
+    e.preventDefault();
+    document.getElementById('form-success').classList.remove('hidden');
+    e.target.reset();
+    setTimeout(() => document.getElementById('form-success').classList.add('hidden'), 5000);
+  }
+  
   document.addEventListener('DOMContentLoaded', renderHighlights);
 </script>
 
-<div id="footer-placeholder"></div>
+
+<!-- Back to Top -->
+<div class="flex justify-center py-12 border-t border-border">
+  <button
+    onclick="window.scrollTo({top:0,behavior:'smooth'})"
+    aria-label="Back to top"
+    class="flex items-center gap-2 px-6 py-3 border border-accent/20 text-white text-sm font-bold rounded-full hover:bg-accent hover:text-black transition-all duration-300 group">
+    <svg class="w-4 h-4 transform group-hover:-translate-y-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>
+    </svg>
+    Back to Top
+  </button>
+</div>
 
 
-<!-- Lightbox -->
+<!-- Lightbox Placeholder -->
 <div id="lightbox-placeholder"></div>
 
-
-
-<!-- =============================================
-     GSAP + ScrollTrigger
-     CDN: gsap@3.13 (fully free, all plugins)
-     ============================================= -->
+<!-- GSAP + ScrollTrigger -->
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/ScrollTrigger.min.js"></script>
 
 <script>
   gsap.registerPlugin(ScrollTrigger);
-
-  // ── 2. HERO: staggered timeline (all fromTo — explicit, no guessing)
-  const heroTl = gsap.timeline({ delay: 0.4 });
-  heroTl
-    .fromTo('#hero-eyebrow',
-      { opacity: 0, y: 30 },
-      { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }
-    )
-    .fromTo('#hero-title',
-      { opacity: 0, y: 45 },
-      { opacity: 1, y: 0, duration: 0.85, ease: 'power3.out' },
-      '-=0.45'
-    )
-    .fromTo('#hero-desc',
-      { opacity: 0, y: 30 },
-      { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' },
-      '-=0.55'
-    )
-    .fromTo('#hero-buttons',
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' },
-      '-=0.45'
-    )
-    .fromTo('#hero-img-col',
-      { opacity: 0, x: 60 },
-      { opacity: 1, x: 0, duration: 1, ease: 'power3.out' },
-      '-=0.9'
-    );
-
-  // ── 3. HERO PARALLAX: subtle scroll drift on the featured image
-  gsap.to('#hero-img-col', {
-    scrollTrigger: {
-      trigger: '#home',
-      start: 'top top',
-      end: 'bottom top',
-      scrub: 1.5
-    },
-    y: 60,
-    ease: 'none'
-  });
-
-  // ── 4. SERVICE CARDS: fromTo prevents stuck-invisible bug
-  gsap.fromTo('.service-card',
-    { y: 50, opacity: 0 },
-    {
-      y: 0, opacity: 1,
-      duration: 0.65, stagger: 0.1, ease: 'power3.out',
-      scrollTrigger: {
-        trigger: '#services-section',
-        start: 'top 82%',
-        once: true
-      }
-    }
-  );
-
-  // ── 5. GALLERY HEADER
-  gsap.fromTo('#gallery-header',
-    { y: 35, opacity: 0 },
-    {
-      y: 0, opacity: 1,
-      duration: 0.7, ease: 'power3.out',
-      scrollTrigger: {
-        trigger: '#gallery',
-        start: 'top 85%',
-        once: true
-      }
-    }
-  );
-
-  // Gallery items are animated inside renderHighlights() via ScrollTrigger.batch
-
-  // ── 6. ABOUT: left slides from left, right from right
-  gsap.fromTo('#about-left',
-    { x: -50, opacity: 0 },
-    {
-      x: 0, opacity: 1,
-      duration: 0.85, ease: 'power3.out',
-      scrollTrigger: {
-        trigger: '#about',
-        start: 'top 78%',
-        once: true
-      }
-    }
-  );
-
-  gsap.fromTo('#about-right',
-    { x: 50, opacity: 0 },
-    {
-      x: 0, opacity: 1,
-      duration: 0.85, delay: 0.15, ease: 'power3.out',
-      scrollTrigger: {
-        trigger: '#about',
-        start: 'top 78%',
-        once: true
-      }
-    }
-  );
-
-  gsap.fromTo('#about-right li',
-    { x: 20, opacity: 0 },
-    {
-      x: 0, opacity: 1,
-      duration: 0.4, stagger: 0.07, ease: 'power2.out',
-      scrollTrigger: {
-        trigger: '#about-right',
-        start: 'top 82%',
-        once: true
-      }
-    }
-  );
-
-  // ── 7. CONTACT HEADER
-  gsap.fromTo('#contact-header',
-    { y: 35, opacity: 0 },
-    {
-      y: 0, opacity: 1,
-      duration: 0.75, ease: 'power3.out',
-      scrollTrigger: {
-        trigger: '#contact',
-        start: 'top 82%',
-        once: true
-      }
-    }
-  );
-
-  // ── 8. CONTACT LINKS: fromTo prevents stuck-invisible bug
-  gsap.fromTo('.contact-link',
-    { y: 25, opacity: 0 },
-    {
-      y: 0, opacity: 1,
-      duration: 0.5, stagger: 0.1, ease: 'power3.out',
-      scrollTrigger: {
-        trigger: '#contact-links',
-        start: 'top 88%',
-        once: true
-      }
-    }
-  );
-
-  // ── 9. FOOTER
-  gsap.fromTo('#site-footer',
-    { y: 30, opacity: 0 },
-    {
-      y: 0, opacity: 1,
-      duration: 0.6, ease: 'power2.out',
-      scrollTrigger: {
-        trigger: '#site-footer',
-        start: 'top 95%',
-        once: true
-      }
-    }
-  );
 </script>
 
-<script>
-  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-</script>
 <script defer src="/_vercel/insights/script.js"></script>
-
-<script>
-  window.addEventListener('load', () => {
-    if (location.hash) {
-      const target = document.querySelector(location.hash);
-      if (target) {
-        setTimeout(() => {
-          target.scrollIntoView({ behavior: 'smooth' });
-        }, 300);
-      }
-    }
-  });
-</script>
-
 </body>
 </html>

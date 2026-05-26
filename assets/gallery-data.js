@@ -277,5 +277,28 @@ window.galleryData = {
       thumbFallback: "images/Video%20Thumbnails/NASE-06.jpg",
       duration: "5:01"
     }
-  ]
+  ],
+  settings: {
+    siteTitle: "JC Niñonuevo | Photo & Video",
+    heroEyebrow: "Photography & Video",
+    heroTitle: "Capturing<br/><span class=\"font-bold italic\">Moments.</span>",
+    heroSubtitle: "Drone aerials, editorial frames, school event coverage & cinematic video — Bacolod City.",
+    aboutHeading: "The<br/>Photographer.",
+    aboutBio1: "3rd year IT student and photo/video editor for the school yearbook. Nikon Z50 with Viltrox primes, covering everything from drone aerials to school publication events.",
+    aboutBio2: "Based in Bacolod City, Philippines. Editing in Lightroom Classic and Final Cut Pro on an M5 MacBook Air.",
+    gear: {
+      camera: "Nikon Z50",
+      lenses: "Viltrox 25mm f/1.7 · 56mm f/1.7 · 85mm f/2 | Nikon 16-50mm VR · 50-250mm VR",
+      editing: "Lightroom Classic · Final Cut Pro",
+      machine: "M5 MacBook Air",
+      storage: "T7 Shield 1TB · WD 2TB HDD"
+    },
+    socials: {
+      instagram: "https://instagram.com/jcnino",
+      behance: "https://behance.net/jcnino",
+      youtube: "https://youtube.com/@jcnino",
+      email: "your@email.com"
+    },
+    theme: "obsidian"
+  }
 };
