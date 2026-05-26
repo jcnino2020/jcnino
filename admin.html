@@ -2054,6 +2054,17 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
         if (starLikes) starLikes.textContent = `${starAsset.likes} Likes / ${starAsset.views} Views`;
       }
 
+      // Update Aggregate Metrics Cards
+      const viewsEl = document.getElementById('analytics-total-views');
+      if (viewsEl) viewsEl.textContent = totalViewsCount.toLocaleString();
+
+      const likesEl = document.getElementById('analytics-total-likes');
+      if (likesEl) likesEl.textContent = totalLikesCount.toLocaleString();
+
+      const avgEngagement = totalViewsCount > 0 ? (totalLikesCount / totalViewsCount) * 100 : 0;
+      const rateEl = document.getElementById('analytics-avg-engagement');
+      if (rateEl) rateEl.textContent = `${avgEngagement.toFixed(1)}%`;
+
       renderAnalyticsGrid();
     }
 
