@@ -3,146 +3,259 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Video Projects — Portfolio</title>
+  <title>Video Projects | JC Niñonuevo</title>
   <link rel="icon" type="image/png" href="images/favicon.png">
   
   <!-- SEO & Metadata -->
-  <meta name="description" content="Photography & cinematography portfolio of JC Niñonuevo. Drone aerials, editorial street frames, and cinematic storytelling. Based in Bacolod City.">
+  <meta name="description" content="Cinematic storytelling and short-form video edits. Reels, films, and B-roll sequences edited in Final Cut Pro. By JC Niñonuevo.">
   
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://jcnino2020.github.io/jcnino/video-projects.html">
+  <meta property="og:title" content="Video Projects | JC Niñonuevo">
+  <meta property="og:description" content="Cinematic storytelling and short-form video edits. Reels, films, and B-roll sequences.">
+  <meta property="og:image" content="images/VP.jpg">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Video Projects | JC Niñonuevo">
+  <meta name="twitter:description" content="Cinematic storytelling and short-form video edits.">
+  <meta name="twitter:image" content="images/VP.jpg">
+
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="assets/portfolio.css">
-  
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            'bg':    '#000000',
-            'surface': '#0f0f0f',
-            'border': '#1f1f1f',
-            'text-main': '#ffffff',
-            'text-muted': '#a0a0a0',
-            'accent': '#ffffff',
-          },
-          fontFamily: {
-            sans: ['Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
-          },
+
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          'bg':    '#000000',
+          'surface': '#0f0f0f',
+          'border': '#1f1f1f',
+          'text-main': '#ffffff',
+          'text-muted': '#a0a0a0',
+          'accent': '#ffffff',
+        },
+        fontFamily: {
+          sans: ['Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
         },
       },
-    }
-  </script>
-  <style>
-    :root {
-      --accent: 255, 255, 255;
-      --accent-color: #ffffff;
-      --accent-glow: rgba(255, 255, 255, 0.08);
-    }
-    .text-accent {
-      color: #ffffff !important;
-    }
-    .border-accent {
-      border-color: #ffffff !important;
-    }
-    .bg-accent {
-      background-color: #ffffff !important;
-    }
-    .glow-hover:hover {
-      box-shadow: 0 0 25px rgba(255, 255, 255, 0.15) !important;
-    }
-  </style>
+    },
+  }
+</script>
+
 </head>
-<body class="min-h-screen bg-black text-white" data-theme="obsidian">
+<body class="min-h-screen">
 
-<!-- Navigation -->
-<nav class="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/[0.05]">
-  <div class="max-w-7xl mx-auto px-6 sm:px-10">
-    <div class="flex items-center justify-between h-20">
-      <a href="index.html" class="flex items-center gap-3">
-        <div class="w-8 h-8 rounded-full border border-accent/30 flex items-center justify-center font-bold text-xs bg-accent/5 text-accent">JN</div>
-        <span class="text-white font-bold tracking-tight text-sm uppercase">JC NIÑONUEVO</span>
-      </a>
-      
-      <!-- Desktop Nav -->
-      <div class="hidden md:flex items-center gap-8">
-        <a href="index.html" class="text-xs font-bold uppercase tracking-wider text-text-muted hover:text-accent transition-colors">Home</a>
-        <a href="drone-shots.html" class="text-xs font-bold uppercase tracking-wider text-text-muted hover:text-accent transition-colors">Drone</a>
-        <a href="framed-moments.html" class="text-xs font-bold uppercase tracking-wider text-text-muted hover:text-accent transition-colors">Framed</a>
-        <a href="school-events.html" class="text-xs font-bold uppercase tracking-wider text-text-muted hover:text-accent transition-colors">Events</a>
-        <a href="video-projects.html" class="text-xs font-bold uppercase tracking-wider text-accent font-bold transition-colors">Videos</a>
-      </div>
+<div id="navbar-placeholder"></div>
 
-      <a href="index.html#contact" class="hidden md:inline-flex px-6 py-2.5 border border-accent/25 hover:bg-accent hover:text-black font-bold text-xs rounded-full transition-all">Contact</a>
-    </div>
-  </div>
-</nav>
-
+<!-- Assets -->
 <script src="assets/portfolio.js" defer></script>
 
+<div class="pt-16 md:pt-20">
 
-<div class="pt-20">
-  <div class="page-hero">
-    <div class="max-w-7xl mx-auto px-6 sm:px-10 py-16 md:py-20 fade-in">
-      <p class="text-accent/40 text-xs font-mono uppercase tracking-[0.3em] mb-5">motion work</p>
-      <h1 class="text-5xl md:text-6xl font-light text-white mb-4 tracking-tight">Video Projects</h1>
-      <p class="text-white/30 text-base max-w-lg font-light leading-relaxed">
-        Edited in Final Cut Pro on M5 MacBook Air. Reels, cinematic films, and B-roll cuts.
-      </p>
-    </div>
-  </div>
-  <section class="py-12">
+  <!-- Page Header -->
+  <section id="page-header" class="pt-6 pb-6 md:py-12 border-b border-border">
     <div class="max-w-7xl mx-auto px-6 sm:px-10">
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="video-grid"></div>
+      <div class="flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
+        <div>
+          <p id="header-eyebrow" class="gsap-header-item text-text-muted text-xs font-bold uppercase mb-4">Category 04</p>
+          <h1 id="header-title" class="gsap-header-item text-4xl sm:text-5xl text-white font-bold">Video Projects</h1>
+          <p id="header-desc" class="gsap-header-item text-text-muted text-lg max-w-lg mt-4">Edited in Final Cut Pro on M5 MacBook Air. Reels, cinematic films, and B-roll cuts.</p>
+        </div>
+      </div>
     </div>
   </section>
+
+  <!-- Video Grid -->
+  <section class="pt-2 pb-12 md:py-24">
+    <div class="max-w-7xl mx-auto px-6 sm:px-10">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6" id="video-grid"></div>
+    </div>
+  </section>
+
+  <!-- ── Other Channel Divider ── -->
+<section id="channel-divider" class="pt-10 pb-6 md:pt-16 md:pb-8 border-t border-border">
+  <div class="max-w-7xl mx-auto px-6 sm:px-10">
+    <div class="flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
+      <div class="flex items-center gap-5">
+        <img src="images/optimized/800/NASE-LOGO-800.webp" alt="Negros Aerials SE YouTube channel logo"
+          class="w-16 h-16 rounded-full object-cover border border-white/10 shrink-0 gsap-header-item"
+          id="ch2-logo"
+          onerror="this.src='images/NASE-LOGO.jpg'" />
+        <div>
+          <p id="ch2-eyebrow" class="text-text-muted text-xs font-bold uppercase mb-2 gsap-header-item">Also On</p>
+          <h2 id="ch2-title" class="text-3xl sm:text-4xl text-white font-bold gsap-header-item">Negros Aerials SE</h2>
+          <p id="ch2-desc" class="text-text-muted text-lg max-w-lg mt-3 gsap-header-item">Scenic landscapes of Negros Island captured with drones and gimbals, alongside journeys within and beyond the Philippines.</p>
+        </div>
+      </div>
+      <a href="https://youtube.com/@NegrosAerialsSE" target="_blank" rel="noopener"
+        class="shrink-0 px-6 py-2.5 border border-white/20 text-white text-sm font-bold rounded-full
+               hover:bg-white hover:text-black transition-all duration-300 hover:scale-105">
+        Visit Channel
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Second Channel Video Grid ── -->
+<section class="pt-4 pb-12 md:pt-8 md:pb-24">
+  <div class="max-w-7xl mx-auto px-6 sm:px-10">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6" id="video-grid-2"></div>
+  </div>
+</section>
+
 </div>
+
 <script src="assets/gallery-data.js"></script>
 <script>
-  const videos = window.galleryData.videos.concat(window.galleryData.videos2 || []);
-  const grid = document.getElementById('video-grid');
-  
-  videos.forEach(v => {
-    const card = document.createElement('div');
-    card.className = 'video-card group relative rounded-xl overflow-hidden cursor-pointer bg-surface border border-border hover:border-accent/40 transition-all duration-300';
-    card.innerHTML = `
-      <div class="relative aspect-video overflow-hidden bg-bg">
-        <img src="${v.thumb}" alt="${v.title}"
-          onerror="this.src='${v.thumbFallback}'; this.onerror=function(){this.src='images/favicon.png'}"
-          class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" />
-        <div class="absolute inset-0 flex items-center justify-center">
-          <div class="w-12 h-12 rounded-full border border-accent/30 flex items-center justify-center
-            group-hover:border-accent/70 group-hover:scale-110 transition-all duration-300 bg-black/40">
-            <svg class="w-4 h-4 text-accent ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+  const videos = window.galleryData.videos;
+
+  function renderVideoGrid() {
+    const grid = document.getElementById('video-grid');
+    if(!grid) return;
+    grid.innerHTML = '';
+    videos.forEach(v => {
+      const card = document.createElement('div');
+      card.className = 'video-card group relative rounded-xl overflow-hidden cursor-pointer bg-surface border border-border hover:border-white/30 transition-all duration-300';
+      const videoSrc = `https://www.youtube-nocookie.com/embed/${v.youtubeId}`;
+      card.innerHTML = `
+        <div class="relative aspect-video overflow-hidden bg-bg">
+          <img src="${v.thumb}" alt="${v.title} — video thumbnail"
+            loading="lazy" decoding="async"
+            class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-500"
+            onerror="this.src='${v.thumbFallback}'" />
+          
+          <!-- B-roll dynamic hover loop container -->
+          <div class="hover-iframe-container absolute inset-0 overflow-hidden bg-black pointer-events-none"></div>
+
+          <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-10 group-hover:scale-90 transition-transform duration-300">
+            <div class="w-16 h-16 rounded-full border border-white/30 flex items-center justify-center
+              group-hover:border-white group-hover:scale-110 transition-all duration-300 bg-black/50 backdrop-blur-sm shadow-xl">
+              <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </div>
           </div>
+          <span class="absolute bottom-3 right-3 text-white/70 text-xs font-bold bg-black/50 px-2 py-1 rounded z-10">${v.duration}</span>
         </div>
-        <span class="absolute bottom-2 right-2 text-white/40 text-xs font-mono">${v.duration}</span>
-      </div>
-      <div class="p-5">
-        <h3 class="text-white/80 font-medium text-sm mb-1.5">${v.title}</h3>
-        <p class="text-white/25 text-xs leading-relaxed mb-4 font-light">Cinematic edit — YouTube: ${v.youtubeId}</p>
-      </div>
-    `;
-    card.addEventListener('click', () => openLightbox({src: 'https://www.youtube.com/embed/' + v.youtubeId + '?autoplay=1'}, []));
-    grid.appendChild(card);
+        <div class="p-5">
+          <h3 class="text-white font-bold text-lg">${v.title}</h3>
+        </div>
+      `;
+
+      // Hover B-roll playing loop logic
+      let hoverTimeout = null;
+      card.addEventListener('mouseenter', () => {
+        hoverTimeout = setTimeout(() => {
+          const container = card.querySelector('.hover-iframe-container');
+          if (container) {
+            container.innerHTML = `
+              <iframe class="w-[140%] h-[140%] absolute -top-[20%] -left-[20%] pointer-events-none"
+                src="https://www.youtube-nocookie.com/embed/${v.youtubeId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${v.youtubeId}&rel=0&showinfo=0&iv_load_policy=3&modestbranding=1&disablekb=1"
+                frameborder="0" allow="autoplay; encrypted-media">
+              </iframe>
+            `;
+            container.classList.add('active');
+          }
+        }, 400); // 400ms delay protects against fast cursor sweeps
+      });
+
+      card.addEventListener('mouseleave', () => {
+        clearTimeout(hoverTimeout);
+        const container = card.querySelector('.hover-iframe-container');
+        if (container) {
+          container.classList.remove('active');
+          setTimeout(() => {
+            if (!container.classList.contains('active')) {
+              container.innerHTML = '';
+            }
+          }, 500);
+        }
+      });
+
+      card.addEventListener('click', () => openVideoLightbox(videoSrc, v.title));
+      grid.appendChild(card);
+    });
+  }
+</script>
+
+<script>
+  const videos2 = window.galleryData.videos2;
+
+  function renderVideoGrid2() {
+    const grid2 = document.getElementById('video-grid-2');
+    if(!grid2) return;
+    grid2.innerHTML = '';
+    videos2.forEach(v => {
+      const card = document.createElement('div');
+      card.className = 'video-card group relative rounded-xl overflow-hidden cursor-pointer bg-surface border border-border hover:border-white/30 transition-all duration-300';
+      const videoSrc = `https://www.youtube-nocookie.com/embed/${v.youtubeId}`;
+      card.innerHTML = `
+        <div class="relative aspect-video overflow-hidden bg-bg">
+          <img src="${v.thumb}" alt="${v.title} — Negros Aerials SE video thumbnail"
+            loading="lazy" decoding="async"
+            class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-500"
+            onerror="this.src='${v.thumbFallback}'" />
+
+          <!-- B-roll dynamic hover loop container -->
+          <div class="hover-iframe-container absolute inset-0 overflow-hidden bg-black pointer-events-none"></div>
+
+          <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-10 group-hover:scale-90 transition-transform duration-300">
+            <div class="w-16 h-16 rounded-full border border-white/30 flex items-center justify-center
+              group-hover:border-white group-hover:scale-110 transition-all duration-300 bg-black/50 backdrop-blur-sm shadow-xl">
+              <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+          </div>
+          <span class="absolute bottom-3 right-3 text-white/70 text-xs font-bold bg-black/50 px-2 py-1 rounded z-10">${v.duration}</span>
+        </div>
+        <div class="p-5">
+          <h3 class="text-white font-bold text-lg">${v.title}</h3>
+        </div>
+      `;
+
+      // Hover B-roll playing loop logic
+      let hoverTimeout = null;
+      card.addEventListener('mouseenter', () => {
+        hoverTimeout = setTimeout(() => {
+          const container = card.querySelector('.hover-iframe-container');
+          if (container) {
+            container.innerHTML = `
+              <iframe class="w-[140%] h-[140%] absolute -top-[20%] -left-[20%] pointer-events-none"
+                src="https://www.youtube-nocookie.com/embed/${v.youtubeId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${v.youtubeId}&rel=0&showinfo=0&iv_load_policy=3&modestbranding=1&disablekb=1"
+                frameborder="0" allow="autoplay; encrypted-media">
+              </iframe>
+            `;
+            container.classList.add('active');
+          }
+        }, 400); // 400ms delay protects against fast cursor sweeps
+      });
+
+      card.addEventListener('mouseleave', () => {
+        clearTimeout(hoverTimeout);
+        const container = card.querySelector('.hover-iframe-container');
+        if (container) {
+          container.classList.remove('active');
+          setTimeout(() => {
+            if (!container.classList.contains('active')) {
+              container.innerHTML = '';
+            }
+          }, 500);
+        }
+      });
+
+      card.addEventListener('click', () => openVideoLightbox(videoSrc, v.title));
+      grid2.appendChild(card);
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    renderVideoGrid();
+    renderVideoGrid2();
   });
 </script>
 
 
-<!-- Back to Top -->
-<div class="flex justify-center py-12 border-t border-border">
-  <button
-    onclick="window.scrollTo({top:0,behavior:'smooth'})"
-    aria-label="Back to top"
-    class="flex items-center gap-2 px-6 py-3 border border-accent/20 text-white text-sm font-bold rounded-full hover:bg-accent hover:text-black transition-all duration-300 group">
-    <svg class="w-4 h-4 transform group-hover:-translate-y-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>
-    </svg>
-    Back to Top
-  </button>
-</div>
 
-
-<!-- Lightbox Placeholder -->
-<div id="lightbox-placeholder"></div>
 
 <!-- GSAP + ScrollTrigger -->
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/gsap.min.js"></script>
@@ -150,8 +263,95 @@
 
 <script>
   gsap.registerPlugin(ScrollTrigger);
+
+
+  // ── 2. PAGE HEADER: staggered timeline on load (above fold — no ScrollTrigger)
+  const headerTl = gsap.timeline({ delay: 0.3 });
+  headerTl
+    .fromTo('#header-eyebrow',
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }
+    )
+    .fromTo('#header-title',
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' },
+      '-=0.35'
+    )
+    .fromTo('#header-desc',
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' },
+      '-=0.4'
+    );
+
+  // ── 3. VIDEO CARDS: fromTo with ScrollTrigger — safe, explicit states
+  // Only 6 cards so stagger is fast; ScrollTrigger handles near-fold edge case
+gsap.fromTo('#video-grid .video-card',   // ← add #video-grid here
+    { y: 40, opacity: 0 },
+    {
+      y: 0, opacity: 1,
+      duration: 0.65,
+      stagger: 0.1,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '#video-grid',
+        start: 'top 88%',
+        once: true
+      }
+    }
+  );
+
+  // ── 4. FOOTER: fade up on scroll
+  gsap.fromTo('#site-footer',
+    { y: 30, opacity: 0 },
+    {
+      y: 0, opacity: 1,
+      duration: 0.6, ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '#site-footer',
+        start: 'top 95%',
+        once: true
+      }
+    }
+  );
+
+  // ── 5. CHANNEL DIVIDER: staggered text on scroll
+gsap.fromTo(['#ch2-logo', '#ch2-eyebrow', '#ch2-title', '#ch2-desc'],
+  { opacity: 0, y: 20 },
+  {
+    opacity: 1, y: 0,
+    duration: 0.6,
+    stagger: 0.12,
+    ease: 'power3.out',
+    scrollTrigger: {
+      trigger: '#channel-divider',
+      start: 'top 85%',
+      once: true
+    }
+  }
+);
+
+// ── 6. SECOND CHANNEL CARDS: same stagger as grid 1
+gsap.fromTo('#video-grid-2 .video-card',
+  { y: 40, opacity: 0 },
+  {
+    y: 0, opacity: 1,
+    duration: 0.65,
+    stagger: 0.1,
+    ease: 'power3.out',
+    scrollTrigger: {
+      trigger: '#video-grid-2',
+      start: 'top 88%',
+      once: true
+    }
+  }
+);
+
 </script>
 
+<script>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+</script>
 <script defer src="/_vercel/insights/script.js"></script>
+
 </body>
 </html>
