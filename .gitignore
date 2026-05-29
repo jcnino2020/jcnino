@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+.yarn/
+
+# Environment variables
+.env
+.env.local
+.env.production
+.env.development
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+bun.lockb
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Wrangler / Cloudflare files
+.wrangler/
+dist/
+.svelte-kit/
+.next/

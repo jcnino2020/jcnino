@@ -1,0 +1,23 @@
+# Exclude large development and build dependency directories
+node_modules/
+.git/
+.github/
+
+# Exclude sensitive environment variables and config files
+.env
+.env.*
+wrangler.jsonc
+.assetsignore
+.gitignore
+package.json
+package-lock.json
+bun.lockb
+vercel.json
+
+# Exclude backend API/Serverless code (should not be exposed as static assets)
+api/
+
+# Exclude scripts and other development files
+script.py
+.DS_Store
+*.py
