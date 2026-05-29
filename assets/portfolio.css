@@ -473,5 +473,11 @@ section[id] {
   opacity: 1;
 }
 
+@media (max-width: 767px) {
+  .video-controls-dashboard {
+    display: none !important;
+  }
+}
+
 
 

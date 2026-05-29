@@ -1043,7 +1043,7 @@ function openVideoLightbox(src, title) {
             videoId: youtubeId,
             playerVars: {
                 autoplay: 1,
-                controls: 0,
+                controls: window.innerWidth < 768 ? 1 : 0,
                 rel: 0,
                 showinfo: 0,
                 modestbranding: 1,
