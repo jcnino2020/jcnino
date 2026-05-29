@@ -1017,6 +1017,14 @@ function openVideoLightbox(src, title) {
     updateVideoLightboxLikeUI();
     trackImageView(youtubeId);
 
+    // Close on background click
+    if (!lb.dataset.clickListenerAttached) {
+        lb.addEventListener('click', e => {
+            if (e.target === lb) closeVideoLightbox();
+        });
+        lb.dataset.clickListenerAttached = "true";
+    }
+
     gsap.fromTo(lb, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'power2.out' });
     gsap.fromTo(container, { scale: 0.94, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: 'power3.out' });
 
