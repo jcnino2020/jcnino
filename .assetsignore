@@ -16,6 +16,7 @@ vercel.json
 
 # Exclude backend API/Serverless code (should not be exposed as static assets)
 api/
+functions/
 
 # Exclude scripts and other development files
 script.py

@@ -1,0 +1,121 @@
+import { MongoClient } from 'mongodb';
+
+let cachedClient = null;
+let cachedDb = null;
+
+async function connectToDatabase(uri) {
+  if (cachedClient && cachedDb) {
+    return { client: cachedClient, db: cachedDb };
+  }
+
+  if (!uri) {
+    throw new Error('Please define the MONGODB_URI environment variable inside the Cloudflare Pages settings');
+  }
+
+  const client = new MongoClient(uri, {
+    maxPoolSize: 1,
+    minPoolSize: 0,
+  });
+  await client.connect();
+  const db = client.db();
+  cachedClient = client;
+  cachedDb = db;
+  return { client, db };
+}
+
+export async function onRequest(context) {
+  const { request, env } = context;
+  const method = request.method;
+
+  const corsHeaders = {
+    'Access-Control-Allow-Credentials': 'true',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'POST,OPTIONS',
+    'Access-Control-Allow-Headers': 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization'
+  };
+
+  if (method === 'OPTIONS') {
+    return new Response(null, { status: 200, headers: corsHeaders });
+  }
+
+  if (method !== 'POST') {
+    return new Response(JSON.stringify({ error: 'Method not allowed' }), {
+      status: 405,
+      headers: { 'Content-Type': 'application/json', ...corsHeaders }
+    });
+  }
+
+  const uri = env.MONGODB_URI;
+  const hasMongo = !!uri;
+
+  try {
+    const body = await request.json().catch(() => ({}));
+    const { password } = body;
+    
+    const expectedPassword = env.ADMIN_PASSWORD || 'gilgil77';
+
+    if (!password) {
+      return new Response(JSON.stringify({ error: 'Password is required' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json', ...corsHeaders }
+      });
+    }
+
+    const loginSuccessful = (password === expectedPassword);
+
+    const ip = request.headers.get('cf-connecting-ip') || 'Unknown';
+    const userAgent = request.headers.get('user-agent') || 'Unknown';
+    
+    const cf = request.cf || {};
+    const geo = {
+      country: cf.country || 'Unknown',
+      region: cf.region || 'Unknown',
+      city: cf.city || 'Unknown',
+      latitude: cf.latitude || 'Unknown',
+      longitude: cf.longitude || 'Unknown'
+    };
+
+    const logEntry = {
+      timestamp: new Date(),
+      status: loginSuccessful ? 'Success' : 'Failed',
+      ip,
+      userAgent,
+      geo
+    };
+
+    if (hasMongo) {
+      try {
+        const { db } = await connectToDatabase(uri);
+        await db.collection('login_logs').insertOne(logEntry);
+      } catch (dbErr) {
+        console.error('Failed to log admin login to database:', dbErr);
+      }
+    } else {
+      console.log('Sandbox Admin Login Attempt:', logEntry);
+    }
+
+    if (loginSuccessful) {
+      // Create session token
+      const encoder = new TextEncoder();
+      const data = encoder.encode(expectedPassword);
+      const base64Token = btoa(String.fromCharCode(...data));
+      return new Response(JSON.stringify({ 
+        success: true, 
+        token: 'authorized_admin_session_token_' + base64Token
+      }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json', ...corsHeaders }
+      });
+    } else {
+      return new Response(JSON.stringify({ success: false, error: 'Incorrect administrator password' }), {
+        status: 401,
+        headers: { 'Content-Type': 'application/json', ...corsHeaders }
+      });
+    }
+  } catch (error) {
+    return new Response(JSON.stringify({ error: error.message }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json', ...corsHeaders }
+    });
+  }
+}
