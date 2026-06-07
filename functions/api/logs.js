@@ -27,9 +27,10 @@ async function connectToDatabase(uri) {
 function isAllowedOrigin(origin) {
   if (!origin) return false;
   const localRegex = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
-  const pagesDevRegex = /^https:\/\/[a-zA-Z0-9-]+\.pages\.dev$/;
+  const pagesDevRegex = /^https:\/\/([a-zA-Z0-9-]+\.)*pages\.dev$/;
+  const vercelRegex = /^https:\/\/([a-zA-Z0-9-]+\.)*vercel\.app$/;
   const githubPagesOrigin = 'https://jcnino2020.github.io';
-  return localRegex.test(origin) || pagesDevRegex.test(origin) || origin === githubPagesOrigin;
+  return localRegex.test(origin) || pagesDevRegex.test(origin) || vercelRegex.test(origin) || origin === githubPagesOrigin;
 }
 
 function verifyToken(token, expectedPassword) {
