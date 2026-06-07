@@ -10,18 +10,19 @@ async function connectToDatabase() {
 
   const uri = process.env.MONGODB_URI;
   if (!uri) {
-    throw new Error('MONGODB_URI environment variable is not set.');
+    throw new Error('Please define the MONGODB_URI environment variable inside .env');
   }
 
   const client = new MongoClient(uri);
   await client.connect();
+  // Connection string specifies the database (e.g. 'jcnino' or default)
   const db = client.db();
   cachedClient = client;
   cachedDb = db;
   return { client, db };
 }
 
-// In-memory fallback for local development only
+// In-memory fallback dictionary for local development if MONGODB_URI is missing
 let localMockLikes = {
   "GH-01.JPG": 12,
   "Drone-001.JPG": 8,
@@ -29,15 +30,14 @@ let localMockLikes = {
 };
 
 export default async function handler(req, res) {
-  const allowedOrigin = process.env.SITE_ORIGIN || 'https://jcnino.vercel.app';
+  // CORS Headers so the script works flawlessly even from different local origins
   res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,POST');
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
   res.setHeader(
     'Access-Control-Allow-Headers',
     'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
   );
-  res.setHeader('Vary', 'Origin');
 
   if (req.method === 'OPTIONS') {
     res.status(200).end();
@@ -49,6 +49,7 @@ export default async function handler(req, res) {
   try {
     if (req.method === 'GET') {
       if (!hasMongo) {
+        // Return mock data
         return res.status(200).json(localMockLikes);
       }
 
@@ -62,7 +63,7 @@ export default async function handler(req, res) {
       );
 
       const likesList = await likesCollection.find({}).toArray();
-
+      
       // Convert list to simple key-value map: { [itemId]: count }
       const likesMap = {};
       likesList.forEach(doc => {
@@ -70,23 +71,19 @@ export default async function handler(req, res) {
       });
 
       return res.status(200).json(likesMap);
-    }
-
+    } 
+    
     if (req.method === 'POST') {
       const { itemId, decrement } = req.body || {};
-
+      
       if (!itemId) {
         return res.status(400).json({ error: 'itemId is required' });
-      }
-
-      // Basic input validation
-      if (typeof itemId !== 'string' || itemId.length > 100) {
-        return res.status(400).json({ error: 'Invalid itemId' });
       }
 
       const change = decrement ? -1 : 1;
 
       if (!hasMongo) {
+        // Handle mock increment/decrement
         if (!localMockLikes[itemId]) {
           localMockLikes[itemId] = 0;
         }
@@ -119,7 +116,7 @@ export default async function handler(req, res) {
 
     res.status(405).json({ error: 'Method not allowed' });
   } catch (error) {
-    console.error('Likes API Error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('API Error:', error);
+    res.status(500).json({ error: error.message });
   }
 }

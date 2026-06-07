@@ -1,5 +1,4 @@
 import { MongoClient } from 'mongodb';
-import { randomBytes } from 'crypto';
 
 let cachedClient = null;
 let cachedDb = null;
@@ -11,7 +10,7 @@ async function connectToDatabase() {
 
   const uri = process.env.MONGODB_URI;
   if (!uri) {
-    throw new Error('MONGODB_URI environment variable is not set.');
+    throw new Error('Please define the MONGODB_URI environment variable inside .env');
   }
 
   const client = new MongoClient(uri);
@@ -24,16 +23,14 @@ async function connectToDatabase() {
 
 // Serverless Auth & Logging Function
 export default async function handler(req, res) {
-  // Restrict CORS to own domain only
-  const allowedOrigin = process.env.SITE_ORIGIN || 'https://jcnino.vercel.app';
+  // Set CORS Headers to allow direct cross-origin validation (e.g. from local testing)
   res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
-  res.setHeader('Access-Control-Allow-Methods', 'POST,OPTIONS');
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
   res.setHeader(
     'Access-Control-Allow-Headers',
     'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
   );
-  res.setHeader('Vary', 'Origin');
 
   if (req.method === 'OPTIONS') {
     res.status(200).end();
@@ -44,15 +41,11 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  // ADMIN_PASSWORD must be set — no insecure fallback
-  const expectedPassword = process.env.ADMIN_PASSWORD;
-  if (!expectedPassword) {
-    console.error('ADMIN_PASSWORD environment variable is not configured.');
-    return res.status(500).json({ error: 'Server misconfiguration.' });
-  }
-
   try {
     const { password } = req.body || {};
+    
+    // Retrieve target password from server environment (default to gilgil77)
+    const expectedPassword = process.env.ADMIN_PASSWORD || 'gilgil77';
 
     if (!password) {
       return res.status(400).json({ error: 'Password is required' });
@@ -79,57 +72,30 @@ export default async function handler(req, res) {
       geo
     };
 
-    let sessionToken = null;
-
+    // Save attempt to MongoDB if connection string is configured
     const hasMongo = !!process.env.MONGODB_URI;
     if (hasMongo) {
       try {
         const { db } = await connectToDatabase();
-
-        // Log the attempt
         await db.collection('login_logs').insertOne(logEntry);
-
-        if (loginSuccessful) {
-          // Generate a cryptographically random, non-deterministic token
-          sessionToken = randomBytes(32).toString('hex');
-          const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
-
-          // Store token in MongoDB — server is the single source of truth
-          await db.collection('admin_sessions').insertOne({
-            token: sessionToken,
-            createdAt: new Date(),
-            expiresAt,
-            ip,
-            userAgent
-          });
-
-          // TTL index ensures automatic cleanup (run once in Atlas console):
-          // db.admin_sessions.createIndex({ "expiresAt": 1 }, { expireAfterSeconds: 0 })
-        }
       } catch (dbErr) {
-        console.error('Database operation failed:', dbErr);
+        console.error('Failed to log admin login to database:', dbErr);
       }
     } else {
-      // Local dev without MongoDB: generate ephemeral token logged to console only
       console.log('Sandbox Admin Login Attempt:', logEntry);
-      if (loginSuccessful) {
-        sessionToken = randomBytes(32).toString('hex');
-        console.log('Dev session token (ephemeral):', sessionToken);
-      }
     }
 
-    if (loginSuccessful && sessionToken) {
-      return res.status(200).json({
-        success: true,
-        token: sessionToken
+    if (loginSuccessful) {
+      // Returns confirmation and session token
+      return res.status(200).json({ 
+        success: true, 
+        token: 'authorized_admin_session_token_' + Buffer.from(expectedPassword).toString('base64')
       });
-    } else if (loginSuccessful && !sessionToken) {
-      return res.status(500).json({ error: 'Token generation failed' });
     } else {
       return res.status(401).json({ success: false, error: 'Incorrect administrator password' });
     }
   } catch (error) {
     console.error('Auth API Error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: error.message });
   }
 }
