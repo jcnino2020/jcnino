@@ -94,10 +94,19 @@ export default async function handler(req, res) {
     // Extract detailed network and geo-IP information
     const ip = req.headers['x-forwarded-for']?.split(',')[0].trim() || req.headers['x-real-ip'] || req.socket.remoteAddress || 'Unknown';
     const userAgent = req.headers['user-agent'] || 'Unknown';
+    
+    const rawCity = req.headers['x-vercel-ip-city'] || 'Unknown';
+    let city = rawCity;
+    if (rawCity && rawCity !== 'Unknown') {
+      try {
+        city = decodeURIComponent(rawCity);
+      } catch (e) {}
+    }
+
     const geo = {
       country: req.headers['x-vercel-ip-country'] || 'Unknown',
       region: req.headers['x-vercel-ip-country-region'] || 'Unknown',
-      city: req.headers['x-vercel-ip-city'] || 'Unknown',
+      city: city,
       latitude: req.headers['x-vercel-ip-latitude'] || 'Unknown',
       longitude: req.headers['x-vercel-ip-longitude'] || 'Unknown'
     };

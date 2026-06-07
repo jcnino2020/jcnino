@@ -2254,7 +2254,12 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
           : `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold bg-danger/15 text-danger border border-danger/10">Failed</span>`;
 
         // Parse Vercel Geo data
-        const city = log.geo?.city !== 'Unknown' ? log.geo?.city : '';
+        let city = log.geo?.city !== 'Unknown' ? log.geo?.city : '';
+        if (city) {
+          try {
+            city = decodeURIComponent(city);
+          } catch (e) {}
+        }
         const country = log.geo?.country !== 'Unknown' ? log.geo?.country : '';
         const locStr = [city, country].filter(Boolean).join(', ') || 'Unknown Location';
 
