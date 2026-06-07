@@ -1,4 +1,5 @@
 import { MongoClient } from 'mongodb';
+import crypto from 'crypto';
 
 let cachedClient = null;
 let cachedDb = null;
@@ -23,13 +24,40 @@ async function connectToDatabase(uri) {
   return { client, db };
 }
 
+function isAllowedOrigin(origin) {
+  if (!origin) return false;
+  const localRegex = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
+  const pagesDevRegex = /^https:\/\/[a-zA-Z0-9-]+\.pages\.dev$/;
+  const githubPagesOrigin = 'https://jcnino2020.github.io';
+  return localRegex.test(origin) || pagesDevRegex.test(origin) || origin === githubPagesOrigin;
+}
+
+function generateToken(expectedPassword) {
+  const payload = {
+    expiresAt: Date.now() + 2 * 60 * 60 * 1000 // 2 hours validity
+  };
+  const payloadStr = Buffer.from(JSON.stringify(payload)).toString('base64url');
+  const signature = crypto.createHmac('sha256', expectedPassword)
+    .update(payloadStr)
+    .digest('base64url');
+  return `${payloadStr}.${signature}`;
+}
+
 export async function onRequest(context) {
   const { request, env } = context;
   const method = request.method;
+  const origin = request.headers.get('origin');
+
+  if (origin && !isAllowedOrigin(origin)) {
+    return new Response(JSON.stringify({ error: 'Origin not allowed' }), {
+      status: 403,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
 
   const corsHeaders = {
     'Access-Control-Allow-Credentials': 'true',
-    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Origin': origin || 'https://jcnino2020.github.io',
     'Access-Control-Allow-Methods': 'POST,OPTIONS',
     'Access-Control-Allow-Headers': 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization'
   };
@@ -52,7 +80,15 @@ export async function onRequest(context) {
     const body = await request.json().catch(() => ({}));
     const { password } = body;
     
-    const expectedPassword = env.ADMIN_PASSWORD || 'gilgil77';
+    const expectedPassword = env.ADMIN_PASSWORD;
+
+    if (!expectedPassword) {
+      console.error('ADMIN_PASSWORD environment variable is not configured');
+      return new Response(JSON.stringify({ error: 'Authentication server is misconfigured (missing ADMIN_PASSWORD)' }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json', ...corsHeaders }
+      });
+    }
 
     if (!password) {
       return new Response(JSON.stringify({ error: 'Password is required' }), {
@@ -96,12 +132,10 @@ export async function onRequest(context) {
 
     if (loginSuccessful) {
       // Create session token
-      const encoder = new TextEncoder();
-      const data = encoder.encode(expectedPassword);
-      const base64Token = btoa(String.fromCharCode(...data));
+      const token = generateToken(expectedPassword);
       return new Response(JSON.stringify({ 
         success: true, 
-        token: 'authorized_admin_session_token_' + base64Token
+        token: token
       }), {
         status: 200,
         headers: { 'Content-Type': 'application/json', ...corsHeaders }

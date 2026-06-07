@@ -32,14 +32,33 @@ let localMockViews = {
   "VI-02": 245
 };
 
+function isAllowedOrigin(origin) {
+  if (!origin) return false;
+  const localRegex = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
+  const pagesDevRegex = /^https:\/\/[a-zA-Z0-9-]+\.pages\.dev$/;
+  const githubPagesOrigin = 'https://jcnino2020.github.io';
+  return localRegex.test(origin) || pagesDevRegex.test(origin) || origin === githubPagesOrigin;
+}
+
 export default async function handler(req, res) {
   // CORS Headers so the script works flawlessly even from different local origins
   res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  
+  const origin = req.headers.origin;
+  if (origin) {
+    if (isAllowedOrigin(origin)) {
+      res.setHeader('Access-Control-Allow-Origin', origin);
+    } else {
+      return res.status(403).json({ error: 'Origin not allowed' });
+    }
+  } else {
+    res.setHeader('Access-Control-Allow-Origin', 'https://jcnino2020.github.io');
+  }
+
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
   res.setHeader(
     'Access-Control-Allow-Headers',
-    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization'
   );
 
   if (req.method === 'OPTIONS') {

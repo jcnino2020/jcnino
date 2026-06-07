@@ -33,13 +33,29 @@ let localMockViews = {
   "VI-02": 245
 };
 
+function isAllowedOrigin(origin) {
+  if (!origin) return false;
+  const localRegex = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
+  const pagesDevRegex = /^https:\/\/[a-zA-Z0-9-]+\.pages\.dev$/;
+  const githubPagesOrigin = 'https://jcnino2020.github.io';
+  return localRegex.test(origin) || pagesDevRegex.test(origin) || origin === githubPagesOrigin;
+}
+
 export async function onRequest(context) {
   const { request, env } = context;
   const method = request.method;
+  const origin = request.headers.get('origin');
+
+  if (origin && !isAllowedOrigin(origin)) {
+    return new Response(JSON.stringify({ error: 'Origin not allowed' }), {
+      status: 403,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
 
   const corsHeaders = {
     'Access-Control-Allow-Credentials': 'true',
-    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Origin': origin || 'https://jcnino2020.github.io',
     'Access-Control-Allow-Methods': 'GET,OPTIONS,POST',
     'Access-Control-Allow-Headers': 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization'
   };

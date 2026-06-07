@@ -7,38 +7,8 @@
   <link rel="icon" type="image/png" href="images/favicon.png">
   
   <!-- Fonts & Core Stylesheet -->
+  <link rel="stylesheet" href="assets/tailwind.css">
   <link rel="stylesheet" href="assets/portfolio.css">
-  
-  <!-- CSS Stack -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
-          },
-          colors: {
-            'bg': '#000000',
-            'surface': '#0f0f0f',
-            'border': '#1f1f1f',
-            'text-main': '#ffffff',
-            'text-muted': '#a0a0a0',
-            
-            // Backward-compatible surface mappings for existing CMS styles
-            'bg-main': '#000000',
-            'surface-dark': '#0f0f0f',
-            'card-glass': 'rgba(255, 255, 255, 0.02)',
-            'border-glass': '#1f1f1f',
-            'accent': '#ffffff',
-            'accent-dim': '#a0a0a0',
-            'success': '#10b981',
-            'danger': '#ef4444'
-          }
-        }
-      }
-    }
-  </script>
 
   <style>
     body {
@@ -245,7 +215,7 @@
   <script>
     // Early session check to prevent visual workspace flash
     if (sessionStorage.getItem('pm_auth')) {
-      document.write('<style>#login-overlay { display: none !important; }</style>');
+      document.write('<style id="early-auth-style">#login-overlay { display: none !important; }</style>');
     }
   </script>
 </head>
@@ -1332,16 +1302,19 @@
         }
       } catch (err) {
         console.error(err);
+        const isLocal = window.location.hostname === 'localhost' || 
+                        window.location.hostname === '127.0.0.1' || 
+                        window.location.protocol === 'file:';
         // Smart sandbox offline fallback for local development without Vercel CLI running
-        if (password === 'gilgil77') {
-          sessionStorage.setItem('pm_auth', 'sandbox_authorized');
+        if (isLocal) {
+          sessionStorage.setItem('pm_auth', 'local_sandbox_authorized');
           const overlay = document.getElementById('login-overlay');
           overlay.classList.add('hidden');
           overlay.style.display = 'none';
           initManager();
           showToast("Offline local sandbox mode activated! Access granted.", "success");
         } else {
-          showLoginError("Offline mode: Use your default password 'gilgil77' to unlock locally.");
+          showLoginError("Offline mode: Unable to connect to the authentication server.");
         }
       } finally {
         loginBtn.disabled = false;
@@ -2600,8 +2573,63 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
       showToast("Contextual AI Alt-text description generated successfully!", "success");
     }
 
+    async function verifySessionOnLoad() {
+      const token = sessionStorage.getItem('pm_auth');
+      if (!token) {
+        return;
+      }
+      
+      const isLocal = window.location.hostname === 'localhost' || 
+                      window.location.hostname === '127.0.0.1' || 
+                      window.location.protocol === 'file:';
+                      
+      if (isLocal && token === 'local_sandbox_authorized') {
+        initManager();
+        return;
+      }
+      
+      try {
+        const res = await fetch('/api/logs', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        
+        if (res.ok) {
+          initManager();
+        } else {
+          showLoginOverlayWithError("Session expired or invalid. Please verify credentials.");
+        }
+      } catch (err) {
+        console.error("Session verification failed:", err);
+        if (isLocal) {
+          sessionStorage.setItem('pm_auth', 'local_sandbox_authorized');
+          initManager();
+        } else {
+          showLoginOverlayWithError("Authentication server unreachable. Please log in again.");
+        }
+      }
+    }
+    
+    function showLoginOverlayWithError(msg) {
+      sessionStorage.removeItem('pm_auth');
+      const overlay = document.getElementById('login-overlay');
+      if (overlay) {
+        overlay.classList.remove('hidden');
+        overlay.style.display = 'flex';
+        overlay.style.opacity = '1';
+        overlay.style.transform = 'scale(1)';
+      }
+      const styleEl = document.getElementById('early-auth-style');
+      if (styleEl) {
+        styleEl.remove();
+      }
+      showLoginError(msg);
+    }
+
     // Run init
-    window.addEventListener('DOMContentLoaded', initManager);
+    window.addEventListener('DOMContentLoaded', verifySessionOnLoad);
   </script>
 </body>
 </html>

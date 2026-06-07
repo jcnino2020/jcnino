@@ -1,4 +1,5 @@
 import { MongoClient } from 'mongodb';
+import crypto from 'crypto';
 
 let cachedClient = null;
 let cachedDb = null;
@@ -21,15 +22,46 @@ async function connectToDatabase() {
   return { client, db };
 }
 
+function isAllowedOrigin(origin) {
+  if (!origin) return false;
+  const localRegex = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
+  const pagesDevRegex = /^https:\/\/[a-zA-Z0-9-]+\.pages\.dev$/;
+  const githubPagesOrigin = 'https://jcnino2020.github.io';
+  return localRegex.test(origin) || pagesDevRegex.test(origin) || origin === githubPagesOrigin;
+}
+
+function generateToken(expectedPassword) {
+  const payload = {
+    expiresAt: Date.now() + 2 * 60 * 60 * 1000 // 2 hours validity
+  };
+  const payloadStr = Buffer.from(JSON.stringify(payload)).toString('base64url');
+  const signature = crypto.createHmac('sha256', expectedPassword)
+    .update(payloadStr)
+    .digest('base64url');
+  return `${payloadStr}.${signature}`;
+}
+
 // Serverless Auth & Logging Function
 export default async function handler(req, res) {
   // Set CORS Headers to allow direct cross-origin validation (e.g. from local testing)
   res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  
+  const origin = req.headers.origin;
+  if (origin) {
+    if (isAllowedOrigin(origin)) {
+      res.setHeader('Access-Control-Allow-Origin', origin);
+    } else {
+      return res.status(403).json({ error: 'Origin not allowed' });
+    }
+  } else {
+    // Default fallback for browser direct requests or same-origin where Origin header is not set
+    res.setHeader('Access-Control-Allow-Origin', 'https://jcnino2020.github.io');
+  }
+
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
   res.setHeader(
     'Access-Control-Allow-Headers',
-    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization'
   );
 
   if (req.method === 'OPTIONS') {
@@ -43,9 +75,14 @@ export default async function handler(req, res) {
 
   try {
     const { password } = req.body || {};
-    
-    // Retrieve target password from server environment (default to gilgil77)
-    const expectedPassword = process.env.ADMIN_PASSWORD || 'gilgil77';
+
+    // Retrieve target password from server environment
+    const expectedPassword = process.env.ADMIN_PASSWORD;
+
+    if (!expectedPassword) {
+      console.error('ADMIN_PASSWORD environment variable is not configured');
+      return res.status(500).json({ error: 'Authentication server is misconfigured (missing ADMIN_PASSWORD)' });
+    }
 
     if (!password) {
       return res.status(400).json({ error: 'Password is required' });
@@ -87,9 +124,10 @@ export default async function handler(req, res) {
 
     if (loginSuccessful) {
       // Returns confirmation and session token
+      const token = generateToken(expectedPassword);
       return res.status(200).json({ 
         success: true, 
-        token: 'authorized_admin_session_token_' + Buffer.from(expectedPassword).toString('base64')
+        token: token
       });
     } else {
       return res.status(401).json({ success: false, error: 'Incorrect administrator password' });
