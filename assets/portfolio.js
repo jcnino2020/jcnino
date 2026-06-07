@@ -39,7 +39,7 @@ const navHtml = `
       </div>
       
       <div class="hidden md:flex items-center gap-6" id="nav-cta">
-        <a href="index.html#contact" class="px-6 py-2.5 bg-white text-black text-sm font-bold rounded-full hover:bg-opacity-90 transition-all hover:scale-105">Contact</a>
+        <a href="index.html#contact" class="inline-flex items-center justify-center px-6 pt-[11px] pb-[9px] border border-transparent bg-white text-black text-sm font-bold rounded-full hover:bg-opacity-90 transition-all hover:scale-105 leading-none">Contact</a>
       </div>
 
       <!-- Mobile Menu Button -->
@@ -58,7 +58,7 @@ const navHtml = `
         <a href="school-events.html" data-page="school-events.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">School Events</a>
         <a href="video-projects.html" data-page="video-projects.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Video Projects</a>
         <div class="pt-4 border-t border-white/10">
-          <a href="index.html#contact" class="block text-center w-full py-3 rounded-full text-lg font-bold bg-white text-black">Get in Touch</a>
+          <a href="index.html#contact" class="flex items-center justify-center w-full pt-[13px] pb-[11px] rounded-full text-lg font-bold bg-white text-black leading-none">Get in Touch</a>
         </div>
       </div>
     </div>
@@ -140,7 +140,7 @@ const videoLightboxHtml = `
     <p id="video-title" class="text-white text-lg font-bold text-left"></p>
     
     <!-- Like Button -->
-    <button id="video-like-btn" onclick="toggleVideoLike()" class="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 hover:border-white/30 text-white transition-all duration-300 hover:scale-105 active:scale-95 group shrink-0">
+    <button id="video-like-btn" onclick="toggleVideoLike()" class="flex items-center justify-center gap-2 px-4 pt-[9px] pb-[7px] rounded-full bg-white/5 border border-white/10 hover:border-white/30 text-white transition-all duration-300 hover:scale-105 active:scale-95 group shrink-0 leading-none">
       <svg id="video-like-icon" class="w-4 h-4 text-white group-hover:text-red-500 transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
       </svg>

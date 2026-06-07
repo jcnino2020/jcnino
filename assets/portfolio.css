@@ -479,5 +479,18 @@ section[id] {
   }
 }
 
-
-
+/* ==========================================================================
+   OCD & Fine-Tuned Alignment Rules for Buttons and Badges
+   (Nudging text vertically inside custom font pill layouts to counteract
+    baseline offsets and ensure absolute geometric centering)
+   ========================================================================== */
+.pt-\[18px\] { padding-top: 18px !important; }
+.pb-\[14px\] { padding-bottom: 14px !important; }
+.pt-\[11px\] { padding-top: 11px !important; }
+.pb-\[9px\]  { padding-bottom: 9px !important; }
+.pt-\[13px\] { padding-top: 13px !important; }
+.pb-\[11px\] { padding-bottom: 11px !important; }
+.pt-\[9px\]  { padding-top: 9px !important; }
+.pb-\[7px\]  { padding-bottom: 7px !important; }
+.pt-\[15px\] { padding-top: 15px !important; }
+.pb-\[13px\] { padding-bottom: 13px !important; }
