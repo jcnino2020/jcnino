@@ -133,63 +133,19 @@ const videoLightboxHtml = `
   </button>
   
   <div id="video-player-container" class="w-full max-w-5xl aspect-video bg-black rounded-xl overflow-hidden shadow-2xl relative border border-white/5">
-    <div id="video-player-target" class="w-full h-full"></div>
-    
-    <!-- Immersive floating controls dashboard -->
-    <div class="video-controls-dashboard absolute bottom-0 left-0 right-0 p-4 flex flex-col gap-3 z-10 opacity-0 hover:opacity-100 focus-within:opacity-100 transition-opacity duration-300 bg-gradient-to-t from-black/90 via-black/60 to-transparent">
-      <!-- Progress Bar -->
-      <div class="flex items-center gap-3 w-full">
-        <span id="video-current-time" class="text-xs text-white/70 font-mono">0:00</span>
-        <input id="video-seekbar" type="range" min="0" max="100" value="0" class="video-slider flex-1" />
-        <span id="video-duration" class="text-xs text-white/70 font-mono">0:00</span>
-      </div>
-      
-      <!-- Buttons & Options -->
-      <div class="flex items-center justify-between w-full">
-        <div class="flex items-center gap-4">
-          <!-- Play / Pause -->
-          <button id="video-play-btn" aria-label="Play/Pause" class="video-control-btn w-10 h-10 rounded-full flex items-center justify-center text-white hover:bg-white/10">
-            <svg id="video-play-icon" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-            <svg id="video-pause-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-          </button>
-          
-          <!-- Volume Control -->
-          <div class="flex items-center gap-2 group/volume">
-            <button id="video-volume-btn" aria-label="Mute/Unmute" class="video-control-btn w-8 h-8 rounded-full flex items-center justify-center text-white hover:bg-white/10">
-              <svg id="volume-up-icon" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
-              <svg id="volume-mute-icon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/></svg>
-            </button>
-            <input id="video-volume-slider" type="range" min="0" max="100" value="100" class="video-slider w-16 opacity-0 group-hover/volume:opacity-100 focus/volume:opacity-100 transition-opacity duration-300" />
-          </div>
-        </div>
-        
-        <div class="flex items-center gap-4">
-          <!-- Playback Speed Picker -->
-          <div class="relative">
-            <button id="video-speed-btn" class="video-control-btn px-3 py-1.5 rounded-full text-xs font-bold text-white border border-white/20 hover:border-white/40">1x</button>
-            <div id="video-speed-menu" class="hidden absolute bottom-12 right-0 bg-surface border border-border rounded-lg shadow-xl py-1 flex flex-col min-w-[70px] z-50">
-              <button onclick="changeYTPlaybackSpeed(0.5)" class="px-3 py-1.5 text-xs text-left text-white hover:bg-white/10">0.5x</button>
-              <button onclick="changeYTPlaybackSpeed(1.0)" class="px-3 py-1.5 text-xs text-left text-white hover:bg-white/10 font-bold">1x</button>
-              <button onclick="changeYTPlaybackSpeed(1.25)" class="px-3 py-1.5 text-xs text-left text-white hover:bg-white/10">1.25x</button>
-              <button onclick="changeYTPlaybackSpeed(1.5)" class="px-3 py-1.5 text-xs text-left text-white hover:bg-white/10">1.5x</button>
-              <button onclick="changeYTPlaybackSpeed(2.0)" class="px-3 py-1.5 text-xs text-left text-white hover:bg-white/10">2x</button>
-            </div>
-          </div>
-          
-          <!-- Like Button -->
-          <button id="video-like-btn" onclick="toggleVideoLike()" class="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 hover:border-white/30 text-white transition-all duration-300 hover:scale-105 active:scale-95 group shrink-0">
-            <svg id="video-like-icon" class="w-4 h-4 text-white group-hover:text-red-500 transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-            </svg>
-            <span id="video-like-count" class="text-xs font-bold min-w-[10px]">0</span>
-          </button>
-        </div>
-      </div>
-    </div>
+    <iframe id="video-iframe" class="w-full h-full" src="" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>
   </div>
   
-  <div class="flex flex-col sm:flex-row items-center justify-between w-full max-w-5xl mt-6 px-2 gap-4">
-    <p id="video-title" class="text-white text-lg font-bold text-center sm:text-left"></p>
+  <div class="flex flex-row items-center justify-between w-full max-w-5xl mt-6 px-2 gap-4">
+    <p id="video-title" class="text-white text-lg font-bold text-left"></p>
+    
+    <!-- Like Button -->
+    <button id="video-like-btn" onclick="toggleVideoLike()" class="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 hover:border-white/30 text-white transition-all duration-300 hover:scale-105 active:scale-95 group shrink-0">
+      <svg id="video-like-icon" class="w-4 h-4 text-white group-hover:text-red-500 transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+      </svg>
+      <span id="video-like-count" class="text-xs font-bold min-w-[10px]">0</span>
+    </button>
   </div>
 </div>
 `;
@@ -981,25 +937,12 @@ async function toggleVideoLike() {
     }
 }
 
-// ── Immersive YouTube Lightbox Controller ──
-let activeYTPlayer = null;
-let ytProgressInterval = null;
-let controlsTimeout = null;
-
-function loadYTAPI() {
-    if (!window.YT) {
-        const tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        const firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-    }
-}
-
+// ── Default YouTube Lightbox Controller ──
 function openVideoLightbox(src, title) {
-    loadYTAPI();
     const lb = document.getElementById('video-lightbox');
     const container = document.getElementById('video-player-container');
     const titleEl = document.getElementById('video-title');
+    const iframe = document.getElementById('video-iframe');
     if (!lb) return;
 
     // Extract YouTube ID dynamically
@@ -1009,6 +952,11 @@ function openVideoLightbox(src, title) {
 
     window.activeVideoId = youtubeId;
     if (titleEl) titleEl.textContent = title;
+
+    // Set iframe src to use YouTube's default player with default controls
+    if (iframe) {
+        iframe.src = `https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0&controls=1`;
+    }
 
     // Show Lightbox Modal
     lb.classList.remove('hidden');
@@ -1025,262 +973,47 @@ function openVideoLightbox(src, title) {
         lb.dataset.clickListenerAttached = "true";
     }
 
-    gsap.fromTo(lb, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'power2.out' });
-    gsap.fromTo(container, { scale: 0.94, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: 'power3.out' });
-
-    // Initialize YouTube Player
-    const initPlayer = () => {
-        if (activeYTPlayer) {
-            try { activeYTPlayer.destroy(); } catch (e) {}
-            activeYTPlayer = null;
-        }
-
-        // Clean target container
-        const target = document.getElementById('video-player-target');
-        if (target) target.innerHTML = '';
-
-        activeYTPlayer = new YT.Player('video-player-target', {
-            videoId: youtubeId,
-            playerVars: {
-                autoplay: 1,
-                controls: window.innerWidth < 768 ? 1 : 0,
-                rel: 0,
-                showinfo: 0,
-                modestbranding: 1,
-                iv_load_policy: 3,
-                disablekb: 1,
-                fs: 0
-            },
-            events: {
-                onReady: onYTPlayerReady,
-                onStateChange: onYTPlayerStateChange
-            }
-        });
-    };
-
-    if (window.YT && window.YT.Player) {
-        initPlayer();
-    } else {
-        // Wait for API load
-        window.onYouTubeIframeAPIReady = () => {
-            initPlayer();
-        };
+    if (window.gsap) {
+        gsap.fromTo(lb, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'power2.out' });
+        gsap.fromTo(container, { scale: 0.94, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: 'power3.out' });
     }
 }
 
 function closeVideoLightbox() {
     const lb = document.getElementById('video-lightbox');
+    const iframe = document.getElementById('video-iframe');
     if (!lb) return;
 
-    clearInterval(ytProgressInterval);
-    if (activeYTPlayer) {
-        try { activeYTPlayer.pauseVideo(); } catch (e) {}
+    // Reset iframe src to stop the video playback
+    if (iframe) {
+        iframe.src = '';
     }
 
-    gsap.to(lb, {
-        opacity: 0,
-        duration: 0.25,
-        ease: 'power2.in',
-        onComplete: () => {
-            lb.classList.add('hidden');
-            lb.classList.remove('flex');
-            document.body.style.overflow = '';
-            const target = document.getElementById('video-player-target');
-            if (target) target.innerHTML = '';
-            if (activeYTPlayer) {
-                try { activeYTPlayer.destroy(); } catch (e) {}
-                activeYTPlayer = null;
-            }
-        }
-    });
-}
+    const hide = () => {
+        lb.classList.add('hidden');
+        lb.classList.remove('flex');
+        document.body.style.overflow = '';
+    };
 
-function onYTPlayerReady(event) {
-    event.target.playVideo();
-    setupVideoControls();
-}
-
-function onYTPlayerStateChange(event) {
-    const playBtnIcon = document.getElementById('video-play-icon');
-    const pauseBtnIcon = document.getElementById('video-pause-icon');
-    
-    if (event.data === YT.PlayerState.PLAYING) {
-        if (playBtnIcon) playBtnIcon.classList.add('hidden');
-        if (pauseBtnIcon) pauseBtnIcon.classList.remove('hidden');
-        startYTProgressTracker();
+    if (window.gsap) {
+        gsap.to(lb, {
+            opacity: 0,
+            duration: 0.25,
+            ease: 'power2.in',
+            onComplete: hide
+        });
     } else {
-        if (playBtnIcon) playBtnIcon.classList.remove('hidden');
-        if (pauseBtnIcon) pauseBtnIcon.classList.add('hidden');
-        clearInterval(ytProgressInterval);
+        hide();
     }
 }
 
-function startYTProgressTracker() {
-    clearInterval(ytProgressInterval);
-    const seekbar = document.getElementById('video-seekbar');
-    const currentTimeText = document.getElementById('video-current-time');
-    const durationText = document.getElementById('video-duration');
-
-    ytProgressInterval = setInterval(() => {
-        if (!activeYTPlayer || !activeYTPlayer.getCurrentTime) return;
-        const current = activeYTPlayer.getCurrentTime();
-        const duration = activeYTPlayer.getDuration() || 0;
-        
-        if (duration > 0) {
-            if (seekbar) seekbar.value = (current / duration) * 100;
-            if (currentTimeText) currentTimeText.textContent = formatYTTime(current);
-            if (durationText) durationText.textContent = formatYTTime(duration);
-        }
-    }, 250);
-}
-
-function formatYTTime(secs) {
-    const m = Math.floor(secs / 60);
-    const s = Math.floor(secs % 60);
-    return `${m}:${s < 10 ? '0' : ''}${s}`;
-}
-
-function setupVideoControls() {
-    const playBtn = document.getElementById('video-play-btn');
-    const volumeBtn = document.getElementById('video-volume-btn');
-    const volumeSlider = document.getElementById('video-volume-slider');
-    const seekbar = document.getElementById('video-seekbar');
-    const speedBtn = document.getElementById('video-speed-btn');
-    const speedMenu = document.getElementById('video-speed-menu');
-    const container = document.getElementById('video-player-container');
-    const dashboard = container ? container.querySelector('.video-controls-dashboard') : null;
-
-    // Play / Pause Click
-    if (playBtn) {
-        playBtn.onclick = () => {
-            if (!activeYTPlayer) return;
-            const state = activeYTPlayer.getPlayerState();
-            if (state === YT.PlayerState.PLAYING) {
-                activeYTPlayer.pauseVideo();
-            } else {
-                activeYTPlayer.playVideo();
-            }
-        };
-    }
-
-    // Seek Drag
-    if (seekbar) {
-        seekbar.oninput = (e) => {
-            if (!activeYTPlayer || !activeYTPlayer.getDuration) return;
-            const duration = activeYTPlayer.getDuration();
-            const targetSec = (e.target.value / 100) * duration;
-            activeYTPlayer.seekTo(targetSec, true);
-        };
-    }
-
-    // Volume Slider & Mute
-    if (volumeSlider) {
-        volumeSlider.oninput = (e) => {
-            if (!activeYTPlayer) return;
-            const vol = e.target.value;
-            activeYTPlayer.setVolume(vol);
-            activeYTPlayer.unMute();
-            updateYTVolumeIcon(vol, false);
-        };
-    }
-
-    if (volumeBtn) {
-        volumeBtn.onclick = () => {
-            if (!activeYTPlayer) return;
-            if (activeYTPlayer.isMuted()) {
-                activeYTPlayer.unMute();
-                const curVol = volumeSlider ? volumeSlider.value : 100;
-                activeYTPlayer.setVolume(curVol);
-                updateYTVolumeIcon(curVol, false);
-            } else {
-                activeYTPlayer.mute();
-                updateYTVolumeIcon(0, true);
-            }
-        };
-    }
-
-    // Speed Selector Toggle
-    if (speedBtn && speedMenu) {
-        speedBtn.onclick = (e) => {
-            e.stopPropagation();
-            speedMenu.classList.toggle('hidden');
-        };
-        document.addEventListener('click', () => speedMenu.classList.add('hidden'));
-    }
-
-    // Auto-fade controls dashboard
-    if (container && dashboard) {
-        const resetControlsTimeout = () => {
-            dashboard.style.opacity = '1';
-            clearTimeout(controlsTimeout);
-            controlsTimeout = setTimeout(() => {
-                if (activeYTPlayer && activeYTPlayer.getPlayerState() === YT.PlayerState.PLAYING) {
-                    dashboard.style.opacity = '0';
-                }
-            }, 2000);
-        };
-
-        container.onmousemove = resetControlsTimeout;
-        container.ontouchstart = resetControlsTimeout;
-        resetControlsTimeout();
-    }
-}
-
-function updateYTVolumeIcon(vol, isMuted) {
-    const upIcon = document.getElementById('volume-up-icon');
-    const muteIcon = document.getElementById('volume-mute-icon');
-    if (!upIcon || !muteIcon) return;
-
-    if (isMuted || vol == 0) {
-        upIcon.classList.add('hidden');
-        muteIcon.classList.remove('hidden');
-    } else {
-        upIcon.classList.remove('hidden');
-        muteIcon.classList.add('hidden');
-    }
-}
-
-function changeYTPlaybackSpeed(rate) {
-    if (!activeYTPlayer || !activeYTPlayer.setPlaybackRate) return;
-    activeYTPlayer.setPlaybackRate(rate);
-    const speedBtn = document.getElementById('video-speed-btn');
-    if (speedBtn) speedBtn.textContent = `${rate}x`;
-    const speedMenu = document.getElementById('video-speed-menu');
-    if (speedMenu) speedMenu.classList.add('hidden');
-}
-
-// Global Keyboard bindings for video controls
+// Global Keyboard bindings for video lightbox
 document.addEventListener('keydown', e => {
     const lb = document.getElementById('video-lightbox');
-    if (!lb || lb.classList.contains('hidden') || !activeYTPlayer) return;
+    if (!lb || lb.classList.contains('hidden')) return;
 
     if (e.key === 'Escape') {
         closeVideoLightbox();
-    } else if (e.key === ' ' || e.key === 'k') {
-        e.preventDefault();
-        const state = activeYTPlayer.getPlayerState();
-        if (state === YT.PlayerState.PLAYING) activeYTPlayer.pauseVideo();
-        else activeYTPlayer.playVideo();
-    } else if (e.key === 'ArrowRight' || e.key === 'l') {
-        const cur = activeYTPlayer.getCurrentTime();
-        activeYTPlayer.seekTo(cur + 5, true);
-    } else if (e.key === 'ArrowLeft' || e.key === 'j') {
-        const cur = activeYTPlayer.getCurrentTime();
-        activeYTPlayer.seekTo(Math.max(0, cur - 5), true);
-    } else if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        const vol = Math.min(100, activeYTPlayer.getVolume() + 5);
-        activeYTPlayer.setVolume(vol);
-        const slider = document.getElementById('video-volume-slider');
-        if (slider) slider.value = vol;
-        updateYTVolumeIcon(vol, false);
-    } else if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        const vol = Math.max(0, activeYTPlayer.getVolume() - 5);
-        activeYTPlayer.setVolume(vol);
-        const slider = document.getElementById('video-volume-slider');
-        if (slider) slider.value = vol;
-        updateYTVolumeIcon(vol, false);
     }
 });
 
@@ -1289,7 +1022,6 @@ window.toggleImageLike = toggleImageLike;
 window.toggleVideoLike = toggleVideoLike;
 window.openVideoLightbox = openVideoLightbox;
 window.closeVideoLightbox = closeVideoLightbox;
-window.changeYTPlaybackSpeed = changeYTPlaybackSpeed;
 window.applyGlobalSettings = applyGlobalSettings;
 
 /**
