@@ -201,7 +201,7 @@ window.galleryData = {
       youtubeId: "cM-KBj6DkUo",
       thumb: "images/optimized/800/Video Thumbnails/VI-08-800.webp",
       thumbFallback: "images/Video%20Thumbnails/VI-08.jpg",
-      duration: "4:58"
+      duration: "2:36"
     },
     {
       id: 4,
