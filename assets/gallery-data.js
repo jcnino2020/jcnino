@@ -197,7 +197,7 @@ window.galleryData = {
     },
     {
       id: 3,
-      title: "USLS Medicine and Graduate School Graduation 2026",
+      title: "USLS Medicine/Grad School Graduation 2026",
       youtubeId: "cM-KBj6DkUo",
       thumb: "images/optimized/800/Video Thumbnails/VI-08-800.webp",
       thumbFallback: "images/Video%20Thumbnails/VI-08.jpg",
