@@ -138,9 +138,9 @@
             <!-- BG Image -->
             <picture class="absolute inset-0 w-full h-full">
               <source type="image/webp"
-                srcset="images/optimized/800/Drone Shots/Drone-006-800.webp 800w, images/optimized/1200/Drone Shots/Drone-006-1200.webp 1200w"
+                srcset="images/optimized/800/Drone%20Shots/Drone-006-800.webp 800w, images/optimized/1200/Drone%20Shots/Drone-006-1200.webp 1200w"
                 sizes="(max-width: 768px) 100vw, 25vw" />
-              <img src="images/optimized/800/Drone Shots/Drone-006-800.webp"
+              <img src="images/optimized/800/Drone%20Shots/Drone-006-800.webp"
                 alt="Aerial view of Negros Island landscape captured by drone" loading="lazy" decoding="async"
                 width="800" height="533"
                 class="w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-700" />
@@ -172,9 +172,9 @@
             class="service-card group border border-border hover:border-white/30 transition-all duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden">
             <picture class="absolute inset-0 w-full h-full">
               <source type="image/webp"
-                srcset="images/optimized/800/Framed Moments/FM-01-800.webp 800w, images/optimized/1200/Framed Moments/FM-01-1200.webp 1200w"
+                srcset="images/optimized/800/Framed%20Moments/FM-01-800.webp 800w, images/optimized/1200/Framed%20Moments/FM-01-1200.webp 1200w"
                 sizes="(max-width: 768px) 100vw, 25vw" />
-              <img src="images/optimized/800/Framed Moments/FM-01-800.webp"
+              <img src="images/optimized/800/Framed%20Moments/FM-01-800.webp"
                 alt="Street and editorial portrait photography by JC Niñonuevo" loading="lazy" decoding="async"
                 width="800" height="533"
                 class="w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-700" />
@@ -204,9 +204,9 @@
             class="service-card group border border-border hover:border-white/30 transition-all duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden">
             <picture class="absolute inset-0 w-full h-full">
               <source type="image/webp"
-                srcset="images/optimized/800/School Events/SE-01-800.webp 800w, images/optimized/1200/School Events/SE-01-1200.webp 1200w"
+                srcset="images/optimized/800/School%20Events/SE-01-800.webp 800w, images/optimized/1200/School%20Events/SE-01-1200.webp 1200w"
                 sizes="(max-width: 768px) 100vw, 25vw" />
-              <img src="images/optimized/800/School Events/SE-01-800.webp"
+              <img src="images/optimized/800/School%20Events/SE-01-800.webp"
                 alt="School event and campus life photography by JC Niñonuevo" loading="lazy" decoding="async"
                 width="800" height="533"
                 class="w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-700" />
@@ -548,159 +548,162 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/ScrollTrigger.min.js"></script>
 
   <script>
-    gsap.registerPlugin(ScrollTrigger);
+    document.addEventListener('DOMContentLoaded', () => {
+      gsap.registerPlugin(ScrollTrigger);
 
-    // ── 2. HERO: staggered timeline (all fromTo — explicit, no guessing)
-    const heroTl = gsap.timeline({ delay: 0.4 });
-    heroTl
-      .fromTo('#hero-eyebrow',
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }
-      )
-      .fromTo('#hero-title',
-        { opacity: 0, y: 45 },
-        { opacity: 1, y: 0, duration: 0.85, ease: 'power3.out' },
-        '-=0.45'
-      )
-      .fromTo('#hero-desc',
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' },
-        '-=0.55'
-      )
-      .fromTo('#hero-buttons',
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' },
-        '-=0.45'
-      )
-      .fromTo('#hero-img-col',
-        { opacity: 0, x: 60 },
-        { opacity: 1, x: 0, duration: 1, ease: 'power3.out' },
-        '-=0.9'
+      // ── 2. HERO: staggered timeline (all fromTo — explicit, no guessing)
+      const heroTl = gsap.timeline({ delay: 0.4 });
+      heroTl
+        .fromTo('#hero-eyebrow',
+          { opacity: 0, y: 30 },
+          { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }
+        )
+        .fromTo('#hero-title',
+          { opacity: 0, y: 45 },
+          { opacity: 1, y: 0, duration: 0.85, ease: 'power3.out' },
+          '-=0.45'
+        )
+        .fromTo('#hero-desc',
+          { opacity: 0, y: 30 },
+          { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' },
+          '-=0.55'
+        )
+        .fromTo('#hero-buttons',
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' },
+          '-=0.45'
+        )
+        .fromTo('#hero-img-col',
+          { opacity: 0, x: 60 },
+          { opacity: 1, x: 0, duration: 1, ease: 'power3.out' },
+          '-=0.9'
+        );
+
+      // ── 3. HERO PARALLAX: subtle scroll drift on the featured image
+      gsap.to('#hero-img-col', {
+        scrollTrigger: {
+          trigger: '#home',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 1.5
+        },
+        y: 60,
+        ease: 'none'
+      });
+
+      // ── 4. SERVICE CARDS: fromTo prevents stuck-invisible bug
+      gsap.fromTo('.service-card',
+        { y: 50, opacity: 0 },
+        {
+          y: 0, opacity: 1,
+          duration: 0.65, stagger: 0.1, ease: 'power3.out',
+          scrollTrigger: {
+            trigger: '#services-section',
+            start: 'top 82%',
+            once: true
+          }
+        }
       );
 
-    // ── 3. HERO PARALLAX: subtle scroll drift on the featured image
-    gsap.to('#hero-img-col', {
-      scrollTrigger: {
-        trigger: '#home',
-        start: 'top top',
-        end: 'bottom top',
-        scrub: 1.5
-      },
-      y: 60,
-      ease: 'none'
+      // ── 5. GALLERY HEADER
+      gsap.fromTo('#gallery-header',
+        { y: 35, opacity: 0 },
+        {
+          y: 0, opacity: 1,
+          duration: 0.7, ease: 'power3.out',
+          scrollTrigger: {
+            trigger: '#gallery',
+            start: 'top 85%',
+            once: true
+          }
+        }
+      );
+
+      // Gallery items are animated inside renderHighlights() via ScrollTrigger.batch
+
+      // ── 6. ABOUT: left slides from left, right from right
+      gsap.fromTo('#about-left',
+        { x: -50, opacity: 0 },
+        {
+          x: 0, opacity: 1,
+          duration: 0.85, ease: 'power3.out',
+          scrollTrigger: {
+            trigger: '#about',
+            start: 'top 78%',
+            once: true
+          }
+        }
+      );
+
+      // ── 6. ABOUT: right slides from right
+      gsap.fromTo('#about-right',
+        { x: 50, opacity: 0 },
+        {
+          x: 0, opacity: 1,
+          duration: 0.85, delay: 0.15, ease: 'power3.out',
+          scrollTrigger: {
+            trigger: '#about',
+            start: 'top 78%',
+            once: true
+          }
+        }
+      );
+
+      gsap.fromTo('#about-right li',
+        { x: 20, opacity: 0 },
+        {
+          x: 0, opacity: 1,
+          duration: 0.4, stagger: 0.07, ease: 'power2.out',
+          scrollTrigger: {
+            trigger: '#about-right',
+            start: 'top 82%',
+            once: true
+          }
+        }
+      );
+
+      // ── 7. CONTACT HEADER
+      gsap.fromTo('#contact-header',
+        { y: 35, opacity: 0 },
+        {
+          y: 0, opacity: 1,
+          duration: 0.75, ease: 'power3.out',
+          scrollTrigger: {
+            trigger: '#contact',
+            start: 'top 82%',
+            once: true
+          }
+        }
+      );
+
+      // ── 8. CONTACT LINKS: fromTo prevents stuck-invisible bug
+      gsap.fromTo('.contact-link',
+        { y: 25, opacity: 0 },
+        {
+          y: 0, opacity: 1,
+          duration: 0.5, stagger: 0.1, ease: 'power3.out',
+          scrollTrigger: {
+            trigger: '#contact-links',
+            start: 'top 88%',
+            once: true
+          }
+        }
+      );
+
+      // ── 9. FOOTER
+      gsap.fromTo('#site-footer',
+        { y: 30, opacity: 0 },
+        {
+          y: 0, opacity: 1,
+          duration: 0.6, ease: 'power2.out',
+          scrollTrigger: {
+            trigger: '#site-footer',
+            start: 'top 95%',
+            once: true
+          }
+        }
+      );
     });
-
-    // ── 4. SERVICE CARDS: fromTo prevents stuck-invisible bug
-    gsap.fromTo('.service-card',
-      { y: 50, opacity: 0 },
-      {
-        y: 0, opacity: 1,
-        duration: 0.65, stagger: 0.1, ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '#services-section',
-          start: 'top 82%',
-          once: true
-        }
-      }
-    );
-
-    // ── 5. GALLERY HEADER
-    gsap.fromTo('#gallery-header',
-      { y: 35, opacity: 0 },
-      {
-        y: 0, opacity: 1,
-        duration: 0.7, ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '#gallery',
-          start: 'top 85%',
-          once: true
-        }
-      }
-    );
-
-    // Gallery items are animated inside renderHighlights() via ScrollTrigger.batch
-
-    // ── 6. ABOUT: left slides from left, right from right
-    gsap.fromTo('#about-left',
-      { x: -50, opacity: 0 },
-      {
-        x: 0, opacity: 1,
-        duration: 0.85, ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '#about',
-          start: 'top 78%',
-          once: true
-        }
-      }
-    );
-
-    gsap.fromTo('#about-right',
-      { x: 50, opacity: 0 },
-      {
-        x: 0, opacity: 1,
-        duration: 0.85, delay: 0.15, ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '#about',
-          start: 'top 78%',
-          once: true
-        }
-      }
-    );
-
-    gsap.fromTo('#about-right li',
-      { x: 20, opacity: 0 },
-      {
-        x: 0, opacity: 1,
-        duration: 0.4, stagger: 0.07, ease: 'power2.out',
-        scrollTrigger: {
-          trigger: '#about-right',
-          start: 'top 82%',
-          once: true
-        }
-      }
-    );
-
-    // ── 7. CONTACT HEADER
-    gsap.fromTo('#contact-header',
-      { y: 35, opacity: 0 },
-      {
-        y: 0, opacity: 1,
-        duration: 0.75, ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '#contact',
-          start: 'top 82%',
-          once: true
-        }
-      }
-    );
-
-    // ── 8. CONTACT LINKS: fromTo prevents stuck-invisible bug
-    gsap.fromTo('.contact-link',
-      { y: 25, opacity: 0 },
-      {
-        y: 0, opacity: 1,
-        duration: 0.5, stagger: 0.1, ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '#contact-links',
-          start: 'top 88%',
-          once: true
-        }
-      }
-    );
-
-    // ── 9. FOOTER
-    gsap.fromTo('#site-footer',
-      { y: 30, opacity: 0 },
-      {
-        y: 0, opacity: 1,
-        duration: 0.6, ease: 'power2.out',
-        scrollTrigger: {
-          trigger: '#site-footer',
-          start: 'top 95%',
-          once: true
-        }
-      }
-    );
   </script>
 
   <script>

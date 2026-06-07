@@ -64,7 +64,7 @@
     return {
       id: i,
       src: 'images/Framed%20Moments/' + p.file,
-      subfolder: 'Framed Moments',
+      subfolder: 'Framed%20Moments',
       base: base,
       alt: p.alt || ('Street and editorial photograph by JC Niñonuevo — ' + base)
     };
@@ -150,47 +150,46 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/ScrollTrigger.min.js"></script>
 
 <script>
-  gsap.registerPlugin(ScrollTrigger);
+  document.addEventListener('DOMContentLoaded', () => {
+    gsap.registerPlugin(ScrollTrigger);
 
+    // ── 2. PAGE HEADER: staggered timeline on load (above fold — no ScrollTrigger)
+    const headerTl = gsap.timeline({ delay: 0.3 });
+    headerTl
+      .fromTo('#header-eyebrow',
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }
+      )
+      .fromTo('#header-title',
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' },
+        '-=0.35'
+      )
+      .fromTo('#header-desc',
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' },
+        '-=0.4'
+      )
+      .fromTo('#photo-count',
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' },
+        '-=0.3'
+      );
 
-  // ── 2. PAGE HEADER: staggered timeline on load (above fold — no ScrollTrigger)
-  const headerTl = gsap.timeline({ delay: 0.3 });
-  headerTl
-    .fromTo('#header-eyebrow',
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }
-    )
-    .fromTo('#header-title',
-      { opacity: 0, y: 30 },
-      { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' },
-      '-=0.35'
-    )
-    .fromTo('#header-desc',
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' },
-      '-=0.4'
-    )
-    .fromTo('#photo-count',
-      { opacity: 0, y: 10 },
-      { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' },
-      '-=0.3'
-    );
-
-  // ── 3. FOOTER: fade up on scroll
-  gsap.fromTo('#site-footer',
-    { y: 30, opacity: 0 },
-    {
-      y: 0, opacity: 1,
-      duration: 0.6, ease: 'power2.out',
-      scrollTrigger: {
-        trigger: '#site-footer',
-        start: 'top 95%',
-        once: true
+    // ── 3. FOOTER: fade up on scroll
+    gsap.fromTo('#site-footer',
+      { y: 30, opacity: 0 },
+      {
+        y: 0, opacity: 1,
+        duration: 0.6, ease: 'power2.out',
+        scrollTrigger: {
+          trigger: '#site-footer',
+          start: 'top 95%',
+          once: true
+        }
       }
-    }
-  );
-
-  // Gallery items handled inside renderGrid() via ScrollTrigger.batch
+    );
+  });
 </script>
 
 <script>

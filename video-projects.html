@@ -247,90 +247,90 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/ScrollTrigger.min.js"></script>
 
 <script>
-  gsap.registerPlugin(ScrollTrigger);
+  document.addEventListener('DOMContentLoaded', () => {
+    gsap.registerPlugin(ScrollTrigger);
 
+    // ── 2. PAGE HEADER: staggered timeline on load (above fold — no ScrollTrigger)
+    const headerTl = gsap.timeline({ delay: 0.3 });
+    headerTl
+      .fromTo('#header-eyebrow',
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }
+      )
+      .fromTo('#header-title',
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' },
+        '-=0.35'
+      )
+      .fromTo('#header-desc',
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' },
+        '-=0.4'
+      );
 
-  // ── 2. PAGE HEADER: staggered timeline on load (above fold — no ScrollTrigger)
-  const headerTl = gsap.timeline({ delay: 0.3 });
-  headerTl
-    .fromTo('#header-eyebrow',
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }
-    )
-    .fromTo('#header-title',
-      { opacity: 0, y: 30 },
-      { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' },
-      '-=0.35'
-    )
-    .fromTo('#header-desc',
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' },
-      '-=0.4'
+    // ── 3. VIDEO CARDS: fromTo with ScrollTrigger — safe, explicit states
+    // Only 6 cards so stagger is fast; ScrollTrigger handles near-fold edge case
+    gsap.fromTo('#video-grid .video-card',   // ← add #video-grid here
+      { y: 40, opacity: 0 },
+      {
+        y: 0, opacity: 1,
+        duration: 0.65,
+        stagger: 0.1,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '#video-grid',
+          start: 'top 88%',
+          once: true
+        }
+      }
     );
 
-  // ── 3. VIDEO CARDS: fromTo with ScrollTrigger — safe, explicit states
-  // Only 6 cards so stagger is fast; ScrollTrigger handles near-fold edge case
-gsap.fromTo('#video-grid .video-card',   // ← add #video-grid here
-    { y: 40, opacity: 0 },
-    {
-      y: 0, opacity: 1,
-      duration: 0.65,
-      stagger: 0.1,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: '#video-grid',
-        start: 'top 88%',
-        once: true
+    // ── 4. FOOTER: fade up on scroll
+    gsap.fromTo('#site-footer',
+      { y: 30, opacity: 0 },
+      {
+        y: 0, opacity: 1,
+        duration: 0.6, ease: 'power2.out',
+        scrollTrigger: {
+          trigger: '#site-footer',
+          start: 'top 95%',
+          once: true
+        }
       }
-    }
-  );
+    );
 
-  // ── 4. FOOTER: fade up on scroll
-  gsap.fromTo('#site-footer',
-    { y: 30, opacity: 0 },
-    {
-      y: 0, opacity: 1,
-      duration: 0.6, ease: 'power2.out',
-      scrollTrigger: {
-        trigger: '#site-footer',
-        start: 'top 95%',
-        once: true
+    // ── 5. CHANNEL DIVIDER: staggered text on scroll
+    gsap.fromTo(['#ch2-logo', '#ch2-eyebrow', '#ch2-title', '#ch2-desc'],
+      { opacity: 0, y: 20 },
+      {
+        opacity: 1, y: 0,
+        duration: 0.6,
+        stagger: 0.12,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '#channel-divider',
+          start: 'top 85%',
+          once: true
+        }
       }
-    }
-  );
+    );
 
-  // ── 5. CHANNEL DIVIDER: staggered text on scroll
-gsap.fromTo(['#ch2-logo', '#ch2-eyebrow', '#ch2-title', '#ch2-desc'],
-  { opacity: 0, y: 20 },
-  {
-    opacity: 1, y: 0,
-    duration: 0.6,
-    stagger: 0.12,
-    ease: 'power3.out',
-    scrollTrigger: {
-      trigger: '#channel-divider',
-      start: 'top 85%',
-      once: true
-    }
-  }
-);
-
-// ── 6. SECOND CHANNEL CARDS: same stagger as grid 1
-gsap.fromTo('#video-grid-2 .video-card',
-  { y: 40, opacity: 0 },
-  {
-    y: 0, opacity: 1,
-    duration: 0.65,
-    stagger: 0.1,
-    ease: 'power3.out',
-    scrollTrigger: {
-      trigger: '#video-grid-2',
-      start: 'top 88%',
-      once: true
-    }
-  }
-);
-
+    // ── 6. SECOND CHANNEL CARDS: same stagger as grid 1
+    gsap.fromTo('#video-grid-2 .video-card',
+      { y: 40, opacity: 0 },
+      {
+        y: 0, opacity: 1,
+        duration: 0.65,
+        stagger: 0.1,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '#video-grid-2',
+          start: 'top 88%',
+          once: true
+        }
+      }
+    );
+  });
 </script>
 
 <script>

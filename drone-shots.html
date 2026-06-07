@@ -68,7 +68,7 @@
       id: i,
       src: 'images/Drone%20Shots/' + p.file,
       srcDecoded: 'images/Drone Shots/' + p.file,
-      subfolder: 'Drone Shots',
+      subfolder: 'Drone%20Shots',
       base: base,
       alt: p.alt || ('Drone aerial photograph by JC Niñonuevo — ' + base)
     };
@@ -152,47 +152,46 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/ScrollTrigger.min.js"></script>
 
 <script>
-  gsap.registerPlugin(ScrollTrigger);
+  document.addEventListener('DOMContentLoaded', () => {
+    gsap.registerPlugin(ScrollTrigger);
 
+    // ── 2. PAGE HEADER: staggered timeline on load (above fold, no ScrollTrigger needed)
+    const headerTl = gsap.timeline({ delay: 0.3 });
+    headerTl
+      .fromTo('#header-eyebrow',
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }
+      )
+      .fromTo('#header-title',
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' },
+        '-=0.35'
+      )
+      .fromTo('#header-desc',
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' },
+        '-=0.4'
+      )
+      .fromTo('#photo-count',
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' },
+        '-=0.3'
+      );
 
-  // ── 2. PAGE HEADER: staggered timeline on load (above fold, no ScrollTrigger needed)
-  const headerTl = gsap.timeline({ delay: 0.3 });
-  headerTl
-    .fromTo('#header-eyebrow',
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }
-    )
-    .fromTo('#header-title',
-      { opacity: 0, y: 30 },
-      { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' },
-      '-=0.35'
-    )
-    .fromTo('#header-desc',
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' },
-      '-=0.4'
-    )
-    .fromTo('#photo-count',
-      { opacity: 0, y: 10 },
-      { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' },
-      '-=0.3'
-    );
-
-  // ── 3. FOOTER: fade up on scroll
-  gsap.fromTo('#site-footer',
-    { y: 30, opacity: 0 },
-    {
-      y: 0, opacity: 1,
-      duration: 0.6, ease: 'power2.out',
-      scrollTrigger: {
-        trigger: '#site-footer',
-        start: 'top 95%',
-        once: true
+    // ── 3. FOOTER: fade up on scroll
+    gsap.fromTo('#site-footer',
+      { y: 30, opacity: 0 },
+      {
+        y: 0, opacity: 1,
+        duration: 0.6, ease: 'power2.out',
+        scrollTrigger: {
+          trigger: '#site-footer',
+          start: 'top 95%',
+          once: true
+        }
       }
-    }
-  );
-
-  // Gallery items are handled inside renderGrid() via ScrollTrigger.batch
+    );
+  });
 </script>
 
 <script>
