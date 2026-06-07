@@ -9,7 +9,7 @@ async function connectToDatabase(uri) {
   }
 
   if (!uri) {
-    throw new Error('Please define the MONGODB_URI environment variable inside the Cloudflare Pages settings');
+    throw new Error('MONGODB_URI environment variable is not configured in Cloudflare Pages settings.');
   }
 
   const client = new MongoClient(uri, {
@@ -37,11 +37,14 @@ export async function onRequest(context) {
   const { request, env } = context;
   const method = request.method;
 
+  const allowedOrigin = env.SITE_ORIGIN || 'https://jcnino.pages.dev';
+
   const corsHeaders = {
     'Access-Control-Allow-Credentials': 'true',
-    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Origin': allowedOrigin,
     'Access-Control-Allow-Methods': 'GET,OPTIONS,POST',
-    'Access-Control-Allow-Headers': 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization'
+    'Access-Control-Allow-Headers': 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
+    'Vary': 'Origin'
   };
 
   if (method === 'OPTIONS') {
@@ -86,10 +89,16 @@ export async function onRequest(context) {
         });
       }
 
+      // Basic input validation
+      if (typeof itemId !== 'string' || itemId.length > 100) {
+        return new Response(JSON.stringify({ error: 'Invalid itemId' }), {
+          status: 400,
+          headers: { 'Content-Type': 'application/json', ...corsHeaders }
+        });
+      }
+
       if (!hasMongo) {
-        if (!localMockViews[itemId]) {
-          localMockViews[itemId] = 0;
-        }
+        if (!localMockViews[itemId]) localMockViews[itemId] = 0;
         localMockViews[itemId] += 1;
         return new Response(JSON.stringify({ itemId, count: localMockViews[itemId], mock: true }), {
           status: 200,
@@ -120,7 +129,7 @@ export async function onRequest(context) {
       headers: { 'Content-Type': 'application/json', ...corsHeaders }
     });
   } catch (error) {
-    return new Response(JSON.stringify({ error: error.message }), {
+    return new Response(JSON.stringify({ error: 'Internal server error' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json', ...corsHeaders }
     });

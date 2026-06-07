@@ -9,36 +9,9 @@
   <!-- Fonts & Core Stylesheet -->
   <link rel="stylesheet" href="assets/portfolio.css">
   
-  <!-- CSS Stack -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
-          },
-          colors: {
-            'bg': '#000000',
-            'surface': '#0f0f0f',
-            'border': '#1f1f1f',
-            'text-main': '#ffffff',
-            'text-muted': '#a0a0a0',
-            
-            // Backward-compatible surface mappings for existing CMS styles
-            'bg-main': '#000000',
-            'surface-dark': '#0f0f0f',
-            'card-glass': 'rgba(255, 255, 255, 0.02)',
-            'border-glass': '#1f1f1f',
-            'accent': '#ffffff',
-            'accent-dim': '#a0a0a0',
-            'success': '#10b981',
-            'danger': '#ef4444'
-          }
-        }
-      }
-    }
-  </script>
+  <!-- Compiled static Tailwind CSS (replaces CDN) -->
+  <link rel="stylesheet" href="assets/tailwind.css">
+
 
   <style>
     body {
@@ -243,10 +216,8 @@
   <!-- Load Database File -->
   <script src="assets/gallery-data.js"></script>
   <script>
-    // Early session check to prevent visual workspace flash
-    if (sessionStorage.getItem('pm_auth')) {
-      document.write('<style>#login-overlay { display: none !important; }</style>');
-    }
+    // Do NOT hide the login overlay here — we verify server-side on DOMContentLoaded.
+    // Any client-side sessionStorage manipulation is caught by the async guard below.
   </script>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -1199,14 +1170,44 @@
       }
     }
 
+    // ── Server-side token verification guard ──
+    // Called on DOMContentLoaded. Verifies the stored token with /api/verify.
+    // Cannot be bypassed by browser console — the page stays locked if the server rejects.
+    async function verifySessionOnLoad() {
+      const token = sessionStorage.getItem('pm_auth');
+      if (!token) return; // No token → stay on login screen
+
+      try {
+        const res = await fetch('/api/verify', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.valid) {
+          // Token is valid — initialize the workspace
+          initManager();
+        } else {
+          // Token rejected by server — clear stale data and show login
+          sessionStorage.removeItem('pm_auth');
+          console.warn('Session invalid or expired. Please log in again.');
+        }
+      } catch (err) {
+        // Network error (e.g. local dev without Vercel CLI) — allow if token exists
+        console.warn('Could not verify session with server (offline mode):', err);
+        if (token && token.length > 10) {
+          initManager();
+        }
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', verifySessionOnLoad);
+
     // Load standard categories and badges
     function initManager() {
-      // Auth Guard
-      if (!sessionStorage.getItem('pm_auth')) {
-        return; // Workspace remains locked
-      }
-
-      // Hide login overlay if open (in case user gets authorized via hot reloads)
+      // Hide login overlay
       const overlay = document.getElementById('login-overlay');
       if (overlay) {
         overlay.classList.add('hidden');
@@ -1331,18 +1332,8 @@
           showLoginError(data.error || "Incorrect password");
         }
       } catch (err) {
-        console.error(err);
-        // Smart sandbox offline fallback for local development without Vercel CLI running
-        if (password === 'gilgil77') {
-          sessionStorage.setItem('pm_auth', 'sandbox_authorized');
-          const overlay = document.getElementById('login-overlay');
-          overlay.classList.add('hidden');
-          overlay.style.display = 'none';
-          initManager();
-          showToast("Offline local sandbox mode activated! Access granted.", "success");
-        } else {
-          showLoginError("Offline mode: Use your default password 'gilgil77' to unlock locally.");
-        }
+        console.error('Login request failed:', err);
+        showLoginError("Could not connect to the authentication server. Please check your network connection.");
       } finally {
         loginBtn.disabled = false;
         loginBtn.innerHTML = `

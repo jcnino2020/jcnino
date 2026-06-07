@@ -10,7 +10,7 @@ async function connectToDatabase() {
 
   const uri = process.env.MONGODB_URI;
   if (!uri) {
-    throw new Error('Please define the MONGODB_URI environment variable inside .env');
+    throw new Error('MONGODB_URI environment variable is not set.');
   }
 
   const client = new MongoClient(uri);
@@ -62,14 +62,15 @@ let localMockLogs = [
 ];
 
 export default async function handler(req, res) {
-  // CORS Headers
+  const allowedOrigin = process.env.SITE_ORIGIN || 'https://jcnino.vercel.app';
   res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS');
   res.setHeader(
     'Access-Control-Allow-Headers',
     'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization'
   );
+  res.setHeader('Vary', 'Origin');
 
   if (req.method === 'OPTIONS') {
     res.status(200).end();
@@ -80,27 +81,41 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  // Security Check: Authorize request using token
+  // Security Check: Validate token against MongoDB admin_sessions
   const authHeader = req.headers['authorization'] || '';
-  const expectedPassword = process.env.ADMIN_PASSWORD || 'gilgil77';
-  const expectedToken = 'authorized_admin_session_token_' + Buffer.from(expectedPassword).toString('base64');
-  
-  if (authHeader !== `Bearer ${expectedToken}` && authHeader !== `Bearer sandbox_authorized`) {
+  const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : null;
+
+  if (!token) {
     return res.status(401).json({ error: 'Unauthorized administrative access' });
   }
 
   const hasMongo = !!process.env.MONGODB_URI;
 
+  if (hasMongo) {
+    try {
+      const { db } = await connectToDatabase();
+      const session = await db.collection('admin_sessions').findOne({
+        token,
+        expiresAt: { $gt: new Date() }
+      });
+      if (!session) {
+        return res.status(401).json({ error: 'Unauthorized administrative access' });
+      }
+    } catch (dbErr) {
+      console.error('Session validation error:', dbErr);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+  }
+  // When MongoDB is absent (local dev), allow any non-empty bearer token through
+
   try {
     if (!hasMongo) {
-      // Local development mock logs
       return res.status(200).json(localMockLogs);
     }
 
     const { db } = await connectToDatabase();
     const logsCollection = db.collection('login_logs');
-    
-    // Retrieve the last 50 login attempts sorted by descending date
+
     const logs = await logsCollection
       .find({})
       .sort({ timestamp: -1 })
@@ -110,6 +125,6 @@ export default async function handler(req, res) {
     return res.status(200).json(logs);
   } catch (error) {
     console.error('Logs API Error:', error);
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: 'Internal server error' });
   }
 }

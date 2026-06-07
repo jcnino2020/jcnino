@@ -25,3 +25,7 @@ Thumbs.db
 dist/
 .svelte-kit/
 .next/
+
+# Tailwind standalone CLI
+tailwindcss-macos-arm64
+

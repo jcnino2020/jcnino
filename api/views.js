@@ -10,7 +10,7 @@ async function connectToDatabase() {
 
   const uri = process.env.MONGODB_URI;
   if (!uri) {
-    throw new Error('Please define the MONGODB_URI environment variable inside .env');
+    throw new Error('MONGODB_URI environment variable is not set.');
   }
 
   const client = new MongoClient(uri);
@@ -21,7 +21,7 @@ async function connectToDatabase() {
   return { client, db };
 }
 
-// In-memory fallback dictionary for local development if MONGODB_URI is missing
+// In-memory fallback for local development only
 let localMockViews = {
   "GH-01.JPG": 142,
   "Drone-001.JPG": 96,
@@ -33,14 +33,15 @@ let localMockViews = {
 };
 
 export default async function handler(req, res) {
-  // CORS Headers so the script works flawlessly even from different local origins
+  const allowedOrigin = process.env.SITE_ORIGIN || 'https://jcnino.vercel.app';
   res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+  res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,POST');
   res.setHeader(
     'Access-Control-Allow-Headers',
     'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
   );
+  res.setHeader('Vary', 'Origin');
 
   if (req.method === 'OPTIONS') {
     res.status(200).end();
@@ -52,32 +53,34 @@ export default async function handler(req, res) {
   try {
     if (req.method === 'GET') {
       if (!hasMongo) {
-        // Return mock data
         return res.status(200).json(localMockViews);
       }
 
       const { db } = await connectToDatabase();
       const viewsCollection = db.collection('views');
       const viewsList = await viewsCollection.find({}).toArray();
-      
-      // Convert list to simple key-value map: { [itemId]: count }
+
       const viewsMap = {};
       viewsList.forEach(doc => {
         viewsMap[doc._id] = doc.count || 0;
       });
 
       return res.status(200).json(viewsMap);
-    } 
-    
+    }
+
     if (req.method === 'POST') {
       const { itemId } = req.body || {};
-      
+
       if (!itemId) {
         return res.status(400).json({ error: 'itemId is required' });
       }
 
+      // Basic input validation
+      if (typeof itemId !== 'string' || itemId.length > 100) {
+        return res.status(400).json({ error: 'Invalid itemId' });
+      }
+
       if (!hasMongo) {
-        // Handle mock view increments
         if (!localMockViews[itemId]) {
           localMockViews[itemId] = 0;
         }
@@ -95,7 +98,6 @@ export default async function handler(req, res) {
         { upsert: true }
       );
 
-      // Fetch the updated value to return it
       const updatedDoc = await viewsCollection.findOne({ _id: itemId });
       const updatedCount = updatedDoc ? updatedDoc.count : 0;
 
@@ -105,6 +107,6 @@ export default async function handler(req, res) {
     res.status(405).json({ error: 'Method not allowed' });
   } catch (error) {
     console.error('Views API Error:', error);
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: 'Internal server error' });
   }
 }
