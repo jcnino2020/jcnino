@@ -1,0 +1,2165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoltFit - Full-Fledged Workout Companion</title>
+    <!-- Import Google Fonts for modern tech/fitness aesthetics -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #060913;
+            --bg-card: #0d1527;
+            --bg-card-hover: #14203b;
+            --accent-blue: #00d2ff;
+            --accent-purple: #a855f7;
+            --accent-green: #10b981;
+            --accent-orange: #f59e0b;
+            --accent-rose: #f43f5e;
+            --text-main: #f8fafc;
+            --text-muted: #64748b;
+            --text-muted-bright: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-glow: rgba(0, 210, 255, 0.15);
+            --transition-speed: 0.25s;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 210, 255, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(168, 85, 247, 0.05) 0%, transparent 40%);
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 600px;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: visible; /* Ensure content remains accessible on small viewports */
+            backdrop-filter: blur(10px);
+            transition: all var(--transition-speed) ease;
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            .app-container {
+                padding: 20px 15px;
+                border-radius: 16px;
+            }
+        }
+
+        /* Screen States */
+        .screen {
+            display: none;
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Typography & Glowing Accents */
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #fff 30%, var(--accent-blue) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        p.subtitle {
+            color: var(--text-muted-bright);
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+            text-align: center;
+        }
+
+        .glow-text-blue {
+            text-shadow: 0 0 15px rgba(0, 210, 255, 0.4);
+        }
+
+        /* Setup View Controls */
+        .setup-section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin: 25px 0 12px 0;
+            padding-bottom: 6px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .grid-settings {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 400px) {
+            .grid-settings {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .setup-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .setup-group label {
+            color: var(--text-muted-bright);
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .setup-group select, 
+        .setup-group input {
+            width: 100%;
+            padding: 12px 16px;
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            font-weight: 500;
+            outline: none;
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .setup-group select:focus, 
+        .setup-group input:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(0, 210, 255, 0.15);
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Sound Switches Panel */
+        .switches-panel {
+            display: flex;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-bottom: 25px;
+            gap: 15px;
+        }
+
+        .switch-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted-bright);
+            cursor: pointer;
+        }
+
+        .switch-control input {
+            display: none;
+        }
+
+        .switch-slider {
+            width: 36px;
+            height: 20px;
+            background-color: var(--text-muted);
+            border-radius: 10px;
+            position: relative;
+            transition: background-color var(--transition-speed);
+        }
+
+        .switch-slider::before {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: white;
+            top: 2px;
+            left: 2px;
+            transition: transform var(--transition-speed);
+        }
+
+        .switch-control input:checked + .switch-slider {
+            background-color: var(--accent-blue);
+        }
+
+        .switch-control input:checked + .switch-slider::before {
+            transform: translateX(16px);
+        }
+
+        /* Exercise Builder UI */
+        .routine-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .exercise-list {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            max-height: 250px;
+            overflow-y: auto;
+            margin-bottom: 16px;
+        }
+
+        .exercise-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border-color);
+            transition: background var(--transition-speed);
+        }
+
+        .exercise-item:last-child {
+            border-bottom: none;
+        }
+
+        .exercise-item:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .ex-drag-handle {
+            cursor: grab;
+            color: var(--text-muted);
+            margin-right: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .ex-info-col {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .ex-item-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .ex-item-meta {
+            font-size: 0.78rem;
+            color: var(--text-muted-bright);
+        }
+
+        .ex-item-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-muted-bright);
+            padding: 4px;
+            border-radius: 6px;
+            transition: all var(--transition-speed);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon-btn:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .icon-btn.delete:hover {
+            color: var(--accent-rose);
+            background: rgba(244, 63, 94, 0.1);
+        }
+
+        .add-ex-bar {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr auto;
+            gap: 8px;
+            margin-bottom: 25px;
+        }
+
+        @media (max-width: 480px) {
+            .add-ex-bar {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Global Interactive Buttons */
+        .btn {
+            width: 100%;
+            padding: 16px 20px;
+            border: none;
+            border-radius: 14px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-blue) 0%, #0099ff 100%);
+            color: #060913;
+            box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 6px 20px rgba(0, 210, 255, 0.4);
+            filter: brightness(1.05);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--accent-green) 0%, #059669 100%);
+            color: #060913;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-success:hover {
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+            filter: brightness(1.05);
+        }
+
+        .btn-secondary {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+            border-color: var(--text-muted);
+        }
+
+        .btn-small {
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            border-radius: 8px;
+        }
+
+        .control-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        /* Runtime View Elements */
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 8px;
+            color: var(--accent-blue);
+        }
+
+        .global-progress-bar {
+            width: 100%;
+            height: 6px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 25px;
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+            border-radius: 3px;
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .workout-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 24px;
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            background-color: rgba(0, 210, 255, 0.1);
+            border: 1px solid rgba(0, 210, 255, 0.2);
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--accent-blue);
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .status-badge.rest {
+            background-color: rgba(168, 85, 247, 0.1);
+            border-color: rgba(168, 85, 247, 0.2);
+            color: var(--accent-purple);
+        }
+
+        .status-badge.warmup {
+            background-color: rgba(245, 158, 11, 0.1);
+            border-color: rgba(245, 158, 11, 0.2);
+            color: var(--accent-orange);
+        }
+
+        .exercise-name {
+            font-size: 2.1rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+        }
+
+        .exercise-target {
+            font-size: 1.25rem;
+            color: var(--accent-green);
+            font-weight: 700;
+            margin-bottom: 25px;
+        }
+
+        /* Circular Timer Component */
+        .timer-circle-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 25px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .timer-svg {
+            transform: rotate(-90deg);
+            width: 100%;
+            height: 100%;
+        }
+
+        .timer-bg-circle {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.04);
+            stroke-width: 10;
+        }
+
+        .timer-progress-circle {
+            fill: none;
+            stroke: var(--accent-blue);
+            stroke-width: 10;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.1s linear, stroke var(--transition-speed) ease;
+        }
+
+        .timer-numeric-display {
+            position: absolute;
+            font-size: 3.8rem;
+            font-weight: 800;
+            font-family: 'Space Grotesk', sans-serif;
+            font-variant-numeric: tabular-nums;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .timer-sublabel {
+            font-size: 0.8rem;
+            color: var(--text-muted-bright);
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-top: -6px;
+            letter-spacing: 1px;
+        }
+
+        .exercise-desc {
+            color: var(--text-muted-bright);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            min-height: 55px;
+            max-height: 80px;
+            overflow-y: auto;
+            padding: 0 10px;
+        }
+
+        /* Mini Timeline for Next Moves */
+        .next-preview {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 18px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin-top: 15px;
+            font-size: 0.85rem;
+        }
+
+        .next-preview-label {
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .next-preview-value {
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        /* Wake Lock & HUD Badge */
+        .hud-status-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            gap: 10px;
+        }
+
+        .hud-badge {
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 4px 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted-bright);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .hud-badge.active {
+            color: var(--accent-green);
+            background-color: rgba(16, 185, 129, 0.06);
+            border-color: rgba(16, 185, 129, 0.15);
+        }
+
+        .badge-dot {
+            width: 6px;
+            height: 6px;
+            background-color: var(--text-muted);
+            border-radius: 50%;
+        }
+
+        .hud-badge.active .badge-dot {
+            background-color: var(--accent-green);
+            box-shadow: 0 0 8px var(--accent-green);
+        }
+
+        /* Summary & Statistics Panel */
+        .success-illustration {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px auto;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 3.5rem;
+            animation: bounceIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+            70% { transform: scale(0.9); opacity: 0.9; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .stats-summary-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 14px;
+            text-align: center;
+        }
+
+        .stat-val {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+        }
+
+        .stat-lbl {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: var(--text-muted-bright);
+            letter-spacing: 0.5px;
+            margin-top: 4px;
+        }
+
+        /* History Table UI */
+        .history-section {
+            text-align: left;
+            margin-top: 30px;
+        }
+
+        .history-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-main);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 6px;
+        }
+
+        .history-list {
+            max-height: 150px;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.15);
+        }
+
+        .history-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.8rem;
+        }
+
+        .history-row:last-child {
+            border-bottom: none;
+        }
+
+        .history-date {
+            font-weight: 600;
+            color: var(--text-muted-bright);
+        }
+
+        .history-desc-col {
+            text-align: right;
+            font-weight: 500;
+        }
+
+        /* Drag and Drop Styling helper */
+        .dragging {
+            opacity: 0.4;
+            background: var(--bg-card-hover) !important;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Animated Workout Illustrations */
+        .workout-illustration-container {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 20px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            padding: 10px;
+            box-shadow: inset 0 0 20px rgba(0, 210, 255, 0.05);
+            transition: all var(--transition-speed);
+        }
+
+        .workout-svg {
+            width: 100px;
+            height: 100px;
+            color: var(--accent-blue);
+        }
+
+        /* Squat Animation */
+        @keyframes squat-motion {
+            0%, 100% {
+                transform: translateY(0) scaleY(1);
+            }
+            50% {
+                transform: translateY(12px) scaleY(0.85);
+            }
+        }
+        .anim-squat {
+            animation: squat-motion 2s ease-in-out infinite;
+            transform-origin: bottom center;
+        }
+
+        /* Push-Up Animation */
+        @keyframes pushup-motion {
+            0%, 100% {
+                transform: rotate(0deg) translateY(0);
+            }
+            50% {
+                transform: rotate(-8deg) translateY(10px);
+            }
+        }
+        .anim-pushup {
+            animation: pushup-motion 1.8s ease-in-out infinite;
+            transform-origin: 15px 85px; /* origin at feet */
+        }
+
+        /* Lunge Animation */
+        @keyframes lunge-motion {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(10px) translateX(-4px);
+            }
+        }
+        .anim-lunge {
+            animation: lunge-motion 2s ease-in-out infinite;
+        }
+
+        /* Plank Animation */
+        @keyframes plank-pulse {
+            0%, 100% {
+                opacity: 0.3;
+                stroke-width: 2;
+                transform: scale(0.9);
+            }
+            50% {
+                opacity: 1;
+                stroke-width: 4;
+                transform: scale(1.1);
+            }
+        }
+        .anim-plank-core {
+            animation: plank-pulse 1.5s infinite;
+            transform-origin: 45px 50px;
+        }
+
+        /* Scale down key elements for short viewports/mobile screens to prevent excessive clipping */
+        @media (max-height: 745px) {
+            .workout-illustration-container {
+                width: 110px;
+                height: 110px;
+                margin-bottom: 12px;
+            }
+            .workout-svg {
+                width: 80px;
+                height: 80px;
+            }
+            .timer-circle-container {
+                width: 160px;
+                height: 160px;
+                margin-bottom: 15px;
+            }
+            .timer-numeric-display {
+                font-size: 3.2rem;
+            }
+            .exercise-name {
+                font-size: 1.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+
+        <!-- SCREEN 1: SETUP & ROUTINE BUILDER -->
+        <div id="screen-setup" class="screen active">
+            <h1>VoltFit ⚡</h1>
+            <p class="subtitle">Full-Fledged Interactive Workout Companion</p>
+
+            <div class="setup-section-title">
+                <span>1. LOAD PROTOCOL TEMPLATE</span>
+            </div>
+            <div class="setup-group" style="margin-bottom: 15px;">
+                <select id="template-select" onchange="WorkoutApp.loadTemplate(this.value)">
+                    <option value="baseline">Standard Baseline Routine (Reps + Plank)</option>
+                    <option value="tabata">Tabata Core Burner (High Intensity Time-based)</option>
+                    <option value="strength">Full Body Strength Circuit (Reps Focus)</option>
+                    <option value="cardio">HIIT Aerobic Burst (Pure Seconds Focus)</option>
+                    <option value="custom">Custom Routine (Built by You)</option>
+                </select>
+            </div>
+
+            <div class="setup-section-title">
+                <span>2. TARGET SETTINGS</span>
+            </div>
+            <div class="grid-settings">
+                <div class="setup-group">
+                    <label for="round-select">ROUNDS</label>
+                    <select id="round-select">
+                        <option value="1">1 Round</option>
+                        <option value="2">2 Rounds</option>
+                        <option value="3">3 Rounds</option>
+                        <option value="4" selected>4 Rounds</option>
+                        <option value="5">5 Rounds</option>
+                        <option value="6">6 Rounds</option>
+                        <option value="8">8 Rounds</option>
+                    </select>
+                </div>
+                <div class="setup-group">
+                    <label for="prep-select">PREP TIME</label>
+                    <select id="prep-select">
+                        <option value="3">3 Seconds</option>
+                        <option value="5">5 Seconds</option>
+                        <option value="10" selected>10 Seconds</option>
+                        <option value="15">15 Seconds</option>
+                        <option value="20">20 Seconds</option>
+                    </select>
+                </div>
+                <div class="setup-group">
+                    <label for="rest-select">EXERCISE REST</label>
+                    <select id="rest-select">
+                        <option value="10">10 Seconds</option>
+                        <option value="15">15 Seconds</option>
+                        <option value="20" selected>20 Seconds</option>
+                        <option value="30">30 Seconds</option>
+                        <option value="45">45 Seconds</option>
+                    </select>
+                </div>
+                <div class="setup-group">
+                    <label for="round-rest-select">ROUND REST</label>
+                    <select id="round-rest-select">
+                        <option value="30">30 Seconds</option>
+                        <option value="45">45 Seconds</option>
+                        <option value="60" selected>60 Seconds</option>
+                        <option value="75">75 Seconds</option>
+                        <option value="90">90 Seconds</option>
+                        <option value="120">2 Min Break</option>
+                    </select>
+                </div>
+                <div class="setup-group" style="grid-column: span 2;">
+                    <label for="auto-advance-select">REP MOVES AUTO-ADVANCE</label>
+                    <select id="auto-advance-select">
+                        <option value="manual">Manual (Tap "Mark Done" to advance)</option>
+                        <option value="2">Auto-Advance (Fast: 2 seconds per rep)</option>
+                        <option value="3" selected>Auto-Advance (Normal: 3 seconds per rep)</option>
+                        <option value="4">Auto-Advance (Paced: 4 seconds per rep)</option>
+                        <option value="5">Auto-Advance (Slow: 5 seconds per rep)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="setup-section-title">
+                <span>3. SOUND & DISPLAY PROTOCOLS</span>
+            </div>
+            <div class="switches-panel">
+                <label class="switch-control">
+                    <input type="checkbox" id="sound-tts-chk" checked>
+                    <div class="switch-slider"></div>
+                    <span>Voice Announcements (TTS)</span>
+                </label>
+                <label class="switch-control">
+                    <input type="checkbox" id="sound-beep-chk" checked>
+                    <div class="switch-slider"></div>
+                    <span>Synth Beeps</span>
+                </label>
+            </div>
+
+            <div class="setup-section-title">
+                <span>4. DATA SYNC & BACKUP</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 25px;">
+                <button class="btn btn-secondary btn-small" onclick="WorkoutApp.exportBackup()" style="padding: 10px 14px; font-size: 0.85rem;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px; vertical-align: middle;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                    Export JSON Backup
+                </button>
+                <button class="btn btn-secondary btn-small" onclick="WorkoutApp.triggerImport()" style="padding: 10px 14px; font-size: 0.85rem;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px; vertical-align: middle;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    Import JSON Backup
+                </button>
+                <input type="file" id="import-file-input" accept=".json" onchange="WorkoutApp.importBackup(event)" style="display: none;">
+            </div>
+
+            <div class="routine-header">
+                <div class="setup-section-title" style="margin: 0; border: none; padding: 0;">
+                    <span>5. CONFIGURE ROUTINE MOVE LIST</span>
+                </div>
+            </div>
+
+            <!-- List of Exercises in Current Routine -->
+            <div class="exercise-list" id="exercise-list-container">
+                <!-- Injected programmatically by script -->
+            </div>
+
+            <!-- Add Custom Exercise Quick Bar -->
+            <div class="add-ex-bar">
+                <input type="text" id="add-ex-name" placeholder="Exercise Name..." style="padding: 8px 12px; border-radius: 8px;">
+                <select id="add-ex-type" onchange="WorkoutApp.toggleAddInputMode(this.value)" style="padding: 8px 12px; border-radius: 8px;">
+                    <option value="time">Seconds</option>
+                    <option value="reps">Reps</option>
+                </select>
+                <input type="number" id="add-ex-target" value="30" min="1" max="999" style="padding: 8px 12px; border-radius: 8px;">
+                <button class="btn btn-secondary btn-small" onclick="WorkoutApp.addNewExerciseFromSetup()" style="width: auto; padding: 8px 12px;">+ Add</button>
+            </div>
+
+            <button class="btn btn-primary" onclick="WorkoutApp.startWorkout()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle;">
+                    <path d="M8 5v14l11-7z"/>
+                </svg>
+                LAUNCH WORKOUT ENGINE
+            </button>
+        </div>
+
+        <!-- SCREEN 2: ACTIVE RUNTIME -->
+        <div id="screen-workout" class="screen">
+            <!-- HUD Status Bar -->
+            <div class="hud-status-row">
+                <div class="hud-badge" id="hud-wake-lock">
+                    <div class="badge-dot"></div>
+                    <span>Screen Stay-Awake: Off</span>
+                </div>
+                <div class="hud-badge" id="hud-sound-status">
+                    <div class="badge-dot"></div>
+                    <span>Audio: Ready</span>
+                </div>
+            </div>
+
+            <!-- Overall Workout Progress -->
+            <div class="progress-header">
+                <span id="workout-progress-text">Progress: 0%</span>
+                <span id="workout-time-elapsed">Elapsed: 00:00</span>
+            </div>
+            <div class="global-progress-bar">
+                <div class="progress-fill" id="workout-progress-fill"></div>
+            </div>
+
+            <!-- Main Focus Active Area -->
+            <div class="workout-card">
+                <div id="runtime-status-tag" class="status-badge">PREPARATION</div>
+                
+                <!-- Animated Workout Illustration -->
+                <div class="workout-illustration-container" id="runtime-ex-illustration">
+                    <!-- SVG gets Injected dynamically by JS -->
+                </div>
+                
+                <h2 id="runtime-ex-name" class="exercise-name">Get Ready</h2>
+                <div id="runtime-ex-target" class="exercise-target">Ready...</div>
+
+                <!-- SVG Circular Countdown / Stopwatch -->
+                <div class="timer-circle-container">
+                    <svg class="timer-svg" viewBox="0 0 100 100">
+                        <circle class="timer-bg-circle" cx="50" cy="50" r="45"></circle>
+                        <circle class="timer-progress-circle" id="timer-progress-circle" cx="50" cy="50" r="45" stroke-dasharray="282.7" stroke-dashoffset="0"></circle>
+                    </svg>
+                    <div class="timer-numeric-display">
+                        <span id="timer-number-val">10</span>
+                        <span id="timer-number-lbl" class="timer-sublabel">Secs</span>
+                    </div>
+                </div>
+
+                <p id="runtime-ex-desc" class="exercise-desc">Prepare your body. Lock in focus. Your circuit is starting soon.</p>
+            </div>
+
+            <!-- Preview of upcoming action -->
+            <div class="next-preview" id="runtime-next-preview">
+                <span class="next-preview-label">UP NEXT:</span>
+                <span class="next-preview-value" id="runtime-next-val">Squats (15 Reps)</span>
+            </div>
+
+            <!-- Interactive Controller Buttons -->
+            <div id="runtime-controls">
+                <!-- Dynamic main action button loaded here -->
+            </div>
+
+            <div class="control-row">
+                <button class="btn btn-secondary" onclick="WorkoutApp.previousStep()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                    Back
+                </button>
+                <button class="btn btn-secondary" id="workout-pause-btn" onclick="WorkoutApp.toggleTimer()">
+                    <svg id="pause-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect>
+                    </svg>
+                    Pause
+                </button>
+            </div>
+            
+            <button class="btn btn-secondary" onclick="WorkoutApp.abortWorkout()" style="margin-top: 12px; background: rgba(244, 63, 94, 0.05); border-color: rgba(244, 63, 94, 0.15); color: var(--accent-rose);">
+                Quit Circuit
+            </button>
+        </div>
+
+        <!-- SCREEN 3: SUMMARY & PERFORMANCE ANALYTICS -->
+        <div id="screen-summary" class="screen">
+            <div class="success-illustration">🏆</div>
+            <h1>Session Conquered!</h1>
+            <p class="subtitle" id="summary-greeting">Fantastic workout. All targets hit successfully.</p>
+
+            <div class="stats-summary-grid">
+                <div class="stat-card">
+                    <div class="stat-val" id="stat-total-duration">00:00</div>
+                    <div class="stat-lbl">Total Time</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-val" id="stat-rounds">0 / 0</div>
+                    <div class="stat-lbl">Rounds Finished</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-val" id="stat-work-time">00:00</div>
+                    <div class="stat-lbl">Active Work Time</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-val" id="stat-calories">0 kcal</div>
+                    <div class="stat-lbl">Est. Calories Burned</div>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" onclick="WorkoutApp.resetToSetup()">
+                TRAIN AGAIN
+            </button>
+
+            <!-- Dashboard History Logs -->
+            <div class="history-section">
+                <div class="history-title">WORKOUT LOG HISTORY</div>
+                <div class="history-list" id="history-container">
+                    <!-- Injected history items -->
+                </div>
+                <button class="btn btn-secondary btn-small" onclick="WorkoutApp.clearHistory()" style="margin-top: 8px; font-size: 0.75rem; padding: 6px 12px; width: auto;">
+                    Clear Log History
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Preset Workout Templates
+        const templates = {
+            baseline: [
+                { name: "Bodyweight Squats", type: "reps", target: 15, desc: "Lower hips down and back as if sitting in an imaginary chair. Keep chest up and weight on heels. 🪑" },
+                { name: "Elevated Push-Ups", type: "reps", target: 12, desc: "Place hands wide on a desk or bed. Lower chest down keeping body straight. 💻" },
+                { name: "Reverse Lunges", type: "reps", target: 10, desc: "Step controlled backward, sinking front knee to 90 degrees. Alternate legs. 🦶" },
+                { name: "Forearm Plank", type: "time", target: 30, desc: "Drop onto forearms and toes. Keep back flat and stomach tight like a board. ⏱️" }
+            ],
+            tabata: [
+                { name: "High Knees", type: "time", target: 20, desc: "Run in place bringing knees up high to chest levels fast! 🏃‍♂️" },
+                { name: "Plank Jacks", type: "time", target: 20, desc: "In forearm plank, jump legs out wide and back in repeatedly. ⏱️" },
+                { name: "Mountain Climbers", type: "time", target: 20, desc: "In push-up position, alternate driving knees into chest. 🏔️" },
+                { name: "Bicycle Crunches", type: "time", target: 20, desc: "Lie down. Alternate touching elbow to opposite knee. 🚲" }
+            ],
+            strength: [
+                { name: "Bodyweight Squats", type: "reps", target: 20, desc: "Deep squats. Drive through heels to stand back up. 🪑" },
+                { name: "Push-Ups (Floor)", type: "reps", target: 12, desc: "Standard pushups. Keep elbows at 45 degrees. 💪" },
+                { name: "Glute Bridges", type: "reps", target: 15, desc: "Lie down, knees bent. Drive hips up, squeezing glutes. 🍑" },
+                { name: "Chair Tricep Dips", type: "reps", target: 12, desc: "Use a chair. Lower hips, bending elbows to 90 degrees. 🪑" }
+            ],
+            cardio: [
+                { name: "Jumping Jacks", type: "time", target: 40, desc: "Jump feet wide while raising arms, return and repeat. 🤸‍♂️" },
+                { name: "Burpees", type: "time", target: 30, desc: "Squat, jump feet back, pushup, jump forward, jump up! 💥" },
+                { name: "Shadow Boxing", type: "time", target: 45, desc: "Athletic stance, throw alternating punches with control. 🥊" },
+                { name: "Skater Hops", type: "time", target: 40, desc: "Hop side to side, landing softly on one leg. ⛸️" }
+            ],
+            custom: []
+        };
+
+        const exerciseIllustrations = {
+            "bodyweight squats": `
+                <svg class="workout-svg" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="15" y1="85" x2="85" y2="85" stroke="rgba(255,255,255,0.06)" stroke-width="2"/>
+                  <g class="anim-squat" stroke="var(--accent-blue)">
+                    <circle cx="45" cy="25" r="7"/>
+                    <path d="M45 32 L40 52"/>
+                    <path d="M40 40 L65 40"/>
+                    <path d="M40 52 L25 62 L45 85"/>
+                    <path d="M40 52 L28 62 L42 85" stroke-opacity="0.5"/>
+                  </g>
+                </svg>
+            `,
+            "elevated push-ups": `
+                <svg class="workout-svg" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="10" y1="85" x2="90" y2="85" stroke="rgba(255,255,255,0.06)" stroke-width="2"/>
+                  <g class="anim-pushup" stroke="var(--accent-blue)">
+                    <circle cx="75" cy="45" r="6"/>
+                    <line x1="69" y1="47" x2="30" y2="60"/>
+                    <path d="M60 50 L52 70 L60 85"/>
+                    <line x1="30" y1="60" x2="15" y2="85"/>
+                  </g>
+                </svg>
+            `,
+            "push-ups (floor)": `
+                <svg class="workout-svg" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="10" y1="85" x2="90" y2="85" stroke="rgba(255,255,255,0.06)" stroke-width="2"/>
+                  <g class="anim-pushup" stroke="var(--accent-blue)">
+                    <circle cx="75" cy="45" r="6"/>
+                    <line x1="69" y1="47" x2="30" y2="60"/>
+                    <path d="M60 50 L52 70 L60 85"/>
+                    <line x1="30" y1="60" x2="15" y2="85"/>
+                  </g>
+                </svg>
+            `,
+            "reverse lunges": `
+                <svg class="workout-svg" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="15" y1="85" x2="85" y2="85" stroke="rgba(255,255,255,0.06)" stroke-width="2"/>
+                  <g class="anim-lunge" stroke="var(--accent-blue)">
+                    <circle cx="50" cy="25" r="7"/>
+                    <path d="M50 32 L48 52"/>
+                    <path d="M48 52 L30 60 L20 85"/>
+                    <path d="M48 52 L62 65 L60 85"/>
+                    <path d="M48 38 L35 45"/>
+                  </g>
+                </svg>
+            `,
+            "forearm plank": `
+                <svg class="workout-svg" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="10" y1="85" x2="90" y2="85" stroke="rgba(255,255,255,0.06)" stroke-width="2"/>
+                  <g stroke="var(--accent-blue)">
+                    <circle cx="75" cy="48" r="6"/>
+                    <line x1="69" y1="50" x2="25" y2="50"/>
+                    <path d="M63 50 L63 70 L75 70"/>
+                    <line x1="25" y1="50" x2="20" y2="85"/>
+                    <circle class="anim-plank-core" cx="45" cy="50" r="10" stroke="var(--accent-purple)" stroke-dasharray="4,4"/>
+                  </g>
+                </svg>
+            `,
+            "plank jacks": `
+                <svg class="workout-svg" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="10" y1="85" x2="90" y2="85" stroke="rgba(255,255,255,0.06)" stroke-width="2"/>
+                  <g stroke="var(--accent-blue)">
+                    <circle cx="75" cy="48" r="6"/>
+                    <line x1="69" y1="50" x2="25" y2="50"/>
+                    <path d="M63 50 L63 70 L75 70"/>
+                    <line x1="25" y1="50" x2="20" y2="85"/>
+                    <circle class="anim-plank-core" cx="45" cy="50" r="10" stroke="var(--accent-purple)" stroke-dasharray="4,4"/>
+                  </g>
+                </svg>
+            `,
+            "mountain climbers": `
+                <svg class="workout-svg" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="10" y1="85" x2="90" y2="85" stroke="rgba(255,255,255,0.06)" stroke-width="2"/>
+                  <g stroke="var(--accent-blue)">
+                    <circle cx="75" cy="48" r="6"/>
+                    <line x1="69" y1="50" x2="25" y2="50"/>
+                    <path d="M63 50 L63 70 L75 70"/>
+                    <line x1="25" y1="50" x2="20" y2="85"/>
+                    <circle class="anim-plank-core" cx="45" cy="50" r="10" stroke="var(--accent-purple)" stroke-dasharray="4,4"/>
+                  </g>
+                </svg>
+            `,
+            "default": `
+                <svg class="workout-svg" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+                  <circle class="anim-plank-core" cx="50" cy="50" r="30" stroke="var(--accent-blue)" stroke-opacity="0.3"/>
+                  <g stroke="var(--accent-blue)">
+                    <circle cx="50" cy="25" r="7"/>
+                    <path d="M50 32 L50 55"/>
+                    <path d="M50 38 L30 25 M50 38 L70 25"/>
+                    <path d="M50 55 L35 75 L30 85 M50 55 L65 75 L70 85"/>
+                  </g>
+                </svg>
+            `
+        };
+
+        const WorkoutApp = {
+            // Configuration & Routine lists
+            currentRoutine: [],
+            totalRounds: 4,
+            prepDuration: 10,
+            restDuration: 20,
+            roundRestDuration: 60,
+            
+            // App runtime states
+            currentRound: 1,
+            currentExIndex: 0,
+            // States: "warmup" (prep), "exercise", "rest" (move transition), "round-rest" (round transition), "summary"
+            state: "warmup", 
+            timerVal: 0,
+            timerMax: 10,
+            timerInterval: null,
+            elapsedTimeInterval: null,
+            elapsedSeconds: 0,
+            
+            // Audio settings
+            audioCtx: null,
+            ttsEnabled: true,
+            beepEnabled: true,
+
+            // Device Wake Lock reference
+            wakeLock: null,
+
+            // Stats calculation helpers
+            totalWorkoutSeconds: 0,
+            totalWorkSeconds: 0,
+            totalRestSeconds: 0,
+            exercisesCompletedCount: 0,
+            
+            // Workout Illustration Injections
+            updateIllustration(exerciseName) {
+                const container = document.getElementById('runtime-ex-illustration');
+                if (!container) return;
+
+                const name = (exerciseName || "").toLowerCase().trim();
+                const svg = exerciseIllustrations[name] || exerciseIllustrations["default"];
+                container.innerHTML = svg;
+            },
+
+            // Init and Load
+            init() {
+                // Initialize default database template
+                const savedCustom = localStorage.getItem('voltfit_custom_routine');
+                if (savedCustom) {
+                    templates.custom = JSON.parse(savedCustom);
+                } else {
+                    templates.custom = [...templates.baseline];
+                }
+
+                // Load initial baseline
+                this.loadTemplate("baseline");
+                this.loadSettings();
+                this.renderHistory();
+
+                // Setup sound event listeners to resume context on user action
+                document.getElementById('screen-setup').addEventListener('click', () => {
+                    this.initAudioContext();
+                }, { once: true });
+
+                // Register visibility change listener for Wake Lock recovery
+                document.addEventListener('visibilitychange', () => {
+                    if (this.wakeLock !== null && document.visibilityState === 'visible') {
+                        this.requestWakeLock();
+                    }
+                });
+            },
+
+            initAudioContext() {
+                if (!this.audioCtx) {
+                    this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+            },
+
+            loadSettings() {
+                const savedRounds = localStorage.getItem('voltfit_cfg_rounds');
+                const savedPrep = localStorage.getItem('voltfit_cfg_prep');
+                const savedRest = localStorage.getItem('voltfit_cfg_rest');
+                const savedRoundRest = localStorage.getItem('voltfit_cfg_round_rest');
+                const savedRepPace = localStorage.getItem('voltfit_cfg_rep_pace');
+                const savedTts = localStorage.getItem('voltfit_cfg_tts');
+                const savedBeep = localStorage.getItem('voltfit_cfg_beep');
+
+                if (savedRounds) document.getElementById('round-select').value = savedRounds;
+                if (savedPrep) document.getElementById('prep-select').value = savedPrep;
+                if (savedRest) document.getElementById('rest-select').value = savedRest;
+                if (savedRoundRest) document.getElementById('round-rest-select').value = savedRoundRest;
+                if (savedRepPace) document.getElementById('auto-advance-select').value = savedRepPace;
+                if (savedTts) document.getElementById('sound-tts-chk').checked = (savedTts === 'true');
+                if (savedBeep) document.getElementById('sound-beep-chk').checked = (savedBeep === 'true');
+            },
+
+            saveSettings() {
+                localStorage.setItem('voltfit_cfg_rounds', document.getElementById('round-select').value);
+                localStorage.setItem('voltfit_cfg_prep', document.getElementById('prep-select').value);
+                localStorage.setItem('voltfit_cfg_rest', document.getElementById('rest-select').value);
+                localStorage.setItem('voltfit_cfg_round_rest', document.getElementById('round-rest-select').value);
+                localStorage.setItem('voltfit_cfg_rep_pace', document.getElementById('auto-advance-select').value);
+                localStorage.setItem('voltfit_cfg_tts', document.getElementById('sound-tts-chk').checked);
+                localStorage.setItem('voltfit_cfg_beep', document.getElementById('sound-beep-chk').checked);
+            },
+
+            loadTemplate(key) {
+                this.currentRoutine = JSON.parse(JSON.stringify(templates[key]));
+                this.renderSetupRoutineList();
+                
+                // Keep input mode in sync
+                this.toggleAddInputMode(document.getElementById('add-ex-type').value);
+            },
+
+            toggleAddInputMode(value) {
+                const targetInput = document.getElementById('add-ex-target');
+                if (value === 'reps') {
+                    targetInput.value = "12";
+                } else {
+                    targetInput.value = "30";
+                }
+            },
+
+            renderSetupRoutineList() {
+                const list = document.getElementById('exercise-list-container');
+                list.innerHTML = "";
+
+                if (this.currentRoutine.length === 0) {
+                    list.innerHTML = `<div style="padding: 20px; text-align: center; color: var(--text-muted-bright);">Routine is empty. Add exercises below!</div>`;
+                    return;
+                }
+
+                this.currentRoutine.forEach((ex, idx) => {
+                    const item = document.createElement('div');
+                    item.className = "exercise-item";
+                    item.draggable = true;
+                    item.innerHTML = `
+                        <div class="ex-drag-handle" title="Drag to reorder">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                <circle cx="9" cy="5" r="2"></circle><circle cx="9" cy="12" r="2"></circle><circle cx="9" cy="19" r="2"></circle>
+                                <circle cx="15" cy="5" r="2"></circle><circle cx="15" cy="12" r="2"></circle><circle cx="15" cy="19" r="2"></circle>
+                            </svg>
+                        </div>
+                        <div class="ex-info-col">
+                            <span class="ex-item-title">${ex.name}</span>
+                            <span class="ex-item-meta">${ex.type === 'reps' ? ex.target + ' Reps' : ex.target + ' Secs'}</span>
+                        </div>
+                        <div class="ex-item-actions">
+                            <button class="icon-btn" onclick="WorkoutApp.moveExercise(${idx}, -1)" title="Move Up">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                            </button>
+                            <button class="icon-btn" onclick="WorkoutApp.moveExercise(${idx}, 1)" title="Move Down">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            </button>
+                            <button class="icon-btn delete" onclick="WorkoutApp.deleteExercise(${idx})" title="Delete Exercise">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                            </button>
+                        </div>
+                    `;
+
+                    // Setup drag-and-drop listeners
+                    item.addEventListener('dragstart', () => item.classList.add('dragging'));
+                    item.addEventListener('dragend', () => {
+                        item.classList.remove('dragging');
+                        this.reorderFromDOM();
+                    });
+
+                    list.appendChild(item);
+                });
+
+                // Set drag-over routine builder listener
+                list.addEventListener('dragover', e => {
+                    e.preventDefault();
+                    const draggingItem = document.querySelector('.dragging');
+                    const siblings = [...list.querySelectorAll('.exercise-item:not(.dragging)')];
+                    const nextSibling = siblings.find(sibling => {
+                        return e.clientY <= sibling.getBoundingClientRect().top + sibling.getBoundingClientRect().height / 2;
+                    });
+                    list.insertBefore(draggingItem, nextSibling);
+                });
+            },
+
+            moveExercise(idx, direction) {
+                const newIdx = idx + direction;
+                if (newIdx < 0 || newIdx >= this.currentRoutine.length) return;
+                const temp = this.currentRoutine[idx];
+                this.currentRoutine[idx] = this.currentRoutine[newIdx];
+                this.currentRoutine[newIdx] = temp;
+                this.saveCustomRoutineIfActive();
+                this.renderSetupRoutineList();
+            },
+
+            deleteExercise(idx) {
+                this.currentRoutine.splice(idx, 1);
+                this.saveCustomRoutineIfActive();
+                this.renderSetupRoutineList();
+            },
+
+            reorderFromDOM() {
+                const names = [...document.querySelectorAll('.ex-item-title')].map(el => el.textContent);
+                const reordered = [];
+                names.forEach(name => {
+                    const found = this.currentRoutine.find(x => x.name === name);
+                    if (found) reordered.push(found);
+                });
+                this.currentRoutine = reordered;
+                this.saveCustomRoutineIfActive();
+            },
+
+            addNewExerciseFromSetup() {
+                const nameInput = document.getElementById('add-ex-name');
+                const typeSelect = document.getElementById('add-ex-type');
+                const targetInput = document.getElementById('add-ex-target');
+
+                const name = nameInput.value.trim();
+                const type = typeSelect.value;
+                const target = parseInt(targetInput.value);
+
+                if (!name) {
+                    alert("Please enter an exercise name");
+                    return;
+                }
+
+                if (isNaN(target) || target <= 0) {
+                    alert("Please enter a valid target number");
+                    return;
+                }
+
+                const newEx = {
+                    name: name,
+                    type: type,
+                    target: target,
+                    desc: `Perform ${name} with clean form. Keep absolute control. ⚡`
+                };
+
+                this.currentRoutine.push(newEx);
+                
+                // Reset custom template settings if custom template loaded
+                this.saveCustomRoutineIfActive();
+                this.renderSetupRoutineList();
+                
+                // Clear input name
+                nameInput.value = "";
+            },
+
+            saveCustomRoutineIfActive() {
+                // Auto switch select to custom
+                const select = document.getElementById('template-select');
+                select.value = "custom";
+                templates.custom = [...this.currentRoutine];
+                localStorage.setItem('voltfit_custom_routine', JSON.stringify(this.currentRoutine));
+            },
+
+            // Synthesized Beeper
+            playBeep(frequency, duration) {
+                if (!this.beepEnabled || !this.audioCtx) return;
+                try {
+                    // Resume audio context if suspended
+                    if (this.audioCtx.state === 'suspended') {
+                        this.audioCtx.resume();
+                    }
+
+                    const osc = this.audioCtx.createOscillator();
+                    const gain = this.audioCtx.createGain();
+
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(frequency, this.audioCtx.currentTime);
+                    gain.gain.setValueAtTime(0.08, this.audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, this.audioCtx.currentTime + duration);
+
+                    osc.connect(gain);
+                    gain.connect(this.audioCtx.destination);
+
+                    osc.start();
+                    osc.stop(this.audioCtx.currentTime + duration);
+                } catch (e) {
+                    console.error("Synthesizer error", e);
+                }
+            },
+
+            playMelody() {
+                const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+                notes.forEach((freq, idx) => {
+                    setTimeout(() => {
+                        this.playBeep(freq, 0.25);
+                    }, idx * 150);
+                });
+            },
+
+            // Speech Synthesizer Voice Alerts
+            speak(text) {
+                if (!this.ttsEnabled) return;
+                try {
+                    window.speechSynthesis.cancel(); // Stop current speech
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.rate = 1.05;
+                    utterance.pitch = 1.0;
+                    window.speechSynthesis.speak(utterance);
+                } catch (e) {
+                    console.error("TTS Speech engine error", e);
+                }
+            },
+
+            // Screen Wake Lock API
+            async requestWakeLock() {
+                if ('wakeLock' in navigator) {
+                    try {
+                        this.wakeLock = await navigator.wakeLock.request('screen');
+                        document.getElementById('hud-wake-lock').classList.add('active');
+                        document.getElementById('hud-wake-lock').querySelector('span').textContent = "Screen Stay-Awake: Active";
+                    } catch (err) {
+                        console.warn("Screen wake lock request failed:", err);
+                        document.getElementById('hud-wake-lock').classList.remove('active');
+                        document.getElementById('hud-wake-lock').querySelector('span').textContent = "Screen Stay-Awake: Unavailable";
+                    }
+                } else {
+                    document.getElementById('hud-wake-lock').querySelector('span').textContent = "Screen Stay-Awake: Unsupported";
+                }
+            },
+
+            async releaseWakeLock() {
+                if (this.wakeLock !== null) {
+                    try {
+                        await this.wakeLock.release();
+                        this.wakeLock = null;
+                    } catch (err) {
+                        console.error(err);
+                    }
+                    document.getElementById('hud-wake-lock').classList.remove('active');
+                    document.getElementById('hud-wake-lock').querySelector('span').textContent = "Screen Stay-Awake: Off";
+                }
+            },
+
+            // Launch Active Workout Engine
+            startWorkout() {
+                if (this.currentRoutine.length === 0) {
+                    alert("Your workout routine is empty. Please add exercises or load a template before launching.");
+                    return;
+                }
+
+                // Force user gesture activation of Audio context
+                this.initAudioContext();
+
+                // Save latest settings
+                this.saveSettings();
+
+                // Load Settings Into Variables
+                this.totalRounds = parseInt(document.getElementById('round-select').value);
+                this.prepDuration = parseInt(document.getElementById('prep-select').value);
+                this.restDuration = parseInt(document.getElementById('rest-select').value);
+                this.roundRestDuration = parseInt(document.getElementById('round-rest-select').value);
+                this.repPace = document.getElementById('auto-advance-select').value;
+                this.ttsEnabled = document.getElementById('sound-tts-chk').checked;
+                this.beepEnabled = document.getElementById('sound-beep-chk').checked;
+
+                // Configure screen state
+                this.currentRound = 1;
+                this.currentExIndex = 0;
+                this.elapsedSeconds = 0;
+                
+                this.totalWorkoutSeconds = 0;
+                this.totalWorkSeconds = 0;
+                this.totalRestSeconds = 0;
+                this.exercisesCompletedCount = 0;
+
+                // Sync audio hud badge
+                const soundStatusBadge = document.getElementById('hud-sound-status');
+                if (this.ttsEnabled || this.beepEnabled) {
+                    soundStatusBadge.classList.add('active');
+                    soundStatusBadge.querySelector('span').textContent = `Audio: ${this.ttsEnabled ? 'Voice' : ''}${this.ttsEnabled && this.beepEnabled ? '+' : ''}${this.beepEnabled ? 'Beeps' : ''}`;
+                } else {
+                    soundStatusBadge.classList.remove('active');
+                    soundStatusBadge.querySelector('span').textContent = "Audio: Muted";
+                }
+
+                // Request screen lock
+                this.requestWakeLock();
+
+                // Swap screens
+                document.getElementById('screen-setup').classList.remove('active');
+                document.getElementById('screen-workout').classList.add('active');
+
+                // Launch timers
+                this.elapsedSeconds = 0;
+                this.resumeElapsedTimer();
+                this.enterState("warmup");
+            },
+
+            // Active State Machine Transitions
+            enterState(newState) {
+                clearInterval(this.timerInterval);
+                this.state = newState;
+
+                const statusTag = document.getElementById('runtime-status-tag');
+                const exName = document.getElementById('runtime-ex-name');
+                const exTarget = document.getElementById('runtime-ex-target');
+                const exDesc = document.getElementById('runtime-ex-desc');
+                const controls = document.getElementById('runtime-controls');
+
+                // Reset Play/Pause Button
+                const pauseBtn = document.getElementById('workout-pause-btn');
+                pauseBtn.innerHTML = `<svg id="pause-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg> Pause`;
+                pauseBtn.style.backgroundColor = "rgba(255, 255, 255, 0.05)";
+
+                const activeCircle = document.getElementById('timer-progress-circle');
+
+                if (newState === "warmup") {
+                    this.timerVal = this.prepDuration;
+                    this.timerMax = this.prepDuration;
+                    
+                    statusTag.className = "status-badge warmup";
+                    statusTag.textContent = `GET READY`;
+                    exName.textContent = "Prep Phase";
+                    exTarget.textContent = `Workout starts in ${this.timerVal} seconds`;
+                    exTarget.style.color = "var(--accent-orange)";
+                    exDesc.textContent = "Take deep breaths. Set your focus. We are starting up.";
+
+                    activeCircle.style.stroke = "var(--accent-orange)";
+
+                    controls.innerHTML = `
+                        <button class="btn btn-primary" onclick="WorkoutApp.nextStep()">
+                            Skip Prep ⏭️
+                        </button>
+                    `;
+
+                    // Injects animated illustration of first exercise in routine
+                    this.updateIllustration(this.currentRoutine[0].name);
+
+                    this.speak(`Get ready. Starting in ${this.timerVal} seconds.`);
+                    this.startCountdown();
+
+                } else if (newState === "exercise") {
+                    const ex = this.currentRoutine[this.currentExIndex];
+                    
+                    statusTag.className = "status-badge";
+                    statusTag.textContent = `ROUND ${this.currentRound} / ${this.totalRounds} • MOVE ${this.currentExIndex + 1} / ${this.currentRoutine.length}`;
+                    exName.textContent = ex.name;
+                    exDesc.textContent = ex.desc || "Maintain active posture and clean form.";
+                    
+                    activeCircle.style.stroke = "var(--accent-blue)";
+
+                    // Injects illustration for active exercise
+                    this.updateIllustration(ex.name);
+
+                    if (ex.type === "time") {
+                        this.timerVal = ex.target;
+                        this.timerMax = ex.target;
+                        exTarget.textContent = `Work: ${ex.target} Seconds`;
+                        exTarget.style.color = "var(--accent-blue)";
+                        
+                        controls.innerHTML = `
+                            <button class="btn btn-primary" onclick="WorkoutApp.nextStep()">
+                                Skip Move ⏭️
+                            </button>
+                        `;
+
+                        this.speak(`Work: ${ex.name}. ${ex.target} seconds.`);
+                        this.startCountdown();
+                    } else {
+                        // Reps modes: Checks if manual or auto-advance
+                        if (this.repPace === "manual") {
+                            this.timerVal = 0;
+                            this.timerMax = 999; // no visual countdown maximum
+                            exTarget.textContent = `Target: ${ex.target} Reps`;
+                            exTarget.style.color = "var(--accent-green)";
+
+                            controls.innerHTML = `
+                                <button class="btn btn-success" onclick="WorkoutApp.markRepsComplete()">
+                                    Mark Done ✓
+                                </button>
+                            `;
+
+                            this.speak(`${ex.name}. Target: ${ex.target} reps.`);
+                            this.startStopwatch();
+                        } else {
+                            // Auto-advance rep moves!
+                            const paceVal = parseInt(this.repPace) || 3;
+                            const duration = ex.target * paceVal;
+                            this.timerVal = duration;
+                            this.timerMax = duration;
+                            exTarget.textContent = `Target: ${ex.target} Reps (${duration}s Auto-Paced)`;
+                            exTarget.style.color = "var(--accent-green)";
+
+                            controls.innerHTML = `
+                                <button class="btn btn-primary" onclick="WorkoutApp.nextStep()">
+                                    Skip Move ⏭️
+                                </button>
+                            `;
+
+                            this.speak(`Work: ${ex.name}. Do ${ex.target} reps. Paced for ${duration} seconds.`);
+                            this.startCountdown();
+                        }
+                    }
+
+                } else if (newState === "rest" || newState === "round-rest") {
+                    const isRoundRest = (newState === "round-rest");
+                    this.timerVal = isRoundRest ? this.roundRestDuration : this.restDuration;
+                    this.timerMax = this.timerVal;
+
+                    statusTag.className = "status-badge rest";
+                    statusTag.textContent = isRoundRest ? "ROUND REST BREAK" : "TRANSITION REST";
+                    exName.textContent = "Recover & Breathe 🫁";
+                    exTarget.textContent = `Rest: ${this.timerVal} Seconds`;
+                    exTarget.style.color = "var(--accent-purple)";
+
+                    activeCircle.style.stroke = "var(--accent-purple)";
+
+                    // Setup upcoming preview details
+                    const isLastEx = (this.currentExIndex === this.currentRoutine.length - 1);
+                    let nextEx = null;
+                    if (isLastEx) {
+                        nextEx = this.currentRoutine[0]; // wraps around to round 1 if available
+                    } else {
+                        nextEx = this.currentRoutine[this.currentExIndex + 1];
+                    }
+
+                    // Injects next exercise's illustration so the user prepares visually during rest
+                    this.updateIllustration(nextEx.name);
+
+                    exDesc.innerHTML = `<span style="color: var(--text-muted);">Coming Up:</span> <strong>${nextEx.name}</strong> (${nextEx.type === 'reps' ? nextEx.target + ' Reps' : nextEx.target + ' Secs'})`;
+
+                    controls.innerHTML = `
+                        <button class="btn btn-primary" onclick="WorkoutApp.nextStep()">
+                            Skip Rest ⏭️
+                        </button>
+                    `;
+
+                    this.speak(`Rest. Up next: ${nextEx.name}.`);
+                    this.startCountdown();
+                }
+
+                this.updateProgressHUD();
+                this.updateCircleTimer(100);
+            },
+
+            // High Precision Interval Runners
+            startCountdown() {
+                const tick = () => {
+                    this.timerVal--;
+                    document.getElementById('timer-number-val').textContent = this.timerVal;
+                    document.getElementById('timer-number-lbl').textContent = "Secs";
+
+                    // Analytics calculations
+                    if (this.state === "exercise") this.totalWorkSeconds++;
+                    else if (this.state === "rest" || this.state === "round-rest") this.totalRestSeconds++;
+
+                    // Percentage calculation for SVG circle
+                    const pct = (this.timerVal / this.timerMax) * 100;
+                    this.updateCircleTimer(pct);
+
+                    // Warning Beeps
+                    if (this.timerVal <= 3 && this.timerVal > 0) {
+                        this.playBeep(440, 0.08);
+                    }
+
+                    if (this.timerVal <= 0) {
+                        this.playBeep(880, 0.3);
+                        this.nextStep();
+                    }
+                };
+
+                // Single interval
+                this.timerInterval = setInterval(tick, 1000);
+                document.getElementById('timer-number-val').textContent = this.timerVal;
+                document.getElementById('timer-number-lbl').textContent = "Secs";
+            },
+
+            startStopwatch() {
+                const tick = () => {
+                    this.timerVal++;
+                    this.totalWorkSeconds++;
+                    
+                    document.getElementById('timer-number-val').textContent = this.timerVal;
+                    document.getElementById('timer-number-lbl').textContent = "Elapsed";
+
+                    // Stopwatch progress ring completes loop every 30s
+                    const pct = 100 - ((this.timerVal % 30) / 30) * 100;
+                    this.updateCircleTimer(pct);
+                };
+
+                this.timerInterval = setInterval(tick, 1000);
+                document.getElementById('timer-number-val').textContent = this.timerVal;
+                document.getElementById('timer-number-lbl').textContent = "Elapsed";
+            },
+
+            resumeElapsedTimer() {
+                if (this.elapsedTimeInterval) return; // already active
+                const updateEl = () => {
+                    this.elapsedSeconds++;
+                    this.totalWorkoutSeconds++;
+                    
+                    const m = Math.floor(this.elapsedSeconds / 60).toString().padStart(2, '0');
+                    const s = (this.elapsedSeconds % 60).toString().padStart(2, '0');
+                    document.getElementById('workout-time-elapsed').textContent = `Elapsed: ${m}:${s}`;
+                };
+                this.elapsedTimeInterval = setInterval(updateEl, 1000);
+            },
+
+            pauseElapsedTimer() {
+                if (this.elapsedTimeInterval) {
+                    clearInterval(this.elapsedTimeInterval);
+                    this.elapsedTimeInterval = null;
+                }
+            },
+
+            toggleTimer() {
+                const btn = document.getElementById('workout-pause-btn');
+                
+                if (this.timerInterval) {
+                    // Pause active workout phase timer
+                    clearInterval(this.timerInterval);
+                    this.timerInterval = null;
+                    
+                    // Pause active elapsed stopwatch
+                    this.pauseElapsedTimer();
+                    
+                    btn.innerHTML = `<svg id="play-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Resume`;
+                    btn.style.backgroundColor = "rgba(16, 185, 129, 0.15)";
+                    this.speak("Workout Paused");
+                } else {
+                    // Resume active workout phase timer
+                    btn.innerHTML = `<svg id="pause-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg> Pause`;
+                    btn.style.backgroundColor = "rgba(255, 255, 255, 0.05)";
+                    
+                    // Resume active elapsed stopwatch
+                    this.resumeElapsedTimer();
+                    
+                    this.speak("Resuming");
+                    if (this.state === "exercise" && this.currentRoutine[this.currentExIndex].type === "reps" && this.repPace === "manual") {
+                        this.startStopwatch();
+                    } else {
+                        this.startCountdown();
+                    }
+                }
+            },
+
+            markRepsComplete() {
+                this.playBeep(880, 0.15);
+                this.nextStep();
+            },
+
+            nextStep() {
+                clearInterval(this.timerInterval);
+                this.timerInterval = null;
+
+                if (this.state === "warmup") {
+                    this.enterState("exercise");
+                } else if (this.state === "exercise") {
+                    this.exercisesCompletedCount++;
+                    const isLastEx = (this.currentExIndex === this.currentRoutine.length - 1);
+                    const isLastRound = (this.currentRound === this.totalRounds);
+
+                    if (isLastEx && isLastRound) {
+                        this.finishWorkout();
+                    } else if (isLastEx) {
+                        this.currentExIndex = 0;
+                        this.currentRound++;
+                        this.enterState("round-rest");
+                    } else {
+                        this.currentExIndex++;
+                        this.enterState("rest");
+                    }
+                } else if (this.state === "rest" || this.state === "round-rest") {
+                    this.enterState("exercise");
+                }
+            },
+
+            previousStep() {
+                clearInterval(this.timerInterval);
+                this.timerInterval = null;
+
+                if (this.state === "warmup") {
+                    // Can't go back further
+                    this.enterState("warmup");
+                } else if (this.state === "exercise") {
+                    if (this.currentExIndex === 0) {
+                        if (this.currentRound === 1) {
+                            this.enterState("warmup");
+                        } else {
+                            this.currentRound--;
+                            this.currentExIndex = this.currentRoutine.length - 1;
+                            this.enterState("round-rest");
+                        }
+                    } else {
+                        this.currentExIndex--;
+                        this.enterState("rest");
+                    }
+                } else if (this.state === "rest") {
+                    this.enterState("exercise");
+                } else if (this.state === "round-rest") {
+                    this.enterState("exercise");
+                }
+            },
+
+            // Interface Updates
+            updateCircleTimer(percentage) {
+                const circle = document.getElementById('timer-progress-circle');
+                const radius = 45;
+                const circumference = 2 * Math.PI * radius; // 282.74
+
+                circle.style.strokeDasharray = circumference;
+                
+                // Prevent out of bounds
+                const pct = Math.max(0, Math.min(100, percentage));
+                const offset = circumference - (pct / 100) * circumference;
+                circle.style.strokeDashoffset = offset;
+            },
+
+            updateProgressHUD() {
+                // Establish exact steps of the workout sequence
+                // Warmup(1) + Rounds * (Exercises(N) + Rests(N)) - 1 (since last exercise has no rest)
+                const totalSteps = 1 + (this.totalRounds * (this.currentRoutine.length * 2)) - 1;
+                
+                // Calculate current step counter
+                let currentStep = 0;
+                if (this.state === "warmup") {
+                    currentStep = 0;
+                } else {
+                    const roundOffset = (this.currentRound - 1) * (this.currentRoutine.length * 2);
+                    const exOffset = this.currentExIndex * 2;
+                    const restOffset = (this.state === "rest" || this.state === "round-rest") ? 1 : 0;
+                    currentStep = 1 + roundOffset + exOffset + restOffset;
+                }
+
+                const progressPct = Math.min(100, Math.round((currentStep / totalSteps) * 100));
+                document.getElementById('workout-progress-text').textContent = `Overall Progress: ${progressPct}%`;
+                document.getElementById('workout-progress-fill').style.width = `${progressPct}%`;
+
+                // Calculate upcoming exercise text
+                const previewEl = document.getElementById('runtime-next-preview');
+                const isLastEx = (this.currentExIndex === this.currentRoutine.length - 1);
+                const isLastRound = (this.currentRound === this.totalRounds);
+
+                if (this.state === "exercise") {
+                    if (isLastEx && isLastRound) {
+                        previewEl.style.display = "none";
+                    } else {
+                        previewEl.style.display = "flex";
+                        const nextIndex = isLastEx ? 0 : this.currentExIndex + 1;
+                        const nextEx = this.currentRoutine[nextIndex];
+                        const roundStr = isLastEx ? `Round ${this.currentRound + 1}` : `This Round`;
+                        
+                        document.getElementById('runtime-next-val').textContent = `${nextEx.name} (${nextEx.type === 'reps' ? nextEx.target + ' Reps' : nextEx.target + ' Secs'}) - ${roundStr}`;
+                    }
+                } else if (this.state === "warmup" || this.state === "rest" || this.state === "round-rest") {
+                    previewEl.style.display = "flex";
+                    const nextEx = this.currentRoutine[this.currentExIndex];
+                    document.getElementById('runtime-next-val').textContent = `${nextEx.name} (${nextEx.type === 'reps' ? nextEx.target + ' Reps' : nextEx.target + ' Secs'})`;
+                }
+            },
+
+            // Terminate Actions
+            finishWorkout() {
+                clearInterval(this.timerInterval);
+                this.timerInterval = null;
+                this.pauseElapsedTimer();
+                this.releaseWakeLock();
+                
+                this.playMelody();
+                this.speak("Congratulations! Workout complete.");
+
+                // Render Summary Details
+                document.getElementById('screen-workout').classList.remove('active');
+                document.getElementById('screen-summary').classList.add('active');
+
+                const totalMin = Math.floor(this.totalWorkoutSeconds / 60).toString().padStart(2, '0');
+                const totalSec = (this.totalWorkoutSeconds % 60).toString().padStart(2, '0');
+                document.getElementById('stat-total-duration').textContent = `${totalMin}:${totalSec}`;
+
+                document.getElementById('stat-rounds').textContent = `${this.totalRounds} / ${this.totalRounds}`;
+
+                const workMin = Math.floor(this.totalWorkSeconds / 60).toString().padStart(2, '0');
+                const workSec = (this.totalWorkSeconds % 60).toString().padStart(2, '0');
+                document.getElementById('stat-work-time').textContent = `${workMin}:${workSec}`;
+
+                // Calculate estimated metabolic equivalence burn (approx. 7.5 kcal/min work, 2 kcal/min rest)
+                const kcalBurned = Math.round((this.totalWorkSeconds / 60) * 8.5 + (this.totalRestSeconds / 60) * 2.5);
+                document.getElementById('stat-calories').textContent = `${kcalBurned} kcal`;
+
+                // Log Workout to History Database
+                this.saveHistoryItem({
+                    date: new Date().toLocaleString(),
+                    rounds: this.totalRounds,
+                    duration: `${totalMin}:${totalSec}`,
+                    kcal: kcalBurned,
+                    routineName: document.getElementById('template-select').selectedOptions[0].text
+                });
+            },
+
+            abortWorkout() {
+                if (confirm("Are you sure you want to quit the current workout? Your progress in this session will be lost.")) {
+                    if (this.timerInterval) {
+                        clearInterval(this.timerInterval);
+                        this.timerInterval = null;
+                    }
+                    this.pauseElapsedTimer();
+                    if (window.speechSynthesis) {
+                        window.speechSynthesis.cancel();
+                    }
+                    this.releaseWakeLock();
+                    this.resetToSetup();
+                }
+            },
+
+            resetToSetup() {
+                document.getElementById('screen-workout').classList.remove('active');
+                document.getElementById('screen-summary').classList.remove('active');
+                document.getElementById('screen-setup').classList.add('active');
+            },
+
+            // History Logs Methods
+            saveHistoryItem(item) {
+                let history = [];
+                const saved = localStorage.getItem('voltfit_history_logs');
+                if (saved) {
+                    history = JSON.parse(saved);
+                }
+                history.unshift(item); // Add to top
+                localStorage.setItem('voltfit_history_logs', JSON.stringify(history));
+                this.renderHistory();
+            },
+
+            renderHistory() {
+                const container = document.getElementById('history-container');
+                container.innerHTML = "";
+
+                const saved = localStorage.getItem('voltfit_history_logs');
+                if (!saved || JSON.parse(saved).length === 0) {
+                    container.innerHTML = `<div style="padding: 15px; text-align: center; font-size: 0.8rem; color: var(--text-muted);">No workouts logged yet. Complete your first session to see stats!</div>`;
+                    return;
+                }
+
+                const history = JSON.parse(saved);
+                history.forEach(log => {
+                    const row = document.createElement('div');
+                    row.className = "history-row";
+                    row.innerHTML = `
+                        <span class="history-date">${log.date.split(',')[0]} - ${log.routineName.substring(0, 15)}...</span>
+                        <span class="history-desc-col">${log.rounds} Rds • ${log.duration} • ${log.kcal} kcal</span>
+                    `;
+                    container.appendChild(row);
+                });
+            },
+
+            clearHistory() {
+                if (confirm("Are you sure you want to clear your entire workout log history?")) {
+                    localStorage.removeItem('voltfit_history_logs');
+                    this.renderHistory();
+                }
+            },
+
+            exportBackup() {
+                try {
+                    const backupData = {
+                        version: "1.0",
+                        custom_routine: this.currentRoutine,
+                        settings: {
+                            rounds: document.getElementById('round-select').value,
+                            prep: document.getElementById('prep-select').value,
+                            rest: document.getElementById('rest-select').value,
+                            round_rest: document.getElementById('round-rest-select').value,
+                            rep_pace: document.getElementById('auto-advance-select').value,
+                            tts: document.getElementById('sound-tts-chk').checked,
+                            beep: document.getElementById('sound-beep-chk').checked
+                        },
+                        history: JSON.parse(localStorage.getItem('voltfit_history_logs') || "[]")
+                    };
+
+                    const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    const dateStr = new Date().toISOString().split('T')[0];
+                    a.href = url;
+                    a.download = `voltfit_backup_${dateStr}.json`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                } catch (e) {
+                    alert("Error exporting backup: " + e.message);
+                }
+            },
+
+            triggerImport() {
+                document.getElementById('import-file-input').click();
+            },
+
+            importBackup(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        const data = JSON.parse(e.target.result);
+                        if (!data || typeof data !== 'object') {
+                            throw new Error("Invalid backup format");
+                        }
+
+                        // Validate structures
+                        if (data.custom_routine) {
+                            templates.custom = data.custom_routine;
+                            localStorage.setItem('voltfit_custom_routine', JSON.stringify(data.custom_routine));
+                        }
+                        if (data.settings) {
+                            localStorage.setItem('voltfit_cfg_rounds', data.settings.rounds || "4");
+                            localStorage.setItem('voltfit_cfg_prep', data.settings.prep || "10");
+                            localStorage.setItem('voltfit_cfg_rest', data.settings.rest || "20");
+                            localStorage.setItem('voltfit_cfg_round_rest', data.settings.round_rest || "60");
+                            localStorage.setItem('voltfit_cfg_rep_pace', data.settings.rep_pace || "3");
+                            localStorage.setItem('voltfit_cfg_tts', data.settings.tts !== false);
+                            localStorage.setItem('voltfit_cfg_beep', data.settings.beep !== false);
+                        }
+                        if (data.history) {
+                            localStorage.setItem('voltfit_history_logs', JSON.stringify(data.history));
+                        }
+
+                        // Reload in UI
+                        this.loadTemplate("custom");
+                        this.loadSettings();
+                        this.renderHistory();
+
+                        alert("Backup successfully imported! Settings, routines, and workout logs are now active.");
+                    } catch (err) {
+                        alert("Error importing backup: " + err.message);
+                    }
+                };
+                reader.readAsText(file);
+                event.target.value = "";
+            }
+        };
+
+        // Initialize application on load
+        window.addEventListener('DOMContentLoaded', () => {
+            WorkoutApp.init();
+        });
+    </script>
+</body>
+</html>
