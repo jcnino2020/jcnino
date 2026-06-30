@@ -119,6 +119,8 @@
         .logo img {
             height: 45px;
             width: auto;
+            max-width: 100%;
+            object-fit: contain;
             transition: var(--transition);
         }
 
@@ -455,10 +457,21 @@
             box-shadow: 0 6px 20px rgba(0, 240, 255, 0.4);
         }
 
+        /* Responsive Query Table Container */
+        .view_data table {
+            width: 100% !important;
+            max-width: 100%;
+            margin-bottom: 1rem;
+            background-color: transparent;
+            display: block;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
         /* Internet Packages Pricing Grid */
         .pricing-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
             gap: 30px;
             max-width: 1200px;
             margin: 0 auto;
@@ -575,7 +588,7 @@
         /* Services Grid Redesign */
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
             gap: 30px;
             max-width: 1200px;
             margin: 0 auto;
@@ -910,6 +923,10 @@
             }
         }
 
+        body.no-scroll {
+            overflow: hidden !important;
+        }
+
         /* Media Queries */
         @media (max-width: 992px) {
 
@@ -933,6 +950,65 @@
 
             .hero-title {
                 font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .section-padding {
+                padding: 60px 0;
+            }
+
+            .section-header {
+                margin-bottom: 35px;
+            }
+
+            #mapid {
+                height: 350px;
+            }
+
+            .speedtest-container iframe {
+                height: 450px !important;
+            }
+
+            .footer-grid {
+                gap: 30px;
+                margin-bottom: 30px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-text {
+                font-size: 0.95rem;
+            }
+
+            .hero-section {
+                height: auto;
+                min-height: 500px;
+                padding: 60px 0;
+            }
+
+            .glass-card {
+                padding: 24px 16px;
+            }
+
+            .price-card {
+                padding: 30px 20px;
+            }
+
+            .service-card {
+                padding: 24px 20px;
+            }
+
+            .about-main-card {
+                padding: 24px 20px;
+            }
+
+            .about-side-card {
+                padding: 20px;
             }
         }
     </style>
@@ -1663,14 +1739,36 @@
         const mobileSidebar = document.getElementById('mobile-sidebar');
         const sidebarOverlay = document.getElementById('sidebar-overlay');
 
+        function toggleMobileSidebar(show) {
+            if (show === undefined) {
+                mobileSidebar.classList.toggle('open');
+                sidebarOverlay.classList.toggle('active');
+                document.body.classList.toggle('no-scroll');
+            } else if (show) {
+                mobileSidebar.classList.add('open');
+                sidebarOverlay.classList.add('active');
+                document.body.classList.add('no-scroll');
+            } else {
+                mobileSidebar.classList.remove('open');
+                sidebarOverlay.classList.remove('active');
+                document.body.classList.remove('no-scroll');
+            }
+        }
+
         sidebarToggle.addEventListener('click', () => {
-            mobileSidebar.classList.toggle('open');
-            sidebarOverlay.classList.toggle('active');
+            toggleMobileSidebar();
         });
 
         sidebarOverlay.addEventListener('click', () => {
-            mobileSidebar.classList.remove('open');
-            sidebarOverlay.classList.remove('active');
+            toggleMobileSidebar(false);
+        });
+
+        // Close sidebar when clicking links inside it
+        const mobileMenuLinks = mobileSidebar.querySelectorAll('a');
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                toggleMobileSidebar(false);
+            });
         });
 
         // Preloader fade is handled by the inline script near the top of the body
@@ -1682,7 +1780,7 @@
             fullscreenControl: {
                 pseudoFullscreen: false
             }
-        }).setView([-3.469557, 117.026367], 12);
+        }).setView([10.630793245589691, 122.95960396536431], 12);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
@@ -1695,7 +1793,7 @@
             type: "GET",
             dataType: "json",
             success: function (data) {
-                data.forEach(function (data, index) {
+                data.forEach(function (covData) {
                     var LeafIcon = L.Icon.extend({
                         options: {
                             iconSize: [32, 41],
@@ -1705,19 +1803,14 @@
                     });
                     var greenIcon = new LeafIcon({
                         iconUrl: 'https://gnet.ph/assets/images/maps/marker_green.png'
-                    }),
-                        redIcon = new LeafIcon({
-                            iconUrl: 'https://gnet.ph/assets/images/maps/marker_red.png'
-                        }),
-                        blueIcon = new LeafIcon({
-                            iconUrl: 'https://gnet.ph/assets/images/maps/marker_blue.png'
-                        });
-                    var markernow = L.marker([data['latitude'], data['longitude']], {
+                    });
+                    L.marker([covData['latitude'], covData['longitude']], {
                         icon: greenIcon
                     }).addTo(mymap)
-                        .bindPopup('<h5 class="mb-0 mt-0 pb-0" style="text-align:center;">' + data['c_name'] + ' </h5><hr class=" mb-2 mt-2" color="red" style="height:3px;box-shadow:2px 2px 2px black;" /><p class="mt-1"> Address : ' + data['address'] + '<br> ');
-                    var radius = data['radius'];
-                    L.circle([data['latitude'], data['longitude']], {
+                        .bindPopup('<h5 class="mb-0 mt-0 pb-0" style="text-align:center;">' + covData['c_name'] + ' </h5><hr class=" mb-2 mt-2" color="red" style="height:3px;box-shadow:2px 2px 2px black;" /><p class="mt-1"> Address : ' + covData['address'] + '<br> ');
+                    
+                    var radius = covData['radius'];
+                    L.circle([covData['latitude'], covData['longitude']], {
                         radius: radius,
                         color: '#fa0000',
                         fillColor: '#00c758',
@@ -1728,36 +1821,37 @@
         });
 
         function onLocationFound(e) {
+            var radius = (e.accuracy / 2).toFixed(1);
+            var locationMarker = L.marker(e.latlng).addTo(mymap);
+            locationMarker.bindPopup("<p class='text-center'>Your Location<br>GPS Accuracy " + radius + " meter.</p>").openPopup();
+
             var url = "https://gnet.ph/coverage/getcoverage/";
             $.ajax({
                 url: url,
                 type: "GET",
                 dataType: "json",
                 success: function (data) {
-                    data.forEach(function (data, index) {
-                        var yourlocation = [data['latitude'], data['longitude']];
+                    data.forEach(function (covData) {
+                        var yourlocation = [covData['latitude'], covData['longitude']];
                         var distance = (L.latLng(e.latlng).distanceTo(yourlocation) / 1000).toFixed(2);
-                        var radius = (e.accuracy / 2).toFixed(1);
-
-                        locationMarker = L.marker(e.latlng);
-                        locationMarker.addTo(mymap);
-                        locationMarker.bindPopup("<p class='text-center'>Your Location<br>GPS Accuracy " + radius + " meter.</p>");
-                        locationMarker.openPopup();
-
+                        
                         var latlongline = [e.latlng, yourlocation];
                         var polyline = L.polyline(latlongline, {
                             color: '#fa0000',
                             weight: 5,
                             opacity: 0.7,
                         });
-                        latt = e.latlng.lat;
-                        lonn = e.latlng.lng;
+                        polyline.addTo(mymap);
 
-                        var markernow = L.marker([data['latitude'], data['longitude']]).addTo(mymap)
-                            .bindPopup('<h5 class="mb-0 mt-0 pb-0" style="text-align:center;">' + data['c_name'] + ' </h5><hr class=" mb-2 mt-2" color="red" style="height:3px;box-shadow:2px 2px 2px black;" /><span class="text-center mb-0 mt-2">' + distance + ' Km from your location</span><p class="mt-1"> Alamat : ' + data['address'] + '<br> <a href="https://www.google.com/maps/dir/' + latt + ',' + lonn + '/' + data['latitude'] + ',' + data['longitude'] + '/" target="blank">Directions </a> ');
-                        var radius = data['radius'];
-                        L.circle([data['latitude'], data['longitude']], {
-                            radius: radius,
+                        var latt = e.latlng.lat;
+                        var lonn = e.latlng.lng;
+
+                        L.marker(yourlocation).addTo(mymap)
+                            .bindPopup('<h5 class="mb-0 mt-0 pb-0" style="text-align:center;">' + covData['c_name'] + ' </h5><hr class=" mb-2 mt-2" color="red" style="height:3px;box-shadow:2px 2px 2px black;" /><span class="text-center mb-0 mt-2">' + distance + ' Km from your location</span><p class="mt-1"> Address : ' + covData['address'] + '<br> <a href="https://www.google.com/maps/dir/' + latt + ',' + lonn + '/' + covData['latitude'] + ',' + covData['longitude'] + '/" target="blank">Directions </a> ');
+                        
+                        var rad = covData['radius'];
+                        L.circle(yourlocation, {
+                            radius: rad,
                             color: '#fa0000',
                             fillColor: '#00c758',
                             fillOpacity: '0.1',
