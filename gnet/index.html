@@ -941,9 +941,33 @@
 <body>
 
     <!-- Preloader -->
-    <div class="preloader">
+    <div class="preloader" id="preloader">
         <div class="loader-ring"></div>
     </div>
+    <script>
+        // Self-executing function to hide preloader even if other scripts fail or load slowly
+        (function () {
+            var preloader = document.getElementById('preloader');
+            if (preloader) {
+                var fadeOut = function () {
+                    preloader.style.transition = 'opacity 0.4s ease, visibility 0.4s ease';
+                    preloader.style.opacity = '0';
+                    preloader.style.visibility = 'hidden';
+                    setTimeout(function () {
+                        preloader.style.display = 'none';
+                    }, 400);
+                };
+                // Hide if already loaded
+                if (document.readyState === 'complete') {
+                    fadeOut();
+                } else {
+                    window.addEventListener('load', fadeOut);
+                    // Fallback to hide after 2.5 seconds to prevent endless load
+                    setTimeout(fadeOut, 2500);
+                }
+            }
+        })();
+    </script>
 
     <!-- Header / Sticky Navigation -->
     <header id="main-header">
@@ -1649,12 +1673,7 @@
             sidebarOverlay.classList.remove('active');
         });
 
-        // Preloader Fade
-        $(window).on('load', function () {
-            setTimeout(function () {
-                $('.preloader').fadeOut('slow');
-            }, 800);
-        });
+        // Preloader fade is handled by the inline script near the top of the body
 
         // Leaflet Map Init
         var company = "GNET NETWORK AND DATA SOLUTION";
