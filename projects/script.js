@@ -37,6 +37,11 @@ document.addEventListener("DOMContentLoaded", () => {
         duration: 0.8,
         stagger: 0.1,
         ease: "power3.out",
-        delay: 0.5 // Start after hero animation begins
+        delay: 0.5, // Start after hero animation begins
+        onComplete: function() {
+            document.querySelectorAll(".project-card").forEach(card => {
+                card.classList.add("animated");
+            });
+        }
     });
 });
