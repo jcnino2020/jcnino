@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPACE JAM: REIMAGINED 2025</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/CSSRulePlugin.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            overflow: hidden;
+            background-color: #050505;
+        }
+        
+        .font-display {
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* Custom Glows */
+        .jam-shadow {
+            text-shadow: 0 0 20px rgba(236, 72, 153, 0.8), 0 0 40px rgba(236, 72, 153, 0.4);
+        }
+        
+        .planet-glow {
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5), inset 0 0 20px rgba(59, 130, 246, 0.2);
+        }
+
+        .grid-bg {
+            background-image: 
+                linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            perspective: 1000px;
+            transform-style: preserve-3d;
+        }
+    </style>
+</head>
+<body class="text-white h-screen w-screen relative selection:bg-pink-500 selection:text-white">
+
+    <div id="star-container" class="absolute inset-0 z-0 pointer-events-none"></div>
+    
+    <div class="absolute bottom-0 w-full h-1/2 grid-bg opacity-20 z-0" style="transform: perspective(500px) rotateX(60deg) scale(2);"></div>
+
+    <main id="universe" class="relative z-10 w-full h-full flex items-center justify-center">
+
+        <div id="core-logo" class="relative group cursor-pointer z-50">
+            <div class="absolute -inset-10 bg-gradient-to-r from-pink-600 to-purple-600 rounded-full blur-3xl opacity-30 group-hover:opacity-60 transition duration-1000 animate-pulse"></div>
+            <div class="relative z-10 text-center transform transition duration-500 group-hover:scale-110">
+                <h1 class="font-display font-black text-7xl md:text-9xl tracking-tighter italic bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-400 jam-shadow">
+                    SPACE<br>JAM
+                </h1>
+                <p class="font-display text-pink-500 tracking-[0.5em] text-sm md:text-xl mt-2 font-bold">ARCHIVE 1996</p>
+            </div>
+        </div>
+
+        </main>
+
+    <header class="fixed top-0 left-0 w-full p-8 flex justify-between items-start z-50 pointer-events-none">
+        <div class="pointer-events-auto">
+            <div class="flex items-center gap-2 text-cyan-400 animate-pulse">
+                <div class="w-2 h-2 bg-red-500 rounded-full shadow-[0_0_10px_red]"></div>
+                <span class="font-mono text-xs tracking-widest">LIVE FEED // SERVER 1996</span>
+            </div>
+            <div class="mt-2 w-32 h-0.5 bg-gradient-to-r from-cyan-500 to-transparent"></div>
+        </div>
+        
+        <div class="pointer-events-auto text-right hidden md:block">
+            <p class="text-xs text-gray-400 font-mono">WARNER BROS. ONLINE</p>
+            <p class="text-xs text-gray-500 font-mono">TERMINAL ID: MJ-23</p>
+        </div>
+    </header>
+
+    <footer class="fixed bottom-0 w-full p-6 z-50 pointer-events-none">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-end pointer-events-auto">
+            
+            <div class="text-xs text-gray-500 font-mono space-y-1 backdrop-blur-sm bg-black/30 p-4 rounded-lg border border-white/10">
+                <div class="flex gap-4 mb-2 text-white/70">
+                    <a href="#" class="hover:text-pink-500 transition">Privacy</a>
+                    <a href="#" class="hover:text-pink-500 transition">Terms</a>
+                    <a href="#" class="hover:text-pink-500 transition">Accessibility</a>
+                </div>
+                <p>© 1996-2025 Warner Bros. Entertainment Inc.</p>
+                <p class="opacity-50">Badda Bing, Badda Boom.</p>
+            </div>
+
+            <div class="flex items-end gap-1 h-12 mt-4 md:mt-0 opacity-70">
+                <div class="w-1 bg-pink-500 h-full animate-[bounce_1s_infinite]"></div>
+                <div class="w-1 bg-cyan-500 h-2/3 animate-[bounce_1.2s_infinite]"></div>
+                <div class="w-1 bg-pink-500 h-1/2 animate-[bounce_0.8s_infinite]"></div>
+                <div class="w-1 bg-cyan-500 h-3/4 animate-[bounce_1.5s_infinite]"></div>
+                <div class="w-1 bg-pink-500 h-1/3 animate-[bounce_0.9s_infinite]"></div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- DATA: The Original Links Reimagined ---
+        const planets = [
+            { name: "PRESS BOX", url: "#", color: "from-red-500 to-orange-500", icon: "📰" },
+            { name: "JAM CENTRAL", url: "#", color: "from-blue-500 to-cyan-500", icon: "📡" },
+            { name: "B-BALL", url: "#", color: "from-orange-400 to-yellow-400", icon: "🏀" },
+            { name: "LUNAR TUNES", url: "#", color: "from-purple-500 to-pink-500", icon: "🎵" },
+            { name: "THE LINEUP", url: "#", color: "from-green-400 to-emerald-600", icon: "👽" },
+            { name: "JUMP STATION", url: "#", color: "from-indigo-500 to-blue-700", icon: "🚀" },
+            { name: "JUNIOR JAM", url: "#", color: "from-yellow-300 to-orange-300", icon: "👶" },
+            { name: "STUDIO STORE", url: "#", color: "from-pink-600 to-rose-600", icon: "🛒" },
+            { name: "SOUVENIRS", url: "#", color: "from-teal-400 to-cyan-600", icon: "💎" },
+            { name: "BEHIND THE JAM", url: "#", color: "from-gray-400 to-slate-600", icon: "🎬" }
+        ];
+
+        const universe = document.getElementById('universe');
+        const starContainer = document.getElementById('star-container');
+
+        // --- 1. Generate Background Stars (GSAP) ---
+        for (let i = 0; i < 150; i++) {
+            const star = document.createElement('div');
+            const size = Math.random() * 3;
+            star.className = 'absolute bg-white rounded-full opacity-0';
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.top = `${Math.random() * 100}%`;
+            starContainer.appendChild(star);
+
+            gsap.to(star, {
+                opacity: Math.random(),
+                duration: Math.random() * 2 + 1,
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut"
+            });
+        }
+
+        // --- 2. Create Orbital Navigation ---
+        const radiusDesktop = 350;
+        const radiusMobile = 160;
+        let orbitalElements = [];
+
+        planets.forEach((planet, index) => {
+            const el = document.createElement('a');
+            el.href = planet.url;
+            el.className = `absolute flex flex-col items-center justify-center w-20 h-20 md:w-24 md:h-24 rounded-full backdrop-blur-md bg-black/40 border border-white/20 planet-glow transition-all duration-300 hover:scale-125 hover:border-white z-20 group no-underline`;
+            
+            el.innerHTML = `
+                <div class="absolute inset-0 rounded-full opacity-20 group-hover:opacity-50 bg-gradient-to-br ${planet.color} transition-opacity"></div>
+                <span class="text-2xl md:text-3xl relative z-10 group-hover:animate-bounce">${planet.icon}</span>
+                <span class="absolute -bottom-8 w-40 text-center font-display text-xs md:text-sm font-bold text-white/0 group-hover:text-white/100 transition-all tracking-widest shadow-black drop-shadow-lg">${planet.name}</span>
+                <div class="absolute -inset-2 border border-white/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div>
+            `;
+
+            universe.appendChild(el);
+            orbitalElements.push(el);
+        });
+
+        // --- 3. Animation Logic ---
+
+        // Initial Layout Position
+        function updateLayout() {
+            const isMobile = window.innerWidth < 768;
+            const r = isMobile ? radiusMobile : radiusDesktop;
+            const total = orbitalElements.length;
+            const angleIncrement = (Math.PI * 2) / total;
+
+            orbitalElements.forEach((el, i) => {
+                const angle = angleIncrement * i;
+                // Position strictly
+                const x = Math.cos(angle) * r;
+                const y = Math.sin(angle) * r;
+                
+                // Store original coordinates for parallax calculations
+                el.dataset.ox = x;
+                el.dataset.oy = y;
+                el.dataset.angle = angle;
+
+                gsap.set(el, { x: x, y: y, opacity: 0, scale: 0 });
+            });
+        }
+
+        updateLayout();
+        window.addEventListener('resize', () => {
+            updateLayout();
+            // Re-trigger entrance for layout fix in this demo
+            introAnimation.restart(); 
+        });
+
+        // --- 4. The Big Bang Entrance (Timeline) ---
+        const introAnimation = gsap.timeline({ delay: 0.5 });
+
+        // Logo Zoom In
+        introAnimation.from("#core-logo", {
+            scale: 0,
+            opacity: 0,
+            rotation: -180,
+            duration: 1.5,
+            ease: "elastic.out(1, 0.5)"
+        });
+
+        // Planets Spiraling Out
+        introAnimation.to(orbitalElements, {
+            opacity: 1,
+            scale: 1,
+            duration: 1,
+            stagger: 0.1,
+            ease: "back.out(1.7)",
+            // Simulate spiral expansion
+            x: (i, target) => target.dataset.ox,
+            y: (i, target) => target.dataset.oy,
+        }, "-=1");
+
+        // Constant Orbital Float (Idle Animation)
+        orbitalElements.forEach((el, i) => {
+            gsap.to(el, {
+                y: `+=${Math.random() * 20 - 10}`,
+                x: `+=${Math.random() * 20 - 10}`,
+                duration: 2 + Math.random(),
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut",
+                delay: Math.random()
+            });
+        });
+
+        // --- 5. Interactive Parallax (Mouse Movement) ---
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = (e.clientX / window.innerWidth) - 0.5;
+            const mouseY = (e.clientY / window.innerHeight) - 0.5;
+
+            // Move Logo slightly
+            gsap.to("#core-logo", {
+                x: mouseX * 30,
+                y: mouseY * 30,
+                duration: 1,
+                ease: "power2.out"
+            });
+
+            // Move Planets (Inverse depth effect)
+            orbitalElements.forEach((el) => {
+                gsap.to(el, {
+                    x: parseFloat(el.dataset.ox) + (mouseX * 60),
+                    y: parseFloat(el.dataset.oy) + (mouseY * 60),
+                    duration: 1.2,
+                    ease: "power2.out"
+                });
+            });
+
+            // Move Background Stars (Deep Space effect)
+            gsap.to("#star-container", {
+                x: mouseX * -100,
+                y: mouseY * -100,
+                duration: 2,
+                ease: "power1.out"
+            });
+        });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+[22-Apr-2026 00:19:29 UTC] PHP Fatal error:  Uncaught Error: Undefined constant PDO::ATTR_ERRMODE_EXCEPTION in /home/e4kesouq09xp/public_html/jcnino/bcc/config.php:19
+Stack trace:
+#0 /home/e4kesouq09xp/public_html/jcnino/bcc/index.php(17): get_db_connection()
+#1 {main}
+  thrown in /home/e4kesouq09xp/public_html/jcnino/bcc/config.php on line 19

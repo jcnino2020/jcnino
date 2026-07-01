@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HydroAlert Citizen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; -webkit-tap-highlight-color: transparent; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .btn-press:active { transform: scale(0.95); transition: transform 0.1s; }
+        
+        /* Pulse Animation for SOS */
+        .sos-pulse { animation: sos 1.5s infinite; }
+        @keyframes sos { 0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(220, 38, 38, 0); } 100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); } }
+
+        /* Modal Animations */
+        .slide-up { animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+        .fade-in { animation: fadeIn 0.3s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Alert Overlay Animation */
+        .alert-enter { animation: slideDown 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes slideDown { from { transform: translateY(-100%); } to { transform: translateY(0); } }
+
+        .siren-flash { animation: siren 0.5s infinite; }
+        @keyframes siren { 0%, 100% { background-color: #ef4444; } 50% { background-color: #7f1d1d; } }
+    </style>
+</head>
+<body class="h-screen w-full flex justify-center bg-gray-200">
+
+    <!-- Mobile Frame -->
+    <div class="w-full max-w-md h-full bg-slate-50 relative shadow-2xl overflow-hidden flex flex-col">
+        
+        <!-- Top Bar -->
+        <div class="bg-white px-5 pt-12 pb-4 flex justify-between items-center z-20 shadow-sm border-b border-slate-100">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                    <i class="fa-solid fa-house-chimney-flood text-white text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg text-slate-800 leading-none">HydroAlert</h1>
+                    <p class="text-[10px] text-slate-400 font-medium tracking-wider">RESIDENT VIEW</p>
+                </div>
+            </div>
+            <div onclick="openNetworkStatus()" class="btn-press cursor-pointer bg-slate-100 px-3 py-1 rounded-full flex items-center gap-2">
+                <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                <span class="text-xs font-bold text-slate-600">Live</span>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 overflow-y-auto no-scrollbar bg-slate-50 relative pb-24 space-y-6">
+            
+            <!-- 1. Location Status Card -->
+            <div onclick="openStationModal('Mandalagan Local', '0.5m', 'Steady')" class="cursor-pointer btn-press bg-slate-900 text-white p-6 rounded-b-[2.5rem] shadow-xl relative overflow-hidden transition-all duration-500" id="statusCard">
+                <!-- Background Pattern -->
+                <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+                
+                <div class="relative z-10 text-center">
+                    <p class="text-xs text-blue-200 uppercase tracking-widest mb-2"><i class="fa-solid fa-location-arrow mr-1"></i> Bacolod City (Mandalagan)</p>
+                    
+                    <!-- Dynamic Status Icon -->
+                    <div id="statusIconBg" class="w-24 h-24 mx-auto bg-green-500/20 rounded-full flex items-center justify-center mb-4 backdrop-blur-sm border border-green-500/30 transition-colors duration-500">
+                        <i id="statusIcon" class="fa-solid fa-shield-halved text-4xl text-green-400"></i>
+                    </div>
+
+                    <h2 id="statusText" class="text-3xl font-bold mb-1">NO FLOOD RISK</h2>
+                    <p id="statusSub" class="text-sm text-slate-400">Water levels are normal.</p>
+
+                    <div class="mt-6 flex justify-center gap-4 text-xs">
+                        <div class="bg-white/10 px-4 py-2 rounded-lg">
+                            <span class="block text-slate-400 mb-1">Last Update</span>
+                            <span class="font-bold">Just now</span>
+                        </div>
+                        <div class="bg-white/10 px-4 py-2 rounded-lg">
+                            <span class="block text-slate-400 mb-1">River Level</span>
+                            <span id="riverLevel" class="font-bold text-green-400">0.5 meters</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="px-5 space-y-6">
+                
+                <!-- 2. Upstream Monitor -->
+                <div>
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center justify-between">
+                        <span>Upstream Sources</span>
+                        <span class="text-[10px] bg-slate-200 px-2 py-0.5 rounded text-slate-500">Real-time</span>
+                    </h3>
+                    
+                    <div class="space-y-3">
+                        <!-- Murcia Station -->
+                        <div onclick="openStationModal('Murcia (Minoyan)', '1.2m', 'Normal')" class="btn-press cursor-pointer bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex items-center justify-between hover:bg-slate-50">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-500 font-bold text-xs border border-blue-100">
+                                    M1
+                                </div>
+                                <div>
+                                    <p class="text-sm font-bold text-slate-700">Murcia (Minoyan)</p>
+                                    <p class="text-[10px] text-slate-400">Source of Mandalagan River</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p id="upstreamLevel" class="text-sm font-bold text-slate-700">Normal</p>
+                                <p id="upstreamRain" class="text-[10px] text-slate-400">Light Rain</p>
+                            </div>
+                        </div>
+
+                        <!-- DSB Station -->
+                        <div onclick="openStationModal('Don Salvador', '0.8m', 'Low')" class="btn-press cursor-pointer bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex items-center justify-between opacity-70 hover:opacity-100 transition">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 font-bold text-xs border border-slate-100">
+                                    D1
+                                </div>
+                                <div>
+                                    <p class="text-sm font-bold text-slate-700">Don Salvador</p>
+                                    <p class="text-[10px] text-slate-400">Source of Bago River</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-sm font-bold text-slate-700">Normal</p>
+                                <p class="text-[10px] text-slate-400">Cloudy</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Preparedness Actions -->
+                <div>
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Quick Actions</h3>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button onclick="openEvacModal()" class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 text-left hover:bg-blue-50 transition btn-press group">
+                            <i class="fa-solid fa-person-shelter text-2xl text-blue-500 mb-2 group-hover:scale-110 transition"></i>
+                            <p class="font-bold text-slate-700 text-sm">Evac Centers</p>
+                            <p class="text-[10px] text-slate-400">Find nearest shelter</p>
+                        </button>
+                        <button onclick="openGuideModal()" class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 text-left hover:bg-green-50 transition btn-press group">
+                            <i class="fa-solid fa-book-medical text-2xl text-green-500 mb-2 group-hover:scale-110 transition"></i>
+                            <p class="font-bold text-slate-700 text-sm">Safety Guide</p>
+                            <p class="text-[10px] text-slate-400">What to pack</p>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Simulation Trigger (Hidden in production, visible for demo) -->
+                <div class="pt-8 pb-4 text-center">
+                    <button onclick="triggerAlert()" class="text-[10px] text-slate-300 hover:text-red-400 transition font-mono border border-slate-200 px-3 py-1 rounded">
+                        [DEV] SIMULATE INCOMING FLOOD
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ================= MODALS ================= -->
+
+        <!-- 1. Evacuation Centers Modal -->
+        <div id="evacModal" class="absolute inset-0 z-50 bg-slate-900/40 backdrop-blur-sm hidden flex items-end justify-center">
+            <div onclick="event.stopPropagation()" class="bg-white w-full rounded-t-3xl shadow-2xl slide-up max-h-[85vh] flex flex-col">
+                <div class="p-6 border-b border-slate-100 flex justify-between items-center">
+                    <h2 class="font-bold text-slate-800 text-lg">Nearby Shelters</h2>
+                    <button onclick="closeModal('evacModal')" class="bg-slate-100 p-2 rounded-full text-slate-500 hover:bg-slate-200"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div class="p-6 overflow-y-auto space-y-4">
+                    <!-- Shelter 1 -->
+                    <div class="flex gap-4">
+                        <div class="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 text-2xl shrink-0">
+                            <i class="fa-solid fa-school"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-slate-700">Mandalagan Elem. School</h3>
+                            <p class="text-xs text-slate-500">0.8 km away • Capacity: 85% Free</p>
+                            <div class="flex gap-2 mt-2">
+                                <button class="bg-blue-600 text-white text-xs px-3 py-1.5 rounded-lg font-bold">Navigate</button>
+                                <button class="bg-slate-100 text-slate-600 text-xs px-3 py-1.5 rounded-lg font-bold"><i class="fa-solid fa-phone"></i> Call</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Shelter 2 -->
+                    <div class="flex gap-4">
+                        <div class="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 text-2xl shrink-0">
+                            <i class="fa-solid fa-basketball"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-slate-700">Brgy. Covered Court</h3>
+                            <p class="text-xs text-slate-500">1.2 km away • Capacity: 40% Free</p>
+                            <div class="flex gap-2 mt-2">
+                                <button class="bg-blue-600 text-white text-xs px-3 py-1.5 rounded-lg font-bold">Navigate</button>
+                                <button class="bg-slate-100 text-slate-600 text-xs px-3 py-1.5 rounded-lg font-bold"><i class="fa-solid fa-phone"></i> Call</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Safety Guide Modal -->
+        <div id="guideModal" class="absolute inset-0 z-50 bg-slate-900/40 backdrop-blur-sm hidden flex items-end justify-center">
+            <div onclick="event.stopPropagation()" class="bg-white w-full rounded-t-3xl shadow-2xl slide-up max-h-[85vh] flex flex-col">
+                <div class="bg-green-600 p-6 rounded-t-3xl text-white relative">
+                    <button onclick="closeModal('guideModal')" class="absolute top-4 right-4 bg-white/20 p-2 rounded-full hover:bg-white/30"><i class="fa-solid fa-xmark"></i></button>
+                    <h2 class="font-bold text-xl mb-1">Go-Bag Checklist</h2>
+                    <p class="text-xs text-green-100">Prepare these items immediately.</p>
+                </div>
+                <div class="p-6 overflow-y-auto">
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-3 border border-slate-100 rounded-xl">
+                            <input type="checkbox" class="w-5 h-5 accent-green-600 rounded">
+                            <span class="text-sm font-bold text-slate-700">Drinking Water (3 days)</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 border border-slate-100 rounded-xl">
+                            <input type="checkbox" class="w-5 h-5 accent-green-600 rounded">
+                            <span class="text-sm font-bold text-slate-700">Canned Food</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 border border-slate-100 rounded-xl">
+                            <input type="checkbox" class="w-5 h-5 accent-green-600 rounded">
+                            <span class="text-sm font-bold text-slate-700">Flashlight & Batteries</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 border border-slate-100 rounded-xl">
+                            <input type="checkbox" class="w-5 h-5 accent-green-600 rounded">
+                            <span class="text-sm font-bold text-slate-700">First Aid Kit / Meds</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 border border-slate-100 rounded-xl">
+                            <input type="checkbox" class="w-5 h-5 accent-green-600 rounded">
+                            <span class="text-sm font-bold text-slate-700">Power Bank (Charged)</span>
+                        </label>
+                         <label class="flex items-center gap-3 p-3 border border-slate-100 rounded-xl">
+                            <input type="checkbox" class="w-5 h-5 accent-green-600 rounded">
+                            <span class="text-sm font-bold text-slate-700">Important Documents</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Station Detail Modal -->
+        <div id="stationModal" class="absolute inset-0 z-50 bg-slate-900/40 backdrop-blur-sm hidden flex items-center justify-center p-4">
+            <div onclick="event.stopPropagation()" class="bg-white w-full max-w-sm rounded-2xl shadow-2xl fade-in overflow-hidden">
+                <div class="bg-slate-900 p-4 flex justify-between items-center text-white">
+                    <h2 class="font-bold" id="st-name">Station Details</h2>
+                    <button onclick="closeModal('stationModal')"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <div>
+                            <p class="text-xs text-slate-400 uppercase">Current Level</p>
+                            <p class="text-3xl font-bold text-slate-800" id="st-level">1.2m</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xs text-slate-400 uppercase">Status</p>
+                            <span class="px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs font-bold" id="st-status">Normal</span>
+                        </div>
+                    </div>
+                    <!-- Fake Graph -->
+                    <div class="h-32 flex items-end justify-between gap-1 mb-4">
+                        <div class="w-full bg-blue-100 rounded-t-sm h-[30%]"></div>
+                        <div class="w-full bg-blue-100 rounded-t-sm h-[40%]"></div>
+                        <div class="w-full bg-blue-100 rounded-t-sm h-[35%]"></div>
+                        <div class="w-full bg-blue-100 rounded-t-sm h-[45%]"></div>
+                        <div class="w-full bg-blue-100 rounded-t-sm h-[50%]"></div>
+                        <div class="w-full bg-blue-100 rounded-t-sm h-[40%]"></div>
+                        <div class="w-full bg-blue-500 rounded-t-sm h-[60%] relative group">
+                             <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-black text-white text-[10px] px-1 rounded opacity-0 group-hover:opacity-100 transition">Now</div>
+                        </div>
+                    </div>
+                    <p class="text-[10px] text-center text-slate-400">Past 6 Hours Water Level</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. SOS Confirmation Modal -->
+        <div id="sosModal" class="absolute inset-0 z-50 bg-red-900/90 backdrop-blur-sm hidden flex items-center justify-center p-6 text-center">
+            <div class="bg-white w-full rounded-2xl p-6 shadow-2xl animate-bounce-in">
+                <div class="w-20 h-20 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl animate-pulse">
+                    <i class="fa-solid fa-life-ring"></i>
+                </div>
+                <h2 class="text-2xl font-black text-slate-900 mb-2">REQUEST RESCUE?</h2>
+                <p class="text-sm text-slate-500 mb-6">Only use this in life-threatening emergencies. Your GPS location will be sent to the DRRMO.</p>
+                <div class="flex flex-col gap-3">
+                    <button onclick="confirmRescue()" class="w-full py-4 rounded-xl bg-red-600 text-white font-bold text-lg shadow-lg shadow-red-600/30">CONFIRM EMERGENCY</button>
+                    <button onclick="closeModal('sosModal')" class="w-full py-3 rounded-xl text-slate-500 font-bold text-sm">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. Rescue Active Screen (Overlay) -->
+        <div id="rescueScreen" class="absolute inset-0 z-[60] bg-slate-900 hidden flex flex-col items-center justify-center text-white p-6">
+            <div class="w-32 h-32 rounded-full border-4 border-green-500 flex items-center justify-center mb-8 relative">
+                <i class="fa-solid fa-satellite-dish text-4xl text-green-500"></i>
+                <div class="absolute inset-0 border-4 border-green-500 rounded-full animate-ping opacity-50"></div>
+            </div>
+            <h2 class="text-2xl font-bold mb-2">RESCUE REQUESTED</h2>
+            <p class="text-slate-400 text-center mb-8">We have received your GPS signal. Stay put and conserve battery.</p>
+            
+            <div class="bg-slate-800 w-full rounded-xl p-4 mb-8">
+                <div class="flex justify-between text-sm mb-2">
+                    <span class="text-slate-400">Team ETA</span>
+                    <span class="font-bold text-green-400">15-20 Mins</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="text-slate-400">Team Status</span>
+                    <span class="font-bold">Dispatched</span>
+                </div>
+            </div>
+
+            <button onclick="cancelRescue()" class="px-6 py-2 border border-slate-600 rounded-lg text-sm text-slate-400 hover:text-white">Cancel Request</button>
+        </div>
+
+        <!-- Full Screen RED ALERT Overlay (Hidden by default) -->
+        <div id="redAlertScreen" class="absolute inset-0 z-50 bg-red-600 hidden flex flex-col items-center justify-center text-white text-center p-6 siren-flash">
+            <div class="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mb-6 animate-ping">
+                <i class="fa-solid fa-triangle-exclamation text-5xl"></i>
+            </div>
+            <h1 class="text-4xl font-black mb-2 tracking-tighter">FLOOD WARNING</h1>
+            <p class="text-lg font-medium opacity-90 mb-8">Heavy surge detected from Murcia.</p>
+            
+            <div class="bg-black/20 rounded-xl p-6 w-full mb-8 backdrop-blur-sm">
+                <p class="text-xs uppercase tracking-widest opacity-70 mb-2">Estimated Impact</p>
+                <p class="text-5xl font-mono font-bold">01:45:00</p>
+                <p class="text-xs opacity-70 mt-2">Before water reaches Mandalagan</p>
+            </div>
+
+            <button onclick="dismissAlert()" class="bg-white text-red-600 w-full py-4 rounded-xl font-bold text-lg shadow-xl btn-press">
+                I ACKNOWLEDGE
+            </button>
+            <p class="mt-4 text-xs opacity-60">Prepare for evacuation immediately.</p>
+        </div>
+
+        <!-- Bottom SOS Bar -->
+        <div class="bg-white border-t border-slate-200 px-6 py-4 absolute bottom-0 w-full pb-safe flex items-center justify-between z-30">
+            <div class="flex flex-col">
+                <span class="text-xs font-bold text-slate-400 uppercase">Emergency?</span>
+                <span class="text-sm font-bold text-slate-800">Tap for Rescue</span>
+            </div>
+            <button onclick="openSosModal()" class="bg-red-600 w-16 h-16 rounded-full shadow-lg shadow-red-600/40 text-white text-xl font-bold flex items-center justify-center sos-pulse btn-press border-4 border-red-100">
+                SOS
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        // Modal Handlers
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+        
+        function openEvacModal() { document.getElementById('evacModal').classList.remove('hidden'); }
+        function openGuideModal() { document.getElementById('guideModal').classList.remove('hidden'); }
+        function openSosModal() { document.getElementById('sosModal').classList.remove('hidden'); }
+        
+        function openStationModal(name, level, status) {
+            document.getElementById('st-name').innerText = name;
+            document.getElementById('st-level').innerText = level;
+            document.getElementById('st-status').innerText = status;
+            document.getElementById('stationModal').classList.remove('hidden');
+        }
+
+        // Rescue Logic
+        function confirmRescue() {
+            closeModal('sosModal');
+            document.getElementById('rescueScreen').classList.remove('hidden');
+        }
+        function cancelRescue() {
+            if(confirm("Cancel rescue request?")) {
+                document.getElementById('rescueScreen').classList.add('hidden');
+            }
+        }
+
+        // Network Status
+        function openNetworkStatus() {
+            alert("System Status: Online \nLast Ping: 23ms \nServer: PDRRMO HQ");
+        }
+
+        // Alert Simulation Logic
+        function triggerAlert() {
+            // 1. Show the Full Screen Red Alert
+            const alertScreen = document.getElementById('redAlertScreen');
+            alertScreen.classList.remove('hidden');
+            alertScreen.classList.add('alert-enter');
+
+            // 2. Update the Dashboard behind the scenes
+            setTimeout(() => {
+                const card = document.getElementById('statusCard');
+                const iconBg = document.getElementById('statusIconBg');
+                const icon = document.getElementById('statusIcon');
+                const text = document.getElementById('statusText');
+                const sub = document.getElementById('statusSub');
+                const level = document.getElementById('riverLevel');
+                
+                // Upstream Widgets
+                const upLevel = document.getElementById('upstreamLevel');
+                const upRain = document.getElementById('upstreamRain');
+
+                // Apply "Warning" Styles
+                card.classList.remove('bg-slate-900');
+                card.classList.add('bg-orange-600'); // Orange for warning state
+                
+                iconBg.classList.remove('bg-green-500/20', 'border-green-500/30');
+                iconBg.classList.add('bg-white/20', 'border-white/30', 'animate-pulse');
+                
+                icon.className = "fa-solid fa-person-running text-4xl text-white";
+                
+                text.innerText = "PREPARE TO EVACUATE";
+                sub.innerText = "Floodwaters approaching.";
+                level.innerText = "Rising Fast (1.8m)";
+                level.className = "font-bold text-white";
+
+                // Update Upstream Data
+                upLevel.innerText = "Critical Surge";
+                upLevel.className = "text-sm font-bold text-red-600";
+                upRain.innerText = "Torrential Rain";
+            }, 500);
+        }
+
+        function dismissAlert() {
+            // Hide overlay but keep the dashboard in "Warning" state
+            document.getElementById('redAlertScreen').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>

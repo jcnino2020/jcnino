@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cronbach's Alpha</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body { 
+      font-family: 'Inter', sans-serif; 
+      font-size: 16px; 
+      line-height: 1.6; 
+      color: #334155; 
+      background: #f1f5f9; 
+      padding: 2rem 1rem; 
+    }
+    
+    .page { 
+      max-width: 900px; 
+      margin: 0 auto; 
+      background: #fff; 
+      border-radius: 16px; 
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05); 
+      padding: 3rem 4rem; 
+    }
+    
+    h1 { 
+      font-size: 1.8rem; 
+      font-weight: 700; 
+      text-align: center; 
+      color: #0f172a; 
+      margin-bottom: 2rem; 
+    }
+    
+    h2 { 
+      font-size: 1.2rem; 
+      font-weight: 600; 
+      color: #0f172a; 
+      background: #e0e7ff; 
+      border-radius: 8px; 
+      padding: 0.6rem 1.2rem; 
+      margin: 2.5rem 0 1.2rem; 
+      display: inline-block; 
+      width: 100%; 
+    }
+    
+    h3 { 
+      font-size: 1.05rem; 
+      font-weight: 600; 
+      color: #1e293b; 
+      margin: 1.5rem 0 0.5rem; 
+      border-left: 4px solid #3b82f6; 
+      padding-left: 0.8rem; 
+    }
+    
+    .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin: 1.5rem 0;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+    }
+    
+    table { 
+      width: 100%; 
+      border-collapse: separate; 
+      border-spacing: 0; 
+      font-size: 0.95rem; 
+      min-width: 500px; 
+    }
+    
+    thead tr { background: #f8fafc; }
+    thead th { 
+      padding: 0.75rem 1rem; 
+      text-align: center; 
+      border-bottom: 1px solid #e2e8f0; 
+      font-weight: 600; 
+      color: #475569; 
+      white-space: nowrap;
+    }
+    
+    tbody tr:not(:last-child) td { border-bottom: 1px solid #f1f5f9; }
+    tbody tr:hover { background: #f8fafc; }
+    tbody td { padding: 0.6rem 1rem; text-align: center; }
+    
+    tfoot tr { background: #0f172a; }
+    tfoot td { 
+      padding: 0.75rem 1rem; 
+      text-align: center; 
+      font-weight: 600; 
+      color: #f8fafc; 
+    }
+    
+    .fb { 
+      background: #eff6ff; 
+      border-radius: 8px; 
+      padding: 1rem 1.5rem; 
+      margin: 1rem 0; 
+      border: 1px solid #bfdbfe; 
+      color: #1e293b; 
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .callout { 
+      border-radius: 8px; 
+      padding: 1rem 1.5rem; 
+      margin: 1.2rem 0; 
+      font-size: 0.95rem; 
+      line-height: 1.5; 
+      border: 1px solid transparent; 
+    }
+    
+    .warn { background: #fffbeb; color: #92400e; border-color: #fde68a; }
+    .ok { background: #f0fdf4; color: #166534; border-color: #bbf7d0; }
+    .info { background: #f8fafc; color: #334155; border-color: #e2e8f0; font-style: italic; }
+    
+    .steps { list-style: none; padding: 0; margin-top: 1rem; }
+    .steps li { 
+      display: flex; 
+      align-items: center; 
+      gap: 1rem; 
+      margin-bottom: 0.8rem; 
+      background: #fff; 
+      padding: 0.5rem 1rem; 
+      border-radius: 8px; 
+      border: 1px solid #e2e8f0; 
+    }
+    
+    .sn { 
+      min-width: 28px; 
+      height: 28px; 
+      background: #3b82f6; 
+      color: #fff; 
+      border-radius: 50%; 
+      font-size: 0.85rem; 
+      font-weight: 600; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+    }
+    
+    .grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); 
+      gap: 1rem; 
+      margin-top: 1.5rem; 
+    }
+    
+    .card { 
+      background: #fff; 
+      border: 1px solid #e2e8f0; 
+      border-radius: 12px; 
+      padding: 1.2rem; 
+      text-align: center; 
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02); 
+    }
+    
+    .card .lbl { 
+      font-size: 0.85rem; 
+      color: #64748b; 
+      font-weight: 500; 
+      margin-bottom: 0.3rem; 
+    }
+    
+    .card .val { 
+      font-size: 1.25rem; 
+      font-weight: 700; 
+      color: #0f172a; 
+    }
+    
+    .card.hi { 
+      background: #3b82f6; 
+      border-color: #3b82f6; 
+      color: #fff; 
+    }
+    
+    .card.hi .lbl, .card.hi .val { color: #fff; }
+    
+    .cite { 
+      margin-top: 0.8rem; 
+      font-size: 0.9rem; 
+      color: #64748b; 
+      padding-left: 1.2rem; 
+      border-left: 3px solid #cbd5e1; 
+    }
+    
+    ul.items { padding-left: 1.5rem; margin: 0.8rem 0; }
+    ul.items li { margin-bottom: 0.4rem; }
+    
+    /* Desktop default: keeps equations inline */
+    .math-break { display: inline; }
+
+    /* Mobile Responsive Adjustments */
+    @media (max-width: 768px) {
+      body { padding: 1rem 0.5rem; }
+      .page { padding: 1.5rem 1.2rem; border-radius: 12px; }
+      h1 { font-size: 1.4rem; margin-bottom: 1.5rem; }
+      h2 { font-size: 1.1rem; padding: 0.5rem 1rem; margin: 2rem 0 1rem; }
+      .fb { padding: 0.8rem 1rem; font-size: 0.9rem; }
+      .callout { padding: 0.8rem 1rem; font-size: 0.9rem; }
+      .grid { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+      .card { padding: 1rem 0.5rem; }
+      .card .val { font-size: 1.15rem; }
+      
+      /* Forces long math equations to drop to a new line on small screens */
+      .math-break { 
+        display: block; 
+        margin-left: 1.5rem; 
+        margin-top: 0.2rem; 
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+<h1>Cronbach's Alpha: Complete Step-by-Step Solution</h1>
+
+<h2>1 · Total Score Calculation</h2>
+<div class="table-wrapper">
+<table>
+<thead><tr><th>ID</th><th>Q1</th><th>Q2</th><th>Q3</th><th>Q4</th><th>Q5</th><th>Total</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>5</td><td>5</td><td>5</td><td>5</td><td>5</td><td><b>25</b></td></tr>
+<tr><td>2</td><td>4</td><td>4</td><td>5</td><td>4</td><td>5</td><td><b>22</b></td></tr>
+<tr><td>3</td><td>5</td><td>5</td><td>5</td><td>5</td><td>5</td><td><b>25</b></td></tr>
+<tr><td>4</td><td>4</td><td>4</td><td>4</td><td>5</td><td>5</td><td><b>22</b></td></tr>
+<tr><td>5</td><td>4</td><td>4</td><td>5</td><td>5</td><td>5</td><td><b>23</b></td></tr>
+<tr><td>6</td><td>4</td><td>4</td><td>5</td><td>5</td><td>5</td><td><b>23</b></td></tr>
+<tr><td>7</td><td>5</td><td>5</td><td>5</td><td>5</td><td>5</td><td><b>25</b></td></tr>
+<tr><td>8</td><td>4</td><td>4</td><td>4</td><td>4</td><td>4</td><td><b>20</b></td></tr>
+<tr><td>9</td><td>5</td><td>5</td><td>5</td><td>5</td><td>5</td><td><b>25</b></td></tr>
+<tr><td>10</td><td>4</td><td>5</td><td>5</td><td>4</td><td>5</td><td><b>23</b></td></tr>
+<tr><td>11</td><td>5</td><td>5</td><td>5</td><td>4</td><td>4</td><td><b>23</b></td></tr>
+<tr><td>12</td><td>5</td><td>5</td><td>5</td><td>5</td><td>5</td><td><b>25</b></td></tr>
+<tr><td>13</td><td>5</td><td>5</td><td>5</td><td>5</td><td>5</td><td><b>25</b></td></tr>
+<tr><td>14</td><td>5</td><td>5</td><td>5</td><td>4</td><td>5</td><td><b>24</b></td></tr>
+<tr><td>15</td><td>4</td><td>4</td><td>4</td><td>4</td><td>4</td><td><b>20</b></td></tr>
+<tr><td>16</td><td>5</td><td>4</td><td>4</td><td>4</td><td>4</td><td><b>21</b></td></tr>
+<tr><td>17</td><td>3</td><td>4</td><td>5</td><td>4</td><td>3</td><td><b>19</b></td></tr>
+<tr><td>18</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td><td><b>16</b></td></tr>
+<tr><td>19</td><td>4</td><td>4</td><td>3</td><td>5</td><td>5</td><td><b>21</b></td></tr>
+<tr><td>20</td><td>5</td><td>5</td><td>4</td><td>5</td><td>5</td><td><b>24</b></td></tr>
+<tr><td>21</td><td>5</td><td>5</td><td>4</td><td>3</td><td>4</td><td><b>21</b></td></tr>
+<tr><td>22</td><td>3</td><td>5</td><td>5</td><td>5</td><td>4</td><td><b>22</b></td></tr>
+<tr><td>23</td><td>3</td><td>4</td><td>5</td><td>5</td><td>5</td><td><b>22</b></td></tr>
+<tr><td>24</td><td>3</td><td>4</td><td>5</td><td>4</td><td>5</td><td><b>21</b></td></tr>
+<tr><td>25</td><td>4</td><td>5</td><td>5</td><td>4</td><td>5</td><td><b>23</b></td></tr>
+<tr><td>26</td><td>5</td><td>4</td><td>4</td><td>4</td><td>4</td><td><b>21</b></td></tr>
+<tr><td>27</td><td>4</td><td>4</td><td>4</td><td>4</td><td>4</td><td><b>20</b></td></tr>
+<tr><td>28</td><td>5</td><td>4</td><td>5</td><td>5</td><td>5</td><td><b>24</b></td></tr>
+<tr><td>29</td><td>4</td><td>5</td><td>5</td><td>5</td><td>5</td><td><b>24</b></td></tr>
+<tr><td>30</td><td>5</td><td>5</td><td>5</td><td>5</td><td>4</td><td><b>24</b></td></tr>
+</tbody>
+<tfoot><tr><td>Σ</td><td>130</td><td>134</td><td>138</td><td>134</td><td>136</td><td>672</td></tr></tfoot>
+</table>
+</div>
+
+<p><b>Total Sum = 672 &nbsp;|&nbsp; Mean Total Score:</b></p>
+<div class="fb">\(\displaystyle \bar{x}_{\text{total}} = \frac{672}{30} = \mathbf{22.4}\)</div>
+
+<h2>2 · Sample Variance of Each Question</h2>
+<p><b>Formula:</b></p>
+<div class="fb">\(\displaystyle s^2 = \frac{\displaystyle\sum x_i^2 - \dfrac{(\sum x_i)^2}{n}}{n - 1}\)</div>
+
+<h3>Question 1 (Q1)</h3>
+<ul class="items">
+  <li>\(\sum x_i = 130\)</li>
+  <li>\(\sum x_i^2 = 5^2(14) + 4^2(12) + 3^2(4)\) <span class="math-break">\(= 350 + 192 + 36 = 578\)</span></li>
+  <li>\(\frac{(\sum x_i)^2}{n} = \frac{130^2}{30} = 563.3333\)</li>
+  <li>\(SS = 578 - 563.3333 = 14.6667\)</li>
+</ul>
+<div class="fb">\(s^2_{Q1} = \dfrac{14.6667}{29} = \mathbf{0.5057}\)</div>
+
+<h3>Question 2 (Q2)</h3>
+<ul class="items">
+  <li>\(\sum x_i = 134\)</li>
+  <li>\(\sum x_i^2 = 5^2(15) + 4^2(14) + 3^2(1)\) <span class="math-break">\(= 375 + 224 + 9 = 608\)</span></li>
+  <li>\(\frac{(\sum x_i)^2}{n} = \frac{134^2}{30} = 598.5333\)</li>
+  <li>\(SS = 608 - 598.5333 = 9.4667\)</li>
+</ul>
+<div class="fb">\(s^2_{Q2} = \dfrac{9.4667}{29} = \mathbf{0.3264}\)</div>
+
+<h3>Question 3 (Q3)</h3>
+<ul class="items">
+  <li>\(\sum x_i = 138\)</li>
+  <li>\(\sum x_i^2 = 5^2(20) + 4^2(8) + 3^2(2)\) <span class="math-break">\(= 500 + 128 + 18 = 646\)</span></li>
+  <li>\(\frac{(\sum x_i)^2}{n} = \frac{138^2}{30} = 634.8\)</li>
+  <li>\(SS = 646 - 634.8 = 11.2\)</li>
+</ul>
+<div class="fb">\(s^2_{Q3} = \dfrac{11.2}{29} = \mathbf{0.3862}\)</div>
+
+<h3>Question 4 (Q4)</h3>
+<ul class="items">
+  <li>\(\sum x_i = 134\)</li>
+  <li>\(\sum x_i^2 = 5^2(16) + 4^2(12) + 3^2(2)\) <span class="math-break">\(= 400 + 192 + 18 = \mathbf{610}\)</span></li>
+  <li>\(\frac{(\sum x_i)^2}{n} = \frac{134^2}{30} = 598.5333\)</li>
+  <li>\(SS = 610 - 598.5333 = 11.4667\)</li>
+</ul>
+<div class="fb">\(s^2_{Q4} = \dfrac{11.4667}{29} = \mathbf{0.3954}\)</div>
+
+<h3>Question 5 (Q5)</h3>
+<ul class="items">
+  <li>\(\sum x_i = 136\)</li>
+  <li>\(\sum x_i^2 = 5^2(18) + 4^2(10) + 3^2(2)\) <span class="math-break">\(= 450 + 160 + 18 = 628\)</span></li>
+  <li>\(\frac{(\sum x_i)^2}{n} = \frac{136^2}{30} = 616.5333\)</li>
+  <li>\(SS = 628 - 616.5333 = 11.4667\)</li>
+</ul>
+<div class="fb">\(s^2_{Q5} = \dfrac{11.4667}{29} = \mathbf{0.3954}\)</div>
+
+<h3>Sum of Item Variances</h3>
+<div class="fb">\(\displaystyle \sum \sigma^2_i = 0.5057 + 0.3264 + 0.3862 + 0.3954 + 0.3954 = \mathbf{2.0090}\)</div>
+
+<h2>3 · Variance of Total Scores</h2>
+<div class="table-wrapper">
+<table>
+<thead><tr><th>Total</th><th>Frequency</th><th>Total²</th><th>Freq × Total²</th></tr></thead>
+<tbody>
+<tr><td>25</td><td>6</td><td>625</td><td>3,750</td></tr>
+<tr><td>24</td><td>5</td><td>576</td><td>2,880</td></tr>
+<tr><td>23</td><td>4</td><td>529</td><td>2,116</td></tr>
+<tr><td>22</td><td>5</td><td>484</td><td>2,420</td></tr>
+<tr><td>21</td><td>5</td><td>441</td><td>2,205</td></tr>
+<tr><td>20</td><td>3</td><td>400</td><td>1,200</td></tr>
+<tr><td>19</td><td>1</td><td>361</td><td>361</td></tr>
+<tr><td>16</td><td>1</td><td>256</td><td>256</td></tr>
+</tbody>
+<tfoot><tr><td>Σ</td><td>30</td><td>-</td><td>15,188</td></tr></tfoot>
+</table>
+</div>
+<ul class="items">
+  <li>\(\sum \text{Total}_i^2 = 15{,}188\)</li>
+  <li>\(\frac{672^2}{30} = \frac{451{,}584}{30}\) <span class="math-break">\(= 15{,}052.8\)</span></li>
+  <li>\(SS = 15{,}188 - 15{,}052.8 = 135.2\)</li>
+</ul>
+<div class="fb">\(s^2_{\text{total}} = \dfrac{135.2}{29} = \mathbf{4.6621}\)</div>
+
+<h2>4 · Cronbach's Alpha Calculation</h2>
+<div class="fb">\(\displaystyle \alpha = \frac{k}{k - 1} \left(1 - \frac{\displaystyle\sum \sigma^2_i}{\sigma^2_{\text{total}}}\right)\)</div>
+<p>Where: \(k = 5\), &nbsp;\(\sum \sigma^2_i = 2.0090\), &nbsp;\(\sigma^2_{\text{total}} = 4.6621\)</p>
+
+<ul class="steps">
+  <li><span class="sn">1</span><div>\(\displaystyle\frac{2.0090}{4.6621} = 0.4309\)</div></li>
+  <li><span class="sn">2</span><div>\(1 - 0.4309 = 0.5691\)</div></li>
+  <li><span class="sn">3</span><div>\(\dfrac{k}{k-1} = \dfrac{5}{4} = 1.25\)</div></li>
+  <li><span class="sn">4</span><div>\(\alpha = 1.25 \times 0.5691 = 0.7114\)</div></li>
+</ul>
+<div class="fb" style="text-align:center;font-size:1.25rem">\(\boxed{\alpha = \mathbf{0.7114}}\)</div>
+
+<h2>5 · Interpretation</h2>
+<div class="callout ok">
+  <b>Cronbach's Alpha = 0.7114</b> - Exceeds the 0.70 threshold, indicating <b>acceptable internal consistency reliability</b>. The 5 items consistently measure the same construct.
+</div>
+<p style="margin-top:1rem"><b>Suggested write-up:</b></p>
+<div class="callout info">
+  "The internal consistency of the instrument was assessed using Cronbach's alpha (α = 0.71), which exceeds the minimum acceptable value of 0.70 (Nunnally &amp; Bernstein, 1994), indicating that the scale demonstrates acceptable reliability."
+</div>
+<p style="margin-top:1rem"><b>Citations:</b></p>
+<div class="cite">
+  <p>Nunnally, J. C., &amp; Bernstein, I. H. (1994). <em>Psychometric theory</em> (3rd ed.). McGraw-Hill.</p>
+  <p>Cronbach, L. J. (1951). Coefficient alpha and the internal structure of tests. <em>Psychometrika, 16</em>(3), 297-334.</p>
+</div>
+
+<h2>Final Summary</h2>
+<div class="grid">
+  <div class="card"><div class="lbl">\(s^2_{Q1}\)</div><div class="val">0.5057</div></div>
+  <div class="card"><div class="lbl">\(s^2_{Q2}\)</div><div class="val">0.3264</div></div>
+  <div class="card"><div class="lbl">\(s^2_{Q3}\)</div><div class="val">0.3862</div></div>
+  <div class="card"><div class="lbl">\(s^2_{Q4}\) ✅</div><div class="val">0.3954</div></div>
+  <div class="card"><div class="lbl">\(s^2_{Q5}\)</div><div class="val">0.3954</div></div>
+  <div class="card"><div class="lbl">\(\sum \sigma^2_i\)</div><div class="val">2.0090</div></div>
+  <div class="card"><div class="lbl">\(s^2_{\text{total}}\)</div><div class="val">4.6621</div></div>
+  <div class="card hi"><div class="lbl">Cronbach's α</div><div class="val">0.7114</div></div>
+</div>
+<div class="callout ok" style="margin-top:1.2rem">✅ <b>Acceptable reliability</b> - α ≥ 0.70</div>
+
+</div>
+</body>
+</html>

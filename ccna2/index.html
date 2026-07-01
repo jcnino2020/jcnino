@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>CCNAv7 SRWE Skills Assessment Super Detailed Mobile Reviewer</title>
+<style>
+:root{
+  --bg:#07111f; --panel:#0d1b2f; --card:#12233a; --muted:#9fb2cc; --text:#eef6ff; --accent:#73e2a7; --accent2:#7cc7ff; --warn:#ffd166; --bad:#ff6b6b; --border:rgba(255,255,255,.12);
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at top left,#16345c 0,#07111f 36%,#050914 100%);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.55}
+a{color:var(--accent2)}
+.hero{padding:28px 16px 18px;position:sticky;top:0;z-index:5;background:linear-gradient(180deg,rgba(7,17,31,.98),rgba(7,17,31,.92));border-bottom:1px solid var(--border);backdrop-filter:blur(12px)}
+.hero h1{margin:0;font-size:clamp(1.45rem,7vw,3rem);line-height:1.05;letter-spacing:-.04em}.hero p{margin:10px 0 0;color:var(--muted);max-width:920px}
+.progress-wrap{margin-top:14px;background:rgba(255,255,255,.08);height:10px;border-radius:999px;overflow:hidden}#progress{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:.25s}
+.nav{display:flex;gap:8px;overflow:auto;padding:12px 16px;background:rgba(7,17,31,.75);position:sticky;top:122px;z-index:4;border-bottom:1px solid var(--border);backdrop-filter:blur(10px)}
+.nav a{white-space:nowrap;text-decoration:none;color:var(--text);background:rgba(255,255,255,.08);border:1px solid var(--border);padding:10px 12px;border-radius:999px;font-size:.92rem}
+main{max-width:1120px;margin:auto;padding:18px 14px 80px}section.block{background:rgba(18,35,58,.82);border:1px solid var(--border);border-radius:22px;padding:18px;margin:14px 0;box-shadow:0 18px 45px rgba(0,0,0,.22)}
+h2{font-size:clamp(1.25rem,5vw,2rem);margin:0 0 10px;letter-spacing:-.02em}h3{margin:0 0 8px;font-size:1.05rem}.muted{color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}.mini{background:rgba(255,255,255,.055);border:1px solid var(--border);border-radius:18px;padding:14px}.mini b{color:var(--accent)}
+table{width:100%;border-collapse:collapse;font-size:.92rem;min-width:650px}th,td{border-bottom:1px solid var(--border);padding:10px;text-align:left;vertical-align:top}th{color:var(--accent);background:rgba(255,255,255,.06)}.table-wrap{overflow:auto;border:1px solid var(--border);border-radius:16px}
+.timeline{display:grid;gap:10px}.step{display:grid;grid-template-columns:44px 1fr;gap:10px;align-items:start}.num{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#05111c;font-weight:800}.step .body{background:rgba(255,255,255,.055);border:1px solid var(--border);border-radius:16px;padding:12px}
+.cmd-card{background:#06101d;border:1px solid var(--border);border-radius:18px;margin:13px 0;overflow:hidden}.cmd-head{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:12px 12px;border-bottom:1px solid var(--border);background:rgba(255,255,255,.045)}.copy,.pillbtn{border:1px solid var(--border);background:rgba(115,226,167,.13);color:var(--text);padding:8px 10px;border-radius:12px;font-weight:700;cursor:pointer}pre{margin:0;overflow:auto;padding:14px;font-size:.88rem;line-height:1.45}code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.checklist label{display:flex;gap:10px;align-items:flex-start;padding:11px;border:1px solid var(--border);border-radius:14px;background:rgba(255,255,255,.045);margin:8px 0}input[type=checkbox]{width:20px;height:20px;accent-color:#73e2a7;flex:none}
+.warn{border-left:5px solid var(--warn);padding:12px;background:rgba(255,209,102,.11);border-radius:14px}.bad{border-left:5px solid var(--bad);padding:12px;background:rgba(255,107,107,.1);border-radius:14px}.good{border-left:5px solid var(--accent);padding:12px;background:rgba(115,226,167,.1);border-radius:14px}
+.quiz-card{background:rgba(255,255,255,.055);border:1px solid var(--border);border-radius:18px;padding:14px;margin:10px 0}.choices{display:grid;gap:8px;margin-top:10px}.choice{text-align:left;border:1px solid var(--border);background:rgba(255,255,255,.06);color:var(--text);border-radius:14px;padding:10px;cursor:pointer}.choice.correct{outline:2px solid var(--accent)}.choice.wrong{outline:2px solid var(--bad)}
+.flash{min-height:180px;display:grid;place-items:center;text-align:center;background:linear-gradient(145deg,rgba(124,199,255,.12),rgba(115,226,167,.08));border:1px solid var(--border);border-radius:20px;padding:22px;cursor:pointer}.flash h3{font-size:1.25rem}.flash p{color:var(--muted)}
+.footer{color:var(--muted);text-align:center;padding:28px 14px}
+@media(max-width:720px){.hero{padding:22px 14px 14px}.nav{top:112px;padding:10px 12px}main{padding:12px 10px 70px}section.block{border-radius:18px;padding:14px}.step{grid-template-columns:36px 1fr}.num{width:30px;height:30px}pre{font-size:.78rem}.cmd-head{position:sticky;top:0}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <h1>CCNAv7 SRWE Skills Assessment Study App</h1>
+  <p>Super detailed, mobile-friendly reviewer for your SRWE lab: basic security, router-on-a-stick, VLANs, trunks, EtherChannel, port-security, DHCP, IPv4/IPv6 addressing, and final connectivity testing.</p>
+  <div class="progress-wrap"><div id="progress"></div></div>
+</header>
+<nav class="nav">
+  <a href="#map">Map</a><a href="#part1">Part 1</a><a href="#part2">Part 2</a><a href="#part3">Part 3</a><a href="#part4">Part 4</a><a href="#commands">Commands</a><a href="#troubleshoot">Fixes</a><a href="#quiz">Quiz</a><a href="#flashcards">Flashcards</a>
+</nav>
+<main>
+<section id="map" class="block">
+<h2>What this assessment is really testing</h2>
+<p class="muted">Do not memorize this as random commands. The whole exam is one story: hosts live in VLANs, switches carry those VLANs through trunks and EtherChannel, the router routes between VLANs using subinterfaces, DHCP gives IPv4 addresses, IPv6 is mostly static, then you prove everything with pings.</p>
+<div class="grid">
+<div class="mini"><b>Router R1</b><br>Creates gateways for VLAN 2, 3, and 4 using subinterfaces. Also handles DHCP and default routes to Loopback0.</div>
+<div class="mini"><b>S1</b><br>PC-A is on VLAN 2 at F0/6. S1 trunks to R1 on F0/5 and bundles F0/1-2 to S2 using LACP EtherChannel.</div>
+<div class="mini"><b>S2</b><br>PC-B is on VLAN 3 at F0/18. S2 bundles F0/1-2 to S1 and has management SVI on VLAN 4.</div>
+<div class="mini"><b>VLAN 5</b><br>Parking VLAN only. Unused ports go here and are shut down. There is no router gateway for VLAN 5, and that is intentional.</div>
+</div>
+</section>
+<section class="block">
+<h2>VLAN and addressing cheat sheet</h2>
+<div class="table-wrap"><table><thead><tr><th>VLAN</th><th>Name</th><th>Subnet / Prefix</th><th>Gateway / Main Address</th><th>Used by</th></tr></thead><tbody>
+<tr><td>2</td><td>Bikes</td><td>10.19.8.0/26<br>2001:db8:acad:a::/64</td><td>10.19.8.1<br>2001:db8:acad:a::1<br>fe80::1</td><td>PC-A, S1 F0/6</td></tr>
+<tr><td>3</td><td>Trikes</td><td>10.19.8.64/27<br>2001:db8:acad:b::/64</td><td>10.19.8.65<br>2001:db8:acad:b::1<br>fe80::1</td><td>PC-B, S2 F0/18</td></tr>
+<tr><td>4</td><td>Management</td><td>10.19.8.96/29<br>2001:db8:acad:c::/64</td><td>R1: 10.19.8.97<br>S1: 10.19.8.98<br>S2: 10.19.8.99</td><td>Switch management SVI</td></tr>
+<tr><td>5</td><td>Parking</td><td>No router interface</td><td>None</td><td>Unused switch ports</td></tr>
+<tr><td>6</td><td>Native</td><td>No IP required</td><td>Native VLAN for trunks</td><td>Trunk untagged traffic</td></tr>
+</tbody></table></div>
+<div class="warn"><b>Exam trap:</b> VLAN 6 is the native VLAN. VLAN 5 is the parking VLAN. Do not mix them up. VLAN 5 is for unused shutdown ports. VLAN 6 is for trunk native VLAN only.</div>
+</section>
+<section id="part1" class="block">
+<h2>Part 1: Initialize, reload, and secure the devices</h2>
+<p>This part is worth the most points because it sets the base configuration. If SSH, passwords, hostname, domain name, and IPv6 routing are wrong, later parts can look broken even when the VLANs are okay.</p>
+<div class="timeline">
+<div class="step"><div class="num">1</div><div class="body"><h3>Erase old configs</h3><p>Use <code>erase startup-config</code>, reload, and for switches delete VLAN data if required by your Packet Tracer/device instructions. On real switches, VLANs can survive because they are stored in <code>vlan.dat</code>.</p></div></div>
+<div class="step"><div class="num">2</div><div class="body"><h3>Switch SDM template</h3><p>Use <code>sdm prefer dual-ipv4-and-ipv6 default</code> if the switch needs IPv6 support. Reload after changing the template. No reload means IPv6 commands might not behave correctly.</p></div></div>
+<div class="step"><div class="num">3</div><div class="body"><h3>Basic security</h3><p>Disable DNS lookup, set hostname, domain, enable secret, console password, local admin user, SSH-only VTY, password encryption, and MOTD banner.</p></div></div>
+<div class="step"><div class="num">4</div><div class="body"><h3>Router subinterfaces</h3><p>Each VLAN that needs routing gets one router subinterface. VLAN 2, 3, and 4 get IPv4 and IPv6. VLAN 6 is native only. VLAN 5 gets no router interface.</p></div></div>
+</div>
+</section>
+<section id="part2" class="block">
+<h2>Part 2: VLANs, trunks, EtherChannel, access ports, and port-security</h2>
+<div class="grid">
+<div class="mini"><b>Create VLANs first</b><br>If the VLAN does not exist, access-port assignment can behave weirdly or show inactive.</div>
+<div class="mini"><b>Trunk both sides</b><br>Native VLAN and allowed VLAN list must match between trunk endpoints.</div>
+<div class="mini"><b>EtherChannel must match</b><br>F0/1 and F0/2 should have the same trunk settings before or with channel-group. LACP active is used.</div>
+<div class="mini"><b>Enable port-security</b><br>Maximum alone is not enough on most IOS versions. Use <code>switchport port-security</code> then set maximum 3.</div>
+</div>
+<div class="bad"><b>Common mistake in student configs:</b> typing <code>crypto key generate rsa1024</code> without the proper syntax. Safer syntax is <code>crypto key generate rsa modulus 1024</code>. Also, on 2960, <code>switchport trunk encapsulation dot1q</code> may not exist because it only supports 802.1Q by default.</div>
+</section>
+<section id="part3" class="block">
+<h2>Part 3: DHCP and host support</h2>
+<p>For IPv4, PC-A and PC-B use DHCP. For IPv6, the PCs use static global addresses and the IPv6 default gateway is the router link-local address <code>fe80::1</code>.</p>
+<div class="grid">
+<div class="mini"><b>VLAN 2 DHCP range</b><br>Subnet: 10.19.8.0/26<br>Usable: 10.19.8.1 to 10.19.8.62<br>Last 10 usable: 10.19.8.53 to 10.19.8.62<br>Exclude: 10.19.8.1 to 10.19.8.52</div>
+<div class="mini"><b>VLAN 3 DHCP range</b><br>Subnet: 10.19.8.64/27<br>Usable: 10.19.8.65 to 10.19.8.94<br>Last 10 usable: 10.19.8.85 to 10.19.8.94<br>Exclude: 10.19.8.65 to 10.19.8.84</div>
+<div class="mini"><b>PC-A IPv6</b><br>Address: 2001:db8:acad:a::50/64<br>Gateway: fe80::1</div>
+<div class="mini"><b>PC-B IPv6</b><br>Address: 2001:db8:acad:b::50/64<br>Gateway: fe80::1</div>
+</div>
+</section>
+<section id="part4" class="block">
+<h2>Part 4: Ping verification path</h2>
+<p>Test in layers. First same-VLAN/default gateway, then inter-VLAN, then management VLAN, then loopback. Do not randomly ping everything and panic. Be methodical.</p>
+<div class="checklist">
+<label><input type="checkbox"> PC-A gets IPv4 DHCP address from VLAN 2 pool, likely 10.19.8.53 to 10.19.8.62.</label>
+<label><input type="checkbox"> PC-B gets IPv4 DHCP address from VLAN 3 pool, likely 10.19.8.85 to 10.19.8.94.</label>
+<label><input type="checkbox"> PC-A can ping 10.19.8.1 and 2001:db8:acad:a::1.</label>
+<label><input type="checkbox"> PC-B can ping 10.19.8.65 and 2001:db8:acad:b::1.</label>
+<label><input type="checkbox"> Both PCs can ping S1 management 10.19.8.98 and S2 management 10.19.8.99.</label>
+<label><input type="checkbox"> Both PCs can ping R1 Loopback0 209.165.201.1 and 2001:db8:acad:209::1.</label>
+</div>
+</section>
+<section id="commands" class="block">
+<h2>Copyable command blocks</h2>
+<p class="muted">These are cleaned-up versions of the commands from your assessment notes, with a few syntax fixes included.</p>
+
+    <section class="cmd-card">
+      <div class="cmd-head"><h3>R1 Full Configuration</h3><button class="copy" data-copy="enable
+configure terminal
+no ip domain lookup
+hostname R1
+ip domain name ccna-lab.com
+enable secret ciscoenpass
+security passwords min-length 10
+username admin secret admin1pass
+service password-encryption
+banner motd #Unauthorized Access is Prohibited#
+ipv6 unicast-routing
+line console 0
+password ciscoconpass
+login
+exit
+line vty 0 15
+login local
+transport input ssh
+exit
+interface g0/0/1.2
+encapsulation dot1Q 2
+description Bikes
+ip address 10.19.8.1 255.255.255.192
+ipv6 address 2001:db8:acad:a::1/64
+ipv6 address fe80::1 link-local
+exit
+interface g0/0/1.3
+encapsulation dot1Q 3
+description Trikes
+ip address 10.19.8.65 255.255.255.224
+ipv6 address 2001:db8:acad:b::1/64
+ipv6 address fe80::1 link-local
+exit
+interface g0/0/1.4
+encapsulation dot1Q 4
+description Management
+ip address 10.19.8.97 255.255.255.248
+ipv6 address 2001:db8:acad:c::1/64
+ipv6 address fe80::1 link-local
+exit
+interface g0/0/1.6
+encapsulation dot1Q 6 native
+description Native VLAN
+exit
+interface g0/0/1
+no shutdown
+exit
+interface loopback 0
+description Loopback
+ip address 209.165.201.1 255.255.255.224
+ipv6 address 2001:db8:acad:209::1/64
+ipv6 address fe80::1 link-local
+exit
+crypto key generate rsa modulus 1024
+ip ssh version 2
+end
+copy running-config startup-config">Copy</button></div>
+      <pre><code>enable
+configure terminal
+no ip domain lookup
+hostname R1
+ip domain name ccna-lab.com
+enable secret ciscoenpass
+security passwords min-length 10
+username admin secret admin1pass
+service password-encryption
+banner motd #Unauthorized Access is Prohibited#
+ipv6 unicast-routing
+line console 0
+password ciscoconpass
+login
+exit
+line vty 0 15
+login local
+transport input ssh
+exit
+interface g0/0/1.2
+encapsulation dot1Q 2
+description Bikes
+ip address 10.19.8.1 255.255.255.192
+ipv6 address 2001:db8:acad:a::1/64
+ipv6 address fe80::1 link-local
+exit
+interface g0/0/1.3
+encapsulation dot1Q 3
+description Trikes
+ip address 10.19.8.65 255.255.255.224
+ipv6 address 2001:db8:acad:b::1/64
+ipv6 address fe80::1 link-local
+exit
+interface g0/0/1.4
+encapsulation dot1Q 4
+description Management
+ip address 10.19.8.97 255.255.255.248
+ipv6 address 2001:db8:acad:c::1/64
+ipv6 address fe80::1 link-local
+exit
+interface g0/0/1.6
+encapsulation dot1Q 6 native
+description Native VLAN
+exit
+interface g0/0/1
+no shutdown
+exit
+interface loopback 0
+description Loopback
+ip address 209.165.201.1 255.255.255.224
+ipv6 address 2001:db8:acad:209::1/64
+ipv6 address fe80::1 link-local
+exit
+crypto key generate rsa modulus 1024
+ip ssh version 2
+end
+copy running-config startup-config</code></pre>
+    </section>
+    <section class="cmd-card">
+      <div class="cmd-head"><h3>S1 Full Configuration</h3><button class="copy" data-copy="enable
+configure terminal
+no ip domain lookup
+hostname S1
+ip domain name ccna-lab.com
+enable secret ciscoenpass
+username admin secret admin1pass
+service password-encryption
+banner motd #Unauthorized Access is Prohibited#
+line console 0
+password ciscoconpass
+login
+exit
+line vty 0 15
+login local
+transport input ssh
+exit
+crypto key generate rsa modulus 1024
+ip ssh version 2
+vlan 2
+name Bikes
+vlan 3
+name Trikes
+vlan 4
+name Management
+vlan 5
+name Parking
+vlan 6
+name Native
+exit
+interface vlan 4
+description Management Interface
+ip address 10.19.8.98 255.255.255.248
+ipv6 address 2001:db8:acad:c::98/64
+ipv6 address fe80::98 link-local
+no shutdown
+exit
+ip default-gateway 10.19.8.97
+interface range f0/1-2
+switchport mode trunk
+switchport trunk native vlan 6
+switchport trunk allowed vlan 2-6
+channel-group 1 mode active
+exit
+interface port-channel 1
+switchport mode trunk
+switchport trunk native vlan 6
+switchport trunk allowed vlan 2-6
+exit
+interface f0/5
+switchport mode trunk
+switchport trunk native vlan 6
+switchport trunk allowed vlan 2-6
+exit
+interface f0/6
+switchport mode access
+switchport access vlan 2
+switchport port-security
+switchport port-security maximum 3
+exit
+interface range f0/3-4, f0/7-24, g0/1-2
+switchport mode access
+switchport access vlan 5
+description Unused Interfaces
+shutdown
+exit
+end
+copy running-config startup-config">Copy</button></div>
+      <pre><code>enable
+configure terminal
+no ip domain lookup
+hostname S1
+ip domain name ccna-lab.com
+enable secret ciscoenpass
+username admin secret admin1pass
+service password-encryption
+banner motd #Unauthorized Access is Prohibited#
+line console 0
+password ciscoconpass
+login
+exit
+line vty 0 15
+login local
+transport input ssh
+exit
+crypto key generate rsa modulus 1024
+ip ssh version 2
+vlan 2
+name Bikes
+vlan 3
+name Trikes
+vlan 4
+name Management
+vlan 5
+name Parking
+vlan 6
+name Native
+exit
+interface vlan 4
+description Management Interface
+ip address 10.19.8.98 255.255.255.248
+ipv6 address 2001:db8:acad:c::98/64
+ipv6 address fe80::98 link-local
+no shutdown
+exit
+ip default-gateway 10.19.8.97
+interface range f0/1-2
+switchport mode trunk
+switchport trunk native vlan 6
+switchport trunk allowed vlan 2-6
+channel-group 1 mode active
+exit
+interface port-channel 1
+switchport mode trunk
+switchport trunk native vlan 6
+switchport trunk allowed vlan 2-6
+exit
+interface f0/5
+switchport mode trunk
+switchport trunk native vlan 6
+switchport trunk allowed vlan 2-6
+exit
+interface f0/6
+switchport mode access
+switchport access vlan 2
+switchport port-security
+switchport port-security maximum 3
+exit
+interface range f0/3-4, f0/7-24, g0/1-2
+switchport mode access
+switchport access vlan 5
+description Unused Interfaces
+shutdown
+exit
+end
+copy running-config startup-config</code></pre>
+    </section>
+    <section class="cmd-card">
+      <div class="cmd-head"><h3>S2 Full Configuration</h3><button class="copy" data-copy="enable
+configure terminal
+no ip domain lookup
+hostname S2
+ip domain name ccna-lab.com
+enable secret ciscoenpass
+username admin secret admin1pass
+service password-encryption
+banner motd #Unauthorized Access is Prohibited#
+line console 0
+password ciscoconpass
+login
+exit
+line vty 0 15
+login local
+transport input ssh
+exit
+crypto key generate rsa modulus 1024
+ip ssh version 2
+vlan 2
+name Bikes
+vlan 3
+name Trikes
+vlan 4
+name Management
+vlan 5
+name Parking
+vlan 6
+name Native
+exit
+interface vlan 4
+description Management Interface
+ip address 10.19.8.99 255.255.255.248
+ipv6 address 2001:db8:acad:c::99/64
+ipv6 address fe80::99 link-local
+no shutdown
+exit
+ip default-gateway 10.19.8.97
+interface range f0/1-2
+switchport mode trunk
+switchport trunk native vlan 6
+switchport trunk allowed vlan 2-6
+channel-group 1 mode active
+exit
+interface port-channel 1
+switchport mode trunk
+switchport trunk native vlan 6
+switchport trunk allowed vlan 2-6
+exit
+interface f0/18
+switchport mode access
+switchport access vlan 3
+switchport port-security
+switchport port-security maximum 3
+exit
+interface range f0/3-17, f0/19-24, g0/1-2
+switchport mode access
+switchport access vlan 5
+description Unused Interfaces
+shutdown
+exit
+end
+copy running-config startup-config">Copy</button></div>
+      <pre><code>enable
+configure terminal
+no ip domain lookup
+hostname S2
+ip domain name ccna-lab.com
+enable secret ciscoenpass
+username admin secret admin1pass
+service password-encryption
+banner motd #Unauthorized Access is Prohibited#
+line console 0
+password ciscoconpass
+login
+exit
+line vty 0 15
+login local
+transport input ssh
+exit
+crypto key generate rsa modulus 1024
+ip ssh version 2
+vlan 2
+name Bikes
+vlan 3
+name Trikes
+vlan 4
+name Management
+vlan 5
+name Parking
+vlan 6
+name Native
+exit
+interface vlan 4
+description Management Interface
+ip address 10.19.8.99 255.255.255.248
+ipv6 address 2001:db8:acad:c::99/64
+ipv6 address fe80::99 link-local
+no shutdown
+exit
+ip default-gateway 10.19.8.97
+interface range f0/1-2
+switchport mode trunk
+switchport trunk native vlan 6
+switchport trunk allowed vlan 2-6
+channel-group 1 mode active
+exit
+interface port-channel 1
+switchport mode trunk
+switchport trunk native vlan 6
+switchport trunk allowed vlan 2-6
+exit
+interface f0/18
+switchport mode access
+switchport access vlan 3
+switchport port-security
+switchport port-security maximum 3
+exit
+interface range f0/3-17, f0/19-24, g0/1-2
+switchport mode access
+switchport access vlan 5
+description Unused Interfaces
+shutdown
+exit
+end
+copy running-config startup-config</code></pre>
+    </section>
+    <section class="cmd-card">
+      <div class="cmd-head"><h3>DHCP and Default Route on R1</h3><button class="copy" data-copy="configure terminal
+ip route 0.0.0.0 0.0.0.0 loopback 0
+ipv6 route ::/0 loopback 0
+ip dhcp excluded-address 10.19.8.1 10.19.8.52
+ip dhcp pool VLAN2-Bikes
+network 10.19.8.0 255.255.255.192
+default-router 10.19.8.1
+domain-name ccna-a.net
+exit
+ip dhcp excluded-address 10.19.8.65 10.19.8.84
+ip dhcp pool VLAN3-Trikes
+network 10.19.8.64 255.255.255.224
+default-router 10.19.8.65
+domain-name ccna-b.net
+exit
+end
+copy running-config startup-config">Copy</button></div>
+      <pre><code>configure terminal
+ip route 0.0.0.0 0.0.0.0 loopback 0
+ipv6 route ::/0 loopback 0
+ip dhcp excluded-address 10.19.8.1 10.19.8.52
+ip dhcp pool VLAN2-Bikes
+network 10.19.8.0 255.255.255.192
+default-router 10.19.8.1
+domain-name ccna-a.net
+exit
+ip dhcp excluded-address 10.19.8.65 10.19.8.84
+ip dhcp pool VLAN3-Trikes
+network 10.19.8.64 255.255.255.224
+default-router 10.19.8.65
+domain-name ccna-b.net
+exit
+end
+copy running-config startup-config</code></pre>
+    </section>
+    <section class="cmd-card">
+      <div class="cmd-head"><h3>Verification Commands</h3><button class="copy" data-copy="show ip interface brief
+show ipv6 interface brief
+show vlan brief
+show interfaces trunk
+show etherchannel summary
+show port-security interface f0/6
+show port-security interface f0/18
+show ip dhcp binding
+show ip dhcp pool
+show running-config | section dhcp
+show running-config interface g0/0/1.2
+show running-config interface g0/0/1.3
+show running-config interface g0/0/1.4
+show ip route
+show ipv6 route
+ping 10.19.8.1
+ping 10.19.8.65
+ping 10.19.8.97
+ping 10.19.8.98
+ping 10.19.8.99
+ping 209.165.201.1
+ping 2001:db8:acad:a::1
+ping 2001:db8:acad:b::1
+ping 2001:db8:acad:c::1
+ping 2001:db8:acad:c::98
+ping 2001:db8:acad:c::99
+ping 2001:db8:acad:209::1">Copy</button></div>
+      <pre><code>show ip interface brief
+show ipv6 interface brief
+show vlan brief
+show interfaces trunk
+show etherchannel summary
+show port-security interface f0/6
+show port-security interface f0/18
+show ip dhcp binding
+show ip dhcp pool
+show running-config | section dhcp
+show running-config interface g0/0/1.2
+show running-config interface g0/0/1.3
+show running-config interface g0/0/1.4
+show ip route
+show ipv6 route
+ping 10.19.8.1
+ping 10.19.8.65
+ping 10.19.8.97
+ping 10.19.8.98
+ping 10.19.8.99
+ping 209.165.201.1
+ping 2001:db8:acad:a::1
+ping 2001:db8:acad:b::1
+ping 2001:db8:acad:c::1
+ping 2001:db8:acad:c::98
+ping 2001:db8:acad:c::99
+ping 2001:db8:acad:209::1</code></pre>
+    </section>
+</section>
+<section id="troubleshoot" class="block">
+<h2>Troubleshooting flowchart</h2>
+<div class="timeline">
+<div class="step"><div class="num">A</div><div class="body"><h3>PC did not get DHCP?</h3><p>Check access VLAN, trunk to router, router subinterface, DHCP excluded-address range, and whether R1 G0/0/1 is no shutdown.</p><pre><code>show vlan brief
+show interfaces trunk
+show ip dhcp binding
+show running-config | section dhcp</code></pre></div></div>
+<div class="step"><div class="num">B</div><div class="body"><h3>Switch management cannot ping?</h3><p>Check SVI VLAN 4 IP, default-gateway 10.19.8.97, VLAN 4 exists, trunks allow VLAN 4, and R1 subinterface G0/0/1.4 is up.</p><pre><code>show ip interface brief
+show vlan brief
+show interfaces trunk</code></pre></div></div>
+<div class="step"><div class="num">C</div><div class="body"><h3>EtherChannel not forming?</h3><p>Both physical links need matching settings. Same trunk mode, native VLAN, allowed VLANs, speed/duplex if configured, and same channel-group mode.</p><pre><code>show etherchannel summary
+show run interface f0/1
+show run interface f0/2</code></pre></div></div>
+<div class="step"><div class="num">D</div><div class="body"><h3>IPv6 ping fails?</h3><p>Check <code>ipv6 unicast-routing</code> on R1, correct IPv6 address on subinterfaces, correct PC IPv6 address, and gateway set to <code>fe80::1</code>.</p><pre><code>show ipv6 interface brief
+show ipv6 route</code></pre></div></div>
+</div>
+</section>
+<section id="quiz" class="block">
+<h2>Interactive quiz</h2>
+<div id="quizbox"></div>
+</section>
+<section id="flashcards" class="block">
+<h2>Flashcards</h2>
+<div class="flash" id="flash"><div><h3 id="flashQ">Tap to start</h3><p id="flashA">Quick memory drill for exam day.</p></div></div>
+<div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap"><button class="pillbtn" id="prevCard">Previous</button><button class="pillbtn" id="nextCard">Next</button></div>
+</section>
+<section class="block">
+<h2>Final exam-day order</h2>
+<ol>
+<li>Erase/reload devices, set switch SDM if needed.</li>
+<li>Configure R1 basic security, SSH, IPv6 routing, subinterfaces, loopback.</li>
+<li>Configure S1 and S2 basic security, SSH, management SVI, default gateway.</li>
+<li>Create VLANs on both switches.</li>
+<li>Configure trunks and EtherChannel.</li>
+<li>Configure PC access ports and port-security.</li>
+<li>Park and shut down unused ports.</li>
+<li>Configure DHCP and default routes on R1.</li>
+<li>Configure PCs: IPv4 DHCP, IPv6 static.</li>
+<li>Verify with show commands and pings.</li>
+</ol>
+</section>
+</main>
+<footer class="footer">Built as a single-file mobile reviewer. Save locally and open in any browser.</footer>
+<script>
+const checks=[...document.querySelectorAll('input[type=checkbox]')];
+function updateProgress(){const total=checks.length; const done=checks.filter(c=>c.checked).length; document.getElementById('progress').style.width=(done/total*100)+'%';}
+checks.forEach((c,i)=>{c.checked=localStorage.getItem('srwe-check-'+i)==='1'; c.addEventListener('change',()=>{localStorage.setItem('srwe-check-'+i,c.checked?'1':'0');updateProgress();})});updateProgress();
+document.querySelectorAll('.copy').forEach(btn=>btn.addEventListener('click',async()=>{await navigator.clipboard.writeText(btn.dataset.copy); const old=btn.textContent; btn.textContent='Copied'; setTimeout(()=>btn.textContent=old,900);}));
+const questions=[
+{q:'Which VLAN is used as the native VLAN?',a:'VLAN 6',c:['VLAN 4','VLAN 5','VLAN 6','VLAN 2'],why:'VLAN 6 is named Native and is configured on trunk links as the native VLAN.'},
+{q:'Which VLAN is used for unused shutdown ports?',a:'VLAN 5',c:['VLAN 3','VLAN 4','VLAN 5','VLAN 6'],why:'VLAN 5 is named Parking, so unused interfaces are assigned there and shut down.'},
+{q:'What is PC-A VLAN?',a:'VLAN 2 Bikes',c:['VLAN 2 Bikes','VLAN 3 Trikes','VLAN 4 Management','VLAN 6 Native'],why:'PC-A connects to S1 F0/6, which is configured as an access port in VLAN 2.'},
+{q:'What is PC-B VLAN?',a:'VLAN 3 Trikes',c:['VLAN 2 Bikes','VLAN 3 Trikes','VLAN 4 Management','VLAN 5 Parking'],why:'PC-B connects to S2 F0/18, which is configured as an access port in VLAN 3.'},
+{q:'What command enables IPv6 routing on R1?',a:'ipv6 unicast-routing',c:['ip routing','ipv6 enable','ipv6 unicast-routing','ipv6 route ::/0 loopback 0'],why:'The router needs ipv6 unicast-routing to route IPv6 between VLANs.'},
+{q:'What is the IPv4 default gateway for S1 and S2 management?',a:'10.19.8.97',c:['10.19.8.1','10.19.8.65','10.19.8.97','10.19.8.98'],why:'R1 G0/0/1.4 is the management VLAN gateway at 10.19.8.97.'},
+{q:'What LACP mode is used for EtherChannel?',a:'active',c:['auto','desirable','active','on'],why:'LACP uses active/passive. This assessment specifies active.'},
+{q:'What is the maximum number of MAC addresses allowed on access ports?',a:'3',c:['1','2','3','10'],why:'Port-security maximum is configured as 3.'}
+];
+const quizbox=document.getElementById('quizbox');
+questions.forEach((q,i)=>{const card=document.createElement('div');card.className='quiz-card';card.innerHTML=`<h3>${i+1}. ${q.q}</h3><div class="choices">${q.c.map(x=>`<button class="choice">${x}</button>`).join('')}</div><p class="muted"></p>`;quizbox.appendChild(card);card.querySelectorAll('.choice').forEach(b=>b.addEventListener('click',()=>{card.querySelectorAll('.choice').forEach(x=>x.classList.remove('correct','wrong'));if(b.textContent===q.a){b.classList.add('correct');card.querySelector('p').textContent='Correct. '+q.why}else{b.classList.add('wrong');card.querySelector('p').textContent='Nope. Correct answer: '+q.a+'. '+q.why}}));});
+const cardsData=[
+['Router-on-a-stick','One physical router interface carries multiple VLANs using subinterfaces and dot1Q tags.'],
+['Native VLAN','The VLAN used for untagged trunk traffic. In this lab, it is VLAN 6.'],
+['Parking VLAN','A dead-end VLAN for unused ports. In this lab, it is VLAN 5.'],
+['SVI','A switch virtual interface used for switch management IP, not for normal Layer 2 switching.'],
+['LACP active','Negotiates EtherChannel dynamically. Both S1 and S2 use channel-group 1 mode active.'],
+['DHCP last 10 addresses','Exclude all usable addresses except the last 10, then let the pool serve only those remaining IPs.'],
+['Link-local gateway','For IPv6 PCs, the default gateway is fe80::1, the router subinterface link-local address.'],
+['Most useful show command','show interfaces trunk quickly confirms trunk mode, native VLAN, and allowed VLANs.']
+];
+let fi=-1,showAns=false;function renderFlash(){if(fi<0){fi=0;showAns=false}document.getElementById('flashQ').textContent=cardsData[fi][0];document.getElementById('flashA').textContent=showAns?cardsData[fi][1]:'Tap card to reveal answer.'}
+document.getElementById('flash').addEventListener('click',()=>{showAns=!showAns;renderFlash();});document.getElementById('nextCard').addEventListener('click',()=>{fi=(fi+1)%cardsData.length;showAns=false;renderFlash();});document.getElementById('prevCard').addEventListener('click',()=>{fi=(fi-1+cardsData.length)%cardsData.length;showAns=false;renderFlash();});renderFlash();
+</script>
+</body>
+</html>

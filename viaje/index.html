@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Viaje x Lakat Ta | Negros</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; -webkit-tap-highlight-color: transparent; }
+        
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .btn-press:active { transform: scale(0.97); transition: transform 0.1s; }
+        
+        .fade-in { animation: fadeIn 0.3s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .slide-up { animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .category-active { background-color: #4f46e5; color: white; border-color: transparent; }
+        .category-inactive { background-color: white; color: #475569; border-color: #e2e8f0; }
+
+        .like-anim { animation: likeBounce 0.3s; }
+        @keyframes likeBounce { 0% { transform: scale(1); } 50% { transform: scale(1.3); } 100% { transform: scale(1); } }
+        
+        /* Chat Bubbles */
+        .chat-bubble { max-width: 75%; padding: 12px; border-radius: 16px; font-size: 13px; line-height: 1.4; margin-bottom: 8px; }
+        .chat-me { background-color: #4f46e5; color: white; border-bottom-right-radius: 4px; margin-left: auto; }
+        .chat-them { background-color: #f1f5f9; color: #1e293b; border-bottom-left-radius: 4px; margin-right: auto; }
+
+        /* Text Shadow for Readability over Images */
+        .text-shadow-md {
+            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+        }
+        .text-shadow-sm {
+            text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+        }
+    </style>
+</head>
+<body class="h-screen w-full flex justify-center bg-gray-100">
+
+    <!-- App Container -->
+    <div class="w-full max-w-md h-full bg-white relative shadow-2xl overflow-hidden flex flex-col">
+        
+        <!-- ================= HEADER ================= -->
+        <div class="px-6 pt-12 pb-4 bg-white z-20 sticky top-0 border-b border-gray-50">
+            <div class="flex justify-between items-center mb-4">
+                <div>
+                    <p class="text-xs font-bold text-indigo-500 uppercase tracking-wider mb-1">Lakat 'Ta Negros!</p>
+                    <h1 class="text-2xl font-extrabold text-slate-800 flex items-center gap-2">
+                        <i class="fa-solid fa-route text-indigo-600"></i> Viaje.
+                    </h1>
+                </div>
+                <div class="w-10 h-10 rounded-full bg-gray-100 border border-gray-200 overflow-hidden btn-press cursor-pointer">
+                    <img src="https://ui-avatars.com/api/?name=Juan+Dela+Cruz&background=4f46e5&color=fff" alt="Profile">
+                </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="bg-gray-50 p-3 rounded-2xl flex items-center shadow-sm border border-gray-100">
+                <i class="fa-solid fa-magnifying-glass text-gray-400 ml-2"></i>
+                <input type="text" id="searchInput" onkeyup="filterContent()" placeholder="Search..." class="bg-transparent outline-none text-sm w-full font-semibold text-slate-700 placeholder-gray-400 ml-3">
+            </div>
+        </div>
+
+        <!-- ================= MAIN VIEWS ================= -->
+        <div class="flex-1 overflow-y-auto no-scrollbar relative bg-slate-50" id="mainContainer">
+            
+            <!-- VIEW: EXPLORE (Home) -->
+            <div id="view-home" class="pb-24 pt-4">
+                
+                <!-- Categories -->
+                <div class="px-6 mb-6">
+                    <div class="flex gap-3 overflow-x-auto no-scrollbar pb-2">
+                        <button onclick="setCategory('rides')" id="cat-rides" class="category-active px-5 py-2.5 rounded-full text-xs font-bold border shadow-sm shrink-0 btn-press flex items-center gap-2 transition-all">
+                            <i class="fa-solid fa-car"></i> Carpool
+                        </button>
+                        <button onclick="setCategory('tours')" id="cat-tours" class="category-inactive px-5 py-2.5 rounded-full text-xs font-bold border shadow-sm shrink-0 btn-press flex items-center gap-2 transition-all">
+                            <i class="fa-solid fa-map-location-dot"></i> Tours
+                        </button>
+                        <button onclick="setCategory('stays')" id="cat-stays" class="category-inactive px-5 py-2.5 rounded-full text-xs font-bold border shadow-sm shrink-0 btn-press flex items-center gap-2 transition-all">
+                            <i class="fa-solid fa-hotel"></i> Stays
+                        </button>
+                        <button onclick="setCategory('eats')" id="cat-eats" class="category-inactive px-5 py-2.5 rounded-full text-xs font-bold border shadow-sm shrink-0 btn-press flex items-center gap-2 transition-all">
+                            <i class="fa-solid fa-utensils"></i> Eats
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Feed Container -->
+                <div class="px-6 space-y-5" id="feedContainer">
+                    <!-- Dynamic Content -->
+                </div>
+            </div>
+
+            <!-- VIEW: ITINERARY (My Bookings) -->
+            <div id="view-itinerary" class="hidden pb-24 pt-6 px-6 h-full flex flex-col">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="font-bold text-xl text-slate-800">My Itinerary</h2>
+                    <span class="text-xs bg-indigo-50 text-indigo-600 px-3 py-1 rounded-full font-bold">Upcoming</span>
+                </div>
+                
+                <div id="itineraryList" class="space-y-4 flex-1">
+                    <div class="flex flex-col items-center justify-center h-64 text-gray-400 fade-in" id="emptyItinerary">
+                        <i class="fa-solid fa-clipboard-list text-4xl mb-4 opacity-20"></i>
+                        <p class="text-sm">No trips planned yet.</p>
+                        <button onclick="switchTab('home')" class="mt-4 text-indigo-600 text-sm font-bold">Explore Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW: MESSAGES -->
+            <div id="view-messages" class="hidden pb-24 h-full flex flex-col">
+                <div class="px-6 py-4 bg-white border-b border-gray-100">
+                    <h2 class="font-bold text-xl text-slate-800">Messages</h2>
+                </div>
+                <div id="messagesList" class="flex-1 overflow-y-auto">
+                    <!-- Default Message -->
+                    <div onclick="openChat('Sarah L.', 'Carpool Driver')" class="px-6 py-4 hover:bg-gray-50 cursor-pointer border-b border-gray-50 flex items-center gap-4">
+                        <div class="relative">
+                            <img src="https://ui-avatars.com/api/?name=Sarah+L&background=f97316&color=fff" class="w-12 h-12 rounded-full">
+                            <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between mb-1">
+                                <h3 class="font-bold text-slate-800 text-sm">Sarah L. (DSB Trip)</h3>
+                                <span class="text-[10px] text-gray-400">Now</span>
+                            </div>
+                            <p class="text-xs text-gray-500 line-clamp-1 font-bold text-indigo-600">See you! Dala lang jacket kay tugnaw didto subong.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW: PROFILE -->
+            <div id="view-profile" class="hidden pb-24 pt-6 px-6 h-full">
+                <div class="text-center mb-8">
+                    <div class="w-24 h-24 rounded-full bg-indigo-100 mx-auto mb-4 border-4 border-white shadow-lg overflow-hidden">
+                        <img src="https://ui-avatars.com/api/?name=Juan+Dela+Cruz&background=4f46e5&color=fff&size=128" alt="Profile">
+                    </div>
+                    <h2 class="font-bold text-2xl text-slate-800">Juan Dela Cruz</h2>
+                    <p class="text-sm text-slate-500">Local Tourist • Bacolod City</p>
+                </div>
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="p-4 border-b border-gray-50 flex justify-between">
+                        <span class="text-sm font-bold text-slate-700">Total Trips</span>
+                        <span class="font-bold text-indigo-600">5</span>
+                    </div>
+                    <div class="p-4 border-b border-gray-50 flex justify-between">
+                        <span class="text-sm font-bold text-slate-700">Reviews</span>
+                        <span class="font-bold text-indigo-600">4.8 <i class="fa-solid fa-star text-yellow-400 text-xs"></i></span>
+                    </div>
+                </div>
+                
+                <div class="mt-6">
+                    <h3 class="font-bold text-sm text-slate-400 uppercase tracking-wider mb-3">Settings</h3>
+                    <button class="w-full bg-white p-4 rounded-xl shadow-sm mb-2 text-left text-sm font-bold text-slate-700">
+                        <i class="fa-solid fa-user-gear mr-2 text-slate-400"></i> Edit Profile
+                    </button>
+                    <button class="w-full bg-red-50 p-4 rounded-xl shadow-sm text-left text-sm font-bold text-red-600">
+                        <i class="fa-solid fa-right-from-bracket mr-2"></i> Log Out
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ================= FAB (Context Aware) ================= -->
+        <button id="fabAction" onclick="openOfferModal()" class="absolute bottom-24 right-5 bg-slate-900 text-white px-5 py-4 rounded-2xl shadow-xl shadow-slate-900/30 flex items-center gap-3 btn-press z-30 group transition-transform hover:-translate-y-1">
+            <i class="fa-solid fa-car text-lg"></i>
+            <span class="font-bold text-sm">Offer Ride</span>
+        </button>
+
+        <!-- ================= BOTTOM NAVIGATION ================= -->
+        <div class="glass-nav absolute bottom-0 w-full pb-safe pt-2 px-6 h-20 flex justify-between items-center z-40">
+            <button onclick="switchTab('home')" id="nav-home" class="nav-btn flex flex-col items-center gap-1 text-indigo-600 w-16 transition-colors">
+                <i class="fa-solid fa-compass text-xl"></i>
+                <span class="text-[10px] font-bold">Explore</span>
+            </button>
+            <button onclick="switchTab('itinerary')" id="nav-itinerary" class="nav-btn flex flex-col items-center gap-1 text-gray-400 hover:text-indigo-600 w-16 transition-colors">
+                <div class="relative">
+                    <i class="fa-solid fa-suitcase-rolling text-xl"></i>
+                    <div id="itineraryBadge" class="hidden absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></div>
+                </div>
+                <span class="text-[10px] font-bold">Itinerary</span>
+            </button>
+            <button onclick="switchTab('messages')" id="nav-messages" class="nav-btn flex flex-col items-center gap-1 text-gray-400 hover:text-indigo-600 w-16 transition-colors">
+                <i class="fa-solid fa-comment-dots text-xl"></i>
+                <span class="text-[10px] font-bold">Chat</span>
+            </button>
+            <button onclick="switchTab('profile')" id="nav-profile" class="nav-btn flex flex-col items-center gap-1 text-gray-400 hover:text-indigo-600 w-16 transition-colors">
+                <i class="fa-solid fa-user text-xl"></i>
+                <span class="text-[10px] font-bold">Profile</span>
+            </button>
+        </div>
+
+        <!-- ================= MODALS ================= -->
+
+        <!-- 1. Universal Detail Modal -->
+        <div id="detailModal" class="absolute inset-0 z-50 bg-slate-900/40 backdrop-blur-sm hidden flex items-end justify-center">
+            <div onclick="event.stopPropagation()" class="bg-white w-full rounded-t-[2.5rem] shadow-2xl slide-up h-[90vh] flex flex-col relative overflow-hidden">
+                <!-- Hero Image -->
+                <div class="h-72 relative shrink-0 group">
+                    <img id="detailImg" src="" class="w-full h-full object-cover">
+                    <!-- Stronger Gradient for Readability -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent"></div>
+                    
+                    <button onclick="closeModal('detailModal')" class="absolute top-5 right-5 bg-white/20 backdrop-blur-md p-2 rounded-full text-white hover:bg-white/40 transition shadow-sm"><i class="fa-solid fa-xmark text-lg"></i></button>
+                    
+                    <div class="absolute bottom-6 left-8 right-8">
+                        <span id="detailTag" class="bg-indigo-600 text-white px-3 py-1 rounded-lg text-[10px] font-bold mb-2 inline-block uppercase tracking-wider shadow-md">Category</span>
+                        <h2 class="text-3xl font-extrabold text-white leading-tight text-shadow-md" id="detailTitle">Title</h2>
+                        <p class="text-sm text-gray-200 font-medium mt-1 text-shadow-sm"><i class="fa-solid fa-location-dot mr-1 text-indigo-400"></i> <span id="detailLoc">Location</span></p>
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div class="px-8 relative z-10 flex-1 overflow-y-auto no-scrollbar pb-24 pt-6">
+                    <div class="flex gap-4 mb-6" id="detailStats"></div>
+                    <div class="mb-6">
+                        <h3 class="font-bold text-slate-800 mb-2">About</h3>
+                        <p class="text-sm text-slate-500 leading-relaxed" id="detailDesc">Description text...</p>
+                    </div>
+                    <!-- Provider/Driver Info -->
+                    <div class="bg-gray-50 p-4 rounded-2xl flex items-center gap-4 border border-gray-100 mb-6">
+                        <img id="providerImg" src="" class="w-12 h-12 rounded-full border-2 border-white shadow-sm">
+                        <div>
+                            <p class="font-bold text-slate-800 text-sm" id="providerName">Provider Name</p>
+                            <p class="text-xs text-gray-500" id="providerSub">Verified Partner</p>
+                        </div>
+                        <button onclick="startChatFromModal()" class="ml-auto bg-white p-3 rounded-xl shadow-sm text-indigo-600 border border-gray-100 btn-press"><i class="fa-solid fa-comment-dots"></i></button>
+                    </div>
+                </div>
+
+                <!-- Footer Action -->
+                <div class="absolute bottom-0 w-full bg-white p-6 border-t border-gray-100 z-20 pb-8 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs text-gray-400 font-bold uppercase">Total Price</p>
+                        <p class="text-2xl font-black text-indigo-600" id="detailPrice">₱0</p>
+                    </div>
+                    <button onclick="bookItem()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition btn-press flex items-center gap-2">
+                        <span>Book Now</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Chat Modal -->
+        <div id="activeChat" class="absolute inset-0 bg-white z-50 flex flex-col hidden slide-up">
+            <div class="px-6 py-4 bg-white border-b border-gray-100 flex items-center gap-3 shadow-sm pt-12">
+                <button onclick="document.getElementById('activeChat').classList.add('hidden')" class="text-slate-500 hover:bg-gray-100 p-2 rounded-full"><i class="fa-solid fa-arrow-left"></i></button>
+                <img id="chatAvatar" src="" class="w-8 h-8 rounded-full">
+                <div>
+                    <h3 class="font-bold text-slate-800 text-sm" id="chatHeaderName">Name</h3>
+                    <p class="text-[10px] text-green-500 font-bold">● Online</p>
+                </div>
+            </div>
+            <div class="flex-1 bg-slate-50 p-4 overflow-y-auto" id="chatBody">
+                <!-- Messages go here -->
+            </div>
+            <div class="p-4 bg-white border-t border-gray-100 flex gap-2 pb-8">
+                <input type="text" id="chatInput" placeholder="Type a message..." class="flex-1 bg-gray-100 rounded-full px-4 py-2 text-sm outline-none">
+                <button onclick="sendMessage()" class="bg-indigo-600 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg btn-press"><i class="fa-solid fa-paper-plane text-xs"></i></button>
+            </div>
+        </div>
+
+        <!-- 3. Offer Ride Modal -->
+        <div id="offerModal" class="absolute inset-0 z-50 bg-slate-900/40 backdrop-blur-sm hidden flex items-end justify-center">
+            <div onclick="event.stopPropagation()" class="bg-white w-full rounded-t-[2.5rem] shadow-2xl slide-up p-8 pb-10">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold text-slate-800">Offer a Ride</h2>
+                    <button onclick="closeModal('offerModal')" class="bg-gray-100 w-8 h-8 flex items-center justify-center rounded-full text-gray-500"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div class="space-y-4">
+                    <div class="bg-gray-50 p-4 rounded-xl flex items-center gap-3 border border-gray-100">
+                        <i class="fa-solid fa-location-dot text-indigo-500"></i>
+                        <input type="text" id="offerDest" placeholder="Destination (e.g. Sipalay)" class="bg-transparent w-full outline-none text-sm font-bold text-slate-700">
+                    </div>
+                    <button onclick="postRide()" class="w-full bg-slate-900 text-white font-bold py-4 rounded-xl mt-4 btn-press shadow-xl shadow-slate-200">Post Ride</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Toast -->
+        <div id="toast" class="absolute top-6 left-1/2 transform -translate-x-1/2 bg-slate-900/90 backdrop-blur text-white px-6 py-3 rounded-full shadow-xl flex items-center gap-3 text-xs font-bold opacity-0 transition-all duration-300 pointer-events-none z-[70] min-w-[200px] justify-center translate-y-[-20px]">
+            <i class="fa-solid fa-circle-check text-green-400 text-lg"></i>
+            <span id="toastMsg">Success</span>
+        </div>
+
+    </div>
+
+    <script>
+        // --- DATA ---
+        let currentCategory = 'rides';
+        let currentItem = null;
+        let myItinerary = [];
+
+        // 5 Trips + Other Categories
+        const data = {
+            rides: [
+                { 
+                    id: 1, 
+                    type: 'rides', 
+                    title: 'Campuestohan Highland Resort', 
+                    sub: 'Toyota Innova', 
+                    loc: 'Robinsons East', 
+                    price: '₱150', 
+                    img: 'http://ov3.238.mytemp.website/lakatta/images/places/place_campuestohan.jpg', // Resort-like placeholder
+                    provider: 'Miguel Tan', 
+                    avatar: 'https://ui-avatars.com/api/?name=Miguel+Tan&background=6366f1&color=fff', 
+                    desc: 'Carpooling to Campuestohan via Concepcion. Leaving at 8:00 AM sharp. Spacious cargo for bags.', 
+                    seats: '2 Left' 
+                },
+                { 
+                    id: 2, 
+                    type: 'rides', 
+                    title: 'Don Salvador Benedicto', 
+                    sub: 'Ford Ranger', 
+                    loc: 'Petron Lacson', 
+                    price: '₱200', 
+                    img: 'http://ov3.238.mytemp.website/jcnino/viaje/dsb.jpg', // Road trip/Nature placeholder
+                    provider: 'Sarah L.', 
+                    avatar: 'https://ui-avatars.com/api/?name=Sarah+L&background=f97316&color=fff', 
+                    desc: 'Heading to Jomax Peak for coffee. Pickup at Petron Lacson (Dunkin). Bring a jacket!', 
+                    seats: '1 Left' 
+                },
+                {
+                    id: 3,
+                    type: 'rides',
+                    title: 'The Ruins',
+                    sub: 'Honda City',
+                    loc: 'Bacolod North Terminal',
+                    price: '₱100',
+                    img: 'http://ov3.238.mytemp.website/lakatta/images/places/place_the_ruins.jpg', 
+                    provider: 'Jojo V.',
+                    avatar: 'https://ui-avatars.com/api/?name=Jojo+V&background=10b981&color=fff',
+                    desc: 'Going to Talisay for a sunset shoot at The Ruins. Can drop you off at the gate.',
+                    seats: '3 Left'
+                },
+                {
+                    id: 4,
+                    type: 'rides',
+                    title: 'Lakawon Island Port',
+                    sub: 'Toyota HiAce',
+                    loc: 'Lopues East',
+                    price: '₱350',
+                    img: 'http://ov3.238.mytemp.website/lakatta/images/places/place_lakawon.jpg', // Beach placeholder
+                    provider: 'Mark D.',
+                    avatar: 'https://ui-avatars.com/api/?name=Mark+D&background=ef4444&color=fff',
+                    desc: 'Family trip to Lakawon, we have extra seats in the van. Share gas/toll.',
+                    seats: '4 Left'
+                },
+                {
+                    id: 5,
+                    type: 'rides',
+                    title: 'Mambukal Mountain Resort',
+                    sub: 'Mitsubishi Adventure',
+                    loc: 'Libertad Market',
+                    price: '₱120',
+                    img: 'http://ov3.238.mytemp.website/lakatta/images/places/place_mambukal.jpg', // Waterfall/Nature placeholder
+                    provider: 'Rico J.',
+                    avatar: 'https://ui-avatars.com/api/?name=Rico+J&background=3b82f6&color=fff',
+                    desc: 'Early morning dip at Mambukal hot springs. Leaving Libertad 6:00 AM.',
+                    seats: '2 Left'
+                }
+            ],
+            tours: [
+                { id: 6, type: 'tours', title: 'The Ruins Sunset', sub: 'Guided Tour', loc: 'Talisay City', price: '₱350', img: 'http://ov3.238.mytemp.website/lakatta/images/places/place_the_ruins.jpg', provider: 'Negros Tours', avatar: 'https://ui-avatars.com/api/?name=Negros+Tours&background=10b981&color=fff', desc: 'Experience the Taj Mahal of Negros at sunset. Includes entrance fee and guide.', seats: 'Daily' },
+                { id: 7, type: 'tours', title: 'Lakawon Day Tour', sub: 'All-in Package', loc: 'Cadiz City', price: '₱1,500', img: 'http://ov3.238.mytemp.website/lakatta/images/places/place_mambukal.jpg', provider: 'Island Hop', avatar: 'https://ui-avatars.com/api/?name=Island+Hop&background=3b82f6&color=fff', desc: 'Boat transfers, cottage, and lunch included. Meet up at North Terminal.', seats: 'Sat/Sun' }
+            ],
+            stays: [
+                { id: 8, type: 'stays', title: 'Park Inn by Radisson', sub: 'Deluxe Room', loc: 'SM City Bacolod', price: '₱3,200', img: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=800', provider: 'Park Inn', avatar: 'https://ui-avatars.com/api/?name=Park+Inn&background=8b5cf6&color=fff', desc: 'Directly connected to SM City Mall. Includes breakfast for two.', seats: 'Available' },
+                { id: 9, type: 'stays', title: 'L\'Fisher Hotel', sub: 'Executive Suite', loc: 'Lacson St.', price: '₱4,500', img: 'https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?q=80&w=800', provider: 'LFisher', avatar: 'https://ui-avatars.com/api/?name=L+Fisher&background=facc15&color=fff', desc: 'The premier hotel in the heart of Bacolod. Close to Calea and lagoons.', seats: 'Available' }
+            ],
+            eats: [
+                { id: 10, type: 'eats', title: 'Chicken House', sub: 'Inasal Paa', loc: 'Lacson St.', price: '₱135', img: 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?q=80&w=800', provider: 'Chicken House', avatar: 'https://ui-avatars.com/api/?name=Chicken+House&background=ef4444&color=fff', desc: 'The authentic Bacolod Chicken Inasal experience. Garlic rice unlimited.', seats: 'Open' },
+                { id: 11, type: 'eats', title: 'Calea Pastries', sub: 'Choco Mud Pie', loc: 'Lacson St.', price: '₱110', img: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=800', provider: 'Calea', avatar: 'https://ui-avatars.com/api/?name=Calea&background=ec4899&color=fff', desc: 'Famous desserts and coffee in Bacolod. A must-visit for tourists.', seats: 'Open' }
+            ]
+        };
+
+        // --- INIT ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderFeed('rides');
+        });
+
+        // --- FUNCTIONS ---
+
+        function setCategory(cat) {
+            currentCategory = cat;
+            
+            // UI Update
+            ['rides', 'tours', 'stays', 'eats'].forEach(c => {
+                const btn = document.getElementById('cat-' + c);
+                if (c === cat) {
+                    btn.className = "category-active px-5 py-2.5 rounded-full text-xs font-bold border shadow-sm shrink-0 btn-press flex items-center gap-2 transition-all";
+                } else {
+                    btn.className = "category-inactive px-5 py-2.5 rounded-full text-xs font-bold border shadow-sm shrink-0 btn-press flex items-center gap-2 transition-all";
+                }
+            });
+
+            // Update Placeholder text
+            const phMap = {
+                rides: "Search destinations...",
+                tours: "Search tours...",
+                stays: "Search hotels...",
+                eats: "Search food..."
+            };
+            document.getElementById('searchInput').placeholder = phMap[cat];
+            
+            // Reset search input
+            document.getElementById('searchInput').value = '';
+
+            // Update FAB
+            const fab = document.getElementById('fabAction');
+            if (cat === 'rides') {
+                fab.classList.remove('hidden');
+            } else {
+                fab.classList.add('hidden');
+            }
+
+            renderFeed(cat);
+        }
+
+        function renderFeed(cat, filterText = '') {
+            const container = document.getElementById('feedContainer');
+            container.innerHTML = '';
+            
+            let items = data[cat];
+            
+            // Universal Search Logic
+            if (filterText) {
+                const lowerFilter = filterText.toLowerCase();
+                items = items.filter(item => 
+                    item.title.toLowerCase().includes(lowerFilter) || 
+                    item.loc.toLowerCase().includes(lowerFilter)
+                );
+            }
+            
+            if (items.length === 0) {
+                container.innerHTML = `<div class="text-center text-gray-400 py-10"><i class="fa-solid fa-magnifying-glass text-2xl mb-2"></i><p class="text-xs">No results found.</p></div>`;
+                return;
+            }
+
+            items.forEach(item => {
+                let badgeColor = 'bg-slate-900';
+                if(cat === 'tours') badgeColor = 'bg-emerald-600';
+                if(cat === 'stays') badgeColor = 'bg-indigo-600';
+                if(cat === 'eats') badgeColor = 'bg-orange-600';
+
+                const card = `
+                <div onclick="openDetail(${item.id}, '${cat}')" class="bg-white border border-gray-100 rounded-3xl shadow-lg shadow-gray-100/50 overflow-hidden btn-press cursor-pointer group relative fade-in">
+                    <div class="h-36 bg-gray-200 relative overflow-hidden group">
+                        <img src="${item.img}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <!-- Dark Overlay for Text Readability -->
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent"></div>
+                        
+                        <div class="absolute top-3 right-3 bg-white/30 backdrop-blur p-2 rounded-full text-white hover:text-red-500 transition" onclick="event.stopPropagation(); toggleHeart(this)">
+                            <i class="fa-regular fa-heart"></i>
+                        </div>
+                        <div class="absolute bottom-3 right-3 ${badgeColor} text-white px-3 py-1 rounded-full text-[10px] font-bold shadow-sm flex items-center gap-1">
+                            ${item.seats}
+                        </div>
+                        
+                        <!-- Floating Location Title on Image (Added per request) -->
+                        <div class="absolute bottom-3 left-3 text-white">
+                             <h3 class="font-bold text-lg leading-tight truncate w-48 text-shadow-md">${item.title}</h3>
+                             <p class="text-[10px] font-medium text-shadow-sm opacity-90"><i class="fa-solid fa-location-dot mr-1 text-indigo-400"></i> ${item.loc}</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Bottom Card Content -->
+                    <div class="p-4 bg-white">
+                        <div class="flex justify-between items-center mt-1">
+                            <div class="flex items-center gap-2">
+                                <img src="${item.avatar}" class="w-6 h-6 rounded-full border border-gray-200">
+                                <p class="text-xs font-bold text-slate-700">${item.provider}</p>
+                            </div>
+                            <span class="block text-lg font-extrabold text-indigo-600">${item.price}</span>
+                        </div>
+                    </div>
+                </div>`;
+                container.insertAdjacentHTML('beforeend', card);
+            });
+        }
+
+        function filterContent() {
+            const q = document.getElementById('searchInput').value;
+            renderFeed(currentCategory, q);
+        }
+
+        function toggleHeart(btn) {
+            const icon = btn.querySelector('i');
+            if (icon.classList.contains('fa-regular')) {
+                icon.classList.remove('fa-regular');
+                icon.classList.add('fa-solid', 'text-red-500', 'like-anim');
+                btn.classList.add('bg-white'); // Solid background when liked
+                showToast("Added to Favorites");
+            } else {
+                icon.classList.remove('fa-solid', 'text-red-500', 'like-anim');
+                icon.classList.add('fa-regular');
+                btn.classList.remove('bg-white');
+            }
+        }
+
+        function openDetail(id, cat) {
+            const item = data[cat].find(i => i.id === id);
+            currentItem = item;
+
+            document.getElementById('detailTitle').innerText = item.title;
+            document.getElementById('detailPrice').innerText = item.price;
+            document.getElementById('detailImg').src = item.img;
+            document.getElementById('detailLoc').innerText = item.loc;
+            document.getElementById('detailDesc').innerText = item.desc;
+            document.getElementById('detailTag').innerText = cat;
+            document.getElementById('providerName').innerText = item.provider;
+            document.getElementById('providerSub').innerText = item.sub;
+            document.getElementById('providerImg').src = item.avatar;
+
+            // Update stats based on category
+            const stats = document.getElementById('detailStats');
+            stats.innerHTML = '';
+            
+            if(cat === 'rides') {
+                stats.innerHTML = `<div class="bg-gray-50 px-4 py-2 rounded-xl border border-gray-100 text-center"><p class="text-xs text-gray-400 uppercase font-bold">Vehicle</p><p class="font-bold text-slate-800">${item.sub}</p></div>
+                    <div class="bg-gray-50 px-4 py-2 rounded-xl border border-gray-100 text-center"><p class="text-xs text-gray-400 uppercase font-bold">Seats</p><p class="font-bold text-green-600">${item.seats}</p></div>`;
+            } else {
+                stats.innerHTML = `<div class="bg-gray-50 px-4 py-2 rounded-xl border border-gray-100 text-center"><p class="text-xs text-gray-400 uppercase font-bold">Rating</p><p class="font-bold text-slate-800">5.0</p></div>
+                    <div class="bg-gray-50 px-4 py-2 rounded-xl border border-gray-100 text-center"><p class="text-xs text-gray-400 uppercase font-bold">Status</p><p class="font-bold text-indigo-600">Open</p></div>`;
+            }
+
+            document.getElementById('detailModal').classList.remove('hidden');
+        }
+
+        function bookItem() {
+            closeModal('detailModal');
+            myItinerary.push(currentItem);
+            renderItinerary();
+            showToast("Booked Successfully!", "Check your Itinerary");
+            document.getElementById('itineraryBadge').classList.remove('hidden');
+            setTimeout(() => switchTab('itinerary'), 800);
+        }
+
+        function renderItinerary() {
+            const list = document.getElementById('itineraryList');
+            if(myItinerary.length > 0) {
+                document.getElementById('emptyItinerary').classList.add('hidden');
+                list.innerHTML = '';
+                
+                myItinerary.forEach(item => {
+                    // Logic to set badge color based on type
+                    let typeColor = 'bg-indigo-600'; 
+                    if(item.type === 'tours') typeColor = 'bg-emerald-600';
+                    if(item.type === 'stays') typeColor = 'bg-indigo-600';
+                    if(item.type === 'eats') typeColor = 'bg-orange-600';
+
+                    const ticket = `
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex gap-4 fade-in relative overflow-hidden mb-3">
+                        <div class="w-2 h-full absolute left-0 top-0 ${typeColor}"></div>
+                        <div class="w-16 h-16 bg-gray-100 rounded-xl shrink-0 overflow-hidden">
+                            <img src="${item.img}" class="w-full h-full object-cover">
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-slate-800 text-sm">${item.title}</h3>
+                            <p class="text-xs text-gray-500 mb-2">${item.loc}</p>
+                            <span class="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-1 rounded">CONFIRMED</span>
+                        </div>
+                        <div class="flex flex-col justify-between items-end">
+                            <span class="font-bold text-indigo-600">${item.price}</span>
+                            <button onclick="openChat('${item.provider}', 'Partner')" class="text-gray-400 hover:text-indigo-600"><i class="fa-solid fa-comment-dots"></i></button>
+                        </div>
+                    </div>`;
+                    list.insertAdjacentHTML('beforeend', ticket);
+                });
+            }
+        }
+
+        function postRide() {
+            const dest = document.getElementById('offerDest').value;
+            if(!dest) return showToast("Enter destination first!");
+            
+            showToast("Ride Posted!");
+            closeModal('offerModal');
+            
+            // Add a temp item to the feed for visual feedback
+            const newItem = { 
+                id: Date.now(), 
+                type: 'rides', 
+                title: dest + ' (My Ride)', 
+                sub: 'My Car', 
+                loc: 'Bacolod', 
+                price: '₱200', 
+                img: 'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=800', 
+                provider: 'You', 
+                avatar: 'https://ui-avatars.com/api/?name=You&background=000&color=fff', 
+                desc: 'Created just now.', 
+                seats: '4 Left' 
+            };
+            data['rides'].unshift(newItem);
+            
+            if(currentCategory === 'rides') renderFeed('rides');
+        }
+
+        // --- CHAT SYSTEM ---
+        
+        // Long Realistic Chat History
+        const chatHistory = [
+            { sender: 'them', text: "Hi Sir! Good morning." },
+            { sender: 'them', text: "Confirm ko lang kung madayon ka sa trip buas pakadto DSB?" },
+            { sender: 'me', text: "Yes boss, dayon gid. Excited nako mag pictures." },
+            { sender: 'them', text: "Ayos! May upod ka man?" },
+            { sender: 'me', text: "Wala boss, solo flight lang ko. Need mag unwind sa city." },
+            { sender: 'them', text: "Ah sige sige. Ang pick-up point ta sa Petron Lacson, correct?" },
+            { sender: 'me', text: "Oo, sa may Dunkin Donuts dapit." },
+            { sender: 'them', text: "Copy. Ara nako da mga 6:45 AM para maka take off ta 7:00 AM sharp." },
+            { sender: 'them', text: "Kay basi traffic kung ma late pa ta." },
+            { sender: 'me', text: "Noted boss. Ano gani salakyan mo?" },
+            { sender: 'them', text: "Ford Ranger nga Gray. Plate number FAB 1234." },
+            { sender: 'me', text: "Sige boss, see you buas!" },
+            { sender: 'them', text: "See you! Dala lang jacket kay tugnaw didto subong." }
+        ];
+
+        function openChat(name, role) {
+            document.getElementById('chatHeaderName').innerText = name;
+            document.getElementById('chatAvatar').src = `https://ui-avatars.com/api/?name=${name}&background=random`;
+            
+            const body = document.getElementById('chatBody');
+            body.innerHTML = ''; // Clear previous
+            
+            // Load history
+            chatHistory.forEach(msg => {
+                const bubble = `<div class="chat-bubble chat-${msg.sender} fade-in">${msg.text}</div>`;
+                body.insertAdjacentHTML('beforeend', bubble);
+            });
+            
+            // Auto scroll to bottom
+            setTimeout(() => {
+                body.scrollTop = body.scrollHeight;
+            }, 100);
+            
+            document.getElementById('activeChat').classList.remove('hidden');
+        }
+
+        function startChatFromModal() {
+            // Helper to close modal then open chat
+            closeModal('detailModal');
+            if (currentItem) {
+                openChat(currentItem.provider, currentItem.title);
+            }
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const msg = input.value;
+            if(msg) {
+                const bubble = `<div class="chat-bubble chat-me fade-in">${msg}</div>`;
+                const body = document.getElementById('chatBody');
+                body.insertAdjacentHTML('beforeend', bubble);
+                input.value = '';
+                
+                // Scroll bottom
+                body.scrollTop = body.scrollHeight;
+                
+                // Add to history just in case
+                chatHistory.push({ sender: 'me', text: msg });
+            }
+        }
+
+        // --- UTILS ---
+        function switchTab(tabName) {
+            ['home', 'itinerary', 'messages', 'profile'].forEach(v => {
+                document.getElementById('view-' + v).classList.add('hidden');
+                document.getElementById('nav-' + v).classList.remove('text-indigo-600');
+                document.getElementById('nav-' + v).classList.add('text-gray-400');
+            });
+            document.getElementById('view-' + tabName).classList.remove('hidden');
+            document.getElementById('nav-' + tabName).classList.add('text-indigo-600');
+            document.getElementById('nav-' + tabName).classList.remove('text-gray-400');
+        }
+
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+        function openOfferModal() { document.getElementById('offerModal').classList.remove('hidden'); }
+        
+        function showToast(title, msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').innerText = title;
+            toast.classList.remove('opacity-0', 'translate-y-[-20px]');
+            toast.classList.add('translate-y-0');
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-[-20px]');
+                toast.classList.remove('translate-y-0');
+            }, 2500);
+        }
+    </script>
+</body>
+</html>

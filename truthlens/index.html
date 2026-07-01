@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TruthLens - See the World Clearly</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="nav-brand">
+                    <h2>🔍 TruthLens</h2>
+                    <span class="brand-tagline">See the World Clearly</span>
+                </div>
+                <div class="nav-menu">
+                    <button class="nav-item active" data-section="home">Home</button>
+                    <button class="nav-item" data-section="fact-check">Fact Check</button>
+                    <button class="nav-item" data-section="source-analysis">Source Analysis</button>
+                    <button class="nav-item" data-section="media-literacy">Media Literacy</button>
+                    <button class="nav-item" data-section="community">Community</button>
+                    <button class="nav-item" data-section="premium">Premium</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Home Section -->
+    <section id="home" class="section active">
+        <!-- Hero Section -->
+        <div class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1 class="hero-title">See the World Clearly</h1>
+                    <p class="hero-subtitle">Empowering critical thinking through AI-powered fact-checking, source analysis, and media literacy tools</p>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">2.3M+</span>
+                            <span class="stat-label">Fact Checks</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">150K+</span>
+                            <span class="stat-label">Active Users</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">96.7%</span>
+                            <span class="stat-label">Accuracy Rate</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">500+</span>
+                            <span class="stat-label">Partners</span>
+                        </div>
+                    </div>
+                    <div class="hero-actions">
+                        <button class="btn btn--primary btn--lg" data-section="fact-check">Start Fact-Checking</button>
+                        <button class="btn btn--outline btn--lg" data-section="media-literacy">Take Quiz</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="features">
+            <div class="container">
+                <h2 class="features-title">Why Choose TruthLens?</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3>AI-Powered Analysis</h3>
+                        <p>Advanced algorithms analyze claims against trusted sources in real-time</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔍</div>
+                        <h3>Source Verification</h3>
+                        <p>Comprehensive domain analysis and credibility scoring for news sources</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎓</div>
+                        <h3>Media Literacy</h3>
+                        <p>Interactive learning tools to build critical thinking skills</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">👥</div>
+                        <h3>Community Forum</h3>
+                        <p>Engage with experts and peers in meaningful discussions</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fact Check Section -->
+    <section id="fact-check" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h1>Fact-Checking Tool</h1>
+                <p>Enter a claim or URL to verify its accuracy using our AI-powered analysis</p>
+            </div>
+
+            <div class="fact-check-tool">
+                <div class="input-section">
+                    <div class="form-group">
+                        <label class="form-label">Enter claim or URL to fact-check:</label>
+                        <textarea class="form-control" id="fact-check-input" placeholder="Enter a claim or paste a URL here..." rows="3"></textarea>
+                    </div>
+                    <button class="btn btn--primary btn--full-width" id="fact-check-btn">Analyze Claim</button>
+                </div>
+
+                <div class="results-section" id="fact-check-results" style="display: none;">
+                    <div class="loading" id="fact-check-loading">
+                        <div class="spinner"></div>
+                        <p>Analyzing claim and cross-referencing with trusted sources...</p>
+                    </div>
+
+                    <div class="fact-check-result" id="fact-check-result" style="display: none;">
+                        <div class="result-header">
+                            <div class="verdict-badge" id="verdict-badge"></div>
+                            <div class="confidence-score">
+                                <span>Confidence: </span>
+                                <span id="confidence-score"></span>
+                                <span>%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="result-content">
+                            <h3>Analysis</h3>
+                            <p id="analysis-text"></p>
+                            
+                            <h3>Sources</h3>
+                            <ul id="sources-list"></ul>
+                            
+                            <div class="result-meta">
+                                <span>Last checked: <span id="last-checked"></span></span>
+                                <button class="btn btn--outline btn--sm">Share Result</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sample Results -->
+                <div class="sample-results">
+                    <h3>Recent Fact Checks</h3>
+                    <div class="sample-cards">
+                        <div class="sample-card">
+                            <div class="verdict-badge verdict-false">FALSE</div>
+                            <p class="sample-claim">Vaccines cause autism in children</p>
+                            <span class="sample-confidence">95% confidence</span>
+                        </div>
+                        <div class="sample-card">
+                            <div class="verdict-badge verdict-true">TRUE</div>
+                            <p class="sample-claim">Climate change is primarily caused by human activities</p>
+                            <span class="sample-confidence">97% confidence</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Source Analysis Section -->
+    <section id="source-analysis" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h1>Source Analysis</h1>
+                <p>Analyze any website's credibility, ownership, and editorial standards</p>
+            </div>
+
+            <div class="source-tool">
+                <div class="input-section">
+                    <div class="form-group">
+                        <label class="form-label">Enter website URL:</label>
+                        <input type="url" class="form-control" id="source-input" placeholder="https://example.com">
+                    </div>
+                    <button class="btn btn--primary btn--full-width" id="source-analyze-btn">Analyze Source</button>
+                </div>
+
+                <div class="source-results" id="source-results" style="display: none;">
+                    <div class="loading" id="source-loading">
+                        <div class="spinner"></div>
+                        <p>Analyzing source credibility and gathering information...</p>
+                    </div>
+
+                    <div class="source-analysis-result" id="source-result" style="display: none;">
+                        <div class="trust-score-section">
+                            <div class="trust-score" id="trust-score">
+                                <div class="score-circle">
+                                    <span class="score-number" id="score-number">0</span>
+                                    <span class="score-total">/100</span>
+                                </div>
+                                <div class="score-label">Trust Score</div>
+                            </div>
+                            <div class="score-details">
+                                <div class="detail-item">
+                                    <span class="detail-label">Category:</span>
+                                    <span id="source-category"></span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Bias Rating:</span>
+                                    <span id="bias-rating"></span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Founded:</span>
+                                    <span id="founded-year"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="analysis-details">
+                            <div class="detail-card">
+                                <h4>Ownership & Transparency</h4>
+                                <p><strong>Owner:</strong> <span id="ownership"></span></p>
+                                <p><strong>Headquarters:</strong> <span id="headquarters"></span></p>
+                                <p><strong>Funding:</strong> <span id="funding"></span></p>
+                            </div>
+                            
+                            <div class="detail-card">
+                                <h4>Editorial Standards</h4>
+                                <p><strong>Editorial Policy:</strong> <span id="editorial-policy"></span></p>
+                                <p><strong>Fact-Check Record:</strong> <span id="fact-check-record"></span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Media Literacy Section -->
+    <section id="media-literacy" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h1>Media Literacy Quiz</h1>
+                <p>Test and improve your skills in identifying misinformation and evaluating sources</p>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-start" id="quiz-start">
+                    <div class="quiz-categories">
+                        <h3>Choose a Category</h3>
+                        <div class="category-grid">
+                            <button class="category-btn" data-category="all">All Categories</button>
+                            <button class="category-btn" data-category="Source Evaluation">Source Evaluation</button>
+                            <button class="category-btn" data-category="Bias Detection">Bias Detection</button>
+                            <button class="category-btn" data-category="Misinformation Detection">Misinformation Detection</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quiz-active" id="quiz-active" style="display: none;">
+                    <div class="quiz-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress-fill"></div>
+                        </div>
+                        <span class="progress-text">Question <span id="current-question">1</span> of <span id="total-questions">3</span></span>
+                    </div>
+
+                    <div class="question-card">
+                        <div class="question-category" id="question-category"></div>
+                        <h3 id="question-text"></h3>
+                        <div class="options" id="question-options"></div>
+                        <button class="btn btn--primary" id="submit-answer" disabled>Submit Answer</button>
+                    </div>
+                </div>
+
+                <div class="quiz-results" id="quiz-results" style="display: none;">
+                    <div class="results-header">
+                        <h2>Quiz Complete!</h2>
+                        <div class="score-display">
+                            <span class="score" id="final-score">0</span>
+                            <span class="total">/ <span id="final-total">3</span></span>
+                        </div>
+                    </div>
+                    <div class="results-breakdown" id="results-breakdown"></div>
+                    <button class="btn btn--primary" id="retake-quiz">Take Another Quiz</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Section -->
+    <section id="community" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h1>Community Forum</h1>
+                <p>Join the conversation about media literacy, fact-checking, and fighting misinformation</p>
+            </div>
+
+            <div class="forum-container">
+                <div class="forum-sidebar">
+                    <div class="forum-search">
+                        <input type="text" class="form-control" placeholder="Search discussions...">
+                    </div>
+                    <div class="forum-categories">
+                        <h4>Categories</h4>
+                        <ul class="category-list">
+                            <li class="category-item active" data-category="all">All Topics</li>
+                            <li class="category-item" data-category="Technology">Technology</li>
+                            <li class="category-item" data-category="Health">Health</li>
+                            <li class="category-item" data-category="Politics">Politics</li>
+                            <li class="category-item" data-category="Science">Science</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="forum-main">
+                    <div class="forum-header">
+                        <button class="btn btn--primary">New Discussion</button>
+                        <select class="form-control sort-select">
+                            <option>Latest Activity</option>
+                            <option>Most Popular</option>
+                            <option>Most Replies</option>
+                        </select>
+                    </div>
+
+                    <div class="forum-posts" id="forum-posts">
+                        <!-- Forum posts will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Premium Section -->
+    <section id="premium" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h1>Premium Features</h1>
+                <p>Unlock advanced tools for professionals, educators, and institutions</p>
+            </div>
+
+            <div class="pricing-container">
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <h3>Free</h3>
+                        <div class="price">$0<span>/month</span></div>
+                        <ul class="features-list">
+                            <li>Basic fact-checking</li>
+                            <li>Limited source analysis</li>
+                            <li>Community forum access</li>
+                            <li>Basic media literacy quiz</li>
+                        </ul>
+                        <button class="btn btn--outline btn--full-width">Current Plan</button>
+                    </div>
+
+                    <div class="pricing-card featured">
+                        <div class="popular-badge">Most Popular</div>
+                        <h3>Professional</h3>
+                        <div class="price">$29<span>/month</span></div>
+                        <ul class="features-list">
+                            <li>Advanced fact-checking with API access</li>
+                            <li>Detailed source analysis reports</li>
+                            <li>Advanced media literacy training</li>
+                            <li>Priority support</li>
+                            <li>Custom dashboards</li>
+                            <li>Export capabilities</li>
+                        </ul>
+                        <button class="btn btn--primary btn--full-width">Upgrade Now</button>
+                    </div>
+
+                    <div class="pricing-card">
+                        <h3>Enterprise</h3>
+                        <div class="price">Custom</div>
+                        <ul class="features-list">
+                            <li>White-label solutions</li>
+                            <li>API integration support</li>
+                            <li>Custom training programs</li>
+                            <li>Dedicated account manager</li>
+                            <li>Advanced analytics</li>
+                            <li>Multi-user management</li>
+                        </ul>
+                        <button class="btn btn--outline btn--full-width">Contact Sales</button>
+                    </div>
+                </div>
+
+                <div class="enterprise-section">
+                    <h2>Educational Partnerships</h2>
+                    <p>Join over 500+ schools and libraries promoting media literacy education</p>
+                    <div class="partner-benefits">
+                        <div class="benefit-item">
+                            <h4>Curriculum Integration</h4>
+                            <p>Ready-to-use lesson plans and activities aligned with educational standards</p>
+                        </div>
+                        <div class="benefit-item">
+                            <h4>Teacher Training</h4>
+                            <p>Professional development workshops on digital literacy and critical thinking</p>
+                        </div>
+                        <div class="benefit-item">
+                            <h4>Student Analytics</h4>
+                            <p>Track learning progress and identify areas for improvement</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>TruthLens</h4>
+                    <p>Empowering critical thinking through advanced fact-checking and media literacy tools.</p>
+                </div>
+                <div class="footer-section">
+                    <h5>Tools</h5>
+                    <ul>
+                        <li><a href="#fact-check">Fact Checker</a></li>
+                        <li><a href="#source-analysis">Source Analysis</a></li>
+                        <li><a href="#media-literacy">Media Literacy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h5>Community</h5>
+                    <ul>
+                        <li><a href="#community">Forum</a></li>
+                        <li><a href="#premium">Premium</a></li>
+                        <li><a href="#" target="_blank">API Documentation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h5>Company</h5>
+                    <ul>
+                        <li><a href="#" target="_blank">About Us</a></li>
+                        <li><a href="#" target="_blank">Privacy Policy</a></li>
+                        <li><a href="#" target="_blank">Terms of Service</a></li>
+                        <li><a href="#" target="_blank">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 TruthLens. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

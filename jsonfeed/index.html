@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Cat Collection | GSAP & Tailwind</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        museum: {
+                            dark: '#121212',
+                            card: '#1e1e1e',
+                            accent: '#d4af37'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom scrollbar just to be extra fancy */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #121212; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+    </style>
+</head>
+<body class="bg-museum-dark text-gray-200 antialiased min-h-screen flex flex-col">
+
+    <header class="sticky top-0 z-50 w-full bg-museum-dark/80 backdrop-blur-md border-b border-white/10 py-6">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="font-serif text-4xl md:text-5xl text-white tracking-tight mb-2">
+                The Feline Archive
+            </h1>
+            <h3 class="font-sans text-xs md:text-sm text-museum-accent uppercase tracking-[0.2em]">
+                Art Institute of Chicago • Jan Carlo G. Niñonuevo
+            </h3>
+        </div>
+    </header>
+
+    <main class="flex-grow container mx-auto px-4 py-10">
+        <div id="art-gallery" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <div class="loading-skeleton col-span-full text-center py-20">
+                <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-museum-accent mb-4"></div>
+                <p class="text-gray-500 animate-pulse">Curating the collection...</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="border-t border-white/10 py-8 text-center text-gray-600 text-sm">
+        <p>&copy; 2025 • Powered by Art Institute of Chicago API</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <script>
+        const galleryContainer = document.getElementById('art-gallery');
+        const API_URL = 'https://api.artic.edu/api/v1/artworks/search?q=cats&fields=id,title,image_id,thumbnail,artist_display&limit=12';
+
+        // Create Card HTML using Tailwind classes
+        const createArtCard = (artwork) => {
+            if (!artwork.image_id) return '';
+
+            const fullImageUrl = `https://www.artic.edu/iiif/2/${artwork.image_id}/full/600,/0/default.jpg`;
+            const altText = artwork.thumbnail ? artwork.thumbnail.alt_text : artwork.title;
+            const artist = artwork.artist_display ? artwork.artist_display.split('\n')[0] : 'Unknown Artist';
+
+            // Note the 'opacity-0 translate-y-10' classes are NOT here. 
+            // We let GSAP handle the initial state so it works even if JS fails (graceful degradation strategy).
+            
+            return `
+                <article class="art-card group relative bg-museum-card rounded-xl overflow-hidden shadow-lg border border-white/5 hover:shadow-2xl hover:shadow-black/50 transition-shadow duration-300">
+                    <div class="aspect-[4/3] overflow-hidden relative">
+                        <img 
+                            src="${fullImageUrl}" 
+                            alt="${altText}" 
+                            loading="lazy"
+                            class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                        >
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                    
+                    <div class="p-6 relative">
+                        <h2 class="font-serif text-xl text-white mb-2 line-clamp-2 leading-tight group-hover:text-museum-accent transition-colors">
+                            ${artwork.title}
+                        </h2>
+                        <p class="text-sm text-gray-400 font-light border-t border-white/10 pt-3 mt-3">
+                            ${artist}
+                        </p>
+                    </div>
+                </article>
+            `;
+        };
+
+        async function loadGallery() {
+            try {
+                const response = await fetch(API_URL);
+                const data = await response.json();
+                const artworks = data.data;
+
+                // Clear loading spinner
+                galleryContainer.innerHTML = '';
+
+                if (artworks.length === 0) {
+                    galleryContainer.innerHTML = '<p class="text-center text-red-400 col-span-full">No cats found.</p>';
+                    return;
+                }
+
+                // Inject HTML
+                galleryContainer.innerHTML = artworks.map(createArtCard).join('');
+
+                // ------------------------------------------------
+                // GSAP ANIMATION MAGIC
+                // ------------------------------------------------
+                // This is where the "Pro" feel comes from. 
+                // Instead of basic CSS keyframes, we use a staggered tween.
+                
+                gsap.from(".art-card", {
+                    y: 50,              // Start 50px down
+                    opacity: 0,         // Start invisible
+                    duration: 0.8,      // Take 0.8 seconds
+                    stagger: 0.1,       // Wait 0.1s between each card
+                    ease: "power3.out", // Smooth deceleration
+                    clearProps: "all"   // Clean up inline styles after animation
+                });
+
+            } catch (error) {
+                console.error(error);
+                galleryContainer.innerHTML = `
+                    <div class="col-span-full text-center py-10">
+                        <p class="text-red-400 mb-2">Failed to load gallery.</p>
+                        <button onclick="location.reload()" class="bg-white text-black px-4 py-2 rounded hover:bg-gray-200 transition">Try Again</button>
+                    </div>
+                `;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadGallery);
+    </script>
+
+</body>
+</html>

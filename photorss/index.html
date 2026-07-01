@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Z50 News Ledger | Bacolod Editor Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #0a0a0a; color: #e5e5e5; overflow-x: hidden; }
+        .glass { background: rgba(23, 23, 23, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .news-card:hover { transform: translateY(-4px); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border-color: #facc15; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Reader Styles */
+        #reader-view article img { width: 100%; height: auto; border-radius: 12px; margin: 1.5rem 0; border: 1px solid rgba(255,255,255,0.1); }
+        #reader-view article p { margin-bottom: 1.25rem; line-height: 1.8; color: #d1d1d1; font-size: 1.1rem; }
+        #reader-view article h1, #reader-view article h2 { font-weight: 700; color: #fff; margin-top: 2rem; margin-bottom: 1rem; }
+        #reader-view article h1 { font-size: 1.8rem; }
+        #reader-view article h2 { font-size: 1.4rem; }
+        #reader-view article a { color: #facc15; text-decoration: underline; }
+    </style>
+</head>
+<body class="min-h-screen pb-20">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-40 glass border-b border-white/10 px-6 py-4">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="bg-yellow-400 text-black p-2 rounded-lg">
+                    <i class="fas fa-camera-retro text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight">Z50 LEDGER</h1>
+                    <p class="text-xs text-gray-400 uppercase tracking-widest">Bacolod IT Student & Street Photography Feed</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <div id="status-indicator" class="flex flex-col items-end">
+                    <div class="flex items-center gap-2">
+                        <div id="status-dot" class="w-2 h-2 rounded-full bg-yellow-500 animate-pulse"></div>
+                        <span id="last-update" class="text-xs text-gray-500 font-mono italic">Initializing...</span>
+                    </div>
+                    <span id="proxy-info" class="text-[9px] text-gray-600 font-mono uppercase">Checking Proxies</span>
+                </div>
+                <button onclick="refreshFeeds()" id="refresh-btn" class="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full text-sm font-medium transition-all flex items-center gap-2">
+                    <i id="refresh-icon" class="fas fa-sync-alt"></i> <span>Refresh</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-6 mt-8">
+        <!-- Category Toggles -->
+        <div class="flex gap-2 overflow-x-auto pb-6 no-scrollbar" id="category-filters">
+            <button onclick="filterContent('all', this)" class="category-btn active bg-yellow-400 text-black px-4 py-1.5 rounded-full text-sm font-bold whitespace-nowrap">All Stories</button>
+            <button onclick="filterContent('photography', this)" class="category-btn bg-white/5 hover:bg-white/10 text-gray-400 px-4 py-1.5 rounded-full text-sm font-medium border border-white/10 whitespace-nowrap">Photography</button>
+            <button onclick="filterContent('tech', this)" class="category-btn bg-white/5 hover:bg-white/10 text-gray-400 px-4 py-1.5 rounded-full text-sm font-medium border border-white/10 whitespace-nowrap">Tech & IT</button>
+            <button onclick="filterContent('gear', this)" class="category-btn bg-white/5 hover:bg-white/10 text-gray-400 px-4 py-1.5 rounded-full text-sm font-medium border border-white/10 whitespace-nowrap">Nikon Gear</button>
+        </div>
+
+        <!-- News Grid -->
+        <div id="news-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="animate-pulse bg-white/5 h-64 rounded-2xl"></div>
+            <div class="animate-pulse bg-white/5 h-64 rounded-2xl"></div>
+            <div class="animate-pulse bg-white/5 h-64 rounded-2xl"></div>
+        </div>
+    </main>
+
+    <!-- Reader Overlay -->
+    <div id="reader-overlay" class="fixed inset-0 z-50 hidden bg-black/95 overflow-y-auto p-4 md:p-10">
+        <div class="max-w-3xl mx-auto">
+            <div class="flex justify-between items-center mb-8 sticky top-0 bg-black/80 py-4 backdrop-blur-md">
+                <button onclick="closeReader()" class="flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
+                    <i class="fas fa-arrow-left"></i> Back to Ledger
+                </button>
+                <div class="flex gap-4">
+                    <a id="reader-original-link" href="#" target="_blank" class="text-xs text-yellow-500 font-bold uppercase tracking-widest hover:underline">Open Original</a>
+                </div>
+            </div>
+            
+            <div id="reader-loading" class="flex flex-col items-center justify-center py-20 space-y-4">
+                <div class="w-10 h-10 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin"></div>
+                <p class="text-gray-400 font-mono text-sm">Processing article content...</p>
+            </div>
+
+            <div id="reader-view" class="hidden animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <div id="reader-meta" class="mb-8">
+                    <span id="reader-source" class="text-xs font-bold text-yellow-400 bg-yellow-400/10 px-2 py-1 rounded">Source</span>
+                    <h1 id="reader-title" class="text-3xl md:text-5xl font-black mt-4 leading-tight">Article Title</h1>
+                </div>
+                <hr class="border-white/10 mb-8">
+                <article id="reader-content" class="prose prose-invert max-w-none">
+                    <!-- Content injected here -->
+                </article>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const FEEDS = [
+            { url: 'https://petapixel.com/feed/', category: 'photography', source: 'PetaPixel' },
+            { url: 'https://www.dpreview.com/feeds/news.xml', category: 'gear', source: 'DPReview' },
+            { url: 'https://feeds.feedburner.com/TechCrunch/', category: 'tech', source: 'TechCrunch' },
+            { url: 'https://www.theverge.com/rss/index.xml', category: 'tech', source: 'The Verge' }
+        ];
+
+        // Expanded proxy list for better reliability
+        const PROXIES = [
+            { name: 'AllOrigins', fetch: async (url) => {
+                const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}&t=${Date.now()}`);
+                const data = await res.json();
+                return data.contents;
+            }},
+            { name: 'CorsProxyIO', fetch: async (url) => {
+                const res = await fetch(`https://corsproxy.io/?${encodeURIComponent(url)}`);
+                return await res.text();
+            }},
+            { name: 'CodeTabs', fetch: async (url) => {
+                const res = await fetch(`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`);
+                return await res.text();
+            }}
+        ];
+
+        let allArticles = [];
+
+        async function fetchWithRetry(url, feedSource) {
+            let lastError = null;
+            
+            for (let proxy of PROXIES) {
+                try {
+                    document.getElementById('proxy-info').innerText = `Trying ${proxy.name}...`;
+                    const xmlContent = await proxy.fetch(url);
+                    
+                    if (!xmlContent || xmlContent.length < 100) throw new Error("Empty response");
+
+                    const parser = new DOMParser();
+                    const xmlDoc = parser.parseFromString(xmlContent, "text/xml");
+                    
+                    // Validate XML
+                    if (xmlDoc.getElementsByTagName("parsererror").length > 0) {
+                        // Try parsing as HTML if it's not strictly XML (some feeds are messy)
+                        const htmlDoc = parser.parseFromString(xmlContent, "text/html");
+                        const items = htmlDoc.querySelectorAll("item, entry");
+                        if (items.length > 0) return processItems(items, feedSource);
+                        throw new Error("Parsing failed");
+                    }
+
+                    const items = xmlDoc.querySelectorAll("item, entry");
+                    if (items.length > 0) return processItems(items, feedSource);
+                    
+                } catch (err) {
+                    console.warn(`${proxy.name} failed for ${feedSource}:`, err.message);
+                    lastError = err;
+                    continue; // Try next proxy
+                }
+            }
+            return [];
+        }
+
+        function processItems(items, source) {
+            return Array.from(items).slice(0, 15).map(item => {
+                const title = item.querySelector("title")?.textContent || "Untitled";
+                let link = item.querySelector("link")?.textContent || item.querySelector("link")?.getAttribute("href") || "#";
+                if (link.trim() === "" && item.querySelector("link")) link = item.querySelector("link").innerHTML;
+                
+                const pubDate = item.querySelector("pubDate, published, updated")?.textContent || "";
+                const description = item.querySelector("description, summary, content")?.textContent || "";
+                
+                return {
+                    title: title.trim(),
+                    link: link.trim(),
+                    date: new Date(pubDate),
+                    description: description.replace(/<[^>]*>?/gm, '').substring(0, 160) + '...',
+                    source: source
+                };
+            });
+        }
+
+        async function refreshFeeds() {
+            const updateText = document.getElementById('last-update');
+            const refreshIcon = document.getElementById('refresh-icon');
+            const dot = document.getElementById('status-dot');
+            
+            refreshIcon.classList.add('animate-spin');
+            dot.className = "w-2 h-2 rounded-full bg-yellow-500 animate-pulse";
+            updateText.innerText = "Syncing...";
+
+            const results = await Promise.all(FEEDS.map(async (feed) => {
+                const articles = await fetchWithRetry(feed.url, feed.source);
+                return articles.map(a => ({ ...a, category: feed.category }));
+            }));
+
+            allArticles = results.flat().sort((a, b) => {
+                const bTime = isNaN(b.date.getTime()) ? 0 : b.date.getTime();
+                const aTime = isNaN(a.date.getTime()) ? 0 : a.date.getTime();
+                return bTime - aTime;
+            });
+
+            renderArticles(allArticles);
+            
+            const success = allArticles.length > 0;
+            updateText.innerText = success ? `Sync: ${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}` : "Sync Failed";
+            dot.className = `w-2 h-2 rounded-full ${success ? 'bg-green-500' : 'bg-red-500'}`;
+            document.getElementById('proxy-info').innerText = success ? "All systems nominal" : "All proxies blocked";
+            refreshIcon.classList.remove('animate-spin');
+        }
+
+        function renderArticles(articles) {
+            const container = document.getElementById('news-container');
+            if (articles.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full py-20 text-center border-2 border-dashed border-white/10 rounded-3xl">
+                        <i class="fas fa-plug text-4xl mb-4 text-red-500/50"></i>
+                        <h2 class="text-xl font-bold">Feed Connection Lost</h2>
+                        <p class="text-gray-500 mt-2 max-w-sm mx-auto">Common proxies are being blocked. This usually happens on shared networks or high-traffic periods. Try again in a minute.</p>
+                        <button onclick="refreshFeeds()" class="mt-6 bg-white/10 px-6 py-2 rounded-full font-bold hover:bg-white/20 transition-all">Try Reconnect</button>
+                    </div>`;
+                return;
+            }
+
+            container.innerHTML = articles.map((article, index) => `
+                <div onclick="openReader(${index})" class="news-card cursor-pointer block glass p-5 rounded-2xl border border-white/5 transition-all group flex flex-col h-full">
+                    <div class="flex justify-between items-start mb-3">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-yellow-400 bg-yellow-400/10 px-2 py-1 rounded">
+                            ${article.source}
+                        </span>
+                        <span class="text-[10px] text-gray-500 font-mono">
+                            ${isNaN(article.date.getTime()) ? 'Recently' : article.date.toLocaleDateString(undefined, {month: 'short', day: 'numeric'})}
+                        </span>
+                    </div>
+                    <h3 class="text-lg font-bold leading-tight group-hover:text-yellow-400 transition-colors mb-3">
+                        ${article.title}
+                    </h3>
+                    <p class="text-sm text-gray-400 line-clamp-3 mb-4 flex-grow">
+                        ${article.description}
+                    </p>
+                    <div class="mt-auto pt-4 border-t border-white/5 flex items-center text-[10px] font-bold tracking-widest text-gray-500 group-hover:text-white transition-colors">
+                        READ FULL STORY <i class="fas fa-bolt ml-2 text-yellow-400"></i>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function openReader(index) {
+            const article = allArticles[index];
+            const overlay = document.getElementById('reader-overlay');
+            const view = document.getElementById('reader-view');
+            const loading = document.getElementById('reader-loading');
+            
+            document.body.style.overflow = 'hidden';
+            overlay.classList.remove('hidden');
+            loading.classList.remove('hidden');
+            view.classList.add('hidden');
+            
+            document.getElementById('reader-title').innerText = article.title;
+            document.getElementById('reader-source').innerText = article.source;
+            document.getElementById('reader-original-link').href = article.link;
+
+            try {
+                // Use the fastest proxy for full content
+                const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(article.link)}`;
+                const response = await fetch(proxyUrl);
+                const data = await response.json();
+                
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(data.contents, 'text/html');
+                
+                const selectors = ['article', '.article-content', '.post-content', '.entry-content', 'main'];
+                let contentNode = null;
+                for (let selector of selectors) {
+                    const found = doc.querySelector(selector);
+                    if (found) { contentNode = found.cloneNode(true); break; }
+                }
+
+                if (!contentNode) contentNode = doc.body.cloneNode(true);
+
+                const junk = contentNode.querySelectorAll('script, style, nav, footer, iframe, .ad-unit');
+                junk.forEach(el => el.remove());
+
+                document.getElementById('reader-content').innerHTML = contentNode.innerHTML;
+                loading.classList.add('hidden');
+                view.classList.remove('hidden');
+            } catch (err) {
+                document.getElementById('reader-content').innerHTML = `<div class="text-center py-20"><p class="text-red-400">Proxy blocked full article access.</p></div>`;
+                loading.classList.add('hidden');
+                view.classList.remove('hidden');
+            }
+        }
+
+        function closeReader() {
+            document.getElementById('reader-overlay').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function filterContent(cat, btn) {
+            document.querySelectorAll('.category-btn').forEach(b => {
+                b.classList.remove('bg-yellow-400', 'text-black', 'font-bold');
+                b.classList.add('bg-white/5', 'text-gray-400');
+            });
+            btn.classList.add('bg-yellow-400', 'text-black', 'font-bold');
+            const filtered = cat === 'all' ? allArticles : allArticles.filter(a => a.category === cat);
+            renderArticles(filtered);
+        }
+
+        window.addEventListener('load', refreshFeeds);
+    </script>
+</body>
+</html>
