@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admissions | University of St. La Salle</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        slate: { 850: '#151e2e', 950: '#020617' },
+                        emerald: { 450: '#10b981' }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-950 text-slate-200 font-sans selection:bg-emerald-500 selection:text-white">
+    <!-- NAVIGATION -->
+    <nav class="fixed w-full z-50 bg-slate-950/80 backdrop-blur-xl border-b border-white/5 py-4">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-emerald-600 rounded-lg flex items-center justify-center font-bold text-xl text-white shadow-lg shadow-emerald-500/20">L</div>
+                <div class="flex flex-col">
+                    <span class="text-lg font-bold leading-tight tracking-tight text-white">University of St. La Salle</span>
+                    <span class="text-xs text-emerald-400 font-medium tracking-widest uppercase">Bacolod City</span>
+                </div>
+            </a>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="academics.html" class="text-sm font-medium text-slate-300 hover:text-emerald-400 transition-colors">Academics</a>
+                <a href="admissions.html" class="text-sm font-medium text-emerald-400">Admissions</a>
+                <a href="research.html" class="text-sm font-medium text-slate-300 hover:text-emerald-400 transition-colors">Research</a>
+                <a href="campus-life.html" class="text-sm font-medium text-slate-300 hover:text-emerald-400 transition-colors">Campus Life</a>
+            </div>
+            <div class="hidden md:flex items-center gap-4">
+                <a href="index.html" class="px-5 py-2 bg-slate-900 border border-slate-800 text-slate-300 text-sm rounded-full hover:text-white transition">Home</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-20 px-6">
+        <div class="container mx-auto max-w-6xl">
+            <header class="mb-12">
+                <span class="text-xs font-mono text-emerald-400 uppercase tracking-widest font-bold">Join the Community</span>
+                <h1 class="text-4xl md:text-5xl font-bold text-white tracking-tight mt-2">Admissions & Enrollment</h1>
+                <p class="text-slate-400 text-base mt-2 max-w-xl">Ay 2026-2027 application procedures are now fully online.</p>
+            </header>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Requirements -->
+                <div class="backdrop-blur-md bg-slate-900/50 border border-slate-800 rounded-3xl p-6 md:col-span-2">
+                    <h3 class="font-bold text-xl text-white mb-6 flex items-center gap-2">
+                        <i data-lucide="check-square" class="text-emerald-400 w-5 h-5"></i> Required Credentials
+                    </h3>
+                    <ul class="space-y-4 text-sm text-slate-300">
+                        <li class="flex gap-3">
+                            <span class="text-emerald-400 font-bold">1.</span>
+                            <span>Report Card / Transcript of Records (Form 138)</span>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="text-emerald-400 font-bold">2.</span>
+                            <span>PSA Birth Certificate Copy</span>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="text-emerald-400 font-bold">3.</span>
+                            <span>Certificate of Good Moral Character</span>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="text-emerald-400 font-bold">4.</span>
+                            <span>Recent 2x2 Identification Photographs</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Action Panel -->
+                <div class="backdrop-blur-md bg-slate-900/50 border border-slate-800 rounded-3xl p-6 flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-bold text-xl text-white mb-4">Start Registration</h3>
+                        <p class="text-slate-400 text-xs leading-relaxed">Fill out the online application form and upload scanned credential files directly.</p>
+                    </div>
+                    <a href="https://gnet.ph/auth" class="mt-6 w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-center text-white text-sm font-semibold rounded-xl transition shadow-lg shadow-emerald-900/50">Apply Online Now</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-slate-950 border-t border-slate-900 py-12 text-center">
+        <p class="text-slate-600 text-sm">© 2026 University of St. La Salle. All rights reserved.</p>
+    </footer>
+
+    <script>lucide.createIcons();</script>
+</body>
+</html>

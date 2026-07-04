@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B-BALL | Space Jam Reimagined</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Rajdhani', sans-serif; background-color: #050505; overflow-x: hidden; }
+        .font-display { font-family: 'Orbitron', sans-serif; }
+        .jam-shadow { text-shadow: 0 0 20px rgba(249, 115, 22, 0.8), 0 0 40px rgba(249, 115, 22, 0.4); }
+        .grid-bg {
+            background-image: 
+                linear-gradient(rgba(59, 130, 246, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+    </style>
+</head>
+<body class="text-white min-h-screen relative selection:bg-orange-500 selection:text-white grid-bg">
+    <div id="star-container" class="absolute inset-0 z-0 pointer-events-none"></div>
+
+    <div class="relative z-10 max-w-4xl mx-auto px-6 py-12">
+        <!-- Back Button -->
+        <a href="index.html" class="inline-flex items-center gap-2 text-cyan-400 hover:text-pink-500 font-display text-sm font-bold tracking-widest mb-10 transition-colors">
+            ← BACK TO ARCHIVE
+        </a>
+
+        <!-- Header -->
+        <header class="mb-12">
+            <span class="text-xs font-mono text-orange-500 tracking-[0.2em] font-bold uppercase">Specs & Game Dimensions</span>
+            <h1 class="font-display font-black text-4xl md:text-6xl tracking-tight uppercase jam-shadow mt-2">
+                B-Ball Specs
+            </h1>
+            <div class="mt-4 w-48 h-0.5 bg-gradient-to-r from-orange-500 to-transparent"></div>
+        </header>
+
+        <!-- Main Specs Dashboard -->
+        <main class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Left Panel: Rules -->
+            <div class="backdrop-blur-md bg-black/40 border border-white/10 rounded-2xl p-6 space-y-6">
+                <h3 class="font-display font-bold text-xl text-orange-500 border-b border-white/10 pb-2">TOURNAMENT RULES</h3>
+                <ul class="space-y-4 text-sm md:text-base text-gray-300">
+                    <li class="flex gap-3">
+                        <span class="text-orange-500 font-mono font-bold">01/</span>
+                        <span>Game consists of four quarters of 12 minutes each. Extra time played in case of a tie score.</span>
+                    </li>
+                    <li class="flex gap-3">
+                        <span class="text-orange-500 font-mono font-bold">02/</span>
+                        <span>Standard 5v5 lineup. All Looney Tunes squad members (including Bugs Bunny, Lola, Daffy) are active.</span>
+                    </li>
+                    <li class="flex gap-3">
+                        <span class="text-orange-500 font-mono font-bold">03/</span>
+                        <span>No limits on alien-gravity mechanics. Monstars are allowed full raw scale upgrades.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Right Panel: Physical Stats -->
+            <div class="backdrop-blur-md bg-black/40 border border-white/10 rounded-2xl p-6 space-y-6">
+                <h3 class="font-display font-bold text-xl text-orange-500 border-b border-white/10 pb-2">EQUIPMENT SPECS</h3>
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center text-sm md:text-base border-b border-white/5 pb-2">
+                        <span class="text-gray-400">Court Length</span>
+                        <span class="font-mono font-bold text-orange-400">94 FEET</span>
+                    </div>
+                    <div class="flex justify-between items-center text-sm md:text-base border-b border-white/5 pb-2">
+                        <span class="text-gray-400">Rim Height</span>
+                        <span class="font-mono font-bold text-orange-400">10 FEET (3.05M)</span>
+                    </div>
+                    <div class="flex justify-between items-center text-sm md:text-base border-b border-white/5 pb-2">
+                        <span class="text-gray-400">Ball Diameter</span>
+                        <span class="font-mono font-bold text-orange-400">9.5 INCHES</span>
+                    </div>
+                    <div class="flex justify-between items-center text-sm md:text-base">
+                        <span class="text-gray-400">Monstar Max Weight</span>
+                        <span class="font-mono font-bold text-orange-400">UNLIMITED</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Background script -->
+    <script>
+        const starContainer = document.getElementById('star-container');
+        for (let i = 0; i < 80; i++) {
+            const star = document.createElement('div');
+            const size = Math.random() * 3;
+            star.className = 'absolute bg-white rounded-full opacity-0';
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.top = `${Math.random() * 100}%`;
+            starContainer.appendChild(star);
+            gsap.to(star, {
+                opacity: Math.random(),
+                duration: Math.random() * 2 + 1,
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut"
+            });
+        }
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = (e.clientX / window.innerWidth) - 0.5;
+            const mouseY = (e.clientY / window.innerHeight) - 0.5;
+            gsap.to("#star-container", { x: mouseX * -40, y: mouseY * -40, duration: 1.5, ease: "power1.out" });
+        });
+    </script>
+</body>
+</html>

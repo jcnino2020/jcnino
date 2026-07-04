@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JUMP STATION | Space Jam Reimagined</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Rajdhani', sans-serif; background-color: #050505; overflow-x: hidden; }
+        .font-display { font-family: 'Orbitron', sans-serif; }
+        .jam-shadow { text-shadow: 0 0 20px rgba(99, 102, 241, 0.8), 0 0 40px rgba(99, 102, 241, 0.4); }
+        .grid-bg {
+            background-image: 
+                linear-gradient(rgba(59, 130, 246, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+    </style>
+</head>
+<body class="text-white min-h-screen relative selection:bg-indigo-500 selection:text-white grid-bg">
+    <div id="star-container" class="absolute inset-0 z-0 pointer-events-none"></div>
+
+    <div class="relative z-10 max-w-4xl mx-auto px-6 py-12">
+        <!-- Back Button -->
+        <a href="index.html" class="inline-flex items-center gap-2 text-cyan-400 hover:text-pink-500 font-display text-sm font-bold tracking-widest mb-10 transition-colors">
+            ← BACK TO ARCHIVE
+        </a>
+
+        <!-- Header -->
+        <header class="mb-12">
+            <span class="text-xs font-mono text-indigo-400 tracking-[0.2em] font-bold uppercase">Navigation Coordinator</span>
+            <h1 class="font-display font-black text-4xl md:text-6xl tracking-tight uppercase jam-shadow mt-2">
+                Jump Station
+            </h1>
+            <div class="mt-4 w-48 h-0.5 bg-gradient-to-r from-indigo-500 to-transparent"></div>
+        </header>
+
+        <!-- Galaxy Links Directory -->
+        <main class="space-y-6">
+            <!-- Link 1 -->
+            <a href="https://www.warnerbros.com" target="_blank" class="block backdrop-blur-md bg-black/40 border border-white/10 hover:border-indigo-500/50 p-6 rounded-2xl transition duration-300 group no-underline">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <span class="text-xs font-mono text-indigo-400 uppercase tracking-widest">Coordinate WB-01</span>
+                        <h3 class="font-display font-bold text-xl text-white group-hover:text-indigo-400 transition-colors mt-1">Warner Bros. Headquarters</h3>
+                        <p class="text-gray-400 text-sm mt-2">Access the parent company main server for standard entertainment files.</p>
+                    </div>
+                    <span class="text-2xl group-hover:translate-x-2 transition-transform">🚀</span>
+                </div>
+            </a>
+
+            <!-- Link 2 -->
+            <a href="https://www.looneytunes.com" target="_blank" class="block backdrop-blur-md bg-black/40 border border-white/10 hover:border-indigo-500/50 p-6 rounded-2xl transition duration-300 group no-underline">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <span class="text-xs font-mono text-indigo-400 uppercase tracking-widest">Coordinate LT-02</span>
+                        <h3 class="font-display font-bold text-xl text-white group-hover:text-indigo-400 transition-colors mt-1">Looney Tunes Portal</h3>
+                        <p class="text-gray-400 text-sm mt-2">Navigate straight to Looney Tune Land to view active character logs.</p>
+                    </div>
+                    <span class="text-2xl group-hover:translate-x-2 transition-transform">🐰</span>
+                </div>
+            </a>
+
+            <!-- Link 3 -->
+            <a href="https://www.nba.com" target="_blank" class="block backdrop-blur-md bg-black/40 border border-white/10 hover:border-indigo-500/50 p-6 rounded-2xl transition duration-300 group no-underline">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <span class="text-xs font-mono text-indigo-400 uppercase tracking-widest">Coordinate NBA-23</span>
+                        <h3 class="font-display font-bold text-xl text-white group-hover:text-indigo-400 transition-colors mt-1">NBA Earth Operations</h3>
+                        <p class="text-gray-400 text-sm mt-2">Monitor Earth basketball match results and league stats.</p>
+                    </div>
+                    <span class="text-2xl group-hover:translate-x-2 transition-transform">🏀</span>
+                </div>
+            </a>
+        </main>
+    </div>
+
+    <!-- Background script -->
+    <script>
+        const starContainer = document.getElementById('star-container');
+        for (let i = 0; i < 80; i++) {
+            const star = document.createElement('div');
+            const size = Math.random() * 3;
+            star.className = 'absolute bg-white rounded-full opacity-0';
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.top = `${Math.random() * 100}%`;
+            starContainer.appendChild(star);
+            gsap.to(star, {
+                opacity: Math.random(),
+                duration: Math.random() * 2 + 1,
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut"
+            });
+        }
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = (e.clientX / window.innerWidth) - 0.5;
+            const mouseY = (e.clientY / window.innerHeight) - 0.5;
+            gsap.to("#star-container", { x: mouseX * -40, y: mouseY * -40, duration: 1.5, ease: "power1.out" });
+        });
+    </script>
+</body>
+</html>

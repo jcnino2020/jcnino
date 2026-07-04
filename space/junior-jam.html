@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JUNIOR JAM | Space Jam Reimagined</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Rajdhani', sans-serif; background-color: #050505; overflow-x: hidden; }
+        .font-display { font-family: 'Orbitron', sans-serif; }
+        .jam-shadow { text-shadow: 0 0 20px rgba(234, 179, 8, 0.8), 0 0 40px rgba(234, 179, 8, 0.4); }
+        .grid-bg {
+            background-image: 
+                linear-gradient(rgba(59, 130, 246, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+    </style>
+</head>
+<body class="text-white min-h-screen relative selection:bg-yellow-400 selection:text-black grid-bg">
+    <div id="star-container" class="absolute inset-0 z-0 pointer-events-none"></div>
+
+    <div class="relative z-10 max-w-5xl mx-auto px-6 py-12">
+        <!-- Back Button -->
+        <a href="index.html" class="inline-flex items-center gap-2 text-cyan-400 hover:text-pink-500 font-display text-sm font-bold tracking-widest mb-10 transition-colors">
+            ← BACK TO ARCHIVE
+        </a>
+
+        <!-- Header -->
+        <header class="mb-12">
+            <span class="text-xs font-mono text-yellow-400 tracking-[0.2em] font-bold uppercase">Cadet Training Room</span>
+            <h1 class="font-display font-black text-4xl md:text-6xl tracking-tight uppercase jam-shadow mt-2">
+                Junior Jam
+            </h1>
+            <div class="mt-4 w-48 h-0.5 bg-gradient-to-r from-yellow-400 to-transparent"></div>
+        </header>
+
+        <!-- Kids Activity Console -->
+        <main class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Game Console Panel -->
+            <div class="backdrop-blur-md bg-black/40 border border-white/10 rounded-2xl p-6 flex flex-col justify-between">
+                <div>
+                    <h3 class="font-display font-bold text-xl text-yellow-400 border-b border-white/10 pb-2">ARCADE TERMINAL</h3>
+                    <p class="text-gray-300 text-sm mt-4 leading-relaxed">
+                        Test your shooting skills in the Cadet Basketball shootout simulation. Time your shots to beat the Monstars high score!
+                    </p>
+                    <!-- Game Simulation UI -->
+                    <div class="mt-6 bg-black/60 border border-yellow-500/20 rounded-xl p-4 h-40 flex flex-col items-center justify-center relative overflow-hidden">
+                        <div id="hoop" class="text-4xl absolute top-4 animate-bounce">🗑️</div>
+                        <div id="ball" class="text-3xl absolute bottom-4">🏀</div>
+                        <span id="score-val" class="font-display font-bold text-yellow-400 absolute top-2 right-4 text-xs font-mono">SCORE: 0</span>
+                    </div>
+                </div>
+                <button onclick="shootBall()" class="mt-6 bg-yellow-400 hover:bg-yellow-300 text-black font-display font-bold py-2 rounded-xl transition duration-300">LAUNCH BALL</button>
+            </div>
+
+            <!-- Quiz Panel -->
+            <div class="backdrop-blur-md bg-black/40 border border-white/10 rounded-2xl p-6 flex flex-col justify-between">
+                <div>
+                    <h3 class="font-display font-bold text-xl text-yellow-400 border-b border-white/10 pb-2">TRIVIA TRANSMISSION</h3>
+                    <p class="text-gray-300 text-sm mt-4 leading-relaxed">
+                        Do you have what it takes to be a Tune Squad strategist? Answer the cadet question below:
+                    </p>
+                    <div class="mt-6 bg-black/60 border border-yellow-500/20 rounded-xl p-4 text-center">
+                        <h4 class="font-display font-bold text-sm text-yellow-400 mb-2">Question</h4>
+                        <p class="text-sm text-gray-300">In what year did the historic Space Jam match take place?</p>
+                        <!-- Options -->
+                        <div class="mt-4 grid grid-cols-2 gap-2 text-xs">
+                            <button onclick="checkAnswer(false, this)" class="bg-white/5 hover:bg-white/10 border border-white/10 py-1.5 rounded transition">A) 1994</button>
+                            <button onclick="checkAnswer(true, this)" class="bg-white/5 hover:bg-white/10 border border-white/10 py-1.5 rounded transition">B) 1996</button>
+                            <button onclick="checkAnswer(false, this)" class="bg-white/5 hover:bg-white/10 border border-white/10 py-1.5 rounded transition">C) 1998</button>
+                            <button onclick="checkAnswer(false, this)" class="bg-white/5 hover:bg-white/10 border border-white/10 py-1.5 rounded transition">D) 2000</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="quiz-feedback" class="mt-4 text-center text-xs font-mono font-bold tracking-widest text-gray-500 uppercase">Awaiting Submission</div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Background script -->
+    <script>
+        const starContainer = document.getElementById('star-container');
+        for (let i = 0; i < 80; i++) {
+            const star = document.createElement('div');
+            const size = Math.random() * 3;
+            star.className = 'absolute bg-white rounded-full opacity-0';
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.top = `${Math.random() * 100}%`;
+            starContainer.appendChild(star);
+            gsap.to(star, {
+                opacity: Math.random(),
+                duration: Math.random() * 2 + 1,
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut"
+            });
+        }
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = (e.clientX / window.innerWidth) - 0.5;
+            const mouseY = (e.clientY / window.innerHeight) - 0.5;
+            gsap.to("#star-container", { x: mouseX * -40, y: mouseY * -40, duration: 1.5, ease: "power1.out" });
+        });
+
+        // Shooting Game Logic
+        let score = 0;
+        let isShooting = false;
+        function shootBall() {
+            if (isShooting) return;
+            isShooting = true;
+            const ball = document.getElementById('ball');
+            const hoop = document.getElementById('hoop');
+            
+            // GSAP shot animation
+            gsap.to(ball, {
+                y: -100,
+                scale: 0.6,
+                duration: 0.6,
+                ease: "power2.out",
+                onComplete: () => {
+                    // Check overlap (Simplified hit check)
+                    const hoopX = hoop.offsetLeft;
+                    const ballX = ball.offsetLeft;
+                    
+                    score += 1;
+                    document.getElementById('score-val').innerText = `SCORE: ${score}`;
+                    
+                    // Reset ball
+                    gsap.set(ball, { y: 0, scale: 1 });
+                    isShooting = false;
+                }
+            });
+        }
+
+        // Quiz feedback
+        function checkAnswer(isCorrect, btn) {
+            const feedback = document.getElementById('quiz-feedback');
+            // reset selections
+            document.querySelectorAll('main div div div button').forEach(b => {
+                b.className = "bg-white/5 hover:bg-white/10 border border-white/10 py-1.5 rounded transition";
+            });
+            if (isCorrect) {
+                btn.className = "bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 py-1.5 rounded font-bold transition";
+                feedback.innerText = "CORRECT TRANSMISSION!";
+                feedback.className = "mt-4 text-center text-xs font-mono font-bold tracking-widest text-emerald-400 uppercase";
+            } else {
+                btn.className = "bg-red-500/20 text-red-400 border border-red-500/40 py-1.5 rounded font-bold transition";
+                feedback.innerText = "TRANSMISSION ERROR - TRY AGAIN";
+                feedback.className = "mt-4 text-center text-xs font-mono font-bold tracking-widest text-red-400 uppercase";
+            }
+        }
+    </script>
+</body>
+</html>

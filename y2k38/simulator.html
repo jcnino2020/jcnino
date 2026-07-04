@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRASH SIMULATOR | Y2K38 Explorer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        deep: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                            950: '#0b1021', // Custom Deep Navy
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            /* Smooth background transition */
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Gradient Backgrounds */
+        .bg-gradient-dark {
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(14, 165, 233, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(37, 99, 235, 0.15) 0px, transparent 50%);
+        }
+        
+        .bg-gradient-light {
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(14, 165, 233, 0.05) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(37, 99, 235, 0.05) 0px, transparent 50%);
+        }
+
+        /* Modern Range Slider */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            cursor: pointer;
+            margin-top: -10px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: transform 0.1s;
+        }
+
+        .dark input[type=range]::-webkit-slider-thumb {
+            background: #ffffff;
+            border: none;
+        }
+
+        input[type=range]::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+        }
+
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #cbd5e1; /* Slate 300 */
+            border-radius: 999px;
+        }
+        
+        .dark input[type=range]::-webkit-slider-runnable-track {
+            background: #1e293b; /* Slate 800 */
+        }
+
+        /* Bit transitions */
+        .bit-box {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Dark Mode Bits */
+        .dark .bit-on {
+            background: linear-gradient(135deg, #3b82f6 0%, #0ea5e9 100%); /* Blue to Sky */
+            border: 1px solid transparent;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+            transform: translateY(-2px);
+            color: white;
+        }
+        
+        .dark .bit-off {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #64748b;
+        }
+
+        /* Light Mode Bits */
+        .bit-on {
+            background: #2563eb; /* Blue 600 */
+            border: 1px solid transparent;
+            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3);
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        .bit-off {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            color: #94a3b8;
+        }
+
+        /* Sign Bit */
+        .dark .bit-sign.bit-on {
+            background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
+            box-shadow: 0 0 15px rgba(244, 63, 94, 0.5);
+        }
+        
+        .bit-sign.bit-on {
+            background: #e11d48;
+            box-shadow: 0 4px 6px -1px rgba(225, 29, 72, 0.3);
+        }
+
+        /* Glassmorphism Card (Adaptive) */
+        .glass-card {
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        
+        .dark .glass-card {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(203, 213, 225, 0.6); /* Slate 300 */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="pb-20 antialiased selection:bg-blue-500 selection:text-white bg-slate-50 dark:bg-deep-950 text-slate-900 dark:text-slate-50 transition-colors duration-300">
+    
+    <!-- Background Gradients -->
+    <div class="fixed inset-0 pointer-events-none transition-opacity duration-300 opacity-100 dark:opacity-0 bg-gradient-light"></div>
+    <div class="fixed inset-0 pointer-events-none transition-opacity duration-300 opacity-0 dark:opacity-100 bg-gradient-dark"></div>
+
+    <!-- Header -->
+    <header class="relative pt-12 pb-8 px-6 border-b border-slate-200 dark:border-white/5 transition-colors">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
+            <div class="flex-grow">
+                <a href="index.html" class="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold text-sm tracking-wide mb-4 uppercase hover:underline">
+                    ← BACK TO HOME
+                </a>
+                <h1 class="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-slate-900 to-blue-600 dark:from-white dark:to-blue-400 tracking-tight transition-all">Crash Simulator</h1>
+                <p class="text-lg text-slate-500 dark:text-slate-400 mt-2 font-light">Watch integers overflow and wrap around time</p>
+            </div>
+            
+            <div>
+                <!-- Theme Toggle -->
+                <button onclick="toggleTheme()" class="p-2 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:scale-105 transition-transform shadow-sm">
+                    <!-- Sun Icon -->
+                    <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden dark:block"><circle cx="12" cy="12" r="5"/><path d="M12 1v2"/><path d="M12 21v2"/><path d="M4.22 4.22l1.42 1.42"/><path d="M18.36 18.36l1.42 1.42"/><path d="M1 12h2"/><path d="M21 12h2"/><path d="M4.22 19.78l1.42-1.42"/><path d="M18.36 5.64l1.42-1.42"/></svg>
+                    <!-- Moon Icon -->
+                    <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="block dark:hidden"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto p-6">
+        <!-- Simulator Section -->
+        <section class="glass-card rounded-3xl overflow-hidden shadow-2xl dark:shadow-black/50" id="simulator">
+            <div class="p-6 border-b border-slate-200 dark:border-white/5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-slate-50/50 dark:bg-white/5 transition-colors">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-3 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-600 dark:text-blue-400"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg>
+                        Crash Simulator
+                    </h2>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm mt-1 transition-colors">Manipulate the Unix Timestamp to visualize the overflow.</p>
+                </div>
+                <div class="flex items-center gap-3 text-xs font-mono text-slate-600 dark:text-slate-500 bg-slate-200 dark:bg-black/20 px-3 py-1.5 rounded-full transition-colors">
+                    <span class="w-2 h-2 rounded-full bg-rose-500"></span> Sign Bit
+                    <span class="w-2 h-2 rounded-full bg-blue-500"></span> Data Bits
+                </div>
+            </div>
+
+            <div class="p-6 md:p-10 space-y-10">
+                <!-- Visualizer -->
+                <div>
+                    <div class="grid grid-cols-8 md:grid-cols-16 lg:grid-cols-32 gap-2 lg:gap-3" id="bit-container">
+                        <!-- Bits generated by JS -->
+                    </div>
+                </div>
+
+                <!-- Controls & Readout -->
+                <div class="grid lg:grid-cols-2 gap-12">
+                    <!-- Controls -->
+                    <div class="space-y-8">
+                        <div class="bg-white dark:bg-slate-900/50 rounded-2xl p-6 border border-slate-200 dark:border-white/5 transition-colors">
+                            <label class="flex justify-between text-sm font-medium text-slate-600 dark:text-slate-300 mb-4 transition-colors">
+                                <span>Timeline Scrubber</span>
+                                <span class="text-blue-600 dark:text-blue-400">Drag to 2038</span>
+                            </label>
+                            <input type="range" id="sim-slider" min="0" max="2147483648" value="1672531200" class="range-slider mb-4">
+                            <div class="flex justify-between text-xs font-medium text-slate-500">
+                                <span>1970</span>
+                                <span>2000</span>
+                                <span>Today</span>
+                                <span class="text-rose-500 dark:text-rose-400 font-bold">2038 (MAX)</span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <button onclick="setSimTime('now')" class="flex items-center justify-center gap-2 py-4 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-white rounded-xl font-medium transition-all active:scale-95 border border-slate-200 dark:border-slate-700 shadow-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 22h14"/><path d="M5 2h14"/><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L5 5"/><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L19 19"/></svg>
+                                Reset to Now
+                            </button>
+                            <button onclick="setSimTime('crash')" class="flex items-center justify-center gap-2 py-4 bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-400 hover:to-pink-500 text-white rounded-xl font-medium transition-all active:scale-95 shadow-lg shadow-rose-500/20 group">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:animate-bounce"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+                                Trigger Overflow
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Readout -->
+                    <div class="space-y-6">
+                        <div class="bg-white dark:bg-slate-950 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-inner transition-colors">
+                            <div class="text-xs text-slate-500 uppercase font-bold tracking-wider mb-2">Unix Timestamp (int32)</div>
+                            <div class="flex items-center gap-3">
+                                <span class="text-slate-400 text-2xl font-mono select-none">></span>
+                                <input type="number" id="sim-input" class="bg-transparent text-3xl md:text-4xl text-blue-600 dark:text-blue-400 font-mono font-bold w-full focus:outline-none placeholder-slate-300 dark:placeholder-slate-800 transition-colors" value="0">
+                            </div>
+                        </div>
+                        
+                        <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-900 dark:to-slate-950 border border-slate-200 dark:border-slate-800 p-6 min-h-[140px] flex items-center transition-colors">
+                            <div id="crash-overlay" class="absolute inset-0 bg-rose-500/10 backdrop-blur-[2px] hidden flex items-center justify-center z-10 animate-fade-in">
+                                <div class="bg-rose-500 text-white px-6 py-2 rounded-full font-bold shadow-xl shadow-rose-500/20 transform -rotate-3 border border-rose-400">
+                                    INTEGER OVERFLOW DETECTED
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start gap-5 w-full">
+                                <div class="bg-white dark:bg-slate-800/50 p-3 rounded-xl text-slate-400 shadow-sm dark:shadow-none transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+                                </div>
+                                <div>
+                                    <div class="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Interpreted Date</div>
+                                    <div id="sim-date-string" class="text-3xl font-bold text-slate-900 dark:text-white tracking-tight transition-colors">1970-01-01</div>
+                                    <div id="sim-time-string" class="text-lg font-mono text-slate-500 dark:text-slate-400 mt-1 transition-colors">00:00:00 UTC</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // --- Theme Toggle Logic ---
+        function toggleTheme() {
+            const html = document.documentElement;
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Initialize based on preference
+        if (localStorage.theme === 'light') {
+            document.documentElement.classList.remove('dark');
+        } else {
+            document.documentElement.classList.add('dark');
+        }
+
+        // --- Constants ---
+        const MAX_INT32 = 2147483647;
+        const MIN_INT32 = -2147483648;
+
+        // --- DOM Elements ---
+        const bitContainer = document.getElementById('bit-container');
+        const simInput = document.getElementById('sim-input');
+        const simSlider = document.getElementById('sim-slider');
+        const dateStringEl = document.getElementById('sim-date-string');
+        const timeStringEl = document.getElementById('sim-time-string');
+        const crashOverlay = document.getElementById('crash-overlay');
+
+        // --- Init Bits ---
+        function initBits() {
+            bitContainer.innerHTML = '';
+            for (let i = 31; i >= 0; i--) {
+                const bit = document.createElement('button');
+                bit.className = `bit-box h-10 w-full rounded-lg text-xs font-mono font-bold flex items-center justify-center cursor-pointer select-none ${i === 31 ? 'bit-sign' : 'bit-off'}`;
+                bit.id = `bit-${i}`;
+                bit.innerText = '0';
+                bit.title = i === 31 ? 'Sign Bit (+/-)' : `2^${i}`;
+                
+                bit.addEventListener('click', () => toggleBit(i));
+                bitContainer.appendChild(bit);
+            }
+        }
+
+        // --- Update UI ---
+        function updateVisuals(rawValue) {
+            const int32Value = rawValue | 0; 
+            const unsignedValue = int32Value >>> 0;
+            const binaryString = unsignedValue.toString(2).padStart(32, '0');
+
+            for (let i = 0; i < 32; i++) {
+                const bitVal = binaryString[31 - i]; 
+                const bitEl = document.getElementById(`bit-${i}`);
+                if (bitEl) {
+                    const isOne = bitVal === '1';
+                    bitEl.innerText = bitVal;
+                    bitEl.className = `bit-box h-10 w-full rounded-lg text-xs font-mono font-bold flex items-center justify-center cursor-pointer select-none ${i === 31 ? 'bit-sign' : ''} ${isOne ? 'bit-on' : 'bit-off'}`;
+                }
+            }
+
+            const date = new Date(int32Value * 1000);
+            
+            const year = date.getUTCFullYear();
+            const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+            const day = String(date.getUTCDate()).padStart(2, '0');
+            const hours = String(date.getUTCHours()).padStart(2, '0');
+            const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+            const seconds = String(date.getUTCSeconds()).padStart(2, '0');
+
+            dateStringEl.innerText = `${year}-${month}-${day}`;
+            timeStringEl.innerText = `${hours}:${minutes}:${seconds} UTC`;
+
+            if (int32Value < 0 && rawValue > 0) {
+                dateStringEl.classList.add('text-rose-500');
+                dateStringEl.classList.remove('text-slate-900', 'dark:text-white');
+                crashOverlay.classList.remove('hidden');
+                simInput.classList.add('text-rose-500');
+                simInput.classList.remove('text-blue-600', 'dark:text-blue-400');
+            } else {
+                dateStringEl.classList.remove('text-rose-500');
+                dateStringEl.classList.add('text-slate-900', 'dark:text-white');
+                crashOverlay.classList.add('hidden');
+                simInput.classList.remove('text-rose-500');
+                simInput.classList.add('text-blue-600', 'dark:text-blue-400');
+            }
+
+            if (document.activeElement !== simInput) {
+                simInput.value = rawValue;
+            }
+        }
+
+        function toggleBit(bitIndex) {
+            let currentVal = parseInt(simInput.value);
+            let newVal;
+            if (bitIndex === 31) {
+                newVal = (currentVal | 0) ^ (1 << 31);
+            } else {
+                newVal = (currentVal | 0) ^ (1 << bitIndex);
+            }
+            simInput.value = newVal;
+            simSlider.value = newVal;
+            updateVisuals(newVal);
+        }
+
+        simSlider.addEventListener('input', (e) => {
+            const val = parseInt(e.target.value);
+            simInput.value = val;
+            updateVisuals(val);
+        });
+
+        simInput.addEventListener('input', (e) => {
+            let val = parseInt(e.target.value);
+            if (isNaN(val)) val = 0;
+            if (val >= 0 && val <= 2147483648) {
+                simSlider.value = val;
+            }
+            updateVisuals(val);
+        });
+
+        function setSimTime(mode) {
+            if (mode === 'now') {
+                const now = Math.floor(Date.now() / 1000);
+                simInput.value = now;
+                simSlider.value = now;
+                updateVisuals(now);
+            } else if (mode === 'crash') {
+                const crashVal = 2147483648; 
+                simInput.value = crashVal;
+                simSlider.value = crashVal;
+                updateVisuals(crashVal);
+            }
+        }
+
+        // --- Initialization ---
+        initBits();
+        setSimTime('now');
+    </script>
+</body>
+</html>

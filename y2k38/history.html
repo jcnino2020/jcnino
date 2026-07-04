@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HISTORICAL PRECEDENTS | Y2K38 Explorer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        deep: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                            950: '#0b1021', // Custom Deep Navy
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { transition: background-color 0.3s ease, color 0.3s ease; }
+        .bg-gradient-dark {
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(14, 165, 233, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(37, 99, 235, 0.15) 0px, transparent 50%);
+        }
+        .bg-gradient-light {
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(14, 165, 233, 0.05) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(37, 99, 235, 0.05) 0px, transparent 50%);
+        }
+        .glass-card { transition: background-color 0.3s, border-color 0.3s; }
+        .dark .glass-card {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(203, 213, 225, 0.6);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="pb-20 antialiased selection:bg-blue-500 selection:text-white bg-slate-50 dark:bg-deep-950 text-slate-900 dark:text-slate-50 transition-colors duration-300">
+    <div class="fixed inset-0 pointer-events-none transition-opacity duration-300 opacity-100 dark:opacity-0 bg-gradient-light"></div>
+    <div class="fixed inset-0 pointer-events-none transition-opacity duration-300 opacity-0 dark:opacity-100 bg-gradient-dark"></div>
+
+    <!-- Header -->
+    <header class="relative pt-12 pb-8 px-6 border-b border-slate-200 dark:border-white/5 transition-colors">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
+            <div class="flex-grow">
+                <a href="index.html" class="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold text-sm tracking-wide mb-4 uppercase hover:underline">
+                    ← BACK TO HOME
+                </a>
+                <h1 class="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-slate-900 to-blue-600 dark:from-white dark:to-blue-400 tracking-tight transition-all">Historical Precedents</h1>
+                <p class="text-lg text-slate-500 dark:text-slate-400 mt-2 font-light">Real-world incidents of system integer overflows</p>
+            </div>
+            
+            <div>
+                <button onclick="toggleTheme()" class="p-2 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:scale-105 transition-transform shadow-sm">
+                    <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden dark:block"><circle cx="12" cy="12" r="5"/><path d="M12 1v2"/><path d="M12 21v2"/><path d="M4.22 4.22l1.42 1.42"/><path d="M18.36 18.36l1.42 1.42"/><path d="M1 12h2"/><path d="M21 12h2"/><path d="M4.22 19.78l1.42-1.42"/><path d="M18.36 5.64l1.42-1.42"/></svg>
+                    <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="block dark:hidden"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto p-6 mt-10">
+        <div class="grid md:grid-cols-3 gap-8">
+            <!-- Gangnam Style -->
+            <div class="glass-card p-6 rounded-2xl group hover:border-blue-500/40 transition duration-300">
+                <div class="w-12 h-12 bg-rose-100 dark:bg-rose-500/20 text-rose-500 dark:text-rose-400 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                    🎬
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">YouTube & Gangnam Style</h3>
+                <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                    In 2014, Psy's "Gangnam Style" video exceeded 2,147,483,647 views. YouTube's views counter at the time used a signed 32-bit integer, causing it to break and show negative numbers.
+                </p>
+                <div class="text-xs font-mono text-gray-500 border-t border-slate-200 dark:border-white/5 pt-4 mt-2">
+                    IMPACT: Backend update to 64-bit views counter
+                </div>
+            </div>
+
+            <!-- NASA -->
+            <div class="glass-card p-6 rounded-2xl group hover:border-blue-500/40 transition duration-300">
+                <div class="w-12 h-12 bg-sky-100 dark:bg-sky-500/20 text-sky-600 dark:text-sky-400 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                    🚀
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">NASA Deep Impact</h3>
+                <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                    The space probe's internal timer tracked time in tenths of a second since launch. In 2013, this counter overflowed a signed 32-bit limit, launching a reboot loop that severed link signals.
+                </p>
+                <div class="text-xs font-mono text-gray-500 border-t border-slate-200 dark:border-white/5 pt-4 mt-2">
+                    IMPACT: Total loss of communication with the spacecraft
+                </div>
+            </div>
+
+            <!-- Boeing -->
+            <div class="glass-card p-6 rounded-2xl group hover:border-blue-500/40 transition duration-300">
+                <div class="w-12 h-12 bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                    ✈️
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Boeing 787 Dreamliner</h3>
+                <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                    An FAA airworthiness directive reported that the generator control unit (GCU) software counter overflowed a 32-bit register after exactly 248 days of continuous operation, shutting down electrical generators.
+                </p>
+                <div class="text-xs font-mono text-gray-500 border-t border-slate-200 dark:border-white/5 pt-4 mt-2">
+                    IMPACT: FAA mandated powercycle interval of 248 days
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        if (localStorage.theme === 'light') {
+            document.documentElement.classList.remove('dark');
+        } else {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
+</body>
+</html>

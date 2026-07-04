@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOUVENIRS | Space Jam Reimagined</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Rajdhani', sans-serif; background-color: #050505; overflow-x: hidden; }
+        .font-display { font-family: 'Orbitron', sans-serif; }
+        .jam-shadow { text-shadow: 0 0 20px rgba(45, 212, 191, 0.8), 0 0 40px rgba(45, 212, 191, 0.4); }
+        .grid-bg {
+            background-image: 
+                linear-gradient(rgba(59, 130, 246, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+    </style>
+</head>
+<body class="text-white min-h-screen relative selection:bg-teal-500 selection:text-white grid-bg">
+    <div id="star-container" class="absolute inset-0 z-0 pointer-events-none"></div>
+
+    <div class="relative z-10 max-w-5xl mx-auto px-6 py-12">
+        <!-- Back Button -->
+        <a href="index.html" class="inline-flex items-center gap-2 text-cyan-400 hover:text-pink-500 font-display text-sm font-bold tracking-widest mb-10 transition-colors">
+            ← BACK TO ARCHIVE
+        </a>
+
+        <!-- Header -->
+        <header class="mb-12">
+            <span class="text-xs font-mono text-teal-400 tracking-[0.2em] font-bold uppercase">Relic Exhibition</span>
+            <h1 class="font-display font-black text-4xl md:text-6xl tracking-tight uppercase jam-shadow mt-2">
+                Souvenirs
+            </h1>
+            <div class="mt-4 w-48 h-0.5 bg-gradient-to-r from-teal-500 to-transparent"></div>
+        </header>
+
+        <!-- Hologram Relic Gallery -->
+        <main class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Relic 1 -->
+            <div onclick="showHolo('MJ Game Ball', 'Signed by Michael Jordan during the 1996 match in Looney Tune Land. Radiates pure cosmic drive.', '🏀')" class="backdrop-blur-md bg-black/40 border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center cursor-pointer hover:border-teal-500/50 transition duration-300">
+                <div class="w-24 h-24 rounded-full bg-teal-500/10 border border-teal-500/20 flex items-center justify-center text-4xl mb-4 shadow-[0_0_20px_rgba(45,212,191,0.2)] animate-pulse">🏀</div>
+                <h3 class="font-display font-bold text-lg text-white">MJ Game Ball</h3>
+                <span class="text-xs text-gray-500 font-mono mt-1">ID: RELIC-MJ23</span>
+            </div>
+
+            <!-- Relic 2 -->
+            <div onclick="showHolo('Golden Bugs Pin', 'Awarded to official Tune Squad members. Plated with real star-dust from Sector 1996.', '⭐️')" class="backdrop-blur-md bg-black/40 border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center cursor-pointer hover:border-teal-500/50 transition duration-300">
+                <div class="w-24 h-24 rounded-full bg-teal-500/10 border border-teal-500/20 flex items-center justify-center text-4xl mb-4 shadow-[0_0_20px_rgba(45,212,191,0.2)] animate-pulse">⭐️</div>
+                <h3 class="font-display font-bold text-lg text-white">Golden Bugs Pin</h3>
+                <span class="text-xs text-gray-500 font-mono mt-1">ID: RELIC-BB01</span>
+            </div>
+
+            <!-- Relic 3 -->
+            <div onclick="showHolo('Monstars Core', 'A fragment of the core engine from Moron Mountain amusement park. Emits high gravity signals.', '🔮')" class="backdrop-blur-md bg-black/40 border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center cursor-pointer hover:border-teal-500/50 transition duration-300">
+                <div class="w-24 h-24 rounded-full bg-teal-500/10 border border-teal-500/20 flex items-center justify-center text-4xl mb-4 shadow-[0_0_20px_rgba(45,212,191,0.2)] animate-pulse">🔮</div>
+                <h3 class="font-display font-bold text-lg text-white">Monstars Core</h3>
+                <span class="text-xs text-gray-500 font-mono mt-1">ID: RELIC-MS09</span>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Hologram Detail Overlay -->
+    <div id="holo-overlay" class="fixed inset-0 bg-black/85 backdrop-blur-md flex items-center justify-center z-50 hidden opacity-0 transition-opacity duration-300">
+        <div class="max-w-md w-full mx-4 backdrop-blur-lg bg-black/60 border border-teal-500/30 rounded-2xl p-8 flex flex-col items-center text-center relative">
+            <button onclick="closeHolo()" class="absolute top-4 right-4 text-gray-500 hover:text-white transition font-display text-sm font-bold">CLOSE [X]</button>
+            <div id="holo-icon" class="w-32 h-32 rounded-full bg-teal-500/20 border border-teal-500/40 flex items-center justify-center text-6xl mb-6 shadow-[0_0_40px_rgba(45,212,191,0.4)] animate-bounce"></div>
+            <h3 id="holo-title" class="font-display font-black text-2xl text-teal-400">Relic Name</h3>
+            <p id="holo-desc" class="text-gray-300 text-sm mt-4 leading-relaxed">Relic description details here.</p>
+        </div>
+    </div>
+
+    <!-- Background script -->
+    <script>
+        const starContainer = document.getElementById('star-container');
+        for (let i = 0; i < 80; i++) {
+            const star = document.createElement('div');
+            const size = Math.random() * 3;
+            star.className = 'absolute bg-white rounded-full opacity-0';
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.top = `${Math.random() * 100}%`;
+            starContainer.appendChild(star);
+            gsap.to(star, {
+                opacity: Math.random(),
+                duration: Math.random() * 2 + 1,
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut"
+            });
+        }
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = (e.clientX / window.innerWidth) - 0.5;
+            const mouseY = (e.clientY / window.innerHeight) - 0.5;
+            gsap.to("#star-container", { x: mouseX * -40, y: mouseY * -40, duration: 1.5, ease: "power1.out" });
+        });
+
+        // Modal triggers
+        const overlay = document.getElementById('holo-overlay');
+        function showHolo(title, desc, icon) {
+            document.getElementById('holo-title').innerText = title;
+            document.getElementById('holo-desc').innerText = desc;
+            document.getElementById('holo-icon').innerText = icon;
+            
+            overlay.classList.remove('hidden');
+            gsap.to(overlay, { opacity: 1, duration: 0.3 });
+        }
+        function closeHolo() {
+            gsap.to(overlay, { 
+                opacity: 0, 
+                duration: 0.2, 
+                onComplete: () => overlay.classList.add('hidden')
+            });
+        }
+    </script>
+</body>
+</html>

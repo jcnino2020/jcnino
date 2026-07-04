@@ -113,9 +113,36 @@
         // Global array to store our news data
         let allNewsItems = [];
 
-        const RSS_URL = 'https://corsproxy.io/?' + encodeURIComponent('https://www.vox.com/rss/index.xml');
-
         // --- Helpers ---
+        async function fetchFeed(url) {
+            const targets = [
+                `/api/convert?url=${encodeURIComponent(url)}`,
+                `https://corsproxy.io/?${encodeURIComponent(url)}`,
+                `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`
+            ];
+            
+            for (let target of targets) {
+                try {
+                    const response = await fetch(target);
+                    if (!response.ok) throw new Error(`Status ${response.status}`);
+                    
+                    const text = await response.text();
+                    
+                    if (target.includes('allorigins')) {
+                        const json = JSON.parse(text);
+                        if (json && json.contents) return json.contents;
+                    }
+                    
+                    if (text && text.length > 100) {
+                        return text;
+                    }
+                } catch (e) {
+                    console.warn(`Proxy ${target} failed:`, e.message);
+                }
+            }
+            throw new Error("All proxies failed to load RSS feed");
+        }
+
         function extractImage(htmlContent) {
             const parser = new DOMParser();
             const doc = parser.parseFromString(htmlContent, 'text/html');
@@ -138,8 +165,7 @@
         // --- Main Logic ---
         async function loadNews() {
             try {
-                const response = await fetch(RSS_URL);
-                const text = await response.text();
+                const text = await fetchFeed('https://www.vox.com/rss/index.xml');
                 const xmlDoc = new DOMParser().parseFromString(text, "application/xml");
                 const items = Array.from(xmlDoc.querySelectorAll("entry"));
 

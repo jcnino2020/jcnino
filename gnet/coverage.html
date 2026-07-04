@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Service Coverage Map | GNET</title>
+  <link rel="shortcut icon" href="/gnet/files/logo-250920241.png" type="image/png">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="/gnet/files/leaflet.css">
+  <link rel="stylesheet" href="/gnet/files/L.Control.Locate.min.css">
+  <link rel="stylesheet" href="/gnet/files/leaflet.fullscreen.css">
+  
+  <!-- Bootstrap -->
+  <link class="bootstrap-css" rel="stylesheet" href="/gnet/files/bootstrap.min.css">
+  <!-- Design System -->
+  <link rel="stylesheet" href="/gnet/styles/main.css">
+</head>
+<body>
+  <!-- PRELOADER -->
+  <div id="gnet-preloader" role="status" aria-label="Loading GNET website">
+    <img src="/gnet/files/logo-250920241.png" alt="GNET Logo" class="preloader-logo" width="80">
+    <div class="preloader-bar" role="progressbar">
+      <div class="preloader-bar-fill"></div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION -->
+  <header id="gnet-nav" role="banner">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <img src="/gnet/files/logo-250920241.png" alt="GNET" width="120">
+      </a>
+      <nav class="nav-links">
+        <a href="index.html"      class="nav-link">Home</a>
+        <a href="packages.html"   class="nav-link">Packages</a>
+        <a href="bill.html"       class="nav-link">Bill</a>
+        <a href="services.html"   class="nav-link">Services</a>
+        <a href="coverage.html"   class="nav-link active" aria-current="page">Coverage</a>
+        <a href="speedtest.html"  class="nav-link">Speedtest</a>
+        <a href="#footer"         class="nav-link">Contact</a>
+      </nav>
+      <div class="nav-right">
+        <a href="tel:639609225835" class="nav-phone">+63 960 922 5835</a>
+        <a href="https://gnet.ph/auth" class="btn btn-primary btn-sm">Login</a>
+        <button class="nav-hamburger" id="nav-hamburger">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <nav id="mobile-drawer" class="mobile-drawer">
+    <a href="index.html"      class="nav-link" onclick="closeDrawer()">Home</a>
+    <a href="packages.html"   class="nav-link" onclick="closeDrawer()">Packages</a>
+    <a href="bill.html"       class="nav-link" onclick="closeDrawer()">Bill</a>
+    <a href="services.html"   class="nav-link" onclick="closeDrawer()">Services</a>
+    <a href="coverage.html"   class="nav-link" onclick="closeDrawer()">Coverage</a>
+    <a href="speedtest.html"  class="nav-link" onclick="closeDrawer()">Speedtest</a>
+    <a href="#footer"         class="nav-link" onclick="closeDrawer()">Contact</a>
+  </nav>
+
+  <main id="main-content" style="padding-top: 120px;">
+    <!-- COVERAGE MAP SECTION -->
+    <section id="coverage" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tagline">Service Coverage</span>
+          <h2 class="section-title">We Cover Your Area</h2>
+          <p class="section-subtitle">View our coverage zones across Bacolod City and surrounding municipalities. Click the locate button to check if we serve your location.</p>
+        </div>
+
+        <div class="map-container">
+          <div id="mapid" style="height: 500px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.07);"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="footer" style="padding: 40px 0;">
+    <div class="container" style="text-align: center;">
+      <p>© Copyright 2026 · <strong>GNET Network and Data Solution</strong> · All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="/gnet/files/jquery-3.6.0.min.js"></script>
+  <script src="/gnet/files/bootstrap.bundle.min.js"></script>
+  
+  <!-- Leaflet Scripts -->
+  <script src="/gnet/files/leaflet.js"></script>
+  <script src="/gnet/files/L.Control.Locate.min.js" charset="utf-8"></script>
+  <script src="/gnet/files/Leaflet.fullscreen.min.js"></script>
+
+  <script>
+    setTimeout(function() {
+        var preloader = document.getElementById('gnet-preloader');
+        if (preloader) preloader.classList.add('hidden');
+    }, 500);
+
+    var nav = document.getElementById('gnet-nav');
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 50) nav.classList.add('scrolled');
+        else nav.classList.remove('scrolled');
+    }, { passive: true });
+
+    var hamburger = document.getElementById('nav-hamburger');
+    var drawer    = document.getElementById('mobile-drawer');
+
+    function closeDrawer() {
+        if (drawer) drawer.classList.remove('open');
+        if (hamburger) hamburger.classList.remove('open');
+    }
+
+    if (hamburger) {
+        hamburger.addEventListener('click', function() {
+            var isOpen = drawer.classList.contains('open');
+            if (isOpen) closeDrawer();
+            else {
+                drawer.classList.add('open');
+                hamburger.classList.add('open');
+            }
+        });
+    }
+
+    // --- LEAFLET MAP INITIALIZATION ---
+    var company = "GNET NETWORK AND DATA SOLUTION";
+
+    var mymap = L.map('mapid', {
+        fullscreenControl: true,
+        fullscreenControl: { pseudoFullscreen: false }
+    }).setView([10.630793245589691, 122.95960396536431], 12); // Centered at Office Bacolod
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(mymap);
+
+    var url = "https://gnet.ph/coverage/getcoverage/";
+    $.ajax({
+        url: url,
+        type: "GET",
+        dataType: "json",
+        success: function(data) {
+            data.forEach(function(item) {
+                var LeafIcon = L.Icon.extend({
+                    options: {
+                        iconSize: [32, 41],
+                        iconAnchor: [15, 41],
+                        popupAnchor: [0, -41]
+                    }
+                });
+                var greenIcon = new LeafIcon({ iconUrl: 'https://gnet.ph/assets/images/maps/marker_green.png' });
+
+                L.marker([item['latitude'], item['longitude']], { icon: greenIcon })
+                    .addTo(mymap)
+                    .bindPopup('<h5 class="mb-0 mt-0 pb-0" style="text-align:center;">' + item['c_name'] + ' </h5><hr class=" mb-2 mt-2" color="blue" />' +
+                        '<p class="mt-1"> Address : ' + item['address'] + '<br> ');
+
+                L.circle([item['latitude'], item['longitude']], {
+                    radius: item['radius'],
+                    color: 'blue',
+                    fillColor: 'green',
+                    fillOpacity: '0.1',
+                }).addTo(mymap);
+            });
+        }
+    });
+
+    var markernow = L.marker([10.630793245589691, 122.95960396536431]).addTo(mymap)
+        .bindPopup("Office " + company).openPopup();
+  </script>
+</body>
+</html>

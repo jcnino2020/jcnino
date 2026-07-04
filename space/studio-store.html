@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STUDIO STORE | Space Jam Reimagined</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Rajdhani', sans-serif; background-color: #050505; overflow-x: hidden; }
+        .font-display { font-family: 'Orbitron', sans-serif; }
+        .jam-shadow { text-shadow: 0 0 20px rgba(225, 29, 72, 0.8), 0 0 40px rgba(225, 29, 72, 0.4); }
+        .grid-bg {
+            background-image: 
+                linear-gradient(rgba(59, 130, 246, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+    </style>
+</head>
+<body class="text-white min-h-screen relative selection:bg-rose-600 selection:text-white grid-bg">
+    <div id="star-container" class="absolute inset-0 z-0 pointer-events-none"></div>
+
+    <div class="relative z-10 max-w-6xl mx-auto px-6 py-12 flex flex-col lg:flex-row gap-8">
+        <!-- Main Area -->
+        <div class="flex-grow">
+            <!-- Back Button -->
+            <a href="index.html" class="inline-flex items-center gap-2 text-cyan-400 hover:text-pink-500 font-display text-sm font-bold tracking-widest mb-10 transition-colors">
+                ← BACK TO ARCHIVE
+            </a>
+
+            <!-- Header -->
+            <header class="mb-12">
+                <span class="text-xs font-mono text-rose-500 tracking-[0.2em] font-bold uppercase">Authorized Merch Station</span>
+                <h1 class="font-display font-black text-4xl md:text-6xl tracking-tight uppercase jam-shadow mt-2">
+                    Studio Store
+                </h1>
+                <div class="mt-4 w-48 h-0.5 bg-gradient-to-r from-rose-500 to-transparent"></div>
+            </header>
+
+            <!-- Product Grid -->
+            <main class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <!-- Item 1 -->
+                <div class="backdrop-blur-md bg-black/40 border border-white/10 rounded-2xl p-6 flex flex-col justify-between hover:border-rose-500/50 transition duration-300">
+                    <div>
+                        <div class="text-4xl mb-4">🎽</div>
+                        <h3 class="font-display font-bold text-lg text-white">Tune Squad Jersey</h3>
+                        <p class="text-gray-400 text-sm mt-2">Official replica Tune Squad basketball jersey. Features Michael Jordan #23 print.</p>
+                    </div>
+                    <div class="mt-6 flex justify-between items-center">
+                        <span class="font-mono font-bold text-rose-400 text-lg">$19.96</span>
+                        <button onclick="addToCart('Tune Squad Jersey', 19.96)" class="bg-rose-600 hover:bg-rose-500 text-white px-4 py-1.5 rounded-lg text-xs font-bold font-display transition">ADD TO CART</button>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="backdrop-blur-md bg-black/40 border border-white/10 rounded-2xl p-6 flex flex-col justify-between hover:border-rose-500/50 transition duration-300">
+                    <div>
+                        <div class="text-4xl mb-4">🧢</div>
+                        <h3 class="font-display font-bold text-lg text-white">Retro Space Cap</h3>
+                        <p class="text-gray-400 text-sm mt-2">Purple and teal adjustable snapback with embroidered Space Jam circular portal logo.</p>
+                    </div>
+                    <div class="mt-6 flex justify-between items-center">
+                        <span class="font-mono font-bold text-rose-400 text-lg">$14.96</span>
+                        <button onclick="addToCart('Retro Space Cap', 14.96)" class="bg-rose-600 hover:bg-rose-500 text-white px-4 py-1.5 rounded-lg text-xs font-bold font-display transition">ADD TO CART</button>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="backdrop-blur-md bg-black/40 border border-white/10 rounded-2xl p-6 flex flex-col justify-between hover:border-rose-500/50 transition duration-300">
+                    <div>
+                        <div class="text-4xl mb-4">🏀</div>
+                        <h3 class="font-display font-bold text-lg text-white">Monstars Basketball</h3>
+                        <p class="text-gray-400 text-sm mt-2">Limited edition dark purple basketball featuring Monstars alien team logo prints.</p>
+                    </div>
+                    <div class="mt-6 flex justify-between items-center">
+                        <span class="font-mono font-bold text-rose-400 text-lg">$23.00</span>
+                        <button onclick="addToCart('Monstars Basketball', 23.00)" class="bg-rose-600 hover:bg-rose-500 text-white px-4 py-1.5 rounded-lg text-xs font-bold font-display transition">ADD TO CART</button>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Sidebar Cart -->
+        <aside class="w-full lg:w-80 backdrop-blur-md bg-black/40 border border-white/10 rounded-2xl p-6 flex flex-col justify-between h-fit shrink-0">
+            <div>
+                <h3 class="font-display font-bold text-lg text-rose-500 border-b border-white/10 pb-2">SHOPPING CART</h3>
+                <div id="cart-items" class="mt-4 space-y-4 max-h-60 overflow-y-auto pr-2">
+                    <p class="text-gray-500 text-sm font-mono text-center py-6">CART IS EMPTY</p>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/10 pt-4 mt-6">
+                <div class="flex justify-between items-center font-display font-bold text-base mb-4">
+                    <span>TOTAL</span>
+                    <span id="cart-total" class="text-rose-400 font-mono">$0.00</span>
+                </div>
+                <button onclick="checkout()" class="w-full bg-rose-600 hover:bg-rose-500 text-white py-2 rounded-xl font-display font-bold text-xs tracking-wider transition">CONFIRM CHECKOUT</button>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Background script -->
+    <script>
+        const starContainer = document.getElementById('star-container');
+        for (let i = 0; i < 80; i++) {
+            const star = document.createElement('div');
+            const size = Math.random() * 3;
+            star.className = 'absolute bg-white rounded-full opacity-0';
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.top = `${Math.random() * 100}%`;
+            starContainer.appendChild(star);
+            gsap.to(star, {
+                opacity: Math.random(),
+                duration: Math.random() * 2 + 1,
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut"
+            });
+        }
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = (e.clientX / window.innerWidth) - 0.5;
+            const mouseY = (e.clientY / window.innerHeight) - 0.5;
+            gsap.to("#star-container", { x: mouseX * -40, y: mouseY * -40, duration: 1.5, ease: "power1.out" });
+        });
+
+        // Cart functions
+        let cart = [];
+        function addToCart(name, price) {
+            const existing = cart.find(item => item.name === name);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ name, price, qty: 1 });
+            }
+            renderCart();
+        }
+
+        function removeFromCart(name) {
+            cart = cart.filter(item => item.name !== name);
+            renderCart();
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cart-items');
+            if (cart.length === 0) {
+                container.innerHTML = `<p class="text-gray-500 text-sm font-mono text-center py-6">CART IS EMPTY</p>`;
+                document.getElementById('cart-total').innerText = '$0.00';
+                return;
+            }
+            
+            container.innerHTML = cart.map(item => `
+                <div class="flex justify-between items-center border-b border-white/5 pb-2 text-sm">
+                    <div>
+                        <h4 class="font-bold text-white">${item.name}</h4>
+                        <span class="text-xs text-gray-400 font-mono">${item.qty} x $${item.price.toFixed(2)}</span>
+                    </div>
+                    <button onclick="removeFromCart('${item.name}')" class="text-gray-500 hover:text-red-400 transition text-xs font-bold">REMOVE</button>
+                </div>
+            `).join('');
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            document.getElementById('cart-total').innerText = `$${total.toFixed(2)}`;
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert("Cart is empty!");
+                return;
+            }
+            alert("Checkout complete! Simulated transaction successful.");
+            cart = [];
+            renderCart();
+        }
+    </script>
+</body>
+</html>

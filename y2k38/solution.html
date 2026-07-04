@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>64-BIT SOLUTIONS | Y2K38 Explorer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        deep: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                            950: '#0b1021', // Custom Deep Navy
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { transition: background-color 0.3s ease, color 0.3s ease; }
+        .bg-gradient-dark {
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(14, 165, 233, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(37, 99, 235, 0.15) 0px, transparent 50%);
+        }
+        .bg-gradient-light {
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(14, 165, 233, 0.05) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(37, 99, 235, 0.05) 0px, transparent 50%);
+        }
+        .glass-card { transition: background-color 0.3s, border-color 0.3s; }
+        .dark .glass-card {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(203, 213, 225, 0.6);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="pb-20 antialiased selection:bg-blue-500 selection:text-white bg-slate-50 dark:bg-deep-950 text-slate-900 dark:text-slate-50 transition-colors duration-300">
+    <div class="fixed inset-0 pointer-events-none transition-opacity duration-300 opacity-100 dark:opacity-0 bg-gradient-light"></div>
+    <div class="fixed inset-0 pointer-events-none transition-opacity duration-300 opacity-0 dark:opacity-100 bg-gradient-dark"></div>
+
+    <!-- Header -->
+    <header class="relative pt-12 pb-8 px-6 border-b border-slate-200 dark:border-white/5 transition-colors">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
+            <div class="flex-grow">
+                <a href="index.html" class="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold text-sm tracking-wide mb-4 uppercase hover:underline">
+                    ← BACK TO HOME
+                </a>
+                <h1 class="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-slate-900 to-blue-600 dark:from-white dark:to-blue-400 tracking-tight transition-all">64-Bit Solutions</h1>
+                <p class="text-lg text-slate-500 dark:text-slate-400 mt-2 font-light">Upgrading legacy counters to prevent integer overflows</p>
+            </div>
+            
+            <div>
+                <button onclick="toggleTheme()" class="p-2 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:scale-105 transition-transform shadow-sm">
+                    <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden dark:block"><circle cx="12" cy="12" r="5"/><path d="M12 1v2"/><path d="M12 21v2"/><path d="M4.22 4.22l1.42 1.42"/><path d="M18.36 18.36l1.42 1.42"/><path d="M1 12h2"/><path d="M21 12h2"/><path d="M4.22 19.78l1.42-1.42"/><path d="M18.36 5.64l1.42-1.42"/></svg>
+                    <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="block dark:hidden"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto p-6 mt-10">
+        <section class="bg-gradient-to-br from-blue-50 to-slate-100 dark:from-deep-900 dark:to-deep-950 border border-blue-200 dark:border-blue-500/20 p-8 rounded-3xl relative overflow-hidden transition-colors">
+            <div class="absolute top-0 right-0 p-32 bg-blue-500/10 blur-[100px] rounded-full pointer-events-none"></div>
+            
+            <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-6">The Solution: 64-Bit Architecture</h2>
+            <div class="flex flex-col lg:flex-row gap-10">
+                <div class="flex-1 space-y-4 relative z-10">
+                    <p class="text-slate-600 dark:text-slate-300 text-lg">Upgrading systems to store time as a <strong>64-bit signed integer</strong> increases capacity exponentially.</p>
+                    <p class="text-slate-600 dark:text-slate-400">With 64 bits, we won't run out of seconds for another <span class="text-blue-600 dark:text-blue-400 font-bold">292 billion years</span>—about 20 times the age of the universe.</p>
+                    <div class="space-y-3 mt-6">
+                        <div class="flex items-center gap-3 text-slate-600 dark:text-slate-300 text-sm">
+                            <div class="w-6 h-6 rounded-full bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold">✓</div>
+                            macOS, iOS, and modern 64-bit Windows environments are fully safe.
+                        </div>
+                        <div class="flex items-center gap-3 text-slate-600 dark:text-slate-300 text-sm">
+                            <div class="w-6 h-6 rounded-full bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold">✓</div>
+                            Linux kernel versions 5.6+ natively support 64-bit time structures even on 32-bit CPUs.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex-1 space-y-4 relative z-10">
+                    <div class="bg-white dark:bg-black/30 backdrop-blur p-5 rounded-xl border border-slate-200 dark:border-white/5">
+                        <div class="text-xs text-slate-500 mb-1">32-Bit Max Capacity (Year 2038)</div>
+                        <div class="text-rose-500 dark:text-rose-400 font-mono text-xl truncate">2,147,483,647</div>
+                    </div>
+                    <div class="bg-blue-50 dark:bg-blue-500/10 backdrop-blur p-5 rounded-xl border border-blue-100 dark:border-blue-500/30">
+                        <div class="text-xs text-blue-600 dark:text-blue-300 mb-1">64-Bit Max Capacity (Year 292 Billion)</div>
+                        <div class="text-blue-700 dark:text-blue-400 font-mono text-xl break-all">9,223,372,036,854,775,807</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        if (localStorage.theme === 'light') {
+            document.documentElement.classList.remove('dark');
+        } else {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
+</body>
+</html>

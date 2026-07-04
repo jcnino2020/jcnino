@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unlimited Internet Packages | GNET</title>
+  <link rel="shortcut icon" href="/gnet/files/logo-250920241.png" type="image/png">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="/gnet/files/bootstrap.min.css">
+  <!-- Design System -->
+  <link rel="stylesheet" href="/gnet/styles/main.css">
+</head>
+<body>
+  <!-- PRELOADER -->
+  <div id="gnet-preloader" role="status" aria-label="Loading GNET website">
+    <img src="/gnet/files/logo-250920241.png" alt="GNET Logo" class="preloader-logo" width="80">
+    <div class="preloader-bar" role="progressbar">
+      <div class="preloader-bar-fill"></div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION -->
+  <header id="gnet-nav" role="banner">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <img src="/gnet/files/logo-250920241.png" alt="GNET" width="120">
+      </a>
+      <nav class="nav-links">
+        <a href="index.html"      class="nav-link">Home</a>
+        <a href="packages.html"   class="nav-link active" aria-current="page">Packages</a>
+        <a href="bill.html"       class="nav-link">Bill</a>
+        <a href="services.html"   class="nav-link">Services</a>
+        <a href="coverage.html"   class="nav-link">Coverage</a>
+        <a href="speedtest.html"  class="nav-link">Speedtest</a>
+        <a href="#footer"         class="nav-link">Contact</a>
+      </nav>
+      <div class="nav-right">
+        <a href="tel:639609225835" class="nav-phone">+63 960 922 5835</a>
+        <a href="https://gnet.ph/auth" class="btn btn-primary btn-sm">Login</a>
+        <button class="nav-hamburger" id="nav-hamburger">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <nav id="mobile-drawer" class="mobile-drawer">
+    <a href="index.html"      class="nav-link" onclick="closeDrawer()">Home</a>
+    <a href="packages.html"   class="nav-link" onclick="closeDrawer()">Packages</a>
+    <a href="bill.html"       class="nav-link" onclick="closeDrawer()">Bill</a>
+    <a href="services.html"   class="nav-link" onclick="closeDrawer()">Services</a>
+    <a href="coverage.html"   class="nav-link" onclick="closeDrawer()">Coverage</a>
+    <a href="speedtest.html"  class="nav-link" onclick="closeDrawer()">Speedtest</a>
+    <a href="#footer"         class="nav-link" onclick="closeDrawer()">Contact</a>
+  </nav>
+
+  <main id="main-content" style="padding-top: 120px;">
+    <!-- PACKAGES / PRICING SECTION -->
+    <section id="price" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tagline">Pricing Plans</span>
+          <h2 class="section-title">Unlimited Internet Packages</h2>
+          <p class="section-subtitle">Choose the plan that fits your lifestyle. All plans include free installation and 24/7 NOC monitoring.</p>
+        </div>
+
+        <div class="plans-grid">
+          <!-- Plan 1: 90Mbps ₱850 -->
+          <article class="plan-card">
+            <div class="plan-img-wrap">
+              <img src="/gnet/files/package-251016-bdf990e5ab.png" alt="GNET FiberHome 90Mbps" loading="lazy">
+            </div>
+            <div class="plan-body">
+              <div>
+                <h3 class="plan-name">GNet FiberHome</h3>
+                <div class="plan-speed-badge">90 Mbps</div>
+              </div>
+              <div class="plan-price">
+                <span class="plan-price-currency">₱</span>
+                <span class="plan-price-amount">850</span>
+                <span class="plan-price-period">/ month</span>
+              </div>
+              <div class="plan-divider"></div>
+              <ul class="plan-features">
+                <li class="plan-feature">90 Mbps symmetrical fiber</li>
+                <li class="plan-feature">Unlimited data, no throttling</li>
+                <li class="plan-feature">8am–5pm tech support</li>
+              </ul>
+              <div class="plan-cta">
+                <a href="https://gnet.ph/auth/register" class="btn btn-outline">Apply Now →</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Plan 2: 150Mbps ₱1,300 -->
+          <article class="plan-card featured">
+            <div class="plan-img-wrap">
+              <img src="/gnet/files/package-251016-39f4578da4.png" alt="GNET FiberHome 150Mbps" loading="lazy">
+            </div>
+            <div class="plan-body">
+              <div>
+                <h3 class="plan-name">GNet FiberHome</h3>
+                <div class="plan-speed-badge">150 Mbps</div>
+              </div>
+              <div class="plan-price">
+                <span class="plan-price-currency">₱</span>
+                <span class="plan-price-amount">1,300</span>
+                <span class="plan-price-period">/ month</span>
+              </div>
+              <div class="plan-divider"></div>
+              <ul class="plan-features">
+                <li class="plan-feature">150 Mbps symmetrical fiber</li>
+                <li class="plan-feature">Unlimited data, no throttling</li>
+                <li class="plan-feature">Priority tech support</li>
+              </ul>
+              <div class="plan-cta">
+                <a href="https://gnet.ph/auth/register" class="btn btn-primary">Apply Now →</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Plan 3: 250Mbps ₱1,500 -->
+          <article class="plan-card">
+            <div class="plan-img-wrap">
+              <img src="/gnet/files/package-251016-caf1d10728.png" alt="GNET FiberHome 250Mbps" loading="lazy">
+            </div>
+            <div class="plan-body">
+              <div>
+                <h3 class="plan-name">GNet FiberHome</h3>
+                <div class="plan-speed-badge">250 Mbps</div>
+              </div>
+              <div class="plan-price">
+                <span class="plan-price-currency">₱</span>
+                <span class="plan-price-amount">1,500</span>
+                <span class="plan-price-period">/ month</span>
+              </div>
+              <div class="plan-divider"></div>
+              <ul class="plan-features">
+                <li class="plan-feature">250 Mbps symmetrical fiber</li>
+                <li class="plan-feature">Enterprise-grade performance</li>
+                <li class="plan-feature">Priority tech support</li>
+              </ul>
+              <div class="plan-cta">
+                <a href="https://gnet.ph/auth/register" class="btn btn-outline">Apply Now →</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="footer" style="padding: 40px 0;">
+    <div class="container" style="text-align: center;">
+      <p>© Copyright 2026 · <strong>GNET Network and Data Solution</strong> · All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="/gnet/files/jquery-3.6.0.min.js"></script>
+  <script src="/gnet/files/bootstrap.bundle.min.js"></script>
+  <script>
+    setTimeout(function() {
+        var preloader = document.getElementById('gnet-preloader');
+        if (preloader) preloader.classList.add('hidden');
+    }, 500);
+
+    var nav = document.getElementById('gnet-nav');
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 50) nav.classList.add('scrolled');
+        else nav.classList.remove('scrolled');
+    }, { passive: true });
+
+    var hamburger = document.getElementById('nav-hamburger');
+    var drawer    = document.getElementById('mobile-drawer');
+
+    function closeDrawer() {
+        if (drawer) drawer.classList.remove('open');
+        if (hamburger) hamburger.classList.remove('open');
+    }
+
+    if (hamburger) {
+        hamburger.addEventListener('click', function() {
+            var isOpen = drawer.classList.contains('open');
+            if (isOpen) closeDrawer();
+            else {
+                drawer.classList.add('open');
+                hamburger.classList.add('open');
+            }
+        });
+    }
+  </script>
+</body>
+</html>

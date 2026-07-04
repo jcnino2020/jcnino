@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | BCC Elite Grading Portal</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="login-bg">
+    <div class="login-container">
+        <div class="login-card glass">
+            <img src="assets/img/logo.png" alt="BCC Logo" class="login-logo">
+            <div class="login-header">
+                <h1>BCC ELITE</h1>
+                <p>Online Grading Portal</p>
+            </div>
+
+            <div id="error-msg" class="error-msg" style="color: var(--error); margin-bottom: 20px; font-size: 0.9rem; font-weight: 600; display: none;"></div>
+
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="username">Username / Student ID</label>
+                    <input type="text" id="username" class="form-input" placeholder="Enter your username" required autofocus>
+                </div>
+                <div class="form-group" style="margin-bottom: 30px;">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" class="form-input" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn-primary">
+                    Sign In to Portal <i class="fas fa-arrow-right" style="margin-left: 8px;"></i>
+                </button>
+            </form>
+
+            <div style="margin-top: 30px; color: var(--text-muted); font-size: 0.8rem;">
+                &copy; <span id="copyright-year"></span> Bacolod City College. All Rights Reserved.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if already logged in
+            if (sessionStorage.getItem('user_id')) {
+                window.location.href = 'dashboard.html';
+                return;
+            }
+
+            const form = document.getElementById('login-form');
+            const errorMsg = document.getElementById('error-msg');
+
+            const mockUsers = [
+                {
+                    username: 'admin',
+                    password: 'password',
+                    role: 'admin',
+                    full_name: 'System Administrator',
+                    email: 'admin@bcc.edu.ph'
+                },
+                {
+                    username: 'faculty1',
+                    password: 'password',
+                    role: 'faculty',
+                    full_name: 'Dr. Maria Clara',
+                    email: 'm.clara@bcc.edu.ph'
+                },
+                {
+                    username: 'student1',
+                    password: 'password',
+                    role: 'student',
+                    full_name: 'Juan Dela Cruz',
+                    email: 'j.delacruz@student.bcc.edu.ph'
+                }
+            ];
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const username = document.getElementById('username').value.trim();
+                const password = document.getElementById('password').value;
+
+                if (username && password) {
+                    const user = mockUsers.find(u => u.username === username && u.password === password);
+                    if (user) {
+                        sessionStorage.setItem('user_id', user.username);
+                        sessionStorage.setItem('role', user.role);
+                        sessionStorage.setItem('full_name', user.full_name);
+                        sessionStorage.setItem('email', user.email);
+                        window.location.href = 'dashboard.html';
+                    } else {
+                        errorMsg.innerHTML = '<i class="fas fa-exclamation-circle"></i> Invalid username or password. (Try: admin / password)';
+                        errorMsg.style.display = 'block';
+                    }
+                } else {
+                    errorMsg.innerHTML = '<i class="fas fa-exclamation-circle"></i> Please enter both username and password.';
+                    errorMsg.style.display = 'block';
+                }
+            });
+
+            document.getElementById('copyright-year').textContent = new Date().getFullYear();
+        });
+    </script>
+</body>
+</html>

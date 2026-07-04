@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | BCC Elite</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <!-- Sidebar -->
+        <aside class="sidebar glass">
+            <div class="nav-logo">
+                <img src="assets/img/logo.png" alt="Logo">
+                <span>BCC ELITE</span>
+            </div>
+
+            <ul class="nav-links">
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link active">
+                        <i class="fas fa-th-large"></i> Dashboard
+                    </a>
+                </li>
+                
+                <!-- Student Menu Items -->
+                <li class="nav-item student-menu" style="display: none;">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-graduation-cap"></i> My Grades
+                    </a>
+                </li>
+                <li class="nav-item student-menu" style="display: none;">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-calendar-alt"></i> Schedule
+                    </a>
+                </li>
+
+                <!-- Faculty Menu Items -->
+                <li class="nav-item faculty-menu" style="display: none;">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-edit"></i> Grade Entry
+                    </a>
+                </li>
+                <li class="nav-item faculty-menu" style="display: none;">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-users"></i> My Students
+                    </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-user-circle"></i> Profile
+                    </a>
+                </li>
+                <li class="nav-item" style="margin-top: auto; padding-top: 50px;">
+                    <a href="#" id="logout-btn" class="nav-link" style="color: var(--error);">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
+                <div>
+                    <h2 style="font-size: 1.75rem;">Welcome back, <span id="welcome-first-name">User</span>!</h2>
+                    <p style="color: var(--text-muted);" id="current-date"></p>
+                </div>
+                <div class="glass" style="padding: 10px 20px; display: flex; align-items: center; gap: 12px; border-radius: 30px;">
+                    <div style="text-align: right;">
+                        <div style="font-weight: 600; font-size: 0.9rem;" id="user-badge-fullname">Full Name</div>
+                        <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;" id="user-badge-role">Role</div>
+                    </div>
+                    <div style="width: 40px; height: 40px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--secondary);" id="user-avatar-initial">
+                        U
+                    </div>
+                </div>
+            </header>
+
+            <!-- Student View Section -->
+            <div id="student-section" style="display: none;">
+                <!-- Student Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card glass">
+                        <span class="stat-title">Current GPA</span>
+                        <span class="stat-value" style="color: var(--secondary);">1.45</span>
+                    </div>
+                    <div class="stat-card glass">
+                        <span class="stat-title">Units Earned</span>
+                        <span class="stat-value">84 / 120</span>
+                    </div>
+                    <div class="stat-card glass">
+                        <span class="stat-title">Academic Year</span>
+                        <span class="stat-value" style="font-size: 1.5rem;">2025-2026</span>
+                    </div>
+                </div>
+
+                <!-- Grades Table Section -->
+                <div class="glass" style="margin-top: 40px; overflow: hidden;">
+                    <div style="padding: 24px; border-bottom: 1px solid var(--glass-border); display: flex; justify-content: space-between; align-items: center;">
+                        <h3 style="font-size: 1.25rem;">2nd Semester Grades</h3>
+                        <button class="btn-primary" style="width: auto; padding: 10px 20px; font-size: 0.85rem;" onclick="window.print()">
+                            <i class="fas fa-print"></i> Print Official Copy
+                        </button>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Subject Description</th>
+                                    <th>Units</th>
+                                    <th>Midterm</th>
+                                    <th>Final</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="grades-table-body">
+                                <!-- Grade rows populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Faculty / Admin View Section -->
+            <div id="faculty-admin-section" style="display: none;">
+                <div class="glass" style="padding: 40px; text-align: center;">
+                    <i class="fas fa-shield-alt" style="font-size: 3rem; color: var(--secondary); margin-bottom: 20px;"></i>
+                    <h2><span id="panel-role-name">Control</span> Control Panel</h2>
+                    <p style="color: var(--text-muted); margin-top: 10px;">The system is currently running in <strong>Demo Mode (No Database)</strong>.</p>
+                    <div style="margin-top: 30px; display: flex; justify-content: center; gap: 20px;">
+                        <div class="glass" style="padding: 20px; width: 200px;">
+                            <h4 style="color: var(--secondary);" id="task-count-value">-</h4>
+                            <p style="font-size: 0.8rem; color: var(--text-muted);">Assigned Tasks</p>
+                        </div>
+                        <div class="glass" style="padding: 20px; width: 200px;">
+                            <h4 style="color: var(--secondary);">Active</h4>
+                            <p style="font-size: 0.8rem; color: var(--text-muted);">Semester Status</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Verify session state
+            const userId = sessionStorage.getItem('user_id');
+            const role = sessionStorage.getItem('role');
+            const fullName = sessionStorage.getItem('full_name');
+            const email = sessionStorage.getItem('email');
+
+            if (!userId || !role || !fullName) {
+                // Not logged in, redirect to login
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Populate generic header info
+            document.getElementById('welcome-first-name').textContent = fullName.split(' ')[0];
+            document.getElementById('user-badge-fullname').textContent = fullName;
+            document.getElementById('user-badge-role').textContent = role;
+            document.getElementById('user-avatar-initial').textContent = fullName.charAt(0);
+
+            // Populate current date
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('current-date').textContent = new Date().toLocaleDateString('en-US', options);
+
+            // Show and hide role-based sidebar menus and main content sections
+            if (role === 'student') {
+                // Show student menus
+                document.querySelectorAll('.student-menu').forEach(el => el.style.display = 'block');
+                // Show student content section
+                document.getElementById('student-section').style.display = 'block';
+
+                // Populate grades table
+                const mockGrades = [
+                    {code: 'IT311', title: 'Web Development 2', units: 3, midterm: 1.25, final: 1.50, remarks: 'Passed'},
+                    {code: 'IT312', title: 'Database Management Systems 2', units: 3, midterm: 1.75, final: 1.50, remarks: 'Passed'},
+                    {code: 'IT313', title: 'Networking 1', units: 3, midterm: 2.25, final: 2.00, remarks: 'Passed'},
+                    {code: 'GE101', title: 'Understanding the Self', units: 3, midterm: 1.00, final: 1.25, remarks: 'Passed'},
+                    {code: 'GE102', title: 'Purposive Communication', units: 3, midterm: 1.50, final: 1.50, remarks: 'Passed'}
+                ];
+
+                const tableBody = document.getElementById('grades-table-body');
+                tableBody.innerHTML = ''; // clear any template content
+
+                mockGrades.forEach(g => {
+                    const row = document.createElement('tr');
+                    
+                    const codeCell = document.createElement('td');
+                    codeCell.style.fontWeight = '600';
+                    codeCell.style.color = 'var(--secondary)';
+                    codeCell.textContent = g.code;
+                    row.appendChild(codeCell);
+
+                    const titleCell = document.createElement('td');
+                    titleCell.textContent = g.title;
+                    row.appendChild(titleCell);
+
+                    const unitsCell = document.createElement('td');
+                    unitsCell.textContent = g.units;
+                    row.appendChild(unitsCell);
+
+                    const midtermCell = document.createElement('td');
+                    midtermCell.textContent = g.midterm.toFixed(2);
+                    row.appendChild(midtermCell);
+
+                    const finalCell = document.createElement('td');
+                    finalCell.style.fontWeight = '700';
+                    finalCell.style.fontSize = '1.1rem';
+                    finalCell.textContent = g.final.toFixed(2);
+                    row.appendChild(finalCell);
+
+                    const statusCell = document.createElement('td');
+                    const pill = document.createElement('span');
+                    pill.className = `grade-pill ${g.remarks.toLowerCase() === 'passed' ? 'passed' : 'failed'}`;
+                    pill.textContent = g.remarks;
+                    statusCell.appendChild(pill);
+                    row.appendChild(statusCell);
+
+                    tableBody.appendChild(row);
+                });
+
+            } else if (role === 'faculty' || role === 'admin') {
+                // Show faculty menus if faculty
+                if (role === 'faculty') {
+                    document.querySelectorAll('.faculty-menu').forEach(el => el.style.display = 'block');
+                }
+                
+                // Show faculty/admin content section
+                document.getElementById('faculty-admin-section').style.display = 'block';
+                document.getElementById('panel-role-name').textContent = role.charAt(0).toUpperCase() + role.slice(1);
+                document.getElementById('task-count-value').textContent = (role === 'admin') ? '12' : '3';
+            }
+
+            // Handle Logout
+            document.getElementById('logout-btn').addEventListener('click', (e) => {
+                e.preventDefault();
+                sessionStorage.clear();
+                window.location.href = 'index.html';
+            });
+        });
+    </script>
+</body>
+</html>

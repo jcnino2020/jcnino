@@ -111,6 +111,11 @@
 
         // Expanded proxy list for better reliability
         const PROXIES = [
+            { name: 'VercelConvert', fetch: async (url) => {
+                const res = await fetch(`/api/convert?url=${encodeURIComponent(url)}`);
+                if (!res.ok) throw new Error(`Vercel convert failed with status ${res.status}`);
+                return await res.text();
+            }},
             { name: 'AllOrigins', fetch: async (url) => {
                 const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}&t=${Date.now()}`);
                 const data = await res.json();
@@ -262,13 +267,28 @@
             document.getElementById('reader-original-link').href = article.link;
 
             try {
-                // Use the fastest proxy for full content
-                const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(article.link)}`;
-                const response = await fetch(proxyUrl);
-                const data = await response.json();
+                let htmlContent = "";
+                let fetchError = null;
+                
+                for (let proxy of PROXIES) {
+                    try {
+                        htmlContent = await proxy.fetch(article.link);
+                        if (htmlContent && htmlContent.length > 100) {
+                            fetchError = null;
+                            break;
+                        }
+                    } catch (e) {
+                        console.warn(`${proxy.name} failed for reader:`, e.message);
+                        fetchError = e;
+                    }
+                }
+                
+                if (fetchError || !htmlContent) {
+                    throw new Error("All proxies failed to load full article content");
+                }
                 
                 const parser = new DOMParser();
-                const doc = parser.parseFromString(data.contents, 'text/html');
+                const doc = parser.parseFromString(htmlContent, 'text/html');
                 
                 const selectors = ['article', '.article-content', '.post-content', '.entry-content', 'main'];
                 let contentNode = null;

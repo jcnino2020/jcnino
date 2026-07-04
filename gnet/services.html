@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Services | GNET</title>
+  <link rel="shortcut icon" href="/gnet/files/logo-250920241.png" type="image/png">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="/gnet/files/bootstrap.min.css">
+  <!-- Design System -->
+  <link rel="stylesheet" href="/gnet/styles/main.css">
+  <style>
+    .modal-content { background: #160c0a; border: 1px solid rgba(255,255,255,0.07); border-radius: 16px; color: #e2e8f0; }
+    .modal-header { border-bottom: 1px solid rgba(255,255,255,0.07); padding: 1.5rem 2rem; }
+    .modal-header .modal-title { color: #fff; font-weight: 700; }
+    .modal-body { padding: 2rem; color: #b0a09a; line-height: 1.75; }
+    .modal-body h3 { color: #fff; margin-bottom: 1rem; }
+    .modal-body strong { color: #f0ebe8; }
+    .modal-body ul { padding-left: 0; list-style: none; }
+    .modal-body ul li { display: flex; gap: 12px; padding: 10px 14px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 8px; margin-bottom: 8px; font-size: 0.875rem; }
+    .modal-body ul li::before { content: '→'; color: #e62828; font-weight: 700; flex-shrink: 0; }
+    .btn-close { filter: invert(1) grayscale(1) opacity(0.7); }
+    .btn-secondary { background: #2a1510; border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: #b0a09a; }
+    .btn-primary { background: #e62828; border: none; border-radius: 6px; }
+    .modal-backdrop.show { backdrop-filter: blur(8px); }
+  </style>
+</head>
+<body>
+  <!-- PRELOADER -->
+  <div id="gnet-preloader" role="status" aria-label="Loading GNET website">
+    <img src="/gnet/files/logo-250920241.png" alt="GNET Logo" class="preloader-logo" width="80">
+    <div class="preloader-bar" role="progressbar">
+      <div class="preloader-bar-fill"></div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION -->
+  <header id="gnet-nav" role="banner">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <img src="/gnet/files/logo-250920241.png" alt="GNET" width="120">
+      </a>
+      <nav class="nav-links">
+        <a href="index.html"      class="nav-link">Home</a>
+        <a href="packages.html"   class="nav-link">Packages</a>
+        <a href="bill.html"       class="nav-link">Bill</a>
+        <a href="services.html"   class="nav-link active" aria-current="page">Services</a>
+        <a href="coverage.html"   class="nav-link">Coverage</a>
+        <a href="speedtest.html"  class="nav-link">Speedtest</a>
+        <a href="#footer"         class="nav-link">Contact</a>
+      </nav>
+      <div class="nav-right">
+        <a href="tel:639609225835" class="nav-phone">+63 960 922 5835</a>
+        <a href="https://gnet.ph/auth" class="btn btn-primary btn-sm">Login</a>
+        <button class="nav-hamburger" id="nav-hamburger">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <nav id="mobile-drawer" class="mobile-drawer">
+    <a href="index.html"      class="nav-link" onclick="closeDrawer()">Home</a>
+    <a href="packages.html"   class="nav-link" onclick="closeDrawer()">Packages</a>
+    <a href="bill.html"       class="nav-link" onclick="closeDrawer()">Bill</a>
+    <a href="services.html"   class="nav-link" onclick="closeDrawer()">Services</a>
+    <a href="coverage.html"   class="nav-link" onclick="closeDrawer()">Coverage</a>
+    <a href="speedtest.html"  class="nav-link" onclick="closeDrawer()">Speedtest</a>
+    <a href="#footer"         class="nav-link" onclick="closeDrawer()">Contact</a>
+  </nav>
+
+  <main id="main-content" style="padding-top: 120px;">
+    <!-- SERVICES SECTION -->
+    <section id="services" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tagline">Our Services</span>
+          <h2 class="section-title">We Provide Various Services</h2>
+          <p class="section-subtitle">From residential fiber to enterprise-grade solutions, we've got you covered.</p>
+        </div>
+
+        <div class="services-grid">
+          <!-- Negros Cable TV -->
+          <article class="service-card">
+            <div class="service-img-wrap">
+              <img src="/gnet/files/product-260527-5aa1dcd9f1.png" alt="Negros Cable TV" loading="lazy">
+            </div>
+            <div class="service-body">
+              <h3 class="service-name">Negros Cable TV</h3>
+              <p style="font-size:0.875rem; color:#94a3b8; line-height:1.6;">Enjoy news, sports, movies, lifestyle, and kids' shows. Entertainment for the family.</p>
+              <div class="service-cta">
+                <button class="btn btn-outline" data-bs-toggle="modal" data-bs-target="#exampleModal8">Learn More →</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Hotspot Voucher -->
+          <article class="service-card">
+            <div class="service-img-wrap">
+              <img src="/gnet/files/product-260527-a8084766a3.png" alt="GNet Hotspot" loading="lazy">
+            </div>
+            <div class="service-body">
+              <h3 class="service-name">GNet Hotspot Voucher</h3>
+              <p style="font-size:0.875rem; color:#94a3b8; line-height:1.6;">Customizable vouchers for cafés, restaurants, and hotels. Simple management.</p>
+              <div class="service-cta">
+                <button class="btn btn-outline" data-bs-toggle="modal" data-bs-target="#exampleModal7">Learn More →</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Pisowifi -->
+          <article class="service-card">
+            <div class="service-img-wrap">
+              <img src="/gnet/files/product-260527-ff97af526a.png" alt="GNet Pisowifi" loading="lazy">
+            </div>
+            <div class="service-body">
+              <h3 class="service-name">GNet Pisowifi</h3>
+              <p style="font-size:0.875rem; color:#94a3b8; line-height:1.6;">Coin-operated WiFi for public spaces. Pay-as-you-go convenience.</p>
+              <div class="service-cta">
+                <button class="btn btn-outline" data-bs-toggle="modal" data-bs-target="#exampleModal6">Learn More →</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- HomeFiber -->
+          <article class="service-card">
+            <div class="service-img-wrap">
+              <img src="/gnet/files/product-260527-a3f6463aae.png" alt="GNet HomeFiber" loading="lazy">
+            </div>
+            <div class="service-body">
+              <h3 class="service-name">GNet HomeFiber</h3>
+              <p style="font-size:0.875rem; color:#94a3b8; line-height:1.6;">Fast, reliable, and affordable home internet. Speeds 90–250 Mbps.</p>
+              <div class="service-cta">
+                <button class="btn btn-outline" data-bs-toggle="modal" data-bs-target="#exampleModal5">Learn More →</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- BizFiber -->
+          <article class="service-card">
+            <div class="service-img-wrap">
+              <img src="/gnet/files/product-260527-bb178e174e.png" alt="GNet BizFiber" loading="lazy">
+            </div>
+            <div class="service-body">
+              <h3 class="service-name">GNet BizFiber</h3>
+              <p style="font-size:0.875rem; color:#94a3b8; line-height:1.6;">Tailored for SMEs. Speeds 100–500 Mbps with a 99.5% uptime SLA.</p>
+              <div class="service-cta">
+                <button class="btn btn-outline" data-bs-toggle="modal" data-bs-target="#exampleModal4">Learn More →</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Enterprise DIA -->
+          <article class="service-card">
+            <div class="service-img-wrap">
+              <img src="/gnet/files/product-260527-41483d7709.png" alt="GNet Enterprise DIA" loading="lazy">
+            </div>
+            <div class="service-body">
+              <h3 class="service-name">GNet Enterprise DIA</h3>
+              <p style="font-size:0.875rem; color:#94a3b8; line-height:1.6;">Dedicated Internet Access. Symmetrical speeds from 500 Mbps–10 Gbps.</p>
+              <div class="service-cta">
+                <button class="btn btn-outline" data-bs-toggle="modal" data-bs-target="#exampleModal3">Learn More →</button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- MODALS -->
+  <div class="modal fade" id="exampleModal8" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Negros Cable TV</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <h3>Negros Cable TV</h3>
+          <p>Negros Cable TV offers a wide variety of channels to keep you entertained, informed, and connected — news, sports, movies, lifestyle, and kids' shows!</p>
+          <p>Contact us at <strong>0960 922 5835</strong> for assistance and subscription details.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="exampleModal7" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">GNet Hotspot Voucher</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <h3>Hotspot Voucher Service</h3>
+          <p>Unlock seamless internet access with our Hotspot Voucher system, perfect for cafes, restaurants, hotels, or any public space!</p>
+          <ul>
+            <li>Customizable limits</li>
+            <li>Secure simultaneous user access</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="exampleModal6" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">GNet Pisowifi</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <h3>PisoWifi — Coin Operated</h3>
+          <p>Our PisoWifi internet service offers a pay-as-you-go solution perfect for convenience stores, internet cafés, and dormitories.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="exampleModal5" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">GNet HomeFiber</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <h3>GNet HomeFiber</h3>
+          <p>GNet HomeFiber is designed to bring fast, reliable, and affordable internet to your home. Speeds ranging from 90 Mbps to 250 Mbps.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="exampleModal4" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">GNet BizFiber</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <h3>GNet BizFiber</h3>
+          <p>GNet BizFiber is tailored for small and medium enterprises (SMEs) that rely on high-speed, stable internet for daily operations. Speeds 100 Mbps – 500 Mbps.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">GNet Enterprise DIA</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <h3>GNet Enterprise DIA</h3>
+          <p>Dedicated Internet Access for large businesses, enterprises, and critical institutions that need dedicated and symmetrical speed (500 Mbps – 10 Gbps).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer id="footer" style="padding: 40px 0;">
+    <div class="container" style="text-align: center;">
+      <p>© Copyright 2026 · <strong>GNET Network and Data Solution</strong> · All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="/gnet/files/jquery-3.6.0.min.js"></script>
+  <script src="/gnet/files/bootstrap.bundle.min.js"></script>
+  <script>
+    setTimeout(function() {
+        var preloader = document.getElementById('gnet-preloader');
+        if (preloader) preloader.classList.add('hidden');
+    }, 500);
+
+    var nav = document.getElementById('gnet-nav');
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 50) nav.classList.add('scrolled');
+        else nav.classList.remove('scrolled');
+    }, { passive: true });
+
+    var hamburger = document.getElementById('nav-hamburger');
+    var drawer    = document.getElementById('mobile-drawer');
+
+    function closeDrawer() {
+        if (drawer) drawer.classList.remove('open');
+        if (hamburger) hamburger.classList.remove('open');
+    }
+
+    if (hamburger) {
+        hamburger.addEventListener('click', function() {
+            var isOpen = drawer.classList.contains('open');
+            if (isOpen) closeDrawer();
+            else {
+                drawer.classList.add('open');
+                hamburger.classList.add('open');
+            }
+        });
+    }
+  </script>
+</body>
+</html>
