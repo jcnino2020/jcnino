@@ -181,6 +181,12 @@
             }
         });
     }
+
+    // Hide preloader after load
+    setTimeout(function() {
+        var preloader = document.getElementById('gnet-preloader');
+        if (preloader) preloader.classList.add('hidden');
+    }, 500);
   </script>
   <script>
     // Fix relative links if loaded without trailing slash (e.g. /folder on Vercel)
