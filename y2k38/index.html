@@ -207,5 +207,20 @@
 
         startGlobalCountdown();
     </script>
+    <script>
+        // Fix relative links if loaded without trailing slash (e.g. /folder on Vercel)
+        (function() {
+            const path = window.location.pathname;
+            if (!path.endsWith('/') && !path.split('/').pop().includes('.')) {
+                const dir = path.split('/').pop();
+                document.querySelectorAll('a').forEach(a => {
+                    const href = a.getAttribute('href');
+                    if (href && !href.startsWith('http') && !href.startsWith('/') && !href.startsWith('#')) {
+                        a.setAttribute('href', dir + '/' + href);
+                    }
+                });
+            }
+        })();
+    </script>
 </body>
 </html>
