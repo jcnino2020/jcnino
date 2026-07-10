@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PasabayBCD SQL to NoSQL Converter</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; padding: 2rem; background: #f3f4f6; color: #1f2937; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 2.5rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        h1 { color: #2563eb; margin-top: 0; }
+        input[type="file"] { margin: 15px 0; display: block; }
+        select { padding: 8px; border-radius: 6px; border: 1px solid #d1d5db; width: 100%; max-width: 400px; margin-bottom: 20px;}
+        button { background: #2563eb; color: white; padding: 12px 24px; border-radius: 6px; cursor: pointer; border: none; font-size: 16px; font-weight: 500; transition: background 0.2s;}
+        button:hover { background: #1d4ed8; }
+        pre { background: #111827; color: #10b981; padding: 1.5rem; border-radius: 8px; overflow-x: auto; max-height: 400px; line-height: 1.4; font-size: 14px;}
+        .instruction { background: #e0f2fe; padding: 15px; border-radius: 8px; color: #0369a1; border-left: 4px solid #0284c7; margin-bottom: 25px;}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SQL to NoSQL JSON Converter</h1>
+        <div class="instruction">
+            This tool converts <code>bsit3b (2).sql</code> directly into a NoSQL Document Database format. It runs entirely in your browser.
+        </div>
+        
+        <h3>1. Select your SQL File</h3>
+        <input type="file" id="sqlFile" accept=".sql" />
+        
+        <h3>2. Choose Target NoSQL Format</h3>
+        <select id="format">
+            <option value="mongodb">MongoDB / Generic NoSQL (Array of Documents)</option>
+            <option value="firebase">Firebase Firestore / Firebase Realtime DB (Keyed Object Dictionary)</option>
+        </select>
+        
+        <br>
+        <button onclick="processSQL()">Convert to NoSQL JSON</button>
+        
+        <hr style="margin: 30px 0; border: none; border-top: 1px solid #e5e7eb;">
+        
+        <h3>Generated Output</h3>
+        <button id="downloadBtn" style="display:none; background: #10b981; margin-bottom: 15px;">⬇️ Download JSON</button>
+        <pre id="output">Waiting for file...</pre>
+    </div>
+
+    <script>
+        function parseSQLString(sql) {
+            const db = {};
+            // Extract table definitions
+            const tableRegex = /CREATE TABLE `([^`]+)` \(([\s\S]*?)\) ENGINE=/g;
+            let match;
+            const tables = {};
+            
+            while ((match = tableRegex.exec(sql)) !== null) {
+                const tableName = match[1];
+                const colsStr = match[2];
+                const cols = [];
+                const colRegex = /^\s*`([^`]+)`/gm;
+                let colMatch;
+                while ((colMatch = colRegex.exec(colsStr)) !== null) {
+                    cols.push(colMatch[1]);
+                }
+                tables[tableName] = cols;
+                db[tableName] = [];
+            }
+
+            // Extract inserted data
+            const insertRegex = /INSERT INTO `([^`]+)` \([^)]+\) VALUES\s*([\s\S]*?);/g;
+            while ((match = insertRegex.exec(sql)) !== null) {
+                const tableName = match[1];
+                const cols = tables[tableName];
+                if (!cols) continue;
+
+                let valuesStr = match[2];
+                
+                // Advanced Parser for VALUES
+                let i = 0;
+                let currentDoc = [];
+                let inString = false;
+                let currentVal = '';
+                
+                while(i < valuesStr.length) {
+                    let char = valuesStr[i];
+                    
+                    if (char === '(' && !inString) {
+                        currentDoc = [];
+                        currentVal = '';
+                        i++;
+                        continue;
+                    }
+                    if (char === ')' && !inString) {
+                        if (currentVal.trim() !== '') {
+                            let valStr = currentVal.trim();
+                            if (valStr === 'NULL') currentDoc.push(null);
+                            else if (!isNaN(valStr) && valStr !== '') currentDoc.push(Number(valStr));
+                            else currentDoc.push(valStr);
+                        }
+                        
+                        let obj = {};
+                        for (let j=0; j<cols.length; j++) {
+                            obj[cols[j]] = currentDoc[j];
+                        }
+                        db[tableName].push(obj);
+                        currentVal = '';
+                        i++;
+                        
+                        while (i < valuesStr.length && (valuesStr[i] === ',' || valuesStr[i] === ' ' || valuesStr[i] === '\n' || valuesStr[i] === '\r')) {
+                            i++;
+                        }
+                        continue;
+                    }
+                    
+                    if (char === "'" && (i === 0 || valuesStr[i-1] !== '\\')) {
+                        inString = !inString;
+                        if (!inString) {
+                           currentDoc.push(currentVal);
+                           currentVal = '';
+                           while(i+1 < valuesStr.length && (valuesStr[i+1] === ',' || valuesStr[i+1] === ' ')) {
+                               i++;
+                           }
+                        }
+                        i++;
+                        continue;
+                    }
+                    
+                    if (inString) {
+                        currentVal += char;
+                    } else {
+                        if (char === ',') {
+                            let valStr = currentVal.trim();
+                            if (valStr !== '') {
+                                if (valStr === 'NULL') currentDoc.push(null);
+                                else if (!isNaN(valStr)) currentDoc.push(Number(valStr));
+                                else currentDoc.push(valStr);
+                            }
+                            currentVal = '';
+                        } else {
+                            currentVal += char;
+                        }
+                    }
+                    i++;
+                }
+            }
+            return db;
+        }
+
+        // Remap schema slightly to standard NoSQL Names
+        function formatCollectionName(table) {
+            let name = table.replace('pasabaybcd_', '');
+            if (name === 'trip') return 'trips';
+            if (name === 'vehicle') return 'vehicles';
+            if (name === 'payment') return 'payments';
+            return name;
+        }
+
+        function processSQL() {
+            const fileInput = document.getElementById('sqlFile');
+            if (fileInput.files.length === 0) {
+                document.getElementById('output').textContent = "⚠️ Please select a file first.";
+                return;
+            }
+            const file = fileInput.files[0];
+            const format = document.getElementById('format').value;
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                document.getElementById('output').textContent = "Parsing SQL database...";
+                const sqlText = e.target.result;
+                setTimeout(() => {
+                    try {
+                        const rawDb = parseSQLString(sqlText);
+                        let outDb = {};
+                        
+                        if (format === 'firebase') {
+                            // Object Dictionary for Firebase
+                            for (const [table, rows] of Object.entries(rawDb)) {
+                                let colName = formatCollectionName(table);
+                                outDb[colName] = {};
+                                rows.forEach((row, idx) => {
+                                    // Use best ID available
+                                    let id = row.id || row.transaction_id || row.trip_id || row.setting_key || row.plate_number || `doc_${idx+1}`;
+                                    outDb[colName][id] = row;
+                                });
+                            }
+                        } else {
+                            // Array for MongoDB seeds
+                            for (const [table, rows] of Object.entries(rawDb)) {
+                                outDb[formatCollectionName(table)] = rows;
+                            }
+                        }
+
+                        const jsonStr = JSON.stringify(outDb, null, 2);
+                        const collectionsCount = Object.keys(outDb).length;
+                        
+                        document.getElementById('output').textContent = `✅ Successfully created ${collectionsCount} NoSQL collections!\n\n${jsonStr.substring(0, 1000)}\n\n... (preview truncated) ...`;
+                        
+                        const blob = new Blob([jsonStr], {type: "application/json"});
+                        const url = URL.createObjectURL(blob);
+                        const btn = document.getElementById('downloadBtn');
+                        btn.style.display = 'inline-block';
+                        btn.onclick = () => {
+                            const a = document.createElement('a');
+                            a.href = url;
+                            a.download = format === 'firebase' ? 'firebase_seed.json' : 'mongodb_seed.json';
+                            a.click();
+                        };
+                    } catch(err) {
+                        document.getElementById('output').textContent = "❌ Error parsing file: " + err.message;
+                    }
+                }, 100);
+            };
+            reader.readAsText(file);
+        }
+    </script>
+</body>
+</html>

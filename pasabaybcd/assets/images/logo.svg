@@ -1,0 +1,9 @@
+<svg width="200" height="200" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Hexagonal Pin Body -->
+                    <path d="M50 95L20 75V35L50 15L80 35V75L50 95Z" fill="#2563EB"/>
+                    <!-- Inner Box Perspective -->
+                    <path d="M50 25L80 40L50 55L20 40L50 25Z" fill="white" fill-opacity="0.3"/>
+                    <path d="M20 40V70L50 85V55L20 40Z" fill="white" fill-opacity="0.1"/>
+                    <path d="M80 40V70L50 85V55L80 40Z" fill="white" fill-opacity="0.2"/>
+                    <!-- Center Point -->
+                </svg>

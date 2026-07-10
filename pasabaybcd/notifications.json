@@ -1,0 +1,218 @@
+[
+  {
+    "id": 1,
+    "user_id": 1,
+    "type": " system",
+    "title": "Welcome to PasabayBCD!",
+    "body": "Thank you for joining. Start by booking your first shared delivery.",
+    "is_read": 0,
+    "created_at": " 2026-03-26 07:22:49"
+  },
+  {
+    "id": 2,
+    "user_id": 1,
+    "type": " promo",
+    "title": "Weekend Promo!",
+    "body": "Get 15% off your next booking this Saturday & Sunday.",
+    "is_read": 0,
+    "created_at": " 2026-03-26 07:22:49"
+  },
+  {
+    "id": 3,
+    "user_id": 1,
+    "type": " wallet",
+    "title": "Top-Up Successful",
+    "body": "Your wallet has been topped up with \u20b1500 via GCash.",
+    "is_read": 0,
+    "created_at": " 2026-03-26 07:22:49"
+  },
+  {
+    "id": 4,
+    "user_id": 1,
+    "type": " system",
+    "title": "App Update Available",
+    "body": "PasabayBCD v1.1 is now available. Update for new features!",
+    "is_read": 0,
+    "created_at": " 2026-03-26 10:59:08"
+  },
+  {
+    "id": 7,
+    "user_id": 0,
+    "type": " system",
+    "title": "Booking Time Accuracy Improved!",
+    "body": "Great news! We have successfully updated our system to synchronize with Philippine Standard Time (GMT+8). All your booking records and \\\"Booked On\\\" dates will now show the correct local time. Thank you for your continued support!",
+    "is_read": 0,
+    "created_at": " 2026-04-06 06:13:50"
+  },
+  {
+    "id": 8,
+    "user_id": 0,
+    "type": " promo",
+    "title": "Fast & Reliable Deliveries with PasabayBCD!",
+    "body": "Need to move cargo across Bacolod? Check out our updated fleet and real-time tracking features. High-capacity trucks are now available for booking! Book your next delivery today.",
+    "is_read": 0,
+    "created_at": " 2026-04-06 06:18:53"
+  },
+  {
+    "id": 9,
+    "user_id": 0,
+    "type": " driver",
+    "title": "Driver Test!",
+    "body": "Hey there! Just testing hehehe",
+    "is_read": 0,
+    "created_at": " 2026-04-11 07:45:08"
+  },
+  {
+    "id": 10,
+    "user_id": 0,
+    "type": " booking",
+    "title": "Hey!",
+    "body": "Yo!",
+    "is_read": 0,
+    "created_at": " 2026-04-11 07:45:50"
+  },
+  {
+    "id": 11,
+    "user_id": 0,
+    "type": " booking",
+    "title": "Hey!",
+    "body": "Yo!",
+    "is_read": 0,
+    "created_at": " 2026-04-11 08:13:28"
+  },
+  {
+    "id": 12,
+    "user_id": 0,
+    "type": " booking",
+    "title": "Hey!",
+    "body": "Yo!",
+    "is_read": 0,
+    "created_at": " 2026-04-11 08:13:31"
+  },
+  {
+    "id": 13,
+    "user_id": 0,
+    "type": " booking",
+    "title": "Hey!",
+    "body": "Yo!",
+    "is_read": 0,
+    "created_at": " 2026-04-11 08:15:14"
+  },
+  {
+    "id": 14,
+    "user_id": 0,
+    "type": " system",
+    "title": "Test",
+    "body": "Hi",
+    "is_read": 0,
+    "created_at": " 2026-04-11 09:51:22"
+  },
+  {
+    "id": 15,
+    "user_id": 0,
+    "type": " system",
+    "title": "Test",
+    "body": "Hi",
+    "is_read": 0,
+    "created_at": " 2026-04-11 09:52:59"
+  },
+  {
+    "id": 16,
+    "user_id": 0,
+    "type": " system",
+    "title": "Test",
+    "body": "Hi",
+    "is_read": 0,
+    "created_at": " 2026-04-11 09:58:30"
+  },
+  {
+    "id": 17,
+    "user_id": 0,
+    "type": " system",
+    "title": "Test",
+    "body": "Hi",
+    "is_read": 0,
+    "created_at": " 2026-04-11 09:59:17"
+  },
+  {
+    "id": 18,
+    "user_id": 0,
+    "type": " driver",
+    "title": "More Drivers in Your Area! \ud83d\ude99",
+    "body": "Good news! We\\'ve onboarded 50+ new drivers today to ensure your cargo gets picked up faster than ever.",
+    "is_read": 0,
+    "created_at": " 2026-04-11 10:02:47"
+  },
+  {
+    "id": 19,
+    "user_id": 0,
+    "type": " promo",
+    "title": "\ud83d\udce6 Packing Fragile Items?",
+    "body": "Don\\'t forget to double-wrap your delicate cargo! Check out our in-app guide for safe and secure packing tips.",
+    "is_read": 0,
+    "created_at": " 2026-04-14 00:55:49"
+  },
+  {
+    "id": 20,
+    "user_id": 0,
+    "type": " promo",
+    "title": "Refer a Friend, Get \u20b1100! \ud83c\udf81",
+    "body": "Share PasabayBCD with another merchant. When they complete their first booking, you both get \u20b1100 in your wallet.",
+    "is_read": 0,
+    "created_at": " 2026-04-14 01:00:12"
+  },
+  {
+    "id": 21,
+    "user_id": 0,
+    "type": " wallet",
+    "title": "\u26a0\ufe0f Low Wallet Balance",
+    "body": "Your balance is below P50. Top up now to ensure your next booking goes through smoothly.",
+    "is_read": 0,
+    "created_at": " 2026-04-14 14:50:24"
+  },
+  {
+    "id": 22,
+    "user_id": 0,
+    "type": " promo",
+    "title": "\ud83c\udff7\ufe0f 15% OFF Voucher!",
+    "body": "Use code PASABAY15 on your next shipment to get an instant discount. Limited time only!",
+    "is_read": 0,
+    "created_at": " 2026-04-14 14:51:04"
+  },
+  {
+    "id": 23,
+    "user_id": 0,
+    "type": " promo",
+    "title": "\ud83c\udf19 Late Night Special",
+    "body": "Shipping late? Enjoy flat rates on all deliveries booked between 10 PM and 5 AM.",
+    "is_read": 0,
+    "created_at": " 2026-04-14 14:51:36"
+  },
+  {
+    "id": 24,
+    "user_id": 0,
+    "type": " driver",
+    "title": "\ud83c\udd95 New Booking Nearby",
+    "body": "There is a new cargo request just 2km away from your current location. Tap to view!",
+    "is_read": 0,
+    "created_at": " 2026-04-14 14:52:07"
+  },
+  {
+    "id": 25,
+    "user_id": 0,
+    "type": " system",
+    "title": "\ud83d\udc4b Welcome to Pasabay!",
+    "body": "Welcome aboard! Complete your first booking today and get your first 5km for free.",
+    "is_read": 0,
+    "created_at": " 2026-04-14 14:52:33"
+  },
+  {
+    "id": 26,
+    "user_id": 0,
+    "type": " system",
+    "title": "Hello",
+    "body": "Hi hi hi",
+    "is_read": 0,
+    "created_at": " 2026-04-16 00:38:48"
+  }
+]

@@ -1,0 +1,167 @@
+[
+  {
+    "setting_key": "admin_email",
+    "setting_value": "admin@pasabaybcd.ph",
+    "updated_at": "2026-04-01 16:10:01"
+  },
+  {
+    "setting_key": "app_name",
+    "setting_value": "PasabayBCD",
+    "updated_at": "2026-04-01 16:10:01"
+  },
+  {
+    "setting_key": "app_store_link",
+    "setting_value": "",
+    "updated_at": "2026-04-12 13:51:23"
+  },
+  {
+    "setting_key": "auto_assign_drivers",
+    "setting_value": "on",
+    "updated_at": "2026-04-12 13:51:23"
+  },
+  {
+    "setting_key": "base_fare",
+    "setting_value": "50.00",
+    "updated_at": "2026-04-01 16:10:01"
+  },
+  {
+    "setting_key": "cancellation_fee",
+    "setting_value": "20.00",
+    "updated_at": "2026-04-12 13:51:23"
+  },
+  {
+    "setting_key": "currency_code",
+    "setting_value": "PHP",
+    "updated_at": "2026-04-12 13:51:23"
+  },
+  {
+    "setting_key": "currency_symbol",
+    "setting_value": "?",
+    "updated_at": "2026-04-12 13:51:23"
+  },
+  {
+    "setting_key": "driver_search_radius",
+    "setting_value": "10.0",
+    "updated_at": "2026-04-12 13:51:23"
+  },
+  {
+    "setting_key": "facebook_url",
+    "setting_value": "",
+    "updated_at": "2026-04-12 13:51:23"
+  },
+  {
+    "setting_key": "fcm_server_key",
+    "setting_value": "",
+    "updated_at": "2026-04-12 13:51:23"
+  },
+  {
+    "setting_key": "google_maps_api_key",
+    "setting_value": "",
+    "updated_at": "2026-04-12 13:51:23"
+  },
+  {
+    "setting_key": "instagram_url",
+    "setting_value": "",
+    "updated_at": "2026-04-12 13:51:23"
+  },
+  {
+    "setting_key": "maintenance_mode",
+    "setting_value": "off",
+    "updated_at": "2026-04-01 16:10:01"
+  },
+  {
+    "setting_key": "max_active_bookings_per_driver",
+    "setting_value": "1",
+    "updated_at": "2026-04-12 13:51:23"
+  },
+  {
+    "setting_key": "max_active_bookings_per_user",
+    "setting_value": "3",
+    "updated_at": "2026-04-12 13:51:23"
+  },
+  {
+    "setting_key": "min_wallet_topup",
+    "setting_value": "100.00",
+    "updated_at": "2026-04-12 13:51:23"
+  },
+  {
+    "setting_key": "min_wallet_withdrawal",
+    "setting_value": "500.00",
+    "updated_at": "2026-04-12 13:51:23"
+  },
+  {
+    "setting_key": "paymaya_public_key",
+    "setting_value": "",
+    "updated_at": "2026-04-12 13:51:23"
+  },
+  {
+    "setting_key": "paymaya_secret_key",
+    "setting_value": "",
+    "updated_at": "2026-04-12 13:51:23"
+  },
+  {
+    "setting_key": "per_km_rate",
+    "setting_value": "15.00",
+    "updated_at": "2026-04-01 16:10:01"
+  },
+  {
+    "setting_key": "platform_commission_rate",
+    "setting_value": "10.0",
+    "updated_at": "2026-04-12 13:51:23"
+  },
+  {
+    "setting_key": "play_store_link",
+    "setting_value": "",
+    "updated_at": "2026-04-12 13:51:23"
+  },
+  {
+    "setting_key": "primary_color",
+    "setting_value": "#005eff",
+    "updated_at": "2026-04-12 13:51:46"
+  },
+  {
+    "setting_key": "require_photo_upload",
+    "setting_value": "off",
+    "updated_at": "2026-04-13 03:56:56"
+  },
+  {
+    "setting_key": "secondary_color",
+    "setting_value": "#1e293b",
+    "updated_at": "2026-04-12 13:51:23"
+  },
+  {
+    "setting_key": "session_timeout",
+    "setting_value": "60",
+    "updated_at": "2026-04-01 16:10:01"
+  },
+  {
+    "setting_key": "stripe_public_key",
+    "setting_value": "",
+    "updated_at": "2026-04-12 13:51:23"
+  },
+  {
+    "setting_key": "stripe_secret_key",
+    "setting_value": "",
+    "updated_at": "2026-04-12 13:51:23"
+  },
+  {
+    "setting_key": "support_email",
+    "setting_value": "support@pasabaybcd.ph",
+    "updated_at": "2026-04-12 13:51:23"
+  },
+  {
+    "setting_key": "support_phone",
+    "setting_value": "09123456789",
+    "updated_at": "2026-04-12 13:51:23"
+  },
+  {
+    "setting_key": "surge_multiplier",
+    "setting_value": "1.0",
+    "updated_at": "2026-04-01 16:10:01"
+  },
+  {
+    "setting_key": "system_timezone",
+    "setting_value": "Asia/Manila",
+    "updated_at": "2026-04-12 13:51:23"
+  }
+]

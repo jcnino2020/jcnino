@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard - PasabayBCD</title>
+<link rel="icon" type="image/png" href="assets/app-icon.png">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<script src="js/auth.js"></script>
+<style>
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+  body { font-family: 'Inter', sans-serif; background: #f8f9ff; color: #1e293b; font-size: 15px; }
+  .stat-card { background: #fff; border-radius: 4px; border-bottom: 2px solid #004ac6; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+  .data-table thead tr { background: #f1f5f9; }
+  .data-table thead th { font-size: 12px; font-weight: 800; text-transform: uppercase; color: #475569; padding: 14px 24px; border-bottom: 1px solid #e2e8f0; text-align: left;}
+  .data-table tbody tr { border-bottom: 1px solid #f1f5f9; }
+  .data-table tbody tr:hover { background: #eff4ff; }
+  .data-table tbody td { padding: 16px 24px; font-size: 0.875rem; }
+  .badge { display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; }
+  .badge-transit { background:#dbeafe; color:#1d4ed8; }
+  .badge-pending { background:#fef3c7; color:#b45309; }
+  .badge-delivered { background:#dcfce7; color:#166534; }
+  .badge-cancelled { background:#fee2e2; color:#b91c1c; }
+</style>
+</head>
+<body class="min-h-screen overflow-x-hidden">
+
+<main class="ml-0 md:ml-64 pt-24 pb-12 px-4 md:px-8 min-h-screen transition-all duration-300">
+  <div class="max-w-[1600px] mx-auto space-y-8">
+    <div class="flex items-center justify-between pb-2">
+      <div>
+        <h2 class="text-2xl font-bold tracking-tight text-gray-900">Dashboard Overview</h2>
+        <p class="text-base text-gray-500 mt-1" id="current-date">Operational Summary</p>
+      </div>
+      <div class="text-right hidden sm:block">
+        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest italic text-blue-600" id="admin-greeting">Loading...</p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="stat-card">
+        <div class="flex justify-between items-start mb-4">
+          <span class="text-[12px] font-bold text-gray-400 uppercase tracking-widest">Total Users</span>
+          <span class="material-symbols-outlined text-blue-600">group</span>
+        </div>
+        <h2 class="text-3xl font-bold tracking-tighter" id="stat-users">...</h2>
+        <p class="text-[12px] text-gray-400 mt-2">Registered Accounts</p>
+      </div>
+
+      <div class="stat-card">
+        <div class="flex justify-between items-start mb-4">
+          <span class="text-[12px] font-bold text-gray-400 uppercase tracking-widest">Active Fleet</span>
+          <span class="material-symbols-outlined text-blue-600">local_shipping</span>
+        </div>
+        <h2 class="text-3xl font-bold tracking-tighter" id="stat-trucks">...</h2>
+        <p class="text-[12px] text-gray-400 mt-2">Trucks in Service</p>
+      </div>
+
+      <div class="stat-card" style="border-bottom-color:#4f46e5;">
+        <div class="flex justify-between items-start mb-4">
+          <span class="text-[12px] font-bold text-indigo-600 uppercase tracking-widest">Total Bookings</span>
+          <span class="material-symbols-outlined text-indigo-600">receipt_long</span>
+        </div>
+        <h2 class="text-3xl font-bold tracking-tighter" id="stat-bookings">...</h2>
+        <p class="text-[12px] text-gray-400 mt-2">All-Time Shipments</p>
+      </div>
+
+      <div class="stat-card" style="border-bottom-color:#166534;">
+        <div class="flex justify-between items-start mb-4">
+          <span class="text-[12px] font-bold text-emerald-600 uppercase tracking-widest">Revenue</span>
+          <span class="material-symbols-outlined text-emerald-600">account_balance_wallet</span>
+        </div>
+        <h2 class="text-2xl font-bold tracking-tighter text-emerald-600" id="stat-revenue">...</h2>
+        <p class="text-[12px] text-gray-400 mt-2">Delivered Cargos</p>
+      </div>
+    </div>
+
+    <div class="bg-white rounded overflow-hidden shadow-sm border border-gray-100">
+      <div class="px-6 py-4 border-b border-gray-50 flex justify-between items-center">
+        <div>
+          <h3 class="text-base font-bold text-gray-900">Recent Cargo Bookings</h3>
+          <p class="text-[12px] text-gray-400 uppercase mt-1">Latest activity from the field</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <a href="bookings.html" class="px-3 py-1.5 bg-blue-600 text-white text-[12px] font-bold rounded hover:bg-blue-700 transition-colors">
+            View All →
+          </a>
+        </div>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full data-table">
+          <thead>
+            <tr>
+              <th>Booking ID</th>
+              <th>Date & Time</th>
+              <th>Category</th>
+              <th>Fee</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="recent-bookings-body">
+            <tr><td colspan="5" class="text-center py-8 text-gray-400 text-base">Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="js/layout.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', async () => {
+    document.getElementById('current-date').textContent = 'Operational Summary for ' + new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    document.getElementById('admin-greeting').textContent = 'Administrator Access: ' + (localStorage.getItem('adminName') || 'Admin');
+
+    try {
+      const res = await fetch('/api/stats');
+      if (res.ok) {
+        const data = await res.json();
+        document.getElementById('stat-users').textContent = data.totalUsers || 0;
+        document.getElementById('stat-trucks').textContent = data.activeTrucks || 0;
+        document.getElementById('stat-bookings').textContent = data.totalBookings || 0;
+        document.getElementById('stat-revenue').textContent = '₱' + (data.totalRevenue ? parseFloat(data.totalRevenue).toLocaleString('en-US', {minimumFractionDigits: 2}) : '0.00');
+
+        const tbody = document.getElementById('recent-bookings-body');
+        if (data.recentBookings && data.recentBookings.length > 0) {
+          tbody.innerHTML = '';
+          data.recentBookings.forEach(b => {
+            const date = new Date(b.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            let statusClass = 'badge-pending';
+            if (b.status === 'delivered') statusClass = 'badge-delivered';
+            if (b.status === 'in transit') statusClass = 'badge-transit';
+            if (b.status === 'cancelled') statusClass = 'badge-cancelled';
+
+            const tr = document.createElement('tr');
+            tr.innerHTML = \`
+              <td class="font-bold text-blue-600">#\${b.id}</td>
+              <td class="text-gray-700">\${date}</td>
+              <td class="text-gray-600">\${b.cargo_category || 'N/A'}</td>
+              <td class="font-bold text-gray-900">₱\${parseFloat(b.estimated_fee).toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+              <td><span class="badge \${statusClass}">\${b.status}</span></td>
+            \`;
+            tbody.appendChild(tr);
+          });
+        } else {
+          tbody.innerHTML = '<tr><td colspan="5" class="text-center py-8 text-gray-400 text-base">No bookings found.</td></tr>';
+        }
+      }
+    } catch (err) {
+      console.error('Failed to fetch stats', err);
+    }
+  });
+</script>
+</body>
+</html>
