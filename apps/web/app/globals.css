@@ -1,7 +1,0 @@
-@import "tailwindcss";
-
-@theme {
-  --color-accent: hsl(250 100% 63%);
-  --color-accent-hover: hsl(250 100% 70%);
-  --color-accent-dim: hsl(240 5% 64.9%);
-}
