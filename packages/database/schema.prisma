@@ -1,0 +1,144 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  ROOT_ADMIN
+  WORKSPACE_OWNER
+  WORKSPACE_MEMBER
+}
+
+enum ProjectStatus {
+  INTAKE
+  SCHEDULED
+  SHOOTING
+  POST_PROCESSING
+  CLIENT_REVIEW
+  COMPLETED
+}
+
+model User {
+  id            String          @id @default(uuid())
+  email         String          @unique
+  name          String?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  memberships   Member[]
+  sessions      Session[]
+}
+
+model Workspace {
+  id            String          @id @default(uuid())
+  name          String
+  subdomain     String          @unique
+  storageUsed   BigInt          @default(0)
+  createdAt     DateTime        @default(now())
+  members       Member[]
+  collections   Collection[]
+  projects      Project[]
+  webhooks      Webhook[]
+}
+
+model Member {
+  id            String          @id @default(uuid())
+  role          Role            @default(WORKSPACE_MEMBER)
+  userId        String
+  user          User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workspaceId   String
+  workspace     Workspace       @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, workspaceId])
+}
+
+model Session {
+  id           String           @id @default(uuid())
+  token        String           @unique
+  userId       String
+  user         User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt    DateTime
+}
+
+model Collection {
+  id            String          @id @default(uuid())
+  name          String
+  workspaceId   String
+  workspace     Workspace       @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  assets        Asset[]
+  projectId     String?
+  project       Project?        @relation(fields: [projectId], references: [id])
+}
+
+model Asset {
+  id            String          @id @default(uuid())
+  filename      String
+  size          BigInt
+  mimeType      String
+  s3Url         String
+  optimizedUrl  String
+  width         Int
+  height        Int
+  exif          Json?
+  aiTags        String[]
+  collectionId  String
+  collection    Collection      @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  createdAt     DateTime        @default(now())
+}
+
+model Project {
+  id            String          @id @default(uuid())
+  name          String
+  status        ProjectStatus   @default(INTAKE)
+  dueDate       DateTime?
+  budget        Decimal         @db.Decimal(10, 2)
+  workspaceId   String
+  workspace     Workspace       @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  collections   Collection[]
+  contracts     Contract[]
+  invoices      Invoice[]
+}
+
+model Contract {
+  id            String          @id @default(uuid())
+  terms         String
+  signatureSvg  String?
+  ipAddress     String?
+  signedAt      DateTime?
+  projectId     String
+  project       Project         @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model Invoice {
+  id            String          @id @default(uuid())
+  amount        Decimal         @db.Decimal(10, 2)
+  isEscrowLock  Boolean         @default(true)
+  isPaid        Boolean         @default(false)
+  stripeId      String?         @unique
+  projectId     String
+  project       Project         @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  comments      Comment[]
+}
+
+model Comment {
+  id            String          @id @default(uuid())
+  authorName    String
+  content       String
+  timestamp     Float?          // Frame-specific markers (video)
+  drawingJson   String?         // Overlay Canvas drawings
+  invoiceId     String
+  invoice       Invoice         @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  createdAt     DateTime        @default(now())
+}
+
+model Webhook {
+  id            String          @id @default(uuid())
+  url           String
+  secret        String
+  events        String[]
+  workspaceId   String
+  workspace     Workspace       @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+}

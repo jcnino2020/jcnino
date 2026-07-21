@@ -1,14 +1,24 @@
 {
-  "name": "jcnino-portfolio",
+  "name": "frameforge-workspace",
   "version": "1.0.0",
-  "description": "JC Niñonuevo Portfolio backend API and assets",
-  "main": "api/likes.js",
+  "private": true,
+  "description": "FrameForge (Moments OS) Creative Operations SaaS Monorepo",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "dependencies": {
     "mongodb": "^6.5.0",
     "@tailwindcss/cli": "^4.0.0"
   },
+  "devDependencies": {
+    "turbo": "^2.0.0"
+  },
   "scripts": {
-    "build": "tailwindcss -i assets/tailwind.input.css -o assets/tailwind.css --minify",
-    "watch": "tailwindcss -i assets/tailwind.input.css -o assets/tailwind.css --watch"
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "legacy:build": "tailwindcss -i assets/tailwind.input.css -o assets/tailwind.css --minify",
+    "legacy:watch": "tailwindcss -i assets/tailwind.input.css -o assets/tailwind.css --watch"
   }
 }
