@@ -56,7 +56,7 @@ window.galleryData = {
     { file: "Drone-008.JPG", alt: "Aerial drone photo of island formation surrounded by sea", desc: "Sun-drenched and serene, the historic Provincial Capitol of Negros Occidental rests elegantly amidst lush parklands overlooking Bacolod City's coast." },
     { file: "Drone-009.JPG", alt: "Overhead view of rural barangay surrounded by croplands", desc: "Soft morning light bathes the lush canopy of rural Negros Occidental, revealing the tranquil, blue-hued crests of the Mount Mandalagan range beneath dappled clouds." },
     { file: "Drone-010.JPG", alt: "Drone aerial of sugar cane fields and industrial mill", desc: "Traditional banka boats trace gentle wakes across the vibrant emerald waters off Negros Occidental, captured in the serene warmth of tropical sunlight." },
-    { file: "Drone-012.JPG", alt: "High-altitude drone shot of provincial town roads and plaza" },
+    { file: "Drone-012.JPG", alt: "High-altitude drone shot of provincial town roads and plaza", desc: "Golden sunlight sweeps across the serene countryside of Negros Occidental, casting a peaceful, warm glow over the distant mountain horizon." },
     { file: "TR-19.JPG", alt: "Travel aerial photograph of scenic Philippine landscape" },
     { file: "GH-23.JPG", alt: "Drone aerial of campus grounds and open-air corridors" }
   ],
