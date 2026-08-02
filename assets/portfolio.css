@@ -625,7 +625,7 @@ section[id] {
   transform: scale(1);
 }
 
-/* Chat panel — Liquid Glass */
+/* Chat panel — Opaque Dark Design */
 .ai-chat-panel {
   position: absolute;
   bottom: 76px;
@@ -634,59 +634,20 @@ section[id] {
   max-width: calc(100vw - 32px);
   height: 560px;
   max-height: calc(100vh - 120px);
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.05) 40%, rgba(255, 255, 255, 0.09));
-  backdrop-filter: blur(28px) saturate(200%) brightness(1.15);
-  -webkit-backdrop-filter: blur(28px) saturate(200%) brightness(1.15);
-  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: #18181b;
+  border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 24px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   box-shadow:
-    0 24px 80px rgba(0, 0, 0, 0.45),
-    inset 0 1px 0 rgba(255, 255, 255, 0.35),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.08),
-    inset 1px 0 0 rgba(255, 255, 255, 0.12),
-    inset -1px 0 0 rgba(255, 255, 255, 0.12);
+    0 24px 80px rgba(0, 0, 0, 0.75),
+    0 4px 20px rgba(0, 0, 0, 0.5);
   opacity: 0;
   transform: translateY(16px) scale(0.96);
   pointer-events: none;
   transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
   transform-origin: bottom right;
-}
-
-/* Liquid sheen sweep across the glass */
-.ai-chat-panel::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  background:
-    linear-gradient(115deg,
-      transparent 0%,
-      rgba(255, 255, 255, 0.18) 25%,
-      transparent 42%,
-      transparent 58%,
-      rgba(255, 255, 255, 0.08) 75%,
-      transparent 100%);
-  background-size: 250% 250%;
-  animation: ai-liquid-sheen 7s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  z-index: 0;
-}
-
-@keyframes ai-liquid-sheen {
-  0% {
-    background-position: 120% 0%;
-  }
-
-  50% {
-    background-position: -40% 100%;
-  }
-
-  100% {
-    background-position: 120% 0%;
-  }
 }
 
 .ai-chat-panel.open {
@@ -701,8 +662,8 @@ section[id] {
   align-items: center;
   gap: 12px;
   padding: 16px;
-  background: rgba(255, 255, 255, 0.06);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  background: #202024;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   flex-shrink: 0;
   position: relative;
   z-index: 1;
@@ -829,21 +790,17 @@ section[id] {
 }
 
 .ai-chat-message-user .ai-chat-bubble {
-  background: linear-gradient(135deg, rgba(63, 63, 70, 0.6), rgba(24, 24, 27, 0.55));
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: #3f3f46;
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-bottom-right-radius: 4px;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 
 .ai-chat-message-assistant .ai-chat-bubble {
-  background: rgba(255, 255, 255, 0.1);
+  background: #27272a;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-bottom-left-radius: 4px;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 /* Loading dots */
@@ -899,20 +856,18 @@ section[id] {
 .ai-chat-suggestion-chip {
   padding: 7px 14px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.09);
-  border: 1px solid rgba(255, 255, 255, 0.24);
+  background: #27272a;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   color: #e4e4e7;
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s, transform 0.2s, color 0.2s, box-shadow 0.2s;
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .ai-chat-suggestion-chip:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: #3f3f46;
   color: #fff;
   transform: translateY(-1px);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 2px 12px rgba(255, 255, 255, 0.1);
@@ -924,8 +879,8 @@ section[id] {
   align-items: flex-end;
   gap: 8px;
   padding: 12px 16px 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: #18181b;
   flex-shrink: 0;
   position: relative;
   z-index: 1;
@@ -933,7 +888,7 @@ section[id] {
 
 .ai-chat-input {
   flex: 1;
-  background: rgba(255, 255, 255, 0.09);
+  background: #27272a;
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 12px;
   padding: 10px 14px;
@@ -945,7 +900,7 @@ section[id] {
   max-height: 120px;
   transition: border-color 0.2s, background 0.2s;
   line-height: 1.4;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .ai-chat-input::placeholder {
@@ -954,7 +909,7 @@ section[id] {
 
 .ai-chat-input:focus {
   border-color: rgba(255, 255, 255, 0.55);
-  background: rgba(255, 255, 255, 0.13);
+  background: #3f3f46;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 0 0 3px rgba(255, 255, 255, 0.06);
 }
 
@@ -972,8 +927,6 @@ section[id] {
   flex-shrink: 0;
   transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
   box-shadow: 0 2px 12px rgba(255, 255, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
 }
 
 .ai-chat-send-btn:hover {

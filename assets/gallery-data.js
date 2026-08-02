@@ -57,8 +57,8 @@ window.galleryData = {
     { file: "Drone-009.JPG", alt: "Overhead view of rural barangay surrounded by croplands", desc: "Soft morning light bathes the lush canopy of rural Negros Occidental, revealing the tranquil, blue-hued crests of the Mount Mandalagan range beneath dappled clouds." },
     { file: "Drone-010.JPG", alt: "Drone aerial of sugar cane fields and industrial mill", desc: "Traditional banka boats trace gentle wakes across the vibrant emerald waters off Negros Occidental, captured in the serene warmth of tropical sunlight." },
     { file: "Drone-012.JPG", alt: "High-altitude drone shot of provincial town roads and plaza", desc: "Golden sunlight sweeps across the serene countryside of Negros Occidental, casting a peaceful, warm glow over the distant mountain horizon." },
-    { file: "TR-19.JPG", alt: "Travel aerial photograph of scenic Philippine landscape", desc: "Verdant treetops embrace the iconic University of St. La Salle in Bacolod, where gentle daylight highlights a serene blend of architecture and lush tropical foliage." },
-    { file: "GH-23.JPG", alt: "Drone aerial of campus grounds and open-air corridors", desc: "A serpentine highway gracefully carves through the lush, emerald hills of Don Salvador Benedicto, bathed in soft daylight and serene mountain air." }
+    { file: "TR-19.JPG", alt: "Travel aerial photograph of scenic Philippine landscape" },
+    { file: "GH-23.JPG", alt: "Drone aerial of campus grounds and open-air corridors" }
   ],
   framed: [
     { file: "FM-01.JPG", alt: "Street portrait of a person in soft natural light, Bacolod City" },
