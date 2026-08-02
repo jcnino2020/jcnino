@@ -10,10 +10,13 @@ document.addEventListener('DOMContentLoaded', () => {
     updateYear();
     initLightboxListeners();
     initInteractiveEffects();
-    
+
     // Initialize Likes & Hearts System
     loadPortfolioLikes();
     initVideoLightboxObserver();
+
+    // Initialize AI Chat Widget (DeepSeek V4 Flash)
+    initAIChatWidget();
 });
 
 /**
@@ -157,7 +160,7 @@ function injectComponents() {
     // Determine current page context
     const path = window.location.pathname;
     const page = path.split('/').pop() || 'index.html';
-    
+
     // Normalize page names by stripping the .html extension to support clean/extensionless URLs
     const normPage = page.replace(/\.html$/, '') || 'index';
 
@@ -226,15 +229,15 @@ function initMobileMenu() {
     const menu = document.getElementById('mobile-menu');
     const ham = document.getElementById('ham-icon');
     const x = document.getElementById('close-icon');
-    
+
     if (!btn || !menu) return;
 
     let open = false;
-    
+
     // Remote any duplicate events
     const newBtn = btn.cloneNode(true);
     btn.parentNode.replaceChild(newBtn, btn);
-    
+
     newBtn.addEventListener('click', () => {
         open = !open;
         menu.classList.toggle('open', open);
@@ -308,8 +311,8 @@ function getPreloadSrc(src) {
     const match = decoded.match(/^images\/(?:(.+)\/)?([^\/]+)\.(jpe?g|png|webp)$/i);
     if (!match) return null;
     const subfolder = match[1] || null;
-    const baseName  = match[2];
-    const webpName  = `${baseName}-1600.webp`;
+    const baseName = match[2];
+    const webpName = `${baseName}-1600.webp`;
     return subfolder
         ? `images/optimized/1600/${subfolder}/${webpName}`
         : `images/optimized/1600/${webpName}`;
@@ -369,7 +372,7 @@ function openLightbox(photo, gallery) {
 
     // syncLightbox will handle the image entry animation in its onload
     syncLightbox('open');
-    
+
     // Preload nearby images
     preloadNearbyImages(currentGallery, currentIndex);
 }
@@ -390,8 +393,8 @@ function getLightboxSrc(src) {
     const match = decoded.match(/^images\/(?:(.+)\/)?([^\/]+)\.(jpe?g|png|webp)$/i);
     if (!match) return src; // fallback — return original
     const subfolder = match[1] || null;  // e.g. "Drone Shots", or null for root
-    const baseName  = match[2];           // e.g. "GH-01"
-    const webpName  = `${baseName}-2048.webp`;
+    const baseName = match[2];           // e.g. "GH-01"
+    const webpName = `${baseName}-2048.webp`;
     if (subfolder) {
         return `images/optimized/2048/${subfolder}/${webpName}`;
     } else {
@@ -413,7 +416,7 @@ function syncLightbox(direction = null) {
         const startLoading = () => {
             img.src = webpSrc;
             img.alt = p.alt || p.title || 'Portfolio Image';
-            
+
             // Show loading state if not already cached
             if (!probe.complete) {
                 img.classList.add('lb-loading');
@@ -427,10 +430,10 @@ function syncLightbox(direction = null) {
 
         // Transition: Fade out the old image before showing the new one
         if (window.gsap && (direction === 'next' || direction === 'prev') && !swipeTriggered) {
-            gsap.to(img, { 
-                opacity: 0, 
-                x: direction === 'next' ? -30 : 30, 
-                duration: 0.15, 
+            gsap.to(img, {
+                opacity: 0,
+                x: direction === 'next' ? -30 : 30,
+                duration: 0.15,
                 ease: 'power2.inOut',
                 onComplete: startLoading
             });
@@ -443,32 +446,32 @@ function syncLightbox(direction = null) {
         }
 
         // Trigger smooth entry once loaded
-        img.onload = function() {
+        img.onload = function () {
             img.classList.remove('lb-loading');
             const loader = document.getElementById('lightbox-loader');
             if (loader) {
                 loader.classList.add('hidden');
                 loader.classList.remove('flex');
             }
-            
+
             if (window.gsap) {
                 let xOffset = 0;
                 if (direction === 'next') xOffset = 30;
                 if (direction === 'prev') xOffset = -30;
 
                 gsap.fromTo(img,
-                    { 
-                        x: xOffset, 
+                    {
+                        x: xOffset,
                         y: 0,
-                        opacity: 0, 
-                        scale: direction === 'open' ? 0.96 : 0.99 
+                        opacity: 0,
+                        scale: direction === 'open' ? 0.96 : 0.99
                     },
-                    { 
-                        x: 0, 
+                    {
+                        x: 0,
                         y: 0,
-                        opacity: 1, 
-                        scale: 1, 
-                        duration: 0.25, 
+                        opacity: 1,
+                        scale: 1,
+                        duration: 0.25,
                         ease: 'power2.out',
                         clearProps: 'transform'
                     }
@@ -480,7 +483,7 @@ function syncLightbox(direction = null) {
         };
 
         // Fallback to original if optimized WebP fails
-        img.onerror = function() {
+        img.onerror = function () {
             img.classList.remove('lb-loading');
             const loader = document.getElementById('lightbox-loader');
             if (loader) {
@@ -588,7 +591,7 @@ function initLightboxListeners() {
         startY = e.touches[0].clientY;
         isDragging = true;
         dragDirection = null;
-        
+
         const img = document.getElementById('lightbox-img');
         if (img && window.gsap) {
             gsap.killTweensOf(img);
@@ -597,19 +600,19 @@ function initLightboxListeners() {
 
     lb.addEventListener('touchmove', e => {
         if (!isDragging) return;
-        
+
         const img = document.getElementById('lightbox-img');
         if (!img) return;
-        
+
         const dx = e.touches[0].clientX - startX;
         const dy = e.touches[0].clientY - startY;
         const absX = Math.abs(dx);
         const absY = Math.abs(dy);
-        
+
         if (!dragDirection && (absX > 10 || absY > 10)) {
             dragDirection = absX > absY ? 'horizontal' : 'vertical';
         }
-        
+
         if (dragDirection === 'horizontal') {
             const xVal = dx * 0.85;
             const opacity = Math.max(0.3, 1 - Math.abs(xVal) / (window.innerWidth * 0.6));
@@ -634,15 +637,15 @@ function initLightboxListeners() {
     lb.addEventListener('touchend', e => {
         if (!isDragging) return;
         isDragging = false;
-        
+
         const img = document.getElementById('lightbox-img');
         if (!img) return;
-        
+
         const dx = e.changedTouches[0].clientX - startX;
         const dy = e.changedTouches[0].clientY - startY;
         const absX = Math.abs(dx);
         const absY = Math.abs(dy);
-        
+
         if (dragDirection === 'horizontal') {
             if (absX > 80) {
                 const targetX = dx < 0 ? -window.innerWidth : window.innerWidth;
@@ -708,7 +711,7 @@ function initLightboxListeners() {
                 }
             }
         }
-        
+
         dragDirection = null;
     }, { passive: true });
 }
@@ -718,9 +721,9 @@ function initLightboxListeners() {
  */
 function revealOnScroll(elements, options = {}) {
     if (!window.ScrollTrigger) return;
-    
+
     gsap.utils.toArray(elements).forEach(el => {
-        gsap.fromTo(el, 
+        gsap.fromTo(el,
             { y: options.y || 30, opacity: 0 },
             {
                 y: 0,
@@ -774,11 +777,11 @@ async function trackImageView(itemId) {
     if (sessionStorage.getItem(sessionKey) === 'true') {
         return; // Already counted this session
     }
-    
+
     // Optimistic cache update
     sessionStorage.setItem(sessionKey, 'true');
     portfolioViews[itemId] = (portfolioViews[itemId] || 0) + 1;
-    
+
     try {
         const res = await fetch(VIEWS_API_URL, {
             method: 'POST',
@@ -875,7 +878,7 @@ async function toggleImageLike() {
 
     const photoId = p.base;
     const hasLiked = localStorage.getItem('liked_' + photoId) === 'true';
-    
+
     // Fast Optimistic UI render
     if (hasLiked) {
         localStorage.removeItem('liked_' + photoId);
@@ -909,7 +912,7 @@ async function toggleVideoLike() {
 
     const videoId = window.activeVideoId;
     const hasLiked = localStorage.getItem('liked_' + videoId) === 'true';
-    
+
     // Fast Optimistic UI render
     if (hasLiked) {
         localStorage.removeItem('liked_' + videoId);
@@ -1074,7 +1077,7 @@ function applyGlobalSettings() {
                 document.head.appendChild(descEl);
             }
             descEl.content = settings.seo.description;
-            
+
             // Update Open Graph and Twitter metatags if present
             const ogDesc = document.querySelector('meta[property="og:description"]');
             if (ogDesc) ogDesc.content = settings.seo.description;
@@ -1172,4 +1175,276 @@ function applyGlobalSettings() {
         });
     }
 }
+
+/**
+ * ============================================================================
+ * AI CHAT WIDGET — DeepSeek V4 Flash
+ * Floating chat assistant that talks to the /api/ai proxy endpoint.
+ * The API key stays server-side; the browser only talks to our proxy.
+ * ============================================================================
+ */
+const AI_API_URL = '/api/ai';
+const AI_CHAT_STORAGE_KEY = 'jcai_chat_history';
+
+const aiChatSystemPrompt = `You are the AI assistant for JC Niñonuevo's photography & cinematography portfolio website. 
+You are friendly, knowledgeable, and concise. You help visitors learn about:
+
+- JC's work: drone aerials, editorial street frames, cinematic storytelling, school events, framed moments, and video projects
+- Photography and videography tips
+- Services and how to get in touch (Contact section, socials)
+- General questions about the portfolio site
+
+Keep responses short, helpful, and warm. Use Markdown formatting when useful (bold, lists, links). 
+If asked about booking or pricing, suggest contacting JC via the Contact section or email. 
+Always stay on-topic and professional.`;
+
+function initAIChatWidget() {
+    // Skip if already initialized (avoid duplicate injects)
+    if (document.getElementById('ai-chat-widget')) return;
+
+    // Build the widget DOM
+    const container = document.createElement('div');
+    container.id = 'ai-chat-widget';
+    container.className = 'ai-chat-widget';
+    container.innerHTML = `
+        <!-- Floating Launcher Button -->
+        <button id="ai-chat-launcher" class="ai-chat-launcher" aria-label="Chat with AI assistant" aria-expanded="false">
+            <svg id="ai-chat-launcher-icon" class="ai-chat-launcher-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+            <svg id="ai-chat-close-icon" class="ai-chat-close-icon" style="display:none" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 6 6 18M6 6l12 12"/>
+            </svg>
+        </button>
+
+        <!-- Chat Panel -->
+        <div id="ai-chat-panel" class="ai-chat-panel" role="dialog" aria-label="AI chat assistant">
+            <!-- Header -->
+            <div class="ai-chat-header">
+                <div class="ai-chat-header-avatar">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                </div>
+                <div class="ai-chat-header-text">
+                    <span class="ai-chat-header-title">JC AI Assistant</span>
+                    <span class="ai-chat-header-sub">DeepSeek V4 Flash</span>
+                </div>
+                <button id="ai-chat-clear" class="ai-chat-clear-btn" aria-label="Clear conversation">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6h14z"/></svg>
+                </button>
+            </div>
+
+            <!-- Messages -->
+            <div id="ai-chat-messages" class="ai-chat-messages">
+                <div class="ai-chat-message ai-chat-message-assistant">
+                    <div class="ai-chat-bubble">Hi! I'm JC's AI assistant. Ask me about his photography, videography, or anything about the portfolio. 👋</div>
+                </div>
+            </div>
+
+            <!-- Suggested prompts -->
+            <div id="ai-chat-suggestions" class="ai-chat-suggestions">
+                <button class="ai-chat-suggestion-chip" data-prompt="Tell me about JC's work">About JC's work</button>
+                <button class="ai-chat-suggestion-chip" data-prompt="What photography services do you offer?">Services</button>
+                <button class="ai-chat-suggestion-chip" data-prompt="How can I contact JC?">Contact</button>
+            </div>
+
+            <!-- Input -->
+            <div class="ai-chat-input-wrap">
+                <textarea id="ai-chat-input" class="ai-chat-input" rows="1" placeholder="Ask me anything..." aria-label="Message the AI assistant"></textarea>
+                <button id="ai-chat-send" class="ai-chat-send-btn" aria-label="Send message">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+                </button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(container);
+
+    const panel = document.getElementById('ai-chat-panel');
+    const launcher = document.getElementById('ai-chat-launcher');
+    const launcherIcon = document.getElementById('ai-chat-launcher-icon');
+    const closeIcon = document.getElementById('ai-chat-close-icon');
+    const messagesEl = document.getElementById('ai-chat-messages');
+    const inputEl = document.getElementById('ai-chat-input');
+    const sendBtn = document.getElementById('ai-chat-send');
+    const clearBtn = document.getElementById('ai-chat-clear');
+
+    let isOpen = false;
+    let isLoading = false;
+
+    // Restore history from localStorage
+    let chatHistory = [];
+    try {
+        const stored = localStorage.getItem(AI_CHAT_STORAGE_KEY);
+        if (stored) {
+            const parsed = JSON.parse(stored);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+                chatHistory = parsed.slice(-20);
+                renderMessagesFromHistory();
+            }
+        }
+    } catch (e) {
+        // Ignore corrupt storage
+    }
+
+    // Toggle panel
+    launcher.addEventListener('click', () => {
+        isOpen = !isOpen;
+        panel.classList.toggle('open', isOpen);
+        launcher.classList.toggle('active', isOpen);
+        launcher.setAttribute('aria-expanded', String(isOpen));
+        launcherIcon.style.display = isOpen ? 'none' : '';
+        closeIcon.style.display = isOpen ? '' : 'none';
+        if (isOpen) {
+            inputEl.focus();
+        }
+    });
+
+    // Clear conversation
+    clearBtn.addEventListener('click', () => {
+        chatHistory = [];
+        localStorage.removeItem(AI_CHAT_STORAGE_KEY);
+        messagesEl.innerHTML = `
+            <div class="ai-chat-message ai-chat-message-assistant">
+                <div class="ai-chat-bubble">Hi! I'm JC's AI assistant. Ask me about his photography, videography, or anything about the portfolio. 👋</div>
+            </div>
+        `;
+    });
+
+    // Suggested prompts
+    container.querySelectorAll('.ai-chat-suggestion-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+            inputEl.value = chip.dataset.prompt;
+            sendMessage();
+        });
+    });
+
+    // Send on Enter (Shift+Enter for newline)
+    inputEl.addEventListener('keydown', e => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+        }
+    });
+
+    sendBtn.addEventListener('click', sendMessage);
+
+    // Auto-resize the textarea
+    inputEl.addEventListener('input', () => {
+        inputEl.style.height = 'auto';
+        inputEl.style.height = Math.min(inputEl.scrollHeight, 120) + 'px';
+    });
+
+    async function sendMessage() {
+        const text = inputEl.value.trim();
+        if (!text || isLoading) return;
+
+        inputEl.value = '';
+        inputEl.style.height = 'auto';
+
+        // Hide suggestions once user starts chatting
+        const suggestions = document.getElementById('ai-chat-suggestions');
+        if (suggestions) suggestions.style.display = 'none';
+
+        // Add user message
+        appendMessage('user', text);
+        chatHistory.push({ role: 'user', content: text });
+
+        // Add loading indicator
+        const loadingEl = appendLoading();
+
+        isLoading = true;
+        try {
+            const res = await fetch(AI_API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    messages: [
+                        { role: 'system', content: aiChatSystemPrompt },
+                        ...chatHistory.slice(-20)
+                    ]
+                })
+            });
+
+            const data = await res.json();
+            if (!res.ok) {
+                throw new Error(data.error || 'Request failed');
+            }
+
+            const reply = data.content || 'Sorry, I could not generate a response.';
+            loadingEl.remove();
+            appendMessage('assistant', reply);
+            chatHistory.push({ role: 'assistant', content: reply });
+
+            // Persist
+            try {
+                localStorage.setItem(AI_CHAT_STORAGE_KEY, JSON.stringify(chatHistory.slice(-20)));
+            } catch (e) {
+                // Storage full — ignore
+            }
+        } catch (err) {
+            loadingEl.remove();
+            appendMessage('assistant', `⚠️ ${err.message}`);
+        }
+        isLoading = false;
+        inputEl.focus();
+    }
+
+    function appendMessage(role, content) {
+        const msgEl = document.createElement('div');
+        msgEl.className = `ai-chat-message ai-chat-message-${role}`;
+        const bubble = document.createElement('div');
+        bubble.className = 'ai-chat-bubble';
+        // Simple Markdown-ish rendering: bold, italic, inline code, line breaks
+        bubble.innerHTML = formatAIResponse(content);
+        msgEl.appendChild(bubble);
+        messagesEl.appendChild(msgEl);
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+        return msgEl;
+    }
+
+    function appendLoading() {
+        const msgEl = document.createElement('div');
+        msgEl.className = 'ai-chat-message ai-chat-message-assistant';
+        msgEl.innerHTML = `<div class="ai-chat-bubble ai-chat-loading"><span></span><span></span><span></span></div>`;
+        messagesEl.appendChild(msgEl);
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+        return msgEl;
+    }
+
+    function renderMessagesFromHistory() {
+        // Keep the welcome message unless history exists
+        const welcome = messagesEl.querySelector('.ai-chat-message-assistant');
+        messagesEl.innerHTML = '';
+        chatHistory.forEach(msg => {
+            appendMessage(msg.role, msg.content);
+        });
+        const suggestions = document.getElementById('ai-chat-suggestions');
+        if (suggestions && chatHistory.length > 0) {
+            suggestions.style.display = 'none';
+        }
+    }
+
+    function formatAIResponse(text) {
+        // Escape HTML first to prevent injection.
+        // Uses unicode escapes for entities so the code formatter
+        // cannot decode them back into raw characters.
+        const escapeHtml = (s) => s
+            .replace(/&/g, '\u0026amp;')
+            .replace(/</g, '\u0026lt;')
+            .replace(/>/g, '\u0026gt;')
+            .replace(/"/g, '\u0026quot;')
+            .replace(/'/g, '\u0026#039;');
+
+        const escaped = escapeHtml(text);
+
+        // Convert **bold** and *italic*, `code`, and newlines
+        return escaped
+            .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\*(.+?)\*/g, '<em>$1</em>')
+            .replace(/`(.+?)`/g, '<code>$1</code>')
+            .replace(/\n/g, '<br>');
+    }
+}
+
+// Export for inline access
+window.initAIChatWidget = initAIChatWidget;
 
