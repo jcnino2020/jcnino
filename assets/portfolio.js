@@ -121,6 +121,21 @@ const imageLightboxHtml = `
       </svg>
       <span id="lightbox-like-count" class="text-xs font-bold min-w-[10px]">0</span>
     </button>
+
+    <!-- Description Hover Icon & Floating Card -->
+    <div id="lightbox-desc-divider" class="w-[1px] h-3.5 bg-white/20 hidden"></div>
+    <div id="lightbox-desc-wrapper" class="relative group/desc hidden">
+      <button id="lightbox-info-btn" class="flex items-center justify-center text-white/70 hover:text-white hover:scale-110 active:scale-95 transition-all" aria-label="Photo description">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      </button>
+
+      <!-- Hover Card Floating Above Pill -->
+      <div id="lightbox-desc-tooltip" class="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 w-[85vw] max-w-sm p-4 bg-black/90 backdrop-blur-2xl rounded-2xl border border-white/15 shadow-2xl text-center opacity-0 group-hover/desc:opacity-100 pointer-events-none group-hover/desc:pointer-events-auto transition-all duration-300 translate-y-1 group-hover/desc:translate-y-0">
+        <p id="lightbox-desc-text" class="text-white/90 text-xs sm:text-sm font-normal leading-relaxed"></p>
+      </div>
+    </div>
   </div>
 </div>
 `;
@@ -416,6 +431,24 @@ function syncLightbox(direction = null) {
         const startLoading = () => {
             img.src = webpSrc;
             img.alt = p.alt || p.title || 'Portfolio Image';
+
+            // Sync description popover & icon button on the right of favorites
+            const descText = document.getElementById('lightbox-desc-text');
+            const descWrapper = document.getElementById('lightbox-desc-wrapper');
+            const descDivider = document.getElementById('lightbox-desc-divider');
+            const descVal = p.desc || p.alt || '';
+
+            if (descText && descWrapper) {
+                if (descVal) {
+                    descText.textContent = descVal;
+                    descWrapper.classList.remove('hidden');
+                    if (descDivider) descDivider.classList.remove('hidden');
+                } else {
+                    descText.textContent = '';
+                    descWrapper.classList.add('hidden');
+                    if (descDivider) descDivider.classList.add('hidden');
+                }
+            }
 
             // Show loading state if not already cached
             if (!probe.complete) {
