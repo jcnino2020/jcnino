@@ -112,7 +112,6 @@ const imageLightboxHtml = `
   <div id="lightbox-loader" class="absolute inset-0 flex items-center justify-center pointer-events-none hidden z-30">
     <div class="spinner"></div>
   </div>
-  <div id="lightbox-caption" class="absolute bottom-20 md:bottom-24 left-1/2 -translate-x-1/2 w-[90%] max-w-2xl px-5 py-3 bg-black/60 backdrop-blur-xl rounded-xl border border-white/10 shadow-lg text-center text-white/90 text-sm md:text-base leading-relaxed hidden"></div>
   <div class="absolute bottom-6 flex flex-row items-center gap-4 select-none bg-black/60 backdrop-blur-xl px-5 py-2.5 rounded-full border border-white/10 shadow-lg">
     <p id="lightbox-counter" class="text-white text-xs font-bold tracking-normal" aria-live="polite"></p>
     <div class="w-[1px] h-3.5 bg-white/20"></div>
@@ -417,16 +416,6 @@ function syncLightbox(direction = null) {
         const startLoading = () => {
             img.src = webpSrc;
             img.alt = p.alt || p.title || 'Portfolio Image';
-            const caption = document.getElementById('lightbox-caption');
-            if (caption) {
-                if (p.desc) {
-                    caption.textContent = p.desc;
-                    caption.classList.remove('hidden');
-                } else {
-                    caption.textContent = '';
-                    caption.classList.add('hidden');
-                }
-            }
 
             // Show loading state if not already cached
             if (!probe.complete) {

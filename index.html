@@ -495,15 +495,12 @@
           class="w-full h-auto block"
           onerror="this.parentElement.parentElement.querySelector('img').src='${p.src}'" />
       </picture>
-      <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
-        <div class="w-full">
-          <p class="photo-desc text-white text-sm leading-snug">${p.desc || p.alt}</p>
-          <div class="flex justify-between items-end w-full mt-2">
-            <span class="text-white/70 text-xs font-bold uppercase tracking-wider">${p.base}</span>
-            <svg class="w-5 h-5 text-white opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-            </svg>
-          </div>
+      <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+        <div class="w-full flex items-end justify-between gap-3">
+          <p class="photo-desc text-white text-sm leading-snug font-medium">${p.desc || p.alt}</p>
+          <svg class="w-5 h-5 text-white opacity-70 shrink-0 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
         </div>
       </div>
     `;
