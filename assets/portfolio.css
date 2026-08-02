@@ -596,51 +596,25 @@ section[id] {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #ffffff 0%, #d4d4d8 50%, #a1a1aa 100%);
-  color: #18181b;
+  background: #000000;
+  color: #ffffff;
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8px 30px rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
   transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
   position: relative;
 }
 
 .ai-chat-launcher:hover {
   transform: scale(1.08);
-  box-shadow: 0 12px 40px rgba(255, 255, 255, 0.3);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
 }
 
 .ai-chat-launcher.active {
   transform: scale(1);
-}
-
-.ai-chat-launcher::before {
-  content: '';
-  position: absolute;
-  inset: -4px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #ffffff, #a1a1aa);
-  opacity: 0.35;
-  filter: blur(12px);
-  z-index: -1;
-  animation: ai-chat-pulse 2.5s infinite;
-}
-
-@keyframes ai-chat-pulse {
-
-  0%,
-  100% {
-    opacity: 0.35;
-    transform: scale(1);
-  }
-
-  50% {
-    opacity: 0.6;
-    transform: scale(1.1);
-  }
 }
 
 /* Chat panel */
