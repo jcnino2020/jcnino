@@ -789,6 +789,43 @@ section[id] {
   font-family: 'SF Mono', ui-monospace, monospace;
 }
 
+.ai-chat-p {
+  margin: 0 0 6px 0;
+}
+
+.ai-chat-p:last-child {
+  margin-bottom: 0;
+}
+
+.ai-chat-list {
+  margin: 6px 0 8px 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  list-style-type: disc;
+}
+
+.ai-chat-list li {
+  line-height: 1.45;
+}
+
+.ai-chat-heading {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  margin: 8px 0 4px 0;
+}
+
+.ai-chat-bubble a {
+  color: #60a5fa;
+  text-decoration: underline;
+}
+
+.ai-chat-bubble a:hover {
+  color: #93c5fd;
+}
+
 .ai-chat-message-user .ai-chat-bubble {
   background: #3f3f46;
   border: 1px solid rgba(255, 255, 255, 0.15);

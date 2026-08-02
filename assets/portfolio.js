@@ -1227,10 +1227,12 @@ You are friendly, knowledgeable, and concise. You help visitors learn about:
 - Services and how to get in touch (Contact section, socials)
 - General questions about the portfolio site
 
-Keep responses short, helpful, and warm. Use Markdown formatting when useful (bold, lists, links). 
-Do NOT use em dashes (—) or en dashes (–) anywhere in your responses. Use colons, commas, regular hyphens (-), or parentheses instead.
-If asked about booking or pricing, suggest contacting JC via the Contact section or email. 
-Always stay on-topic and professional.`;
+Formatting & Style Instructions:
+- Format response lists using clean Markdown bullet points (e.g. "- **Title**: Description"). Put each bullet point on its own new line.
+- Use **bold text** for titles or emphasis.
+- Do NOT use em dashes (—) or en dashes (–) anywhere in your responses. Use colons (:), commas, hyphens (-), or parentheses instead.
+- Keep responses short, helpful, visually well-structured, and warm.
+- If asked about booking or pricing, suggest contacting JC via the Contact section or email. Always stay on-topic and professional.`;
 
 function initAIChatWidget() {
     // Skip if already initialized (avoid duplicate injects)
@@ -1458,14 +1460,12 @@ function initAIChatWidget() {
     }
 
     function formatAIResponse(text) {
-        // Replace em-dashes (—) and en-dashes (–) with clean hyphens/colons
-        const sanitizedText = (text || '')
-            .replace(/[\u2014\u2013]/g, ' - ')
-            .replace(/\s+-\s+/g, ' - ');
+        if (!text) return '';
 
-        // Escape HTML first to prevent injection.
-        // Uses unicode escapes for entities so the code formatter
-        // cannot decode them back into raw characters.
+        // Replace em-dashes (—) and en-dashes (–) without stripping newlines
+        const sanitized = text.replace(/[\u2014\u2013]/g, ' - ');
+
+        // Escape HTML first to prevent XSS injection
         const escapeHtml = (s) => s
             .replace(/&/g, '\u0026amp;')
             .replace(/</g, '\u0026lt;')
@@ -1473,14 +1473,75 @@ function initAIChatWidget() {
             .replace(/"/g, '\u0026quot;')
             .replace(/'/g, '\u0026#039;');
 
-        const escaped = escapeHtml(sanitizedText);
+        const escaped = escapeHtml(sanitized);
 
-        // Convert **bold** and *italic*, `code`, and newlines
-        return escaped
+        // Inline markdown: links, bold, italic, code
+        const formattedInline = escaped
+            .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
             .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+            .replace(/__(.+?)__/g, '<strong>$1</strong>')
             .replace(/\*(.+?)\*/g, '<em>$1</em>')
-            .replace(/`(.+?)`/g, '<code>$1</code>')
-            .replace(/\n/g, '<br>');
+            .replace(/_([^_]+)_/g, '<em>$1</em>')
+            .replace(/`([^`]+)`/g, '<code>$1</code>');
+
+        // Block parsing: lists, headings, paragraphs
+        const lines = formattedInline.split('\n');
+        let html = '';
+        let inList = false;
+        let listType = null;
+
+        for (let i = 0; i < lines.length; i++) {
+            let line = lines[i].trim();
+
+            if (!line) {
+                if (inList) {
+                    html += listType === 'ul' ? '</ul>' : '</ol>';
+                    inList = false;
+                    listType = null;
+                }
+                continue;
+            }
+
+            const ulMatch = line.match(/^[-*•]\s+(.*)$/);
+            const olMatch = line.match(/^\d+\.\s+(.*)$/);
+
+            if (ulMatch) {
+                if (!inList || listType !== 'ul') {
+                    if (inList) html += listType === 'ul' ? '</ul>' : '</ol>';
+                    html += '<ul class="ai-chat-list">';
+                    inList = true;
+                    listType = 'ul';
+                }
+                html += `<li>${ulMatch[1]}</li>`;
+            } else if (olMatch) {
+                if (!inList || listType !== 'ol') {
+                    if (inList) html += listType === 'ul' ? '</ul>' : '</ol>';
+                    html += '<ol class="ai-chat-list">';
+                    inList = true;
+                    listType = 'ol';
+                }
+                html += `<li>${olMatch[1]}</li>`;
+            } else {
+                if (inList) {
+                    html += listType === 'ul' ? '</ul>' : '</ol>';
+                    inList = false;
+                    listType = null;
+                }
+                if (line.startsWith('### ')) {
+                    html += `<h4 class="ai-chat-heading">${line.slice(4)}</h4>`;
+                } else if (line.startsWith('## ') || line.startsWith('# ')) {
+                    html += `<h3 class="ai-chat-heading">${line.replace(/^#+\s+/, '')}</h3>`;
+                } else {
+                    html += `<p class="ai-chat-p">${line}</p>`;
+                }
+            }
+        }
+
+        if (inList) {
+            html += listType === 'ul' ? '</ul>' : '</ol>';
+        }
+
+        return html;
     }
 }
 
