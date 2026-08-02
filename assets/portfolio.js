@@ -1228,6 +1228,7 @@ You are friendly, knowledgeable, and concise. You help visitors learn about:
 - General questions about the portfolio site
 
 Keep responses short, helpful, and warm. Use Markdown formatting when useful (bold, lists, links). 
+Do NOT use em dashes (—) or en dashes (–) anywhere in your responses. Use colons, commas, regular hyphens (-), or parentheses instead.
 If asked about booking or pricing, suggest contacting JC via the Contact section or email. 
 Always stay on-topic and professional.`;
 
@@ -1457,6 +1458,11 @@ function initAIChatWidget() {
     }
 
     function formatAIResponse(text) {
+        // Replace em-dashes (—) and en-dashes (–) with clean hyphens/colons
+        const sanitizedText = (text || '')
+            .replace(/[\u2014\u2013]/g, ' - ')
+            .replace(/\s+-\s+/g, ' - ');
+
         // Escape HTML first to prevent injection.
         // Uses unicode escapes for entities so the code formatter
         // cannot decode them back into raw characters.
@@ -1467,7 +1473,7 @@ function initAIChatWidget() {
             .replace(/"/g, '\u0026quot;')
             .replace(/'/g, '\u0026#039;');
 
-        const escaped = escapeHtml(text);
+        const escaped = escapeHtml(sanitizedText);
 
         // Convert **bold** and *italic*, `code`, and newlines
         return escaped
