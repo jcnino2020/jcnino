@@ -66,7 +66,8 @@
       src: 'images/Framed%20Moments/' + p.file,
       subfolder: 'Framed%20Moments',
       base: base,
-      alt: p.alt || ('Street and editorial photograph by JC Niñonuevo — ' + base)
+      alt: p.alt || ('Street and editorial photograph by JC Niñonuevo — ' + base),
+      desc: p.desc || ''
     };
   });
 
@@ -95,10 +96,14 @@
           onerror="this.parentElement.parentElement.querySelector('img').src='${p.src}'" />
       </picture>
       <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
-        <div class="flex justify-between items-end w-full">
-          <svg class="w-5 h-5 text-white opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-          </svg>
+        <div class="w-full">
+          <p class="photo-desc text-white text-sm leading-snug">${p.desc || p.alt}</p>
+          <div class="flex justify-between items-end w-full mt-2">
+            <span class="text-white/70 text-xs font-bold uppercase tracking-wider">${p.base}</span>
+            <svg class="w-5 h-5 text-white opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+          </div>
         </div>
       </div>
     `;
