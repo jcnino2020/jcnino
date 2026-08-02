@@ -95,7 +95,7 @@ export async function onRequest(context) {
                 'Authorization': `Bearer ${apiKey}`
             },
             body: JSON.stringify({
-                model: 'deepseek-chat',
+                model: 'deepseek-v4-flash',
                 messages: validated,
                 max_tokens: 1024,
                 temperature: 0.7
