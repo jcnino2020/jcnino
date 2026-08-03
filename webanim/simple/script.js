@@ -9,6 +9,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const controlsHint = document.getElementById('controlsHint');
   const infoBtn = document.getElementById('infoBtn');
 
+  // Mobile On-Screen Controls Elements
+  const mobileControls = document.getElementById('mobileControls');
+  const btnUp = document.getElementById('btnUp');
+  const btnDown = document.getElementById('btnDown');
+  const btnLeft = document.getElementById('btnLeft');
+  const btnRight = document.getElementById('btnRight');
+  const btnSpace = document.getElementById('btnSpace');
+
   // Movement State
   let posX = 0;
   let posY = 0;
@@ -78,9 +86,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Click / Touch to drop package as well
+  // Click / Touch to drop package as well (excluding UI buttons)
   window.addEventListener('pointerdown', (e) => {
-    if (e.target !== infoBtn && !infoBtn.contains(e.target) && e.target !== controlsHint && !controlsHint.contains(e.target)) {
+    const isUIElement = (infoBtn && infoBtn.contains(e.target)) ||
+                        (controlsHint && controlsHint.contains(e.target)) ||
+                        (mobileControls && mobileControls.contains(e.target));
+    if (!isUIElement) {
       dropPackage();
     }
   });
@@ -92,6 +103,47 @@ document.addEventListener('DOMContentLoaded', () => {
       delete keysPressed[key];
     }
   });
+
+  // ==========================================
+  // Mobile On-Screen D-Pad & Space Button Logic
+  // ==========================================
+  const dpadBindings = [
+    { btn: btnUp, key: 'arrowup' },
+    { btn: btnDown, key: 'arrowdown' },
+    { btn: btnLeft, key: 'arrowleft' },
+    { btn: btnRight, key: 'arrowright' }
+  ];
+
+  dpadBindings.forEach(({ btn, key }) => {
+    if (!btn) return;
+    const startPress = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      keysPressed[key] = true;
+      btn.classList.add('active');
+    };
+    const endPress = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      delete keysPressed[key];
+      btn.classList.remove('active');
+    };
+
+    btn.addEventListener('pointerdown', startPress);
+    btn.addEventListener('pointerup', endPress);
+    btn.addEventListener('pointerleave', endPress);
+    btn.addEventListener('pointercancel', endPress);
+  });
+
+  if (btnSpace) {
+    btnSpace.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      dropPackage();
+      btnSpace.classList.add('active');
+      setTimeout(() => btnSpace.classList.remove('active'), 150);
+    });
+  }
 
   // Action: Drop Package Box
   function dropPackage() {

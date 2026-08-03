@@ -379,3 +379,120 @@ html, body {
   0% { opacity: 0.6; height: 10px; }
   100% { opacity: 1; height: 18px; }
 }
+
+/* ==========================================================
+   MOBILE CONTROLS & MEDIA QUERY
+   ========================================================== */
+.mobile-controls {
+  display: none;
+}
+
+@media (max-width: 768px), (pointer: coarse) {
+  .mobile-controls {
+    display: flex;
+    position: absolute;
+    bottom: 25px;
+    left: 0;
+    right: 0;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 0 24px;
+    pointer-events: none;
+    z-index: 20;
+  }
+
+  .dpad, .space-btn {
+    pointer-events: auto;
+  }
+
+  /* D-Pad Layout */
+  .dpad {
+    position: relative;
+    width: 135px;
+    height: 135px;
+  }
+
+  .dpad-btn {
+    position: absolute;
+    width: 45px;
+    height: 45px;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(10px);
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+    transition: background 0.1s ease, transform 0.1s ease;
+  }
+
+  .dpad-btn:active, .dpad-btn.active {
+    background: rgba(56, 189, 248, 0.85);
+    border-color: #38bdf8;
+    transform: scale(0.92);
+  }
+
+  .dpad-up { top: 0; left: 45px; border-radius: 12px 12px 4px 4px; }
+  .dpad-down { bottom: 0; left: 45px; border-radius: 4px 4px 12px 12px; }
+  .dpad-left { top: 45px; left: 0; border-radius: 12px 4px 4px 12px; }
+  .dpad-right { top: 45px; right: 0; border-radius: 4px 12px 12px 4px; }
+
+  .dpad-center {
+    position: absolute;
+    top: 45px;
+    left: 45px;
+    width: 45px;
+    height: 45px;
+    background: rgba(15, 23, 42, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  /* Space / Drop Package Button */
+  .space-btn {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    border: 3px solid rgba(255, 255, 255, 0.35);
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    box-shadow: 0 6px 20px rgba(217, 119, 6, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: pointer;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+  }
+
+  .space-btn:active, .space-btn.active {
+    transform: scale(0.92);
+    box-shadow: 0 2px 10px rgba(217, 119, 6, 0.4);
+  }
+
+  /* Adjustments for Info Button & Hint on Mobile */
+  .info-btn {
+    bottom: auto;
+    top: 16px;
+    left: 16px;
+  }
+
+  .controls-hint {
+    bottom: auto;
+    top: 16px;
+    font-size: 0.75rem;
+    padding: 6px 14px;
+    max-width: 75%;
+    text-align: center;
+  }
+}
+
