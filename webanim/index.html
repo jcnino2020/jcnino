@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skyward Express — Floating Drone Delivery (Prototype v1)</title>
+  <meta name="description" content="Fly a cute delivery drone through a scrolling city. 10 deliveries to 1000 points.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛸</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <main id="stage" aria-label="Skyward Express game">
+
+    <!-- ======= SKY & AMBIENT ======= -->
+    <div id="sky">
+      <div id="sun"></div>
+      <div class="cloud" style="top:52px"></div>
+      <div class="cloud" style="top:120px"></div>
+      <div class="cloud" style="top:180px"></div>
+      <div class="cloud" style="top:86px"></div>
+      <div class="cloud" style="top:226px"></div>
+    </div>
+
+    <!-- ======= CAMERA (shake wrapper) ======= -->
+    <div id="cam">
+      <div id="farLayer" class="layer"></div>
+      <div id="midLayer" class="layer"></div>
+
+      <div id="world" class="layer">
+        <div id="actors"></div>
+        <div id="pkgs"></div>
+        <div id="fx"></div>
+        <div id="dshadow"></div>
+      </div>
+
+      <!-- Road & sidewalk sit in camera space; their stripes scroll via CSS vars -->
+      <div id="walk"></div>
+      <div id="road"></div>
+
+      <!-- Drone (screen-space) -->
+      <div id="drone" class="lvl1">
+        <div class="rig">
+          <div class="arm a-l"></div><div class="arm a-r"></div>
+          <div class="prop p-l"><i class="blade"></i><b class="hub"></b></div>
+          <div class="prop p-r"><i class="blade"></i><b class="hub"></b></div>
+          <div class="glow"></div>
+          <div class="hull">
+            <div class="visor"></div>
+            <div class="stripe"></div>
+            <div class="lights"><i></i><i></i><i></i></div>
+          </div>
+          <div class="strap"></div>
+          <div class="cargo"><i class="tape"></i></div>
+        </div>
+      </div>
+
+      <div id="fxScreen"></div>
+    </div>
+
+    <div id="flash"></div>
+
+    <!-- ======= HUD ======= -->
+    <header id="hud">
+      <div class="hud-left">
+        <div class="chip">
+          <span class="chip-label">Score</span>
+          <span id="scoreVal">0</span>
+          <span class="chip-goal">/ 1000</span>
+        </div>
+        <div class="chip">
+          <span class="chip-label">Lives</span>
+          <span id="hearts"></span>
+        </div>
+        <div class="chip">
+          <span class="chip-label">Drone</span>
+          <span id="levelVal">LV 1</span>
+        </div>
+      </div>
+      <div class="hud-right">
+        <button id="btnInfo" class="icon-btn" title="Show controls" aria-label="Show controls">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" fill="none"/>
+            <path d="M12 11v5"/>
+            <circle cx="12" cy="8" r="1.3" fill="currentColor"/>
+          </svg>
+        </button>
+        <button id="btnSound" class="icon-btn" title="Sound (M)" aria-label="Toggle sound">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+            <path d="M4 9v6h4l5 4V5L8 9H4z"/>
+            <path class="wv" d="M16 8.5a4.5 4.5 0 0 1 0 7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <path class="wv" d="M18.5 6a8 8 0 0 1 0 12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <path class="mx" d="M16 9l6 6M22 9l-6 6" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <button id="btnPause" class="icon-btn" title="Pause (P)" aria-label="Pause game">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+            <rect x="6" y="5" width="4" height="14" rx="1.6"/>
+            <rect x="14" y="5" width="4" height="14" rx="1.6"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- ======= CONTROL LEGEND ======= -->
+    <footer id="legend">
+      <div class="kcol">
+        <kbd>↑</kbd>
+        <div class="krow"><kbd>←</kbd><kbd>↓</kbd><kbd>→</kbd></div>
+      </div>
+      <span class="leg-label">Move</span>
+      <kbd class="space">SPACE</kbd>
+      <span class="leg-label">Drop package</span>
+    </footer>
+
+    <!-- ======= TOAST (upgrades / GO!) ======= -->
+    <div id="toast" role="status"><h2 id="toastTitle"></h2><p id="toastSub"></p></div>
+
+    <!-- ======= START SCREEN ======= -->
+    <section class="screen on" id="startScreen" aria-label="Start screen">
+      <div class="start-wrap">
+        <div class="logo-block">
+          <div class="badge">✦ PROTOTYPE v1 ✦</div>
+          <h1 class="logo">SKYWARD<br>EXPRESS</h1>
+          <p class="tag">Float fast. Drop smart. Deliver the city.</p>
+        </div>
+        <div class="brief panel">
+          <h2>📦 TODAY'S ROUTE</h2>
+          <p>Drop packages on waiting customers — rooftops, sidewalks, balconies, docks. Reach <b>1000&nbsp;pts</b> to finish the shift. Dodge the rooftop junk: antennas, wires, cranes &amp; water tanks.</p>
+          <div class="brief-keys">
+            <span><kbd>↑↓←→</kbd> fly</span>
+            <span><kbd>SPACE</kbd> drop</span>
+            <span>❤️❤️❤️ three lives</span>
+          </div>
+          <button class="btn big" id="btnStart">START SHIFT</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======= PAUSE SCREEN ======= -->
+    <section class="screen" id="pauseScreen" aria-label="Paused">
+      <div class="panel small">
+        <h2 class="pTitle">PAUSED</h2>
+        <p class="pSub">The city waits for no drone… except right now.</p>
+        <button class="btn" id="btnResume">RESUME</button>
+      </div>
+    </section>
+
+    <!-- ======= END SCREEN (win / game over) ======= -->
+    <section class="screen" id="endScreen" aria-label="Results">
+      <div class="rain" id="rain"></div>
+      <div class="panel">
+        <h2 class="pTitle" id="endTitle">MISSION COMPLETE!</h2>
+        <p class="pSub" id="endSub">1000 POINTS REACHED!</p>
+        <div class="stats" id="endStats"></div>
+        <button class="btn" id="btnRetry">FLY AGAIN</button>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
