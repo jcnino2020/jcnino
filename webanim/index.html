@@ -41,20 +41,24 @@
       <div id="walk"></div>
       <div id="road"></div>
 
-      <!-- Drone (screen-space) -->
+      <!-- Drone (screen-space quadcopter) -->
       <div id="drone" class="lvl1">
         <div class="rig">
-          <div class="arm a-l"></div><div class="arm a-r"></div>
-          <div class="prop p-l"><i class="blade"></i><b class="hub"></b></div>
-          <div class="prop p-r"><i class="blade"></i><b class="hub"></b></div>
-          <div class="glow"></div>
-          <div class="hull">
-            <div class="visor"></div>
-            <div class="stripe"></div>
-            <div class="lights"><i></i><i></i><i></i></div>
-          </div>
+          <!-- 4 Spinning Propellers -->
+          <div class="propeller prop-top-left"><img src="simple/assets/propeller.png" alt="Propeller"></div>
+          <div class="propeller prop-top-right"><img src="simple/assets/propeller.png" alt="Propeller"></div>
+          <div class="propeller prop-bottom-left"><img src="simple/assets/propeller.png" alt="Propeller"></div>
+          <div class="propeller prop-bottom-right"><img src="simple/assets/propeller.png" alt="Propeller"></div>
+
+          <!-- Quadcopter Drone Body PNG -->
+          <img src="simple/assets/drone.png" alt="Drone" class="drone-body">
+
+          <!-- Nav Lights -->
+          <div class="nav-light light-front-left"></div>
+          <div class="nav-light light-front-right"></div>
+
           <div class="strap"></div>
-          <div class="cargo"><i class="tape"></i></div>
+          <img src="simple/assets/box.png" alt="Cargo Box" class="cargo">
         </div>
       </div>
 

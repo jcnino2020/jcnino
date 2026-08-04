@@ -351,66 +351,91 @@ body{
    ========================================================= */
 #drone{
   position:absolute; z-index:30; width:0; height:0; will-change:transform;
-  --prop:.16s; --glowC:rgba(80,220,255,.85); --glowS:1; --accent:#ff8b5e;
+  --prop:.08s; --glowC:rgba(80,220,255,.85); --glowS:1; --accent:#ff8b5e;
 }
-#drone.lvl2{ --prop:.11s; --glowC:rgba(64,240,220,.95); --glowS:1.3; --accent:#22d3ee; }
-#drone.lvl3{ --prop:.09s; --glowC:rgba(255,200,80,1);    --glowS:1.55; --accent:#ffd166; }
-#drone .rig{ position:absolute; left:-46px; top:-34px; width:92px; height:72px; }
-#drone.lvl2 .rig{ transform:scale(1.06); }
-#drone.lvl3 .rig{ transform:scale(1.12); }
+#drone.lvl2{ --prop:.06s; --glowC:rgba(64,240,220,.95); --glowS:1.3; --accent:#22d3ee; }
+#drone.lvl3{ --prop:.04s; --glowC:rgba(255,200,80,1);    --glowS:1.55; --accent:#ffd166; }
+#drone .rig{ position:absolute; left:-60px; top:-60px; width:120px; height:120px; filter: drop-shadow(0 10px 18px rgba(0,0,0,0.5)); }
+#drone.lvl2 .rig{ transform:scale(1.08); }
+#drone.lvl3 .rig{ transform:scale(1.16); }
 
-.arm{ position:absolute; top:17px; width:27px; height:5px; background:#9fb0c9; border-radius:3px; }
-.a-l{ left:6px;  transform:rotate(-14deg); }
-.a-r{ right:6px; transform:rotate(14deg); }
+.drone-body {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: contain;
+  z-index: 2;
+  pointer-events: none;
+}
 
-.prop{ position:absolute; top:3px; width:8px; }
-.p-l{ left:3px; } .p-r{ right:3px; }
-.hub{ display:block; width:8px; height:8px; border-radius:50%; background:#5b6b8c; }
-.blade{
-  position:absolute; left:-24px; top:-3px; width:56px; height:6px; border-radius:50%;
-  background:rgba(243,249,255,.92); filter:blur(.6px);
-  box-shadow:0 0 7px rgba(255,255,255,.65);
-  animation:prop var(--prop) linear infinite;
+.propeller {
+  position: absolute;
+  width: 46%; height: 46%;
+  pointer-events: none;
+  z-index: 3;
+  transform-origin: 50% 50%;
 }
-@keyframes prop{ 0%{ transform:scaleX(1);} 50%{ transform:scaleX(.14);} 100%{ transform:scaleX(1);} }
 
-.glow{
-  position:absolute; left:25px; top:46px; width:42px; height:17px; border-radius:50%;
-  background:radial-gradient(closest-side, var(--glowC), transparent 72%);
-  filter:blur(2px); transform:scale(var(--glowS));
-  animation:glowP 1s ease-in-out infinite;
+.propeller img {
+  width: 100%; height: 100%;
+  object-fit: contain;
+  display: block;
 }
-@keyframes glowP{ 0%,100%{ opacity:.7;} 50%{ opacity:1;} }
 
-.hull{
-  position:absolute; left:21px; top:22px; width:50px; height:30px; border-radius:16px;
-  background:linear-gradient(180deg,#ffffff,#dfe6f2 60%,#b9c4d8);
-  box-shadow:inset 0 -5px 0 rgba(90,110,150,.35), 0 5px 9px rgba(20,40,80,.28);
+.prop-top-left {
+  top: 26.0%; left: 6.5%;
+  animation: spinPropellerCW var(--prop) linear infinite;
 }
-#drone.lvl3 .hull{
-  box-shadow:inset 0 0 0 2px #ffd166, inset 0 -5px 0 rgba(90,110,150,.35), 0 5px 12px rgba(255,180,40,.5);
-}
-.visor{
-  position:absolute; right:4px; top:5px; width:20px; height:14px; border-radius:8px;
-  background:linear-gradient(180deg,#c6f7ff,#39c2e8);
-  box-shadow:0 0 9px rgba(80,220,255,.85);
-}
-.stripe{ position:absolute; left:6px; top:13px; width:19px; height:5px; border-radius:3px; background:var(--accent); }
-.lights{ position:absolute; left:9px; bottom:3px; display:flex; gap:5px; }
-.lights i{ width:4px; height:4px; border-radius:50%; background:#ffd166; opacity:0; }
-#drone.lvl2 .lights i, #drone.lvl3 .lights i{ opacity:1; animation:led 1s infinite; }
-#drone.lvl3 .lights i{ background:#7ef2ff; }
-.lights i:nth-child(2){ animation-delay:.33s !important; }
-.lights i:nth-child(3){ animation-delay:.66s !important; }
-@keyframes led{ 0%,100%{ opacity:.2;} 50%{ opacity:1;} }
 
-.strap{ position:absolute; left:44px; top:51px; width:3px; height:9px; background:#7c8aa6; }
+.prop-top-right {
+  top: 26.0%; left: 93.5%;
+  animation: spinPropellerCCW var(--prop) linear infinite;
+}
+
+.prop-bottom-left {
+  top: 49.5%; left: 3.5%;
+  animation: spinPropellerCCW var(--prop) linear infinite;
+}
+
+.prop-bottom-right {
+  top: 49.5%; left: 96.5%;
+  animation: spinPropellerCW var(--prop) linear infinite;
+}
+
+@keyframes spinPropellerCW {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes spinPropellerCCW {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(-360deg); }
+}
+
+.nav-light {
+  position: absolute; width: 6px; height: 6px; border-radius: 50%;
+  z-index: 4; pointer-events: none; transform: translate(-50%, -50%);
+}
+.light-front-left {
+  top: 50%; left: 3.5%; background: #ef4444; box-shadow: 0 0 8px #ef4444;
+  animation: blinkNav 1s infinite alternate;
+}
+.light-front-right {
+  top: 50%; left: 96.5%; background: #22c55e; box-shadow: 0 0 8px #22c55e;
+  animation: blinkNav 1s infinite alternate 0.5s;
+}
+@keyframes blinkNav {
+  0% { opacity: 0.3; transform: translate(-50%, -50%) scale(0.8); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1.3); }
+}
+
+.strap{ position:absolute; left:59px; top:66px; width:2px; height:8px; background:#7c8aa6; z-index:1; }
 .cargo{
-  position:absolute; left:33px; top:59px; width:26px; height:22px; border-radius:4px;
-  background:linear-gradient(#e0aa74,#c98d5a);
-  box-shadow:inset 0 0 0 2px rgba(110,66,28,.38);
+  position:absolute; left:44px; top:70px; width:32px; height:32px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
+  z-index:1;
 }
-.cargo .tape{ position:absolute; left:11px; top:0; width:4px; height:100%; background:#f6e2b3; }
 
 #drone.hit .rig{ animation:hitBlink .3s steps(2,end) 7; }
 @keyframes hitBlink{ 0%,100%{ opacity:1;} 50%{ opacity:.15;} }
@@ -424,14 +449,9 @@ body{
    PACKAGES & FX
    ========================================================= */
 .pkg{
-  position:absolute; width:26px; height:24px; border-radius:4px; z-index:14;
-  background:
-    linear-gradient(#e2b07c,#c98d5a),
-    linear-gradient(#f6e2b3,#f6e2b3);
-  background-size:100% 100%, 5px 100%;
-  background-position:0 0, 11px 0;
-  background-repeat:no-repeat;
-  box-shadow:inset 0 0 0 2px rgba(110,66,28,.4);
+  position:absolute; width:32px; height:32px; z-index:14;
+  background: url('simple/assets/box.png') center/contain no-repeat;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
 }
 .pkg.landed{ animation:pkgFade .55s .12s forwards; }
 @keyframes pkgFade{

@@ -178,33 +178,11 @@ html, body {
 
 .package {
   position: absolute;
-  width: 24px;
-  height: 24px;
-  background: #d97706;
-  border: 2px solid #b45309;
-  border-radius: 4px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  width: 32px;
+  height: 32px;
+  background: url('assets/box.png') center/contain no-repeat;
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.5));
   will-change: transform, opacity;
-}
-
-.package::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 9px;
-  width: 4px;
-  height: 100%;
-  background: #fef3c7;
-}
-
-.package::after {
-  content: '';
-  position: absolute;
-  top: 9px;
-  left: 0;
-  width: 100%;
-  height: 4px;
-  background: #fef3c7;
 }
 
 .landing-puff {
@@ -223,161 +201,143 @@ html, body {
 }
 
 /* ==========================================================
-   CHARACTER DESIGN & ANIMATIONS
+   QUADCOPTER DRONE DESIGN & ANIMATIONS
    ========================================================== */
 .character {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 110px;
-  height: 90px;
-  margin-left: -55px;
-  margin-top: -45px;
+  width: 150px;
+  height: 150px;
+  margin-left: -75px;
+  margin-top: -75px;
   will-change: transform;
   z-index: 5;
   transition: transform 0.08s linear;
 }
 
-.character.hover-idle .character-rig {
+.character.hover-idle .drone-rig {
   animation: hoverBob 2.5s ease-in-out infinite alternate;
 }
 
 @keyframes hoverBob {
-  0% { transform: translateY(-8px); }
-  100% { transform: translateY(8px); }
+  0% { transform: translateY(-8px) rotate(-1deg); }
+  100% { transform: translateY(8px) rotate(1deg); }
 }
 
-.character-rig {
+.drone-rig {
   position: relative;
   width: 100%;
   height: 100%;
+  filter: drop-shadow(0 15px 22px rgba(0, 0, 0, 0.5));
 }
 
-.character .body {
-  position: absolute;
-  top: 28px;
-  left: 22px;
-  width: 66px;
-  height: 38px;
-  background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
-  border-radius: 22px;
-  box-shadow: 0 10px 25px rgba(56, 189, 248, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.character .visor {
-  width: 48px;
-  height: 16px;
-  background: #0f172a;
-  border-radius: 10px;
-  border: 2px solid #7dd3fc;
-  position: relative;
-  overflow: hidden;
-}
-
-.character .visor::after {
-  content: '';
-  position: absolute;
-  top: 2px;
-  left: 5px;
-  width: 16px;
-  height: 7px;
-  background: #e0f2fe;
-  border-radius: 4px;
-  box-shadow: 0 0 10px #38bdf8;
-}
-
-.character .core-light {
-  position: absolute;
-  bottom: -4px;
-  width: 12px;
-  height: 12px;
-  background: #38bdf8;
-  border-radius: 50%;
-  box-shadow: 0 0 14px #38bdf8;
-  animation: pulseGlow 1.5s infinite alternate;
-}
-
-@keyframes pulseGlow {
-  0% { opacity: 0.4; transform: scale(0.8); }
-  100% { opacity: 1; transform: scale(1.2); }
-}
-
-.cargo-box {
-  position: absolute;
-  bottom: 12px;
-  left: 45px;
-  width: 20px;
-  height: 18px;
-  background: #b45309;
-  border: 2px solid #78350f;
-  border-radius: 3px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-}
-
-.cargo-box::after {
-  content: '';
+.drone-body {
   position: absolute;
   top: 0;
-  left: 7px;
-  width: 3px;
-  height: 100%;
-  background: #fef3c7;
-}
-
-.rotor {
-  position: absolute;
-  top: 10px;
-  width: 44px;
-  height: 9px;
-}
-
-.rotor-left { left: 5px; }
-.rotor-right { right: 5px; }
-
-.rotor .blade {
+  left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(255, 255, 255, 0.45);
-  border-radius: 4px;
-  animation: spinRotor 0.12s linear infinite;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+  object-fit: contain;
+  z-index: 2;
+  pointer-events: none;
 }
 
-@keyframes spinRotor {
-  0% { transform: scaleX(1); opacity: 0.9; }
-  50% { transform: scaleX(0.2); opacity: 0.3; }
-  100% { transform: scaleX(1); opacity: 0.9; }
-}
-
-.wing {
+/* 4 Spinning Propellers */
+.propeller {
   position: absolute;
-  top: 36px;
-  width: 20px;
+  width: 46%;
+  height: 46%;
+  pointer-events: none;
+  z-index: 3;
+  transform-origin: 50% 50%;
+}
+
+.propeller img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Motor Mount Alignment relative to drone.png */
+.prop-top-left {
+  top: 26.0%;
+  left: 6.5%;
+  animation: spinPropellerCW 0.08s linear infinite;
+}
+
+.prop-top-right {
+  top: 26.0%;
+  left: 93.5%;
+  animation: spinPropellerCCW 0.08s linear infinite;
+}
+
+.prop-bottom-left {
+  top: 49.5%;
+  left: 3.5%;
+  animation: spinPropellerCCW 0.08s linear infinite;
+}
+
+.prop-bottom-right {
+  top: 49.5%;
+  left: 96.5%;
+  animation: spinPropellerCW 0.08s linear infinite;
+}
+
+@keyframes spinPropellerCW {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes spinPropellerCCW {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(-360deg); }
+}
+
+/* Navigation Lights on Arms */
+.nav-light {
+  position: absolute;
+  width: 7px;
   height: 7px;
-  background: #0284c7;
-  border-radius: 4px;
-}
-
-.wing-left { left: 2px; }
-.wing-right { right: 2px; }
-
-.thruster {
-  position: absolute;
-  bottom: 8px;
-  left: 50px;
-  width: 10px;
-  height: 14px;
-  background: linear-gradient(180deg, #f97316 0%, transparent 100%);
   border-radius: 50%;
-  animation: flickerThruster 0.15s ease-in-out infinite alternate;
+  z-index: 4;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
 }
 
-@keyframes flickerThruster {
-  0% { opacity: 0.6; height: 10px; }
-  100% { opacity: 1; height: 18px; }
+.light-front-left {
+  top: 50%;
+  left: 3.5%;
+  background: #ef4444;
+  box-shadow: 0 0 10px #ef4444, 0 0 20px #ef4444;
+  animation: blinkNav 1s infinite alternate;
+}
+
+.light-front-right {
+  top: 50%;
+  left: 96.5%;
+  background: #22c55e;
+  box-shadow: 0 0 10px #22c55e, 0 0 20px #22c55e;
+  animation: blinkNav 1s infinite alternate 0.5s;
+}
+
+@keyframes blinkNav {
+  0% { opacity: 0.3; transform: translate(-50%, -50%) scale(0.8); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1.3); }
+}
+
+/* Attached Cargo Box */
+.cargo-box {
+  position: absolute;
+  top: 56%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.5));
+  z-index: 1;
 }
 
 /* ==========================================================
