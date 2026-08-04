@@ -112,7 +112,7 @@ const imageLightboxHtml = `
   <div id="lightbox-loader" class="absolute inset-0 flex items-center justify-center pointer-events-none hidden z-30">
     <div class="spinner"></div>
   </div>
-  <div class="absolute bottom-6 flex flex-row items-center gap-4 select-none bg-black/60 backdrop-blur-xl px-5 py-2.5 rounded-full border border-white/10 shadow-lg">
+  <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-row items-center gap-4 select-none bg-black/60 backdrop-blur-xl px-5 py-2.5 rounded-full border border-white/10 shadow-lg z-40">
     <p id="lightbox-counter" class="text-white text-xs font-bold tracking-normal" aria-live="polite"></p>
     <div class="w-[1px] h-3.5 bg-white/20"></div>
     <button id="lightbox-like-btn" onclick="toggleImageLike()" class="flex items-center gap-2 text-white hover:scale-105 active:scale-95 transition-all duration-300 group">
@@ -125,14 +125,14 @@ const imageLightboxHtml = `
     <!-- Description Hover Icon & Floating Card -->
     <div id="lightbox-desc-divider" class="w-[1px] h-3.5 bg-white/20 hidden"></div>
     <div id="lightbox-desc-wrapper" class="relative group/desc hidden">
-      <button id="lightbox-info-btn" onclick="toggleLightboxDesc(event)" class="flex items-center justify-center p-1 text-white/70 hover:text-white active:scale-90 transition-all cursor-pointer" aria-label="Photo description">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <button id="lightbox-info-btn" onclick="toggleLightboxDesc(event)" class="w-6 h-6 shrink-0 flex items-center justify-center text-white/70 hover:text-white transition-colors cursor-pointer" aria-label="Photo description">
+        <svg class="w-4 h-4 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
       </button>
 
       <!-- Hover Card Floating Above Pill -->
-      <div id="lightbox-desc-tooltip" class="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 w-[85vw] max-w-sm p-4 bg-black/90 backdrop-blur-2xl rounded-2xl border border-white/15 shadow-2xl text-center opacity-0 group-hover/desc:opacity-100 pointer-events-none group-hover/desc:pointer-events-auto transition-all duration-300 translate-y-1 group-hover/desc:translate-y-0">
+      <div id="lightbox-desc-tooltip" class="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 w-[85vw] max-w-sm p-4 bg-black/90 backdrop-blur-2xl rounded-2xl border border-white/15 shadow-2xl text-center opacity-0 group-hover/desc:opacity-100 pointer-events-none group-hover/desc:pointer-events-auto transition-all duration-300">
         <p id="lightbox-desc-text" class="text-white/90 text-xs sm:text-sm font-normal leading-relaxed"></p>
       </div>
     </div>
