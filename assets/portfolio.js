@@ -113,27 +113,27 @@ const imageLightboxHtml = `
     <div class="spinner"></div>
   </div>
   <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-row items-center gap-4 select-none bg-black/60 backdrop-blur-xl px-5 py-2.5 rounded-full border border-white/10 shadow-lg z-40">
-    <p id="lightbox-counter" class="text-white text-xs font-bold tracking-normal" aria-live="polite"></p>
-    <div class="w-[1px] h-3.5 bg-white/20"></div>
-    <button id="lightbox-like-btn" onclick="toggleImageLike()" class="flex items-center gap-2 text-white hover:scale-105 active:scale-95 transition-all duration-300 group">
-      <svg id="lightbox-like-icon" class="w-4 h-4 text-white group-hover:text-red-500 transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+    <p id="lightbox-counter" class="text-white text-xs font-bold tracking-normal m-0 leading-none flex items-center shrink-0" aria-live="polite"></p>
+    <div class="w-[1px] h-3.5 bg-white/20 shrink-0 self-center"></div>
+    <button id="lightbox-like-btn" onclick="toggleImageLike()" class="flex items-center gap-1.5 text-white hover:scale-105 active:scale-95 transition-all duration-300 group shrink-0 leading-none">
+      <svg id="lightbox-like-icon" class="w-4 h-4 text-white group-hover:text-red-500 transition-colors shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
       </svg>
-      <span id="lightbox-like-count" class="text-xs font-bold min-w-[10px]">0</span>
+      <span id="lightbox-like-count" class="text-xs font-bold min-w-[10px] leading-none flex items-center justify-center">0</span>
     </button>
 
     <!-- Description Hover Icon & Floating Card -->
-    <div id="lightbox-desc-divider" class="w-[1px] h-3.5 bg-white/20 hidden"></div>
-    <div id="lightbox-desc-wrapper" class="relative group/desc hidden">
-      <button id="lightbox-info-btn" onclick="toggleLightboxDesc(event)" class="w-6 h-6 shrink-0 flex items-center justify-center text-white/70 hover:text-white transition-colors cursor-pointer" aria-label="Photo description">
-        <svg class="w-4 h-4 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+    <div id="lightbox-desc-divider" class="w-[1px] h-3.5 bg-white/20 shrink-0 self-center hidden"></div>
+    <div id="lightbox-desc-wrapper" class="relative group/desc hidden flex items-center justify-center shrink-0">
+      <button id="lightbox-info-btn" onclick="toggleLightboxDesc(event)" class="flex items-center justify-center text-white/70 hover:text-white transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer leading-none" aria-label="Photo description">
+        <svg class="w-4 h-4 pointer-events-none shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
       </button>
 
       <!-- Hover Card Floating Above Pill -->
       <div id="lightbox-desc-tooltip" class="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 w-[85vw] max-w-sm p-4 bg-black/90 backdrop-blur-2xl rounded-2xl border border-white/15 shadow-2xl text-center opacity-0 group-hover/desc:opacity-100 pointer-events-none group-hover/desc:pointer-events-auto transition-all duration-300">
-        <p id="lightbox-desc-text" class="text-white/90 text-xs sm:text-sm font-normal leading-relaxed"></p>
+        <p id="lightbox-desc-text" class="text-white/90 text-xs sm:text-sm font-normal leading-relaxed m-0"></p>
       </div>
     </div>
   </div>
@@ -158,11 +158,11 @@ const videoLightboxHtml = `
     <p id="video-title" class="text-white text-lg font-bold text-left"></p>
     
     <!-- Like Button -->
-    <button id="video-like-btn" onclick="toggleVideoLike()" class="flex items-center justify-center gap-2 px-4 pt-[9px] pb-[7px] rounded-full bg-white/5 border border-white/10 hover:border-white/30 text-white transition-all duration-300 hover:scale-105 active:scale-95 group shrink-0 leading-none">
-      <svg id="video-like-icon" class="w-4 h-4 text-white group-hover:text-red-500 transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+    <button id="video-like-btn" onclick="toggleVideoLike()" class="flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 hover:border-white/30 text-white transition-all duration-300 hover:scale-105 active:scale-95 group shrink-0 leading-none">
+      <svg id="video-like-icon" class="w-4 h-4 text-white group-hover:text-red-500 transition-colors shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
       </svg>
-      <span id="video-like-count" class="text-xs font-bold min-w-[10px]">0</span>
+      <span id="video-like-count" class="text-xs font-bold min-w-[10px] leading-none">0</span>
     </button>
   </div>
 </div>
