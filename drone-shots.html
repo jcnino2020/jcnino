@@ -80,6 +80,14 @@
     wrap.className = 'gallery-item relative rounded-xl overflow-hidden cursor-pointer';
     const b = p.base;
     const sf = p.subfolder;
+    const rawDesc = p.desc || p.alt || '';
+    let descHTML = '';
+    if (rawDesc.includes('•')) {
+      const parts = rawDesc.split('•').map(s => s.trim());
+      descHTML = `<div class="flex flex-col gap-0.5"><span class="text-white text-sm font-bold leading-snug">${parts[0]}</span><span class="text-white/75 text-xs font-medium">${parts.slice(1).join(' • ')}</span></div>`;
+    } else {
+      descHTML = `<p class="photo-desc text-white text-sm leading-snug font-medium">${rawDesc}</p>`;
+    }
     wrap.innerHTML = `
       <picture>
         <source
@@ -99,9 +107,9 @@
           class="w-full h-auto block"
           onerror="this.parentElement.parentElement.querySelector('img').src='${p.src}'" />
       </picture>
-      <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+      <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
         <div class="w-full flex items-end justify-between gap-3">
-          <p class="photo-desc text-white text-sm leading-snug font-medium">${p.desc || p.alt}</p>
+          ${descHTML}
           <svg class="w-5 h-5 text-white opacity-70 shrink-0 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
           </svg>

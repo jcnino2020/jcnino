@@ -443,11 +443,16 @@ function syncLightbox(direction = null) {
 
             if (descText && descWrapper) {
                 if (descVal) {
-                    descText.textContent = descVal;
+                    if (descVal.includes('•')) {
+                        const parts = descVal.split('•').map(s => s.trim());
+                        descText.innerHTML = `<div class="flex flex-col gap-0.5"><span class="font-bold text-white text-sm sm:text-base leading-snug">${parts[0]}</span><span class="text-white/75 text-xs sm:text-sm font-medium tracking-wide">${parts.slice(1).join(' • ')}</span></div>`;
+                    } else {
+                        descText.textContent = descVal;
+                    }
                     descWrapper.classList.remove('hidden');
                     if (descDivider) descDivider.classList.remove('hidden');
                 } else {
-                    descText.textContent = '';
+                    descText.innerHTML = '';
                     descWrapper.classList.add('hidden');
                     if (descDivider) descDivider.classList.add('hidden');
                 }
