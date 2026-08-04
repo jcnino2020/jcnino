@@ -125,7 +125,7 @@ const imageLightboxHtml = `
     <!-- Description Hover Icon & Floating Card -->
     <div id="lightbox-desc-divider" class="w-[1px] h-3.5 bg-white/20 hidden"></div>
     <div id="lightbox-desc-wrapper" class="relative group/desc hidden">
-      <button id="lightbox-info-btn" class="flex items-center justify-center text-white/70 hover:text-white hover:scale-110 active:scale-95 transition-all" aria-label="Photo description">
+      <button id="lightbox-info-btn" onclick="toggleLightboxDesc(event)" class="flex items-center justify-center p-1 text-white/70 hover:text-white active:scale-90 transition-all cursor-pointer" aria-label="Photo description">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
@@ -436,7 +436,10 @@ function syncLightbox(direction = null) {
             const descText = document.getElementById('lightbox-desc-text');
             const descWrapper = document.getElementById('lightbox-desc-wrapper');
             const descDivider = document.getElementById('lightbox-desc-divider');
+            const descTooltip = document.getElementById('lightbox-desc-tooltip');
             const descVal = p.desc || p.alt || '';
+
+            if (descTooltip) descTooltip.classList.remove('active-mobile-desc');
 
             if (descText && descWrapper) {
                 if (descVal) {
@@ -542,9 +545,23 @@ function syncLightbox(direction = null) {
     }
 }
 
+function toggleLightboxDesc(e) {
+    if (e) {
+        e.stopPropagation();
+        e.preventDefault();
+    }
+    const tooltip = document.getElementById('lightbox-desc-tooltip');
+    if (!tooltip) return;
+    tooltip.classList.toggle('active-mobile-desc');
+}
+window.toggleLightboxDesc = toggleLightboxDesc;
+
 function closeLightbox() {
     const lb = document.getElementById('lightbox');
     if (!lb) return;
+
+    const descTooltip = document.getElementById('lightbox-desc-tooltip');
+    if (descTooltip) descTooltip.classList.remove('active-mobile-desc');
 
     if (window.gsap) {
         gsap.to(lb, {

@@ -1016,20 +1016,9 @@ section[id] {
   overflow: visible;
 }
 
-/* Lightbox caption */
-#lightbox-caption {
-  pointer-events: none;
-  animation: captionFadeIn 0.35s ease;
-}
-
-@keyframes captionFadeIn {
-  from {
-    opacity: 0;
-    transform: translate(-50%, 8px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translate(-50%, 0);
-  }
+/* Lightbox description mobile active state */
+#lightbox-desc-tooltip.active-mobile-desc {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transform: translate(-50%, 0) !important;
 }

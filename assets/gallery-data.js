@@ -5,178 +5,545 @@
  */
 window.galleryData = {
   highlights: [
-    { file: "GH-01.JPG", alt: "Aerial view of Lakawon Island resort, Cadiz City", desc: "Emerald waters cradle a pearl-white isle, the resort adrift in a tranquil embrace of blue." },
-    { file: "GH-02.JPG", alt: "Coastal aerial photograph of Negros Occidental shoreline", desc: "Golden light traces the meeting of land and sea, a delicate seam stitching earth to endless horizon." },
-    { file: "GH-03.1.JPG", alt: "Abstract aerial pattern of rice fields and pathways", desc: "Fields become a living canvas—paths and paddies weaving an abstract symphony of green." },
-    { file: "GH-03.JPG", alt: "Overhead drone shot of agricultural fields and greenery", desc: "A patchwork of emerald and jade unfurls below, nature's geometry drawn in quiet, verdant rhythm." },
-    { file: "GH-04.JPG", alt: "Sunset aerial view over Bacolod City skyline", desc: "The city catches fire at dusk, its skyline a dark silhouette against a molten, amber sky." },
-    { file: "GH-05.JPG", alt: "Aerial panorama of mountainous terrain and forest canopy", desc: "Ridges roll like ancient waves beneath a breathing canopy, mountains cloaked in deep, living green." },
-    { file: "GH-06.JPG", alt: "Bird's-eye view of a community and rooftop architecture", desc: "Rooftops cluster into a quiet mosaic, human shelter viewed as a single breathing form." },
-    { file: "GH-07.JPG", alt: "Drone photograph of coastal waters and sandbar formation", desc: "Sea and sand trace a fleeting boundary, light blessing the water's slow surrender." },
-    { file: "GH-08.JPG", alt: "Aerial view of campus grounds and open-air corridors", desc: "Open corridors stretch toward the sky, where learning moves in sun and shadow." },
-    { file: "GH-09.JPG", alt: "Elevated perspective of city streets and urban sprawl", desc: "The city spreads in concrete veins, a living pulse of lights and endless roads." },
-    { file: "GH-10.JPG", alt: "Aerial capture of river winding through rural landscape", desc: "A silver river bends through patchwork fields, carving quiet age into the land." },
-    { file: "GH-11.JPG", alt: "Drone shot showing geometric patterns of croplands", desc: "Earth is quilted in emerald and gold, a patient geometry drawn by seasons." },
-    { file: "GH-12.JPG", alt: "Wide aerial view of coastline meeting the sea at dusk", desc: "Where the last light kisses the shoreline, land dissolves into the breathing sea." },
-    { file: "GH-13.JPG", alt: "Overhead perspective of lush tropical vegetation", desc: "A velvet canopy of green, woven leaf by leaf into the earth’s quiet pulse." },
-    { file: "GH-14.JPG", alt: "Drone photograph of a lakeside community and water reflections", desc: "Still water holds the sky’s reflection, a small community folded into its own mirrored calm." },
-    { file: "GH-15.JPG", alt: "Aerial view of farmland parcels separated by tree lines", desc: "Fields stitched with dark green seams, a patchwork quilt laid out for the circling wind." },
-    { file: "GH-16.JPG", alt: "Bird's-eye drone capture of harbor and fishing boats", desc: "Boats rest like fallen petals on the harbor’s palm, ropes tracing soft lines through blue." },
-    { file: "GH-17.JPG", alt: "High-altitude shot of Bacolod sugar mill and surrounding fields", desc: "From the heights, industry and earth trade measured shapes, smoke drifting into endless afternoon." },
-    { file: "GH-18.JPG", alt: "Aerial photo of a forested hillside at golden hour", desc: "Golden light spills over folded hills, where forests breathe in amber stillness." },
-    { file: "GH-19.JPG", alt: "Overhead drone view of urban park and recreation area", desc: "A city’s green heart, patterned with paths and play, seen from above." },
-    { file: "GH-20.JPG", alt: "Aerial image of a winding mountain road through forest", desc: "The road unfurls like a dark ribbon through a sea of treetops." },
-    { file: "GH-21.JPG", alt: "Drone shot of beachfront and coastal resort facilities", desc: "Shoreline meets resort in a gentle curve of sand, shade, and sea." },
-    { file: "GH-22.JPG", alt: "Elevated view of school campus buildings and grounds", desc: "A campus laid out like a quiet village, roofs and fields in dialogue." },
-    { file: "GH-24.JPG", alt: "Aerial photo of coastal wetlands and mangrove cover", desc: "Wetlands weave a mosaic of water and green, edge of land dissolving into tide." },
-    { file: "GH-26.JPG", alt: "Drone overhead shot of city center plaza and monuments", desc: "Stone and shadow weave the city's quiet heartbeat from above." },
-    { file: "GH-27.JPG", alt: "Aerial view of suburban residential area and streets", desc: "Rooftops in gridlined slumber, where lives unfold in patterned streets." },
-    { file: "GH-28.JPG", alt: "Drone capture of agricultural terraces and irrigation", desc: "Earth's green stairways drink the sun, carved in liquid patience." },
-    { file: "GH-29.JPG", alt: "High aerial photograph of open sea and reef formations", desc: "Deep blue infinities embrace coral ghosts, a world adrift in light." },
-    { file: "GH-30.JPG", alt: "Overhead view of rural barangay and community structures", desc: "Tin roofs cluster like loyal children around the village's warm soul." },
-    { file: "GH-31.JPG", alt: "Aerial photo of Bacolod City lakefront promenade", desc: "Where water meets the promenade, the lake breathes in silver ripples." },
-    { file: "GH-32.JPG", alt: "Drone image of riverside community and bamboo groves", desc: "The river threads through green, a community cradled by bamboo whispers and water." },
-    { file: "GH-33.JPG", alt: "Aerial shot of coastal highway and beachside landscape", desc: "Asphalt ribbons alongside the sea, where the road meets the breath of the beach." },
-    { file: "GH-34.JPG", alt: "Bird's-eye view of a Philippine provincial town center", desc: "A town unfolds from above, a tapestry of rooftops and lives woven into streets." },
-    { file: "GH-35.JPG", alt: "Drone aerial of distant mountain ranges at sunrise", desc: "Sunrise spills gold over distant peaks, the mountains slowly emerging from the dark." },
-    { file: "GH-36.JPG", alt: "Overhead view of construction site and urban development", desc: "Earth and steel in duet, a city growing its bones beneath a watchful sky." },
-    { file: "GH-37.JPG", alt: "Aerial drone capture of Silay Heritage City rooftops", desc: "Silay's heritage rooftops cluster like memories, each tile a page of time." },
-    { file: "GH-38.JPG", alt: "Drone photograph of island resort surrounded by blue sea", desc: "An emerald jewel adrift in endless sapphire, rings of turquoise guarding the island's quiet dream." },
-    { file: "GN-39.JPG", alt: "Aerial view of open grassland and scattered trees", desc: "Golden grassland unfurls beneath wide skies, scattered trees standing watch over the hushed savanna." },
-    { file: "GH-40.JPG", alt: "Overhead drone shot of river delta and estuary", desc: "The river braids into silver threads, reaching with gentle fingers toward the salt-blue sea." }
+    {
+      file: "GH-01.jpg",
+      alt: "Aerial view of Lakawon Island resort with a long wooden pier extending into turquoise sea.",
+      desc: "Aerial View of Lakawon Island • Cadiz City, Negros Occidental"
+    },
+    {
+      file: "GH-02.jpg",
+      alt: "Black and white photo of the St. John Baptist de La Salle statue on campus.",
+      desc: "St. La Salle Statue • USLS, Bacolod City"
+    },
+    {
+      file: "GH-03.1.jpg",
+      alt: "Detailed close-up shot of a total lunar eclipse against the black night sky.",
+      desc: "Total Lunar Eclipse • Bacolod City"
+    },
+    {
+      file: "GH-03.jpg",
+      alt: "Two white geese swimming gracefully across green lagoon waters.",
+      desc: "Geese Swimming at Capitol Lagoon • Bacolod City"
+    },
+    {
+      file: "GH-04.jpg",
+      alt: "Silhouettes of Paraw sailboats sailing during a vibrant orange sunset.",
+      desc: "Paraw Sailboats at Sunset • Boracay Island, Aklan"
+    },
+    {
+      file: "GH-05.jpg",
+      alt: "Aerial drone view of the University of St. La Salle campus and athletic grounds.",
+      desc: "USLS Campus Aerial View • Bacolod City"
+    },
+    {
+      file: "GH-06.jpg",
+      alt: "Silhouettes of people gathered on an elevated viewing deck over cyan-tinted waters.",
+      desc: "Coastal Promenade Silhouettes • Bacolod City"
+    },
+    {
+      file: "GH-07.jpg",
+      alt: "Dancers in energetic yellow and orange costumes performing inside the USLS Coliseum.",
+      desc: "MassKara Cheer Dance Performance • USLS Coliseum, Bacolod City"
+    },
+    {
+      file: "GH-08.jpg",
+      alt: "Vivid red sunset over the ocean horizon with sun reflection on calm water.",
+      desc: "Crimson Sunset over the Sea • Bacolod City"
+    },
+    {
+      file: "GH-09.jpg",
+      alt: "Stage production cast in retro costumes performing on an arena floor stage.",
+      desc: "University Stage Musical Performance • USLS Coliseum, Bacolod City"
+    },
+    {
+      file: "GH-10.jpg",
+      alt: "Three female vocalists in vibrant dresses performing live on stage with a band.",
+      desc: "Live Vocalist Concert • Bacolod City"
+    },
+    {
+      file: "GH-11.jpg",
+      alt: "Overhead aerial view of swimmers competing in a turquoise swimming pool.",
+      desc: "Top-Down View of Swimming Pool • Bacolod City"
+    },
+    {
+      file: "GH-12.jpg",
+      alt: "Panoramic night cityscape showing illuminated modern high-rise towers.",
+      desc: "Metropolitan Skyline at Night • Metro Manila"
+    },
+    {
+      file: "GH-13.jpg",
+      alt: "Low-angle shot looking up between glass skyscrapers with an airplane flying overhead.",
+      desc: "Airplane Flying over High-Rise Towers • Financial District"
+    },
+    {
+      file: "GH-14.jpg",
+      alt: "Aerial bird's-eye view of natural swimming pools framed by dense forest trees.",
+      desc: "Forest Pools • Mambucal Mountain Resort, Murcia, Negros Occidental"
+    },
+    {
+      file: "GH-15.jpg",
+      alt: "Front elevation of the main administration building at University of St. La Salle.",
+      desc: "USLS Main Building Facade • Bacolod City"
+    },
+    {
+      file: "GH-16.jpg",
+      alt: "Close-up of a live singer under dramatic yellow stage backlighting.",
+      desc: "Concert Vocalist Spotlight • Bacolod City"
+    },
+    {
+      file: "GH-17.jpg",
+      alt: "Chinatown architectural arcade decorated with traditional red hanging lanterns.",
+      desc: "Lucky Chinatown Walkway • Binondo, Manila"
+    },
+    {
+      file: "GH-18.jpg",
+      alt: "Cheerdancers in blindfolds executing a stunt routine in front of spectators.",
+      desc: "Cheerdance Competition • USLS Coliseum, Bacolod City"
+    },
+    {
+      file: "GH-19.jpg",
+      alt: "Top-down aerial view of students forming the number 100 in a campus courtyard.",
+      desc: "Human '100' Formation • USLS, Bacolod City"
+    },
+    {
+      file: "GH-20.jpg",
+      alt: "Glowing full moon partially covered by clouds framed by dark tree branches.",
+      desc: "Full Moon Through Forest Canopy • Bacolod City"
+    },
+    {
+      file: "GH-21.jpg",
+      alt: "Crowded street festival at night under strands of festive orange pennants.",
+      desc: "MassKara Night Street Festival • Lacson Street, Bacolod City"
+    },
+    {
+      file: "GH-22.jpg",
+      alt: "Abstract architectural detail of green and white vertical louvers.",
+      desc: "Architectural Louvers Detail • Bacolod City"
+    },
+    {
+      file: "GH-24.jpg",
+      alt: "Long exposure showing light trails of a vehicle crossing an elevated bridge at night.",
+      desc: "Night Light Trails over Elevated Bridge • Negros Occidental"
+    },
+    {
+      file: "GH-26.jpg",
+      alt: "Aerial view of terraced agricultural fields and a river winding through green hills.",
+      desc: "Mountain Rice Terraces • Don Salvador Benedicto, Negros Occidental"
+    },
+    {
+      file: "GH-27.jpg",
+      alt: "Performer in golden costume playing a pink violin during a festival street dance.",
+      desc: "MassKara Street Dance Violinist • Bacolod City"
+    },
+    {
+      file: "GH-28.jpg",
+      alt: "Freshwater waterfall cascading down dark rocks into a mountain pool.",
+      desc: "Cascading Waterfall • Mambucal Resort, Murcia, Negros Occidental"
+    },
+    {
+      file: "GH-29.jpg",
+      alt: "Top-down view of the public plaza gazebo on a checkered paved square.",
+      desc: "Bacolod Plaza Bandstand • Bacolod City"
+    },
+    {
+      file: "GH-30.jpg",
+      alt: "Macro high-speed photography of a single water droplet falling into water.",
+      desc: "Water Drop Splash Macro • Bacolod City"
+    },
+    {
+      file: "GH-31.jpg",
+      alt: "High-angle night shot of glowing Bacolod city streets surrounding the plaza.",
+      desc: "Bacolod City Center Nightscape • Bacolod City"
+    },
+    {
+      file: "GH-32.jpg",
+      alt: "Modern building facade with angled louvers and a distant airplane against blue sky.",
+      desc: "Airplane over Architectural Facade • Bacolod City"
+    },
+    {
+      file: "GH-33.jpg",
+      alt: "Symmetrical front view of the neoclassical Bacolod City Government Center.",
+      desc: "Bacolod City Government Center Facade • Bacolod City"
+    },
+    {
+      file: "GH-34.jpg",
+      alt: "Aerial shot of a sandy spit with thatched cottages surrounded by turquoise sea.",
+      desc: "Lakawon Island Sandbar • Cadiz City, Negros Occidental"
+    },
+    {
+      file: "GH-35.jpg",
+      alt: "Night long exposure capturing white vehicle light trails along downtown streets.",
+      desc: "Downtown Street Light Trails • Bacolod City"
+    },
+    {
+      file: "GH-36.jpg",
+      alt: "Vertical carnival drop tower illuminated in red and orange against dark sky.",
+      desc: "Illuminated Drop Tower Ride • Bacolod City"
+    },
+    {
+      file: "GH-37.jpg",
+      alt: "Directly overhead aerial view of a green soccer pitch inside a blue running track.",
+      desc: "Athletic Oval & Soccer Field • Bacolod City"
+    },
+    {
+      file: "GH-38.jpg",
+      alt: "Suspension bridge over the sea at dusk under a cloud-filled sky.",
+      desc: "Akashi Kaikyō Suspension Bridge • Kobe, Japan"
+    },
+    {
+      file: "GN-39.jpg",
+      alt: "Basketball player taking a shot over defenders during an indoor university game.",
+      desc: "College Basketball Game Action • Bacolod City"
+    },
+    {
+      file: "GH-40.jpg",
+      alt: "Night festival stage set up in front of the illuminated Bacolod City Government Center.",
+      desc: "MassKara Stage at City Government Center • Bacolod City"
+    }
   ],
   drone: [
-    { file: "Drone-001.JPG", alt: "Aerial drone view of Negros Occidental landscape and horizon", desc: "Along the sunlit coast of Negros Occidental, a winding road curves between lush mountain slopes and a tranquil white beach touching deep azure waters." },
-    { file: "Drone-002.JPG", alt: "Overhead drone shot of coastline and blue sea from above", desc: "Bathed in gentle morning light, this aerial perspective captures the lush track field and serene campus of the University of San Agustin in Iloilo City." },
-    { file: "Drone-003.JPG", alt: "Bird's-eye perspective of mountainous terrain and forest", desc: "Soft daylight illuminates Silay City, where the silver-domed San Diego Pro-Cathedral rises serenely above lush green canopies and peaceful streets." },
-    { file: "Drone-004.JPG", alt: "Aerial view of agricultural fields and farming communities", desc: "Golden sunlight sweeps across the idyllic shores of Negros Occidental, where emerald foliage meets crystal turquoise waters in tranquil tropical harmony." },
-    { file: "Drone-005.JPG", alt: "Drone capture of river systems cutting through lowland terrain", desc: "Glowing with cool blue light, the rooftop pool at L'Fisher Hotel in Bacolod City creates a serene, luxurious sanctuary under the night sky." },
-    { file: "Drone-006.JPG", alt: "Elevated aerial shot of coastal highway and beachside strip", desc: "A solitary banka glides through the moody, emerald waters along the rugged coast of Negros Occidental, capturing a moment of quiet, timeless serenity." },
-    { file: "Drone-007.JPG", alt: "Wide drone panorama of Bacolod City urban spread at dusk", desc: "The calm waters of the Panay River thread gracefully through the heart of Roxas City, Capiz, capturing a quiet, sunlit moment of coastal urban charm." },
-    { file: "Drone-008.JPG", alt: "Aerial drone photo of island formation surrounded by sea", desc: "Sun-drenched and serene, the historic Provincial Capitol of Negros Occidental rests elegantly amidst lush parklands overlooking Bacolod City's coast." },
-    { file: "Drone-009.JPG", alt: "Overhead view of rural barangay surrounded by croplands", desc: "Soft morning light bathes the lush canopy of rural Negros Occidental, revealing the tranquil, blue-hued crests of the Mount Mandalagan range beneath dappled clouds." },
-    { file: "Drone-010.JPG", alt: "Drone aerial of sugar cane fields and industrial mill", desc: "Traditional banka boats trace gentle wakes across the vibrant emerald waters off Negros Occidental, captured in the serene warmth of tropical sunlight." },
-    { file: "Drone-012.JPG", alt: "High-altitude drone shot of provincial town roads and plaza", desc: "Golden sunlight sweeps across the serene countryside of Negros Occidental, casting a peaceful, warm glow over the distant mountain horizon." },
-    { file: "TR-19.JPG", alt: "Travel aerial photograph of scenic Philippine landscape" },
-    { file: "GH-23.JPG", alt: "Drone aerial of campus grounds and open-air corridors" }
+    {
+      file: "Drone-001.JPG",
+      alt: "Aerial view of coastal highway and beach in Sipalay",
+      desc: "Coastal Highway and Beach Coastline • Sipalay City, Negros Occidental"
+    },
+    {
+      file: "Drone-002.JPG",
+      alt: "Aerial view of university track oval and grounds",
+      desc: "Aerial View of USLS Oval and Campus • Bacolod City, Negros Occidental"
+    },
+    {
+      file: "Drone-003.JPG",
+      alt: "Aerial view of Silay town plaza and dome cathedral",
+      desc: "Aerial View of San Diego Pro-Cathedral and Town Center • Silay City, Negros Occidental"
+    },
+    {
+      file: "Drone-004.JPG",
+      alt: "Aerial view of Lakawon Island shore",
+      desc: "Tropical Beach Shoreline at Lakawon Island • Cadiz City, Negros Occidental"
+    },
+    {
+      file: "Drone-005.JPG",
+      alt: "Nighttime view of rooftop swimming pool",
+      desc: "Rooftop Swimming Pool at L'Fisher Hotel • Bacolod City, Negros Occidental"
+    },
+    {
+      file: "Drone-006.JPG",
+      alt: "Top-down view of wooden outrigger boat on sea",
+      desc: "Overhead View of Wooden Outrigger Boat • Sipalay City, Negros Occidental"
+    },
+    {
+      file: "Drone-007.JPG",
+      alt: "Aerial view of city river and surrounding buildings",
+      desc: "Aerial View of Urban River Channel • Bacolod City, Negros Occidental"
+    },
+    {
+      file: "Drone-008.JPG",
+      alt: "Aerial view of Provincial Capitol and Lagoon park",
+      desc: "Capitol Park and Lagoon Aerial View • Bacolod City, Negros Occidental"
+    },
+    {
+      file: "Drone-009.JPG",
+      alt: "Tropical forest canopy with mountain background",
+      desc: "Tropical Forest Canopy and Mountain Ridge • Murcia, Negros Occidental"
+    },
+    {
+      file: "Drone-010.JPG",
+      alt: "Top-down view of boats docked at pier",
+      desc: "Aerial View of Boats Docked at Pier • Cadiz City, Negros Occidental"
+    },
+    {
+      file: "Drone-012.JPG",
+      alt: "Sunset over agricultural fields and distant hills",
+      desc: "Sunset View Over Agricultural Fields • Silay City, Negros Occidental"
+    },
+    {
+      file: "TR-19.JPG",
+      alt: "Aerial view of school campus gymnasium and trees",
+      desc: "Aerial View of School Campus Gymnasium • Bacolod City, Negros Occidental"
+    },
+    {
+      file: "GH-23.JPG",
+      alt: "Overhead view of winding mountain highway",
+      desc: "Winding Mountain Highway Overhead View • Don Salvador Benedicto, Negros Occidental"
+    }
   ],
   framed: [
-    { file: "FM-01.JPG", alt: "Street portrait of a person in soft natural light, Bacolod City" },
-    { file: "FM-02.JPG", alt: "Candid editorial moment captured on a busy city street" },
-    { file: "FM-03.JPG", alt: "Quiet nature scene with layered foliage and dappled light" },
-    { file: "FM-04.JPG", alt: "Dramatic black and white street portrait in an urban setting" },
-    { file: "FM-05.JPG", alt: "Peaceful countryside landscape at soft golden hour" },
-    { file: "FM-06.JPG", alt: "Vibrant street scene with passing motorbikes and market stalls" },
-    { file: "FM-07.JPG", alt: "Close-up editorial portrait with bokeh background" },
-    { file: "FM-09.JPG", alt: "Silhouette of a person against a bright doorway frame" },
-    { file: "FM-10.JPG", alt: "Wide street scene showing everyday life in the Philippines" },
-    { file: "FM-11.JPG", alt: "Moody atmospheric photo of an alley and ambient light" },
-    { file: "FM-12.JPG", alt: "Documentary-style photo of local vendors and community" },
-    { file: "FM-13.JPG", alt: "Architectural detail of heritage facade and ornamental ironwork" },
-    { file: "FM-14.JPG", alt: "Environmental portrait of a subject in their natural space" },
-    { file: "FM-15.JPG", alt: "Travel photograph of a scenic viewpoint and mountain backdrop" },
-    { file: "FM-16.JPG", alt: "Street photography of a crowd in motion during an event" },
-    { file: "FM-17.JPG", alt: "Golden hour portrait with warm ambient city light" },
-    { file: "FM-18.JPG", alt: "Quiet dawn scene with mist over open fields" },
-    { file: "FM-19.JPG", alt: "Macro close-up of botanical detail and texture" },
-    { file: "FM-20.JPG", alt: "Candid street photograph of pedestrians and storefronts" },
-    { file: "FM-21.JPG", alt: "Portrait with strong directional shadow and high contrast" },
-    { file: "FM-22.JPG", alt: "Minimalist composition with geometric urban shapes" },
-    { file: "FM-23.JPG", alt: "Documentary image of everyday life in a Philippine barangay" },
-    { file: "FM-24.JPG", alt: "Reflective water surface with mirrored city skyline at night" },
-    { file: "FM-25.JPG", alt: "Low-angle street perspective looking up at building facades" },
-    { file: "FM-26.JPG", alt: "Soft editorial portrait of a subject in dappled shade" },
-    { file: "FM-27.JPG", alt: "Spontaneous candid moment caught in a public marketplace" },
-    { file: "FM-28.JPG", alt: "Textured wall detail with peeling paint and weathered surface" },
-    { file: "FM-29.JPG", alt: "Environmental portrait in a narrow heritage-district alley" },
-    { file: "FM-30.JPG", alt: "Long-exposure night photograph with light streaks and motion blur" },
-    { file: "FM-31.JPG", alt: "Travel portrait showing a subject against a scenic backdrop" },
-    { file: "FM-32.JPG", alt: "Moody close-up with selective focus on eyes and expression" },
-    { file: "FM-33.JPG", alt: "Street food scene with steam and warm ambient light" },
-    { file: "FM-34.JPG", alt: "Wide panoramic city scene during the blue hour of dusk" },
-    { file: "FM-35.JPG", alt: "Editorial portrait with bold geometric shadow and contrast" },
-    { file: "FM-36.JPG", alt: "Candid capture of a laugh and natural unposed expression" },
-    { file: "FM-38.JPG", alt: "Architectural photography of a heritage church facade" },
-    { file: "FM-39.JPG", alt: "Contemplative portrait in soft overcast light" },
-    { file: "FM-40.JPG", alt: "Street scene at twilight with glowing storefront signs" },
-    { file: "FM-41.JPG", alt: "Documentary photo of a festive community gathering" },
-    { file: "FM-42.JPG", alt: "Intimate editorial frame with shallow depth of field" },
-    { file: "FM-43.JPG", alt: "Travel photograph at a Philippine coastal town at low tide" },
-    { file: "FM-44.JPG", alt: "Soft silhouette portrait against an open evening sky" }
+    {
+      file: "FM-01.JPG",
+      alt: "Kinkaku-ji Golden Temple in Kyoto",
+      desc: "Kinkaku-ji Golden Temple • Kyoto, Japan"
+    },
+    {
+      file: "FM-02.JPG",
+      alt: "Lush green mountain valley landscape",
+      desc: "Mountain Valley and Green Hills • Don Salvador Benedicto, Negros Occidental"
+    },
+    {
+      file: "FM-03.JPG",
+      alt: "UNIQLO store exterior architecture",
+      desc: "UNIQLO Storefront Architecture • Bacolod City, Negros Occidental"
+    },
+    {
+      file: "FM-04.JPG",
+      alt: "Paved coastal promenade with red railing",
+      desc: "Coastal Esplanade and Promenade • Bacolod City, Negros Occidental"
+    },
+    {
+      file: "FM-05.JPG",
+      alt: "Illuminated park plaza and arch at night",
+      desc: "Illuminated Plaza and Light Arch at Night • Bacolod City, Negros Occidental"
+    },
+    {
+      file: "FM-06.JPG",
+      alt: "Wooden boardwalk path through mangrove forest",
+      desc: "Mangrove Forest Eco-Trail Walkway • Sagay City, Negros Occidental"
+    },
+    {
+      file: "FM-07.JPG",
+      alt: "San Diego Pro-Cathedral exterior",
+      desc: "San Diego Pro-Cathedral • Silay City, Negros Occidental"
+    },
+    {
+      file: "FM-09.JPG",
+      alt: "High angle city skyscraper at night with light trails",
+      desc: "High-Angle Skyscraper and City Light Trails • Metro Manila, Philippines"
+    },
+    {
+      file: "FM-10.JPG",
+      alt: "Filipino breakfast food spread flatlay",
+      desc: "Filipino Breakfast Table Spread • Bacolod City, Negros Occidental"
+    },
+    {
+      file: "FM-11.JPG",
+      alt: "Illuminated tree-lined park path at dusk",
+      desc: "Illuminated Tree-Lined Park Walkway • Bacolod City, Negros Occidental"
+    },
+    {
+      file: "FM-12.JPG",
+      alt: "MassKara festival costumes display in mall",
+      desc: "MassKara Festival Costumes Display at SM City • Bacolod City, Negros Occidental"
+    },
+    {
+      file: "FM-13.JPG",
+      alt: "Curved rainbow wire mesh sculpture against sky",
+      desc: "Rainbow Wire Mesh Architectural Sculpture • Bacolod City, Negros Occidental"
+    },
+    {
+      file: "FM-14.JPG",
+      alt: "City street traffic near IKEA building",
+      desc: "Urban Street Traffic and IKEA Building • Pasay City, Metro Manila"
+    },
+    {
+      file: "FM-15.JPG",
+      alt: "Long exposure water flow over river rocks",
+      desc: "Long Exposure Forest Stream • Murcia, Negros Occidental"
+    },
+    {
+      file: "FM-16.JPG",
+      alt: "Macro photo of water drop rebound splash",
+      desc: "Macro Water Droplet Splash Rebound • Bacolod City, Negros Occidental"
+    },
+    {
+      file: "FM-17.JPG",
+      alt: "Sunlit eucalyptus tree grove",
+      desc: "Sunlit Eucalyptus Grove • Don Salvador Benedicto, Negros Occidental"
+    },
+    {
+      file: "FM-18.JPG",
+      alt: "Sunset light glowing on cumulus cloud edges",
+      desc: "Sunset Light on Cumulus Cloud • Bacolod City, Negros Occidental"
+    },
+    {
+      file: "FM-19.JPG",
+      alt: "Asphalt highway stretching toward mountain hills",
+      desc: "Highway Road to Mountain Skyline • Don Salvador Benedicto, Negros Occidental"
+    },
+    {
+      file: "FM-20.JPG",
+      alt: "Magikland entrance building lit at dusk",
+      desc: "Magikland Theme Park Entrance • Silay City, Negros Occidental"
+    },
+    {
+      file: "FM-21.JPG",
+      alt: "Starry night sky and faint Milky Way",
+      desc: "Starry Night Sky Astrophotography • Don Salvador Benedicto, Negros Occidental"
+    },
+    {
+      file: "FM-22.JPG",
+      alt: "Low angle view of Citadines building facade",
+      desc: "Citadines Hotel Architectural Facade • Bacolod City, Negros Occidental"
+    },
+    {
+      file: "FM-23.JPG",
+      alt: "Long exposure traffic light trails on avenue",
+      desc: "Long Exposure Avenue Light Trails • Bacolod City, Negros Occidental"
+    },
+    {
+      file: "FM-24.JPG",
+      alt: "Geometric faceted modern building exterior",
+      desc: "Geometric Faceted Architecture Exterior • Bacolod City, Negros Occidental"
+    },
+    {
+      file: "FM-25.JPG",
+      alt: "Motion blur long exposure of indoor roller coaster",
+      desc: "Indoor Roller Coaster Long Exposure • Silay City, Negros Occidental"
+    },
+    {
+      file: "FM-26.JPG",
+      alt: "Framed perspective of outrigger boats on beach",
+      desc: "Outrigger Boats Framed View on Shore • Sipalay City, Negros Occidental"
+    },
+    {
+      file: "FM-27.JPG",
+      alt: "Capitol Lagoon park reflection at night",
+      desc: "Capitol Park Lagoon Night Reflection • Bacolod City, Negros Occidental"
+    },
+    {
+      file: "FM-28.JPG",
+      alt: "Floodlit turf football field at night",
+      desc: "Floodlit Turf Football Field at Night • Bacolod City, Negros Occidental"
+    },
+    {
+      file: "FM-29.JPG",
+      alt: "Sunlit modern hotel lobby with floor shadows",
+      desc: "Sunlit Hotel Lobby Interior • Bacolod City, Negros Occidental"
+    },
+    {
+      file: "FM-30.JPG",
+      alt: "Symmetrical window pattern on high-rise building",
+      desc: "Symmetrical High-Rise Exterior Pattern • Bacolod City, Negros Occidental"
+    },
+    {
+      file: "FM-31.JPG",
+      alt: "High angle indoor stairwell perspective",
+      desc: "Architectural Indoor Stairwell Perspective • Bacolod City, Negros Occidental"
+    },
+    {
+      file: "FM-32.JPG",
+      alt: "Golden sunset silhouette of palm trees",
+      desc: "Golden Sunset Palm Tree Silhouettes • Sipalay City, Negros Occidental"
+    },
+    {
+      file: "FM-33.JPG",
+      alt: "Mount Fuji snow-capped peak landscape",
+      desc: "Mount Fuji Landscape View • Shizuoka, Japan"
+    },
+    {
+      file: "FM-34.JPG",
+      alt: "Row of pine trees on sunny lawn",
+      desc: "Norfolk Pine Tree Line on Lawn • Don Salvador Benedicto, Negros Occidental"
+    },
+    {
+      file: "FM-35.JPG",
+      alt: "Cebu Pacific airplane parked on airport tarmac",
+      desc: "Cebu Pacific Jetliner on Airport Tarmac • Silay City, Negros Occidental"
+    },
+    {
+      file: "FM-36.JPG",
+      alt: "Modern geometric glass dome roof lattice",
+      desc: "Modern Geometric Glass Dome Roof Structure • Bacolod City, Negros Occidental"
+    },
+    {
+      file: "FM-38.JPG",
+      alt: "Wooden outrigger boats floating in clear water",
+      desc: "Wooden Outrigger Boats in Clear Waters • Sipalay City, Negros Occidental"
+    },
+    {
+      file: "FM-39.JPG",
+      alt: "Commercial airplanes parked on wet airport tarmac",
+      desc: "Commercial Airplanes on Wet Apron • Silay City, Negros Occidental"
+    },
+    {
+      file: "FM-40.JPG",
+      alt: "Historical monument statue of warriors with cross",
+      desc: "Historical Revolution Monument • Bago City, Negros Occidental"
+    },
+    {
+      file: "FM-41.JPG",
+      alt: "Rainbow painted steps leading up green hilltop",
+      desc: "Rainbow Steps on Green Hilltop • Don Salvador Benedicto, Negros Occidental"
+    },
+    {
+      file: "FM-42.JPG",
+      alt: "Modern glass building corner and wooden eaves",
+      desc: "Modern Glass Commercial Building Corner • Bacolod City, Negros Occidental"
+    },
+    {
+      file: "FM-43.JPG",
+      alt: "White water lilies blooming in pond",
+      desc: "Blooming Water Lilies in Pond • Murcia, Negros Occidental"
+    },
+    {
+      file: "FM-44.JPG",
+      alt: "Long wooden pier leading to floating bar in sea",
+      desc: "Tawhai Floating Bar Wooden Pier • Cadiz City, Negros Occidental"
+    }
   ],
   events: [
-    { file: "SE-01.JPG", alt: "Students posing for a yearbook group photograph at USLS" },
-    { file: "SE-02.JPG", alt: "Candid moment of students during a school activity" },
-    { file: "SE-03.JPG", alt: "Faculty and student gathering at a school ceremony" },
-    { file: "SE-04.JPG", alt: "Photojournalism coverage of a school cultural event" },
-    { file: "SE-05.JPG", alt: "Portrait of a student officer during a formal assembly" },
-    { file: "SE-06.JPG", alt: "Behind-the-scenes moment at a campus production shoot" },
-    { file: "SE-07.JPG", alt: "Wide-angle coverage of an auditorium graduation ceremony" },
-    { file: "SE-08.JPG", alt: "Student performers on stage during a school theatre night" },
-    { file: "SE-09.JPG", alt: "Documentary photo of a campus community extension activity" },
-    { file: "SE-10.JPG", alt: "Candid coverage of students during a seminar workshop" },
-    { file: "SE-11.JPG", alt: "Award ceremony moment with students receiving recognition" },
-    { file: "SE-12.JPG", alt: "Environmental portrait of a student in school uniform" },
-    { file: "SE-13.JPG", alt: "Group photo of student organization members outdoors" },
-    { file: "SE-14.JPG", alt: "Photojournalism shot from a school sports competition" },
-    { file: "SE-15.JPG", alt: "Faculty portrait during a department event or colloquium" },
-    { file: "SE-16.JPG", alt: "Behind-the-scenes coverage of a school media production" },
-    { file: "SE-17.JPG", alt: "Yearbook-quality candid of students in casual interaction" },
-    { file: "SE-18.JPG", alt: "Wide establishing shot of a campus open-air ceremony" },
-    { file: "SE-19.JPG", alt: "Student dancers performing at a school cultural night" },
-    { file: "SE-20.JPG", alt: "Dramatic lighting portrait from a school theatre production" },
-    { file: "SE-21.JPG", alt: "Campus journalism moment with student press coverage" },
-    { file: "SE-22.JPG", alt: "Students celebrating after an intramural sports event" },
-    { file: "SE-23.JPG", alt: "Formal portrait session for a student publication" },
-    { file: "SE-24.JPG", alt: "Candid group moment from a school retreat or formation" },
-    { file: "SE-25.JPG", alt: "Photojournalism coverage of a school civic celebration" },
-    { file: "SE-26.JPG", alt: "Student council gathering with officers in formal attire" },
-    { file: "SE-27.JPG", alt: "Wide coverage of a school gymnasium during graduation rites" },
-    { file: "SE-28.JPG", alt: "Environmental candid of students between class sessions" },
-    { file: "SE-29.JPG", alt: "School event coverage showing crowd and stage setup" },
-    { file: "SE-30.JPG", alt: "Intimate candid portrait of a student in soft window light" },
-    { file: "SE-31.JPG", alt: "Faculty awards night with formal plaque presentations" },
-    { file: "SE-32.JPG", alt: "Wide hallway shot of students during a campus event" },
-    { file: "SE-33.JPG", alt: "Yearbook photo of a student organization in formation" },
-    { file: "SE-34.JPG", alt: "Editorial portrait of a student at a campus landmark" },
-    { file: "SE-35.JPG", alt: "School event photo of guests and keynote speaker setup" },
-    { file: "SE-36.JPG", alt: "Photojournalism shot of a community outreach program" },
-    { file: "SE-37.JPG", alt: "Student performers backstage during a school production" },
-    { file: "SE-38.JPG", alt: "Documentary moment from a campus cultural fair booth" },
-    { file: "SE-39.JPG", alt: "Candid photo of students during a field trip or excursion" },
-    { file: "SE-40.JPG", alt: "Wide shot of an academic convocation or recognition day" },
-    { file: "SE-41.JPG", alt: "Group portrait of yearbook committee members on campus" },
-    { file: "SE-42.JPG", alt: "Action shot of student athletes during a school sports meet" },
-    { file: "SE-43.JPG", alt: "Photojournalism coverage of a formal student investiture" },
-    { file: "SE-44.JPG", alt: "Candid moment from a school club recruitment event" },
-    { file: "SE-45.JPG", alt: "Editorial portrait with dramatic side-lighting in campus studio" },
-    { file: "SE-46.JPG", alt: "Documentary photo of student volunteers at a service project" },
-    { file: "SE-47.JPG", alt: "Group candid from a batch party or school social gathering" },
-    { file: "SE-48.JPG", alt: "Wide coverage of a ceremony held in the school chapel" },
-    { file: "SE-49.JPG", alt: "Portrait of a student organization officer in leadership pose" },
-    { file: "SE-50.JPG", alt: "School event photo of faculty speaking at a podium" },
-    { file: "SE-51.JPG", alt: "Candid moment of students reviewing for an academic quiz" },
-    { file: "SE-52.JPG", alt: "Editorial photo of student artist at a campus exhibit" },
-    { file: "SE-53.JPG", alt: "Documentary coverage of a student-run symposium panel" },
-    { file: "SE-54.JPG", alt: "Yearbook-style formal group pose on campus grounds" },
-    { file: "SE-55.JPG", alt: "Photojournalism moment from a graduation mass ceremony" },
-    { file: "SE-56.JPG", alt: "Candid of students at a science and technology fair booth" },
-    { file: "SE-57.JPG", alt: "Wide shot of cheering students at an intramural opening" },
-    { file: "SE-58.JPG", alt: "Environmental portrait of a student leader at school office" },
-    { file: "SE-59.JPG", alt: "Candid documentary moment from a school media workshop" },
-    { file: "SE-60.JPG", alt: "Group photo of students during an overnight leadership camp" },
-    { file: "SE-61.JPG", alt: "School event photo of a cultural dance performance" },
-    { file: "SE-62.JPG", alt: "Candid portrait of students bonding during a school break" },
-    { file: "SE-63.JPG", alt: "Editorial coverage of a campus sustainability or green program" },
-    { file: "SE-64.JPG", alt: "Documentary photo from an academic research presentation" },
-    { file: "SE-65.JPG", alt: "Wide establishing shot of a school campus at dusk" },
-    { file: "SE-66.JPG", alt: "Photojournalism coverage of a student government inauguration" },
-    { file: "SE-67.JPG", alt: "Candid moment at a departmental alumni homecoming event" },
-    { file: "SE-68.JPG", alt: "Yearbook portrait of graduating students in academic regalia" },
-    { file: "SE-69.JPG", alt: "Editorial photo of students at a cross-campus collaboration event" },
-    { file: "SE-70.JPG", alt: "School event coverage with crowd and banner in foreground" },
-    { file: "SE-71.JPG", alt: "Environmental group portrait of a student media organization" },
-    { file: "SE-72.JPG", alt: "Candid editorial moment captured during a school recognition ceremony" }
+    { file: "SE-01.jpg", alt: "Students inspecting clue with flashlights during night activity", desc: "Night Game Activity with Flashlights • University of St. La Salle, Bacolod City" },
+    { file: "SE-02.jpg", alt: "Motion blur photo of student holding scales of justice", desc: "Motion Blur Concept Shot of Student Holding Scales of Justice • University of St. La Salle, Bacolod City" },
+    { file: "SE-03.jpg", alt: "Stage dance performance", desc: "Stage Dance Routine • University of St. La Salle, Bacolod City" },
+    { file: "SE-04.jpg", alt: "Graduates seated inside arena during commencement", desc: "Graduation Ceremony Audience • USLS Coliseum, Bacolod City" },
+    { file: "SE-05.jpg", alt: "Solo dancer under red stage lights", desc: "Solo Stage Dancer under Red Lights • University of St. La Salle, Bacolod City" },
+    { file: "SE-06.jpg", alt: "Two student hosts singing on stage", desc: "Host Duo Performing on Stage • University of St. La Salle, Bacolod City" },
+    { file: "SE-07.jpg", alt: "Pinning ceremony moment between students", desc: "Pinning Ceremony Moment • University of St. La Salle, Bacolod City" },
+    { file: "SE-08.jpg", alt: "Football player dribbling on wet grass pitch", desc: "Football Match Action on Muddy Pitch • USLS Field, Bacolod City" },
+    { file: "SE-09.jpg", alt: "Graduation celebration with indoor pyrotechnics", desc: "Graduation Celebration with Stage Sparklers • USLS Coliseum, Bacolod City" },
+    { file: "SE-10.jpg", alt: "Female student singing on stage in vintage costume", desc: "Stage Vocalist Performing in Costume • University of St. La Salle, Bacolod City" },
+    { file: "SE-11.jpg", alt: "Green cheerdance team executing pyramid stunt", desc: "Green Cheerdance Stunt Pyramid • USLS Coliseum, Bacolod City" },
+    { file: "SE-12.jpg", alt: "Student athletes shaking hands", desc: "Sportsmanship Handshake Between Student Athletes • University of St. La Salle, Bacolod City" },
+    { file: "SE-13.jpg", alt: "Dancers in red jackets performing hip hop choreography", desc: "Hip-Hop Dancers in Red Jackets • University of St. La Salle, Bacolod City" },
+    { file: "SE-14.jpg", alt: "Dance troupe performing routine on court floor", desc: "Modern Dance Troupe Routine • USLS Coliseum, Bacolod City" },
+    { file: "SE-15.jpg", alt: "Graduates in caps and gowns seated at graduation", desc: "Graduates Seated During Commencement Ceremony • USLS Coliseum, Bacolod City" },
+    { file: "SE-16.jpg", alt: "Swimmers crouched on starting blocks at pool", desc: "Swimmers Ready on Starting Blocks • USLS Swimming Pool, Bacolod City" },
+    { file: "SE-17.jpg", alt: "Crowd in stadium bleachers turning on phone flashlights", desc: "Crowd Lighting Up Arena with Phone Flashlights • USLS Coliseum, Bacolod City" },
+    { file: "SE-18.jpg", alt: "Football player controlling ball during match", desc: "Football Match in Progress • USLS Field, Bacolod City" },
+    { file: "SE-19.jpg", alt: "Female performers smiling in blue costumes", desc: "Cheer Performers Smiling in Blue Uniforms • University of St. La Salle, Bacolod City" },
+    { file: "SE-20.jpg", alt: "Performers in circus corset costumes on stage", desc: "Circus-Themed Stage Dance Performance • University of St. La Salle, Bacolod City" },
+    { file: "SE-21.jpg", alt: "Students gathered at outdoor registration table", desc: "Student Outdoor Registration Booth • USLS Campus Grounds, Bacolod City" },
+    { file: "SE-22.jpg", alt: "Cheer squad in yellow and black uniforms lined up", desc: "Cheer Dance Team in Yellow and Black Uniforms • USLS Coliseum, Bacolod City" },
+    { file: "SE-23.jpg", alt: "Drummer playing live under purple and red lights", desc: "Drummer Performing Live Under Stage Lights • University of St. La Salle, Bacolod City" },
+    { file: "SE-24.jpg", alt: "Student low crawling through grass obstacle course", desc: "Student Low Crawling in Obstacle Course • USLS Field, Bacolod City" },
+    { file: "SE-25.jpg", alt: "Students playing ultimate frisbee on field", desc: "Outdoor Ultimate Frisbee Match • USLS Field, Bacolod City" },
+    { file: "SE-26.jpg", alt: "Spectators cheering enthusiastically from bleachers", desc: "Spectators Cheering from Bleachers • USLS Coliseum, Bacolod City" },
+    { file: "SE-27.jpg", alt: "Cheerdancers in blue dragon outfits holding pom-poms", desc: "Dragon-Themed Cheerdancers with Pom-Poms • USLS Coliseum, Bacolod City" },
+    { file: "SE-28.jpg", alt: "Cheerdance flyer caught mid-air stunt", desc: "Cheerdancer Airborne Stunt • USLS Coliseum, Bacolod City" },
+    { file: "SE-29.jpg", alt: "Hip hop crew kneeling in matching white suits and sunglasses", desc: "Dance Crew in White Suits and Sunglasses • USLS Coliseum, Bacolod City" },
+    { file: "SE-30.jpg", alt: "Dancers in silver outfits posing on arena floor", desc: "Silver Costume Dancers Floor Routine • USLS Coliseum, Bacolod City" },
+    { file: "SE-31.jpg", alt: "Pageant contestant walking on illuminated stage", desc: "Runway Pageant Walk on Stage • USLS Coliseum, Bacolod City" },
+    { file: "SE-32.jpg", alt: "Orange cheer squad constructing human pyramid stunt", desc: "Orange Cheerdance Pyramid Stunt • USLS Coliseum, Bacolod City" },
+    { file: "SE-33.jpg", alt: "Close-up shot of student graduation gowns", desc: "Close-Up of Graduation Gowns • University of St. La Salle, Bacolod City" },
+    { file: "SE-34.jpg", alt: "Three female student greeters holding hand over heart", desc: "Hospitality Student Greeters • University of St. La Salle, Bacolod City" },
+    { file: "SE-35.jpg", alt: "Faculty and staff posing on stage", desc: "Faculty Members Posing on Stage • University of St. La Salle, Bacolod City" },
+    { file: "SE-36.jpg", alt: "Soccer teams shaking hands post game on muddy field", desc: "Football Teams Handshake After Match • USLS Field, Bacolod City" },
+    { file: "SE-37.jpg", alt: "Students playing cup water relay game", desc: "Teambuilding Water Cup Relay Game • USLS Campus Grounds, Bacolod City" },
+    { file: "SE-38.jpg", alt: "Soccer player kicking ball splashing water puddle", desc: "Football Player Splashing Through Puddle • USLS Field, Bacolod City" },
+    { file: "SE-39.jpg", alt: "Audience members laughing inside auditorium", desc: "Audience Laughing in Auditorium • USLS Auditorium, Bacolod City" },
+    { file: "SE-40.jpg", alt: "Speaker standing on outdoor stage facing audience", desc: "Outdoor Keynote Speaker on Stage • USLS Campus Grounds, Bacolod City" },
+    { file: "SE-41.jpg", alt: "Indoor volleyball match viewed from behind spectator", desc: "Indoor Volleyball Game in Progress • USLS Covered Court, Bacolod City" },
+    { file: "SE-42.jpg", alt: "Faculty members posing together on stage for Bayle event", desc: "Faculty Group Pose for Bayle Event • University of St. La Salle, Bacolod City" },
+    { file: "SE-43.jpg", alt: "Dancers bending low in red and black patterned costumes", desc: "Contemporary Dancers Routine • USLS Coliseum, Bacolod City" },
+    { file: "SE-44.jpg", alt: "Students raising hands during pinning ceremony", desc: "Tourism and Hospitality Pinning Ceremony • University of St. La Salle, Bacolod City" },
+    { file: "SE-45.jpg", alt: "Graduates on stage holding green diploma covers", desc: "Graduates Proudly Holding Diplomas • USLS Coliseum, Bacolod City" },
+    { file: "SE-46.jpg", alt: "Cheer squad in metallic gold outfits holding pom-poms", desc: "Gold Cheer Dance Team Routine • USLS Coliseum, Bacolod City" },
+    { file: "SE-47.jpg", alt: "Basketball players in orange jerseys huddling on court", desc: "Basketball Team Huddle on Court • USLS Covered Court, Bacolod City" },
+    { file: "SE-48.jpg", alt: "Cheerdancers in yellow and black cheer gear shouting", desc: "Cheerdancers Cheering with Pom-Poms • USLS Coliseum, Bacolod City" },
+    { file: "SE-49.jpg", alt: "Students visiting Artists Hub booth setup", desc: "Artists' Hub Creative Booth • USLS Campus Grounds, Bacolod City" },
+    { file: "SE-50.jpg", alt: "Student yearbook display booth on campus", desc: "La Salle Yearbook Booth Setup • USLS Campus Grounds, Bacolod City" },
+    { file: "SE-51.jpg", alt: "Students performing dance skit on stage", desc: "Theatrical Skit Performance on Stage • University of St. La Salle, Bacolod City" },
+    { file: "SE-52.jpg", alt: "Display boxes of customized yearbook samples", desc: "Display of Custom Yearbook Designs • University of St. La Salle, Bacolod City" },
+    { file: "SE-53.jpg", alt: "Singer performing acoustic set under stage lighting", desc: "Singer Performing Live with Acoustic Guitar • University of St. La Salle, Bacolod City" },
+    { file: "SE-54.jpg", alt: "Two female table tennis players high-fiving after match", desc: "Table Tennis Match Action • USLS Sports Complex, Bacolod City" },
+    { file: "SE-55.jpg", alt: "Wide shot of outdoor campus fair with tents and walking students", desc: "Outdoor Campus Fair and Booths • USLS Campus Grounds, Bacolod City" },
+    { file: "SE-56.jpg", alt: "Crowd waving green light sticks in arena", desc: "Cheering Crowd with Green Light Sticks • USLS Coliseum, Bacolod City" },
+    { file: "SE-57.jpg", alt: "Dance group in green tracksuits posing on court", desc: "Tracksuit Dance Crew Synchronized Pose • USLS Coliseum, Bacolod City" },
+    { file: "SE-58.jpg", alt: "Male cheerdancer smiling during cheer routine", desc: "Cheer Performer Smiling Mid-Routine • USLS Coliseum, Bacolod City" },
+    { file: "SE-59.jpg", alt: "Students in green huddling in emotional group hug", desc: "Emotional Group Hug in Green Uniforms • USLS Coliseum, Bacolod City" },
+    { file: "SE-60.jpg", alt: "Priest holding document during blessing ceremony", desc: "Priest Officiating Blessing Ceremony • University of St. La Salle, Bacolod City" },
+    { file: "SE-61.jpg", alt: "Two ultimate frisbee players tracking airborne disc", desc: "Ultimate Frisbee Action on Field • USLS Field, Bacolod City" },
+    { file: "SE-62.jpg", alt: "Female student cheering while waving orange flag", desc: "Student Cheering with Orange Banner • USLS Coliseum, Bacolod City" },
+    { file: "SE-63.jpg", alt: "Drumline percussionists playing marching drums live", desc: "Live Drumline Percussion Performance • University of St. La Salle, Bacolod City" }
   ],
   videos: [
     {
