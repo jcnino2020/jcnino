@@ -23,7 +23,7 @@ window.galleryData = {
     {
       file: "GH-03.jpg",
       alt: "Two white geese swimming gracefully across green lagoon waters.",
-      desc: "Geese Swimming at Capitol Lagoon • Bacolod City"
+      desc: "Geese Swimming at Bantug Lake Ranch • Bacolod City"
     },
     {
       file: "GH-04.jpg",
