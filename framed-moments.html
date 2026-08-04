@@ -95,6 +95,10 @@
           class="w-full h-auto block"
           onerror="this.parentElement.parentElement.querySelector('img').src='${p.src}'" />
       </picture>
+      <!-- Persistent Filename Badge -->
+      <div class="absolute top-3 left-3 z-10 bg-black/75 backdrop-blur-md text-white text-xs font-bold font-mono px-2.5 py-1 rounded-md border border-white/20 shadow-lg pointer-events-none">
+        ${p.base}
+      </div>
       <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
         <div class="w-full flex items-end justify-between gap-3">
           <p class="photo-desc text-white text-sm leading-snug font-medium">${p.desc || p.alt}</p>
