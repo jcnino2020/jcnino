@@ -38,12 +38,12 @@ window.galleryData = {
     {
       file: "GH-06.jpg",
       alt: "Silhouettes of people gathered on an elevated viewing deck over cyan-tinted waters.",
-      desc: "Coastal Promenade Silhouettes • Bacolod City, Negros Occidental"
+      desc: "Coastal Promenade Silhouettes at TOPS • Cebu City, Cebu"
     },
     {
       file: "GH-07.jpg",
       alt: "Dancers in energetic yellow and orange costumes performing inside the USLS Coliseum.",
-      desc: "MassKara Cheer Dance Performance • USLS Coliseum, Bacolod City, Negros Occidental"
+      desc: "YAL-CBA Cheerdance Performance 2026 • USLS Coliseum, Bacolod City, Negros Occidental"
     },
     {
       file: "GH-08.jpg",
@@ -53,17 +53,17 @@ window.galleryData = {
     {
       file: "GH-09.jpg",
       alt: "Stage production cast in retro costumes performing on an arena floor stage.",
-      desc: "University Stage Musical Performance • USLS Coliseum, Bacolod City, Negros Occidental"
+      desc: "CAS Musical Performance • USLS Coliseum, Bacolod City, Negros Occidental"
     },
     {
       file: "GH-10.jpg",
       alt: "Three female vocalists in vibrant dresses performing live on stage with a band.",
-      desc: "Live Vocalist Concert • Bacolod City, Negros Occidental"
+      desc: "L-Week Vocalist Concert • Bacolod City, Negros Occidental"
     },
     {
       file: "GH-11.jpg",
       alt: "Overhead aerial view of swimmers competing in a turquoise swimming pool.",
-      desc: "Top-Down View of Swimming Pool • Bacolod City, Negros Occidental"
+      desc: "Top-Down View of Swimming Pool • University of St. La Salle, Bacolod City"
     },
     {
       file: "GH-12.jpg",
@@ -73,12 +73,12 @@ window.galleryData = {
     {
       file: "GH-13.jpg",
       alt: "Low-angle shot looking up between glass skyscrapers with an airplane flying overhead.",
-      desc: "Airplane Flying over High-Rise Towers • Financial District, Metro Manila"
+      desc: "Airplane Flying over New IS Building • University of St. La Salle, Bacolod City"
     },
     {
       file: "GH-14.jpg",
       alt: "Aerial bird's-eye view of natural swimming pools framed by dense forest trees.",
-      desc: "Forest Pools • Mambucal Mountain Resort, Murcia, Negros Occidental"
+      desc: "Forest Pools • Bocal-Bocal Spring Resort, Bacolod City, Negros Occidental"
     },
     {
       file: "GH-15.jpg",
@@ -88,7 +88,7 @@ window.galleryData = {
     {
       file: "GH-16.jpg",
       alt: "Close-up of a live singer under dramatic yellow stage backlighting.",
-      desc: "Concert Vocalist Spotlight • Bacolod City, Negros Occidental"
+      desc: "Cup of Joe Vocalist Spotlight • USLS Coliseum, Bacolod City, Negros Occidental"
     },
     {
       file: "GH-17.jpg",
@@ -108,22 +108,22 @@ window.galleryData = {
     {
       file: "GH-20.jpg",
       alt: "Glowing full moon partially covered by clouds framed by dark tree branches.",
-      desc: "Full Moon Through Forest Canopy • Bacolod City, Negros Occidental"
+      desc: "Full Moon Through Forest Canopy • Don Salvador Benedicto, Negros Occidental"
     },
     {
       file: "GH-21.jpg",
       alt: "Crowded street festival at night under strands of festive orange pennants.",
-      desc: "MassKara Night Street Festival • Lacson Street, Bacolod City, Negros Occidental"
+      desc: "MassKara Night • Lacson Street, Bacolod City, Negros Occidental"
     },
     {
       file: "GH-22.jpg",
       alt: "Abstract architectural detail of green and white vertical louvers.",
-      desc: "Architectural Louvers Detail • Bacolod City, Negros Occidental"
+      desc: "New IS Building Architectural Detail • University of St. La Salle, Bacolod City"
     },
     {
       file: "GH-24.jpg",
       alt: "Long exposure showing light trails of a vehicle crossing an elevated bridge at night.",
-      desc: "Night Light Trails over Elevated Bridge • Bacolod City, Negros Occidental"
+      desc: "Night Light Trails • Bacolod City, Negros Occidental"
     },
     {
       file: "GH-26.jpg",
@@ -133,12 +133,12 @@ window.galleryData = {
     {
       file: "GH-27.jpg",
       alt: "Performer in golden costume playing a pink violin during a festival street dance.",
-      desc: "MassKara Street Dance Violinist • Bacolod City, Negros Occidental"
+      desc: "Cheerdance Competition • USLS Coliseum, Bacolod City, Negros Occidental"
     },
     {
       file: "GH-28.jpg",
       alt: "Freshwater waterfall cascading down dark rocks into a mountain pool.",
-      desc: "Cascading Waterfall • Mambucal Resort, Murcia, Negros Occidental"
+      desc: "Cascading Waterfall • Gawahon Eco Park, Victorias City, Negros Occidental"
     },
     {
       file: "GH-29.jpg",
@@ -153,12 +153,12 @@ window.galleryData = {
     {
       file: "GH-31.jpg",
       alt: "High-angle night shot of glowing Bacolod city streets surrounding the plaza.",
-      desc: "Bacolod City Center Nightscape • Bacolod City, Negros Occidental"
+      desc: "Capitol Lagoon Nightscape • Bacolod City, Negros Occidental"
     },
     {
       file: "GH-32.jpg",
       alt: "Modern building facade with angled louvers and a distant airplane against blue sky.",
-      desc: "Airplane over Architectural Facade • Bacolod City, Negros Occidental"
+      desc: "Airplane over New IS Building • University of St. La Salle, Bacolod City"
     },
     {
       file: "GH-33.jpg",
@@ -173,17 +173,17 @@ window.galleryData = {
     {
       file: "GH-35.jpg",
       alt: "Night long exposure capturing white vehicle light trails along downtown streets.",
-      desc: "Downtown Street Light Trails • Bacolod City, Negros Occidental"
+      desc: "BS Aquino Drive Light Trails • Bacolod City, Negros Occidental"
     },
     {
       file: "GH-36.jpg",
       alt: "Vertical carnival drop tower illuminated in red and orange against dark sky.",
-      desc: "Illuminated Drop Tower Ride • Bacolod City, Negros Occidental"
+      desc: "Magikland Drop Tower Ride • Silay City, Negros Occidental"
     },
     {
       file: "GH-37.jpg",
       alt: "Directly overhead aerial view of a green soccer pitch inside a blue running track.",
-      desc: "Athletic Oval & Soccer Field • Bacolod City, Negros Occidental"
+      desc: "Panaad Oval & Soccer Field • Bacolod City, Negros Occidental"
     },
     {
       file: "GH-38.jpg",
@@ -193,29 +193,29 @@ window.galleryData = {
     {
       file: "GN-39.jpg",
       alt: "Basketball player taking a shot over defenders during an indoor university game.",
-      desc: "College Basketball Game Action • Bacolod City, Negros Occidental"
+      desc: "College Basketball Game Action • University of St. La Salle, Bacolod City"
     },
     {
       file: "GH-40.jpg",
       alt: "Night festival stage set up in front of the illuminated Bacolod City Government Center.",
-      desc: "MassKara Stage at City Government Center • Bacolod City, Negros Occidental"
+      desc: "MassKara Stage at Government Center • Bacolod City, Negros Occidental"
     }
   ],
   drone: [
     {
       file: "Drone-001.JPG",
       alt: "Aerial view of coastal highway and beach in Sipalay",
-      desc: "Coastal Highway and Beach Coastline • Sipalay City, Negros Occidental"
+      desc: "Coastal Highway and Beach Coastline • Nabas, Aklan"
     },
     {
       file: "Drone-002.JPG",
       alt: "Aerial view of university track oval and grounds",
-      desc: "Aerial View of USLS Oval and Campus • Bacolod City, Negros Occidental"
+      desc: "Aerial View of USLS Campus • Bacolod City, Negros Occidental"
     },
     {
       file: "Drone-003.JPG",
       alt: "Aerial view of Silay town plaza and dome cathedral",
-      desc: "Aerial View of San Diego Pro-Cathedral and Town Center • Silay City, Negros Occidental"
+      desc: "Aerial View of Silay Public Plaza • Silay City, Negros Occidental"
     },
     {
       file: "Drone-004.JPG",
@@ -230,12 +230,12 @@ window.galleryData = {
     {
       file: "Drone-006.JPG",
       alt: "Top-down view of wooden outrigger boat on sea",
-      desc: "Overhead View of Wooden Outrigger Boat • Sipalay City, Negros Occidental"
+      desc: "Overhead View of Wooden Outrigger Boat • Roxas City, Capiz"
     },
     {
       file: "Drone-007.JPG",
       alt: "Aerial view of city river and surrounding buildings",
-      desc: "Aerial View of Urban River Channel • Bacolod City, Negros Occidental"
+      desc: "Aerial View of Urban River Channel • Roxas City, Capiz"
     },
     {
       file: "Drone-008.JPG",
@@ -250,7 +250,7 @@ window.galleryData = {
     {
       file: "Drone-010.JPG",
       alt: "Top-down view of boats docked at pier",
-      desc: "Aerial View of Boats Docked at Pier • Cadiz City, Negros Occidental"
+      desc: "Aerial View of Boats Docked at Pier • San Carlos City, Negros Occidental"
     },
     {
       file: "Drone-012.JPG",
@@ -260,7 +260,7 @@ window.galleryData = {
     {
       file: "TR-19.JPG",
       alt: "Aerial view of school campus gymnasium and trees",
-      desc: "Aerial View of School Campus Gymnasium • Bacolod City, Negros Occidental"
+      desc: "Aerial View of USLS Campus • Bacolod City, Negros Occidental"
     },
     {
       file: "GH-23.JPG",
@@ -282,22 +282,22 @@ window.galleryData = {
     {
       file: "FM-03.JPG",
       alt: "UNIQLO store exterior architecture",
-      desc: "UNIQLO Storefront Architecture • Bacolod City, Negros Occidental"
+      desc: "UNIQLO Storefront Architecture • Davao City, Davao del Sur"
     },
     {
       file: "FM-04.JPG",
       alt: "Paved coastal promenade with red railing",
-      desc: "Coastal Esplanade and Promenade • Bacolod City, Negros Occidental"
+      desc: "Coastal Esplanade and Promenade • Bago City, Negros Occidental"
     },
     {
       file: "FM-05.JPG",
       alt: "Illuminated park plaza and arch at night",
-      desc: "Illuminated Plaza and Light Arch at Night • Bacolod City, Negros Occidental"
+      desc: "Magikland at Night • Silay City, Negros Occidental"
     },
     {
       file: "FM-06.JPG",
       alt: "Wooden boardwalk path through mangrove forest",
-      desc: "Mangrove Forest Eco-Trail Walkway • Sagay City, Negros Occidental"
+      desc: "Tomongtong Mangrove Eco-Trail Walkway • Enrique B. Magalona, Negros Occidental"
     },
     {
       file: "FM-07.JPG",
@@ -307,27 +307,27 @@ window.galleryData = {
     {
       file: "FM-09.JPG",
       alt: "High angle city skyscraper at night with light trails",
-      desc: "High-Angle Skyscraper and City Light Trails • Metro Manila, Philippines"
+      desc: "High-Angle Skyscraper and City Light Trails • Tokyo, Japan"
     },
     {
       file: "FM-10.JPG",
       alt: "Filipino breakfast food spread flatlay",
-      desc: "Filipino Breakfast Table Spread • Bacolod City, Negros Occidental"
+      desc: "Filipino Breakfast Table Spread • Silay City, Negros Occidental"
     },
     {
       file: "FM-11.JPG",
       alt: "Illuminated tree-lined park path at dusk",
-      desc: "Illuminated Tree-Lined Park Walkway • Bacolod City, Negros Occidental"
+      desc: "USLS Handumanan Park • Bacolod City, Negros Occidental"
     },
     {
       file: "FM-12.JPG",
       alt: "MassKara festival costumes display in mall",
-      desc: "MassKara Festival Costumes Display at SM City • Bacolod City, Negros Occidental"
+      desc: "MassKara Festival Costumes Display at SM • Bacolod City, Negros Occidental"
     },
     {
       file: "FM-13.JPG",
       alt: "Curved rainbow wire mesh sculpture against sky",
-      desc: "Rainbow Wire Mesh Architectural Sculpture • Bacolod City, Negros Occidental"
+      desc: "Rainbow Wire Mesh at Garden of Eden • Davao City, Davao del Sur"
     },
     {
       file: "FM-14.JPG",
@@ -347,7 +347,7 @@ window.galleryData = {
     {
       file: "FM-17.JPG",
       alt: "Sunlit eucalyptus tree grove",
-      desc: "Sunlit Eucalyptus Grove • Don Salvador Benedicto, Negros Occidental"
+      desc: "Sunlit Eucalyptus Grove • Silay City, Negros Occidental"
     },
     {
       file: "FM-18.JPG",
@@ -367,7 +367,7 @@ window.galleryData = {
     {
       file: "FM-21.JPG",
       alt: "Starry night sky and faint Milky Way",
-      desc: "Starry Night Sky Astrophotography • Don Salvador Benedicto, Negros Occidental"
+      desc: "Starry Night Sky Astrophotography • Bacolod City, Negros Occidental"
     },
     {
       file: "FM-22.JPG",
@@ -377,22 +377,22 @@ window.galleryData = {
     {
       file: "FM-23.JPG",
       alt: "Long exposure traffic light trails on avenue",
-      desc: "Long Exposure Avenue Light Trails • Bacolod City, Negros Occidental"
+      desc: "EDSA Long Exposure Light Trails • Pasay City, Metro Manila"
     },
     {
       file: "FM-24.JPG",
       alt: "Geometric faceted modern building exterior",
-      desc: "Geometric Faceted Architecture Exterior • Bacolod City, Negros Occidental"
+      desc: "Geometric Faceted National Museum Exterior • Davao City, Davao del Sur"
     },
     {
       file: "FM-25.JPG",
       alt: "Motion blur long exposure of indoor roller coaster",
-      desc: "Indoor Roller Coaster Long Exposure • Silay City, Negros Occidental"
+      desc: "Indoor Roller Coaster at Star City • Pasay City, Metro Manila"
     },
     {
       file: "FM-26.JPG",
       alt: "Framed perspective of outrigger boats on beach",
-      desc: "Outrigger Boats Framed View on Shore • Sipalay City, Negros Occidental"
+      desc: "Outrigger Boats Framed View on Shore • Enrique B. Magalona, Negros Occidental"
     },
     {
       file: "FM-27.JPG",
@@ -402,27 +402,27 @@ window.galleryData = {
     {
       file: "FM-28.JPG",
       alt: "Floodlit turf football field at night",
-      desc: "Floodlit Turf Football Field at Night • Bacolod City, Negros Occidental"
+      desc: "MOA Sky Football Pitch at Night • Pasay City, Metro Manila"
     },
     {
       file: "FM-29.JPG",
       alt: "Sunlit modern hotel lobby with floor shadows",
-      desc: "Sunlit Hotel Lobby Interior • Bacolod City, Negros Occidental"
+      desc: "Citadines Hotel Lobby Interior • Bacolod City, Negros Occidental"
     },
     {
       file: "FM-30.JPG",
       alt: "Symmetrical window pattern on high-rise building",
-      desc: "Symmetrical High-Rise Exterior Pattern • Bacolod City, Negros Occidental"
+      desc: "SM North Block Exterior Pattern • Bacolod City, Negros Occidental"
     },
     {
       file: "FM-31.JPG",
       alt: "High angle indoor stairwell perspective",
-      desc: "Architectural Indoor Stairwell Perspective • Bacolod City, Negros Occidental"
+      desc: "USLS Indoor Stairwell Perspective • Bacolod City, Negros Occidental"
     },
     {
       file: "FM-32.JPG",
       alt: "Golden sunset silhouette of palm trees",
-      desc: "Golden Sunset Palm Tree Silhouettes • Sipalay City, Negros Occidental"
+      desc: "Golden Sunset Palm Tree Silhouettes • Bacolod City, Negros Occidental"
     },
     {
       file: "FM-33.JPG",
@@ -436,18 +436,18 @@ window.galleryData = {
     },
     {
       file: "FM-35.JPG",
-      alt: "Cebu Pacific airplane parked on airport tarmac",
-      desc: "Cebu Pacific Jetliner on Airport Tarmac • Silay City, Negros Occidental"
+      alt: "Cebu Pacific A330neo parked on airport tarmac",
+      desc: "Cebu Pacific A330neo on NAIA • Pasay City, Metro Manila"
     },
     {
       file: "FM-36.JPG",
       alt: "Modern geometric glass dome roof lattice",
-      desc: "Modern Geometric Glass Dome Roof Structure • Bacolod City, Negros Occidental"
+      desc: "National Museum of Natural History Dome Roof • Manila, Metro Manila"
     },
     {
       file: "FM-38.JPG",
       alt: "Wooden outrigger boats floating in clear water",
-      desc: "Wooden Outrigger Boats in Clear Waters • Sipalay City, Negros Occidental"
+      desc: "Wooden Outrigger Boats in Clear Waters • San Carlos City, Negros Occidental"
     },
     {
       file: "FM-39.JPG",
@@ -457,12 +457,12 @@ window.galleryData = {
     {
       file: "FM-40.JPG",
       alt: "Historical monument statue of warriors with cross",
-      desc: "Historical Revolution Monument • Bago City, Negros Occidental"
+      desc: "Historical Revolution Monument • Cebu City, Cebu"
     },
     {
       file: "FM-41.JPG",
       alt: "Rainbow painted steps leading up green hilltop",
-      desc: "Rainbow Steps on Green Hilltop • Don Salvador Benedicto, Negros Occidental"
+      desc: "Rainbow Steps on Rooster Cafe Patag • Silay City, Negros Occidental"
     },
     {
       file: "FM-42.JPG",
@@ -477,72 +477,72 @@ window.galleryData = {
     {
       file: "FM-44.JPG",
       alt: "Long wooden pier leading to floating bar in sea",
-      desc: "Tawhai Floating Bar Wooden Pier • Cadiz City, Negros Occidental"
+      desc: "Lakawon Wooden Pier • Cadiz City, Negros Occidental"
     }
   ],
   events: [
     { file: "SE-01.jpg", alt: "Students inspecting clue with flashlights during night activity", desc: "Night Game Activity with Flashlights • University of St. La Salle, Bacolod City" },
     { file: "SE-02.jpg", alt: "Motion blur photo of student holding scales of justice", desc: "Motion Blur Concept Shot of Student Holding Scales of Justice • University of St. La Salle, Bacolod City" },
     { file: "SE-03.jpg", alt: "Stage dance performance", desc: "Stage Dance Routine • University of St. La Salle, Bacolod City" },
-    { file: "SE-04.jpg", alt: "Graduates seated inside arena during commencement", desc: "Graduation Ceremony Audience • USLS Coliseum, Bacolod City, Negros Occidental" },
+    { file: "SE-04.jpg", alt: "Graduates seated inside arena during commencement", desc: "Graduation Ceremony Audience • University of St. La Salle, Bacolod City" },
     { file: "SE-05.jpg", alt: "Solo dancer under red stage lights", desc: "Solo Stage Dancer under Red Lights • University of St. La Salle, Bacolod City" },
     { file: "SE-06.jpg", alt: "Two student hosts singing on stage", desc: "Host Duo Performing on Stage • University of St. La Salle, Bacolod City" },
     { file: "SE-07.jpg", alt: "Pinning ceremony moment between students", desc: "Pinning Ceremony Moment • University of St. La Salle, Bacolod City" },
-    { file: "SE-08.jpg", alt: "Football player dribbling on wet grass pitch", desc: "Football Match Action on Muddy Pitch • USLS Field, Bacolod City, Negros Occidental" },
-    { file: "SE-09.jpg", alt: "Graduation celebration with indoor pyrotechnics", desc: "Graduation Celebration with Stage Sparklers • USLS Coliseum, Bacolod City, Negros Occidental" },
+    { file: "SE-08.jpg", alt: "Football player dribbling on wet grass pitch", desc: "Football Match Action on Muddy Pitch • University of St. La Salle, Bacolod City" },
+    { file: "SE-09.jpg", alt: "Graduation celebration with indoor pyrotechnics", desc: "Graduation Celebration with Stage Sparklers • University of St. La Salle, Bacolod City" },
     { file: "SE-10.jpg", alt: "Female student singing on stage in vintage costume", desc: "Stage Vocalist Performing in Costume • University of St. La Salle, Bacolod City" },
-    { file: "SE-11.jpg", alt: "Green cheerdance team executing pyramid stunt", desc: "Green Cheerdance Stunt Pyramid • USLS Coliseum, Bacolod City, Negros Occidental" },
+    { file: "SE-11.jpg", alt: "Green cheerdance team executing pyramid stunt", desc: "Green Cheerdance Stunt Pyramid • University of St. La Salle, Bacolod City" },
     { file: "SE-12.jpg", alt: "Student athletes shaking hands", desc: "Sportsmanship Handshake Between Student Athletes • University of St. La Salle, Bacolod City" },
     { file: "SE-13.jpg", alt: "Dancers in red jackets performing hip hop choreography", desc: "Hip-Hop Dancers in Red Jackets • University of St. La Salle, Bacolod City" },
-    { file: "SE-14.jpg", alt: "Dance troupe performing routine on court floor", desc: "Modern Dance Troupe Routine • USLS Coliseum, Bacolod City, Negros Occidental" },
-    { file: "SE-15.jpg", alt: "Graduates in caps and gowns seated at graduation", desc: "Graduates Seated During Commencement Ceremony • USLS Coliseum, Bacolod City, Negros Occidental" },
-    { file: "SE-16.jpg", alt: "Swimmers crouched on starting blocks at pool", desc: "Swimmers Ready on Starting Blocks • USLS Swimming Pool, Bacolod City, Negros Occidental" },
-    { file: "SE-17.jpg", alt: "Crowd in stadium bleachers turning on phone flashlights", desc: "Crowd Lighting Up Arena with Phone Flashlights • USLS Coliseum, Bacolod City, Negros Occidental" },
-    { file: "SE-18.jpg", alt: "Football player controlling ball during match", desc: "Football Match in Progress • USLS Field, Bacolod City, Negros Occidental" },
+    { file: "SE-14.jpg", alt: "Dance troupe performing routine on court floor", desc: "Modern Dance Troupe Routine • University of St. La Salle, Bacolod City" },
+    { file: "SE-15.jpg", alt: "Graduates in caps and gowns seated at graduation", desc: "Graduates Seated During Commencement Ceremony • University of St. La Salle, Bacolod City" },
+    { file: "SE-16.jpg", alt: "Swimmers crouched on starting blocks at pool", desc: "Swimmers Ready on Starting Blocks • University of St. La Salle, Bacolod City" },
+    { file: "SE-17.jpg", alt: "Crowd in stadium bleachers turning on phone flashlights", desc: "Crowd Lighting Up Arena with Phone Flashlights • University of St. La Salle, Bacolod City" },
+    { file: "SE-18.jpg", alt: "Football player controlling ball during match", desc: "Football Match in Progress • University of St. La Salle, Bacolod City" },
     { file: "SE-19.jpg", alt: "Female performers smiling in blue costumes", desc: "Cheer Performers Smiling in Blue Uniforms • University of St. La Salle, Bacolod City" },
     { file: "SE-20.jpg", alt: "Performers in circus corset costumes on stage", desc: "Circus-Themed Stage Dance Performance • University of St. La Salle, Bacolod City" },
-    { file: "SE-21.jpg", alt: "Students gathered at outdoor registration table", desc: "Student Outdoor Registration Booth • USLS Campus Grounds, Bacolod City, Negros Occidental" },
-    { file: "SE-22.jpg", alt: "Cheer squad in yellow and black uniforms lined up", desc: "Cheer Dance Team in Yellow and Black Uniforms • USLS Coliseum, Bacolod City, Negros Occidental" },
+    { file: "SE-21.jpg", alt: "Students gathered at outdoor registration table", desc: "Student Outdoor Registration Booth • University of St. La Salle, Bacolod City" },
+    { file: "SE-22.jpg", alt: "Cheer squad in yellow and black uniforms lined up", desc: "Cheer Dance Team in Yellow and Black Uniforms • University of St. La Salle, Bacolod City" },
     { file: "SE-23.jpg", alt: "Drummer playing live under purple and red lights", desc: "Drummer Performing Live Under Stage Lights • University of St. La Salle, Bacolod City" },
-    { file: "SE-24.jpg", alt: "Student low crawling through grass obstacle course", desc: "Student Low Crawling in Obstacle Course • USLS Field, Bacolod City, Negros Occidental" },
-    { file: "SE-25.jpg", alt: "Students playing ultimate frisbee on field", desc: "Outdoor Ultimate Frisbee Match • USLS Field, Bacolod City, Negros Occidental" },
-    { file: "SE-26.jpg", alt: "Spectators cheering enthusiastically from bleachers", desc: "Spectators Cheering from Bleachers • USLS Coliseum, Bacolod City, Negros Occidental" },
-    { file: "SE-27.jpg", alt: "Cheerdancers in blue dragon outfits holding pom-poms", desc: "Dragon-Themed Cheerdancers with Pom-Poms • USLS Coliseum, Bacolod City, Negros Occidental" },
-    { file: "SE-28.jpg", alt: "Cheerdance flyer caught mid-air stunt", desc: "Cheerdancer Airborne Stunt • USLS Coliseum, Bacolod City, Negros Occidental" },
-    { file: "SE-29.jpg", alt: "Hip hop crew kneeling in matching white suits and sunglasses", desc: "Dance Crew in White Suits and Sunglasses • USLS Coliseum, Bacolod City, Negros Occidental" },
-    { file: "SE-30.jpg", alt: "Dancers in silver outfits posing on arena floor", desc: "Silver Costume Dancers Floor Routine • USLS Coliseum, Bacolod City, Negros Occidental" },
-    { file: "SE-31.jpg", alt: "Pageant contestant walking on illuminated stage", desc: "Runway Pageant Walk on Stage • USLS Coliseum, Bacolod City, Negros Occidental" },
-    { file: "SE-32.jpg", alt: "Orange cheer squad constructing human pyramid stunt", desc: "Orange Cheerdance Pyramid Stunt • USLS Coliseum, Bacolod City, Negros Occidental" },
+    { file: "SE-24.jpg", alt: "Student low crawling through grass obstacle course", desc: "Student Low Crawling in Obstacle Course • University of St. La Salle, Bacolod City" },
+    { file: "SE-25.jpg", alt: "Students playing ultimate frisbee on field", desc: "Outdoor Ultimate Frisbee Match • University of St. La Salle, Bacolod City" },
+    { file: "SE-26.jpg", alt: "Spectators cheering enthusiastically from bleachers", desc: "Spectators Cheering from Bleachers • University of St. La Salle, Bacolod City" },
+    { file: "SE-27.jpg", alt: "Cheerdancers in blue dragon outfits holding pom-poms", desc: "Dragon-Themed Cheerdancers with Pom-Poms • University of St. La Salle, Bacolod City" },
+    { file: "SE-28.jpg", alt: "Cheerdancer airborne stunt", desc: "Cheerdancer Airborne Stunt • University of St. La Salle, Bacolod City" },
+    { file: "SE-29.jpg", alt: "Hip hop crew kneeling in matching white suits and sunglasses", desc: "Dance Crew in White Suits and Sunglasses • University of St. La Salle, Bacolod City" },
+    { file: "SE-30.jpg", alt: "Dancers in silver outfits posing on arena floor", desc: "Silver Costume Dancers Floor Routine • University of St. La Salle, Bacolod City" },
+    { file: "SE-31.jpg", alt: "Pageant contestant walking on illuminated stage", desc: "Runway Pageant Walk on Stage • University of St. La Salle, Bacolod City" },
+    { file: "SE-32.jpg", alt: "Orange cheer squad constructing human pyramid stunt", desc: "Orange Cheerdance Pyramid Stunt • University of St. La Salle, Bacolod City" },
     { file: "SE-33.jpg", alt: "Close-up shot of student graduation gowns", desc: "Close-Up of Graduation Gowns • University of St. La Salle, Bacolod City" },
     { file: "SE-34.jpg", alt: "Three female student greeters holding hand over heart", desc: "Hospitality Student Greeters • University of St. La Salle, Bacolod City" },
     { file: "SE-35.jpg", alt: "Faculty and staff posing on stage", desc: "Faculty Members Posing on Stage • University of St. La Salle, Bacolod City" },
-    { file: "SE-36.jpg", alt: "Soccer teams shaking hands post game on muddy field", desc: "Football Teams Handshake After Match • USLS Field, Bacolod City, Negros Occidental" },
-    { file: "SE-37.jpg", alt: "Students playing cup water relay game", desc: "Teambuilding Water Cup Relay Game • USLS Campus Grounds, Bacolod City, Negros Occidental" },
-    { file: "SE-38.jpg", alt: "Soccer player kicking ball splashing water puddle", desc: "Football Player Splashing Through Puddle • USLS Field, Bacolod City, Negros Occidental" },
-    { file: "SE-39.jpg", alt: "Audience members laughing inside auditorium", desc: "Audience Laughing in Auditorium • USLS Auditorium, Bacolod City, Negros Occidental" },
-    { file: "SE-40.jpg", alt: "Speaker standing on outdoor stage facing audience", desc: "Outdoor Keynote Speaker on Stage • USLS Campus Grounds, Bacolod City, Negros Occidental" },
-    { file: "SE-41.jpg", alt: "Indoor volleyball match viewed from behind spectator", desc: "Indoor Volleyball Game in Progress • USLS Covered Court, Bacolod City, Negros Occidental" },
+    { file: "SE-36.jpg", alt: "Soccer teams shaking hands post game on muddy field", desc: "Football Teams Handshake After Match • University of St. La Salle, Bacolod City" },
+    { file: "SE-37.jpg", alt: "Students playing cup water relay game", desc: "Teambuilding Water Cup Relay Game • University of St. La Salle, Bacolod City" },
+    { file: "SE-38.jpg", alt: "Soccer player kicking ball splashing water puddle", desc: "Football Player Splashing Through Puddle • University of St. La Salle, Bacolod City" },
+    { file: "SE-39.jpg", alt: "Audience members laughing inside auditorium", desc: "Audience Laughing in Auditorium • University of St. La Salle, Bacolod City" },
+    { file: "SE-40.jpg", alt: "Speaker standing on outdoor stage facing audience", desc: "Outdoor Keynote Speaker on Stage • University of St. La Salle, Bacolod City" },
+    { file: "SE-41.jpg", alt: "Indoor volleyball match viewed from behind spectator", desc: "Indoor Volleyball Game in Progress • University of St. La Salle, Bacolod City" },
     { file: "SE-42.jpg", alt: "Faculty members posing together on stage for Bayle event", desc: "Faculty Group Pose for Bayle Event • University of St. La Salle, Bacolod City" },
-    { file: "SE-43.jpg", alt: "Dancers bending low in red and black patterned costumes", desc: "Contemporary Dancers Routine • USLS Coliseum, Bacolod City, Negros Occidental" },
+    { file: "SE-43.jpg", alt: "Dancers bending low in red and black patterned costumes", desc: "Contemporary Dancers Routine • University of St. La Salle, Bacolod City" },
     { file: "SE-44.jpg", alt: "Students raising hands during pinning ceremony", desc: "Tourism and Hospitality Pinning Ceremony • University of St. La Salle, Bacolod City" },
-    { file: "SE-45.jpg", alt: "Graduates on stage holding green diploma covers", desc: "Graduates Proudly Holding Diplomas • USLS Coliseum, Bacolod City, Negros Occidental" },
-    { file: "SE-46.jpg", alt: "Cheer squad in metallic gold outfits holding pom-poms", desc: "Gold Cheer Dance Team Routine • USLS Coliseum, Bacolod City, Negros Occidental" },
-    { file: "SE-47.jpg", alt: "Basketball players in orange jerseys huddling on court", desc: "Basketball Team Huddle on Court • USLS Covered Court, Bacolod City, Negros Occidental" },
-    { file: "SE-48.jpg", alt: "Cheerdancers in yellow and black cheer gear shouting", desc: "Cheerdancers Cheering with Pom-Poms • USLS Coliseum, Bacolod City, Negros Occidental" },
-    { file: "SE-49.jpg", alt: "Students visiting Artists Hub booth setup", desc: "Artists' Hub Creative Booth • USLS Campus Grounds, Bacolod City, Negros Occidental" },
-    { file: "SE-50.jpg", alt: "Student yearbook display booth on campus", desc: "La Salle Yearbook Booth Setup • USLS Campus Grounds, Bacolod City, Negros Occidental" },
+    { file: "SE-45.jpg", alt: "Graduates on stage holding green diploma covers", desc: "Graduates Proudly Holding Diplomas • University of St. La Salle, Bacolod City" },
+    { file: "SE-46.jpg", alt: "Cheer squad in metallic gold outfits holding pom-poms", desc: "Gold Cheer Dance Team Routine • University of St. La Salle, Bacolod City" },
+    { file: "SE-47.jpg", alt: "Basketball players in orange jerseys huddling on court", desc: "Basketball Team Huddle on Court • University of St. La Salle, Bacolod City" },
+    { file: "SE-48.jpg", alt: "Cheerdancers in yellow and black cheer gear shouting", desc: "Cheerdancers Cheering with Pom-Poms • University of St. La Salle, Bacolod City" },
+    { file: "SE-49.jpg", alt: "Students visiting Artists Hub booth setup", desc: "Artists' Hub Creative Booth • University of St. La Salle, Bacolod City" },
+    { file: "SE-50.jpg", alt: "Student yearbook display booth on campus", desc: "La Salle Yearbook Booth Setup • University of St. La Salle, Bacolod City" },
     { file: "SE-51.jpg", alt: "Students performing dance skit on stage", desc: "Theatrical Skit Performance on Stage • University of St. La Salle, Bacolod City" },
     { file: "SE-52.jpg", alt: "Display boxes of customized yearbook samples", desc: "Display of Custom Yearbook Designs • University of St. La Salle, Bacolod City" },
     { file: "SE-53.jpg", alt: "Singer performing acoustic set under stage lighting", desc: "Singer Performing Live with Acoustic Guitar • University of St. La Salle, Bacolod City" },
-    { file: "SE-54.jpg", alt: "Two female table tennis players high-fiving after match", desc: "Table Tennis Match Action • USLS Sports Complex, Bacolod City, Negros Occidental" },
-    { file: "SE-55.jpg", alt: "Wide shot of outdoor campus fair with tents and walking students", desc: "Outdoor Campus Fair and Booths • USLS Campus Grounds, Bacolod City, Negros Occidental" },
-    { file: "SE-56.jpg", alt: "Crowd waving green light sticks in arena", desc: "Cheering Crowd with Green Light Sticks • USLS Coliseum, Bacolod City, Negros Occidental" },
-    { file: "SE-57.jpg", alt: "Dance group in green tracksuits posing on court", desc: "Tracksuit Dance Crew Synchronized Pose • USLS Coliseum, Bacolod City, Negros Occidental" },
-    { file: "SE-58.jpg", alt: "Male cheerdancer smiling during cheer routine", desc: "Cheer Performer Smiling Mid-Routine • USLS Coliseum, Bacolod City, Negros Occidental" },
-    { file: "SE-59.jpg", alt: "Students in green huddling in emotional group hug", desc: "Emotional Group Hug in Green Uniforms • USLS Coliseum, Bacolod City, Negros Occidental" },
+    { file: "SE-54.jpg", alt: "Two female table tennis players high-fiving after match", desc: "Table Tennis Match Action • University of St. La Salle, Bacolod City" },
+    { file: "SE-55.jpg", alt: "Wide shot of outdoor campus fair with tents and walking students", desc: "Outdoor Campus Fair and Booths • University of St. La Salle, Bacolod City" },
+    { file: "SE-56.jpg", alt: "Crowd waving green light sticks in arena", desc: "Cheering Crowd with Green Light Sticks • University of St. La Salle, Bacolod City" },
+    { file: "SE-57.jpg", alt: "Dance group in green tracksuits posing on court", desc: "Tracksuit Dance Crew Synchronized Pose • University of St. La Salle, Bacolod City" },
+    { file: "SE-58.jpg", alt: "Male cheerdancer smiling during cheer routine", desc: "Cheer Performer Smiling Mid-Routine • University of St. La Salle, Bacolod City" },
+    { file: "SE-59.jpg", alt: "Students in green huddling in emotional group hug", desc: "Emotional Group Hug in Green Uniforms • University of St. La Salle, Bacolod City" },
     { file: "SE-60.jpg", alt: "Priest holding document during blessing ceremony", desc: "Priest Officiating Blessing Ceremony • University of St. La Salle, Bacolod City" },
-    { file: "SE-61.jpg", alt: "Two ultimate frisbee players tracking airborne disc", desc: "Ultimate Frisbee Action on Field • USLS Field, Bacolod City, Negros Occidental" },
-    { file: "SE-62.jpg", alt: "Female student cheering while waving orange flag", desc: "Student Cheering with Orange Banner • USLS Coliseum, Bacolod City, Negros Occidental" },
+    { file: "SE-61.jpg", alt: "Two ultimate frisbee players tracking airborne disc", desc: "Ultimate Frisbee Action on Field • University of St. La Salle, Bacolod City" },
+    { file: "SE-62.jpg", alt: "Female student cheering while waving orange flag", desc: "Student Cheering with Orange Banner • University of St. La Salle, Bacolod City" },
     { file: "SE-63.jpg", alt: "Drumline percussionists playing marching drums live", desc: "Live Drumline Percussion Performance • University of St. La Salle, Bacolod City" }
   ],
   videos: [
