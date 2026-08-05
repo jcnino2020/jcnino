@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Animation - Flying Drone (Pure CSS / No JS)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!-- Pure CSS Checkbox state for Info Toggle -->
+  <input type="checkbox" id="info-toggle" class="info-toggle-checkbox" checked>
+
+  <main class="stage">
+    <!-- Sky backdrop elements -->
+    <div class="sky-backdrop">
+      <div class="moon"></div>
+      <div class="cloud cloud-1"></div>
+      <div class="cloud cloud-2"></div>
+      <div class="cloud cloud-3"></div>
+      <div class="cloud cloud-4"></div>
+    </div>
+
+    <!-- Badge indicating No-JS mode -->
+    <div class="badge">
+      <span class="dot"></span> Pure CSS (No JS)
+    </div>
+
+    <!-- Info Hint Banner -->
+    <div class="controls-hint">
+      <span>✨ Running 100% on Pure HTML &amp; CSS Keyframe Animations — No JavaScript required! 📦</span>
+    </div>
+
+    <!-- Label button acting as toggle switch for Info banner -->
+    <label for="info-toggle" class="info-btn" title="Toggle Info Banner" aria-label="Toggle Info">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="info-svg">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="16" x2="12" y2="12"></line>
+        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+      </svg>
+    </label>
+
+    <!-- Flying Drone Container with CSS Flight Path -->
+    <div class="drone-flight-path">
+      <div class="character">
+        <div class="drone-rig">
+          <div class="propeller prop-top-left"><img src="../assets/propeller.png" alt="Propeller"></div>
+          <div class="propeller prop-top-right"><img src="../assets/propeller.png" alt="Propeller"></div>
+          <div class="propeller prop-bottom-left"><img src="../assets/propeller.png" alt="Propeller"></div>
+          <div class="propeller prop-bottom-right"><img src="../assets/propeller.png" alt="Propeller"></div>
+
+          <img src="../assets/drone-back.png" alt="Drone Back" class="drone-body">
+
+          <div class="nav-light light-front-left"></div>
+          <div class="nav-light light-front-right"></div>
+
+          <img src="../assets/box.png" alt="Cargo Box" class="cargo-box">
+        </div>
+      </div>
+
+      <!-- Pure CSS Staggered Dropping Packages & Landing Puffs -->
+      <div class="package-drop-wrapper drop-1">
+        <div class="package"></div>
+        <div class="landing-puff"></div>
+      </div>
+      <div class="package-drop-wrapper drop-2">
+        <div class="package"></div>
+        <div class="landing-puff"></div>
+      </div>
+      <div class="package-drop-wrapper drop-3">
+        <div class="package"></div>
+        <div class="landing-puff"></div>
+      </div>
+    </div>
+  </main>
+</body>
+
+</html>
