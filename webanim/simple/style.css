@@ -260,27 +260,27 @@ html, body {
   display: block;
 }
 
-/* Motor Mount Alignment relative to drone.png */
+/* Motor Mount Alignment relative to drone-back.png */
 .prop-top-left {
-  top: 26.0%;
-  left: 6.5%;
+  top: 29.8%;
+  left: 7.0%;
   animation: spinPropellerCW 0.08s linear infinite;
 }
 
 .prop-top-right {
-  top: 26.0%;
-  left: 93.5%;
+  top: 29.8%;
+  left: 93.0%;
   animation: spinPropellerCCW 0.08s linear infinite;
 }
 
 .prop-bottom-left {
-  top: 49.5%;
+  top: 66.4%;
   left: 3.5%;
   animation: spinPropellerCCW 0.08s linear infinite;
 }
 
 .prop-bottom-right {
-  top: 49.5%;
+  top: 66.4%;
   left: 96.5%;
   animation: spinPropellerCW 0.08s linear infinite;
 }
@@ -295,7 +295,7 @@ html, body {
   100% { transform: translate(-50%, -50%) rotate(-360deg); }
 }
 
-/* Navigation Lights on Arms */
+/* Navigation Lights on Rear Arms */
 .nav-light {
   position: absolute;
   width: 7px;
@@ -307,7 +307,7 @@ html, body {
 }
 
 .light-front-left {
-  top: 50%;
+  top: 66.4%;
   left: 3.5%;
   background: #ef4444;
   box-shadow: 0 0 10px #ef4444, 0 0 20px #ef4444;
@@ -315,10 +315,10 @@ html, body {
 }
 
 .light-front-right {
-  top: 50%;
+  top: 66.4%;
   left: 96.5%;
-  background: #22c55e;
-  box-shadow: 0 0 10px #22c55e, 0 0 20px #22c55e;
+  background: #ef4444;
+  box-shadow: 0 0 10px #ef4444, 0 0 20px #ef4444;
   animation: blinkNav 1s infinite alternate 0.5s;
 }
 
@@ -330,7 +330,7 @@ html, body {
 /* Attached Cargo Box */
 .cargo-box {
   position: absolute;
-  top: 56%;
+  top: 72%;
   left: 50%;
   transform: translateX(-50%);
   width: 34px;

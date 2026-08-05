@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Simple Web Animation — Flying Character</title>
+  <title>Web Animation - Flying Character</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
   <!-- Fullscreen Animation Stage -->
@@ -27,12 +29,14 @@
 
     <!-- On-screen hint overlay (auto hides after 5s) -->
     <div id="controlsHint" class="controls-hint">
-      <span>Use <code>W A S D</code> or <code>Arrow Keys</code> to Move &bull; Press <code>Space</code> to Drop Package 📦</span>
+      <span>Use <code>W A S D</code> or <code>Arrow Keys</code> to Move &bull; Press <code>Space</code> to Drop Package
+        📦</span>
     </div>
 
     <!-- Lower-Left Info Button -->
     <button id="infoBtn" class="info-btn" title="Toggle Controls Info" aria-label="Controls Info">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="info-svg">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="info-svg">
         <circle cx="12" cy="12" r="10"></circle>
         <line x1="12" y1="16" x2="12" y2="12"></line>
         <line x1="12" y1="8" x2="12.01" y2="8"></line>
@@ -49,7 +53,7 @@
         <div class="propeller prop-bottom-right"><img src="assets/propeller.png" alt="Propeller"></div>
 
         <!-- Drone Body PNG -->
-        <img src="assets/drone.png" alt="Drone" class="drone-body">
+        <img src="assets/drone-back.png" alt="Drone Back" class="drone-body">
 
         <!-- Navigation LEDs -->
         <div class="nav-light light-front-left"></div>
@@ -75,4 +79,5 @@
 
   <script src="script.js"></script>
 </body>
+
 </html>
