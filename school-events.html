@@ -84,7 +84,10 @@
     let descHTML = '';
     if (rawDesc.includes('•')) {
       const parts = rawDesc.split('•').map(s => s.trim());
-      descHTML = `<div class="flex flex-col gap-0.5"><span class="text-white text-sm font-bold leading-snug">${parts[0]}</span><span class="text-white/75 text-xs font-medium">${parts.slice(1).join(' • ')}</span></div>`;
+      const title = parts[0];
+      const locParts = parts.slice(1).flatMap(p => p.split(',').map(s => s.trim()));
+      const locHTML = locParts.map(lp => `<span class="text-white/75 text-xs font-medium">${lp}</span>`).join('');
+      descHTML = `<div class="flex flex-col gap-0.5"><span class="text-white text-sm font-bold leading-snug">${title}</span>${locHTML}</div>`;
     } else {
       descHTML = `<p class="photo-desc text-white text-sm leading-snug font-medium">${rawDesc}</p>`;
     }

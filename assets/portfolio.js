@@ -445,7 +445,10 @@ function syncLightbox(direction = null) {
                 if (descVal) {
                     if (descVal.includes('•')) {
                         const parts = descVal.split('•').map(s => s.trim());
-                        descText.innerHTML = `<div class="flex flex-col gap-0.5"><span class="font-bold text-white text-sm sm:text-base leading-snug">${parts[0]}</span><span class="text-white/75 text-xs sm:text-sm font-medium tracking-wide">${parts.slice(1).join(' • ')}</span></div>`;
+                        const title = parts[0];
+                        const locParts = parts.slice(1).flatMap(p => p.split(',').map(s => s.trim()));
+                        const locHTML = locParts.map(lp => `<span class="text-white/75 text-xs sm:text-sm font-medium tracking-wide">${lp}</span>`).join('');
+                        descText.innerHTML = `<div class="flex flex-col gap-0.5"><span class="font-bold text-white text-sm sm:text-base leading-snug">${title}</span>${locHTML}</div>`;
                     } else {
                         descText.textContent = descVal;
                     }
