@@ -13,7 +13,7 @@ window.galleryData = {
     {
       file: "GH-02.jpg",
       alt: "Black and white photo of the St. John Baptist de La Salle statue on campus.",
-      desc: "St. La Salle Statue • University of St. La Salle, Bacolod City"
+      desc: "St. La Salle Statue • University of St. La Salle • Bacolod City • Negros Occidental"
     },
     {
       file: "GH-03.1.jpg",
@@ -63,7 +63,7 @@ window.galleryData = {
     {
       file: "GH-11.jpg",
       alt: "Overhead aerial view of swimmers competing in a turquoise swimming pool.",
-      desc: "Top-Down View of Swimming Pool • University of St. La Salle, Bacolod City"
+      desc: "Top-Down View of Swimming Pool • University of St. La Salle • Bacolod City • Negros Occidental"
     },
     {
       file: "GH-12.jpg",
@@ -73,7 +73,7 @@ window.galleryData = {
     {
       file: "GH-13.jpg",
       alt: "Low-angle shot looking up between glass skyscrapers with an airplane flying overhead.",
-      desc: "Airplane Flying over New IS Building • University of St. La Salle, Bacolod City"
+      desc: "Airplane Flying over New IS Building • University of St. La Salle • Bacolod City • Negros Occidental"
     },
     {
       file: "GH-14.jpg",
@@ -103,7 +103,7 @@ window.galleryData = {
     {
       file: "GH-19.jpg",
       alt: "Top-down aerial view of students forming the number 100 in a campus courtyard.",
-      desc: "Human '100' Formation • University of St. La Salle, Bacolod City"
+      desc: "Human '100' Formation • University of St. La Salle • Bacolod City • Negros Occidental"
     },
     {
       file: "GH-20.jpg",
@@ -118,7 +118,7 @@ window.galleryData = {
     {
       file: "GH-22.jpg",
       alt: "Abstract architectural detail of green and white vertical louvers.",
-      desc: "New IS Building Architectural Detail • University of St. La Salle, Bacolod City"
+      desc: "New IS Building Architectural Detail • University of St. La Salle • Bacolod City • Negros Occidental"
     },
     {
       file: "GH-24.jpg",
@@ -158,7 +158,7 @@ window.galleryData = {
     {
       file: "GH-32.jpg",
       alt: "Modern building facade with angled louvers and a distant airplane against blue sky.",
-      desc: "Airplane over New IS Building • University of St. La Salle, Bacolod City"
+      desc: "Airplane over New IS Building • University of St. La Salle • Bacolod City • Negros Occidental"
     },
     {
       file: "GH-33.jpg",
@@ -193,7 +193,7 @@ window.galleryData = {
     {
       file: "GN-39.jpg",
       alt: "Basketball player taking a shot over defenders during an indoor university game.",
-      desc: "College Basketball Game Action • University of St. La Salle, Bacolod City"
+      desc: "College Basketball Game Action • University of St. La Salle • Bacolod City • Negros Occidental"
     },
     {
       file: "GH-40.jpg",
