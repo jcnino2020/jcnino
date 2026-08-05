@@ -108,7 +108,7 @@
           onerror="this.parentElement.parentElement.querySelector('img').src='${p.src}'" />
       </picture>
       <!-- Text Overlay (No gradient background, drop shadow text, reveals on hover/touch) -->
-      <div class="absolute inset-0 opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity duration-300 flex items-end p-4 sm:p-5 pointer-events-none">
+      <div class="desc-overlay absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4 sm:p-5 pointer-events-none">
         <div class="w-full flex items-end justify-between gap-3">
           ${descHTML}
           <svg class="w-5 h-5 text-white opacity-90 shrink-0 mb-0.5 [filter:drop-shadow(0_2px_4px_rgba(0,0,0,1))]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -117,7 +117,13 @@
         </div>
       </div>
     `;
-    wrap.addEventListener('click', () => openLightbox(p, gallery));
+    wrap.addEventListener('click', () => {
+      document.querySelectorAll('.gallery-item.active-card').forEach(c => {
+        if (c !== wrap) c.classList.remove('active-card');
+      });
+      wrap.classList.toggle('active-card');
+      openLightbox(p, gallery);
+    });
     return wrap;
   }
 

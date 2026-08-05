@@ -1021,3 +1021,9 @@ section[id] {
   opacity: 1 !important;
   pointer-events: auto !important;
 }
+
+/* Active card overlay state (remains visible on touched card until another is touched) */
+.gallery-item.active-card .desc-overlay {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
