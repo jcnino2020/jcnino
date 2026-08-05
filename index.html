@@ -524,17 +524,17 @@
           class="w-full h-auto block"
           onerror="this.parentElement.parentElement.querySelector('img').src='${p.src}'" />
       </picture>
-      <!-- Info "i" Badge -->
-      <div class="absolute top-3 right-3 z-10 w-7 h-7 rounded-full bg-black/50 backdrop-blur-md text-white flex items-center justify-center border border-white/25 shadow-lg pointer-events-none transition-transform duration-200 group-hover:scale-110">
-        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <!-- Info "i" Badge (Mobile only) -->
+      <button type="button" aria-label="View photo details" class="info-btn md:hidden absolute top-3 right-3 z-20 w-8 h-8 rounded-full bg-black/60 backdrop-blur-md text-white flex items-center justify-center border border-white/30 shadow-lg cursor-pointer transition-all duration-200 active:scale-95">
+        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
         </svg>
-      </div>
-      <!-- Hover Text Overlay (No gradient background, text shadow only) -->
-      <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4 sm:p-5 pointer-events-none">
+      </button>
+      <!-- Hover Text Overlay (Desktop only with Dark Gradient Background) -->
+      <div class="hidden md:flex absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 items-end p-5 pointer-events-none">
         <div class="w-full flex items-end justify-between gap-3">
           ${descHTML}
-          <svg class="w-5 h-5 text-white opacity-80 shrink-0 mb-0.5 [filter:drop-shadow(0_1px_3px_rgba(0,0,0,0.9))]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-5 h-5 text-white opacity-80 shrink-0 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
           </svg>
         </div>
