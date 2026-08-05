@@ -74,7 +74,7 @@
 
   function buildCard(p, gallery) {
     const wrap = document.createElement('div');
-    wrap.className = 'gallery-item relative rounded-xl overflow-hidden cursor-pointer';
+    wrap.className = 'gallery-item relative rounded-xl overflow-hidden cursor-pointer group';
     const b = p.base;
     const sf = p.subfolder;
     const rawDesc = p.desc || p.alt || '';
@@ -83,10 +83,10 @@
       const parts = rawDesc.split('•').map(s => s.trim());
       const title = parts[0];
       const locParts = parts.slice(1).flatMap(p => p.split(',').map(s => s.trim()));
-      const locHTML = locParts.map(lp => `<span class="text-white/75 text-xs font-medium">${lp}</span>`).join('');
-      descHTML = `<div class="flex flex-col gap-0.5"><span class="text-white text-sm font-bold leading-snug">${title}</span>${locHTML}</div>`;
+      const locHTML = locParts.map(lp => `<span class="text-white/95 text-xs font-medium [text-shadow:_0_1px_3px_rgba(0,0,0,0.95)]">${lp}</span>`).join('');
+      descHTML = `<div class="flex flex-col gap-0.5"><span class="text-white text-sm font-bold leading-snug [text-shadow:_0_1.5px_4px_rgba(0,0,0,0.95)]">${title}</span>${locHTML}</div>`;
     } else {
-      descHTML = `<p class="photo-desc text-white text-sm leading-snug font-medium">${rawDesc}</p>`;
+      descHTML = `<p class="photo-desc text-white text-sm leading-snug font-medium [text-shadow:_0_1.5px_4px_rgba(0,0,0,0.95)]">${rawDesc}</p>`;
     }
     wrap.innerHTML = `
       <picture>
@@ -107,10 +107,17 @@
           class="w-full h-auto block"
           onerror="this.parentElement.parentElement.querySelector('img').src='${p.src}'" />
       </picture>
-      <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-100 md:opacity-0 md:hover:opacity-100 transition-opacity duration-300 flex items-end p-3.5 sm:p-5 pointer-events-none">
+      <!-- Info "i" Badge -->
+      <div class="absolute top-3 right-3 z-10 w-7 h-7 rounded-full bg-black/50 backdrop-blur-md text-white flex items-center justify-center border border-white/25 shadow-lg pointer-events-none transition-transform duration-200 group-hover:scale-110">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+      </div>
+      <!-- Hover Text Overlay (No gradient background, text shadow only) -->
+      <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4 sm:p-5 pointer-events-none">
         <div class="w-full flex items-end justify-between gap-3">
           ${descHTML}
-          <svg class="w-5 h-5 text-white opacity-70 shrink-0 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-5 h-5 text-white opacity-80 shrink-0 mb-0.5 [filter:drop-shadow(0_1px_3px_rgba(0,0,0,0.9))]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
           </svg>
         </div>
