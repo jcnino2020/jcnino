@@ -87,10 +87,10 @@
       const parts = rawDesc.split('•').map(s => s.trim());
       const title = parts[0];
       const locParts = parts.slice(1).flatMap(p => p.split(',').map(s => s.trim()));
-      const locHTML = locParts.map(lp => `<span class="text-white/95 text-xs font-medium [text-shadow:_0_1px_3px_rgba(0,0,0,0.95)]">${lp}</span>`).join('');
-      descHTML = `<div class="flex flex-col gap-0.5"><span class="text-white text-sm font-bold leading-snug [text-shadow:_0_1.5px_4px_rgba(0,0,0,0.95)]">${title}</span>${locHTML}</div>`;
+      const locHTML = locParts.map(lp => `<span class="text-white/95 text-xs font-medium [text-shadow:_0_1.5px_4px_rgba(0,0,0,1),_0_1px_2px_rgba(0,0,0,1)]">${lp}</span>`).join('');
+      descHTML = `<div class="flex flex-col gap-0.5"><span class="text-white text-sm font-bold leading-snug [text-shadow:_0_2px_6px_rgba(0,0,0,1),_0_1px_3px_rgba(0,0,0,1)]">${title}</span>${locHTML}</div>`;
     } else {
-      descHTML = `<p class="photo-desc text-white text-sm leading-snug font-medium [text-shadow:_0_1.5px_4px_rgba(0,0,0,0.95)]">${rawDesc}</p>`;
+      descHTML = `<p class="photo-desc text-white text-sm leading-snug font-medium [text-shadow:_0_2px_6px_rgba(0,0,0,1),_0_1px_3px_rgba(0,0,0,1)]">${rawDesc}</p>`;
     }
     wrap.innerHTML = `
       <picture>
@@ -111,17 +111,11 @@
           class="w-full h-auto block"
           onerror="this.parentElement.parentElement.querySelector('img').src='${p.src}'" />
       </picture>
-      <!-- Info "i" Badge (Mobile only) -->
-      <button type="button" aria-label="View photo details" class="info-btn md:hidden absolute top-3 right-3 z-20 w-8 h-8 rounded-full bg-black/60 backdrop-blur-md text-white flex items-center justify-center border border-white/30 shadow-lg cursor-pointer transition-all duration-200 active:scale-95">
-        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-        </svg>
-      </button>
-      <!-- Hover Text Overlay (Desktop only with Dark Gradient Background) -->
-      <div class="hidden md:flex absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 items-end p-5 pointer-events-none">
+      <!-- Text Overlay (No gradient background, drop shadow text, reveals on hover/touch) -->
+      <div class="absolute inset-0 opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity duration-300 flex items-end p-4 sm:p-5 pointer-events-none">
         <div class="w-full flex items-end justify-between gap-3">
           ${descHTML}
-          <svg class="w-5 h-5 text-white opacity-80 shrink-0 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-5 h-5 text-white opacity-90 shrink-0 mb-0.5 [filter:drop-shadow(0_2px_4px_rgba(0,0,0,1))]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
           </svg>
         </div>
