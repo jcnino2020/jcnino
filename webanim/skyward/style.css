@@ -88,7 +88,7 @@ html, body {
   bottom: 24px;
   left: 50%;
   transform: translateX(-50%) translateY(0);
-  padding: 10px 22px;
+  padding: 10px 24px;
   background: rgba(15, 23, 42, 0.7);
   backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -99,6 +99,16 @@ html, body {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
   transition: opacity 0.4s ease, transform 0.4s ease;
   opacity: 1;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  white-space: nowrap;
+}
+
+.controls-hint .hint-sep {
+  color: #64748b;
+  font-size: 1.1rem;
+  user-select: none;
 }
 
 .controls-hint.hidden {
@@ -313,12 +323,20 @@ html, body {
   position: absolute;
   top: 72%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) scale(1);
   width: 34px;
   height: 34px;
   object-fit: contain;
   filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.5));
   z-index: 1;
+  transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.1s ease;
+  opacity: 1;
+}
+
+.cargo-box.empty {
+  opacity: 0;
+  transform: translateX(-50%) scale(0.2);
+  transition: transform 0.06s ease-in, opacity 0.06s ease-in;
 }
 
 .mobile-controls {
@@ -428,5 +446,8 @@ html, body {
     padding: 6px 14px;
     max-width: 75%;
     text-align: center;
+    gap: 8px;
+    white-space: normal;
+    justify-content: center;
   }
 }

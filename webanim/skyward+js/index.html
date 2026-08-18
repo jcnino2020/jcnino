@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skyward Drone</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <main id="stage" class="stage">
+    <!-- Ambient Sky Backdrop -->
+    <div class="sky-backdrop">
+      <div class="moon"></div>
+      <div class="cloud cloud-1"></div>
+      <div class="cloud cloud-2"></div>
+      <div class="cloud cloud-3"></div>
+      <div class="cloud cloud-4"></div>
+    </div>
+
+    <!-- Dropped Packages Container -->
+    <div id="packageContainer"></div>
+
+    <!-- Controls Hint Bar (Permanent by default, press 'I' or click Info button to toggle) -->
+    <div id="controlsHint" class="controls-hint">
+      <span>Use <code>W A S D</code> or <code>Arrow Keys</code> to Move</span>
+      <span class="hint-sep">&bull;</span>
+      <span>Press <code>Space</code> to Drop Package 📦</span>
+      <span class="hint-sep">&bull;</span>
+      <span><code>L</code> Light 💡</span>
+      <span class="hint-sep">&bull;</span>
+      <span><code>Shift</code> Turbo ⚡</span>
+      <span class="hint-sep">&bull;</span>
+      <span><code>R</code> Reset 🎯</span>
+      <span class="hint-sep">&bull;</span>
+      <span><code>I</code> Info ⓘ</span>
+    </div>
+
+    <!-- Info & Sound Buttons -->
+    <div class="top-actions">
+      <button id="infoBtn" class="circle-btn" title="Toggle Controls Info" aria-label="Controls Info">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="16" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+      </button>
+
+      <button id="soundBtn" class="circle-btn" title="Toggle Sound" aria-label="Toggle Sound">
+        <svg id="soundIconOn" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+        </svg>
+        <svg id="soundIconOff" style="display:none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <line x1="23" y1="9" x2="17" y2="15"></line>
+          <line x1="17" y1="9" x2="23" y2="15"></line>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Drone Quadcopter Rig -->
+    <div id="character" class="character hover-idle">
+      <div class="drone-rig">
+        <!-- Spotlight Beam (Key: L) -->
+        <div id="spotlightBeam" class="spotlight-beam"></div>
+
+        <!-- Turbo Glow (Key: Shift / B) -->
+        <div id="turboGlow" class="turbo-glow"></div>
+
+        <!-- 4 Propellers -->
+        <div class="propeller prop-top-left"><img src="assets/propeller.png" alt="Propeller"></div>
+        <div class="propeller prop-top-right"><img src="assets/propeller.png" alt="Propeller"></div>
+        <div class="propeller prop-bottom-left"><img src="assets/propeller.png" alt="Propeller"></div>
+        <div class="propeller prop-bottom-right"><img src="assets/propeller.png" alt="Propeller"></div>
+
+        <!-- Drone Body PNG -->
+        <img src="assets/drone-back.png" alt="Drone Back" class="drone-body">
+
+        <!-- Navigation LED Lights -->
+        <div class="nav-light light-front-left"></div>
+        <div class="nav-light light-front-right"></div>
+
+        <!-- Attached Cargo Box (Key: Space) -->
+        <img src="assets/box.png" alt="Cargo Box" id="cargoBox" class="cargo-box">
+      </div>
+    </div>
+
+    <!-- Mobile Touch Controls -->
+    <div id="mobileControls" class="mobile-controls">
+      <div class="dpad">
+        <button id="btnUp" class="dpad-btn dpad-up" aria-label="Up">▲</button>
+        <button id="btnLeft" class="dpad-btn dpad-left" aria-label="Left">◀</button>
+        <button id="btnRight" class="dpad-btn dpad-right" aria-label="Right">▶</button>
+        <button id="btnDown" class="dpad-btn dpad-down" aria-label="Down">▼</button>
+        <div class="dpad-center"></div>
+      </div>
+      <button id="btnSpace" class="space-btn" aria-label="Drop Package">SPACE</button>
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // DOM Elements
+      const character = document.getElementById('character');
+      const cargoBox = document.getElementById('cargoBox');
+      const spotlightBeam = document.getElementById('spotlightBeam');
+      const turboGlow = document.getElementById('turboGlow');
+      const packageContainer = document.getElementById('packageContainer');
+      const controlsHint = document.getElementById('controlsHint');
+      const infoBtn = document.getElementById('infoBtn');
+      const soundBtn = document.getElementById('soundBtn');
+      const soundIconOn = document.getElementById('soundIconOn');
+      const soundIconOff = document.getElementById('soundIconOff');
+
+      // Mobile controls
+      const mobileControls = document.getElementById('mobileControls');
+      const btnUp = document.getElementById('btnUp');
+      const btnDown = document.getElementById('btnDown');
+      const btnLeft = document.getElementById('btnLeft');
+      const btnRight = document.getElementById('btnRight');
+      const btnSpace = document.getElementById('btnSpace');
+
+      // State variables
+      let posX = 0;
+      let posY = 0;
+      let targetAngle = 0;
+      let currentAngle = 0;
+      let baseSpeed = 7;
+      let speed = baseSpeed;
+      let isTurbo = false;
+      let isSpotlightOn = false;
+
+      let maxX = (window.innerWidth / 2) - 65;
+      let maxY = (window.innerHeight / 2) - 65;
+
+      const keysPressed = {};
+      const packages = [];
+      const GRAVITY = 0.45;
+      let lastDropTime = 0;
+      let isBoxLoaded = true;
+      let soundEnabled = true;
+
+      // Controls Hint Visibility Toggle (Permanent by default, toggled via 'I' key or Info button)
+      function toggleControlsHint() {
+        controlsHint.classList.toggle('hidden');
+        playSound('light');
+      }
+
+      infoBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleControlsHint();
+      });
+
+      // Sound Toggle
+      let audioCtx = null;
+      function initAudio() {
+        if (!audioCtx) {
+          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+          if (AudioContextClass) audioCtx = new AudioContextClass();
+        }
+        if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+      }
+
+      function playSound(type) {
+        if (!soundEnabled) return;
+        initAudio();
+        if (!audioCtx) return;
+
+        try {
+          const now = audioCtx.currentTime;
+          if (type === 'drop') {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(440, now);
+            osc.frequency.exponentialRampToValueAtTime(120, now + 0.25);
+            gain.gain.setValueAtTime(0.2, now);
+            gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start(now);
+            osc.stop(now + 0.26);
+          } else if (type === 'land') {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(100, now);
+            osc.frequency.exponentialRampToValueAtTime(30, now + 0.15);
+            gain.gain.setValueAtTime(0.25, now);
+            gain.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start(now);
+            osc.stop(now + 0.16);
+          } else if (type === 'light') {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(isSpotlightOn ? 880 : 440, now);
+            gain.gain.setValueAtTime(0.12, now);
+            gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start(now);
+            osc.stop(now + 0.09);
+          } else if (type === 'reset') {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(523.25, now);
+            gain.gain.setValueAtTime(0.18, now);
+            gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start(now);
+            osc.stop(now + 0.21);
+          }
+        } catch (e) {}
+      }
+
+      soundBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        soundEnabled = !soundEnabled;
+        if (soundEnabled) {
+          soundIconOn.style.display = 'block';
+          soundIconOff.style.display = 'none';
+          playSound('light');
+        } else {
+          soundIconOn.style.display = 'none';
+          soundIconOff.style.display = 'block';
+        }
+      });
+
+      function updateBounds() {
+        maxX = (window.innerWidth / 2) - 65;
+        maxY = (window.innerHeight / 2) - 65;
+        posX = Math.max(-maxX, Math.min(maxX, posX));
+        posY = Math.max(-maxY, Math.min(maxY, posY));
+      }
+      window.addEventListener('resize', updateBounds);
+
+      // Actions
+      function toggleSpotlight() {
+        isSpotlightOn = !isSpotlightOn;
+        if (isSpotlightOn) {
+          spotlightBeam.classList.add('active');
+        } else {
+          spotlightBeam.classList.remove('active');
+        }
+        playSound('light');
+      }
+
+      function setTurbo(enabled) {
+        if (isTurbo === enabled) return;
+        isTurbo = enabled;
+        speed = isTurbo ? baseSpeed * 1.85 : baseSpeed;
+        if (isTurbo) {
+          character.classList.add('turbo');
+          turboGlow.classList.add('active');
+        } else {
+          character.classList.remove('turbo');
+          turboGlow.classList.remove('active');
+        }
+      }
+
+      function resetDrone() {
+        posX = 0;
+        posY = 0;
+        targetAngle = 0;
+        currentAngle = 0;
+        character.style.transform = `translate(0px, 0px) rotate(0deg)`;
+        playSound('reset');
+      }
+
+      function dropPackage() {
+        if (!isBoxLoaded) return;
+
+        const now = Date.now();
+        if (now - lastDropTime < 120) return;
+        lastDropTime = now;
+
+        isBoxLoaded = false;
+        if (cargoBox) cargoBox.classList.add('empty');
+        playSound('drop');
+
+        const centerX = (window.innerWidth / 2) + posX;
+        const centerY = (window.innerHeight / 2) + posY + 20;
+
+        let initialVx = 0;
+        if (keysPressed['arrowleft'] || keysPressed['a']) initialVx = isTurbo ? -5 : -3;
+        if (keysPressed['arrowright'] || keysPressed['d']) initialVx = isTurbo ? 5 : 3;
+
+        const el = document.createElement('div');
+        el.className = 'package';
+        packageContainer.appendChild(el);
+
+        packages.push({
+          el,
+          x: centerX - 12,
+          y: centerY,
+          vx: initialVx,
+          vy: 1,
+          rotation: 0,
+          rotSpeed: (Math.random() - 0.5) * 8,
+          landed: false,
+          opacity: 1
+        });
+
+        setTimeout(() => {
+          if (cargoBox) cargoBox.classList.remove('empty');
+          isBoxLoaded = true;
+        }, 220);
+      }
+
+      // =======================================================================
+      // KEY PRESS EVENTS: JavaScript keycode switch-case
+      // =======================================================================
+      window.addEventListener('keydown', (e) => {
+        initAudio();
+        const code = e.keyCode || e.which;
+
+        switch (code) {
+          case 37: // Left arrow
+          case 65: // 'A'
+            keysPressed['arrowleft'] = true;
+            keysPressed['a'] = true;
+            break;
+
+          case 39: // Right arrow
+          case 68: // 'D'
+            keysPressed['arrowright'] = true;
+            keysPressed['d'] = true;
+            break;
+
+          case 38: // Up arrow
+          case 87: // 'W'
+            keysPressed['arrowup'] = true;
+            keysPressed['w'] = true;
+            break;
+
+          case 40: // Down arrow
+          case 83: // 'S'
+            keysPressed['arrowdown'] = true;
+            keysPressed['s'] = true;
+            break;
+
+          case 32: // Spacebar - Drop Package
+            e.preventDefault();
+            dropPackage();
+            break;
+
+          case 76: // 'L' - Spotlight Toggle
+            toggleSpotlight();
+            break;
+
+          case 16: // Shift - Turbo Boost
+          case 66: // 'B'
+            setTurbo(true);
+            break;
+
+          case 82: // 'R' - Reset Center
+            resetDrone();
+            break;
+
+          case 73: // 'I' - Toggle Controls Info Bar
+            toggleControlsHint();
+            break;
+        }
+      });
+
+      window.addEventListener('keyup', (e) => {
+        const code = e.keyCode || e.which;
+        switch (code) {
+          case 37:
+          case 65:
+            delete keysPressed['arrowleft'];
+            delete keysPressed['a'];
+            break;
+          case 39:
+          case 68:
+            delete keysPressed['arrowright'];
+            delete keysPressed['d'];
+            break;
+          case 38:
+          case 87:
+            delete keysPressed['arrowup'];
+            delete keysPressed['w'];
+            break;
+          case 40:
+          case 83:
+            delete keysPressed['arrowdown'];
+            delete keysPressed['s'];
+            break;
+          case 16:
+          case 66:
+            setTurbo(false);
+            break;
+        }
+      });
+
+      window.addEventListener('blur', () => {
+        for (const key in keysPressed) {
+          delete keysPressed[key];
+        }
+        setTurbo(false);
+      });
+
+      // Pointer click on stage drops package
+      window.addEventListener('pointerdown', (e) => {
+        const isUIElement = (infoBtn && infoBtn.contains(e.target)) ||
+          (soundBtn && soundBtn.contains(e.target)) ||
+          (controlsHint && controlsHint.contains(e.target)) ||
+          (mobileControls && mobileControls.contains(e.target));
+        if (!isUIElement) {
+          dropPackage();
+        }
+      });
+
+      // Mobile Touch Controls
+      const dpadBindings = [
+        { btn: btnUp, key: 'arrowup' },
+        { btn: btnDown, key: 'arrowdown' },
+        { btn: btnLeft, key: 'arrowleft' },
+        { btn: btnRight, key: 'arrowright' }
+      ];
+
+      dpadBindings.forEach(({ btn, key }) => {
+        if (!btn) return;
+        const startPress = (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          initAudio();
+          keysPressed[key] = true;
+          btn.classList.add('active');
+        };
+        const endPress = (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          delete keysPressed[key];
+          btn.classList.remove('active');
+        };
+
+        btn.addEventListener('pointerdown', startPress);
+        btn.addEventListener('pointerup', endPress);
+        btn.addEventListener('pointerleave', endPress);
+        btn.addEventListener('pointercancel', endPress);
+      });
+
+      if (btnSpace) {
+        btnSpace.addEventListener('pointerdown', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropPackage();
+          btnSpace.classList.add('active');
+          setTimeout(() => btnSpace.classList.remove('active'), 150);
+        });
+      }
+
+      function createLandingPuff(x, y) {
+        const puff = document.createElement('div');
+        puff.className = 'landing-puff';
+        puff.style.left = `${x}px`;
+        puff.style.top = `${y}px`;
+        packageContainer.appendChild(puff);
+        playSound('land');
+
+        setTimeout(() => {
+          if (puff.parentNode) {
+            puff.parentNode.removeChild(puff);
+          }
+        }, 500);
+      }
+
+      // Main Game Loop
+      function gameLoop() {
+        let movingHorizontal = false;
+
+        if (keysPressed['arrowleft'] || keysPressed['a']) {
+          posX -= speed;
+          targetAngle = isTurbo ? -24 : -18;
+          movingHorizontal = true;
+        }
+        if (keysPressed['arrowright'] || keysPressed['d']) {
+          posX += speed;
+          targetAngle = isTurbo ? 24 : 18;
+          movingHorizontal = true;
+        }
+
+        if (keysPressed['arrowup'] || keysPressed['w']) {
+          posY -= speed;
+        }
+        if (keysPressed['arrowdown'] || keysPressed['s']) {
+          posY += speed;
+        }
+
+        if (!movingHorizontal) {
+          targetAngle = 0;
+        }
+
+        currentAngle += (targetAngle - currentAngle) * 0.2;
+
+        posX = Math.max(-maxX, Math.min(maxX, posX));
+        posY = Math.max(-maxY, Math.min(maxY, posY));
+
+        character.style.transform = `translate(${posX}px, ${posY}px) rotate(${currentAngle}deg)`;
+
+        const groundLevel = window.innerHeight - 30;
+
+        for (let i = packages.length - 1; i >= 0; i--) {
+          const pkg = packages[i];
+
+          if (!pkg.landed) {
+            pkg.vy += GRAVITY;
+            pkg.x += pkg.vx;
+            pkg.y += pkg.vy;
+            pkg.rotation += pkg.rotSpeed;
+
+            if (pkg.y >= groundLevel) {
+              pkg.y = groundLevel;
+              pkg.landed = true;
+              createLandingPuff(pkg.x + 12, groundLevel + 10);
+            }
+          } else {
+            pkg.opacity -= 0.025;
+          }
+
+          pkg.el.style.transform = `translate(${pkg.x}px, ${pkg.y}px) rotate(${pkg.rotation}deg)`;
+          pkg.el.style.opacity = pkg.opacity;
+
+          if (pkg.opacity <= 0) {
+            if (pkg.el.parentNode) {
+              pkg.el.parentNode.removeChild(pkg.el);
+            }
+            packages.splice(i, 1);
+          }
+        }
+
+        requestAnimationFrame(gameLoop);
+      }
+
+      requestAnimationFrame(gameLoop);
+    });
+  </script>
+</body>
+
+</html>

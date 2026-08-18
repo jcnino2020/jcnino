@@ -17,6 +17,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize AI Chat Widget (DeepSeek V4 Flash)
     initAIChatWidget();
+
+    // Initialize Real-Time Visitor Tracking
+    initVisitorTracking();
 });
 
 /**
@@ -853,6 +856,60 @@ async function trackImageView(itemId) {
     } catch (e) {
         console.error('MongoDB views sync issue:', e);
     }
+}
+
+/**
+ * ============================================================================
+ * REAL-TIME VISITOR & PAGE TRAFFIC TRACKER
+ * ============================================================================
+ */
+async function initVisitorTracking() {
+    // Avoid tracking within the admin panel or admin endpoints
+    const path = window.location.pathname || '/';
+    if (path.toLowerCase().includes('/admin') || path.toLowerCase().includes('/api/admin')) {
+        return;
+    }
+
+    let sid = sessionStorage.getItem('vs_sid');
+    if (!sid) {
+        sid = 'vs_' + Math.random().toString(36).substring(2, 15) + Date.now().toString(36);
+        sessionStorage.setItem('vs_sid', sid);
+    }
+
+    const payload = {
+        session_id: sid,
+        page_url: path || '/',
+        page_title: document.title || 'JC Niñonuevo Portfolio',
+        referrer: document.referrer || 'Direct / Bookmark',
+        screen_resolution: (window.screen ? `${window.screen.width}x${window.screen.height}` : 'Unknown')
+    };
+
+    // Client-side lightweight Geo IP lookup fallback
+    try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 1200);
+        const geoRes = await fetch('https://ipapi.co/json/', { signal: controller.signal });
+        clearTimeout(timeoutId);
+        if (geoRes.ok) {
+            const geoData = await geoRes.json();
+            if (geoData && geoData.country_name) {
+                payload.country = geoData.country_name;
+                payload.country_code = geoData.country_code;
+                payload.city = geoData.city;
+                payload.region = geoData.region;
+                payload.isp = geoData.org || geoData.isp || geoData.asn || '';
+            }
+        }
+    } catch (err) {}
+
+    try {
+        await fetch('/api/track_visitor', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+            keepalive: true
+        });
+    } catch (e) {}
 }
 
 // Observe and automatically intercept Vercel/HTML5 video lightboxes

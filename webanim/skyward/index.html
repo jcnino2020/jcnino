@@ -25,8 +25,9 @@
     <div id="packageContainer"></div>
 
     <div id="controlsHint" class="controls-hint">
-      <span>Use <code>W A S D</code> or <code>Arrow Keys</code> to Move &bull; Press <code>Space</code> to Drop Package
-        📦</span>
+      <span>Use <code>W A S D</code> or <code>Arrow Keys</code> to Move</span>
+      <span class="hint-sep">&bull;</span>
+      <span>Press <code>Space</code> to Drop Package 📦</span>
     </div>
 
     <button id="infoBtn" class="info-btn" title="Toggle Controls Info" aria-label="Controls Info">
@@ -50,7 +51,7 @@
         <div class="nav-light light-front-left"></div>
         <div class="nav-light light-front-right"></div>
 
-        <img src="assets/box.png" alt="Cargo Box" class="cargo-box">
+        <img src="assets/box.png" alt="Cargo Box" id="cargoBox" class="cargo-box">
       </div>
     </div>
 
@@ -69,6 +70,7 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const character = document.getElementById('character');
+      const cargoBox = document.getElementById('cargoBox');
       const packageContainer = document.getElementById('packageContainer');
       const controlsHint = document.getElementById('controlsHint');
       const infoBtn = document.getElementById('infoBtn');
@@ -94,6 +96,7 @@
       const packages = [];
       const GRAVITY = 0.45;
       let lastDropTime = 0;
+      let isBoxLoaded = true;
 
       let hideTimer;
 
@@ -154,6 +157,12 @@
         }
       });
 
+      window.addEventListener('blur', () => {
+        for (const key in keysPressed) {
+          delete keysPressed[key];
+        }
+      });
+
       const dpadBindings = [
         { btn: btnUp, key: 'arrowup' },
         { btn: btnDown, key: 'arrowdown' },
@@ -193,9 +202,16 @@
       }
 
       function dropPackage() {
+        if (!isBoxLoaded) return;
+
         const now = Date.now();
-        if (now - lastDropTime < 200) return;
+        if (now - lastDropTime < 120) return;
         lastDropTime = now;
+
+        isBoxLoaded = false;
+        if (cargoBox) {
+          cargoBox.classList.add('empty');
+        }
 
         const centerX = (window.innerWidth / 2) + posX;
         const centerY = (window.innerHeight / 2) + posY + 20;
@@ -219,6 +235,13 @@
           landed: false,
           opacity: 1
         });
+
+        setTimeout(() => {
+          if (cargoBox) {
+            cargoBox.classList.remove('empty');
+          }
+          isBoxLoaded = true;
+        }, 220);
       }
 
       function createLandingPuff(x, y) {

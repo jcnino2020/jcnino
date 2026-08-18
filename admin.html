@@ -7,6 +7,7 @@
   <link rel="icon" type="image/png" href="images/favicon.png">
   
   <!-- Fonts & Core Stylesheet -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <link rel="stylesheet" href="assets/tailwind.css">
   <link rel="stylesheet" href="assets/portfolio.css">
 
@@ -14,6 +15,7 @@
     body {
       background-color: #000000;
       color: #ffffff;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
       overflow-x: hidden;
     }
     
@@ -208,6 +210,626 @@
     .shake-error {
       animation: shake 0.3s cubic-bezier(.36,.07,.19,.97) both;
     }
+
+    /* ==========================================================================
+       VISITOR & LINK TRAFFIC ANALYTICS HUB STYLES (MATCHING JCNINO-MD)
+       ========================================================================== */
+    .analytics-hub {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      width: 100%;
+    }
+
+    .tf-filter-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 0.75rem 1rem;
+    }
+
+    .range-btn-group {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.45rem 0.9rem;
+      border-radius: 8px;
+      font-size: 13px !important;
+      font-weight: 600 !important;
+      color: #a0a0a0;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .filter-btn:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+    .filter-btn.active {
+      background: #ffffff;
+      color: #000000 !important;
+      border-color: #ffffff;
+      font-weight: 700 !important;
+    }
+    .filter-btn.clear-btn {
+      color: #ef4444;
+      border-color: rgba(239, 68, 68, 0.3);
+      background: rgba(239, 68, 68, 0.08);
+    }
+    .filter-btn.clear-btn:hover {
+      background: rgba(239, 68, 68, 0.18);
+      color: #f87171;
+    }
+
+    .filter-form-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .link-select {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      padding: 0.45rem 0.75rem;
+      font-size: 13px !important;
+      color: #ffffff;
+      outline: none;
+      cursor: pointer;
+      min-width: 170px;
+    }
+    .link-select option {
+      background: #18181b;
+      color: #ffffff;
+    }
+
+    .search-input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .analytics-search-input {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      padding: 0.45rem 2.2rem 0.45rem 2rem;
+      font-size: 13px !important;
+      color: #ffffff;
+      outline: none;
+      min-width: 220px;
+      transition: border-color 0.2s ease;
+    }
+    .analytics-search-input:focus {
+      border-color: rgba(255, 255, 255, 0.35);
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .search-icon-inside {
+      position: absolute;
+      left: 8px;
+      color: #71717a;
+      font-size: 16px !important;
+      pointer-events: none;
+    }
+    .clear-search-btn-inside {
+      position: absolute;
+      right: 6px;
+      background: none;
+      border: none;
+      color: #a1a1aa;
+      font-size: 16px;
+      cursor: pointer;
+      padding: 2px 6px;
+    }
+
+    .active-filter-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 1rem;
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 10px;
+      color: #93c5fd;
+      font-size: 13px !important;
+    }
+    .active-filter-banner .banner-left {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .active-filter-banner .banner-close-btn {
+      color: #ffffff;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: underline;
+      font-size: 12px !important;
+    }
+
+    /* 4-Grid Key Metrics */
+    .tf-grid-4 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      width: 100%;
+    }
+
+    .tf-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 1.25rem;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-sizing: border-box;
+    }
+
+    .tf-metric {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .tf-metric-label {
+      font-size: 11px !important;
+      font-weight: 700 !important;
+      color: #a0a0a0;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .tf-metric-val {
+      font-size: 26px !important;
+      font-weight: 800 !important;
+      color: #ffffff;
+      line-height: 1.2;
+      margin-top: 0.2rem;
+    }
+    .tf-metric-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .blue-icon { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.25); }
+    .green-icon { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.25); }
+    .yellow-icon { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.25); }
+    .purple-icon { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.25); }
+
+    /* 2-Grid Breakdown Progress Cards */
+    .tf-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.25rem;
+      width: 100%;
+    }
+    .card-header-flex {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .card-title {
+      font-size: 14px !important;
+      font-weight: 700 !important;
+      color: #ffffff;
+      margin: 0;
+    }
+    .card-icon {
+      color: #71717a;
+      font-size: 18px !important;
+    }
+    .no-data-msg {
+      padding: 1.5rem;
+      text-align: center;
+      color: #71717a;
+      font-size: 12px !important;
+    }
+    .breakdown-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      margin-bottom: 0.85rem;
+    }
+    .breakdown-item:last-child {
+      margin-bottom: 0;
+    }
+    .breakdown-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px !important;
+      font-weight: 600;
+    }
+    .link-label {
+      color: #60a5fa;
+      text-decoration: none;
+      cursor: pointer;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 70%;
+    }
+    .link-label:hover {
+      text-decoration: underline;
+    }
+    .hits-label {
+      color: #a0a0a0;
+      font-size: 11px !important;
+      font-family: monospace;
+    }
+    .loc-label {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      color: #e4e4e7;
+    }
+    .loc-pin {
+      font-size: 14px !important;
+      color: #c084fc;
+    }
+    .item-label {
+      color: #e4e4e7;
+    }
+
+    .tf-progress-bar {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .tf-progress-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 0.4s ease;
+    }
+    .blue-fill { background: #3b82f6; }
+    .purple-fill { background: #a855f7; }
+    .green-fill { background: #10b981; }
+    .yellow-fill { background: #f59e0b; }
+
+    /* Tables & Responsive Design */
+    .table-card-padding {
+      padding: 1.25rem !important;
+    }
+    .table-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .table-card-title {
+      font-size: 15px !important;
+      font-weight: 800 !important;
+      color: #ffffff;
+      margin: 0;
+    }
+    .table-card-sub {
+      font-size: 12px !important;
+      color: #a0a0a0;
+      margin-top: 0.15rem;
+    }
+    .tf-table-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.2);
+    }
+    .tf-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 13px !important;
+    }
+    .tf-table th {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 0.85rem 1rem;
+      font-weight: 700 !important;
+      font-size: 11px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #a0a0a0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      white-space: nowrap;
+      user-select: none;
+    }
+    .tf-table td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      vertical-align: middle;
+      color: #e4e4e7;
+    }
+    .tf-table tr:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .sortable-th {
+      cursor: pointer;
+      transition: color 0.15s ease;
+    }
+    .sortable-th:hover {
+      color: #ffffff !important;
+    }
+    .th-content {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .sort-icon {
+      font-size: 14px !important;
+      opacity: 0.5;
+    }
+    .sortable-th.active-sort {
+      color: #ffffff !important;
+    }
+    .sortable-th.active-sort .sort-icon {
+      opacity: 1;
+      color: #60a5fa;
+    }
+
+    /* Badges & Tags */
+    .ip-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: monospace;
+      font-size: 12px !important;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 2px 8px;
+      border-radius: 6px;
+      color: #f4f4f5;
+    }
+    .copy-ip {
+      font-size: 13px !important;
+      color: #71717a;
+      cursor: pointer;
+      transition: color 0.15s ease;
+    }
+    .copy-ip:hover {
+      color: #ffffff;
+    }
+
+    .badge-dev {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 2px 7px;
+      border-radius: 6px;
+      font-size: 11px !important;
+      font-weight: 700 !important;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .badge-dev-icon {
+      font-size: 13px !important;
+    }
+    .badge-desktop {
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.25);
+    }
+    .badge-mobile {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.25);
+    }
+    .badge-tablet {
+      background: rgba(168, 85, 247, 0.15);
+      color: #c084fc;
+      border: 1px solid rgba(168, 85, 247, 0.25);
+    }
+
+    .specs-subtext {
+      font-size: 11px !important;
+      color: #a0a0a0;
+      margin-top: 2px;
+    }
+    .res-subtext {
+      font-size: 10px !important;
+      color: #71717a;
+      font-family: monospace;
+    }
+
+    .page-link-badge {
+      font-weight: 700;
+      color: #60a5fa;
+      text-decoration: none;
+      font-family: monospace;
+      font-size: 12px !important;
+    }
+    .page-link-badge:hover {
+      text-decoration: underline;
+    }
+    .title-subtext {
+      font-size: 11px !important;
+      color: #a0a0a0;
+      margin-top: 2px;
+      max-width: 250px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .referrer-text {
+      font-size: 11px !important;
+      color: #a0a0a0;
+      max-width: 180px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .loc-row {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-weight: 600;
+    }
+    .isp-subtext {
+      font-size: 11px !important;
+      color: #71717a;
+      margin-top: 2px;
+    }
+    .date-subtext {
+      font-size: 11px !important;
+      color: #71717a;
+      margin-top: 2px;
+    }
+    .nowrap {
+      white-space: nowrap;
+    }
+    .text-dark {
+      color: #ffffff;
+    }
+
+    .slug-link-text {
+      font-weight: 700;
+      color: #60a5fa;
+      text-decoration: none;
+      font-family: monospace;
+    }
+    .slug-link-text:hover {
+      text-decoration: underline;
+    }
+    .btn-sm-filter {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+      font-size: 11px !important;
+      font-weight: 600 !important;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .btn-sm-filter:hover {
+      background: #ffffff;
+      color: #000000;
+    }
+
+    .highlight-row {
+      background: rgba(59, 130, 246, 0.12) !important;
+    }
+
+    /* Pagination Bar */
+    .pagination-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.85rem 0.5rem 0.25rem 0.5rem;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      font-size: 12px !important;
+      color: #a0a0a0;
+    }
+    .page-nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .pagination-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.2rem;
+      padding: 0.35rem 0.75rem;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      color: #ffffff;
+      font-size: 12px !important;
+      font-weight: 600 !important;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .pagination-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+    .pagination-btn:not(:disabled):hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+    .pagination-numbers {
+      display: flex;
+      gap: 0.25rem;
+    }
+    .page-number-btn {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      color: #a0a0a0;
+      font-size: 12px !important;
+      font-weight: 600 !important;
+      cursor: pointer;
+    }
+    .page-number-btn:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .page-number-btn.active {
+      background: #ffffff;
+      color: #000000;
+      font-weight: 800 !important;
+      border-color: #ffffff;
+    }
+    .pagination-ellipsis {
+      padding: 0 4px;
+      color: #71717a;
+      display: flex;
+      align-items: center;
+    }
+
+    .empty-table-td {
+      padding: 3rem 1rem !important;
+      text-align: center;
+      color: #71717a;
+    }
+    .empty-icon-sm {
+      font-size: 32px !important;
+      color: #52525b;
+      margin-bottom: 0.5rem;
+    }
+    .empty-title {
+      font-weight: 700;
+      color: #a0a0a0;
+      font-size: 13px !important;
+    }
+    .empty-sub {
+      font-size: 11px !important;
+      color: #71717a;
+      margin-top: 0.25rem;
+    }
   </style>
 
   <!-- Load Database File -->
@@ -345,7 +967,7 @@
         <button onclick="switchTab('analytics')" id="tab-analytics" class="tab-btn w-full px-4 py-3 rounded-lg text-left text-sm font-bold transition-all flex items-center justify-between border border-transparent whitespace-nowrap md:whitespace-normal">
           <span class="flex items-center gap-3">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-            Analytics Dashboard
+            Visitor & Traffic Analytics
           </span>
           <span id="badge-analytics" class="bg-success/20 text-success text-[10px] px-2 py-0.5 rounded-full font-medium ml-2">Live</span>
         </button>
@@ -432,157 +1054,404 @@
           <!-- Dynamic cards injected here -->
         </div>
 
-        <!-- Analytics Panel -->
+        <!-- Analytics Panel: Real-Time Visitor & Link Traffic Analytics Hub -->
         <div id="analytics-panel" class="hidden space-y-8 select-none">
-          <!-- Aggregate Cards -->
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            <!-- Total Views Card -->
-            <div class="glass p-6 rounded-xl flex items-center justify-between">
-              <div>
-                <p class="text-[10px] uppercase tracking-widest text-accent-dim font-bold">Total Portfolio Views</p>
-                <h3 id="analytics-total-views" class="text-3xl font-bold mt-1 text-white">0</h3>
+          <div class="analytics-hub">
+            <!-- Top Filter & Action Bar -->
+            <div class="tf-filter-bar">
+              <div class="range-btn-group" id="analytics-range-buttons">
+                <button type="button" class="filter-btn" data-range="today" onclick="switchAnalyticsRange('today')">Today</button>
+                <button type="button" class="filter-btn" data-range="24h" onclick="switchAnalyticsRange('24h')">Last 24 Hours</button>
+                <button type="button" class="filter-btn active" data-range="7d" onclick="switchAnalyticsRange('7d')">Last 7 Days</button>
+                <button type="button" class="filter-btn" data-range="30d" onclick="switchAnalyticsRange('30d')">Last 30 Days</button>
+                <button type="button" class="filter-btn" data-range="all" onclick="switchAnalyticsRange('all')">All Time</button>
               </div>
-              <div class="h-10 w-10 bg-white/5 border border-white/10 rounded-lg flex items-center justify-center text-white">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+
+              <div class="filter-form-wrap">
+                <select id="analytics-link-select" class="link-select" onchange="handleAnalyticsLinkSelect(this.value)">
+                  <option value="">All Links & Pages</option>
+                  <option value="/">/ (Homepage)</option>
+                  <option value="/drone-shots.html">/drone-shots.html</option>
+                  <option value="/framed-moments.html">/framed-moments.html</option>
+                  <option value="/school-events.html">/school-events.html</option>
+                  <option value="/video-projects.html">/video-projects.html</option>
+                </select>
+
+                <div class="search-input-wrapper">
+                  <span class="material-symbols-outlined search-icon-inside">search</span>
+                  <input
+                    type="text"
+                    id="analytics-search-input"
+                    placeholder="Search IP, City, Page, OS, Browser..."
+                    class="analytics-search-input"
+                    onkeydown="if(event.key==='Enter'){handleAnalyticsSearchSubmit();}"
+                  />
+                  <button type="button" id="clear-analytics-search" class="clear-search-btn-inside hidden" onclick="clearAnalyticsSearch()" title="Clear Search">&times;</button>
+                </div>
+
+                <button type="button" onclick="handleAnalyticsSearchSubmit()" class="filter-btn active">Filter</button>
+                <button type="button" id="btn-clear-all-filters" class="filter-btn clear-btn hidden" onclick="clearAllAnalyticsFilters()">Clear Filter</button>
               </div>
             </div>
 
-            <!-- Total Likes Card -->
-            <div class="glass p-6 rounded-xl flex items-center justify-between">
-              <div>
-                <p class="text-[10px] uppercase tracking-widest text-accent-dim font-bold">Total Portfolio Likes</p>
-                <h3 id="analytics-total-likes" class="text-3xl font-bold mt-1 text-white">0</h3>
+            <!-- Active Filter Banner -->
+            <div id="analytics-filter-banner" class="active-filter-banner hidden">
+              <div class="banner-left">
+                <span class="material-symbols-outlined banner-icon">filter_alt</span>
+                <span id="analytics-filter-banner-text">Filtering analytics...</span>
               </div>
-              <div class="h-10 w-10 bg-white/5 border border-white/10 rounded-lg flex items-center justify-center text-white">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
-              </div>
+              <button type="button" class="banner-close-btn" onclick="clearAllAnalyticsFilters()">
+                &times; Show All Traffic
+              </button>
             </div>
 
-            <!-- Engagement Rate Card -->
-            <div class="glass p-6 rounded-xl flex items-center justify-between">
-              <div>
-                <p class="text-[10px] uppercase tracking-widest text-accent-dim font-bold">Average Engagement Rate</p>
-                <h3 id="analytics-avg-engagement" class="text-3xl font-bold mt-1 text-white">0.0%</h3>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visual Analytics Leaderboard & Progress Breakdown -->
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Star Asset Card -->
-            <div class="glass p-6 rounded-xl space-y-4">
-              <p class="text-[10px] uppercase tracking-widest text-accent-dim font-bold">Trending Star Photo</p>
-              <div id="star-asset-area" class="flex gap-4 items-center">
-                <!-- Thumbnail -->
-                <div class="h-16 w-24 rounded overflow-hidden bg-black/40 border border-white/10 shrink-0 relative flex items-center justify-center">
-                  <img id="star-asset-thumb" src="" class="w-full h-full object-cover" />
-                </div>
-                <div class="min-w-0">
-                  <h4 id="star-asset-title" class="text-xs text-white font-bold truncate">Loading...</h4>
-                  <p class="text-[10px] text-accent-dim mt-0.5" id="star-asset-cat">Gallery Highlights</p>
-                  <div class="flex items-center gap-3 mt-1.5">
-                    <span class="text-[10px] text-success font-bold flex items-center gap-1">
-                      <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                      <span id="star-asset-ratio">0.0%</span>
-                    </span>
-                    <span class="text-[10px] text-accent-dim" id="star-asset-likes">0 Likes</span>
+            <!-- 4 Key Metric Cards -->
+            <div class="tf-grid-4">
+              <div class="tf-card">
+                <div class="tf-metric">
+                  <div>
+                    <div class="tf-metric-label">Total Pageviews</div>
+                    <div class="tf-metric-val" id="metric-total-views">0</div>
+                  </div>
+                  <div class="tf-metric-icon blue-icon">
+                    <span class="material-symbols-outlined">visibility</span>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <!-- Audience Cities Card -->
-            <div class="glass p-6 rounded-xl space-y-3">
-              <p class="text-[10px] uppercase tracking-widest text-accent-dim font-bold">Top Traffic Cities</p>
-              <div class="space-y-2.5">
-                <div class="space-y-1">
-                  <div class="flex justify-between text-[10px] font-semibold text-white/80">
-                    <span>Bacolod City</span><span>55%</span>
+              <div class="tf-card">
+                <div class="tf-metric">
+                  <div>
+                    <div class="tf-metric-label">Unique Visitors</div>
+                    <div class="tf-metric-val" id="metric-unique-visitors">0</div>
                   </div>
-                  <div class="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
-                    <div class="h-full bg-white/20 rounded-full" style="width: 55%"></div>
-                  </div>
-                </div>
-                <div class="space-y-1">
-                  <div class="flex justify-between text-[10px] font-semibold text-white/80">
-                    <span>Manila</span><span>30%</span>
-                  </div>
-                  <div class="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
-                    <div class="h-full bg-white/20 rounded-full" style="width: 30%"></div>
-                  </div>
-                </div>
-                <div class="space-y-1">
-                  <div class="flex justify-between text-[10px] font-semibold text-white/80">
-                    <span>Cebu City</span><span>15%</span>
-                  </div>
-                  <div class="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
-                    <div class="h-full bg-white/20 rounded-full" style="width: 15%"></div>
+                  <div class="tf-metric-icon green-icon">
+                    <span class="material-symbols-outlined">people_alt</span>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <!-- Audience Devices Card -->
-            <div class="glass p-6 rounded-xl space-y-3">
-              <p class="text-[10px] uppercase tracking-widest text-accent-dim font-bold">Top Platform Browsers</p>
-              <div class="space-y-2.5">
-                <div class="space-y-1">
-                  <div class="flex justify-between text-[10px] font-semibold text-white/80">
-                    <span>Safari (Mac/iOS)</span><span>60%</span>
+              <div class="tf-card">
+                <div class="tf-metric">
+                  <div>
+                    <div class="tf-metric-label">Mobile Traffic</div>
+                    <div class="tf-metric-val" id="metric-mobile-pct">0.0%</div>
                   </div>
-                  <div class="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
-                    <div class="h-full bg-white/20 rounded-full" style="width: 60%"></div>
+                  <div class="tf-metric-icon yellow-icon">
+                    <span class="material-symbols-outlined">smartphone</span>
                   </div>
                 </div>
-                <div class="space-y-1">
-                  <div class="flex justify-between text-[10px] font-semibold text-white/80">
-                    <span>Google Chrome</span><span>30%</span>
+              </div>
+
+              <div class="tf-card">
+                <div class="tf-metric">
+                  <div>
+                    <div class="tf-metric-label">Top Location</div>
+                    <div class="tf-metric-val text-truncate" id="metric-top-location" title="Top Location">N/A</div>
                   </div>
-                  <div class="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
-                    <div class="h-full bg-white/20 rounded-full" style="width: 30%"></div>
-                  </div>
-                </div>
-                <div class="space-y-1">
-                  <div class="flex justify-between text-[10px] font-semibold text-white/80">
-                    <span>Mozilla Firefox</span><span>10%</span>
-                  </div>
-                  <div class="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
-                    <div class="h-full bg-white/20 rounded-full" style="width: 10%"></div>
+                  <div class="tf-metric-icon purple-icon">
+                    <span class="material-symbols-outlined">public</span>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <!-- Table section with glass border -->
-          <div class="glass rounded-xl overflow-hidden border border-white/10">
-            <div class="overflow-x-auto">
-              <table class="w-full text-left border-collapse text-sm">
-                <thead>
-                  <tr class="border-b border-white/10 bg-white/[0.02]">
-                    <th class="py-4 px-6 font-bold text-xs uppercase tracking-wider text-accent-dim">Item Detail</th>
-                    <th class="py-4 px-6 font-bold text-xs uppercase tracking-wider text-accent-dim">Category</th>
-                    <th id="th-views" onclick="handleAnalyticsSort('views')" class="py-4 px-6 font-bold text-xs uppercase tracking-wider text-accent-dim cursor-pointer hover:text-white transition-colors select-none">
-                      <div class="flex items-center gap-1.5">
-                        Views <span id="sort-icon-views" class="text-[10px]">▼</span>
-                      </div>
-                    </th>
-                    <th id="th-likes" onclick="handleAnalyticsSort('likes')" class="py-4 px-6 font-bold text-xs uppercase tracking-wider text-accent-dim cursor-pointer hover:text-white transition-colors select-none">
-                      <div class="flex items-center gap-1.5">
-                        Likes <span id="sort-icon-likes" class="text-[10px]"></span>
-                      </div>
-                    </th>
-                    <th id="th-ratio" onclick="handleAnalyticsSort('ratio')" class="py-4 px-6 font-bold text-xs uppercase tracking-wider text-accent-dim cursor-pointer hover:text-white transition-colors select-none">
-                      <div class="flex items-center gap-1.5">
-                        Engagement % <span id="sort-icon-ratio" class="text-[10px]"></span>
-                      </div>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody id="analytics-tbody" class="divide-y divide-white/5 text-xs">
-                  <!-- Dynamic rows injected here -->
-                </tbody>
-              </table>
+            <!-- 4 Dynamic Breakdown Cards with Visual Progress Bars -->
+            <div class="tf-grid-2">
+              <!-- Top Pages Card -->
+              <div class="tf-card">
+                <div class="card-header-flex">
+                  <h3 class="card-title">Top Visited Links & Pages</h3>
+                  <span class="material-symbols-outlined card-icon">auto_stories</span>
+                </div>
+                <div id="top-pages-list" class="space-y-3">
+                  <div class="no-data-msg">Loading traffic metrics...</div>
+                </div>
+              </div>
+
+              <!-- Visitor Locations Card -->
+              <div class="tf-card">
+                <div class="card-header-flex">
+                  <h3 class="card-title">Visitor Locations (Country & City)</h3>
+                  <span class="material-symbols-outlined card-icon">public</span>
+                </div>
+                <div id="top-locations-list" class="space-y-3">
+                  <div class="no-data-msg">Loading location metrics...</div>
+                </div>
+              </div>
+
+              <!-- Operating Systems Card -->
+              <div class="tf-card">
+                <div class="card-header-flex">
+                  <h3 class="card-title">Operating Systems & Platforms</h3>
+                  <span class="material-symbols-outlined card-icon">devices</span>
+                </div>
+                <div id="top-os-list" class="space-y-3">
+                  <div class="no-data-msg">Loading OS metrics...</div>
+                </div>
+              </div>
+
+              <!-- Web Browsers Distribution Card -->
+              <div class="tf-card">
+                <div class="card-header-flex">
+                  <h3 class="card-title">Web Browsers Distribution</h3>
+                  <span class="material-symbols-outlined card-icon">language</span>
+                </div>
+                <div id="top-browsers-list" class="space-y-3">
+                  <div class="no-data-msg">Loading browser metrics...</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Summary Breakdown Table ("Every View Breakdown of Each Link / Page") -->
+            <div class="tf-card table-card-padding">
+              <div class="table-card-header">
+                <div>
+                  <h3 class="table-card-title">Every View Breakdown of Each Link & Page</h3>
+                  <div class="table-card-sub">Page-by-page traffic summary across all visited portfolio pages</div>
+                </div>
+              </div>
+
+              <div class="tf-table-wrap">
+                <table class="tf-table">
+                  <thead>
+                    <tr>
+                      <th class="sortable-th" data-table="breakdown" data-sort="url" onclick="handleBreakdownSort('url')" title="Click to sort by Link Path / URL">
+                        <div class="th-content">
+                          <span>Link Path / URL</span>
+                          <span class="material-symbols-outlined sort-icon" id="breakdown-sort-url">unfold_more</span>
+                        </div>
+                      </th>
+                      <th class="sortable-th active-sort desc" data-table="breakdown" data-sort="views" onclick="handleBreakdownSort('views')" title="Click to sort by Total Views">
+                        <div class="th-content">
+                          <span>Total Views</span>
+                          <span class="material-symbols-outlined sort-icon" id="breakdown-sort-views">arrow_downward</span>
+                        </div>
+                      </th>
+                      <th class="sortable-th" data-table="breakdown" data-sort="unique" onclick="handleBreakdownSort('unique')" title="Click to sort by Unique Visitors">
+                        <div class="th-content">
+                          <span>Unique Visitors</span>
+                          <span class="material-symbols-outlined sort-icon" id="breakdown-sort-unique">unfold_more</span>
+                        </div>
+                      </th>
+                      <th class="sortable-th" data-table="breakdown" data-sort="mobile" onclick="handleBreakdownSort('mobile')" title="Click to sort by Mobile %">
+                        <div class="th-content">
+                          <span>Mobile %</span>
+                          <span class="material-symbols-outlined sort-icon" id="breakdown-sort-mobile">unfold_more</span>
+                        </div>
+                      </th>
+                      <th class="sortable-th" data-table="breakdown" data-sort="visited" onclick="handleBreakdownSort('visited')" title="Click to sort by Last Visited Time">
+                        <div class="th-content">
+                          <span>Last Visited</span>
+                          <span class="material-symbols-outlined sort-icon" id="breakdown-sort-visited">unfold_more</span>
+                        </div>
+                      </th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="breakdownTableBody">
+                    <tr>
+                      <td colspan="6" class="empty-table-td">
+                        <span class="material-symbols-outlined empty-icon-sm">hourglass_empty</span>
+                        <div class="empty-title">Loading breakdown data...</div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Pagination for Breakdown Table (5 per page) -->
+              <div class="pagination-bar" id="breakdownPagination">
+                <div class="page-info" id="breakdownPageInfo">Showing 0 links</div>
+                <div class="page-nav-controls">
+                  <button type="button" class="pagination-btn prev-btn" id="breakdownPrevBtn" onclick="changeBreakdownPage(-1)" disabled>
+                    <span class="material-symbols-outlined btn-arrow-icon">chevron_left</span> Prev
+                  </button>
+                  <div class="pagination-numbers" id="breakdownPageNumbers"></div>
+                  <button type="button" class="pagination-btn next-btn" id="breakdownNextBtn" onclick="changeBreakdownPage(1)" disabled>
+                    Next <span class="material-symbols-outlined btn-arrow-icon">chevron_right</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Real-Time Visitor Log Table -->
+            <div class="tf-card table-card-padding">
+              <div class="table-card-header">
+                <div>
+                  <h3 class="table-card-title">Real-Time Visitor Log</h3>
+                  <div class="table-card-sub" id="visitorLogsTotalSub">Showing 0 of 0 recorded visitor entries</div>
+                </div>
+                <button type="button" onclick="fetchAnalyticsAndRender()" class="filter-btn">
+                  <span class="material-symbols-outlined" style="font-size:16px;">refresh</span> Refresh
+                </button>
+              </div>
+
+              <div class="tf-table-wrap">
+                <table class="tf-table">
+                  <thead>
+                    <tr>
+                      <th class="sortable-th active-sort desc" data-table="logs" data-sort="time" onclick="handleLogsSort('time')" title="Click to sort by Time (Newest / Oldest)">
+                        <div class="th-content">
+                          <span>Time</span>
+                          <span class="material-symbols-outlined sort-icon" id="logs-sort-time">arrow_downward</span>
+                        </div>
+                      </th>
+                      <th class="sortable-th" data-table="logs" data-sort="ip" onclick="handleLogsSort('ip')" title="Click to sort by IP Address">
+                        <div class="th-content">
+                          <span>IP Address</span>
+                          <span class="material-symbols-outlined sort-icon" id="logs-sort-ip">unfold_more</span>
+                        </div>
+                      </th>
+                      <th class="sortable-th" data-table="logs" data-sort="location" onclick="handleLogsSort('location')" title="Click to sort by Location & ISP">
+                        <div class="th-content">
+                          <span>Location & ISP</span>
+                          <span class="material-symbols-outlined sort-icon" id="logs-sort-location">unfold_more</span>
+                        </div>
+                      </th>
+                      <th class="sortable-th" data-table="logs" data-sort="device" onclick="handleLogsSort('device')" title="Click to sort by Device & Specs">
+                        <div class="th-content">
+                          <span>Device & Specs</span>
+                          <span class="material-symbols-outlined sort-icon" id="logs-sort-device">unfold_more</span>
+                        </div>
+                      </th>
+                      <th class="sortable-th" data-table="logs" data-sort="page" onclick="handleLogsSort('page')" title="Click to sort by Page / Link Visited">
+                        <div class="th-content">
+                          <span>Page / Link Visited</span>
+                          <span class="material-symbols-outlined sort-icon" id="logs-sort-page">unfold_more</span>
+                        </div>
+                      </th>
+                      <th class="sortable-th" data-table="logs" data-sort="referrer" onclick="handleLogsSort('referrer')" title="Click to sort by Referrer">
+                        <div class="th-content">
+                          <span>Referrer</span>
+                          <span class="material-symbols-outlined sort-icon" id="logs-sort-referrer">unfold_more</span>
+                        </div>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody id="visitorLogsTableBody">
+                    <tr>
+                      <td colspan="6" class="empty-table-td">
+                        <span class="material-symbols-outlined empty-icon-sm">hourglass_empty</span>
+                        <div class="empty-title">Loading real-time logs...</div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Pagination for Visitor Logs Table (25 per page) -->
+              <div class="pagination-bar" id="logsPagination">
+                <div class="page-info" id="logsPageInfo">Showing 0 entries</div>
+                <div class="page-nav-controls">
+                  <button type="button" class="pagination-btn prev-btn" id="logsPrevBtn" onclick="changeLogsPage(-1)" disabled>
+                    <span class="material-symbols-outlined btn-arrow-icon">chevron_left</span> Prev
+                  </button>
+                  <div class="pagination-numbers" id="logsPageNumbers"></div>
+                  <button type="button" class="pagination-btn next-btn" id="logsNextBtn" onclick="changeLogsPage(1)" disabled>
+                    Next <span class="material-symbols-outlined btn-arrow-icon">chevron_right</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Portfolio Media Items & Likes Engagement Section -->
+            <div class="tf-card table-card-padding">
+              <div class="table-card-header">
+                <div>
+                  <h3 class="table-card-title">Portfolio Media Engagement Leaderboard</h3>
+                  <div class="table-card-sub">Individual views, likes, and engagement rates for photos and videos</div>
+                </div>
+              </div>
+
+              <!-- Aggregate Media Cards -->
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">
+                <!-- Total Views Card -->
+                <div class="glass p-5 rounded-xl flex items-center justify-between">
+                  <div>
+                    <p class="text-[10px] uppercase tracking-widest text-accent-dim font-bold">Total Media Views</p>
+                    <h3 id="analytics-total-views" class="text-2xl font-bold mt-1 text-white">0</h3>
+                  </div>
+                  <div class="h-10 w-10 bg-white/5 border border-white/10 rounded-lg flex items-center justify-center text-white">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                  </div>
+                </div>
+
+                <!-- Total Likes Card -->
+                <div class="glass p-5 rounded-xl flex items-center justify-between">
+                  <div>
+                    <p class="text-[10px] uppercase tracking-widest text-accent-dim font-bold">Total Media Likes</p>
+                    <h3 id="analytics-total-likes" class="text-2xl font-bold mt-1 text-white">0</h3>
+                  </div>
+                  <div class="h-10 w-10 bg-white/5 border border-white/10 rounded-lg flex items-center justify-center text-white">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                  </div>
+                </div>
+
+                <!-- Average Engagement Rate -->
+                <div class="glass p-5 rounded-xl flex items-center justify-between">
+                  <div>
+                    <p class="text-[10px] uppercase tracking-widest text-accent-dim font-bold">Media Engagement Rate</p>
+                    <h3 id="analytics-avg-engagement" class="text-2xl font-bold mt-1 text-white">0.0%</h3>
+                  </div>
+                  <div class="h-10 w-10 bg-white/5 border border-white/10 rounded-lg flex items-center justify-center text-white">
+                    <span class="material-symbols-outlined" style="font-size:20px;">trending_up</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Trending Star Photo Highlight Card -->
+              <div class="glass p-5 rounded-xl mb-6">
+                <p class="text-[10px] uppercase tracking-widest text-accent-dim font-bold mb-3">Trending Star Photo Asset</p>
+                <div id="star-asset-area" class="flex gap-4 items-center">
+                  <div class="h-16 w-24 rounded overflow-hidden bg-black/40 border border-white/10 shrink-0 relative flex items-center justify-center">
+                    <img id="star-asset-thumb" src="" class="w-full h-full object-cover" />
+                  </div>
+                  <div class="min-w-0">
+                    <h4 id="star-asset-title" class="text-xs text-white font-bold truncate">Loading...</h4>
+                    <p class="text-[10px] text-accent-dim mt-0.5" id="star-asset-cat">Gallery Highlights</p>
+                    <div class="flex items-center gap-3 mt-1.5">
+                      <span class="text-[10px] text-success font-bold flex items-center gap-1">
+                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <span id="star-asset-ratio">0.0%</span>
+                      </span>
+                      <span class="text-[10px] text-accent-dim" id="star-asset-likes">0 Likes</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Media Table with glass border -->
+              <div class="glass rounded-xl overflow-hidden border border-white/10">
+                <div class="overflow-x-auto">
+                  <table class="w-full text-left border-collapse text-sm">
+                    <thead>
+                      <tr class="border-b border-white/10 bg-white/[0.02]">
+                        <th class="py-4 px-6 font-bold text-xs uppercase tracking-wider text-accent-dim">Item Detail</th>
+                        <th class="py-4 px-6 font-bold text-xs uppercase tracking-wider text-accent-dim">Category</th>
+                        <th id="th-views" onclick="handleAnalyticsSort('views')" class="py-4 px-6 font-bold text-xs uppercase tracking-wider text-accent-dim cursor-pointer hover:text-white transition-colors select-none">
+                          <div class="flex items-center gap-1.5">
+                            Views <span id="sort-icon-views" class="text-[10px]">▼</span>
+                          </div>
+                        </th>
+                        <th id="th-likes" onclick="handleAnalyticsSort('likes')" class="py-4 px-6 font-bold text-xs uppercase tracking-wider text-accent-dim cursor-pointer hover:text-white transition-colors select-none">
+                          <div class="flex items-center gap-1.5">
+                            Likes <span id="sort-icon-likes" class="text-[10px]"></span>
+                          </div>
+                        </th>
+                        <th id="th-ratio" onclick="handleAnalyticsSort('ratio')" class="py-4 px-6 font-bold text-xs uppercase tracking-wider text-accent-dim cursor-pointer hover:text-white transition-colors select-none">
+                          <div class="flex items-center gap-1.5">
+                            Engagement % <span id="sort-icon-ratio" class="text-[10px]"></span>
+                          </div>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody id="analytics-tbody" class="divide-y divide-white/5 text-xs">
+                      <!-- Dynamic media rows injected here -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -1371,7 +2240,7 @@
         events: { title: "School Events (03)", sub: "Yearbook, student gatherings and event coverage inside school-events.html.", btn: "Add Photos", isVid: false },
         videos: { title: "Video Projects (04)", sub: "Main travel and yearbook Reels/Montages in video-projects.html.", btn: "Add Video", isVid: true },
         videos2: { title: "Negros Aerials SE Videos", sub: "YouTube aerial videos in video-projects.html.", btn: "Add Video", isVid: true },
-        analytics: { title: "Analytics & Engagement", sub: "Real-time, GDPR-compliant tracking of image views, likes, and photo engagement.", btn: "", isVid: false },
+        analytics: { title: "Visitor & Traffic Analytics", sub: "Comprehensive real-time analytics for site visits, visitor geolocation, devices, OS, page breakdowns, and media engagement.", btn: "", isVid: false },
         security: { title: "Security Audit Logs", sub: "Comprehensive real-time tracking of administrator login attempts, device specifications, and geo-IP verification.", btn: "", isVid: false },
         settings: { title: "Global Site Settings", sub: "Dynamically customize your portfolio profile biography, camera gears, socials, page titles, accent color themes, and security thresholds.", btn: "", isVid: false },
         backups: { title: "Workspace Snapshots", sub: "Visual timeline history showing in-session edits. Restore previous configurations on demand.", btn: "", isVid: false }
@@ -1880,29 +2749,641 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
       }, 5000);
     }
 
-    // Analytics Variables and dynamic sorting
+    // ==========================================================================
+    // VISITOR & LINK TRAFFIC ANALYTICS HUB SYSTEM (MATCHING JCNINO-MD)
+    // ==========================================================================
+    let currentAnalyticsRange = '7d';
+    let currentAnalyticsSearch = '';
+    let currentAnalyticsLink = '';
+    let analyticsDataCache = null;
+
+    let breakdownTableData = [];
+    let currentBreakdownPage = 1;
+    const breakdownPageSize = 5;
+    let breakdownSortKey = 'views';
+    let breakdownSortDir = 'desc';
+
+    let visitorLogsTableData = [];
+    let currentLogsPage = 1;
+    const logsPageSize = 25;
+    let logsSortKey = 'time';
+    let logsSortDir = 'desc';
+
     let compiledAnalyticsList = [];
     let analyticsSortKey = 'views';
     let analyticsSortDesc = true;
 
+    function formatDateManila(dateVal) {
+      if (!dateVal) return 'N/A';
+      const d = new Date(dateVal);
+      if (isNaN(d.getTime())) return 'N/A';
+      return d.toLocaleString('en-US', {
+        timeZone: 'Asia/Manila',
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true,
+      });
+    }
+
+    function timeAgo(dateVal) {
+      if (!dateVal) return 'N/A';
+      const time = new Date(dateVal).getTime();
+      if (isNaN(time)) return 'N/A';
+      const diff = Math.max(0, Math.floor((Date.now() - time) / 1000));
+      if (diff < 60) return 'Just now';
+      if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+      if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+      return `${Math.floor(diff / 86400)}d ago`;
+    }
+
+    function escapeHtml(str) {
+      return (str || '')
+        .toString()
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
     async function fetchAnalyticsAndRender() {
-      const tbody = document.getElementById('analytics-tbody');
+      const token = sessionStorage.getItem('pm_auth') || '';
+
+      // Update range button active state
+      document.querySelectorAll('#analytics-range-buttons .filter-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-range') === currentAnalyticsRange);
+      });
+
+      // Update active banner
+      const banner = document.getElementById('analytics-filter-banner');
+      const bannerText = document.getElementById('analytics-filter-banner-text');
+      const clearAllBtn = document.getElementById('btn-clear-all-filters');
+      const clearSearchBtn = document.getElementById('clear-analytics-search');
+
+      const isFiltered = !!(currentAnalyticsLink || currentAnalyticsSearch || currentAnalyticsRange !== '7d');
+      if (clearAllBtn) clearAllBtn.classList.toggle('hidden', !isFiltered);
+      if (clearSearchBtn) clearSearchBtn.classList.toggle('hidden', !currentAnalyticsSearch);
+
+      if (banner && bannerText) {
+        if (currentAnalyticsLink || currentAnalyticsSearch) {
+          const filterDescs = [];
+          if (currentAnalyticsLink) filterDescs.push(`Page: "${currentAnalyticsLink}"`);
+          if (currentAnalyticsSearch) filterDescs.push(`Search: "${currentAnalyticsSearch}"`);
+          bannerText.innerHTML = `Active Filters: <strong>${escapeHtml(filterDescs.join(' & '))}</strong>`;
+          banner.classList.remove('hidden');
+        } else {
+          banner.classList.add('hidden');
+        }
+      }
+
+      let data = null;
+      try {
+        const queryParams = new URLSearchParams({
+          range: currentAnalyticsRange,
+          search: currentAnalyticsSearch,
+          link: currentAnalyticsLink,
+          limit: '1000'
+        });
+
+        const res = await fetch(`/api/analytics?${queryParams.toString()}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if (res.ok) {
+          data = await res.json();
+        }
+      } catch (err) {
+        console.warn("Could not load /api/analytics from server, generating local metrics:", err);
+      }
+
+      if (!data || !data.success) {
+        data = generateLocalAnalyticsData(currentAnalyticsRange, currentAnalyticsSearch, currentAnalyticsLink);
+      }
+
+      analyticsDataCache = data;
+
+      // 1. Key Metrics Cards
+      const totalViewsEl = document.getElementById('metric-total-views');
+      if (totalViewsEl) totalViewsEl.textContent = (data.totalViews || 0).toLocaleString();
+
+      const uniqueVisitorsEl = document.getElementById('metric-unique-visitors');
+      if (uniqueVisitorsEl) uniqueVisitorsEl.textContent = (data.uniqueVisitors || 0).toLocaleString();
+
+      const mobilePctEl = document.getElementById('metric-mobile-pct');
+      if (mobilePctEl) mobilePctEl.textContent = `${(data.mobilePct || 0).toFixed(1)}%`;
+
+      const topLocationEl = document.getElementById('metric-top-location');
+      if (topLocationEl) {
+        topLocationEl.textContent = data.topCountry || 'N/A';
+        topLocationEl.title = data.topCountry || 'N/A';
+      }
+
+      // 2. Breakdown Visual Progress Lists
+      renderTopPagesList(data.topPages || [], data.totalViews || 0);
+      renderTopLocationsList(data.topLocations || [], data.totalViews || 0);
+      renderTopOSList(data.topOS || [], data.totalViews || 0);
+      renderTopBrowsersList(data.topBrowsers || [], data.totalViews || 0);
+
+      // 3. Populate Link Filter dropdown options if needed
+      populateLinkSelectDropdown(data.allLinks || []);
+
+      // 4. Breakdown Table
+      breakdownTableData = data.allLinks || [];
+      currentBreakdownPage = 1;
+      renderBreakdownTable();
+
+      // 5. Visitor Logs Table
+      visitorLogsTableData = data.logs || [];
+      currentLogsPage = 1;
+      renderVisitorLogsTable();
+
+      // 6. Portfolio Media Assets Engagement Table
+      fetchMediaLikesAndViews();
+    }
+
+    function renderTopPagesList(pages, totalViews) {
+      const container = document.getElementById('top-pages-list');
+      if (!container) return;
+      if (!pages || pages.length === 0) {
+        container.innerHTML = '<div class="no-data-msg">No page traffic recorded for this period yet.</div>';
+        return;
+      }
+      container.innerHTML = pages.map(p => {
+        const pct = totalViews > 0 ? Math.round((p.c / totalViews) * 1000) / 10 : 0;
+        return `
+          <div class="breakdown-item">
+            <div class="breakdown-header">
+              <a href="javascript:void(0)" onclick="handleAnalyticsLinkSelect('${escapeHtml(p.page_url)}')" class="link-label" title="Filter traffic for ${escapeHtml(p.page_url)}">
+                ${escapeHtml(p.page_url)}
+              </a>
+              <span class="hits-label">${p.c.toLocaleString()} hits (${pct}%)</span>
+            </div>
+            <div class="tf-progress-bar">
+              <div class="tf-progress-fill blue-fill" style="width: ${Math.min(100, Math.max(2, pct))}%;"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderTopLocationsList(locations, totalViews) {
+      const container = document.getElementById('top-locations-list');
+      if (!container) return;
+      if (!locations || locations.length === 0) {
+        container.innerHTML = '<div class="no-data-msg">No location metrics available.</div>';
+        return;
+      }
+      container.innerHTML = locations.map(loc => {
+        const pct = totalViews > 0 ? Math.round((loc.c / totalViews) * 1000) / 10 : 0;
+        const locStr = (loc.city && loc.city !== 'Unknown' ? `${loc.city}, ` : '') + (loc.country || 'Unknown');
+        return `
+          <div class="breakdown-item">
+            <div class="breakdown-header">
+              <span class="loc-label">
+                <span class="material-symbols-outlined loc-pin">place</span>
+                ${escapeHtml(locStr)}
+              </span>
+              <span class="hits-label">${loc.c.toLocaleString()} visits (${pct}%)</span>
+            </div>
+            <div class="tf-progress-bar">
+              <div class="tf-progress-fill purple-fill" style="width: ${Math.min(100, Math.max(2, pct))}%;"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderTopOSList(osList, totalViews) {
+      const container = document.getElementById('top-os-list');
+      if (!container) return;
+      if (!osList || osList.length === 0) {
+        container.innerHTML = '<div class="no-data-msg">No OS metrics available.</div>';
+        return;
+      }
+      container.innerHTML = osList.map(o => {
+        const pct = totalViews > 0 ? Math.round((o.c / totalViews) * 1000) / 10 : 0;
+        return `
+          <div class="breakdown-item">
+            <div class="breakdown-header">
+              <span class="item-label">${escapeHtml(o.os || 'Unknown')}</span>
+              <span class="hits-label">${o.c.toLocaleString()} visits (${pct}%)</span>
+            </div>
+            <div class="tf-progress-bar">
+              <div class="tf-progress-fill green-fill" style="width: ${Math.min(100, Math.max(2, pct))}%;"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderTopBrowsersList(browsers, totalViews) {
+      const container = document.getElementById('top-browsers-list');
+      if (!container) return;
+      if (!browsers || browsers.length === 0) {
+        container.innerHTML = '<div class="no-data-msg">No browser metrics available.</div>';
+        return;
+      }
+      container.innerHTML = browsers.map(b => {
+        const pct = totalViews > 0 ? Math.round((b.c / totalViews) * 1000) / 10 : 0;
+        return `
+          <div class="breakdown-item">
+            <div class="breakdown-header">
+              <span class="item-label">${escapeHtml(b.browser || 'Unknown')}</span>
+              <span class="hits-label">${b.c.toLocaleString()} visits (${pct}%)</span>
+            </div>
+            <div class="tf-progress-bar">
+              <div class="tf-progress-fill yellow-fill" style="width: ${Math.min(100, Math.max(2, pct))}%;"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function populateLinkSelectDropdown(allLinks) {
+      const select = document.getElementById('analytics-link-select');
+      if (!select) return;
+
+      const knownPages = [
+        { url: "/", title: "Homepage" },
+        { url: "/drone-shots.html", title: "Drone Shots" },
+        { url: "/framed-moments.html", title: "Framed Moments" },
+        { url: "/school-events.html", title: "School Events" },
+        { url: "/video-projects.html", title: "Video Projects" }
+      ];
+
+      const urlMap = new Map();
+      knownPages.forEach(p => urlMap.set(p.url, p.title));
+      allLinks.forEach(l => {
+        if (!urlMap.has(l.page_url)) urlMap.set(l.page_url, l.page_title || l.page_url);
+      });
+
+      let html = '<option value="">All Links & Pages</option>';
+      urlMap.forEach((title, url) => {
+        const selected = (currentAnalyticsLink === url) ? 'selected' : '';
+        const lData = allLinks.find(x => x.page_url === url);
+        const countStr = lData ? ` (${lData.totalViews} views)` : '';
+        html += `<option value="${escapeHtml(url)}" ${selected}>${escapeHtml(url)}${countStr}</option>`;
+      });
+
+      select.innerHTML = html;
+    }
+
+    function renderBreakdownTable() {
+      const tbody = document.getElementById('breakdownTableBody');
+      const pageInfo = document.getElementById('breakdownPageInfo');
+      const prevBtn = document.getElementById('breakdownPrevBtn');
+      const nextBtn = document.getElementById('breakdownNextBtn');
+      const pageNumbersEl = document.getElementById('breakdownPageNumbers');
       if (!tbody) return;
 
-      tbody.innerHTML = `
-        <tr>
-          <td colspan="5" class="py-8 text-center text-accent-dim text-xs">
-            <div class="flex items-center justify-center gap-2">
-              <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-              Loading metrics from database...
-            </div>
-          </td>
-        </tr>
-      `;
+      const sorted = [...breakdownTableData].sort((a, b) => {
+        let comp = 0;
+        if (breakdownSortKey === 'url') {
+          comp = (a.page_url || '').localeCompare(b.page_url || '');
+        } else if (breakdownSortKey === 'views') {
+          comp = (a.totalViews || 0) - (b.totalViews || 0);
+        } else if (breakdownSortKey === 'unique') {
+          comp = (a.uniqueVisitors || 0) - (b.uniqueVisitors || 0);
+        } else if (breakdownSortKey === 'mobile') {
+          comp = (a.mobilePct || 0) - (b.mobilePct || 0);
+        } else if (breakdownSortKey === 'visited') {
+          comp = new Date(a.lastVisited || 0).getTime() - new Date(b.lastVisited || 0).getTime();
+        }
+        return breakdownSortDir === 'asc' ? comp : -comp;
+      });
 
+      const totalItems = sorted.length;
+      const totalPages = Math.max(1, Math.ceil(totalItems / breakdownPageSize));
+      if (currentBreakdownPage > totalPages) currentBreakdownPage = totalPages;
+      if (currentBreakdownPage < 1) currentBreakdownPage = 1;
+
+      const startIndex = (currentBreakdownPage - 1) * breakdownPageSize;
+      const endIndex = Math.min(startIndex + breakdownPageSize, totalItems);
+      const pageItems = sorted.slice(startIndex, endIndex);
+
+      if (totalItems === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="6" class="empty-table-td">
+              <span class="material-symbols-outlined empty-icon-sm">link_off</span>
+              <div class="empty-title">No link traffic recorded yet.</div>
+              <div class="empty-sub">Visit any page to generate visitor traffic records.</div>
+            </td>
+          </tr>
+        `;
+      } else {
+        tbody.innerHTML = pageItems.map(l => {
+          const isFiltered = currentAnalyticsLink === l.page_url;
+          return `
+            <tr class="${isFiltered ? 'highlight-row' : ''}">
+              <td class="font-semibold">
+                <a href="${escapeHtml(l.page_url)}" target="_blank" class="slug-link-text">
+                  ${escapeHtml(l.page_url)}
+                </a>
+              </td>
+              <td class="font-bold text-white font-mono">${(l.totalViews || 0).toLocaleString()}</td>
+              <td class="font-mono">${(l.uniqueVisitors || 0).toLocaleString()}</td>
+              <td class="font-mono">${(l.mobilePct || 0)}%</td>
+              <td class="text-subtle-sm font-mono">${escapeHtml(timeAgo(l.lastVisited))}</td>
+              <td>
+                <button type="button" onclick="handleAnalyticsLinkSelect('${escapeHtml(l.page_url)}')" class="btn-sm-filter">
+                  View Logs
+                </button>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      if (pageInfo) {
+        pageInfo.textContent = totalItems === 0
+          ? 'Showing 0 links'
+          : `Showing ${startIndex + 1}–${endIndex} of ${totalItems} links`;
+      }
+
+      if (prevBtn) prevBtn.disabled = currentBreakdownPage <= 1;
+      if (nextBtn) nextBtn.disabled = currentBreakdownPage >= totalPages;
+
+      if (pageNumbersEl) {
+        pageNumbersEl.innerHTML = '';
+        for (let i = 1; i <= totalPages; i++) {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = `page-number-btn ${i === currentBreakdownPage ? 'active' : ''}`;
+          btn.textContent = i.toString();
+          btn.onclick = () => { currentBreakdownPage = i; renderBreakdownTable(); };
+          pageNumbersEl.appendChild(btn);
+        }
+      }
+
+      updateSortIcons('breakdown', breakdownSortKey, breakdownSortDir);
+    }
+
+    function renderVisitorLogsTable() {
+      const tbody = document.getElementById('visitorLogsTableBody');
+      const pageInfo = document.getElementById('logsPageInfo');
+      const totalSub = document.getElementById('visitorLogsTotalSub');
+      const prevBtn = document.getElementById('logsPrevBtn');
+      const nextBtn = document.getElementById('logsNextBtn');
+      const pageNumbersEl = document.getElementById('logsPageNumbers');
+      if (!tbody) return;
+
+      const sorted = [...visitorLogsTableData].sort((a, b) => {
+        let comp = 0;
+        if (logsSortKey === 'time') {
+          comp = new Date(a.createdAt || 0).getTime() - new Date(b.createdAt || 0).getTime();
+        } else if (logsSortKey === 'ip') {
+          comp = (a.ipAddress || '').localeCompare(b.ipAddress || '');
+        } else if (logsSortKey === 'location') {
+          const locA = `${a.city || ''} ${a.country || ''}`;
+          const locB = `${b.city || ''} ${b.country || ''}`;
+          comp = locA.localeCompare(locB);
+        } else if (logsSortKey === 'device') {
+          const devA = `${a.deviceType || ''} ${a.os || ''} ${a.browser || ''}`;
+          const devB = `${b.deviceType || ''} ${b.os || ''} ${b.browser || ''}`;
+          comp = devA.localeCompare(devB);
+        } else if (logsSortKey === 'page') {
+          comp = (a.pageUrl || '').localeCompare(b.pageUrl || '');
+        } else if (logsSortKey === 'referrer') {
+          comp = (a.referrer || '').localeCompare(b.referrer || '');
+        }
+        return logsSortDir === 'asc' ? comp : -comp;
+      });
+
+      const totalItems = sorted.length;
+      const totalPages = Math.max(1, Math.ceil(totalItems / logsPageSize));
+      if (currentLogsPage > totalPages) currentLogsPage = totalPages;
+      if (currentLogsPage < 1) currentLogsPage = 1;
+
+      const startIndex = (currentLogsPage - 1) * logsPageSize;
+      const endIndex = Math.min(startIndex + logsPageSize, totalItems);
+      const pageItems = sorted.slice(startIndex, endIndex);
+
+      if (totalItems === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="6" class="empty-table-td">
+              <span class="material-symbols-outlined empty-icon-sm">search_off</span>
+              <div class="empty-title">No visitor records found.</div>
+              <div class="empty-sub">Visit any page to generate real-time visitor traffic logs.</div>
+            </td>
+          </tr>
+        `;
+      } else {
+        tbody.innerHTML = pageItems.map(row => {
+          const dev = row.deviceType || 'Desktop';
+          const badgeClass = dev === 'Mobile' ? 'badge-mobile' : (dev === 'Tablet' ? 'badge-tablet' : 'badge-desktop');
+          const devIcon = dev === 'Mobile' ? 'smartphone' : (dev === 'Tablet' ? 'tablet' : 'desktop_windows');
+          const timeAgoStr = timeAgo(row.createdAt);
+          const formattedDate = formatDateManila(row.createdAt);
+
+          const locParts = [];
+          if (row.city && row.city !== 'Unknown') locParts.push(row.city);
+          if (row.region && row.region !== 'Unknown') locParts.push(row.region);
+          if (row.country) locParts.push(row.country);
+          const locStr = locParts.join(', ') || 'Unknown Location';
+
+          return `
+            <tr>
+              <td>
+                <div class="font-semibold text-white nowrap">${escapeHtml(timeAgoStr)}</div>
+                <div class="date-subtext nowrap">${escapeHtml(formattedDate)}</div>
+              </td>
+              <td>
+                <span class="ip-tag">
+                  ${escapeHtml(row.ipAddress || '127.0.0.1')}
+                  <span class="material-symbols-outlined copy-ip" onclick="copyIpToClipboard('${escapeHtml(row.ipAddress || '127.0.0.1')}')" title="Copy IP">content_copy</span>
+                </span>
+              </td>
+              <td>
+                <div class="loc-row">
+                  <span class="material-symbols-outlined loc-pin">place</span>
+                  <span>${escapeHtml(locStr)}</span>
+                </div>
+                ${row.isp && row.isp !== 'Unknown' ? `<div class="isp-subtext">${escapeHtml(row.isp)}</div>` : ''}
+              </td>
+              <td>
+                <span class="badge-dev ${badgeClass}">
+                  <span class="material-symbols-outlined badge-dev-icon">${devIcon}</span>
+                  ${escapeHtml(dev)}
+                </span>
+                <div class="specs-subtext">
+                  ${escapeHtml(row.os || 'Unknown')} &bull; ${escapeHtml(row.browser || 'Unknown')}
+                </div>
+                ${row.screenResolution ? `<div class="res-subtext">${escapeHtml(row.screenResolution)}</div>` : ''}
+              </td>
+              <td>
+                <a href="javascript:void(0)" onclick="handleAnalyticsLinkSelect('${escapeHtml(row.pageUrl || '/')}')" class="page-link-badge">
+                  ${escapeHtml(row.pageUrl || '/')}
+                </a>
+                ${row.pageTitle ? `<div class="title-subtext" title="${escapeHtml(row.pageTitle)}">${escapeHtml(row.pageTitle)}</div>` : ''}
+              </td>
+              <td>
+                <div class="referrer-text" title="${escapeHtml(row.referrer || 'Direct')}">
+                  ${escapeHtml(row.referrer || 'Direct')}
+                </div>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      if (pageInfo) {
+        pageInfo.textContent = totalItems === 0
+          ? 'Showing 0 entries'
+          : `Showing ${startIndex + 1}–${endIndex} of ${totalItems} entries`;
+      }
+
+      if (totalSub) {
+        totalSub.textContent = totalItems === 0
+          ? 'Showing 0 recorded visitor entries'
+          : `Showing ${startIndex + 1}–${endIndex} of ${totalItems.toLocaleString()} recorded visitor entries`;
+      }
+
+      if (prevBtn) prevBtn.disabled = currentLogsPage <= 1;
+      if (nextBtn) nextBtn.disabled = currentLogsPage >= totalPages;
+
+      if (pageNumbersEl) {
+        pageNumbersEl.innerHTML = '';
+        if (totalPages <= 7) {
+          for (let i = 1; i <= totalPages; i++) {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = `page-number-btn ${i === currentLogsPage ? 'active' : ''}`;
+            btn.textContent = i.toString();
+            btn.onclick = () => { currentLogsPage = i; renderVisitorLogsTable(); };
+            pageNumbersEl.appendChild(btn);
+          }
+        } else {
+          // Pagination with ellipsis
+          const pages = [1];
+          if (currentLogsPage > 3) pages.push('...');
+          for (let i = Math.max(2, currentLogsPage - 1); i <= Math.min(totalPages - 1, currentLogsPage + 1); i++) {
+            pages.push(i);
+          }
+          if (currentLogsPage < totalPages - 2) pages.push('...');
+          pages.push(totalPages);
+
+          pages.forEach(p => {
+            if (p === '...') {
+              const span = document.createElement('span');
+              span.className = 'pagination-ellipsis';
+              span.textContent = '...';
+              pageNumbersEl.appendChild(span);
+            } else {
+              const btn = document.createElement('button');
+              btn.type = 'button';
+              btn.className = `page-number-btn ${p === currentLogsPage ? 'active' : ''}`;
+              btn.textContent = p.toString();
+              btn.onclick = () => { currentLogsPage = p; renderVisitorLogsTable(); };
+              pageNumbersEl.appendChild(btn);
+            }
+          });
+        }
+      }
+
+      updateSortIcons('logs', logsSortKey, logsSortDir);
+    }
+
+    function updateSortIcons(tableType, activeKey, activeDir) {
+      document.querySelectorAll(`.sortable-th[data-table="${tableType}"]`).forEach(th => {
+        const key = th.getAttribute('data-sort');
+        const icon = th.querySelector('.sort-icon');
+        if (key === activeKey) {
+          th.classList.add('active-sort');
+          if (icon) icon.textContent = activeDir === 'asc' ? 'arrow_upward' : 'arrow_downward';
+        } else {
+          th.classList.remove('active-sort');
+          if (icon) icon.textContent = 'unfold_more';
+        }
+      });
+    }
+
+    function switchAnalyticsRange(range) {
+      currentAnalyticsRange = range;
+      fetchAnalyticsAndRender();
+    }
+
+    function handleAnalyticsLinkSelect(link) {
+      currentAnalyticsLink = link;
+      const select = document.getElementById('analytics-link-select');
+      if (select) select.value = link;
+      fetchAnalyticsAndRender();
+    }
+
+    function handleAnalyticsSearchSubmit() {
+      const input = document.getElementById('analytics-search-input');
+      currentAnalyticsSearch = (input?.value || '').trim();
+      fetchAnalyticsAndRender();
+    }
+
+    function clearAnalyticsSearch() {
+      const input = document.getElementById('analytics-search-input');
+      if (input) input.value = '';
+      currentAnalyticsSearch = '';
+      fetchAnalyticsAndRender();
+    }
+
+    function clearAllAnalyticsFilters() {
+      const input = document.getElementById('analytics-search-input');
+      if (input) input.value = '';
+      currentAnalyticsSearch = '';
+      currentAnalyticsLink = '';
+      currentAnalyticsRange = '7d';
+      const select = document.getElementById('analytics-link-select');
+      if (select) select.value = '';
+      fetchAnalyticsAndRender();
+    }
+
+    function handleBreakdownSort(key) {
+      if (breakdownSortKey === key) {
+        breakdownSortDir = (breakdownSortDir === 'asc') ? 'desc' : 'asc';
+      } else {
+        breakdownSortKey = key;
+        breakdownSortDir = (key === 'url') ? 'asc' : 'desc';
+      }
+      currentBreakdownPage = 1;
+      renderBreakdownTable();
+    }
+
+    function changeBreakdownPage(delta) {
+      currentBreakdownPage += delta;
+      renderBreakdownTable();
+    }
+
+    function handleLogsSort(key) {
+      if (logsSortKey === key) {
+        logsSortDir = (logsSortDir === 'asc') ? 'desc' : 'asc';
+      } else {
+        logsSortKey = key;
+        logsSortDir = (key === 'time') ? 'desc' : 'asc';
+      }
+      currentLogsPage = 1;
+      renderVisitorLogsTable();
+    }
+
+    function changeLogsPage(delta) {
+      currentLogsPage += delta;
+      renderVisitorLogsTable();
+    }
+
+    function copyIpToClipboard(ip) {
+      if (!ip) return;
+      navigator.clipboard.writeText(ip).then(() => {
+        showToast(`Copied IP: ${ip}`, 'success');
+      }).catch(() => {
+        showToast('Failed to copy IP', 'error');
+      });
+    }
+
+    // Media Assets Analytics System
+    async function fetchMediaLikesAndViews() {
       let views = {};
       let likes = {};
 
@@ -1911,41 +3392,20 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
           fetch('/api/views').then(r => r.ok ? r.json() : {}).catch(() => null),
           fetch('/api/likes').then(r => r.ok ? r.json() : {}).catch(() => null)
         ]);
-
         views = viewsRes || {};
         likes = likesRes || {};
-      } catch (err) {
-        console.warn("Could not load database metrics, using sandbox fallbacks", err);
-      }
+      } catch (e) {}
 
-      const isMock = Object.keys(views).length === 0;
-      if (isMock) {
+      if (Object.keys(views).length === 0) {
         views = {
-          "GH-01": 142,
-          "GH-02": 88,
-          "GH-03.1": 45,
-          "GH-03": 76,
-          "GH-04": 230,
-          "Drone-001": 96,
-          "Drone-002": 112,
-          "FM-01": 204,
-          "FM-02": 188,
-          "SE-01": 125,
-          "K_9mOUj-flY": 310,
-          "fddAYV8uWgc": 245
+          "GH-01": 142, "GH-02": 88, "GH-03.1": 45, "GH-03": 76, "GH-04": 230,
+          "Drone-001": 96, "Drone-002": 112, "FM-01": 204, "FM-02": 188,
+          "SE-01": 125, "K_9mOUj-flY": 310, "fddAYV8uWgc": 245
         };
         likes = {
-          "GH-01": 12,
-          "GH-02": 5,
-          "GH-03.1": 2,
-          "GH-03": 6,
-          "GH-04": 24,
-          "Drone-001": 8,
-          "Drone-002": 14,
-          "FM-02": 15,
-          "SE-01": 9,
-          "K_9mOUj-flY": 42,
-          "fddAYV8uWgc": 19
+          "GH-01": 12, "GH-02": 5, "GH-03.1": 2, "GH-03": 6, "GH-04": 24,
+          "Drone-001": 8, "Drone-002": 14, "FM-02": 15, "SE-01": 9,
+          "K_9mOUj-flY": 42, "fddAYV8uWgc": 19
         };
       }
 
@@ -1964,7 +3424,7 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
 
       for (const cat of Object.keys(categoryLabels)) {
         const list = localData[cat] || [];
-        list.forEach((item, index) => {
+        list.forEach((item) => {
           const isVid = (cat === 'videos' || cat === 'videos2');
           const itemId = isVid ? item.youtubeId : item.file.replace(/\.[^/.]+$/, "");
           const viewCount = views[itemId] || 0;
@@ -2001,25 +3461,22 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
         });
       }
 
-      // Find the star asset
       let starAsset = null;
       if (compiledAnalyticsList.length > 0) {
         const sortedForStar = [...compiledAnalyticsList].sort((a, b) => b.ratio - a.ratio || b.views - a.views);
         starAsset = sortedForStar[0];
       }
-      
+
       const starThumb = document.getElementById('star-asset-thumb');
       const starTitle = document.getElementById('star-asset-title');
       const starCat = document.getElementById('star-asset-cat');
       const starRatio = document.getElementById('star-asset-ratio');
       const starLikes = document.getElementById('star-asset-likes');
-      
+
       if (starAsset) {
         if (starThumb) {
           starThumb.src = starAsset.thumb;
-          starThumb.onerror = function() {
-            this.src = starAsset.fallbackThumb;
-          };
+          starThumb.onerror = function() { this.src = starAsset.fallbackThumb; };
         }
         if (starTitle) starTitle.textContent = starAsset.title;
         if (starCat) starCat.textContent = starAsset.category;
@@ -2027,7 +3484,6 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
         if (starLikes) starLikes.textContent = `${starAsset.likes} Likes / ${starAsset.views} Views`;
       }
 
-      // Update Aggregate Metrics Cards
       const viewsEl = document.getElementById('analytics-total-views');
       if (viewsEl) viewsEl.textContent = totalViewsCount.toLocaleString();
 
@@ -2039,6 +3495,158 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
       if (rateEl) rateEl.textContent = `${avgEngagement.toFixed(1)}%`;
 
       renderAnalyticsGrid();
+    }
+
+    function generateLocalAnalyticsData(range, search, linkFilter) {
+      const mockLogs = [
+        {
+          sessionId: "vs_89x1a2b3c",
+          ipAddress: "112.198.115.42",
+          country: "Philippines",
+          countryCode: "PH",
+          region: "Western Visayas",
+          city: "Bacolod City",
+          isp: "Globe Telecom Inc.",
+          deviceType: "Desktop",
+          os: "macOS",
+          browser: "Safari",
+          screenResolution: "1710x1112",
+          pageUrl: "/",
+          pageTitle: "JC Niñonuevo | Visual Storyteller & Cinematographer",
+          referrer: "Direct / Bookmark",
+          createdAt: new Date(Date.now() - 4 * 60 * 1000).toISOString()
+        },
+        {
+          sessionId: "vs_47z9y8x7w",
+          ipAddress: "120.29.74.15",
+          country: "Philippines",
+          countryCode: "PH",
+          region: "National Capital Region",
+          city: "Manila",
+          isp: "PLDT Clark Telecom",
+          deviceType: "Mobile",
+          os: "iOS",
+          browser: "Safari",
+          screenResolution: "393x852",
+          pageUrl: "/drone-shots.html",
+          pageTitle: "Drone Shots | Aerial Perspectives - JC Niñonuevo",
+          referrer: "https://www.google.com/",
+          createdAt: new Date(Date.now() - 28 * 60 * 1000).toISOString()
+        },
+        {
+          sessionId: "vs_11m22n33o",
+          ipAddress: "136.158.42.99",
+          country: "Philippines",
+          countryCode: "PH",
+          region: "Central Visayas",
+          city: "Cebu City",
+          isp: "Converge ICT Solutions",
+          deviceType: "Desktop",
+          os: "Windows",
+          browser: "Chrome",
+          screenResolution: "1920x1080",
+          pageUrl: "/framed-moments.html",
+          pageTitle: "Framed Moments | Street & Portrait Photography",
+          referrer: "https://instagram.com/",
+          createdAt: new Date(Date.now() - 75 * 60 * 1000).toISOString()
+        },
+        {
+          sessionId: "vs_99k88j77h",
+          ipAddress: "172.56.21.88",
+          country: "United States",
+          countryCode: "US",
+          region: "California",
+          city: "Los Angeles",
+          isp: "T-Mobile USA",
+          deviceType: "Mobile",
+          os: "iOS",
+          browser: "Chrome",
+          screenResolution: "430x932",
+          pageUrl: "/video-projects.html",
+          pageTitle: "Video Projects | Cinematic Films - JC Niñonuevo",
+          referrer: "https://youtube.com/",
+          createdAt: new Date(Date.now() - 3 * 3600 * 1000).toISOString()
+        },
+        {
+          sessionId: "vs_55t44r33e",
+          ipAddress: "119.93.180.12",
+          country: "Philippines",
+          countryCode: "PH",
+          region: "Western Visayas",
+          city: "Iloilo City",
+          isp: "Globe Telecom Inc.",
+          deviceType: "Desktop",
+          os: "macOS",
+          browser: "Chrome",
+          screenResolution: "1440x900",
+          pageUrl: "/school-events.html",
+          pageTitle: "School Events | Live Coverage & Celebrations",
+          referrer: "Direct / Bookmark",
+          createdAt: new Date(Date.now() - 8 * 3600 * 1000).toISOString()
+        },
+        {
+          sessionId: "vs_22w33e44r",
+          ipAddress: "127.0.0.1",
+          country: "Local Network",
+          countryCode: "LOCAL",
+          region: "Localhost",
+          city: "Bacolod City",
+          isp: "Internal Development Environment",
+          deviceType: "Desktop",
+          os: "macOS",
+          browser: "Chrome",
+          screenResolution: "1710x893",
+          pageUrl: "/",
+          pageTitle: "JC Niñonuevo | Visual Storyteller & Cinematographer",
+          referrer: "Direct / Bookmark",
+          createdAt: new Date(Date.now() - 14 * 3600 * 1000).toISOString()
+        }
+      ];
+
+      const allLinks = [
+        { page_url: "/", page_title: "JC Niñonuevo | Visual Storyteller & Cinematographer", totalViews: 142, uniqueVisitors: 98, mobilePct: 45.2, lastVisited: new Date(Date.now() - 4 * 60 * 1000).toISOString() },
+        { page_url: "/drone-shots.html", page_title: "Drone Shots | Aerial Perspectives - JC Niñonuevo", totalViews: 96, uniqueVisitors: 72, mobilePct: 58.3, lastVisited: new Date(Date.now() - 28 * 60 * 1000).toISOString() },
+        { page_url: "/framed-moments.html", page_title: "Framed Moments | Street & Portrait Photography", totalViews: 204, uniqueVisitors: 156, mobilePct: 38.7, lastVisited: new Date(Date.now() - 75 * 60 * 1000).toISOString() },
+        { page_url: "/video-projects.html", page_title: "Video Projects | Cinematic Films - JC Niñonuevo", totalViews: 310, uniqueVisitors: 215, mobilePct: 62.1, lastVisited: new Date(Date.now() - 3 * 3600 * 1000).toISOString() },
+        { page_url: "/school-events.html", page_title: "School Events | Live Coverage & Celebrations", totalViews: 125, uniqueVisitors: 89, mobilePct: 50.0, lastVisited: new Date(Date.now() - 8 * 3600 * 1000).toISOString() }
+      ];
+
+      return {
+        success: true,
+        totalViews: 877,
+        uniqueVisitors: 630,
+        mobilePct: 50.8,
+        topCountry: "Philippines",
+        topPages: [
+          { page_url: "/video-projects.html", page_title: "Video Projects", c: 310 },
+          { page_url: "/framed-moments.html", page_title: "Framed Moments", c: 204 },
+          { page_url: "/", page_title: "Homepage", c: 142 },
+          { page_url: "/school-events.html", page_title: "School Events", c: 125 },
+          { page_url: "/drone-shots.html", page_title: "Drone Shots", c: 96 }
+        ],
+        topLocations: [
+          { city: "Bacolod City", country: "Philippines", c: 480 },
+          { city: "Manila", country: "Philippines", c: 210 },
+          { city: "Cebu City", country: "Philippines", c: 115 },
+          { city: "Iloilo City", country: "Philippines", c: 52 },
+          { city: "Los Angeles", country: "United States", c: 20 }
+        ],
+        topOS: [
+          { os: "macOS", c: 360 },
+          { os: "iOS", c: 275 },
+          { os: "Windows", c: 152 },
+          { os: "Android", c: 90 }
+        ],
+        topBrowsers: [
+          { browser: "Safari", c: 450 },
+          { browser: "Chrome", c: 345 },
+          { browser: "Firefox", c: 52 },
+          { browser: "Microsoft Edge", c: 30 }
+        ],
+        logs: mockLogs,
+        totalLogsCount: mockLogs.length,
+        allLinks: allLinks
+      };
     }
 
     function renderAnalyticsGrid() {

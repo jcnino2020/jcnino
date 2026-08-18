@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "JC Niñonuevo Portfolio backend API and assets",
   "main": "api/likes.js",
+  "type": "module",
   "dependencies": {
     "mongodb": "^6.5.0",
     "@tailwindcss/cli": "^4.0.0"
