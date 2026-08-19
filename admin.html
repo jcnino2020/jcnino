@@ -2,156 +2,104 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover"/>
   <title>JC Niñonuevo | Photo & Video Manager</title>
   <link rel="icon" type="image/png" href="images/favicon.png">
   
-  <!-- Fonts & Core Stylesheet -->
+  <!-- Fonts & Core Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <link rel="stylesheet" href="assets/tailwind.css">
   <link rel="stylesheet" href="assets/portfolio.css">
 
   <style>
+    /* ==========================================================================
+       MODERN DARK GLASSMORPHIC DESIGN SYSTEM
+       ========================================================================== */
+    :root {
+      --bg-base: #060608;
+      --bg-surface: #0e0e12;
+      --bg-surface-elevated: #16161d;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-focus: rgba(255, 255, 255, 0.3);
+      --glass-bg: rgba(255, 255, 255, 0.025);
+      --glass-bg-hover: rgba(255, 255, 255, 0.05);
+      --glass-border: rgba(255, 255, 255, 0.09);
+      --text-primary: #ffffff;
+      --text-secondary: #a1a1aa;
+      --text-tertiary: #71717a;
+      --accent: #ffffff;
+      --success: #10b981;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --info: #3b82f6;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
-      background-color: #000000;
-      color: #ffffff;
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg-base);
+      color: var(--text-primary);
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       overflow-x: hidden;
-    }
-    
-    /* Hide scrollbars for cleaner sticky aside panels */
-    aside::-webkit-scrollbar {
-      display: none !important;
-    }
-    aside {
-      -ms-overflow-style: none !important;
-      scrollbar-width: none !important;
-    }
-    
-    /* Premium Sidebar Buttons (Index.html style) */
-    .tab-btn {
-      font-size: 14px !important;
-      border-left: 3px solid transparent !important;
-      border-radius: 0px !important;
-      color: #a0a0a0 !important;
-      background: transparent !important;
-      padding-left: 1.25rem !important;
-      padding-right: 1.25rem !important;
-      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
-    }
-    .tab-btn:hover {
-      background: rgba(255, 255, 255, 0.03) !important;
-      color: #ffffff !important;
-      border-left-color: rgba(255, 255, 255, 0.15) !important;
-    }
-    .tab-btn.active-tab {
-      background: rgba(255, 255, 255, 0.04) !important;
-      backdrop-filter: blur(12px) !important;
-      border-left-color: var(--accent, #ffffff) !important;
-      color: #ffffff !important;
-    }
-    .tab-btn.active-tab svg {
-      color: var(--accent, #ffffff) !important;
-      filter: drop-shadow(0 0 8px var(--accent, rgba(255,255,255,0.4))) !important;
-    }
-    .tab-btn span[id^="badge"] {
-      font-size: 10px !important;
-      transition: all 0.3s ease !important;
-    }
-    .tab-btn.active-tab span[id^="badge"] {
-      background-color: var(--accent) !important;
-      color: #000000 !important;
-      font-weight: 700 !important;
-    }
-    
-    
-    /* Globally scale up small fonts in the admin panel to enhance readability */
-    .text-\[9px\] {
-      font-size: 11px !important;
-    }
-    .text-\[10px\] {
-      font-size: 12px !important;
-    }
-    .text-\[11px\] {
-      font-size: 13px !important;
-    }
-    .text-xs {
-      font-size: 14px !important;
-    }
-    .text-sm {
-      font-size: 16px !important;
-    }
-    .text-base {
-      font-size: 18px !important;
-    }
-    .text-lg {
-      font-size: 20px !important;
-    }
-    .text-xl {
-      font-size: 22px !important;
-    }
-    .text-2xl {
-      font-size: 26px !important;
-    }
-    .text-3xl {
-      font-size: 32px !important;
-    }
-    input, textarea, select {
-      font-size: 14px !important;
-    }
-    p, label, span, td, th {
-      line-height: 1.6 !important;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
-    /* Reset all sidebar typography inside aside back to original design scales */
-    aside .text-\[10px\] {
-      font-size: 10px !important;
-    }
-    aside .text-\[11px\] {
-      font-size: 11px !important;
-    }
-    aside .text-xs {
-      font-size: 12px !important;
-    }
-    aside .text-sm {
-      font-size: 14px !important;
-    }
-    aside p, aside label, aside span, aside button {
-      line-height: 1.5 !important;
-    }
-
-    /* Scrollbar Styling */
+    /* Scrollbars */
     ::-webkit-scrollbar {
       width: 6px;
       height: 6px;
     }
     ::-webkit-scrollbar-track {
-      background: rgba(0,0,0,0.2);
+      background: rgba(0, 0, 0, 0.3);
     }
     ::-webkit-scrollbar-thumb {
       background: rgba(255, 255, 255, 0.15);
-      border-radius: 4px;
+      border-radius: 999px;
     }
     ::-webkit-scrollbar-thumb:hover {
       background: rgba(255, 255, 255, 0.3);
     }
 
+    /* Hide scrollbars for clean navigation elements */
+    .no-scrollbar::-webkit-scrollbar,
+    aside::-webkit-scrollbar {
+      display: none !important;
+    }
+    .no-scrollbar,
+    aside {
+      -ms-overflow-style: none !important;
+      scrollbar-width: none !important;
+    }
+
+    /* Glass Panels */
     .glass {
       position: relative;
-      overflow: hidden;
-      background: rgba(255, 255, 255, 0.02);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: var(--glass-bg);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid var(--glass-border);
+      border-radius: 14px;
+      transition: border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
     }
     .glass::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(300px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.04), transparent 80%);
+      background: radial-gradient(350px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.04), transparent 80%);
       opacity: 0;
       transition: opacity 0.3s ease;
       pointer-events: none;
+      border-radius: inherit;
       z-index: 1;
     }
     .glass:hover::before {
@@ -159,60 +107,227 @@
     }
 
     .glass-input {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+      font-size: 14px;
+      line-height: 1.5;
+      border-radius: 10px;
+      transition: all 0.2s ease;
     }
     .glass-input:focus {
-      background: rgba(255, 255, 255, 0.07);
-      border-color: rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.4);
       outline: none;
-      box-shadow: 0 0 15px rgba(255,255,255,0.05);
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08);
     }
 
-    /* Glow Effect */
+    /* Glow Effects & Buttons */
     .glow-hover:hover {
-      box-shadow: 0 0 25px rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.15);
+    }
+
+    /* Header Styling */
+    .admin-header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(8, 8, 12, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+      padding: 0.85rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .header-logo {
+      height: 22px;
+      width: auto;
+      max-width: 140px;
+      object-fit: contain;
+      opacity: 0.92;
+      transition: opacity 0.2s ease;
+    }
+    .header-logo:hover {
+      opacity: 1;
+    }
+
+    /* Navigation Tab Buttons */
+    .tab-btn {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      width: 100%;
+      padding: 0.75rem 1rem;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      background: transparent;
+      border: 1px solid transparent;
+      border-left: 3px solid transparent;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      white-space: nowrap;
+      min-height: 44px;
+    }
+    .tab-btn:hover {
+      background: rgba(255, 255, 255, 0.04);
+      color: #ffffff;
+      border-left-color: rgba(255, 255, 255, 0.3);
+    }
+    .tab-btn.active-tab {
+      background: rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(12px);
+      border-left-color: var(--accent, #ffffff);
+      color: #ffffff;
+      font-weight: 700;
+    }
+    .tab-btn.active-tab svg {
+      color: var(--accent, #ffffff);
+      filter: drop-shadow(0 0 8px var(--accent, rgba(255,255,255,0.4)));
+    }
+    .tab-btn .badge-counter {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #e4e4e7;
+      transition: all 0.2s ease;
+    }
+    .tab-btn.active-tab .badge-counter {
+      background-color: var(--accent, #ffffff);
+      color: #000000;
+      font-weight: 800;
+    }
+
+    /* Desktop Sidebar vs Mobile Navigation */
+    .desktop-sidebar {
+      width: 270px;
+      background: rgba(10, 10, 14, 0.85);
+      border-right: 1px solid rgba(255, 255, 255, 0.09);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      position: sticky;
+      top: 61px;
+      height: calc(100vh - 61px);
+      overflow-y: auto;
+      z-index: 20;
+    }
+    .mobile-tab-bar {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .admin-header {
+        padding: 0.75rem 1rem;
+      }
+      .desktop-sidebar {
+        display: none !important;
+      }
+      .mobile-tab-bar {
+        display: block;
+        position: sticky;
+        top: 55px;
+        z-index: 30;
+        background: rgba(10, 10, 14, 0.95);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+      }
+    }
+
+    .mobile-tab-scroll {
+      display: flex;
+      overflow-x: auto;
+      gap: 0.5rem;
+      padding: 0.5rem 0.75rem;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+    .mobile-tab-scroll .tab-btn {
+      scroll-snap-align: start;
+      flex-shrink: 0;
+      width: auto;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 0.45rem 0.9rem;
+      border-left: 1px solid rgba(255, 255, 255, 0.12);
+      font-size: 12.5px;
+      min-height: 38px;
+    }
+    .mobile-tab-scroll .tab-btn.active-tab {
+      background: #ffffff;
+      color: #000000;
+      border-color: #ffffff;
+      border-left-color: #ffffff;
+    }
+    .mobile-tab-scroll .tab-btn.active-tab svg {
+      color: #000000;
+      filter: none;
+    }
+    .mobile-tab-scroll .tab-btn.active-tab .badge-counter {
+      background: #000000;
+      color: #ffffff;
+    }
+
+    /* Workspace Grid */
+    .workspace-grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.25rem;
+      width: 100%;
+    }
+    @media (max-width: 640px) {
+      .workspace-grid-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
     }
 
     /* Drag & Drop Visuals */
     .drag-over {
       border-color: #ffffff !important;
-      background: rgba(255, 255, 255, 0.06) !important;
-      scale: 0.99;
+      background: rgba(255, 255, 255, 0.08) !important;
+      transform: scale(0.995);
     }
-
     .sortable-ghost {
-      opacity: 0.3;
-      border: 2px dashed rgba(255, 255, 255, 0.4);
+      opacity: 0.35;
+      border: 2px dashed rgba(255, 255, 255, 0.5);
     }
-    
     .sortable-chosen {
-      scale: 1.03;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      transform: scale(1.02);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+      z-index: 10;
     }
 
-    /* Toast Animation */
+    /* Animations */
     @keyframes slideUp {
-      from { transform: translateY(100px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+      from { transform: translate(-50%, 60px); opacity: 0; }
+      to { transform: translate(-50%, 0); opacity: 1; }
     }
     .toast-active {
       animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
-    /* Lock Screen Shake animation on Mismatch */
     @keyframes shake {
       0%, 100% { transform: translateX(0); }
       20%, 60% { transform: translateX(-8px); }
       40%, 80% { transform: translateX(8px); }
     }
     .shake-error {
-      animation: shake 0.3s cubic-bezier(.36,.07,.19,.97) both;
+      animation: shake 0.35s cubic-bezier(.36,.07,.19,.97) both;
     }
 
     /* ==========================================================================
-       VISITOR & LINK TRAFFIC ANALYTICS HUB STYLES (MATCHING JCNINO-MD)
+       VISITOR & LINK TRAFFIC ANALYTICS HUB STYLES
        ========================================================================== */
     .analytics-hub {
       display: flex;
@@ -227,44 +342,47 @@
       align-items: center;
       gap: 0.75rem;
       flex-wrap: wrap;
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid var(--glass-border);
       border-radius: 12px;
       padding: 0.75rem 1rem;
     }
 
     .range-btn-group {
       display: flex;
-      gap: 0.4rem;
+      gap: 0.35rem;
       flex-wrap: wrap;
+      align-items: center;
     }
 
     .filter-btn {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 0.4rem;
-      padding: 0.45rem 0.9rem;
+      padding: 0.45rem 0.85rem;
       border-radius: 8px;
-      font-size: 13px !important;
-      font-weight: 600 !important;
-      color: #a0a0a0;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.08);
       cursor: pointer;
       transition: all 0.2s ease;
       text-decoration: none;
       white-space: nowrap;
+      min-height: 36px;
     }
     .filter-btn:hover {
       color: #ffffff;
       background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.16);
     }
     .filter-btn.active {
       background: #ffffff;
-      color: #000000 !important;
+      color: #000000;
       border-color: #ffffff;
-      font-weight: 700 !important;
+      font-weight: 700;
     }
     .filter-btn.clear-btn {
       color: #ef4444;
@@ -284,18 +402,19 @@
     }
 
     .link-select {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 8px;
       padding: 0.45rem 0.75rem;
-      font-size: 13px !important;
+      font-size: 13px;
       color: #ffffff;
       outline: none;
       cursor: pointer;
+      min-height: 36px;
       min-width: 170px;
     }
     .link-select option {
-      background: #18181b;
+      background: #15151a;
       color: #ffffff;
     }
 
@@ -303,17 +422,20 @@
       position: relative;
       display: flex;
       align-items: center;
+      min-width: 200px;
+      flex: 1;
     }
     .analytics-search-input {
-      background: rgba(255, 255, 255, 0.05);
+      width: 100%;
+      background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 8px;
       padding: 0.45rem 2.2rem 0.45rem 2rem;
-      font-size: 13px !important;
+      font-size: 13px;
       color: #ffffff;
       outline: none;
-      min-width: 220px;
-      transition: border-color 0.2s ease;
+      min-height: 36px;
+      transition: all 0.2s ease;
     }
     .analytics-search-input:focus {
       border-color: rgba(255, 255, 255, 0.35);
@@ -323,7 +445,7 @@
       position: absolute;
       left: 8px;
       color: #71717a;
-      font-size: 16px !important;
+      font-size: 16px;
       pointer-events: none;
     }
     .clear-search-btn-inside {
@@ -332,9 +454,12 @@
       background: none;
       border: none;
       color: #a1a1aa;
-      font-size: 16px;
+      font-size: 18px;
       cursor: pointer;
       padding: 2px 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .active-filter-banner {
@@ -346,7 +471,7 @@
       border: 1px solid rgba(59, 130, 246, 0.3);
       border-radius: 10px;
       color: #93c5fd;
-      font-size: 13px !important;
+      font-size: 13px;
     }
     .active-filter-banner .banner-left {
       display: flex;
@@ -358,25 +483,33 @@
       font-weight: 700;
       cursor: pointer;
       text-decoration: underline;
-      font-size: 12px !important;
+      font-size: 12px;
+      background: none;
+      border: none;
+      padding: 0;
     }
 
     /* 4-Grid Key Metrics */
     .tf-grid-4 {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
       gap: 1rem;
       width: 100%;
     }
 
     .tf-card {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid var(--glass-border);
+      border-radius: 14px;
       padding: 1.25rem;
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       box-sizing: border-box;
+      transition: all 0.25s ease;
+    }
+    .tf-card:hover {
+      border-color: rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.035);
     }
 
     .tf-metric {
@@ -386,18 +519,18 @@
       gap: 1rem;
     }
     .tf-metric-label {
-      font-size: 11px !important;
-      font-weight: 700 !important;
-      color: #a0a0a0;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-secondary);
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.06em;
     }
     .tf-metric-val {
-      font-size: 26px !important;
-      font-weight: 800 !important;
+      font-size: 26px;
+      font-weight: 800;
       color: #ffffff;
       line-height: 1.2;
-      margin-top: 0.2rem;
+      margin-top: 0.25rem;
     }
     .tf-metric-icon {
       width: 44px;
@@ -416,7 +549,7 @@
     /* 2-Grid Breakdown Progress Cards */
     .tf-grid-2 {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 1.25rem;
       width: 100%;
     }
@@ -429,26 +562,26 @@
       border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     }
     .card-title {
-      font-size: 14px !important;
-      font-weight: 700 !important;
+      font-size: 14px;
+      font-weight: 700;
       color: #ffffff;
       margin: 0;
     }
     .card-icon {
       color: #71717a;
-      font-size: 18px !important;
+      font-size: 18px;
     }
     .no-data-msg {
       padding: 1.5rem;
       text-align: center;
       color: #71717a;
-      font-size: 12px !important;
+      font-size: 13px;
     }
     .breakdown-item {
       display: flex;
       flex-direction: column;
-      gap: 0.35rem;
-      margin-bottom: 0.85rem;
+      gap: 0.4rem;
+      margin-bottom: 0.9rem;
     }
     .breakdown-item:last-child {
       margin-bottom: 0;
@@ -457,7 +590,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 12px !important;
+      font-size: 12.5px;
       font-weight: 600;
     }
     .link-label {
@@ -473,18 +606,18 @@
       text-decoration: underline;
     }
     .hits-label {
-      color: #a0a0a0;
-      font-size: 11px !important;
-      font-family: monospace;
+      color: var(--text-secondary);
+      font-size: 11.5px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     }
     .loc-label {
       display: flex;
       align-items: center;
-      gap: 0.3rem;
+      gap: 0.35rem;
       color: #e4e4e7;
     }
     .loc-pin {
-      font-size: 14px !important;
+      font-size: 15px;
       color: #c084fc;
     }
     .item-label {
@@ -521,14 +654,14 @@
       gap: 0.5rem;
     }
     .table-card-title {
-      font-size: 15px !important;
-      font-weight: 800 !important;
+      font-size: 15px;
+      font-weight: 800;
       color: #ffffff;
       margin: 0;
     }
     .table-card-sub {
-      font-size: 12px !important;
-      color: #a0a0a0;
+      font-size: 12px;
+      color: var(--text-secondary);
       margin-top: 0.15rem;
     }
     .tf-table-wrap {
@@ -536,22 +669,22 @@
       -webkit-overflow-scrolling: touch;
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 10px;
-      background: rgba(0, 0, 0, 0.2);
+      background: rgba(0, 0, 0, 0.3);
     }
     .tf-table {
       width: 100%;
       border-collapse: collapse;
       text-align: left;
-      font-size: 13px !important;
+      font-size: 13px;
     }
     .tf-table th {
       background: rgba(255, 255, 255, 0.03);
       padding: 0.85rem 1rem;
-      font-weight: 700 !important;
-      font-size: 11px !important;
+      font-weight: 700;
+      font-size: 11px;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: #a0a0a0;
+      letter-spacing: 0.06em;
+      color: var(--text-secondary);
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       white-space: nowrap;
       user-select: none;
@@ -571,7 +704,7 @@
       transition: color 0.15s ease;
     }
     .sortable-th:hover {
-      color: #ffffff !important;
+      color: #ffffff;
     }
     .th-content {
       display: inline-flex;
@@ -579,11 +712,11 @@
       gap: 0.35rem;
     }
     .sort-icon {
-      font-size: 14px !important;
+      font-size: 15px;
       opacity: 0.5;
     }
     .sortable-th.active-sort {
-      color: #ffffff !important;
+      color: #ffffff;
     }
     .sortable-th.active-sort .sort-icon {
       opacity: 1;
@@ -595,8 +728,8 @@
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
-      font-family: monospace;
-      font-size: 12px !important;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 12px;
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.1);
       padding: 2px 8px;
@@ -604,7 +737,7 @@
       color: #f4f4f5;
     }
     .copy-ip {
-      font-size: 13px !important;
+      font-size: 14px;
       color: #71717a;
       cursor: pointer;
       transition: color 0.15s ease;
@@ -617,15 +750,15 @@
       display: inline-flex;
       align-items: center;
       gap: 0.3rem;
-      padding: 2px 7px;
+      padding: 3px 8px;
       border-radius: 6px;
-      font-size: 11px !important;
-      font-weight: 700 !important;
+      font-size: 11px;
+      font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.03em;
+      letter-spacing: 0.04em;
     }
     .badge-dev-icon {
-      font-size: 13px !important;
+      font-size: 14px;
     }
     .badge-desktop {
       background: rgba(59, 130, 246, 0.15);
@@ -644,12 +777,12 @@
     }
 
     .specs-subtext {
-      font-size: 11px !important;
-      color: #a0a0a0;
+      font-size: 11.5px;
+      color: var(--text-secondary);
       margin-top: 2px;
     }
     .res-subtext {
-      font-size: 10px !important;
+      font-size: 10.5px;
       color: #71717a;
       font-family: monospace;
     }
@@ -658,15 +791,15 @@
       font-weight: 700;
       color: #60a5fa;
       text-decoration: none;
-      font-family: monospace;
-      font-size: 12px !important;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 12.5px;
     }
     .page-link-badge:hover {
       text-decoration: underline;
     }
     .title-subtext {
-      font-size: 11px !important;
-      color: #a0a0a0;
+      font-size: 11.5px;
+      color: var(--text-secondary);
       margin-top: 2px;
       max-width: 250px;
       overflow: hidden;
@@ -674,8 +807,8 @@
       white-space: nowrap;
     }
     .referrer-text {
-      font-size: 11px !important;
-      color: #a0a0a0;
+      font-size: 11.5px;
+      color: var(--text-secondary);
       max-width: 180px;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -685,31 +818,23 @@
     .loc-row {
       display: flex;
       align-items: center;
-      gap: 0.3rem;
+      gap: 0.35rem;
       font-weight: 600;
     }
-    .isp-subtext {
-      font-size: 11px !important;
-      color: #71717a;
-      margin-top: 2px;
-    }
-    .date-subtext {
-      font-size: 11px !important;
+    .isp-subtext, .date-subtext {
+      font-size: 11px;
       color: #71717a;
       margin-top: 2px;
     }
     .nowrap {
       white-space: nowrap;
     }
-    .text-dark {
-      color: #ffffff;
-    }
 
     .slug-link-text {
       font-weight: 700;
       color: #60a5fa;
       text-decoration: none;
-      font-family: monospace;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     }
     .slug-link-text:hover {
       text-decoration: underline;
@@ -717,13 +842,13 @@
     .btn-sm-filter {
       display: inline-flex;
       align-items: center;
-      padding: 3px 8px;
+      padding: 4px 10px;
       border-radius: 6px;
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.12);
       color: #ffffff;
-      font-size: 11px !important;
-      font-weight: 600 !important;
+      font-size: 11.5px;
+      font-weight: 600;
       text-decoration: none;
       cursor: pointer;
       transition: all 0.2s ease;
@@ -746,8 +871,8 @@
       padding: 0.85rem 0.5rem 0.25rem 0.5rem;
       flex-wrap: wrap;
       gap: 0.75rem;
-      font-size: 12px !important;
-      color: #a0a0a0;
+      font-size: 12.5px;
+      color: var(--text-secondary);
     }
     .page-nav-controls {
       display: flex;
@@ -763,10 +888,11 @@
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 6px;
       color: #ffffff;
-      font-size: 12px !important;
-      font-weight: 600 !important;
+      font-size: 12px;
+      font-weight: 600;
       cursor: pointer;
       transition: all 0.15s ease;
+      min-height: 32px;
     }
     .pagination-btn:disabled {
       opacity: 0.3;
@@ -780,18 +906,19 @@
       gap: 0.25rem;
     }
     .page-number-btn {
-      width: 28px;
-      height: 28px;
+      width: 32px;
+      height: 32px;
       display: flex;
       align-items: center;
       justify-content: center;
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 6px;
-      color: #a0a0a0;
-      font-size: 12px !important;
-      font-weight: 600 !important;
+      color: var(--text-secondary);
+      font-size: 12px;
+      font-weight: 600;
       cursor: pointer;
+      transition: all 0.15s ease;
     }
     .page-number-btn:hover {
       color: #ffffff;
@@ -800,7 +927,7 @@
     .page-number-btn.active {
       background: #ffffff;
       color: #000000;
-      font-weight: 800 !important;
+      font-weight: 800;
       border-color: #ffffff;
     }
     .pagination-ellipsis {
@@ -816,19 +943,96 @@
       color: #71717a;
     }
     .empty-icon-sm {
-      font-size: 32px !important;
+      font-size: 32px;
       color: #52525b;
       margin-bottom: 0.5rem;
     }
     .empty-title {
       font-weight: 700;
-      color: #a0a0a0;
-      font-size: 13px !important;
+      color: var(--text-secondary);
+      font-size: 13.5px;
     }
     .empty-sub {
-      font-size: 11px !important;
+      font-size: 11.5px;
       color: #71717a;
       margin-top: 0.25rem;
+    }
+
+    /* Mobile Drawer Backdrop */
+    #edit-drawer-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 45;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    #edit-drawer-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Side Edit Drawer */
+    #edit-drawer {
+      position: fixed;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 480px;
+      max-width: 100vw;
+      background: rgba(12, 12, 16, 0.98);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-left: 1px solid rgba(255, 255, 255, 0.12);
+      z-index: 50;
+      transform: translateX(100%);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: -15px 0 40px rgba(0, 0, 0, 0.8);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    #edit-drawer.drawer-open {
+      transform: translateX(0);
+    }
+
+    /* Lock Screen Overlay */
+    #login-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: rgba(4, 4, 6, 0.95);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      user-select: none;
+    }
+    #login-card {
+      width: 100%;
+      max-width: 420px;
+      background: rgba(18, 18, 24, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 24px;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .login-logo {
+      height: 26px;
+      width: auto;
+      max-width: 160px;
+      object-fit: contain;
+      opacity: 0.95;
+      margin-bottom: 0.5rem;
     }
   </style>
 
@@ -841,59 +1045,65 @@
     }
   </script>
 </head>
-<body class="min-h-screen flex flex-col">
+<body>
 
   <!-- Header Banner -->
-  <header class="glass sticky top-0 z-40 px-6 py-4 flex items-center justify-between border-b border-border-glass">
-    <div class="flex items-center gap-5">
-      <a href="index.html" class="flex items-center">
-        <img src="images/logo.png" alt="Portfolio" class="h-5 w-auto opacity-90 hover:opacity-100 transition-opacity" />
+  <header class="admin-header">
+    <div class="flex items-center gap-3 sm:gap-4">
+      <a href="index.html" class="flex items-center" title="Back to Portfolio Home">
+        <img src="images/logo.png" alt="Portfolio" class="header-logo" />
       </a>
-      <div class="h-4 w-[1px] bg-white/20 hidden sm:block"></div>
-      <p class="text-[9px] uppercase tracking-widest text-accent-dim font-bold hidden sm:block">Portfolio Content Manager</p>
+      <div class="h-4 w-[1px] bg-white/20 hidden md:block"></div>
+      <div class="hidden md:flex flex-col">
+        <span class="text-[10px] uppercase tracking-widest text-zinc-400 font-bold leading-tight">Content Management System</span>
+        <span class="text-[9px] text-zinc-500 font-medium">JC Niñonuevo Portfolio Admin</span>
+      </div>
     </div>
 
-    <!-- Active Save Area -->
-    <div class="flex items-center gap-3">
-      <div id="save-status" class="text-xs text-accent-dim hidden sm:flex items-center gap-2">
-        <span class="w-2 h-2 rounded-full bg-success animate-pulse"></span> Dynamic Mode Connected
+    <!-- Header Actions Area -->
+    <div class="flex items-center gap-2 sm:gap-3">
+      <!-- Live Dynamic Status Indicator -->
+      <div id="save-status" class="text-xs text-zinc-400 hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/5">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span class="font-medium">Dynamic Mode Connected</span>
       </div>
 
-      <!-- Connect Folder Button -->
-      <button onclick="connectProjectFolder()" id="folder-btn" class="px-4 pt-[9px] pb-[7px] border border-white/20 hover:border-white hover:text-black text-xs font-bold rounded-full transition-all flex items-center justify-center gap-2 leading-none">
+      <!-- Connect Project Folder Button -->
+      <button onclick="connectProjectFolder()" id="folder-btn" class="px-3 sm:px-4 py-2 border border-white/20 hover:border-white text-zinc-200 hover:text-white text-xs font-semibold rounded-full transition-all flex items-center justify-center gap-1.5 min-h-[38px] active:scale-95">
         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
-        <span id="folder-btn-text">Connect Project Folder</span>
+        <span id="folder-btn-text" class="hidden xs:inline">Connect Folder</span>
+        <span class="xs:hidden">Folder</span>
       </button>
       
       <!-- Save Options Dropdown -->
       <div class="relative inline-block text-left" id="save-dropdown-wrapper">
-        <button onclick="toggleSaveDropdown()" class="px-5 pt-[11px] pb-[9px] border border-transparent bg-white text-black text-sm font-bold rounded-full hover:bg-opacity-90 transition-all flex items-center justify-center gap-2 glow-hover shadow-lg leading-none">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
-          Save Changes
-          <svg class="w-3 h-3 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
+        <button onclick="toggleSaveDropdown()" id="save-main-btn" class="px-3.5 sm:px-5 py-2 border border-transparent bg-white text-black text-xs sm:text-sm font-bold rounded-full hover:bg-zinc-200 transition-all flex items-center justify-center gap-1.5 glow-hover shadow-lg min-h-[38px] active:scale-95">
+          <svg class="w-3.5 sm:w-4 h-3.5 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
+          <span>Save Changes</span>
+          <svg class="w-3 h-3 ml-0.5 opacity-75" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
         </button>
         
-        <div id="save-dropdown" class="origin-top-right absolute right-0 mt-2 w-64 rounded-xl shadow-2xl glass hidden z-50 overflow-hidden border border-white/10">
-          <div class="py-1">
-            <button onclick="saveChangesDirectly()" class="w-full text-left px-4 py-3 text-sm text-white hover:bg-white/5 flex items-center gap-3 border-b border-white/5">
-              <span class="flex h-7 w-7 items-center justify-center rounded-lg bg-white/10 text-white"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 4H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-2m-4-1v8m0 0l3-3m-3 3L9 8"/></svg></span>
+        <div id="save-dropdown" class="origin-top-right absolute right-0 mt-2 w-72 max-w-[calc(100vw-24px)] rounded-xl shadow-2xl glass hidden z-50 overflow-hidden border border-white/15 bg-zinc-900/95 backdrop-blur-2xl">
+          <div class="p-2 space-y-1">
+            <button onclick="saveChangesDirectly()" class="w-full text-left p-3 rounded-lg hover:bg-white/10 flex items-start gap-3 transition-colors">
+              <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-white/10 text-white shrink-0 mt-0.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 4H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-2m-4-1v8m0 0l3-3m-3 3L9 8"/></svg></span>
               <div>
-                <p class="font-bold">Direct File Overwrite</p>
-                <p class="text-[10px] text-accent-dim">Write directly to gallery-data.js</p>
+                <p class="font-bold text-sm text-white">Direct File Overwrite</p>
+                <p class="text-[11px] text-zinc-400 mt-0.5">Write directly to assets/gallery-data.js</p>
               </div>
             </button>
-            <button onclick="downloadDatabase()" class="w-full text-left px-4 py-3 text-sm text-white hover:bg-white/5 flex items-center gap-3 border-b border-white/5">
-              <span class="flex h-7 w-7 items-center justify-center rounded-lg bg-white/10 text-white"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg></span>
+            <button onclick="downloadDatabase()" class="w-full text-left p-3 rounded-lg hover:bg-white/10 flex items-start gap-3 transition-colors">
+              <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-white/10 text-white shrink-0 mt-0.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg></span>
               <div>
-                <p class="font-bold">Download File (.js)</p>
-                <p class="text-[10px] text-accent-dim">Download and replace in assets/</p>
+                <p class="font-bold text-sm text-white">Download File (.js)</p>
+                <p class="text-[11px] text-zinc-400 mt-0.5">Download and replace in assets/</p>
               </div>
             </button>
-            <button onclick="copyToClipboard()" class="w-full text-left px-4 py-3 text-sm text-white hover:bg-white/5 flex items-center gap-3">
-              <span class="flex h-7 w-7 items-center justify-center rounded-lg bg-white/10 text-white"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg></span>
+            <button onclick="copyToClipboard()" class="w-full text-left p-3 rounded-lg hover:bg-white/10 flex items-start gap-3 transition-colors">
+              <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-white/10 text-white shrink-0 mt-0.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg></span>
               <div>
-                <p class="font-bold">Copy Source Code</p>
-                <p class="text-[10px] text-accent-dim">Copy and replace manually</p>
+                <p class="font-bold text-sm text-white">Copy Source Code</p>
+                <p class="text-[11px] text-zinc-400 mt-0.5">Copy JavaScript to paste manually</p>
               </div>
             </button>
           </div>
@@ -902,166 +1112,224 @@
     </div>
   </header>
 
-  <!-- Main Workspace -->
-  <div class="flex-1 flex flex-col md:flex-row">
+  <!-- Mobile Swipeable Horizontal Navigation Bar (< md) -->
+  <div class="mobile-tab-bar">
+    <nav class="mobile-tab-scroll" aria-label="Category Navigation">
+      <button onclick="switchTab('highlights')" id="mobile-tab-highlights" class="tab-btn active-tab">
+        <span>Highlights</span>
+        <span id="mobile-badge-highlights" class="badge-counter">0</span>
+      </button>
+      <button onclick="switchTab('drone')" id="mobile-tab-drone" class="tab-btn">
+        <span>Drone Shots</span>
+        <span id="mobile-badge-drone" class="badge-counter">0</span>
+      </button>
+      <button onclick="switchTab('framed')" id="mobile-tab-framed" class="tab-btn">
+        <span>Framed</span>
+        <span id="mobile-badge-framed" class="badge-counter">0</span>
+      </button>
+      <button onclick="switchTab('events')" id="mobile-tab-events" class="tab-btn">
+        <span>School Events</span>
+        <span id="mobile-badge-events" class="badge-counter">0</span>
+      </button>
+      <button onclick="switchTab('videos')" id="mobile-tab-videos" class="tab-btn">
+        <span>Video Projects</span>
+        <span id="mobile-badge-videos" class="badge-counter">0</span>
+      </button>
+      <button onclick="switchTab('videos2')" id="mobile-tab-videos2" class="tab-btn">
+        <span>Aerial Videos</span>
+        <span id="mobile-badge-videos2" class="badge-counter">0</span>
+      </button>
+      <button onclick="switchTab('analytics')" id="mobile-tab-analytics" class="tab-btn">
+        <span>Analytics</span>
+        <span class="badge-counter text-emerald-400 font-bold">Live</span>
+      </button>
+      <button onclick="switchTab('security')" id="mobile-tab-security" class="tab-btn">
+        <span>Security</span>
+        <span class="badge-counter text-red-400 font-bold">Logs</span>
+      </button>
+      <button onclick="switchTab('settings')" id="mobile-tab-settings" class="tab-btn">
+        <span>Site Config</span>
+      </button>
+      <button onclick="switchTab('backups')" id="mobile-tab-backups" class="tab-btn">
+        <span>Backups</span>
+        <span id="mobile-badge-backups" class="badge-counter">0</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- Main Workspace Layout -->
+  <div class="flex-1 flex flex-col md:flex-row w-full max-w-[1920px] mx-auto">
     
-    <!-- Sidebar Category Selector -->
-    <aside class="w-full md:w-72 bg-surface-dark border-r border-border-glass flex flex-col shrink-0 md:sticky md:top-[81px] md:h-[calc(100vh-81px)] overflow-y-auto">
-      <div class="p-6 border-b border-border-glass hidden md:block">
-        <p class="text-xs font-bold uppercase tracking-widest text-accent-dim">Category Workspace</p>
-        <p class="text-[10px] text-accent-dim mt-1">Select a category to modify, drag to reorder photos, or double click to edit details.</p>
+    <!-- Desktop Sidebar Category Selector (>= md) -->
+    <aside class="desktop-sidebar">
+      <div class="p-5 border-b border-white/10">
+        <p class="text-[11px] font-bold uppercase tracking-widest text-zinc-400">Category Workspace</p>
+        <p class="text-xs text-zinc-500 mt-1 leading-relaxed">Select a gallery to reorder or double click to modify metadata.</p>
       </div>
       
-      <nav class="flex md:flex-col overflow-x-auto md:overflow-x-visible p-3 md:p-4 gap-1 select-none">
-        <button onclick="switchTab('highlights')" id="tab-highlights" class="tab-btn w-full px-4 py-3 rounded-lg text-left text-sm font-bold transition-all flex items-center justify-between border border-transparent whitespace-nowrap md:whitespace-normal">
+      <nav class="flex flex-col p-3 gap-1 select-none flex-1">
+        <div class="px-3 py-1.5 text-[10px] uppercase tracking-wider font-bold text-zinc-500">Galleries & Videos</div>
+        
+        <button onclick="switchTab('highlights')" id="tab-highlights" class="tab-btn active-tab">
           <span class="flex items-center gap-3">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+            <svg class="w-4 h-4 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
             Gallery Highlights
           </span>
-          <span id="badge-highlights" class="bg-white/10 text-white text-[10px] px-2 py-0.5 rounded-full font-medium ml-2">0</span>
+          <span id="badge-highlights" class="badge-counter">0</span>
         </button>
         
-        <button onclick="switchTab('drone')" id="tab-drone" class="tab-btn w-full px-4 py-3 rounded-lg text-left text-sm font-bold transition-all flex items-center justify-between border border-transparent whitespace-nowrap md:whitespace-normal">
+        <button onclick="switchTab('drone')" id="tab-drone" class="tab-btn">
           <span class="flex items-center gap-3">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+            <svg class="w-4 h-4 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
             Drone Shots (01)
           </span>
-          <span id="badge-drone" class="bg-white/10 text-white text-[10px] px-2 py-0.5 rounded-full font-medium ml-2">0</span>
+          <span id="badge-drone" class="badge-counter">0</span>
         </button>
         
-        <button onclick="switchTab('framed')" id="tab-framed" class="tab-btn w-full px-4 py-3 rounded-lg text-left text-sm font-bold transition-all flex items-center justify-between border border-transparent whitespace-nowrap md:whitespace-normal">
+        <button onclick="switchTab('framed')" id="tab-framed" class="tab-btn">
           <span class="flex items-center gap-3">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            <svg class="w-4 h-4 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
             Framed Moments (02)
           </span>
-          <span id="badge-framed" class="bg-white/10 text-white text-[10px] px-2 py-0.5 rounded-full font-medium ml-2">0</span>
+          <span id="badge-framed" class="badge-counter">0</span>
         </button>
         
-        <button onclick="switchTab('events')" id="tab-events" class="tab-btn w-full px-4 py-3 rounded-lg text-left text-sm font-bold transition-all flex items-center justify-between border border-transparent whitespace-nowrap md:whitespace-normal">
+        <button onclick="switchTab('events')" id="tab-events" class="tab-btn">
           <span class="flex items-center gap-3">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+            <svg class="w-4 h-4 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
             School Events (03)
           </span>
-          <span id="badge-events" class="bg-white/10 text-white text-[10px] px-2 py-0.5 rounded-full font-medium ml-2">0</span>
+          <span id="badge-events" class="badge-counter">0</span>
         </button>
         
-        <button onclick="switchTab('videos')" id="tab-videos" class="tab-btn w-full px-4 py-3 rounded-lg text-left text-sm font-bold transition-all flex items-center justify-between border border-transparent whitespace-nowrap md:whitespace-normal">
+        <button onclick="switchTab('videos')" id="tab-videos" class="tab-btn">
           <span class="flex items-center gap-3">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            <svg class="w-4 h-4 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
             Video Projects (04)
           </span>
-          <span id="badge-videos" class="bg-white/10 text-white text-[10px] px-2 py-0.5 rounded-full font-medium ml-2">0</span>
+          <span id="badge-videos" class="badge-counter">0</span>
         </button>
         
-        <button onclick="switchTab('videos2')" id="tab-videos2" class="tab-btn w-full px-4 py-3 rounded-lg text-left text-sm font-bold transition-all flex items-center justify-between border border-transparent whitespace-nowrap md:whitespace-normal">
+        <button onclick="switchTab('videos2')" id="tab-videos2" class="tab-btn">
           <span class="flex items-center gap-3">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7.5 12h9m-9-3h9m-9 6h9M4 20h16a2 2 0 002-2V6a2 2 0 00-2-2H4a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-            Negros Aerials SE Videos
+            <svg class="w-4 h-4 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7.5 12h9m-9-3h9m-9 6h9M4 20h16a2 2 0 002-2V6a2 2 0 00-2-2H4a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            Negros Aerials SE
           </span>
-          <span id="badge-videos2" class="bg-white/10 text-white text-[10px] px-2 py-0.5 rounded-full font-medium ml-2">0</span>
+          <span id="badge-videos2" class="badge-counter">0</span>
         </button>
 
         <!-- Divider -->
-        <div class="h-[1px] bg-white/10 my-2 mx-4 hidden md:block"></div>
+        <div class="h-[1px] bg-white/10 my-3 mx-2"></div>
+        <div class="px-3 py-1.5 text-[10px] uppercase tracking-wider font-bold text-zinc-500">Analytics & System</div>
 
-        <button onclick="switchTab('analytics')" id="tab-analytics" class="tab-btn w-full px-4 py-3 rounded-lg text-left text-sm font-bold transition-all flex items-center justify-between border border-transparent whitespace-nowrap md:whitespace-normal">
+        <button onclick="switchTab('analytics')" id="tab-analytics" class="tab-btn">
           <span class="flex items-center gap-3">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-            Visitor & Traffic Analytics
+            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+            Visitor Analytics
           </span>
-          <span id="badge-analytics" class="bg-success/20 text-success text-[10px] px-2 py-0.5 rounded-full font-medium ml-2">Live</span>
+          <span id="badge-analytics" class="badge-counter bg-emerald-500/20 text-emerald-300 font-bold">Live</span>
         </button>
 
-        <button onclick="switchTab('security')" id="tab-security" class="tab-btn w-full px-4 py-3 rounded-lg text-left text-sm font-bold transition-all flex items-center justify-between border border-transparent whitespace-nowrap md:whitespace-normal mt-1">
+        <button onclick="switchTab('security')" id="tab-security" class="tab-btn">
           <span class="flex items-center gap-3">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
             Security Audit Logs
           </span>
-          <span id="badge-security" class="bg-danger/20 text-danger text-[10px] px-2 py-0.5 rounded-full font-medium ml-2">Secure</span>
+          <span id="badge-security" class="badge-counter bg-red-500/20 text-red-300 font-bold">Audit</span>
         </button>
 
-        <button onclick="switchTab('settings')" id="tab-settings" class="tab-btn w-full px-4 py-3 rounded-lg text-left text-sm font-bold transition-all flex items-center justify-between border border-transparent whitespace-nowrap md:whitespace-normal mt-1">
+        <button onclick="switchTab('settings')" id="tab-settings" class="tab-btn">
           <span class="flex items-center gap-3">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            <svg class="w-4 h-4 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
             Global Site Config
           </span>
-          <span class="bg-white/10 text-white text-[10px] px-2 py-0.5 rounded-full font-medium ml-2">Config</span>
+          <span class="badge-counter">Config</span>
         </button>
 
-        <button onclick="switchTab('backups')" id="tab-backups" class="tab-btn w-full px-4 py-3 rounded-lg text-left text-sm font-bold transition-all flex items-center justify-between border border-transparent whitespace-nowrap md:whitespace-normal mt-1">
+        <button onclick="switchTab('backups')" id="tab-backups" class="tab-btn">
           <span class="flex items-center gap-3">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <svg class="w-4 h-4 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             Revision Backups
           </span>
-          <span id="badge-backups" class="bg-white/10 text-white text-[10px] px-2 py-0.5 rounded-full font-medium ml-2">0</span>
+          <span id="badge-backups" class="badge-counter">0</span>
         </button>
       </nav>
       
-      <!-- Instructional glass panel -->
-      <div class="mt-auto p-4 m-4 rounded-xl glass border border-white/5 text-[11px] text-accent-dim hidden md:flex flex-col gap-2">
-        <p class="font-bold text-white flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> Pro-Tip</p>
-        <p>1. Drag a photo card and release to visually reorder it.</p>
-        <p>2. To add multiple photos, click the "+ Add Photos" button or drag and drop image files directly into the grid.</p>
-        <p>3. Directly modify Alt tags to boost your Google Images SEO search rank!</p>
+      <!-- Pro-Tips Instructional Card -->
+      <div class="mt-auto p-4 m-3 rounded-xl glass border border-white/5 text-xs text-zinc-400 space-y-2">
+        <p class="font-bold text-white flex items-center gap-1.5 text-xs">
+          <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          Pro-Tips
+        </p>
+        <p class="leading-relaxed">1. Drag card grab handles to reorder visually.</p>
+        <p class="leading-relaxed">2. Modify Alt descriptions to boost Google Image SEO ranking.</p>
       </div>
     </aside>
 
     <!-- Main Content Area -->
     <main class="flex-1 flex flex-col min-w-0">
       
-      <!-- Top Action bar -->
-      <section class="p-6 border-b border-border-glass flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <!-- Top Action & Category Header Bar -->
+      <section class="p-4 sm:p-6 border-b border-white/10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-zinc-950/40">
         <div>
-          <h2 id="category-title" class="text-2xl font-bold tracking-tight">Gallery Highlights</h2>
-          <p id="category-subtitle" class="text-xs text-accent-dim mt-1">Manage main highlights displayed on index.html grid.</p>
+          <h1 id="category-title" class="text-xl sm:text-2xl font-extrabold tracking-tight text-white">Gallery Highlights</h1>
+          <p id="category-subtitle" class="text-xs sm:text-sm text-zinc-400 mt-0.5">Manage main highlights displayed on index.html grid.</p>
         </div>
         
-        <div class="flex items-center gap-3 w-full sm:w-auto">
-          <!-- Hidden inputs for custom triggers -->
+        <div class="flex items-center gap-2.5 w-full sm:w-auto">
+          <!-- Hidden inputs for file pickers -->
           <input type="file" id="media-file-picker" multiple accept="image/*" class="hidden" onchange="handleFileSelect(event)"/>
           <input type="file" id="video-file-picker" multiple accept="image/*" class="hidden" onchange="handleFileSelect(event)"/>
           
-          <button onclick="triggerFilePicker()" class="w-full sm:w-auto px-4 pt-[9px] pb-[7px] border border-white/20 text-white rounded-full hover:bg-white hover:text-black font-bold text-xs transition-all flex items-center justify-center gap-2 leading-none">
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+          <button onclick="triggerFilePicker()" class="w-full sm:w-auto px-4 py-2.5 bg-white text-black hover:bg-zinc-200 rounded-full font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-2 shadow-md active:scale-95 min-h-[40px]">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
             <span id="add-btn-text">Add Photos</span>
           </button>
           
-          <button onclick="openVideoAddModal()" id="add-video-btn" class="w-full sm:w-auto px-4 pt-[9px] pb-[7px] bg-white/5 border border-white/10 text-white rounded-full hover:bg-white hover:text-black font-bold text-xs transition-all flex items-center justify-center gap-2 leading-none hidden">
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+          <button onclick="openVideoAddModal()" id="add-video-btn" class="w-full sm:w-auto px-4 py-2.5 bg-white/10 hover:bg-white hover:text-black border border-white/15 text-white rounded-full font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-2 min-h-[40px] active:scale-95 hidden">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
             Add New Video
           </button>
         </div>
       </section>
 
       <!-- Drag and Drop Drop-Zone Overlay -->
-      <div id="drop-zone" class="m-6 p-10 rounded-xl border border-dashed border-white/20 bg-white/[0.01] flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-300 hover:border-white/40"
+      <div id="drop-zone" class="mx-4 sm:mx-6 mt-6 p-8 sm:p-10 rounded-2xl border-2 border-dashed border-white/15 bg-white/[0.015] flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-300 hover:border-white/40 hover:bg-white/[0.03]"
            ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)" onclick="triggerFilePicker()">
-        <svg class="w-10 h-10 text-accent-dim mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
-        <p class="text-sm font-bold mb-1">Drag and drop new images here</p>
-        <p class="text-[11px] text-accent-dim">Supports JPG/PNG/WebP. Filenames will match automatically. Click to browse files.</p>
+        <div class="h-12 w-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-3">
+          <svg class="w-6 h-6 text-zinc-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+        </div>
+        <p class="text-sm sm:text-base font-bold text-white mb-1">Drag and drop photos here to add</p>
+        <p class="text-xs text-zinc-400 max-w-md">Supports JPG, PNG, WebP. Responsive multi-resolution assets generate automatically on save. Click to browse files.</p>
       </div>
 
-      <!-- Main Dynamic Grid Panel -->
-      <div class="flex-1 overflow-y-auto px-6 pb-24">
+      <!-- Main Dynamic Content Workspace -->
+      <div class="flex-1 p-4 sm:p-6 pb-28 overflow-y-auto">
         
         <!-- Empty State -->
-        <div id="empty-state" class="hidden flex flex-col items-center justify-center text-center py-20">
-          <p class="text-lg font-bold">No items found</p>
-          <p class="text-xs text-accent-dim mt-1">Click the add button above or drag files here to start.</p>
+        <div id="empty-state" class="hidden flex flex-col items-center justify-center text-center py-24 px-4">
+          <div class="h-14 w-14 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-4">
+            <svg class="w-7 h-7 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          </div>
+          <p class="text-lg font-bold text-white">No items found in this gallery</p>
+          <p class="text-xs sm:text-sm text-zinc-400 mt-1 max-w-sm">Click "+ Add Photos" or drag image files directly into the dropzone above to begin.</p>
         </div>
 
-        <div id="workspace-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-6 select-none">
+        <!-- Dynamic Grid of Media Cards -->
+        <div id="workspace-grid" class="workspace-grid-container select-none">
           <!-- Dynamic cards injected here -->
         </div>
 
-        <!-- Analytics Panel: Real-Time Visitor & Link Traffic Analytics Hub -->
+        <!-- ==========================================================================
+             PANEL 1: VISITOR & TRAFFIC ANALYTICS HUB
+             ========================================================================== -->
         <div id="analytics-panel" class="hidden space-y-8 select-none">
           <div class="analytics-hub">
-            <!-- Top Filter & Action Bar -->
+            <!-- Top Filter & Range Segmented Bar -->
             <div class="tf-filter-bar">
               <div class="range-btn-group" id="analytics-range-buttons">
                 <button type="button" class="filter-btn" data-range="today" onclick="switchAnalyticsRange('today')">Today</button>
-                <button type="button" class="filter-btn" data-range="24h" onclick="switchAnalyticsRange('24h')">Last 24 Hours</button>
+                <button type="button" class="filter-btn" data-range="24h" onclick="switchAnalyticsRange('24h')">Last 24h</button>
                 <button type="button" class="filter-btn active" data-range="7d" onclick="switchAnalyticsRange('7d')">Last 7 Days</button>
                 <button type="button" class="filter-btn" data-range="30d" onclick="switchAnalyticsRange('30d')">Last 30 Days</button>
                 <button type="button" class="filter-btn" data-range="all" onclick="switchAnalyticsRange('all')">All Time</button>
@@ -1082,7 +1350,7 @@
                   <input
                     type="text"
                     id="analytics-search-input"
-                    placeholder="Search IP, City, Page, OS, Browser..."
+                    placeholder="Search IP, City, Page, OS..."
                     class="analytics-search-input"
                     onkeydown="if(event.key==='Enter'){handleAnalyticsSearchSubmit();}"
                   />
@@ -1090,28 +1358,28 @@
                 </div>
 
                 <button type="button" onclick="handleAnalyticsSearchSubmit()" class="filter-btn active">Filter</button>
-                <button type="button" id="btn-clear-all-filters" class="filter-btn clear-btn hidden" onclick="clearAllAnalyticsFilters()">Clear Filter</button>
+                <button type="button" id="btn-clear-all-filters" class="filter-btn clear-btn hidden" onclick="clearAllAnalyticsFilters()">Clear</button>
               </div>
             </div>
 
             <!-- Active Filter Banner -->
             <div id="analytics-filter-banner" class="active-filter-banner hidden">
               <div class="banner-left">
-                <span class="material-symbols-outlined banner-icon">filter_alt</span>
-                <span id="analytics-filter-banner-text">Filtering analytics...</span>
+                <span class="material-symbols-outlined">filter_alt</span>
+                <span id="analytics-filter-banner-text">Filtering traffic...</span>
               </div>
               <button type="button" class="banner-close-btn" onclick="clearAllAnalyticsFilters()">
                 &times; Show All Traffic
               </button>
             </div>
 
-            <!-- 4 Key Metric Cards -->
+            <!-- 4 Key Metric Overview Cards -->
             <div class="tf-grid-4">
               <div class="tf-card">
                 <div class="tf-metric">
                   <div>
                     <div class="tf-metric-label">Total Pageviews</div>
-                    <div class="tf-metric-val" id="metric-total-views">0</div>
+                    <div class="tf-metric-val text-white" id="metric-total-views">0</div>
                   </div>
                   <div class="tf-metric-icon blue-icon">
                     <span class="material-symbols-outlined">visibility</span>
@@ -1123,7 +1391,7 @@
                 <div class="tf-metric">
                   <div>
                     <div class="tf-metric-label">Unique Visitors</div>
-                    <div class="tf-metric-val" id="metric-unique-visitors">0</div>
+                    <div class="tf-metric-val text-emerald-400" id="metric-unique-visitors">0</div>
                   </div>
                   <div class="tf-metric-icon green-icon">
                     <span class="material-symbols-outlined">people_alt</span>
@@ -1134,8 +1402,8 @@
               <div class="tf-card">
                 <div class="tf-metric">
                   <div>
-                    <div class="tf-metric-label">Mobile Traffic</div>
-                    <div class="tf-metric-val" id="metric-mobile-pct">0.0%</div>
+                    <div class="tf-metric-label">Mobile Traffic %</div>
+                    <div class="tf-metric-val text-amber-400" id="metric-mobile-pct">0.0%</div>
                   </div>
                   <div class="tf-metric-icon yellow-icon">
                     <span class="material-symbols-outlined">smartphone</span>
@@ -1147,7 +1415,7 @@
                 <div class="tf-metric">
                   <div>
                     <div class="tf-metric-label">Top Location</div>
-                    <div class="tf-metric-val text-truncate" id="metric-top-location" title="Top Location">N/A</div>
+                    <div class="tf-metric-val truncate text-purple-300" id="metric-top-location" title="Top Location">N/A</div>
                   </div>
                   <div class="tf-metric-icon purple-icon">
                     <span class="material-symbols-outlined">public</span>
@@ -1203,11 +1471,11 @@
               </div>
             </div>
 
-            <!-- Summary Breakdown Table ("Every View Breakdown of Each Link / Page") -->
+            <!-- Summary Breakdown Table -->
             <div class="tf-card table-card-padding">
               <div class="table-card-header">
                 <div>
-                  <h3 class="table-card-title">Every View Breakdown of Each Link & Page</h3>
+                  <h3 class="table-card-title">Pageview Breakdown of Each Link & Page</h3>
                   <div class="table-card-sub">Page-by-page traffic summary across all visited portfolio pages</div>
                 </div>
               </div>
@@ -1260,16 +1528,16 @@
                 </table>
               </div>
 
-              <!-- Pagination for Breakdown Table (5 per page) -->
+              <!-- Pagination for Breakdown Table -->
               <div class="pagination-bar" id="breakdownPagination">
                 <div class="page-info" id="breakdownPageInfo">Showing 0 links</div>
                 <div class="page-nav-controls">
                   <button type="button" class="pagination-btn prev-btn" id="breakdownPrevBtn" onclick="changeBreakdownPage(-1)" disabled>
-                    <span class="material-symbols-outlined btn-arrow-icon">chevron_left</span> Prev
+                    <span class="material-symbols-outlined" style="font-size:16px;">chevron_left</span> Prev
                   </button>
                   <div class="pagination-numbers" id="breakdownPageNumbers"></div>
                   <button type="button" class="pagination-btn next-btn" id="breakdownNextBtn" onclick="changeBreakdownPage(1)" disabled>
-                    Next <span class="material-symbols-outlined btn-arrow-icon">chevron_right</span>
+                    Next <span class="material-symbols-outlined" style="font-size:16px;">chevron_right</span>
                   </button>
                 </div>
               </div>
@@ -1291,7 +1559,7 @@
                 <table class="tf-table">
                   <thead>
                     <tr>
-                      <th class="sortable-th active-sort desc" data-table="logs" data-sort="time" onclick="handleLogsSort('time')" title="Click to sort by Time (Newest / Oldest)">
+                      <th class="sortable-th active-sort desc" data-table="logs" data-sort="time" onclick="handleLogsSort('time')" title="Click to sort by Time">
                         <div class="th-content">
                           <span>Time</span>
                           <span class="material-symbols-outlined sort-icon" id="logs-sort-time">arrow_downward</span>
@@ -1303,19 +1571,19 @@
                           <span class="material-symbols-outlined sort-icon" id="logs-sort-ip">unfold_more</span>
                         </div>
                       </th>
-                      <th class="sortable-th" data-table="logs" data-sort="location" onclick="handleLogsSort('location')" title="Click to sort by Location & ISP">
+                      <th class="sortable-th" data-table="logs" data-sort="location" onclick="handleLogsSort('location')" title="Click to sort by Location">
                         <div class="th-content">
                           <span>Location & ISP</span>
                           <span class="material-symbols-outlined sort-icon" id="logs-sort-location">unfold_more</span>
                         </div>
                       </th>
-                      <th class="sortable-th" data-table="logs" data-sort="device" onclick="handleLogsSort('device')" title="Click to sort by Device & Specs">
+                      <th class="sortable-th" data-table="logs" data-sort="device" onclick="handleLogsSort('device')" title="Click to sort by Device">
                         <div class="th-content">
                           <span>Device & Specs</span>
                           <span class="material-symbols-outlined sort-icon" id="logs-sort-device">unfold_more</span>
                         </div>
                       </th>
-                      <th class="sortable-th" data-table="logs" data-sort="page" onclick="handleLogsSort('page')" title="Click to sort by Page / Link Visited">
+                      <th class="sortable-th" data-table="logs" data-sort="page" onclick="handleLogsSort('page')" title="Click to sort by Page">
                         <div class="th-content">
                           <span>Page / Link Visited</span>
                           <span class="material-symbols-outlined sort-icon" id="logs-sort-page">unfold_more</span>
@@ -1340,173 +1608,181 @@
                 </table>
               </div>
 
-              <!-- Pagination for Visitor Logs Table (25 per page) -->
+              <!-- Pagination for Visitor Logs Table -->
               <div class="pagination-bar" id="logsPagination">
                 <div class="page-info" id="logsPageInfo">Showing 0 entries</div>
                 <div class="page-nav-controls">
                   <button type="button" class="pagination-btn prev-btn" id="logsPrevBtn" onclick="changeLogsPage(-1)" disabled>
-                    <span class="material-symbols-outlined btn-arrow-icon">chevron_left</span> Prev
+                    <span class="material-symbols-outlined" style="font-size:16px;">chevron_left</span> Prev
                   </button>
                   <div class="pagination-numbers" id="logsPageNumbers"></div>
                   <button type="button" class="pagination-btn next-btn" id="logsNextBtn" onclick="changeLogsPage(1)" disabled>
-                    Next <span class="material-symbols-outlined btn-arrow-icon">chevron_right</span>
+                    Next <span class="material-symbols-outlined" style="font-size:16px;">chevron_right</span>
                   </button>
                 </div>
               </div>
             </div>
 
-            <!-- Portfolio Media Items & Likes Engagement Section -->
+            <!-- Portfolio Media Items & Likes Engagement Leaderboard -->
             <div class="tf-card table-card-padding">
               <div class="table-card-header">
                 <div>
                   <h3 class="table-card-title">Portfolio Media Engagement Leaderboard</h3>
-                  <div class="table-card-sub">Individual views, likes, and engagement rates for photos and videos</div>
+                  <div class="table-card-sub">Individual views, likes, and engagement ratios for photos and videos</div>
                 </div>
               </div>
 
               <!-- Aggregate Media Cards -->
-              <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">
-                <!-- Total Views Card -->
-                <div class="glass p-5 rounded-xl flex items-center justify-between">
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-6">
+                <div class="glass p-4 sm:p-5 rounded-xl flex items-center justify-between">
                   <div>
-                    <p class="text-[10px] uppercase tracking-widest text-accent-dim font-bold">Total Media Views</p>
-                    <h3 id="analytics-total-views" class="text-2xl font-bold mt-1 text-white">0</h3>
+                    <p class="text-[10px] uppercase tracking-widest text-zinc-400 font-bold">Total Media Views</p>
+                    <h4 id="analytics-total-views" class="text-2xl sm:text-3xl font-extrabold mt-1 text-white">0</h4>
                   </div>
-                  <div class="h-10 w-10 bg-white/5 border border-white/10 rounded-lg flex items-center justify-center text-white">
+                  <div class="h-11 w-11 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center text-white">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
                   </div>
                 </div>
 
-                <!-- Total Likes Card -->
-                <div class="glass p-5 rounded-xl flex items-center justify-between">
+                <div class="glass p-4 sm:p-5 rounded-xl flex items-center justify-between">
                   <div>
-                    <p class="text-[10px] uppercase tracking-widest text-accent-dim font-bold">Total Media Likes</p>
-                    <h3 id="analytics-total-likes" class="text-2xl font-bold mt-1 text-white">0</h3>
+                    <p class="text-[10px] uppercase tracking-widest text-zinc-400 font-bold">Total Media Likes</p>
+                    <h4 id="analytics-total-likes" class="text-2xl sm:text-3xl font-extrabold mt-1 text-rose-400">0</h4>
                   </div>
-                  <div class="h-10 w-10 bg-white/5 border border-white/10 rounded-lg flex items-center justify-center text-white">
+                  <div class="h-11 w-11 bg-rose-500/10 border border-rose-500/20 rounded-xl flex items-center justify-center text-rose-400">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
                   </div>
                 </div>
 
-                <!-- Average Engagement Rate -->
-                <div class="glass p-5 rounded-xl flex items-center justify-between">
+                <div class="glass p-4 sm:p-5 rounded-xl flex items-center justify-between">
                   <div>
-                    <p class="text-[10px] uppercase tracking-widest text-accent-dim font-bold">Media Engagement Rate</p>
-                    <h3 id="analytics-avg-engagement" class="text-2xl font-bold mt-1 text-white">0.0%</h3>
+                    <p class="text-[10px] uppercase tracking-widest text-zinc-400 font-bold">Average Engagement</p>
+                    <h4 id="analytics-avg-engagement" class="text-2xl sm:text-3xl font-extrabold mt-1 text-emerald-400">0.0%</h4>
                   </div>
-                  <div class="h-10 w-10 bg-white/5 border border-white/10 rounded-lg flex items-center justify-center text-white">
-                    <span class="material-symbols-outlined" style="font-size:20px;">trending_up</span>
+                  <div class="h-11 w-11 bg-emerald-500/10 border border-emerald-500/20 rounded-xl flex items-center justify-center text-emerald-400">
+                    <span class="material-symbols-outlined" style="font-size:22px;">trending_up</span>
                   </div>
                 </div>
               </div>
 
               <!-- Trending Star Photo Highlight Card -->
-              <div class="glass p-5 rounded-xl mb-6">
-                <p class="text-[10px] uppercase tracking-widest text-accent-dim font-bold mb-3">Trending Star Photo Asset</p>
+              <div class="glass p-4 sm:p-5 rounded-xl mb-6 border border-white/15 bg-white/[0.02]">
+                <p class="text-[10px] uppercase tracking-widest text-zinc-400 font-bold mb-3">Trending Star Asset</p>
                 <div id="star-asset-area" class="flex gap-4 items-center">
-                  <div class="h-16 w-24 rounded overflow-hidden bg-black/40 border border-white/10 shrink-0 relative flex items-center justify-center">
-                    <img id="star-asset-thumb" src="" class="w-full h-full object-cover" />
+                  <div class="h-16 w-24 rounded-lg overflow-hidden bg-black/50 border border-white/10 shrink-0 relative flex items-center justify-center">
+                    <img id="star-asset-thumb" src="" alt="Star Asset" class="w-full h-full object-cover" />
                   </div>
                   <div class="min-w-0">
-                    <h4 id="star-asset-title" class="text-xs text-white font-bold truncate">Loading...</h4>
-                    <p class="text-[10px] text-accent-dim mt-0.5" id="star-asset-cat">Gallery Highlights</p>
+                    <h4 id="star-asset-title" class="text-sm text-white font-bold truncate">Loading...</h4>
+                    <p class="text-xs text-zinc-400 mt-0.5" id="star-asset-cat">Gallery Highlights</p>
                     <div class="flex items-center gap-3 mt-1.5">
-                      <span class="text-[10px] text-success font-bold flex items-center gap-1">
+                      <span class="text-xs text-emerald-400 font-bold flex items-center gap-1">
                         <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
                         <span id="star-asset-ratio">0.0%</span>
                       </span>
-                      <span class="text-[10px] text-accent-dim" id="star-asset-likes">0 Likes</span>
+                      <span class="text-xs text-zinc-400" id="star-asset-likes">0 Likes</span>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <!-- Media Table with glass border -->
-              <div class="glass rounded-xl overflow-hidden border border-white/10">
-                <div class="overflow-x-auto">
-                  <table class="w-full text-left border-collapse text-sm">
-                    <thead>
-                      <tr class="border-b border-white/10 bg-white/[0.02]">
-                        <th class="py-4 px-6 font-bold text-xs uppercase tracking-wider text-accent-dim">Item Detail</th>
-                        <th class="py-4 px-6 font-bold text-xs uppercase tracking-wider text-accent-dim">Category</th>
-                        <th id="th-views" onclick="handleAnalyticsSort('views')" class="py-4 px-6 font-bold text-xs uppercase tracking-wider text-accent-dim cursor-pointer hover:text-white transition-colors select-none">
-                          <div class="flex items-center gap-1.5">
-                            Views <span id="sort-icon-views" class="text-[10px]">▼</span>
-                          </div>
-                        </th>
-                        <th id="th-likes" onclick="handleAnalyticsSort('likes')" class="py-4 px-6 font-bold text-xs uppercase tracking-wider text-accent-dim cursor-pointer hover:text-white transition-colors select-none">
-                          <div class="flex items-center gap-1.5">
-                            Likes <span id="sort-icon-likes" class="text-[10px]"></span>
-                          </div>
-                        </th>
-                        <th id="th-ratio" onclick="handleAnalyticsSort('ratio')" class="py-4 px-6 font-bold text-xs uppercase tracking-wider text-accent-dim cursor-pointer hover:text-white transition-colors select-none">
-                          <div class="flex items-center gap-1.5">
-                            Engagement % <span id="sort-icon-ratio" class="text-[10px]"></span>
-                          </div>
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody id="analytics-tbody" class="divide-y divide-white/5 text-xs">
-                      <!-- Dynamic media rows injected here -->
-                    </tbody>
-                  </table>
-                </div>
+              <!-- Media Table -->
+              <div class="tf-table-wrap">
+                <table class="tf-table">
+                  <thead>
+                    <tr>
+                      <th>Item Detail</th>
+                      <th>Category</th>
+                      <th id="th-views" onclick="handleAnalyticsSort('views')" class="sortable-th cursor-pointer">
+                        <div class="th-content">
+                          <span>Views</span>
+                          <span id="sort-icon-views" class="text-xs">▼</span>
+                        </div>
+                      </th>
+                      <th id="th-likes" onclick="handleAnalyticsSort('likes')" class="sortable-th cursor-pointer">
+                        <div class="th-content">
+                          <span>Likes</span>
+                          <span id="sort-icon-likes" class="text-xs"></span>
+                        </div>
+                      </th>
+                      <th id="th-ratio" onclick="handleAnalyticsSort('ratio')" class="sortable-th cursor-pointer">
+                        <div class="th-content">
+                          <span>Engagement %</span>
+                          <span id="sort-icon-ratio" class="text-xs"></span>
+                        </div>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody id="analytics-tbody">
+                    <!-- Dynamic media rows injected here -->
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
         </div>
 
-
-        <!-- Security Logs Panel -->
+        <!-- ==========================================================================
+             PANEL 2: SECURITY AUDIT LOGS PANEL
+             ========================================================================== -->
         <div id="security-panel" class="hidden space-y-8 select-none">
-          <!-- Overview Cards -->
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            <!-- Total Attempts -->
-            <div class="glass p-6 rounded-xl flex items-center justify-between">
+          <!-- Overview KPI Cards -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+            <div class="glass p-5 sm:p-6 rounded-xl flex items-center justify-between">
               <div>
-                <p class="text-[10px] uppercase tracking-widest text-accent-dim font-bold">Total Attempts</p>
-                <h3 id="security-total-attempts" class="text-3xl font-bold mt-1 text-white">0</h3>
+                <p class="text-[10px] uppercase tracking-widest text-zinc-400 font-bold">Total Attempts</p>
+                <h3 id="security-total-attempts" class="text-3xl font-extrabold mt-1 text-white">0</h3>
               </div>
-              <div class="h-10 w-10 bg-white/5 border border-white/10 rounded-lg flex items-center justify-center text-white">
-                <svg class="w-5 h-5 text-accent-dim" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+              <div class="h-12 w-12 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center text-white">
+                <svg class="w-6 h-6 text-zinc-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
               </div>
             </div>
-            <!-- Successful Logins -->
-            <div class="glass p-6 rounded-xl flex items-center justify-between">
+
+            <div class="glass p-5 sm:p-6 rounded-xl flex items-center justify-between">
               <div>
-                <p class="text-[10px] uppercase tracking-widest text-accent-dim font-bold">Successful Logins</p>
-                <h3 id="security-success-logins" class="text-3xl font-bold mt-1 text-success">0</h3>
+                <p class="text-[10px] uppercase tracking-widest text-zinc-400 font-bold">Successful Logins</p>
+                <h3 id="security-success-logins" class="text-3xl font-extrabold mt-1 text-emerald-400">0</h3>
               </div>
-              <div class="h-10 w-10 bg-success/10 border border-success/20 rounded-lg flex items-center justify-center text-success">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+              <div class="h-12 w-12 bg-emerald-500/10 border border-emerald-500/20 rounded-xl flex items-center justify-center text-emerald-400">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
               </div>
             </div>
-            <!-- Failed Attempts -->
-            <div class="glass p-6 rounded-xl flex items-center justify-between">
+
+            <div class="glass p-5 sm:p-6 rounded-xl flex items-center justify-between">
               <div>
-                <p class="text-[10px] uppercase tracking-widest text-accent-dim font-bold">Failed Attempts</p>
-                <h3 id="security-failed-attempts" class="text-3xl font-bold mt-1 text-danger">0</h3>
+                <p class="text-[10px] uppercase tracking-widest text-zinc-400 font-bold">Failed Attempts</p>
+                <h3 id="security-failed-attempts" class="text-3xl font-extrabold mt-1 text-red-400">0</h3>
               </div>
-              <div class="h-10 w-10 bg-danger/10 border border-danger/20 rounded-lg flex items-center justify-center text-danger">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+              <div class="h-12 w-12 bg-red-500/10 border border-red-500/20 rounded-xl flex items-center justify-center text-red-400">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
               </div>
             </div>
           </div>
 
           <!-- Logs Audit Grid Table -->
-          <div class="glass rounded-xl overflow-hidden border border-white/10">
-            <div class="overflow-x-auto">
-              <table class="w-full text-left border-collapse text-sm">
+          <div class="tf-card table-card-padding">
+            <div class="table-card-header">
+              <div>
+                <h3 class="table-card-title">Authentication Audit History</h3>
+                <div class="table-card-sub">Recorded sign-in attempts with IP geolocation and device metadata</div>
+              </div>
+              <button type="button" onclick="fetchSecurityLogsAndRender()" class="filter-btn">
+                <span class="material-symbols-outlined" style="font-size:16px;">refresh</span> Refresh
+              </button>
+            </div>
+
+            <div class="tf-table-wrap">
+              <table class="tf-table">
                 <thead>
-                  <tr class="border-b border-white/10 bg-white/[0.02]">
-                    <th class="py-4 px-6 font-bold text-xs uppercase tracking-wider text-accent-dim">Timestamp</th>
-                    <th class="py-4 px-6 font-bold text-xs uppercase tracking-wider text-accent-dim">Status</th>
-                    <th class="py-4 px-6 font-bold text-xs uppercase tracking-wider text-accent-dim">IP Address</th>
-                    <th class="py-4 px-6 font-bold text-xs uppercase tracking-wider text-accent-dim">Location</th>
-                    <th class="py-4 px-6 font-bold text-xs uppercase tracking-wider text-accent-dim">Device / Browser</th>
+                  <tr>
+                    <th>Timestamp</th>
+                    <th>Status</th>
+                    <th>IP Address</th>
+                    <th>Location</th>
+                    <th>Device / Browser</th>
                   </tr>
                 </thead>
-                <tbody id="security-tbody" class="divide-y divide-white/5 text-xs">
+                <tbody id="security-tbody">
                   <!-- Dynamic rows loaded here -->
                 </tbody>
               </table>
@@ -1514,124 +1790,144 @@
           </div>
         </div>
 
-        <!-- Settings Panel -->
+        <!-- ==========================================================================
+             PANEL 3: GLOBAL SITE SETTINGS PANEL
+             ========================================================================== -->
         <div id="settings-panel" class="hidden space-y-8 select-none">
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
-            <!-- Left Side Forms (7 cols) -->
-            <div class="lg:col-span-7 space-y-8">
-              <!-- Bio & Kit Card -->
-              <div class="glass p-6 rounded-xl space-y-5">
-                <h3 class="font-bold text-sm uppercase tracking-wider text-white border-b border-white/5 pb-2">Profile & camera gear</h3>
+            <!-- Left Side Form Column (7 cols) -->
+            <div class="lg:col-span-7 space-y-6">
+              
+              <!-- Profile & Camera Gear Card -->
+              <div class="glass p-5 sm:p-6 rounded-2xl space-y-5">
+                <div class="flex items-center justify-between border-b border-white/10 pb-3">
+                  <h3 class="font-bold text-sm uppercase tracking-wider text-white">Profile & Camera Gear</h3>
+                  <span class="material-symbols-outlined text-zinc-400">photo_camera</span>
+                </div>
+                
                 <div class="space-y-4">
                   <div class="space-y-1.5">
-                    <label class="text-[10px] uppercase font-bold text-accent-dim">About Biography</label>
-                    <textarea id="settings-bio" rows="4" class="w-full px-4 py-2.5 rounded-lg glass-input text-xs text-white resize-none" placeholder="Enter biography..."></textarea>
+                    <label class="text-xs uppercase font-bold text-zinc-400">About Biography</label>
+                    <textarea id="settings-bio" rows="4" class="w-full p-3 rounded-xl glass-input text-sm text-white resize-none" placeholder="Enter biography..."></textarea>
                   </div>
+                  
                   <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div class="space-y-1.5">
-                      <label class="text-[10px] uppercase font-bold text-accent-dim">Camera Body</label>
-                      <input type="text" id="settings-kit-body" class="w-full px-4 py-2.5 rounded-lg glass-input text-xs text-white" />
+                      <label class="text-xs uppercase font-bold text-zinc-400">Camera Body</label>
+                      <input type="text" id="settings-kit-body" class="w-full px-3 py-2.5 rounded-xl glass-input text-sm text-white" />
                     </div>
                     <div class="space-y-1.5">
-                      <label class="text-[10px] uppercase font-bold text-accent-dim">Prime Lenses</label>
-                      <input type="text" id="settings-kit-primes" class="w-full px-4 py-2.5 rounded-lg glass-input text-xs text-white" />
+                      <label class="text-xs uppercase font-bold text-zinc-400">Prime Lenses</label>
+                      <input type="text" id="settings-kit-primes" class="w-full px-3 py-2.5 rounded-xl glass-input text-sm text-white" />
                     </div>
                     <div class="space-y-1.5">
-                      <label class="text-[10px] uppercase font-bold text-accent-dim">Zoom Lenses</label>
-                      <input type="text" id="settings-kit-zooms" class="w-full px-4 py-2.5 rounded-lg glass-input text-xs text-white" />
+                      <label class="text-xs uppercase font-bold text-zinc-400">Zoom Lenses</label>
+                      <input type="text" id="settings-kit-zooms" class="w-full px-3 py-2.5 rounded-xl glass-input text-sm text-white" />
                     </div>
                   </div>
+
                   <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div class="space-y-1.5">
-                      <label class="text-[10px] uppercase font-bold text-accent-dim">Photo Editing Software</label>
-                      <input type="text" id="settings-work-photo" class="w-full px-4 py-2.5 rounded-lg glass-input text-xs text-white" />
+                      <label class="text-xs uppercase font-bold text-zinc-400">Photo Editing Software</label>
+                      <input type="text" id="settings-work-photo" class="w-full px-3 py-2.5 rounded-xl glass-input text-sm text-white" />
                     </div>
                     <div class="space-y-1.5">
-                      <label class="text-[10px] uppercase font-bold text-accent-dim">Video Editing Software</label>
-                      <input type="text" id="settings-work-video" class="w-full px-4 py-2.5 rounded-lg glass-input text-xs text-white" />
+                      <label class="text-xs uppercase font-bold text-zinc-400">Video Editing Software</label>
+                      <input type="text" id="settings-work-video" class="w-full px-3 py-2.5 rounded-xl glass-input text-sm text-white" />
                     </div>
                     <div class="space-y-1.5">
-                      <label class="text-[10px] uppercase font-bold text-accent-dim">Machine Speccing</label>
-                      <input type="text" id="settings-work-machine" class="w-full px-4 py-2.5 rounded-lg glass-input text-xs text-white" />
+                      <label class="text-xs uppercase font-bold text-zinc-400">Machine Specs</label>
+                      <input type="text" id="settings-work-machine" class="w-full px-3 py-2.5 rounded-xl glass-input text-sm text-white" />
                     </div>
                   </div>
                 </div>
               </div>
 
-              <!-- Social Connections & Global SEO Card -->
-              <div class="glass p-6 rounded-xl space-y-5">
-                <h3 class="font-bold text-sm uppercase tracking-wider text-white border-b border-white/5 pb-2">Social links & SEO headers</h3>
+              <!-- Social Links & Global SEO Card -->
+              <div class="glass p-5 sm:p-6 rounded-2xl space-y-5">
+                <div class="flex items-center justify-between border-b border-white/10 pb-3">
+                  <h3 class="font-bold text-sm uppercase tracking-wider text-white">Social Links & Global SEO</h3>
+                  <span class="material-symbols-outlined text-zinc-400">public</span>
+                </div>
+
                 <div class="space-y-4">
                   <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div class="space-y-1.5">
-                      <label class="text-[10px] uppercase font-bold text-accent-dim">Facebook URL</label>
-                      <input type="text" id="settings-social-fb" class="w-full px-4 py-2.5 rounded-lg glass-input text-xs text-white" />
+                      <label class="text-xs uppercase font-bold text-zinc-400">Facebook URL</label>
+                      <input type="text" id="settings-social-fb" class="w-full px-3 py-2.5 rounded-xl glass-input text-sm text-white" />
                     </div>
                     <div class="space-y-1.5">
-                      <label class="text-[10px] uppercase font-bold text-accent-dim">Instagram URL</label>
-                      <input type="text" id="settings-social-ig" class="w-full px-4 py-2.5 rounded-lg glass-input text-xs text-white" />
+                      <label class="text-xs uppercase font-bold text-zinc-400">Instagram URL</label>
+                      <input type="text" id="settings-social-ig" class="w-full px-3 py-2.5 rounded-xl glass-input text-sm text-white" />
                     </div>
                     <div class="space-y-1.5">
-                      <label class="text-[10px] uppercase font-bold text-accent-dim">Contact Email</label>
-                      <input type="email" id="settings-social-email" class="w-full px-4 py-2.5 rounded-lg glass-input text-xs text-white" />
+                      <label class="text-xs uppercase font-bold text-zinc-400">Contact Email</label>
+                      <input type="email" id="settings-social-email" class="w-full px-3 py-2.5 rounded-xl glass-input text-sm text-white" />
                     </div>
                   </div>
+
                   <div class="space-y-1.5">
-                    <label class="text-[10px] uppercase font-bold text-accent-dim">Global Title Tag</label>
-                    <input type="text" id="settings-seo-title" class="w-full px-4 py-2.5 rounded-lg glass-input text-xs text-white" />
+                    <label class="text-xs uppercase font-bold text-zinc-400">Global Page Title</label>
+                    <input type="text" id="settings-seo-title" class="w-full px-3 py-2.5 rounded-xl glass-input text-sm text-white" />
                   </div>
                   <div class="space-y-1.5">
-                    <label class="text-[10px] uppercase font-bold text-accent-dim">SEO Meta Keywords</label>
-                    <input type="text" id="settings-seo-keywords" class="w-full px-4 py-2.5 rounded-lg glass-input text-xs text-white" placeholder="comma-separated" />
+                    <label class="text-xs uppercase font-bold text-zinc-400">SEO Meta Keywords</label>
+                    <input type="text" id="settings-seo-keywords" class="w-full px-3 py-2.5 rounded-xl glass-input text-sm text-white" placeholder="comma-separated" />
                   </div>
                   <div class="space-y-1.5">
-                    <label class="text-[10px] uppercase font-bold text-accent-dim">SEO Meta Description</label>
-                    <textarea id="settings-seo-desc" rows="2" class="w-full px-4 py-2.5 rounded-lg glass-input text-xs text-white resize-none" placeholder="Enter meta description..."></textarea>
+                    <label class="text-xs uppercase font-bold text-zinc-400">SEO Meta Description</label>
+                    <textarea id="settings-seo-desc" rows="2" class="w-full p-3 rounded-xl glass-input text-sm text-white resize-none" placeholder="Enter meta description..."></textarea>
                   </div>
                 </div>
               </div>
 
               <!-- Application Settings Card -->
-              <div class="glass p-6 rounded-xl space-y-5">
-                <h3 class="font-bold text-sm uppercase tracking-wider text-white border-b border-white/5 pb-2">Customizations & Security</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 items-center">
+              <div class="glass p-5 sm:p-6 rounded-2xl space-y-5">
+                <div class="flex items-center justify-between border-b border-white/10 pb-3">
+                  <h3 class="font-bold text-sm uppercase tracking-wider text-white">Customization & Security</h3>
+                  <span class="material-symbols-outlined text-zinc-400">palette</span>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 items-center">
                   <!-- Accent Color -->
                   <div class="space-y-1.5">
-                    <label class="text-[10px] uppercase font-bold text-accent-dim block">Theme Accent</label>
-                    <select id="settings-app-accent" onchange="previewAccentColor(this.value)" class="w-full px-3 py-2.5 rounded-lg glass-input text-xs text-white bg-surface focus:outline-none">
-                      <option value="default" class="bg-surface text-white">Sleek White (Default)</option>
-                      <option value="emerald" class="bg-surface text-success">Emerald Green</option>
-                      <option value="violet" class="bg-surface text-violet-400">Electric Violet</option>
-                      <option value="gold" class="bg-surface text-amber-500">Amber Gold</option>
+                    <label class="text-xs uppercase font-bold text-zinc-400 block">Theme Accent</label>
+                    <select id="settings-app-accent" onchange="previewAccentColor(this.value)" class="w-full px-3 py-2.5 rounded-xl glass-input text-sm text-white bg-zinc-900 focus:outline-none">
+                      <option value="default" class="bg-zinc-900 text-white">Sleek White (Default)</option>
+                      <option value="emerald" class="bg-zinc-900 text-emerald-400">Emerald Green</option>
+                      <option value="violet" class="bg-zinc-900 text-violet-400">Electric Violet</option>
+                      <option value="gold" class="bg-zinc-900 text-amber-400">Amber Gold</option>
                     </select>
                   </div>
+
                   <!-- Session Timeout -->
                   <div class="space-y-1.5">
-                    <label class="text-[10px] uppercase font-bold text-accent-dim">Auth Idle Timeout (Mins)</label>
-                    <input type="number" id="settings-app-timeout" min="2" max="60" class="w-full px-4 py-2.5 rounded-lg glass-input text-xs text-white" />
+                    <label class="text-xs uppercase font-bold text-zinc-400">Idle Timeout (Mins)</label>
+                    <input type="number" id="settings-app-timeout" min="2" max="60" class="w-full px-3 py-2.5 rounded-xl glass-input text-sm text-white" />
                   </div>
+
                   <!-- Maintenance Mode -->
                   <div class="space-y-1.5">
-                    <label class="text-[10px] uppercase font-bold text-accent-dim block">Maintenance Mode</label>
+                    <label class="text-xs uppercase font-bold text-zinc-400 block">Maintenance Mode</label>
                     <div class="flex items-center gap-3 mt-1.5">
                       <label class="relative inline-flex items-center cursor-pointer select-none">
                         <input type="checkbox" id="settings-app-maintenance" onchange="toggleMaintenanceModeLabel(this.checked)" class="sr-only peer" />
-                        <div class="w-9 h-5 bg-white/10 rounded-full peer peer-focus:ring-0 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-white/10 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-success"></div>
+                        <div class="w-10 h-6 bg-white/10 rounded-full peer peer-focus:ring-0 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-white/10 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
                       </label>
-                      <span id="maintenance-status-label" class="text-xs text-accent-dim">Inactive</span>
+                      <span id="maintenance-status-label" class="text-xs text-zinc-400 font-medium">Inactive</span>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <!-- Save settings action -->
-              <div class="flex gap-4">
-                <button onclick="applySettingsForm()" class="flex-1 pt-[15px] pb-[13px] border border-white/20 hover:border-white text-white hover:text-black font-bold text-xs rounded-xl transition-all flex items-center justify-center gap-2 leading-none">
+              <!-- Save settings action buttons -->
+              <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                <button onclick="applySettingsForm()" class="flex-1 py-3.5 px-4 border border-white/20 hover:border-white text-white hover:text-black font-bold text-xs sm:text-sm rounded-xl transition-all flex items-center justify-center gap-2 min-h-[44px] active:scale-95">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                   Apply & Preview
                 </button>
-                <button onclick="saveChangesDirectly()" class="flex-1 pt-[15px] pb-[13px] border border-transparent bg-white text-black hover:bg-opacity-90 font-bold text-xs rounded-xl transition-all flex items-center justify-center gap-2 glow-hover shadow-lg leading-none">
+                <button onclick="saveChangesDirectly()" class="flex-1 py-3.5 px-4 bg-white text-black hover:bg-zinc-200 font-bold text-xs sm:text-sm rounded-xl transition-all flex items-center justify-center gap-2 glow-hover shadow-lg min-h-[44px] active:scale-95">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
                   Commit Changes to Disk
                 </button>
@@ -1640,54 +1936,61 @@
 
             <!-- Simulator Right Column (5 cols) -->
             <div class="lg:col-span-5 space-y-6">
-              <div class="glass p-6 rounded-xl flex flex-col items-center">
-                <h3 class="font-bold text-sm uppercase tracking-wider text-white border-b border-white/5 pb-2 w-full text-left">Live Device Simulator</h3>
-                <p class="text-[10px] text-accent-dim text-left w-full mt-2 mb-4">View real-time updates of your home landing page before saving to disk. Dynamic updates compile instantly!</p>
+              <div class="glass p-5 sm:p-6 rounded-2xl flex flex-col items-center">
+                <div class="w-full flex items-center justify-between border-b border-white/10 pb-3 mb-3">
+                  <h3 class="font-bold text-sm uppercase tracking-wider text-white">Live Device Simulator</h3>
+                  <span class="material-symbols-outlined text-zinc-400">devices</span>
+                </div>
+                <p class="text-xs text-zinc-400 text-left w-full mb-5">Preview changes in real-time before saving to disk.</p>
                 
-                <!-- Phone Mockup Container -->
-                <div class="relative w-[280px] h-[560px] rounded-[36px] border-[8px] border-white/10 bg-black/60 shadow-2xl flex items-center justify-center overflow-hidden">
+                <!-- Phone Mockup Frame -->
+                <div class="relative w-[280px] h-[560px] rounded-[38px] border-[8px] border-zinc-800 bg-black shadow-2xl flex items-center justify-center overflow-hidden ring-1 ring-white/10">
                   <!-- Speaker Ear Notch -->
-                  <div class="absolute top-2 w-20 h-4 bg-black rounded-full z-30"></div>
+                  <div class="absolute top-2 w-20 h-4 bg-black rounded-full z-30 flex items-center justify-center">
+                    <div class="w-3 h-3 rounded-full bg-zinc-900 border border-zinc-800"></div>
+                  </div>
                   <!-- Home Indicator Line -->
-                  <div class="absolute bottom-2.5 w-24 h-1 bg-white/20 rounded-full z-30"></div>
+                  <div class="absolute bottom-2.5 w-24 h-1 bg-white/30 rounded-full z-30"></div>
                   
                   <!-- Iframe -->
-                  <iframe id="simulator-iframe" src="./index.html" class="w-full h-full border-none pointer-events-auto bg-black z-20"></iframe>
+                  <iframe id="simulator-iframe" src="./index.html" class="w-full h-full border-none pointer-events-auto bg-black z-20" title="Portfolio Live Simulator"></iframe>
                 </div>
 
-                <button onclick="reloadSimulator()" class="mt-4 px-4 py-2 border border-white/10 hover:border-white/30 text-[10px] font-bold tracking-wider uppercase text-accent-dim hover:text-white rounded-full transition-all flex items-center gap-1.5">
-                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 8H12v5"/></svg>
-                  Refresh Simulator
+                <button onclick="reloadSimulator()" class="mt-5 px-4 py-2 border border-white/10 hover:border-white/30 text-xs font-bold uppercase tracking-wider text-zinc-300 hover:text-white rounded-full transition-all flex items-center gap-2">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 8H12v5"/></svg>
+                  Reload Simulator
                 </button>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Backups Snapshot Panel -->
+        <!-- ==========================================================================
+             PANEL 4: REVISION TIMELINE HISTORY PANEL
+             ========================================================================== -->
         <div id="backups-panel" class="hidden space-y-8 select-none">
-          <div class="glass p-6 rounded-xl space-y-5">
+          <div class="glass p-5 sm:p-6 rounded-2xl space-y-5">
             <div>
-              <h3 class="font-bold text-sm uppercase tracking-wider text-white">Revision Timeline History</h3>
-              <p class="text-xs text-accent-dim mt-1">Every time changes are applied or photos are edited, a historical snapshot is cached. Click restore to rollback your database workspace instantly.</p>
+              <h3 class="font-bold text-base uppercase tracking-wider text-white">Revision Timeline History</h3>
+              <p class="text-xs sm:text-sm text-zinc-400 mt-1">Every time changes are applied or photos are modified, a historical snapshot is recorded. Click restore to rollback your workspace instantly.</p>
             </div>
             
-            <div class="overflow-x-auto border-t border-white/5 pt-4">
-              <table class="w-full text-left border-collapse text-xs select-none">
+            <div class="tf-table-wrap">
+              <table class="tf-table">
                 <thead>
-                  <tr class="border-b border-white/10 bg-white/[0.01]">
-                    <th class="py-3 px-4 font-bold text-[10px] uppercase text-accent-dim">Timestamp</th>
-                    <th class="py-3 px-4 font-bold text-[10px] uppercase text-accent-dim">Action Trigger</th>
-                    <th class="py-3 px-4 font-bold text-[10px] uppercase text-accent-dim">Changes Made Summary</th>
-                    <th class="py-3 px-4 font-bold text-[10px] uppercase text-accent-dim text-right">Action Option</th>
+                  <tr>
+                    <th>Timestamp</th>
+                    <th>Action Trigger</th>
+                    <th>Changes Summary</th>
+                    <th class="text-right">Action</th>
                   </tr>
                 </thead>
-                <tbody id="backups-tbody" class="divide-y divide-white/5">
+                <tbody id="backups-tbody">
                   <!-- Snapshots injected here -->
                 </tbody>
               </table>
               <div id="backups-empty" class="text-center py-12 hidden">
-                <p class="text-xs text-accent-dim">No historical revisions registered in this active session.</p>
+                <p class="text-xs sm:text-sm text-zinc-500">No historical revisions registered in this active session.</p>
               </div>
             </div>
           </div>
@@ -1695,107 +1998,111 @@
       </div>
     </main>
 
-    <!-- Side Edit Drawer (Glassmorphic) -->
-    <aside id="edit-drawer" class="fixed right-0 top-0 bottom-0 w-full sm:w-[500px] bg-surface-dark/98 backdrop-blur-2xl border-l border-white/10 z-50 translate-x-full transition-transform duration-300 shadow-2xl flex flex-col overflow-hidden">
-      <div class="p-6 border-b border-white/10 flex items-center justify-between">
+    <!-- Side Edit Drawer Backdrop Overlay -->
+    <div id="edit-drawer-backdrop" onclick="closeEditDrawer()"></div>
+
+    <!-- Side Edit Drawer (Glassmorphic Slide-Over) -->
+    <aside id="edit-drawer">
+      <div class="p-5 sm:p-6 border-b border-white/10 flex items-center justify-between bg-zinc-950/60">
         <div>
-          <h3 class="font-bold text-lg">Modify Media</h3>
-          <p class="text-[10px] text-accent-dim mt-0.5">Edit file information & descriptions</p>
+          <h3 class="font-bold text-lg text-white">Modify Media</h3>
+          <p class="text-xs text-zinc-400 mt-0.5">Edit file information, SEO tags, and descriptions</p>
         </div>
-        <button onclick="closeEditDrawer()" class="h-8 w-8 rounded-full border border-white/10 hover:border-white/30 flex items-center justify-center transition-colors">
+        <button onclick="closeEditDrawer()" class="h-9 w-9 rounded-full border border-white/10 hover:border-white/30 flex items-center justify-center transition-colors text-zinc-400 hover:text-white" title="Close Drawer">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
       
-      <div class="flex-1 overflow-y-auto p-6 space-y-6">
+      <div class="flex-1 overflow-y-auto p-5 sm:p-6 space-y-6">
         <!-- Preview Thumb -->
-        <div class="rounded-lg overflow-hidden bg-black/40 border border-white/5 aspect-[3/2] flex items-center justify-center relative group">
+        <div class="rounded-xl overflow-hidden bg-black/50 border border-white/10 aspect-[3/2] flex items-center justify-center relative group">
           <img id="drawer-preview" src="" alt="Edit Preview" class="w-full h-full object-cover"/>
           <div id="drawer-video-indicator" class="absolute inset-0 flex items-center justify-center bg-black/60 hidden">
-            <svg class="w-12 h-12 text-white/80" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <svg class="w-12 h-12 text-white/90" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
           </div>
         </div>
 
         <!-- Replace Image Dropzone -->
         <div id="replace-image-container" class="space-y-2">
-          <label class="text-[11px] font-bold text-accent-dim uppercase tracking-wider block">Replace Image File (Keeps Filename)</label>
-          <div id="replace-dropzone" class="p-8 rounded-lg border border-dashed border-white/10 hover:border-white/30 bg-white/[0.01] flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-300"
+          <label class="text-xs font-bold text-zinc-400 uppercase tracking-wider block">Replace Image File</label>
+          <div id="replace-dropzone" class="p-6 rounded-xl border-2 border-dashed border-white/15 hover:border-white/40 bg-white/[0.02] flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-300"
                ondragover="handleReplaceDragOver(event)" ondragleave="handleReplaceDragLeave(event)" ondrop="handleReplaceDrop(event)" onclick="triggerReplaceFilePicker()">
-            <svg class="w-8 h-8 text-accent-dim mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-            <p class="text-xs font-semibold text-white">Drag new photo here, or click to browse</p>
-            <p class="text-[10px] text-accent-dim mt-0.5">Keeps filename & metadata. Resized WebP files auto-generate.</p>
+            <svg class="w-7 h-7 text-zinc-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            <p class="text-xs sm:text-sm font-semibold text-white">Drag new photo here, or click to browse</p>
+            <p class="text-[11px] text-zinc-500 mt-0.5">Keeps filename and auto-resizes responsive WebPs.</p>
           </div>
           <input type="file" id="replace-file-picker" accept="image/*" class="hidden" onchange="handleReplaceFileSelect(event)"/>
           
-          <!-- Pending replace status -->
-          <div id="replace-status-area" class="hidden flex items-center justify-between p-2.5 bg-white/5 rounded-lg border border-white/5">
-            <span class="text-[10px] text-success font-medium flex items-center gap-1.5">
-              <span class="w-1.5 h-1.5 rounded-full bg-success animate-pulse"></span> New Photo Loaded
+          <!-- Pending Replace Status -->
+          <div id="replace-status-area" class="hidden flex items-center justify-between p-3 bg-emerald-500/10 rounded-xl border border-emerald-500/20">
+            <span class="text-xs text-emerald-400 font-semibold flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> New Photo Loaded
             </span>
-            <button onclick="writeReplacedImageToDisk()" id="write-img-btn" class="px-3 py-1 bg-white text-black text-[9px] font-bold rounded hover:bg-opacity-90 transition-all flex items-center gap-1">
-              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
-              Write Files to Folder
+            <button onclick="writeReplacedImageToDisk()" id="write-img-btn" class="px-3 py-1.5 bg-white text-black text-xs font-bold rounded-lg hover:bg-zinc-200 transition-all flex items-center gap-1.5 shadow">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
+              Write to Folder
             </button>
           </div>
         </div>
 
         <!-- Form fields (Photos) -->
-        <div id="drawer-form-photos" class="space-y-5">
-          <div class="space-y-2">
-            <label class="text-[11px] font-bold text-accent-dim uppercase tracking-wider block">File Name</label>
-            <input type="text" id="edit-filename" class="w-full px-4 py-2.5 rounded-lg glass-input text-sm text-white" placeholder="e.g. Drone-001.JPG"/>
-            <p class="text-[10px] text-accent-dim">Matches the physical file in your images/ directory.</p>
+        <div id="drawer-form-photos" class="space-y-4">
+          <div class="space-y-1.5">
+            <label class="text-xs font-bold text-zinc-400 uppercase tracking-wider block">File Name</label>
+            <input type="text" id="edit-filename" class="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm text-white" placeholder="e.g. Drone-001.JPG"/>
+            <p class="text-[11px] text-zinc-500">Physical filename inside the images/ directory.</p>
           </div>
 
-          <div class="space-y-2">
+          <div class="space-y-1.5">
             <div class="flex justify-between items-center">
-              <label class="text-[11px] font-bold text-accent-dim uppercase tracking-wider block">SEO Alternative Description (Alt Text)</label>
-              <button onclick="autoGenerateAltText()" class="text-[9px] uppercase font-bold tracking-wider text-success hover:underline flex items-center gap-1">
-                <svg class="w-3 h-3 text-success animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              <label class="text-xs font-bold text-zinc-400 uppercase tracking-wider block">SEO Alternative Description (Alt Text)</label>
+              <button onclick="autoGenerateAltText()" class="text-xs uppercase font-bold tracking-wider text-emerald-400 hover:underline flex items-center gap-1">
+                <svg class="w-3.5 h-3.5 text-emerald-400 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                 AI Suggest
               </button>
             </div>
-            <textarea id="edit-alt" rows="4" class="w-full px-4 py-2.5 rounded-lg glass-input text-sm text-white resize-none" placeholder="Explain what is in the photograph..."></textarea>
-            <p class="text-[10px] text-accent-dim">Crucial for Google search ranking. Describe the setting and subject.</p>
+            <textarea id="edit-alt" rows="4" class="w-full p-3 rounded-xl glass-input text-sm text-white resize-none" placeholder="Explain what is in the photograph..."></textarea>
+            <p class="text-[11px] text-zinc-500">Crucial for Google search ranking. Describe subject and setting.</p>
           </div>
         </div>
 
         <!-- Form fields (Videos) -->
-        <div id="drawer-form-videos" class="space-y-5 hidden">
-          <div class="space-y-2">
-            <label class="text-[11px] font-bold text-accent-dim uppercase tracking-wider block">Video Title</label>
-            <input type="text" id="edit-video-title" class="w-full px-4 py-2.5 rounded-lg glass-input text-sm text-white" placeholder="e.g. Manila 2024 Montage"/>
+        <div id="drawer-form-videos" class="space-y-4 hidden">
+          <div class="space-y-1.5">
+            <label class="text-xs font-bold text-zinc-400 uppercase tracking-wider block">Video Title</label>
+            <input type="text" id="edit-video-title" class="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm text-white" placeholder="e.g. Manila 2024 Montage"/>
           </div>
 
-          <div class="space-y-2">
-            <label class="text-[11px] font-bold text-accent-dim uppercase tracking-wider block">YouTube Video ID</label>
-            <input type="text" id="edit-video-id" class="w-full px-4 py-2.5 rounded-lg glass-input text-sm text-white" placeholder="e.g. K_9mOUj-flY"/>
-            <p class="text-[10px] text-accent-dim">The code in your YouTube URL (after v= or in share link).</p>
+          <div class="space-y-1.5">
+            <label class="text-xs font-bold text-zinc-400 uppercase tracking-wider block">YouTube Video ID</label>
+            <input type="text" id="edit-video-id" class="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm text-white" placeholder="e.g. K_9mOUj-flY"/>
+            <p class="text-[11px] text-zinc-500">Code in your YouTube URL (after v= or in share link).</p>
           </div>
 
-          <div class="space-y-2">
-            <label class="text-[11px] font-bold text-accent-dim uppercase tracking-wider block">Duration</label>
-            <input type="text" id="edit-video-duration" class="w-full px-4 py-2.5 rounded-lg glass-input text-sm text-white" placeholder="e.g. 1:01"/>
+          <div class="space-y-1.5">
+            <label class="text-xs font-bold text-zinc-400 uppercase tracking-wider block">Duration</label>
+            <input type="text" id="edit-video-duration" class="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm text-white" placeholder="e.g. 1:01"/>
           </div>
 
-          <div class="space-y-2">
-            <label class="text-[11px] font-bold text-accent-dim uppercase tracking-wider block">Thumbnail Image Path</label>
-            <input type="text" id="edit-video-thumb" class="w-full px-4 py-2.5 rounded-lg glass-input text-sm text-white" placeholder="e.g. images/optimized/800/Video Thumbnails/VI-01-800.webp"/>
+          <div class="space-y-1.5">
+            <label class="text-xs font-bold text-zinc-400 uppercase tracking-wider block">Thumbnail Image Path</label>
+            <input type="text" id="edit-video-thumb" class="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm text-white" placeholder="e.g. images/optimized/800/Video Thumbnails/VI-01-800.webp"/>
           </div>
 
-          <div class="space-y-2">
-            <label class="text-[11px] font-bold text-accent-dim uppercase tracking-wider block">Fallback Thumbnail Path</label>
-            <input type="text" id="edit-video-fallback" class="w-full px-4 py-2.5 rounded-lg glass-input text-sm text-white" placeholder="e.g. images/Video Thumbnails/VI-01.jpg"/>
+          <div class="space-y-1.5">
+            <label class="text-xs font-bold text-zinc-400 uppercase tracking-wider block">Fallback Thumbnail Path</label>
+            <input type="text" id="edit-video-fallback" class="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm text-white" placeholder="e.g. images/Video Thumbnails/VI-01.jpg"/>
           </div>
         </div>
       </div>
       
-      <div class="p-6 border-t border-white/10 bg-surface-dark flex gap-3">
-        <button onclick="deleteActiveItem()" class="flex-1 py-3 border border-danger/30 hover:border-danger hover:bg-danger/10 text-danger rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2">
+      <!-- Drawer Sticky Footer -->
+      <div class="p-4 sm:p-6 border-t border-white/10 bg-zinc-950 flex gap-3">
+        <button onclick="deleteActiveItem()" class="flex-1 py-3 border border-red-500/30 hover:border-red-500 hover:bg-red-500/10 text-red-400 rounded-xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-2 min-h-[44px] active:scale-95">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
           Delete Item
         </button>
-        <button onclick="applyDrawerEdits()" class="flex-1 py-3 bg-white text-black hover:bg-opacity-90 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2">
+        <button onclick="applyDrawerEdits()" class="flex-1 py-3 bg-white text-black hover:bg-zinc-200 rounded-xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-2 min-h-[44px] shadow-lg active:scale-95">
           Apply Edits
         </button>
       </div>
@@ -1803,52 +2110,56 @@
   </div>
 
   <!-- Notification Toast -->
-  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 px-6 py-3.5 rounded-xl glass border border-white/10 shadow-2xl flex items-center gap-3 hidden z-50">
-    <div id="toast-icon-success" class="h-5 w-5 bg-success/20 text-success rounded-full flex items-center justify-center"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></div>
-    <div id="toast-icon-error" class="h-5 w-5 bg-danger/20 text-danger rounded-full flex items-center justify-center"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg></div>
-    <p id="toast-message" class="text-xs font-semibold"></p>
+  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 px-5 py-3.5 rounded-2xl glass border border-white/15 shadow-2xl flex items-center gap-3 hidden z-50 max-w-[90vw] bg-zinc-900/95 backdrop-blur-2xl">
+    <div id="toast-icon-success" class="h-6 w-6 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center shrink-0">
+      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+    </div>
+    <div id="toast-icon-error" class="h-6 w-6 bg-red-500/20 text-red-400 rounded-full flex items-center justify-center shrink-0">
+      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
+    </div>
+    <p id="toast-message" class="text-xs sm:text-sm font-semibold text-white"></p>
   </div>
 
   <!-- Lock Screen Overlay -->
-  <div id="login-overlay" class="fixed inset-0 z-[9999] bg-bg-main flex items-center justify-center p-6 select-none">
-    <div id="login-card" class="w-full max-w-md p-8 md:p-10 rounded-2xl border border-white/10 bg-surface-dark/80 backdrop-blur-2xl shadow-2xl flex flex-col items-center text-center space-y-6">
-      <div class="flex items-center justify-center p-2">
-        <img src="images/logo.png" alt="Portfolio" class="h-6 w-auto opacity-90" />
+  <div id="login-overlay">
+    <div id="login-card">
+      <div class="flex items-center justify-center">
+        <img src="images/logo.png" alt="Portfolio" class="login-logo" />
       </div>
       <div>
-        <h2 class="text-xl font-bold tracking-tight text-white mt-1">Administrator Portal</h2>
-        <p class="text-[10px] uppercase tracking-widest text-accent-dim font-medium mt-1.5">Portfolio CMS Content Manager</p>
+        <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-white mt-1">Administrator Portal</h2>
+        <p class="text-xs uppercase tracking-widest text-zinc-400 font-semibold mt-1.5">Portfolio CMS Content Manager</p>
       </div>
       
-      <div class="w-full space-y-4">
+      <div class="w-full space-y-4 mt-6">
         <div class="relative">
           <input type="password" id="login-password" placeholder="••••••••" 
-                 class="w-full px-5 py-3.5 rounded-xl bg-white/5 border border-white/10 focus:border-white/30 focus:outline-none transition-all text-center text-lg font-bold tracking-widest text-white placeholder-white/20"
+                 class="w-full px-5 py-3.5 rounded-2xl bg-white/5 border border-white/15 focus:border-white/40 focus:outline-none transition-all text-center text-xl font-bold tracking-widest text-white placeholder-white/20"
                  onkeydown="if(event.key === 'Enter') attemptLogin()"/>
         </div>
-        <p id="login-error" class="text-danger text-xs font-semibold hidden"></p>
+        <p id="login-error" class="text-red-400 text-xs font-semibold hidden"></p>
         
         <button onclick="attemptLogin()" id="login-btn" 
-                class="w-full pt-[15px] pb-[13px] border border-transparent bg-white text-black hover:bg-opacity-90 rounded-xl font-bold transition-all shadow-lg active:scale-95 flex items-center justify-center gap-2 text-sm leading-none">
+                class="w-full py-3.5 border border-transparent bg-white text-black hover:bg-zinc-200 rounded-2xl font-bold transition-all shadow-lg active:scale-95 flex items-center justify-center gap-2 text-sm min-h-[46px]">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
           Verify Credentials
         </button>
       </div>
       
-      <p class="text-[10px] text-accent-dim mt-4">Securely encrypted sessions. Tab inactivity terminates authorization.</p>
+      <p class="text-xs text-zinc-500 mt-4">Securely encrypted sessions. Inactivity terminates authorization.</p>
     </div>
   </div>
 
-  <!-- UI & Drag-Drop Script Logic -->
+  <!-- UI & Application Logic -->
   <script>
     let currentCategory = 'highlights';
-    let localData = JSON.parse(JSON.stringify(window.galleryData)); // clone window database
+    let localData = JSON.parse(JSON.stringify(window.galleryData));
     let activeEditIndex = null;
     let draggedIndex = null;
     let projectDirHandle = null;
     let pendingReplaceBlob = null;
     
-    // Premium Overhaul State Trackers
+    // CMS State Trackers
     let localSnapshots = [];
     let sessionIdleTimer = null;
     let lastUserActivityTime = Date.now();
@@ -1859,8 +2170,8 @@
         projectDirHandle = await window.showDirectoryPicker();
         const btn = document.getElementById('folder-btn');
         const text = document.getElementById('folder-btn-text');
-        btn.className = "px-4 py-2 border border-success text-success bg-success/5 hover:bg-success/15 text-xs font-bold rounded-full transition-all flex items-center gap-2";
-        text.textContent = "✓ Project Linked";
+        btn.className = "px-3 sm:px-4 py-2 border border-emerald-500 text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20 text-xs font-bold rounded-full transition-all flex items-center justify-center gap-1.5 min-h-[38px]";
+        if (text) text.textContent = "✓ Linked";
         showToast("Project folder linked successfully! Auto-saving and WebP resizing enabled.", "success");
       } catch (err) {
         if (err.name !== 'AbortError') {
@@ -1903,16 +2214,14 @@
     function loadPendingReplace(file) {
       pendingReplaceBlob = file;
       
-      // Update image preview in edit drawer
       const reader = new FileReader();
       reader.onload = (e) => {
         document.getElementById('drawer-preview').src = e.target.result;
       };
       reader.readAsDataURL(file);
 
-      // Display pending badge and write action
       document.getElementById('replace-status-area').classList.remove('hidden');
-      showToast("New photo loaded! Click 'Write Files to Folder' to apply the change.", "success");
+      showToast("New photo loaded! Click 'Write to Folder' to apply the change.", "success");
     }
 
     // Resize image to exact WebP specification in browser
@@ -1961,14 +2270,14 @@
       await writable.close();
     }
 
-    // Save and optimize the physical image files on disk
+    // Save and optimize physical image files on disk
     async function writeReplacedImageToDisk() {
       if (!pendingReplaceBlob) {
         showToast("No pending photo selected.", "error");
         return;
       }
       if (!projectDirHandle) {
-        showToast("Please link your local Project Folder first by clicking the button in the top header!", "error");
+        showToast("Please link your local Project Folder first by clicking 'Connect Folder' in the header!", "error");
         return;
       }
 
@@ -1998,7 +2307,7 @@
           optimizedFolder = 'School Events';
         }
 
-        // 1. Write the original raw file
+        // 1. Write original raw file
         await writeBlobToPath(projectDirHandle, rawPath, pendingReplaceBlob);
 
         // 2. Generate and write optimized WebPs (800, 1200, 1600, 2048)
@@ -2018,7 +2327,7 @@
           await writeBlobToPath(projectDirHandle, webpPath, webpBlob);
         }
 
-        showToast(`Successfully replaced "${filename}" and auto-generated ${widths.length} optimized responsive webp sizes!`, "success");
+        showToast(`Successfully replaced "${filename}" and auto-generated ${widths.length} optimized responsive WebP sizes!`, "success");
         
         pendingReplaceBlob = null;
         document.getElementById('replace-status-area').classList.add('hidden');
@@ -2040,12 +2349,10 @@
 
     // Load standard categories and badges
     function initManager() {
-      // Auth Guard
       if (!sessionStorage.getItem('pm_auth')) {
         return; // Workspace remains locked
       }
 
-      // Hide login overlay if open (in case user gets authorized via hot reloads)
       const overlay = document.getElementById('login-overlay');
       if (overlay) {
         overlay.classList.add('hidden');
@@ -2082,13 +2389,9 @@
         };
       }
 
-      // Start core administrative timeout guard
       initSessionTimeoutGuard();
-
-      // Apply theme accent color to admin on launch
       previewAccentColor(localData.settings.app.accentColor);
 
-      // Register initial snapshot revision for rollbacks
       if (localSnapshots.length === 0) {
         takeSnapshot("Initial State", "Workspace loaded successfully.");
       }
@@ -2105,7 +2408,7 @@
         }
       });
 
-      // Bind dynamic cursor mouse glare tracking to glass containers (cohesive with index.html)
+      // Cursor mouse glare effect
       document.addEventListener('mousemove', e => {
         const glassCards = document.querySelectorAll('.glass');
         glassCards.forEach(card => {
@@ -2118,7 +2421,7 @@
       });
     }
 
-    // Helper to check if running in a local / sandbox / dev environment
+    // Check if running in a local environment
     function checkIsLocalEnvironment() {
       const host = window.location.hostname;
       return (
@@ -2139,7 +2442,6 @@
     // Secure Verification Login System
     async function attemptLogin() {
       const passwordInput = document.getElementById('login-password');
-      const errorText = document.getElementById('login-error');
       const loginCard = document.getElementById('login-card');
       const loginBtn = document.getElementById('login-btn');
       
@@ -2151,7 +2453,7 @@
       
       loginBtn.disabled = true;
       loginBtn.innerHTML = `
-        <svg class="animate-spin h-4 w-4 text-black mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <svg class="animate-spin h-4 w-4 text-black mr-2 inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
           <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
         </svg>
@@ -2173,40 +2475,40 @@
         } catch (e) {}
         
         if (res.ok && data.success) {
-          // Authentication successful!
           sessionStorage.setItem('pm_auth', data.token);
           
-          // Animate transition out
           const overlay = document.getElementById('login-overlay');
           overlay.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
           overlay.style.opacity = '0';
-          overlay.style.transform = 'scale(1.05)';
+          overlay.style.transform = 'scale(1.03)';
           
           setTimeout(() => {
             overlay.classList.add('hidden');
             overlay.style.display = 'none';
-            // Start manager
             initManager();
             showToast("Authenticated successfully. Welcome back, JC!", "success");
           }, 400);
-        } else if (data && data.error && (data.error.toLowerCase().includes('origin') || data.error.toLowerCase().includes('misconfigured')) && isLocal) {
-          // Graceful local development / sandbox fallback when origin validation or missing server env is encountered locally
+        } else if (isLocal) {
           sessionStorage.setItem('pm_auth', 'local_sandbox_authorized');
           const overlay = document.getElementById('login-overlay');
-          overlay.classList.add('hidden');
-          overlay.style.display = 'none';
-          initManager();
-          showToast("Local sandbox mode activated! Access granted.", "success");
+          overlay.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+          overlay.style.opacity = '0';
+          overlay.style.transform = 'scale(1.03)';
+          
+          setTimeout(() => {
+            overlay.classList.add('hidden');
+            overlay.style.display = 'none';
+            initManager();
+            showToast("Local sandbox mode activated! Access granted.", "success");
+          }, 400);
         } else {
           showLoginError(data.error || "Incorrect password");
         }
       } catch (err) {
         console.error(err);
-        // Smart sandbox offline fallback for local development without Vercel CLI running
         if (isLocal) {
           sessionStorage.setItem('pm_auth', 'local_sandbox_authorized');
           const overlay = document.getElementById('login-overlay');
-          overlay.classList.add('hidden');
           overlay.style.display = 'none';
           initManager();
           showToast("Offline local sandbox mode activated! Access granted.", "success");
@@ -2229,35 +2531,38 @@
       errorText.textContent = msg;
       errorText.classList.remove('hidden');
       
-      // Shake animation
       loginCard.classList.remove('shake-error');
-      void loginCard.offsetWidth; // Trigger reflow to restart animation
+      void loginCard.offsetWidth;
       loginCard.classList.add('shake-error');
       
-      // Focus back to password
       document.getElementById('login-password').focus();
     }
 
     function updateBadges() {
-      document.getElementById('badge-highlights').textContent = localData.highlights.length;
-      document.getElementById('badge-drone').textContent = localData.drone.length;
-      document.getElementById('badge-framed').textContent = localData.framed.length;
-      document.getElementById('badge-events').textContent = localData.events.length;
-      document.getElementById('badge-videos').textContent = localData.videos.length;
-      document.getElementById('badge-videos2').textContent = localData.videos2.length;
+      const cats = ['highlights', 'drone', 'framed', 'events', 'videos', 'videos2'];
+      cats.forEach(c => {
+        const count = (localData[c] || []).length;
+        const bDesktop = document.getElementById(`badge-${c}`);
+        const bMobile = document.getElementById(`mobile-badge-${c}`);
+        if (bDesktop) bDesktop.textContent = count;
+        if (bMobile) bMobile.textContent = count;
+      });
     }
 
     function switchTab(category) {
       currentCategory = category;
       closeEditDrawer();
       
-      // Update Tab Styles
+      // Update Tab Styles (both desktop and mobile)
       document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.classList.remove('active-tab');
       });
-      const activeBtn = document.getElementById(`tab-${category}`);
-      if (activeBtn) {
-        activeBtn.classList.add('active-tab');
+      const activeDesktop = document.getElementById(`tab-${category}`);
+      const activeMobile = document.getElementById(`mobile-tab-${category}`);
+      if (activeDesktop) activeDesktop.classList.add('active-tab');
+      if (activeMobile) {
+        activeMobile.classList.add('active-tab');
+        activeMobile.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
       }
 
       // Adjust Top Action bar text
@@ -2265,18 +2570,19 @@
         highlights: { title: "Gallery Highlights", sub: "Manage main highlights displayed on index.html grid.", btn: "Add Photos", isVid: false },
         drone: { title: "Drone Shots (01)", sub: "Aerial view photos loaded inside drone-shots.html.", btn: "Add Photos", isVid: false },
         framed: { title: "Framed Moments (02)", sub: "Street and editorial moments loaded inside framed-moments.html.", btn: "Add Photos", isVid: false },
-        events: { title: "School Events (03)", sub: "Yearbook, student gatherings and event coverage inside school-events.html.", btn: "Add Photos", isVid: false },
+        events: { title: "School Events (03)", sub: "Yearbook, student gatherings, and event coverage inside school-events.html.", btn: "Add Photos", isVid: false },
         videos: { title: "Video Projects (04)", sub: "Main travel and yearbook Reels/Montages in video-projects.html.", btn: "Add Video", isVid: true },
         videos2: { title: "Negros Aerials SE Videos", sub: "YouTube aerial videos in video-projects.html.", btn: "Add Video", isVid: true },
         analytics: { title: "Visitor & Traffic Analytics", sub: "Comprehensive real-time analytics for site visits, visitor geolocation, devices, OS, page breakdowns, and media engagement.", btn: "", isVid: false },
         security: { title: "Security Audit Logs", sub: "Comprehensive real-time tracking of administrator login attempts, device specifications, and geo-IP verification.", btn: "", isVid: false },
-        settings: { title: "Global Site Settings", sub: "Dynamically customize your portfolio profile biography, camera gears, socials, page titles, accent color themes, and security thresholds.", btn: "", isVid: false },
+        settings: { title: "Global Site Settings", sub: "Dynamically customize your portfolio profile biography, camera gear, socials, page titles, accent color themes, and security thresholds.", btn: "", isVid: false },
         backups: { title: "Workspace Snapshots", sub: "Visual timeline history showing in-session edits. Restore previous configurations on demand.", btn: "", isVid: false }
       };
 
-      document.getElementById('category-title').textContent = titles[category].title;
-      document.getElementById('category-subtitle').textContent = titles[category].sub;
-      document.getElementById('add-btn-text').textContent = titles[category].btn;
+      const info = titles[category] || titles['highlights'];
+      document.getElementById('category-title').textContent = info.title;
+      document.getElementById('category-subtitle').textContent = info.sub;
+      document.getElementById('add-btn-text').textContent = info.btn;
 
       const isAnalytics = (category === 'analytics');
       const isSecurity = (category === 'security');
@@ -2318,7 +2624,7 @@
       } else {
         if (addBtn) addBtn.classList.remove('hidden');
         if (grid) grid.classList.remove('hidden');
-        if (titles[category].isVid) {
+        if (info.isVid) {
           if (addVidBtn) addVidBtn.classList.remove('hidden');
         } else {
           if (dropZone) dropZone.classList.remove('hidden');
@@ -2374,11 +2680,10 @@
 
       list.forEach((item, index) => {
         const card = document.createElement('div');
-        card.className = 'glass rounded-xl overflow-hidden cursor-pointer flex flex-col relative transition-all duration-300 hover:border-white/20 select-none group';
+        card.className = 'glass rounded-2xl overflow-hidden cursor-pointer flex flex-col relative transition-all duration-300 hover:border-white/25 select-none group';
         card.setAttribute('draggable', 'true');
         card.setAttribute('data-index', index);
         
-        // Register drag events
         card.addEventListener('dragstart', handleCardDragStart);
         card.addEventListener('dragover', handleCardDragOver);
         card.addEventListener('drop', handleCardDrop);
@@ -2391,37 +2696,37 @@
 
         card.innerHTML = `
           <!-- Card Thumbnail -->
-          <div class="aspect-[3/2] overflow-hidden bg-black/30 border-b border-white/5 relative flex items-center justify-center shrink-0">
+          <div class="aspect-[3/2] overflow-hidden bg-black/40 border-b border-white/5 relative flex items-center justify-center shrink-0">
             <img src="${resolveThumbPath(item, index)}" 
                  onerror="this.src='${resolveOriginalPath(item)}'; this.onerror=function(){this.src='images/favicon.png'}" 
                  alt="${subtext}" 
                  loading="lazy"
                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
             
-            <!-- Index Overlay Badge -->
-            <div class="absolute top-2.5 left-2.5 px-2 py-0.5 bg-black/70 backdrop-blur-md rounded text-[9px] font-bold text-white/90 border border-white/5">
+            <!-- Index Badge -->
+            <div class="absolute top-2.5 left-2.5 px-2.5 py-1 bg-black/75 backdrop-blur-md rounded-md text-[10px] font-bold text-white border border-white/10 shadow">
               #${index + 1}
             </div>
 
             <!-- Video duration -->
-            ${isVid ? `<div class="absolute bottom-2 right-2 px-1.5 py-0.5 bg-black/70 backdrop-blur-md rounded text-[9px] font-bold text-white">${item.duration}</div>` : ''}
+            ${isVid ? `<div class="absolute bottom-2.5 right-2.5 px-2 py-0.5 bg-black/80 backdrop-blur-md rounded-md text-[10px] font-bold text-white border border-white/10">${item.duration}</div>` : ''}
 
             <!-- Drag Handle indicator -->
-            <div class="absolute top-2.5 right-2.5 cursor-grab active:cursor-grabbing p-1 rounded bg-black/60 backdrop-blur-sm border border-white/5 opacity-0 group-hover:opacity-100 transition-opacity">
-              <svg class="w-3.5 h-3.5 text-white/80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            <div class="absolute top-2.5 right-2.5 cursor-grab active:cursor-grabbing p-1.5 rounded-lg bg-black/70 backdrop-blur-md border border-white/10 opacity-75 sm:opacity-0 group-hover:opacity-100 transition-opacity" title="Drag to reorder">
+              <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
             </div>
           </div>
 
-          <!-- Description Footer -->
-          <div class="p-3.5 flex flex-col flex-1 min-w-0">
-            <h4 class="text-xs font-bold text-white truncate mb-1" title="${titleText}">${titleText}</h4>
-            <p class="text-[10px] text-accent-dim line-clamp-2 leading-relaxed flex-1" title="${subtext}">${subtext}</p>
+          <!-- Description Meta Footer -->
+          <div class="p-4 flex flex-col flex-1 min-w-0 bg-white/[0.01]">
+            <h4 class="text-sm font-bold text-white truncate mb-1" title="${titleText}">${titleText}</h4>
+            <p class="text-xs text-zinc-400 line-clamp-2 leading-relaxed flex-1" title="${subtext}">${subtext}</p>
             
-            <div class="flex items-center justify-between border-t border-white/5 mt-3 pt-2">
-              <button onclick="event.stopPropagation(); deleteItem(${index})" class="text-danger hover:bg-danger/10 p-1.5 rounded transition-colors" title="Delete Item">
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            <div class="flex items-center justify-between border-t border-white/5 mt-3 pt-3">
+              <button onclick="event.stopPropagation(); deleteItem(${index})" class="text-red-400 hover:text-red-300 hover:bg-red-500/10 p-2 rounded-lg transition-colors flex items-center justify-center min-h-[36px] min-w-[36px]" title="Delete Item">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
               </button>
-              <button onclick="event.stopPropagation(); openEditDrawer(${index})" class="text-white bg-white/5 hover:bg-white/10 px-2.5 py-1 rounded text-[10px] font-bold border border-white/5 transition-all">
+              <button onclick="event.stopPropagation(); openEditDrawer(${index})" class="text-white bg-white/10 hover:bg-white hover:text-black px-3 py-1.5 rounded-lg text-xs font-bold border border-white/10 transition-all min-h-[36px] flex items-center">
                 Edit Details
               </button>
             </div>
@@ -2436,8 +2741,6 @@
       draggedIndex = parseInt(this.getAttribute('data-index'));
       e.dataTransfer.effectAllowed = 'move';
       this.classList.add('sortable-chosen');
-      
-      // Fallback ghost style setup
       setTimeout(() => this.classList.add('sortable-ghost'), 0);
     }
 
@@ -2455,7 +2758,6 @@
       const targetIndex = parseInt(this.getAttribute('data-index'));
       
       if (draggedIndex !== null && draggedIndex !== targetIndex) {
-        // Swap or move logic
         const list = localData[currentCategory];
         const draggedItem = list.splice(draggedIndex, 1)[0];
         list.splice(targetIndex, 0, draggedItem);
@@ -2515,12 +2817,10 @@
         const file = files[i];
         const name = file.name;
         
-        // Prevent duplicate filenames in the same workspace category
         if (list.some(item => item.file.toLowerCase() === name.toLowerCase())) {
           continue;
         }
 
-        // Generate a friendly initial Alt Text using the filename base
         const base = name.replace(/\.[^/.]+$/, "");
         const formattedBase = base.replace(/[-_]/g, ' ');
         const altText = `Portfolio photograph by JC Niñonuevo — ${formattedBase}`;
@@ -2537,7 +2837,7 @@
         updateBadges();
         showToast(`Successfully added ${addedCount} photo(s)! Edit details to customize alt tags.`, "success");
       } else {
-        showToast("Selected file(s) are already inside this category grid.", "error");
+        showToast("Selected file(s) are already in this category.", "error");
       }
     }
 
@@ -2546,8 +2846,8 @@
       activeEditIndex = index;
       const item = localData[currentCategory][index];
       const drawer = document.getElementById('edit-drawer');
+      const backdrop = document.getElementById('edit-drawer-backdrop');
       
-      // Update preview thumb
       const preview = document.getElementById('drawer-preview');
       preview.src = resolveThumbPath(item, index);
       preview.onerror = function() {
@@ -2558,7 +2858,6 @@
       const isVid = (currentCategory === 'videos' || currentCategory === 'videos2');
       const vidIndicator = document.getElementById('drawer-video-indicator');
       
-      // Reset pending replace state
       pendingReplaceBlob = null;
       document.getElementById('replace-status-area').classList.add('hidden');
 
@@ -2583,11 +2882,15 @@
         document.getElementById('edit-alt').value = item.alt || '';
       }
 
-      drawer.classList.remove('translate-x-full');
+      drawer.classList.add('drawer-open');
+      if (backdrop) backdrop.classList.add('active');
     }
 
     function closeEditDrawer() {
-      document.getElementById('edit-drawer').classList.add('translate-x-full');
+      const drawer = document.getElementById('edit-drawer');
+      if (drawer) drawer.classList.remove('drawer-open');
+      const backdrop = document.getElementById('edit-drawer-backdrop');
+      if (backdrop) backdrop.classList.remove('active');
       activeEditIndex = null;
     }
 
@@ -2619,15 +2922,15 @@
 
       renderGrid();
       closeEditDrawer();
-      takeSnapshot("Media Edit", `Modified media properties for item at index ${activeEditIndex} in category ${currentCategory}.`);
+      takeSnapshot("Media Edit", `Modified media properties for item #${activeEditIndex + 1} in category ${currentCategory}.`);
       showToast("Edits applied! Click Save Changes above to save to disk.", "success");
     }
 
-    // Delete single items
+    // Delete items
     function deleteItem(index) {
-      if (confirm("Are you sure you want to delete this item? This cannot be undone until saved.")) {
+      if (confirm("Are you sure you want to delete this item? This will remove it from the workspace.")) {
         const item = localData[currentCategory][index];
-        const label = item.file || item.title || `index ${index}`;
+        const label = item.file || item.title || `item #${index + 1}`;
         localData[currentCategory].splice(index, 1);
         renderGrid();
         updateBadges();
@@ -2643,7 +2946,7 @@
       }
     }
 
-    // Add Video Modals
+    // Add Video Modal
     function openVideoAddModal() {
       const title = prompt("Enter video title:");
       if (!title) return;
@@ -2654,8 +2957,6 @@
 
       const list = localData[currentCategory];
       const nextId = list.reduce((max, item) => Math.max(max, item.id || 0), 0) + 1;
-
-      // Guessing thumbnail schemes based on original format
       const thumbNumber = String(nextId).padStart(2, '0');
       const prefix = currentCategory === 'videos2' ? 'NASE' : 'VI';
       
@@ -2697,7 +2998,6 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
       toggleSaveDropdown();
       try {
         const content = compileDatabase();
-        // Prompt save handle
         const handle = await window.showSaveFilePicker({
           suggestedName: 'gallery-data.js',
           types: [{
@@ -2711,7 +3011,6 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
         await writable.write(content);
         await writable.close();
         
-        // Sync local storage / window cache
         window.galleryData = JSON.parse(JSON.stringify(localData));
         showToast("Database written directly to assets/gallery-data.js successfully!", "success");
       } catch (err) {
@@ -2722,7 +3021,7 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
       }
     }
 
-    // Fallback direct download
+    // Direct download fallback
     function downloadDatabase() {
       toggleSaveDropdown();
       const content = compileDatabase();
@@ -2736,22 +3035,22 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
       link.click();
       document.body.removeChild(link);
       
-      showToast("gallery-data.js downloaded! Please copy it to assets/ gallery-data.js in your workspace.", "success");
+      showToast("gallery-data.js downloaded! Please copy it to assets/ in your workspace.", "success");
     }
 
-    // Fallback Copy to Clipboard
+    // Copy to Clipboard fallback
     function copyToClipboard() {
       toggleSaveDropdown();
       const content = compileDatabase();
       navigator.clipboard.writeText(content).then(() => {
-        showToast("Source code copied to your clipboard! Paste directly inside assets/gallery-data.js.", "success");
+        showToast("Source code copied to clipboard! Paste inside assets/gallery-data.js.", "success");
       }).catch(err => {
         showToast("Failed to copy source code to clipboard.", "error");
         console.error(err);
       });
     }
 
-    // Elegant Custom Toast
+    // Custom Toast
     function showToast(message, type = "success") {
       const toast = document.getElementById('toast');
       const msg = document.getElementById('toast-message');
@@ -2778,7 +3077,7 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
     }
 
     // ==========================================================================
-    // VISITOR & LINK TRAFFIC ANALYTICS HUB SYSTEM (MATCHING JCNINO-MD)
+    // VISITOR & LINK TRAFFIC ANALYTICS HUB SYSTEM
     // ==========================================================================
     let currentAnalyticsRange = '7d';
     let currentAnalyticsSearch = '';
@@ -2887,7 +3186,7 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
           data = await res.json();
         }
       } catch (err) {
-        console.warn("Could not load /api/analytics from server, generating local metrics:", err);
+        console.warn("Could not load /api/analytics from server, using local fallback metrics:", err);
       }
 
       if (!data || !data.success) {
@@ -2918,7 +3217,7 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
       renderTopOSList(data.topOS || [], data.totalViews || 0);
       renderTopBrowsersList(data.topBrowsers || [], data.totalViews || 0);
 
-      // 3. Populate Link Filter dropdown options if needed
+      // 3. Populate Link Filter dropdown options
       populateLinkSelectDropdown(data.allLinks || []);
 
       // 4. Breakdown Table
@@ -3118,7 +3417,7 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
               <td class="font-bold text-white font-mono">${(l.totalViews || 0).toLocaleString()}</td>
               <td class="font-mono">${(l.uniqueVisitors || 0).toLocaleString()}</td>
               <td class="font-mono">${(l.mobilePct || 0)}%</td>
-              <td class="text-subtle-sm font-mono">${escapeHtml(timeAgo(l.lastVisited))}</td>
+              <td class="text-zinc-400 font-mono text-xs">${escapeHtml(timeAgo(l.lastVisited))}</td>
               <td>
                 <button type="button" onclick="handleAnalyticsLinkSelect('${escapeHtml(l.page_url)}')" class="btn-sm-filter">
                   View Logs
@@ -3289,7 +3588,6 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
             pageNumbersEl.appendChild(btn);
           }
         } else {
-          // Pagination with ellipsis
           const pages = [1];
           if (currentLogsPage > 3) pages.push('...');
           for (let i = Math.max(2, currentLogsPage - 1); i <= Math.min(totalPages - 1, currentLogsPage + 1); i++) {
@@ -3696,7 +3994,7 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
       if (compiledAnalyticsList.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="5" class="py-8 text-center text-accent-dim text-xs">No media files found.</td>
+            <td colspan="5" class="py-8 text-center text-zinc-400 text-xs">No media files found.</td>
           </tr>
         `;
         return;
@@ -3707,44 +4005,44 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
         tr.className = 'hover:bg-white/[0.02] transition-colors border-b border-white/5';
         
         tr.innerHTML = `
-          <td class="py-4 px-6 flex items-center gap-3 min-w-[280px]">
-            <div class="h-10 w-15 aspect-[3/2] rounded overflow-hidden bg-black/40 border border-white/10 shrink-0 relative flex items-center justify-center">
+          <td class="py-3.5 px-4 flex items-center gap-3 min-w-[260px]">
+            <div class="h-11 w-16 aspect-[3/2] rounded-lg overflow-hidden bg-black/40 border border-white/10 shrink-0 relative flex items-center justify-center">
               <img src="${item.thumb}" 
                    onerror="this.src='${item.fallbackThumb}'; this.onerror=function(){this.src='images/favicon.png'}" 
                    alt="${item.title}" 
                    loading="lazy" 
                    class="w-full h-full object-cover"/>
               ${item.isVid ? `
-                <div class="absolute inset-0 flex items-center justify-center bg-black/45">
-                  <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                <div class="absolute inset-0 flex items-center justify-center bg-black/50">
+                  <svg class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                 </div>
               ` : ''}
             </div>
             <div class="truncate">
-              <p class="font-bold text-white text-xs truncate max-w-[200px]" title="${item.title}">${item.title}</p>
-              <p class="text-[9px] text-accent-dim font-mono tracking-tight mt-0.5 truncate max-w-[200px]" title="${item.id}">${item.id}</p>
+              <p class="font-bold text-white text-xs sm:text-sm truncate max-w-[180px] sm:max-w-[220px]" title="${item.title}">${item.title}</p>
+              <p class="text-[10px] text-zinc-400 font-mono tracking-tight mt-0.5 truncate max-w-[180px] sm:max-w-[220px]" title="${item.id}">${item.id}</p>
             </div>
           </td>
 
-          <td class="py-4 px-6 text-accent-dim text-xs font-medium">
+          <td class="py-3.5 px-4 text-zinc-300 text-xs font-medium whitespace-nowrap">
             ${item.category}
           </td>
 
-          <td class="py-4 px-6 font-semibold text-white text-xs font-mono">
+          <td class="py-3.5 px-4 font-bold text-white text-xs sm:text-sm font-mono">
             ${item.views.toLocaleString()}
           </td>
 
-          <td class="py-4 px-6 font-semibold text-white text-xs font-mono">
+          <td class="py-3.5 px-4 font-bold text-white text-xs sm:text-sm font-mono">
             ${item.likes.toLocaleString()}
           </td>
 
-          <td class="py-4 px-6 font-semibold text-xs font-mono">
+          <td class="py-3.5 px-4 font-bold text-xs sm:text-sm font-mono">
             <div class="flex items-center gap-2">
-              <span class="${item.ratio >= 15 ? 'text-success' : item.ratio >= 5 ? 'text-white' : 'text-accent-dim'}">
+              <span class="${item.ratio >= 15 ? 'text-emerald-400' : item.ratio >= 5 ? 'text-white' : 'text-zinc-400'}">
                 ${item.ratio.toFixed(1)}%
               </span>
-              <div class="w-12 h-1 bg-white/5 rounded-full overflow-hidden hidden sm:block">
-                <div class="h-full rounded-full ${item.ratio >= 15 ? 'bg-success' : 'bg-white/40'}" style="width: ${Math.min(100, item.ratio)}%"></div>
+              <div class="w-12 h-1.5 bg-white/10 rounded-full overflow-hidden hidden sm:block">
+                <div class="h-full rounded-full ${item.ratio >= 15 ? 'bg-emerald-400' : 'bg-white/40'}" style="width: ${Math.min(100, item.ratio)}%"></div>
               </div>
             </div>
           </td>
@@ -3780,7 +4078,7 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
       const tbody = document.getElementById('security-tbody');
       tbody.innerHTML = `
         <tr>
-          <td colspan="5" class="py-8 text-center text-accent-dim font-bold">
+          <td colspan="5" class="py-8 text-center text-zinc-400 font-bold">
             <div class="flex items-center justify-center gap-2">
               <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -3814,7 +4112,6 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
         console.error("Fetch error for security logs:", err);
       }
 
-      // If fetch failed, check if we should fall back to mock data locally
       if (logs === null) {
         if (isLocal) {
           console.warn("Using sandbox mock fallbacks in local environment");
@@ -3845,13 +4142,12 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
             }
           ];
         } else {
-          // Production error: do not render fake data
           document.getElementById('security-total-attempts').textContent = '0';
           document.getElementById('security-success-logins').textContent = '0';
           document.getElementById('security-failed-attempts').textContent = '0';
           tbody.innerHTML = `
             <tr>
-              <td colspan="5" class="py-8 text-center text-danger font-semibold">
+              <td colspan="5" class="py-8 text-center text-red-400 font-semibold">
                 Failed to sync security logs: ${fetchError ? fetchError.message : 'Database offline or unauthorized access'}.
               </td>
             </tr>
@@ -3860,8 +4156,6 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
         }
       }
 
-
-      // Render overview counters
       const total = logs.length;
       const success = logs.filter(l => l.status === 'Success').length;
       const failed = logs.filter(l => l.status === 'Failed').length;
@@ -3876,18 +4170,15 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
         const tr = document.createElement('tr');
         tr.className = 'hover:bg-white/[0.01] transition-colors';
 
-        // Format Date
         const date = new Date(log.timestamp);
         const dateStr = date.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
         const timeStr = date.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 
-        // Status Badge
         const isSuccess = log.status === 'Success';
         const statusBadge = isSuccess
-          ? `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold bg-success/15 text-success border border-success/10">Success</span>`
-          : `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold bg-danger/15 text-danger border border-danger/10">Failed</span>`;
+          ? `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/20">Success</span>`
+          : `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-red-500/15 text-red-400 border border-red-500/20">Failed</span>`;
 
-        // Parse Vercel Geo data
         let city = log.geo?.city !== 'Unknown' ? log.geo?.city : '';
         if (city) {
           try {
@@ -3897,7 +4188,6 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
         const country = log.geo?.country !== 'Unknown' ? log.geo?.country : '';
         const locStr = [city, country].filter(Boolean).join(', ') || 'Unknown Location';
 
-        // Basic User Agent parser for friendly output
         let device = 'Desktop';
         let browser = 'Unknown Browser';
         const ua = log.userAgent || '';
@@ -3906,13 +4196,13 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
           device = 'Mobile';
           if (/iphone/i.test(ua)) device = 'iPhone';
           else if (/ipad/i.test(ua)) device = 'iPad';
-          else if (/android/i.test(ua)) device = 'Android Device';
+          else if (/android/i.test(ua)) device = 'Android';
         } else if (/macintosh/i.test(ua)) {
           device = 'Mac';
         } else if (/windows/i.test(ua)) {
-          device = 'Windows PC';
+          device = 'Windows';
         } else if (/linux/i.test(ua)) {
-          device = 'Linux PC';
+          device = 'Linux';
         }
 
         if (/chrome/i.test(ua) && !/edge|opr/i.test(ua)) browser = 'Chrome';
@@ -3924,21 +4214,21 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
         const deviceStr = `${device} (${browser})`;
 
         tr.innerHTML = `
-          <td class="py-3.5 px-6 font-medium text-white/90">
+          <td class="py-3.5 px-4 font-medium text-white">
             <div>${dateStr}</div>
-            <div class="text-[10px] text-accent-dim mt-0.5">${timeStr}</div>
+            <div class="text-[11px] text-zinc-400 mt-0.5">${timeStr}</div>
           </td>
-          <td class="py-3.5 px-6 font-semibold">${statusBadge}</td>
-          <td class="py-3.5 px-6 font-mono text-white/80">${log.ip}</td>
-          <td class="py-3.5 px-6 text-accent-dim font-medium">${locStr}</td>
-          <td class="py-3.5 px-6 text-accent-dim truncate max-w-[200px]" title="${ua}">${deviceStr}</td>
+          <td class="py-3.5 px-4 font-semibold">${statusBadge}</td>
+          <td class="py-3.5 px-4 font-mono text-zinc-300">${log.ip}</td>
+          <td class="py-3.5 px-4 text-zinc-300 font-medium">${locStr}</td>
+          <td class="py-3.5 px-4 text-zinc-400 truncate max-w-[200px]" title="${ua}">${deviceStr}</td>
         `;
         tbody.appendChild(tr);
       });
     }
 
     // ==========================================================================
-    // PREMIUM CMS OVERHAUL HELPER LOGIC
+    // GLOBAL CMS CONFIGURATION & REVISIONS
     // ==========================================================================
 
     function loadSettingsFields() {
@@ -3977,11 +4267,11 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
       const el = document.getElementById('maintenance-status-label');
       if (el) {
         if (checked) {
-          el.className = "text-xs text-success font-bold animate-pulse";
-          el.textContent = "Active (Live block)";
+          el.className = "text-xs text-emerald-400 font-bold animate-pulse";
+          el.textContent = "Active (Maintenance Block)";
         } else {
-          el.className = "text-xs text-accent-dim";
-          el.textContent = "Inactive (Public access)";
+          el.className = "text-xs text-zinc-400 font-medium";
+          el.textContent = "Inactive (Public Access)";
         }
       }
     }
@@ -4015,18 +4305,11 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
       s.app.sessionTimeout = parseInt(document.getElementById('settings-app-timeout').value) || 15;
       s.app.maintenanceMode = document.getElementById('settings-app-maintenance').checked;
 
-      // Realtime accent preview
       previewAccentColor(s.app.accentColor);
-
-      // Re-trigger timeout guard setup with new timing
       initSessionTimeoutGuard();
 
-      // Register revision history
       takeSnapshot("Settings Updated", "Modified profile details, camera gear, social accounts, and application custom accent colors.");
-
-      // Sync active simulator
       reloadSimulator();
-      
       showToast("Global configuration applied! Select 'Commit Changes' to overwrite database file.", "success");
     }
 
@@ -4044,15 +4327,11 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
           .glass-input:focus {
               border-color: var(--accent) !important;
           }
-          .tab-btn.bg-white {
-              background-color: var(--accent) !important;
-              color: #000000 !important;
+          .tab-btn.active-tab {
+              border-left-color: var(--accent) !important;
           }
           .text-success, #save-status span {
               color: var(--accent) !important;
-          }
-          .bg-success {
-              background-color: var(--accent) !important;
           }
       `;
       let styleEl = document.getElementById('admin-accent-style');
@@ -4093,8 +4372,10 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
         localSnapshots.pop();
       }
       
-      const badge = document.getElementById('badge-backups');
-      if (badge) badge.textContent = localSnapshots.length;
+      const bDesktop = document.getElementById('badge-backups');
+      const bMobile = document.getElementById('mobile-badge-backups');
+      if (bDesktop) bDesktop.textContent = localSnapshots.length;
+      if (bMobile) bMobile.textContent = localSnapshots.length;
     }
 
     function renderBackupsTimeline() {
@@ -4118,16 +4399,16 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
         const dateStr = d.toLocaleDateString([], { month: 'short', day: 'numeric' });
         
         tr.innerHTML = `
-          <td class="py-4 px-4 font-semibold text-white/95">
+          <td class="py-4 px-4 font-semibold text-white">
             <div>${timeStr}</div>
-            <div class="text-[10px] text-accent-dim mt-0.5">${dateStr}</div>
+            <div class="text-[11px] text-zinc-400 mt-0.5">${dateStr}</div>
           </td>
-          <td class="py-4 px-4 text-white font-bold text-xs">${snap.action}</td>
-          <td class="py-4 px-4 text-accent-dim font-medium max-w-sm">${snap.summary}</td>
+          <td class="py-4 px-4 text-white font-bold text-xs sm:text-sm">${snap.action}</td>
+          <td class="py-4 px-4 text-zinc-300 font-medium max-w-sm text-xs sm:text-sm">${snap.summary}</td>
           <td class="py-4 px-4 text-right">
-            <button onclick="restoreBackupSnapshot(${idx})" class="px-3 py-1.5 border border-white/10 hover:border-white text-white hover:text-black font-bold text-[10px] uppercase rounded-full transition-all flex items-center justify-center gap-1 ml-auto">
-              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 8H12v5"/></svg>
-              Restore Snapshot
+            <button onclick="restoreBackupSnapshot(${idx})" class="px-3.5 py-1.5 border border-white/15 hover:border-white text-white hover:text-black hover:bg-white font-bold text-xs rounded-full transition-all flex items-center justify-center gap-1.5 ml-auto active:scale-95">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 8H12v5"/></svg>
+              Restore
             </button>
           </td>
         `;
@@ -4198,7 +4479,7 @@ window.galleryData = ${JSON.stringify(localData, null, 2)};
         events: "School Events (03)"
       }[currentCategory] || "Portfolio Gallery";
       
-      let aiAlt = `Editorial street photograph showcasing JC Niñonuevo's photography portfolio. ${base} captured in pristine detail, framed as part of the ${categoryLabel} series.`;
+      let aiAlt = `Editorial photograph showcasing JC Niñonuevo's photography portfolio. ${base} captured in pristine detail, framed as part of the ${categoryLabel} series.`;
       
       if (/drone/i.test(base) || /gh/i.test(base) || currentCategory === 'drone') {
         aiAlt = `Premium high-altitude aerial drone landscape captured in Cadiz City, Negros Occidental. Shot featuring sugarcane fields and coastal sandbars, custom-optimized by JC Niñonuevo.`;
