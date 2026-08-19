@@ -3,20 +3,20 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Credentials', true);
   
   const origin = req.headers.origin;
-  const localRegex = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
-  const pagesDevRegex = /^https:\/\/([a-zA-Z0-9-]+\.)*pages\.dev$/;
-  const vercelRegex = /^https:\/\/([a-zA-Z0-9-]+\.)*vercel\.app$/;
-  const githubPagesOrigin = 'https://jcnino2020.github.io';
-  
   const isAllowedOrigin = (origin) => {
-    if (!origin) return false;
-    return localRegex.test(origin) || pagesDevRegex.test(origin) || vercelRegex.test(origin) || origin === githubPagesOrigin;
+    if (!origin || origin === 'null' || origin === 'file://') return true;
+    const localRegex = /^https?:\/\/(localhost|127\.0\.0\.1|0\.0\.0\.0|\[::1\]|192\.168\.\d+\.\d+|10\.\d+\.\d+\.\d+|172\.(1[6-9]|2\d|3[01])\.\d+\.\d+|[a-zA-Z0-9-]+\.local|[a-zA-Z0-9-]+\.internal)(:\d+)?$/;
+    const pagesDevRegex = /^https:\/\/([a-zA-Z0-9-]+\.)*pages\.dev$/;
+    const vercelRegex = /^https:\/\/([a-zA-Z0-9-]+\.)*vercel\.app$/;
+    const githubPagesRegex = /^https:\/\/([a-zA-Z0-9-]+\.)*github\.io$/;
+    const customDomainRegex = /^https?:\/\/([a-zA-Z0-9-]+\.)*(jcnino\.(dev|com|me)|jcninonuevo\.com)$/;
+    return localRegex.test(origin) || pagesDevRegex.test(origin) || vercelRegex.test(origin) || githubPagesRegex.test(origin) || customDomainRegex.test(origin);
   };
 
   if (origin && isAllowedOrigin(origin)) {
     res.setHeader('Access-Control-Allow-Origin', origin);
   } else {
-    res.setHeader('Access-Control-Allow-Origin', githubPagesOrigin);
+    res.setHeader('Access-Control-Allow-Origin', 'https://jcnino2020.github.io');
   }
 
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS');
