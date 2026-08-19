@@ -811,8 +811,13 @@ let portfolioViews = {};
 const LIKES_API_URL = '/api/likes';
 const VIEWS_API_URL = '/api/views';
 
+// Local file:// viewing has no backend (fetch to /api/* is blocked by the browser).
+// Skip API calls unless the page is actually served over http(s), so the console stays clean.
+const isHttpContext = () => (location.protocol === 'http:' || location.protocol === 'https:');
+
 // Load all items counts and views on launch
 async function loadPortfolioLikes() {
+    if (!isHttpContext()) return;
     try {
         const [likesRes, viewsRes] = await Promise.all([
             fetch(LIKES_API_URL),
@@ -833,7 +838,7 @@ async function loadPortfolioLikes() {
 
 // Track unique image/video view per session
 async function trackImageView(itemId) {
-    if (!itemId) return;
+    if (!itemId || !isHttpContext()) return;
     const sessionKey = 'viewed_' + itemId;
     if (sessionStorage.getItem(sessionKey) === 'true') {
         return; // Already counted this session
@@ -869,6 +874,7 @@ async function initVisitorTracking() {
     if (path.toLowerCase().includes('/admin') || path.toLowerCase().includes('/api/admin')) {
         return;
     }
+    if (!isHttpContext()) return;
 
     let sid = sessionStorage.getItem('vs_sid');
     if (!sid) {
@@ -1005,6 +1011,7 @@ async function toggleImageLike() {
     updateLightboxLikeUI();
 
     // Perform real database request in background
+    if (!isHttpContext()) return;
     try {
         const res = await fetch(LIKES_API_URL, {
             method: 'POST',
@@ -1039,6 +1046,7 @@ async function toggleVideoLike() {
     updateVideoLightboxLikeUI();
 
     // Perform real database request in background
+    if (!isHttpContext()) return;
     try {
         const res = await fetch(LIKES_API_URL, {
             method: 'POST',
@@ -1181,7 +1189,11 @@ function applyGlobalSettings() {
 
     // 2. Dynamic SEO & Metadata Injections
     if (settings.seo) {
-        if (settings.seo.title) {
+        // Only override the <title> on the homepage; subpages keep their own per-page titles
+        const path = (window.location.pathname.split('/').pop() || 'index.html');
+        const norm = path.replace(/\.html$/, '');
+        const isHome = (norm === 'index' || norm === '');
+        if (settings.seo.title && isHome) {
             document.title = settings.seo.title;
         }
         if (settings.seo.description) {
@@ -1208,7 +1220,7 @@ function applyGlobalSettings() {
             }
             keyEl.content = settings.seo.keywords;
         }
-        if (settings.seo.title) {
+        if (settings.seo.title && isHome) {
             const ogTitle = document.querySelector('meta[property="og:title"]');
             if (ogTitle) ogTitle.content = settings.seo.title;
             const twTitle = document.querySelector('meta[name="twitter:title"]');
@@ -1470,6 +1482,13 @@ function initAIChatWidget() {
         const loadingEl = appendLoading();
 
         isLoading = true;
+        if (!isHttpContext()) {
+            loadingEl.remove();
+            appendMessage('assistant', 'The AI assistant is only available on the hosted site. Open jcnino.vercel.app to use it. 👋');
+            isLoading = false;
+            inputEl.focus();
+            return;
+        }
         try {
             const res = await fetch(AI_API_URL, {
                 method: 'POST',

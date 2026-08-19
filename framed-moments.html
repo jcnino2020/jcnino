@@ -238,7 +238,12 @@
 <script>
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
 </script>
-<script defer src="/_vercel/insights/script.js"></script>
+<script>
+  // Vercel Analytics: only load on Vercel-hosted pages (keeps local viewing console-clean)
+  if (location.protocol === 'https:' && location.hostname.endsWith('vercel.app')) {
+    document.write('<script defer src="/_vercel/insights/script.js"><\/script>');
+  }
+</script>
 
 </body>
 </html>
