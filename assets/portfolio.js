@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
  * and avoids fetching HTML over CORS, supporting direct local execution.
  */
 const navHtml = `
-<nav id="main-nav" class="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/20">
+<nav id="main-nav" class="fixed top-0 left-0 right-0 z-50 bg-black border-b border-border">
   <div class="max-w-7xl mx-auto px-6 sm:px-10">
     <div class="flex items-center justify-between h-16 md:h-20">
       <a href="index.html" class="flex items-center">

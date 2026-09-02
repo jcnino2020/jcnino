@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover"/>
+  <meta name="theme-color" content="#080808"/>
+  <title>Global Site Configuration | JC Niñonuevo CMS</title>
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="../assets/tailwind.css">
+  <link rel="stylesheet" href="../assets/portfolio.css">
+  <link rel="stylesheet" href="admin.css">
+
+  <!-- Load Database File -->
+  <script src="../assets/gallery-data.js"></script>
+  <script>
+    if (sessionStorage.getItem('pm_auth')) {
+      document.write('<style id="early-auth-style">#login-overlay { display: none !important; }</style>');
+    }
+  </script>
+</head>
+<body>
+
+  <!-- Top Header Bar -->
+  <header class="admin-header">
+    <div class="header-brand">
+      <button onclick="openMobileSidebar()" class="btn-icon md:hidden" aria-label="Open Navigation Menu" title="Open Navigation">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+
+      <a href="../index.html" class="flex items-center" title="Back to Portfolio Home">
+        <img src="../images/logo.png" alt="Portfolio Logo" class="header-logo" />
+      </a>
+      <div class="header-divider hidden sm:block"></div>
+      
+      <nav class="breadcrumb-nav hidden sm:flex" aria-label="Breadcrumb">
+        <a href="index.html?cat=overview">Admin</a>
+        <span class="breadcrumb-sep">/</span>
+        <span class="breadcrumb-current">Site Configuration</span>
+      </nav>
+    </div>
+
+    <!-- Header Actions -->
+    <div class="header-actions">
+      <button onclick="openCommandPalette()" class="btn-cmd-search hidden md:inline-flex" title="Search anything... (⌘K)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <span>Search anything...</span>
+        <span class="kbd-shortcut">⌘K</span>
+      </button>
+
+      <div id="save-status" class="status-indicator hidden lg:inline-flex">
+        <span class="status-dot pulse"></span>
+        <span>Config Engine Active</span>
+      </div>
+
+      <!-- Save Dropdown -->
+      <div class="relative inline-block" id="save-dropdown-wrapper">
+        <button onclick="toggleSaveDropdown()" id="save-main-btn" aria-label="Save changes" class="btn btn-primary">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+          <span>Commit Changes</span>
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+
+        <div id="save-dropdown" class="dropdown-menu hidden">
+          <button onclick="applySettingsForm(); publishToLiveSite([], 'CMS Update: Updated global site settings via admin')" class="dropdown-item active-item">
+            <span style="color: var(--success); margin-top: 2px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"></polyline><line x1="12" y1="12" x2="12" y2="21"></line><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path><polyline points="16 16 12 12 8 16"></polyline></svg>
+            </span>
+            <div>
+              <div style="font-weight: 600; color: #FFFFFF; font-size: 13px;">Publish Live (GitHub)</div>
+              <div style="font-size: 11.5px; color: var(--text-muted);">Commit to GitHub & deploy via Vercel</div>
+            </div>
+          </button>
+          <button onclick="applySettingsForm(); saveChangesDirectly()" class="dropdown-item">
+            <span style="color: var(--text-secondary); margin-top: 2px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="12" x2="2" y2="12"></line><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path><line x1="6" y1="16" x2="6.01" y2="16"></line><line x1="10" y1="16" x2="10.01" y2="16"></line></svg>
+            </span>
+            <div>
+              <div style="font-weight: 600; color: #FFFFFF; font-size: 13px;">Direct Disk Overwrite</div>
+              <div style="font-size: 11.5px; color: var(--text-muted);">Write directly to assets/gallery-data.js</div>
+            </div>
+          </button>
+          <button onclick="applySettingsForm(); downloadDatabase()" class="dropdown-item">
+            <span style="color: var(--text-secondary); margin-top: 2px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            </span>
+            <div>
+              <div style="font-weight: 600; color: #FFFFFF; font-size: 13px;">Download File (.js)</div>
+              <div style="font-size: 11.5px; color: var(--text-muted);">Download and place in assets/</div>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <button onclick="lockSession()" class="btn-icon" title="Lock Admin Workspace">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Backdrop -->
+  <div id="mobile-drawer-backdrop" class="mobile-drawer-backdrop" onclick="closeMobileSidebar()"></div>
+
+  <!-- Admin Application Layout -->
+  <div class="admin-layout">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="admin-sidebar" aria-label="Admin Navigation">
+      <div class="sidebar-header">
+        <div class="sidebar-header-text">
+          <div class="sidebar-header-title">JC Niñonuevo</div>
+          <div class="sidebar-header-sub">Portfolio Admin</div>
+        </div>
+        <button onclick="toggleSidebarCollapse()" class="btn-icon hidden md:inline-flex" style="width: 28px; height: 28px;" title="Toggle Sidebar Collapse">
+          <svg id="collapse-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+      </div>
+
+      <!-- CONTENT Section -->
+      <div class="sidebar-nav-group">
+        <div class="sidebar-section-title">Content</div>
+        
+        <a href="index.html?cat=overview" id="tab-overview" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            <span class="nav-label">Overview</span>
+          </div>
+        </a>
+
+        <a href="index.html?cat=highlights" id="tab-highlights" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <span class="nav-label">Gallery Highlights</span>
+          </div>
+          <span id="badge-highlights" class="nav-count mono-num">0</span>
+        </a>
+
+        <a href="index.html?cat=drone" id="tab-drone" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+            <span class="nav-label">Drone Shots (01)</span>
+          </div>
+          <span id="badge-drone" class="nav-count mono-num">0</span>
+        </a>
+
+        <a href="index.html?cat=framed" id="tab-framed" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+            <span class="nav-label">Framed Moments (02)</span>
+          </div>
+          <span id="badge-framed" class="nav-count mono-num">0</span>
+        </a>
+
+        <a href="index.html?cat=events" id="tab-events" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            <span class="nav-label">School Events (03)</span>
+          </div>
+          <span id="badge-events" class="nav-count mono-num">0</span>
+        </a>
+
+        <a href="index.html?cat=collections" id="tab-collections" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+            <span class="nav-label">Collections</span>
+          </div>
+        </a>
+
+        <a href="index.html?cat=videos" id="tab-videos" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line></svg>
+            <span class="nav-label">Video Projects (04)</span>
+          </div>
+          <span id="badge-videos" class="nav-count mono-num">0</span>
+        </a>
+
+        <a href="index.html?cat=videos2" id="tab-videos2" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+            <span class="nav-label">Negros Aerials SE</span>
+          </div>
+          <span id="badge-videos2" class="nav-count mono-num">0</span>
+        </a>
+      </div>
+
+      <!-- ANALYTICS Section -->
+      <div class="sidebar-nav-group">
+        <div class="sidebar-section-title">Analytics</div>
+        
+        <a href="analytics.html" id="tab-analytics" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+            <span class="nav-label">Visitor Analytics</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- SYSTEM Section -->
+      <div class="sidebar-nav-group">
+        <div class="sidebar-section-title">System</div>
+        
+        <a href="security.html" id="tab-security" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            <span class="nav-label">Security Audit Logs</span>
+          </div>
+        </a>
+
+        <a href="settings.html" id="tab-settings" class="nav-item active">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
+            <span class="nav-label">Site Configuration</span>
+          </div>
+        </a>
+
+        <a href="backups.html" id="tab-backups" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            <span class="nav-label">Revision Backups</span>
+          </div>
+          <span id="badge-backups" class="nav-count mono-num">0</span>
+        </a>
+      </div>
+
+      <!-- Footer User Profile -->
+      <div class="sidebar-footer">
+        <div class="sidebar-profile">
+          <div class="flex items-center gap-2.5">
+            <div class="avatar-circle">JC</div>
+            <div class="profile-meta">
+              <div style="font-size: 12.5px; font-weight: 600; color: #FFFFFF;">Jan Carlo Niñonuevo</div>
+              <div style="font-size: 11px; color: var(--text-muted);">Admin • Online</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Settings Workspace -->
+    <main class="admin-main">
+      <div class="admin-content-wrap">
+        
+        <!-- Header Title -->
+        <div>
+          <h1 class="page-title">Global Site Settings & Customization</h1>
+          <p class="text-sm text-zinc-400 mt-1">Configure your portfolio profile biography, camera gear, social links, SEO tags, accent themes, and live device simulator.</p>
+        </div>
+
+        <div class="settings-split-layout">
+          <!-- Left Column (Form Fields) -->
+          <div class="space-y-6">
+            
+            <!-- Profile & Camera Gear -->
+            <div class="card space-y-4">
+              <div class="card-header">
+                <h3 class="section-title">Profile Biography & Gear Kit</h3>
+                <span class="text-xs text-zinc-500">About Section</span>
+              </div>
+
+              <div class="space-y-4">
+                <div class="space-y-1">
+                  <label class="input-label">About Biography</label>
+                  <textarea id="settings-bio" rows="4" class="input-textarea" placeholder="Enter biography..."></textarea>
+                </div>
+
+                <div class="form-grid-3">
+                  <div class="space-y-1">
+                    <label class="input-label">Camera Body</label>
+                    <input type="text" id="settings-kit-body" class="input-text" />
+                  </div>
+                  <div class="space-y-1">
+                    <label class="input-label">Prime Lenses</label>
+                    <input type="text" id="settings-kit-primes" class="input-text" />
+                  </div>
+                  <div class="space-y-1">
+                    <label class="input-label">Zoom Lenses</label>
+                    <input type="text" id="settings-kit-zooms" class="input-text" />
+                  </div>
+                </div>
+
+                <div class="form-grid-3">
+                  <div class="space-y-1">
+                    <label class="input-label">Photo Software</label>
+                    <input type="text" id="settings-work-photo" class="input-text" />
+                  </div>
+                  <div class="space-y-1">
+                    <label class="input-label">Video Software</label>
+                    <input type="text" id="settings-work-video" class="input-text" />
+                  </div>
+                  <div class="space-y-1">
+                    <label class="input-label">Machine Specs</label>
+                    <input type="text" id="settings-work-machine" class="input-text" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Social Links & Global SEO -->
+            <div class="card space-y-4">
+              <div class="card-header">
+                <h3 class="section-title">Social Links & Global SEO</h3>
+                <span class="text-xs text-zinc-500">Metadata</span>
+              </div>
+
+              <div class="space-y-4">
+                <div class="form-grid-3">
+                  <div class="space-y-1">
+                    <label class="input-label">Facebook URL</label>
+                    <input type="text" id="settings-social-fb" class="input-text" />
+                  </div>
+                  <div class="space-y-1">
+                    <label class="input-label">Instagram URL</label>
+                    <input type="text" id="settings-social-ig" class="input-text" />
+                  </div>
+                  <div class="space-y-1">
+                    <label class="input-label">Contact Email</label>
+                    <input type="email" id="settings-social-email" class="input-text" />
+                  </div>
+                </div>
+
+                <div class="space-y-1">
+                  <label class="input-label">Global Page Title</label>
+                  <input type="text" id="settings-seo-title" class="input-text" />
+                </div>
+
+                <div class="space-y-1">
+                  <label class="input-label">SEO Meta Keywords</label>
+                  <input type="text" id="settings-seo-keywords" class="input-text" placeholder="comma-separated" />
+                </div>
+
+                <div class="space-y-1">
+                  <label class="input-label">SEO Meta Description</label>
+                  <textarea id="settings-seo-desc" rows="2" class="input-textarea" placeholder="Enter meta description..."></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- Theme Accent & Security -->
+            <div class="card space-y-4">
+              <div class="card-header">
+                <h3 class="section-title">Customization & Security Thresholds</h3>
+                <span class="text-xs text-zinc-500">Workspace</span>
+              </div>
+
+              <div class="form-grid-3 items-center">
+                <div class="space-y-1">
+                  <label class="input-label">Theme Accent</label>
+                  <select id="settings-app-accent" onchange="previewAccentColor(this.value)" class="input-select">
+                    <option value="default">Sleek White (Default)</option>
+                    <option value="emerald">Emerald Green</option>
+                    <option value="violet">Electric Violet</option>
+                    <option value="gold">Amber Gold</option>
+                    <option value="rose">Rose Pink</option>
+                    <option value="blue">Ocean Blue</option>
+                  </select>
+                </div>
+
+                <div class="space-y-1">
+                  <label class="input-label">Session Timeout (Mins)</label>
+                  <input type="number" id="settings-app-timeout" min="2" max="60" class="input-text mono-num" />
+                </div>
+
+                <div class="space-y-1">
+                  <label class="input-label">Maintenance Mode</label>
+                  <div class="flex items-center gap-2 pt-1">
+                    <input type="checkbox" id="settings-app-maintenance" class="w-4 h-4 rounded-[4px] accent-white cursor-pointer" onchange="toggleMaintenanceModeLabel(this.checked)"/>
+                    <span id="maintenance-status-label" class="text-xs text-zinc-400 font-medium">Inactive</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row gap-3 pt-2">
+              <button onclick="applySettingsForm()" class="btn btn-secondary flex-1">
+                Apply & Preview
+              </button>
+              <button onclick="applySettingsForm(); publishToLiveSite([], 'CMS Update: Updated global site settings via admin')" class="btn btn-primary flex-1">
+                Commit Live (GitHub)
+              </button>
+              <button onclick="applySettingsForm(); saveChangesDirectly()" class="btn btn-secondary flex-1">
+                Write to Disk
+              </button>
+            </div>
+          </div>
+
+          <!-- Right Column (Simulator) -->
+          <div class="space-y-4">
+            <div class="card flex flex-col items-center p-6">
+              <div class="w-full flex justify-between items-center pb-3 border-b border-white/10 mb-4">
+                <h3 class="section-title">Live Device Simulator</h3>
+                <button onclick="reloadSimulator()" class="btn btn-secondary text-xs" style="min-height: 28px; padding: 2px 8px;">
+                  Reload
+                </button>
+              </div>
+
+              <!-- Phone Mockup Frame (Crisp 2026 dark frame) -->
+              <div class="simulator-frame">
+                <div class="simulator-notch"></div>
+                <iframe id="simulator-iframe" src="../index.html" class="simulator-iframe" title="Portfolio Live Simulator"></iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Global Command Palette (⌘K) Modal -->
+  <div id="cmd-palette-backdrop" class="modal-backdrop" onclick="if(event.target===this)closeCommandPalette()">
+    <div class="cmd-palette-box">
+      <div class="cmd-input-row">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--text-muted);"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="cmd-search-input" class="cmd-search-input" placeholder="Search photos, videos, collections, analytics, actions..." autocomplete="off"/>
+        <span class="kbd-shortcut">ESC to close</span>
+      </div>
+      <div class="cmd-results-list" id="cmd-results-list"></div>
+      <div class="cmd-footer">
+        <span>Use <strong>↑</strong> <strong>↓</strong> to navigate</span>
+        <span>Press <strong>ENTER</strong> to select</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" role="status" aria-live="polite" class="hidden">
+    <div id="toast-icon-success" style="color: var(--success); flex-shrink: 0;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+    </div>
+    <div id="toast-icon-error" style="color: var(--danger); flex-shrink: 0;" class="hidden">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </div>
+    <p id="toast-message" style="color: #FFFFFF; font-size: 13px; font-weight: 500;"></p>
+  </div>
+
+  <!-- Lock Screen Overlay -->
+  <div id="login-overlay">
+    <div class="login-backdrop-glow"></div>
+    <div class="login-grid-pattern"></div>
+    
+    <div id="login-card">
+      <div class="login-brand-wrap">
+        <div class="login-icon-badge">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        </div>
+        <div>
+          <div class="login-title">JC Niñonuevo</div>
+          <div class="login-subtitle">Portfolio CMS Workstation</div>
+        </div>
+      </div>
+
+      <div class="login-divider"></div>
+      
+      <div class="login-form-body">
+        <div class="login-field-wrap">
+          <label for="login-password" class="login-field-label">
+            <span>Passkey</span>
+            <span class="login-field-hint">Press Enter ↵</span>
+          </label>
+          <input type="password" id="login-password" placeholder="Enter administrative password..." 
+                 class="login-input" autocomplete="current-password" autofocus
+                 onkeydown="if(event.key === 'Enter') attemptLogin(initSettingsDashboard)"/>
+          <p id="login-error" class="login-error-msg hidden"></p>
+        </div>
+        
+        <button onclick="attemptLogin(initSettingsDashboard)" id="login-btn" class="login-submit-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          <span>Authenticate Session</span>
+        </button>
+      </div>
+      
+      <div class="login-card-footer">
+        <span class="status-dot"></span>
+        <span>Secure Session • Encrypted Portal</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="admin-core.js"></script>
+  <script>
+    function loadSettingsIntoForm() {
+      const s = localData.settings || {};
+      const about = s.about || {};
+      const socials = s.socials || {};
+      const seo = s.seo || {};
+      const app = s.app || {};
+
+      document.getElementById('settings-bio').value = about.bio || '';
+      document.getElementById('settings-kit-body').value = about.kitBody || '';
+      document.getElementById('settings-kit-primes').value = about.kitPrimes || '';
+      document.getElementById('settings-kit-zooms').value = about.kitZooms || '';
+      document.getElementById('settings-work-photo').value = about.workPhoto || '';
+      document.getElementById('settings-work-video').value = about.workVideo || '';
+      document.getElementById('settings-work-machine').value = about.workMachine || '';
+
+      document.getElementById('settings-social-fb').value = socials.facebook || '';
+      document.getElementById('settings-social-ig').value = socials.instagram || '';
+      document.getElementById('settings-social-email').value = socials.email || '';
+
+      document.getElementById('settings-seo-title').value = seo.title || '';
+      document.getElementById('settings-seo-keywords').value = seo.keywords || '';
+      document.getElementById('settings-seo-desc').value = seo.description || '';
+
+      document.getElementById('settings-app-accent').value = app.accentColor || 'default';
+      document.getElementById('settings-app-timeout').value = app.sessionTimeout || 15;
+      
+      const maintCheckbox = document.getElementById('settings-app-maintenance');
+      maintCheckbox.checked = !!app.maintenanceMode;
+      toggleMaintenanceModeLabel(maintCheckbox.checked);
+    }
+
+    function toggleMaintenanceModeLabel(checked) {
+      const label = document.getElementById('maintenance-status-label');
+      if (label) {
+        label.textContent = checked ? "Active (Maintenance Mode)" : "Inactive";
+        label.className = checked ? "text-xs text-amber-400 font-semibold" : "text-xs text-zinc-400 font-medium";
+      }
+    }
+
+    function applySettingsForm() {
+      if (!localData.settings) localData.settings = {};
+      if (!localData.settings.about) localData.settings.about = {};
+      if (!localData.settings.socials) localData.settings.socials = {};
+      if (!localData.settings.seo) localData.settings.seo = {};
+      if (!localData.settings.app) localData.settings.app = {};
+
+      const about = localData.settings.about;
+      const socials = localData.settings.socials;
+      const seo = localData.settings.seo;
+      const app = localData.settings.app;
+
+      about.bio = document.getElementById('settings-bio').value.trim();
+      about.kitBody = document.getElementById('settings-kit-body').value.trim();
+      about.kitPrimes = document.getElementById('settings-kit-primes').value.trim();
+      about.kitZooms = document.getElementById('settings-kit-zooms').value.trim();
+      about.workPhoto = document.getElementById('settings-work-photo').value.trim();
+      about.workVideo = document.getElementById('settings-work-video').value.trim();
+      about.workMachine = document.getElementById('settings-work-machine').value.trim();
+
+      socials.facebook = document.getElementById('settings-social-fb').value.trim();
+      socials.instagram = document.getElementById('settings-social-ig').value.trim();
+      socials.email = document.getElementById('settings-social-email').value.trim();
+
+      seo.title = document.getElementById('settings-seo-title').value.trim();
+      seo.keywords = document.getElementById('settings-seo-keywords').value.trim();
+      seo.description = document.getElementById('settings-seo-desc').value.trim();
+
+      app.accentColor = document.getElementById('settings-app-accent').value;
+      app.sessionTimeout = parseInt(document.getElementById('settings-app-timeout').value) || 15;
+      app.maintenanceMode = document.getElementById('settings-app-maintenance').checked;
+
+      persistLocalState();
+      takeSnapshot("Settings Update", "Modified global biography, socials, or SEO configuration.");
+      previewAccentColor(app.accentColor);
+      reloadSimulator();
+      showToast("Settings applied! Remember to commit or write to disk.", "success");
+    }
+
+    function reloadSimulator() {
+      const iframe = document.getElementById('simulator-iframe');
+      if (iframe) {
+        iframe.src = iframe.src;
+      }
+    }
+
+    function initSettingsDashboard() {
+      initSessionTimeoutGuard();
+      updateBadges();
+      loadSettingsIntoForm();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      verifySessionOnLoad(initSettingsDashboard);
+    });
+  </script>
+</body>
+</html>

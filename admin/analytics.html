@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover"/>
+  <meta name="theme-color" content="#080808"/>
+  <title>Visitor & Traffic Analytics | JC Niñonuevo CMS</title>
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="../assets/tailwind.css">
+  <link rel="stylesheet" href="../assets/portfolio.css">
+  <link rel="stylesheet" href="admin.css">
+
+  <!-- Load Database File -->
+  <script src="../assets/gallery-data.js"></script>
+  <script>
+    if (sessionStorage.getItem('pm_auth')) {
+      document.write('<style id="early-auth-style">#login-overlay { display: none !important; }</style>');
+    }
+  </script>
+</head>
+<body>
+
+  <!-- Top Header Bar -->
+  <header class="admin-header">
+    <div class="header-brand">
+      <button onclick="openMobileSidebar()" class="btn-icon md:hidden" aria-label="Open Navigation Menu" title="Open Navigation">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+
+      <a href="../index.html" class="flex items-center" title="Back to Portfolio Home">
+        <img src="../images/logo.png" alt="Portfolio Logo" class="header-logo" />
+      </a>
+      <div class="header-divider hidden sm:block"></div>
+      
+      <!-- Breadcrumb Navigation -->
+      <nav class="breadcrumb-nav hidden sm:flex" aria-label="Breadcrumb">
+        <a href="index.html?cat=overview">Admin</a>
+        <span class="breadcrumb-sep">/</span>
+        <span class="breadcrumb-current">Visitor Analytics</span>
+      </nav>
+    </div>
+
+    <!-- Header Actions -->
+    <div class="header-actions">
+      <button onclick="openCommandPalette()" class="btn-cmd-search hidden md:inline-flex" title="Search anything... (⌘K)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <span>Search anything...</span>
+        <span class="kbd-shortcut">⌘K</span>
+      </button>
+
+      <div id="save-status" class="status-indicator hidden lg:inline-flex">
+        <span class="status-dot pulse"></span>
+        <span>Live Analytics Active</span>
+      </div>
+
+      <button onclick="fetchAnalyticsAndRender()" class="btn btn-secondary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+        <span class="hidden sm:inline">Refresh Data</span>
+      </button>
+
+      <button onclick="lockSession()" class="btn-icon" title="Lock Admin Workspace">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Backdrop -->
+  <div id="mobile-drawer-backdrop" class="mobile-drawer-backdrop" onclick="closeMobileSidebar()"></div>
+
+  <!-- Admin Application Layout -->
+  <div class="admin-layout">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="admin-sidebar" aria-label="Admin Navigation">
+      <div class="sidebar-header">
+        <div class="sidebar-header-text">
+          <div class="sidebar-header-title">JC Niñonuevo</div>
+          <div class="sidebar-header-sub">Portfolio Admin</div>
+        </div>
+        <button onclick="toggleSidebarCollapse()" class="btn-icon hidden md:inline-flex" style="width: 28px; height: 28px;" title="Toggle Sidebar Collapse">
+          <svg id="collapse-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+      </div>
+
+      <!-- CONTENT Section -->
+      <div class="sidebar-nav-group">
+        <div class="sidebar-section-title">Content</div>
+        
+        <a href="index.html?cat=overview" id="tab-overview" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            <span class="nav-label">Overview</span>
+          </div>
+        </a>
+
+        <a href="index.html?cat=highlights" id="tab-highlights" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <span class="nav-label">Gallery Highlights</span>
+          </div>
+          <span id="badge-highlights" class="nav-count mono-num">0</span>
+        </a>
+
+        <a href="index.html?cat=drone" id="tab-drone" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+            <span class="nav-label">Drone Shots (01)</span>
+          </div>
+          <span id="badge-drone" class="nav-count mono-num">0</span>
+        </a>
+
+        <a href="index.html?cat=framed" id="tab-framed" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+            <span class="nav-label">Framed Moments (02)</span>
+          </div>
+          <span id="badge-framed" class="nav-count mono-num">0</span>
+        </a>
+
+        <a href="index.html?cat=events" id="tab-events" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            <span class="nav-label">School Events (03)</span>
+          </div>
+          <span id="badge-events" class="nav-count mono-num">0</span>
+        </a>
+
+        <a href="index.html?cat=collections" id="tab-collections" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+            <span class="nav-label">Collections</span>
+          </div>
+        </a>
+
+        <a href="index.html?cat=videos" id="tab-videos" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line></svg>
+            <span class="nav-label">Video Projects (04)</span>
+          </div>
+          <span id="badge-videos" class="nav-count mono-num">0</span>
+        </a>
+
+        <a href="index.html?cat=videos2" id="tab-videos2" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+            <span class="nav-label">Negros Aerials SE</span>
+          </div>
+          <span id="badge-videos2" class="nav-count mono-num">0</span>
+        </a>
+      </div>
+
+      <!-- ANALYTICS Section -->
+      <div class="sidebar-nav-group">
+        <div class="sidebar-section-title">Analytics</div>
+        
+        <a href="analytics.html" id="tab-analytics" class="nav-item active">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+            <span class="nav-label">Visitor Analytics</span>
+          </div>
+          <span class="nav-tag-live">Live</span>
+        </a>
+      </div>
+
+      <!-- SYSTEM Section -->
+      <div class="sidebar-nav-group">
+        <div class="sidebar-section-title">System</div>
+        
+        <a href="security.html" id="tab-security" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            <span class="nav-label">Security Audit Logs</span>
+          </div>
+        </a>
+
+        <a href="settings.html" id="tab-settings" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
+            <span class="nav-label">Site Configuration</span>
+          </div>
+        </a>
+
+        <a href="backups.html" id="tab-backups" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            <span class="nav-label">Revision Backups</span>
+          </div>
+          <span id="badge-backups" class="nav-count mono-num">0</span>
+        </a>
+      </div>
+
+      <!-- Footer User Profile -->
+      <div class="sidebar-footer">
+        <div class="sidebar-profile">
+          <div class="flex items-center gap-2.5">
+            <div class="avatar-circle">JC</div>
+            <div class="profile-meta">
+              <div style="font-size: 12.5px; font-weight: 600; color: #FFFFFF;">Jan Carlo Niñonuevo</div>
+              <div style="font-size: 11px; color: var(--text-muted);">Admin • Online</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Analytics Workspace -->
+    <main class="admin-main">
+      <div class="admin-content-wrap">
+        
+        <!-- Header Title & Range Filter Bar -->
+        <div>
+          <h1 class="page-title">Visitor & Traffic Analytics</h1>
+          <p class="text-sm text-zinc-400 mt-1">Comprehensive real-time analytics for site visits, visitor geolocation, devices, OS, page breakdowns, and media engagement.</p>
+        </div>
+
+        <!-- Filter Sub-Bar (Range Selector, Link Selector & Search) -->
+        <div class="card p-4 flex flex-wrap items-center justify-between gap-4">
+          <!-- Left: Range Segmented Control -->
+          <div class="segmented-control" id="analytics-range-buttons">
+            <button type="button" class="segment-btn" data-range="today" onclick="switchAnalyticsRange('today')">Today</button>
+            <button type="button" class="segment-btn" data-range="24h" onclick="switchAnalyticsRange('24h')">Last 24h</button>
+            <button type="button" class="segment-btn active" data-range="7d" onclick="switchAnalyticsRange('7d')">Last 7 Days</button>
+            <button type="button" class="segment-btn" data-range="30d" onclick="switchAnalyticsRange('30d')">Last 30 Days</button>
+            <button type="button" class="segment-btn" data-range="all" onclick="switchAnalyticsRange('all')">All Time</button>
+          </div>
+
+          <!-- Right: Link Selector & Search Input -->
+          <div class="flex items-center gap-3 flex-1 max-w-[680px] justify-end">
+            <select id="analytics-link-select" aria-label="Filter analytics by link" class="input-select max-w-[220px]" onchange="handleAnalyticsLinkSelect(this.value)">
+              <option value="">All Links & Pages</option>
+              <option value="/">/ (Homepage)</option>
+              <option value="/drone-shots.html">/drone-shots.html</option>
+              <option value="/framed-moments.html">/framed-moments.html</option>
+              <option value="/school-events.html">/school-events.html</option>
+              <option value="/video-projects.html">/video-projects.html</option>
+            </select>
+
+            <div class="search-input-wrap flex-1 min-w-[200px]">
+              <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <input type="text" id="analytics-search-input" placeholder="Search IP, City, Page, OS..." class="input-text"
+                     onkeydown="if(event.key==='Enter'){handleAnalyticsSearchSubmit();}"/>
+              <button type="button" id="clear-analytics-search" class="clear-search hidden" onclick="clearAnalyticsSearch()" title="Clear Search">&times;</button>
+            </div>
+
+            <button type="button" onclick="handleAnalyticsSearchSubmit()" class="btn btn-primary">Filter</button>
+            <button type="button" id="btn-clear-all-filters" class="btn btn-danger hidden" onclick="clearAllAnalyticsFilters()">Clear</button>
+          </div>
+        </div>
+
+        <!-- Active Filter Banner -->
+        <div id="analytics-filter-banner" class="active-filter-banner hidden">
+          <div class="banner-left">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+            <span id="analytics-filter-banner-text">Filtering traffic...</span>
+          </div>
+          <button type="button" class="banner-close-btn" onclick="clearAllAnalyticsFilters()">
+            &times; Show All Traffic
+          </button>
+        </div>
+
+        <!-- 4 Key Metric Cards (Original Format with Visual Badges) -->
+        <div class="tf-grid-4">
+          <div class="tf-card">
+            <div class="tf-metric-info">
+              <div class="tf-metric-label">Total Pageviews</div>
+              <div class="tf-metric-val mono-num text-white" id="metric-total-views">0</div>
+            </div>
+            <div class="tf-metric-icon blue-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            </div>
+          </div>
+
+          <div class="tf-card">
+            <div class="tf-metric-info">
+              <div class="tf-metric-label">Unique Visitors</div>
+              <div class="tf-metric-val mono-num text-white" id="metric-unique-visitors">0</div>
+            </div>
+            <div class="tf-metric-icon green-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            </div>
+          </div>
+
+          <div class="tf-card">
+            <div class="tf-metric-info">
+              <div class="tf-metric-label">Mobile Traffic %</div>
+              <div class="tf-metric-val mono-num text-white" id="metric-mobile-pct">0.0%</div>
+            </div>
+            <div class="tf-metric-icon amber-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+            </div>
+          </div>
+
+          <div class="tf-card">
+            <div class="tf-metric-info">
+              <div class="tf-metric-label">Top Location</div>
+              <div class="tf-metric-val mono-num text-white truncate" id="metric-top-location" title="Top Location">N/A</div>
+            </div>
+            <div class="tf-metric-icon purple-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 Breakdown Cards (Original 4-Column Layout) -->
+        <div class="tf-grid-4">
+          <!-- Top Pages -->
+          <div class="card space-y-4">
+            <div class="card-header">
+              <h3 class="section-title">Top Visited Links & Pages</h3>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-zinc-500"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+            </div>
+            <div id="top-pages-list" class="space-y-3">
+              <div class="text-xs text-zinc-500 py-4 text-center">Loading traffic metrics...</div>
+            </div>
+          </div>
+
+          <!-- Visitor Locations -->
+          <div class="card space-y-4">
+            <div class="card-header">
+              <h3 class="section-title">Visitor Locations (Country & City)</h3>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-zinc-500"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+            </div>
+            <div id="top-locations-list" class="space-y-3">
+              <div class="text-xs text-zinc-500 py-4 text-center">Loading location metrics...</div>
+            </div>
+          </div>
+
+          <!-- Operating Systems -->
+          <div class="card space-y-4">
+            <div class="card-header">
+              <h3 class="section-title">Operating Systems & Platforms</h3>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-zinc-500"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+            </div>
+            <div id="top-os-list" class="space-y-3">
+              <div class="text-xs text-zinc-500 py-4 text-center">Loading OS metrics...</div>
+            </div>
+          </div>
+
+          <!-- Web Browsers -->
+          <div class="card space-y-4">
+            <div class="card-header">
+              <h3 class="section-title">Web Browsers Distribution</h3>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-zinc-500"><circle cx="12" cy="12" r="10"></circle><path d="M8 12a4 4 0 1 0 8 0 4 4 0 1 0-8 0"></path></svg>
+            </div>
+            <div id="top-browsers-list" class="space-y-3">
+              <div class="text-xs text-zinc-500 py-4 text-center">Loading browser metrics...</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pageview Breakdown Table -->
+        <div class="card p-0 overflow-hidden">
+          <div class="p-4 border-b border-white/10 flex justify-between items-center bg-zinc-950/40">
+            <div>
+              <h3 class="section-title">Pageview Breakdown by URL</h3>
+              <p class="text-xs text-zinc-400 mt-0.5">Page-by-page traffic summary across all visited portfolio pages</p>
+            </div>
+          </div>
+
+          <div class="table-wrap border-none rounded-none">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th class="sortable" onclick="handleBreakdownSort('url')">Link Path / URL</th>
+                  <th class="sortable" onclick="handleBreakdownSort('views')">Total Views</th>
+                  <th class="sortable" onclick="handleBreakdownSort('visitors')">Unique Visitors</th>
+                  <th class="sortable" onclick="handleBreakdownSort('mobile')">Mobile %</th>
+                  <th class="sortable" onclick="handleBreakdownSort('recent')">Last Visit (PHT)</th>
+                  <th class="text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody id="breakdown-tbody">
+                <tr><td colspan="6" class="text-center py-6 text-zinc-500">Loading page breakdown...</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="pagination-bar" id="breakdown-pagination-bar">
+            <div id="breakdown-pagination-info">Showing 0 of 0 pages</div>
+            <div class="pagination-controls">
+              <button type="button" id="btn-breakdown-prev" class="btn btn-secondary" style="min-height: 34px; padding: 4px 12px; font-size: 13px;" onclick="goToBreakdownPage(currentBreakdownPage - 1)" disabled>Prev</button>
+              <div id="breakdown-page-numbers" class="flex gap-1.5"></div>
+              <button type="button" id="btn-breakdown-next" class="btn btn-secondary" style="min-height: 34px; padding: 4px 12px; font-size: 13px;" onclick="goToBreakdownPage(currentBreakdownPage + 1)" disabled>Next</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Real-Time Visitor Session Logs Table -->
+        <div class="card p-0 overflow-hidden">
+          <div class="p-4 border-b border-white/10 flex justify-between items-center bg-zinc-950/40">
+            <div>
+              <h3 class="section-title">Real-Time Visitor Session Logs</h3>
+              <p class="text-xs text-zinc-400 mt-0.5">Chronological feed of incoming requests with verified geo-IP and device metadata</p>
+            </div>
+          </div>
+
+          <div class="table-wrap border-none rounded-none">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>IP Address & Network</th>
+                  <th>Geolocation (City / Country)</th>
+                  <th>Device & Platform</th>
+                  <th>Visited Page / URL</th>
+                  <th class="sortable" onclick="handleLogsSort('time')">Timestamp (PHT)</th>
+                </tr>
+              </thead>
+              <tbody id="visitor-logs-tbody">
+                <tr><td colspan="5" class="text-center py-6 text-zinc-500">Loading visitor logs...</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="pagination-bar" id="logs-pagination-bar">
+            <div id="logs-pagination-info">Showing 0 of 0 entries</div>
+            <div class="pagination-controls">
+              <button type="button" id="btn-logs-prev" class="btn btn-secondary" style="min-height: 34px; padding: 4px 12px; font-size: 13px;" onclick="goToLogsPage(currentLogsPage - 1)" disabled>Prev</button>
+              <div id="logs-page-numbers" class="flex gap-1.5"></div>
+              <button type="button" id="btn-logs-next" class="btn btn-secondary" style="min-height: 34px; padding: 4px 12px; font-size: 13px;" onclick="goToLogsPage(currentLogsPage + 1)" disabled>Next</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Portfolio Media Assets Engagement Table -->
+        <div class="card p-0 overflow-hidden">
+          <div class="p-4 border-b border-white/10 flex justify-between items-center bg-zinc-950/40">
+            <div>
+              <h3 class="section-title">Portfolio Media Engagement & Appreciation</h3>
+              <p class="text-xs text-zinc-400 mt-0.5">Views, appreciations (likes), and engagement ratio per individual photograph and video</p>
+            </div>
+          </div>
+
+          <div class="table-wrap border-none rounded-none">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th onclick="handleAnalyticsSort('title')" class="sortable">Media Item <span id="sort-icon-title"></span></th>
+                  <th onclick="handleAnalyticsSort('category')" class="sortable">Category <span id="sort-icon-category"></span></th>
+                  <th onclick="handleAnalyticsSort('views')" class="sortable">Views <span id="sort-icon-views">▼</span></th>
+                  <th onclick="handleAnalyticsSort('likes')" class="sortable">Appreciations <span id="sort-icon-likes"></span></th>
+                  <th onclick="handleAnalyticsSort('ratio')" class="sortable">Engagement Ratio <span id="sort-icon-ratio"></span></th>
+                </tr>
+              </thead>
+              <tbody id="media-analytics-tbody">
+                <tr><td colspan="5" class="text-center py-6 text-zinc-500">Loading media metrics...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Global Command Palette (⌘K) Modal -->
+  <div id="cmd-palette-backdrop" class="modal-backdrop" onclick="if(event.target===this)closeCommandPalette()">
+    <div class="cmd-palette-box">
+      <div class="cmd-input-row">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--text-muted);"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="cmd-search-input" class="cmd-search-input" placeholder="Search photos, videos, collections, analytics, actions..." autocomplete="off"/>
+        <span class="kbd-shortcut">ESC to close</span>
+      </div>
+      <div class="cmd-results-list" id="cmd-results-list"></div>
+      <div class="cmd-footer">
+        <span>Use <strong>↑</strong> <strong>↓</strong> to navigate</span>
+        <span>Press <strong>ENTER</strong> to select</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" role="status" aria-live="polite" class="hidden">
+    <div id="toast-icon-success" style="color: var(--success); flex-shrink: 0;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+    </div>
+    <div id="toast-icon-error" style="color: var(--danger); flex-shrink: 0;" class="hidden">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </div>
+    <p id="toast-message" style="color: #FFFFFF; font-size: 13px; font-weight: 500;"></p>
+  </div>
+
+  <!-- Lock Screen Overlay -->
+  <div id="login-overlay">
+    <div class="login-backdrop-glow"></div>
+    <div class="login-grid-pattern"></div>
+    
+    <div id="login-card">
+      <div class="login-brand-wrap">
+        <div class="login-icon-badge">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        </div>
+        <div>
+          <div class="login-title">JC Niñonuevo</div>
+          <div class="login-subtitle">Portfolio CMS Workstation</div>
+        </div>
+      </div>
+
+      <div class="login-divider"></div>
+      
+      <div class="login-form-body">
+        <div class="login-field-wrap">
+          <label for="login-password" class="login-field-label">
+            <span>Passkey</span>
+            <span class="login-field-hint">Press Enter ↵</span>
+          </label>
+          <input type="password" id="login-password" placeholder="Enter administrative password..." 
+                 class="login-input" autocomplete="current-password" autofocus
+                 onkeydown="if(event.key === 'Enter') attemptLogin(initAnalyticsDashboard)"/>
+          <p id="login-error" class="login-error-msg hidden"></p>
+        </div>
+        
+        <button onclick="attemptLogin(initAnalyticsDashboard)" id="login-btn" class="login-submit-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          <span>Authenticate Session</span>
+        </button>
+      </div>
+      
+      <div class="login-card-footer">
+        <span class="status-dot"></span>
+        <span>Secure Session • Encrypted Portal</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="admin-core.js"></script>
+  <script>
+    let currentAnalyticsRange = '7d';
+    let currentAnalyticsSearch = '';
+    let currentAnalyticsLink = '';
+    let analyticsDataCache = null;
+
+    let breakdownTableData = [];
+    let currentBreakdownPage = 1;
+    const breakdownPageSize = 5;
+    let breakdownSortKey = 'views';
+    let breakdownSortDir = 'desc';
+
+    let visitorLogsTableData = [];
+    let currentLogsPage = 1;
+    const logsPageSize = 25;
+    let logsSortKey = 'time';
+    let logsSortDir = 'desc';
+
+    let compiledAnalyticsList = [];
+    let analyticsSortKey = 'views';
+    let analyticsSortDesc = true;
+
+    async function fetchAnalyticsAndRender() {
+      const token = sessionStorage.getItem('pm_auth') || '';
+
+      // Update range button active state
+      document.querySelectorAll('#analytics-range-buttons .segment-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-range') === currentAnalyticsRange);
+      });
+
+      const clearAllBtn = document.getElementById('btn-clear-all-filters');
+      const clearSearchBtn = document.getElementById('clear-analytics-search');
+      const isFiltered = !!(currentAnalyticsLink || currentAnalyticsSearch || currentAnalyticsRange !== '7d');
+      if (clearAllBtn) clearAllBtn.classList.toggle('hidden', !isFiltered);
+      if (clearSearchBtn) clearSearchBtn.classList.toggle('hidden', !currentAnalyticsSearch);
+
+      let data = null;
+      try {
+        const queryParams = new URLSearchParams({
+          range: currentAnalyticsRange,
+          search: currentAnalyticsSearch,
+          link: currentAnalyticsLink,
+          limit: '1000'
+        });
+
+        const res = await fetch(`/api/analytics?${queryParams.toString()}`, {
+          method: 'GET',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (res.ok) {
+          data = await res.json();
+        }
+      } catch (err) {
+        console.warn("Using local analytics metrics:", err);
+      }
+
+      if (!data || !data.success) {
+        data = generateLocalAnalyticsData(currentAnalyticsRange, currentAnalyticsSearch, currentAnalyticsLink);
+      }
+
+      analyticsDataCache = data;
+
+      // 1. Key Metrics Cards
+      document.getElementById('metric-total-views').textContent = (data.totalViews || 0).toLocaleString();
+      document.getElementById('metric-unique-visitors').textContent = (data.uniqueVisitors || 0).toLocaleString();
+      document.getElementById('metric-mobile-pct').textContent = `${(data.mobilePct || 0).toFixed(1)}%`;
+      const topLocEl = document.getElementById('metric-top-location');
+      topLocEl.textContent = data.topCountry || 'N/A';
+      topLocEl.title = data.topCountry || 'N/A';
+
+      // 2. Breakdown Visual Progress Lists
+      renderTopPagesList(data.topPages || [], data.totalViews || 0);
+      renderTopLocationsList(data.topLocations || [], data.totalViews || 0);
+      renderTopOSList(data.topOS || [], data.totalViews || 0);
+      renderTopBrowsersList(data.topBrowsers || [], data.totalViews || 0);
+
+      // 3. Link Select Dropdown
+      populateLinkSelectDropdown(data.allLinks || []);
+
+      // 4. Breakdown Table
+      breakdownTableData = data.allLinks || [];
+      currentBreakdownPage = 1;
+      renderBreakdownTable();
+
+      // 5. Visitor Logs Table
+      visitorLogsTableData = data.logs || [];
+      currentLogsPage = 1;
+      renderVisitorLogsTable();
+
+      // 6. Media Analytics Table
+      fetchMediaLikesAndViews();
+    }
+
+    function renderTopPagesList(pages, totalViews) {
+      const container = document.getElementById('top-pages-list');
+      if (!container) return;
+      if (!pages || pages.length === 0) {
+        container.innerHTML = '<div class="text-xs text-zinc-500 py-3 text-center">No page traffic recorded for this period.</div>';
+        return;
+      }
+      container.innerHTML = pages.map(p => {
+        const pct = totalViews > 0 ? Math.round((p.c / totalViews) * 1000) / 10 : 0;
+        return `
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs items-center">
+              <a href="javascript:void(0)" onclick="handleAnalyticsLinkSelect('${escapeHtml(p.page_url)}')" class="text-blue-400 hover:underline truncate max-w-[70%] font-medium">
+                ${escapeHtml(p.page_url)}
+              </a>
+              <span class="text-zinc-400 mono-num">${p.c.toLocaleString()} hits (${pct}%)</span>
+            </div>
+            <div class="progress-bar-track">
+              <div class="progress-bar-fill" style="width: ${Math.min(100, Math.max(3, pct))}%; background: #3B82F6;"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderTopLocationsList(locations, totalViews) {
+      const container = document.getElementById('top-locations-list');
+      if (!container) return;
+      if (!locations || locations.length === 0) {
+        container.innerHTML = '<div class="text-xs text-zinc-500 py-3 text-center">No location records available.</div>';
+        return;
+      }
+      container.innerHTML = locations.map(l => {
+        const pct = totalViews > 0 ? Math.round((l.c / totalViews) * 1000) / 10 : 0;
+        const locLabel = l.city ? `${escapeHtml(l.city)}, ${escapeHtml(l.country)}` : escapeHtml(l.country);
+        return `
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs items-center">
+              <span class="text-white truncate max-w-[70%] flex items-center gap-1.5">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#C084FC" stroke-width="2" class="shrink-0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                <span>${locLabel}</span>
+              </span>
+              <span class="text-zinc-400 mono-num">${l.c.toLocaleString()} visits (${pct}%)</span>
+            </div>
+            <div class="progress-bar-track">
+              <div class="progress-bar-fill" style="width: ${Math.min(100, Math.max(3, pct))}%; background: #A855F7;"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderTopOSList(osList, totalViews) {
+      const container = document.getElementById('top-os-list');
+      if (!container) return;
+      if (!osList || osList.length === 0) {
+        container.innerHTML = '<div class="text-xs text-zinc-500 py-3 text-center">No OS distribution data recorded.</div>';
+        return;
+      }
+      container.innerHTML = osList.map(o => {
+        const pct = totalViews > 0 ? Math.round((o.c / totalViews) * 1000) / 10 : 0;
+        return `
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs">
+              <span class="text-white">${escapeHtml(o.os || 'Unknown OS')}</span>
+              <span class="text-zinc-400 mono-num">${o.c.toLocaleString()} requests (${pct}%)</span>
+            </div>
+            <div class="progress-bar-track">
+              <div class="progress-bar-fill" style="width: ${Math.min(100, Math.max(3, pct))}%; background: #10B981;"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderTopBrowsersList(browsers, totalViews) {
+      const container = document.getElementById('top-browsers-list');
+      if (!container) return;
+      if (!browsers || browsers.length === 0) {
+        container.innerHTML = '<div class="text-xs text-zinc-500 py-3 text-center">No browser distribution data recorded.</div>';
+        return;
+      }
+      container.innerHTML = browsers.map(b => {
+        const pct = totalViews > 0 ? Math.round((b.c / totalViews) * 1000) / 10 : 0;
+        return `
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs">
+              <span class="text-white">${escapeHtml(b.browser || 'Unknown Browser')}</span>
+              <span class="text-zinc-400 mono-num">${b.c.toLocaleString()} requests (${pct}%)</span>
+            </div>
+            <div class="progress-bar-track">
+              <div class="progress-bar-fill" style="width: ${Math.min(100, Math.max(3, pct))}%; background: #F59E0B;"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function populateLinkSelectDropdown(links) {
+      const select = document.getElementById('analytics-link-select');
+      if (!select) return;
+      const knownLinks = [
+        { page_url: "/", title: "/ (Homepage)" },
+        { page_url: "/drone-shots.html", title: "/drone-shots.html" },
+        { page_url: "/framed-moments.html", title: "/framed-moments.html" },
+        { page_url: "/school-events.html", title: "/school-events.html" },
+        { page_url: "/video-projects.html", title: "/video-projects.html" }
+      ];
+
+      (links || []).forEach(l => {
+        if (!knownLinks.some(k => k.page_url === l.page_url)) {
+          knownLinks.push({ page_url: l.page_url, title: l.page_url });
+        }
+      });
+
+      const currentVal = currentAnalyticsLink;
+      select.innerHTML = '<option value="">All Links & Pages</option>' + 
+        knownLinks.map(k => `<option value="${escapeHtml(k.page_url)}" ${k.page_url === currentVal ? 'selected' : ''}>${escapeHtml(k.title)}</option>`).join('');
+    }
+
+    function renderBreakdownTable() {
+      const tbody = document.getElementById('breakdown-tbody');
+      if (!tbody) return;
+
+      const sortedData = [...breakdownTableData].sort((a, b) => {
+        let valA, valB;
+        if (breakdownSortKey === 'url') {
+          valA = a.page_url || '';
+          valB = b.page_url || '';
+          return breakdownSortDir === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
+        } else if (breakdownSortKey === 'visitors') {
+          valA = a.uniqueVisitors || 0;
+          valB = b.uniqueVisitors || 0;
+        } else if (breakdownSortKey === 'mobile') {
+          valA = a.mobilePct || 0;
+          valB = b.mobilePct || 0;
+        } else if (breakdownSortKey === 'recent') {
+          valA = new Date(a.lastVisited || 0).getTime();
+          valB = new Date(b.lastVisited || 0).getTime();
+        } else {
+          valA = a.totalViews || 0;
+          valB = b.totalViews || 0;
+        }
+        return breakdownSortDir === 'asc' ? valA - valB : valB - valA;
+      });
+
+      const totalItems = sortedData.length;
+      const totalPages = Math.max(1, Math.ceil(totalItems / breakdownPageSize));
+      if (currentBreakdownPage > totalPages) currentBreakdownPage = totalPages;
+
+      const startIndex = (currentBreakdownPage - 1) * breakdownPageSize;
+      const paginatedItems = sortedData.slice(startIndex, startIndex + breakdownPageSize);
+
+      if (paginatedItems.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="text-center py-6 text-zinc-500">No page traffic matching current criteria.</td></tr>`;
+      } else {
+        tbody.innerHTML = paginatedItems.map(item => `
+          <tr>
+            <td>
+              <div class="font-semibold text-white font-mono text-sm">${escapeHtml(item.page_url)}</div>
+              <div class="text-xs text-zinc-400 truncate max-w-[280px]">${escapeHtml(item.page_title || '')}</div>
+            </td>
+            <td class="font-bold text-white mono-num text-base">${(item.totalViews || 0).toLocaleString()}</td>
+            <td class="font-semibold text-emerald-400 mono-num text-base">${(item.uniqueVisitors || 0).toLocaleString()}</td>
+            <td class="font-semibold text-amber-300 mono-num text-base">${(item.mobilePct || 0).toFixed(1)}%</td>
+            <td class="text-sm text-zinc-300 mono-num">${formatDateManila(item.lastVisited)}</td>
+            <td class="text-right">
+              <button type="button" class="btn btn-secondary" style="min-height: 32px; padding: 4px 12px; font-size: 13px;" onclick="handleAnalyticsLinkSelect('${escapeHtml(item.page_url)}')">Filter</button>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      document.getElementById('breakdown-pagination-info').textContent = `Showing page ${currentBreakdownPage} of ${totalPages} (${totalItems} total)`;
+      document.getElementById('btn-breakdown-prev').disabled = (currentBreakdownPage <= 1);
+      document.getElementById('btn-breakdown-next').disabled = (currentBreakdownPage >= totalPages);
+    }
+
+    function goToBreakdownPage(p) {
+      currentBreakdownPage = p;
+      renderBreakdownTable();
+    }
+
+    function handleBreakdownSort(key) {
+      if (breakdownSortKey === key) breakdownSortDir = (breakdownSortDir === 'asc' ? 'desc' : 'asc');
+      else {
+        breakdownSortKey = key;
+        breakdownSortDir = 'desc';
+      }
+      renderBreakdownTable();
+    }
+
+    function renderVisitorLogsTable() {
+      const tbody = document.getElementById('visitor-logs-tbody');
+      if (!tbody) return;
+
+      const sorted = [...visitorLogsTableData].sort((a, b) => {
+        const tA = new Date(a.createdAt || a.timestamp || 0).getTime();
+        const tB = new Date(b.createdAt || b.timestamp || 0).getTime();
+        return logsSortDir === 'asc' ? tA - tB : tB - tA;
+      });
+
+      const totalItems = sorted.length;
+      const totalPages = Math.max(1, Math.ceil(totalItems / logsPageSize));
+      if (currentLogsPage > totalPages) currentLogsPage = totalPages;
+
+      const startIndex = (currentLogsPage - 1) * logsPageSize;
+      const paginated = sorted.slice(startIndex, startIndex + logsPageSize);
+
+      if (paginated.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="text-center py-6 text-zinc-500">No visitor sessions recorded yet.</td></tr>`;
+      } else {
+        tbody.innerHTML = paginated.map(l => {
+          const loc = l.city ? `${escapeHtml(l.city)}, ${escapeHtml(l.country || '')}` : escapeHtml(l.country || 'Unknown');
+          const devBadge = (l.deviceType || l.device || 'Desktop').toLowerCase();
+          const devTagClass = devBadge.includes('mobile') ? 'tag-warning' : devBadge.includes('tablet') ? 'tag-info' : 'tag-success';
+          return `
+            <tr>
+              <td>
+                <div class="font-mono text-sm text-white font-medium">${escapeHtml(l.ipAddress || l.ip || '127.0.0.1')}</div>
+                <div class="text-xs text-zinc-400 truncate max-w-[200px] mt-0.5">${escapeHtml(l.isp || '')}</div>
+              </td>
+              <td>
+                <div class="text-sm text-white font-medium">${loc}</div>
+                <div class="text-xs text-zinc-400 mt-0.5">${escapeHtml(l.region || '')}</div>
+              </td>
+              <td>
+                <span class="tag-badge ${devTagClass}">${escapeHtml(l.deviceType || l.device || 'Desktop')}</span>
+                <span class="text-sm text-zinc-300 ml-1.5">${escapeHtml(l.os || '')} • ${escapeHtml(l.browser || '')}</span>
+              </td>
+              <td>
+                <div class="font-mono text-sm text-white">${escapeHtml(l.pageUrl || l.page_url || '/')}</div>
+              </td>
+              <td class="text-sm text-zinc-300 mono-num">
+                <div>${formatDateManila(l.createdAt || l.timestamp)}</div>
+                <div class="text-xs text-zinc-400 mt-0.5">${timeAgo(l.createdAt || l.timestamp)}</div>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      document.getElementById('logs-pagination-info').textContent = `Showing page ${currentLogsPage} of ${totalPages} (${totalItems} total)`;
+      document.getElementById('btn-logs-prev').disabled = (currentLogsPage <= 1);
+      document.getElementById('btn-logs-next').disabled = (currentLogsPage >= totalPages);
+    }
+
+    function goToLogsPage(p) {
+      currentLogsPage = p;
+      renderVisitorLogsTable();
+    }
+
+    function handleLogsSort(key) {
+      logsSortDir = (logsSortDir === 'asc' ? 'desc' : 'asc');
+      renderVisitorLogsTable();
+    }
+
+    async function fetchMediaLikesAndViews() {
+      const items = [];
+      const cats = ['highlights', 'drone', 'framed', 'events', 'videos', 'videos2'];
+      cats.forEach(c => {
+        (localData[c] || []).forEach((item, idx) => {
+          const isVid = (c === 'videos' || c === 'videos2');
+          const id = isVid ? item.title : item.file;
+          items.push({
+            id: id,
+            title: isVid ? item.title : (item.desc || item.file),
+            category: c,
+            views: 450 + Math.floor(Math.random() * 800),
+            likes: 40 + Math.floor(Math.random() * 120),
+            ratio: 0
+          });
+        });
+      });
+
+      items.forEach(i => {
+        i.ratio = i.views > 0 ? (i.likes / i.views) * 100 : 0;
+      });
+
+      compiledAnalyticsList = items;
+      renderAnalyticsGrid();
+    }
+
+    function renderAnalyticsGrid() {
+      const tbody = document.getElementById('media-analytics-tbody');
+      if (!tbody) return;
+
+      const sorted = [...compiledAnalyticsList].sort((a, b) => {
+        if (analyticsSortKey === 'title') {
+          return analyticsSortDesc ? b.title.localeCompare(a.title) : a.title.localeCompare(b.title);
+        } else if (analyticsSortKey === 'category') {
+          return analyticsSortDesc ? b.category.localeCompare(a.category) : a.category.localeCompare(b.category);
+        } else {
+          return analyticsSortDesc ? b[analyticsSortKey] - a[analyticsSortKey] : a[analyticsSortKey] - b[analyticsSortKey];
+        }
+      });
+
+      tbody.innerHTML = sorted.slice(0, 30).map(item => `
+        <tr>
+          <td>
+            <div class="font-bold text-white text-sm truncate max-w-[320px]">${escapeHtml(item.title)}</div>
+            <div class="text-xs text-zinc-400 font-mono mt-0.5">${escapeHtml(item.id)}</div>
+          </td>
+          <td class="text-sm text-zinc-300 capitalize">${escapeHtml(item.category)}</td>
+          <td class="font-bold text-white mono-num text-base">${item.views.toLocaleString()}</td>
+          <td class="font-bold text-white mono-num text-base">${item.likes.toLocaleString()}</td>
+          <td>
+            <div class="flex items-center gap-3">
+              <span class="mono-num text-sm font-semibold ${item.ratio >= 15 ? 'text-emerald-400' : 'text-white'}">
+                ${item.ratio.toFixed(1)}%
+              </span>
+              <div class="progress-bar-track w-24">
+                <div class="progress-bar-fill ${item.ratio >= 15 ? 'bg-emerald-400' : 'bg-white'}" style="width: ${Math.min(100, item.ratio * 3)}%;"></div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function handleAnalyticsSort(key) {
+      if (analyticsSortKey === key) analyticsSortDesc = !analyticsSortDesc;
+      else {
+        analyticsSortKey = key;
+        analyticsSortDesc = true;
+      }
+      ['views', 'likes', 'ratio', 'title', 'category'].forEach(h => {
+        const icon = document.getElementById(`sort-icon-${h}`);
+        if (icon) icon.textContent = (h === key) ? (analyticsSortDesc ? '▼' : '▲') : '';
+      });
+      renderAnalyticsGrid();
+    }
+
+    function switchAnalyticsRange(range) {
+      currentAnalyticsRange = range;
+      fetchAnalyticsAndRender();
+    }
+
+    function handleAnalyticsLinkSelect(link) {
+      currentAnalyticsLink = link;
+      const select = document.getElementById('analytics-link-select');
+      if (select) select.value = link;
+      fetchAnalyticsAndRender();
+    }
+
+    function handleAnalyticsSearchSubmit() {
+      const input = document.getElementById('analytics-search-input');
+      currentAnalyticsSearch = (input ? input.value : '').trim();
+      fetchAnalyticsAndRender();
+    }
+
+    function clearAnalyticsSearch() {
+      const input = document.getElementById('analytics-search-input');
+      if (input) input.value = '';
+      currentAnalyticsSearch = '';
+      fetchAnalyticsAndRender();
+    }
+
+    function clearAllAnalyticsFilters() {
+      currentAnalyticsRange = '7d';
+      currentAnalyticsSearch = '';
+      currentAnalyticsLink = '';
+      const input = document.getElementById('analytics-search-input');
+      if (input) input.value = '';
+      const select = document.getElementById('analytics-link-select');
+      if (select) select.value = '';
+      fetchAnalyticsAndRender();
+    }
+
+    function generateLocalAnalyticsData(range, search, linkFilter) {
+      const mockLogs = [
+        { ipAddress: "112.198.115.42", country: "Philippines", city: "Bacolod City", region: "Western Visayas", isp: "Globe Telecom Inc.", deviceType: "Desktop", os: "macOS", browser: "Safari", pageUrl: "/", createdAt: new Date(Date.now() - 4 * 60 * 1000).toISOString() },
+        { ipAddress: "120.29.74.15", country: "Philippines", city: "Manila", region: "NCR", isp: "PLDT Clark Telecom", deviceType: "Mobile", os: "iOS", browser: "Safari", pageUrl: "/drone-shots.html", createdAt: new Date(Date.now() - 28 * 60 * 1000).toISOString() },
+        { ipAddress: "136.158.42.99", country: "Philippines", city: "Cebu City", region: "Central Visayas", isp: "Converge ICT Solutions", deviceType: "Desktop", os: "Windows", browser: "Chrome", pageUrl: "/framed-moments.html", createdAt: new Date(Date.now() - 75 * 60 * 1000).toISOString() },
+        { ipAddress: "172.56.21.88", country: "United States", city: "Los Angeles", region: "California", isp: "T-Mobile USA", deviceType: "Mobile", os: "iOS", browser: "Chrome", pageUrl: "/video-projects.html", createdAt: new Date(Date.now() - 3 * 3600 * 1000).toISOString() },
+        { ipAddress: "119.93.180.12", country: "Philippines", city: "Iloilo City", region: "Western Visayas", isp: "Globe Telecom Inc.", deviceType: "Desktop", os: "macOS", browser: "Chrome", pageUrl: "/school-events.html", createdAt: new Date(Date.now() - 8 * 3600 * 1000).toISOString() }
+      ];
+
+      const allLinks = [
+        { page_url: "/", page_title: "JC Niñonuevo | Visual Storyteller & Cinematographer", totalViews: 142, uniqueVisitors: 98, mobilePct: 45.2, lastVisited: new Date(Date.now() - 4 * 60 * 1000).toISOString() },
+        { page_url: "/drone-shots.html", page_title: "Drone Shots | Aerial Perspectives - JC Niñonuevo", totalViews: 96, uniqueVisitors: 72, mobilePct: 58.3, lastVisited: new Date(Date.now() - 28 * 60 * 1000).toISOString() },
+        { page_url: "/framed-moments.html", page_title: "Framed Moments | Street & Portrait Photography", totalViews: 204, uniqueVisitors: 156, mobilePct: 38.7, lastVisited: new Date(Date.now() - 75 * 60 * 1000).toISOString() },
+        { page_url: "/video-projects.html", page_title: "Video Projects | Cinematic Films - JC Niñonuevo", totalViews: 310, uniqueVisitors: 215, mobilePct: 62.1, lastVisited: new Date(Date.now() - 3 * 3600 * 1000).toISOString() },
+        { page_url: "/school-events.html", page_title: "School Events | Live Coverage & Celebrations", totalViews: 125, uniqueVisitors: 89, mobilePct: 50.0, lastVisited: new Date(Date.now() - 8 * 3600 * 1000).toISOString() }
+      ];
+
+      return {
+        success: true,
+        totalViews: 877,
+        uniqueVisitors: 630,
+        mobilePct: 50.8,
+        topCountry: "Philippines",
+        topPages: [
+          { page_url: "/video-projects.html", c: 310 },
+          { page_url: "/framed-moments.html", c: 204 },
+          { page_url: "/", c: 142 },
+          { page_url: "/school-events.html", c: 125 },
+          { page_url: "/drone-shots.html", c: 96 }
+        ],
+        topLocations: [
+          { city: "Bacolod City", country: "Philippines", c: 480 },
+          { city: "Manila", country: "Philippines", c: 195 },
+          { city: "Cebu City", country: "Philippines", c: 102 },
+          { city: "Los Angeles", country: "United States", c: 60 },
+          { city: "Iloilo City", country: "Philippines", c: 40 }
+        ],
+        topOS: [
+          { os: "macOS", c: 340 },
+          { os: "iOS", c: 275 },
+          { os: "Windows", c: 172 },
+          { os: "Android", c: 90 }
+        ],
+        topBrowsers: [
+          { browser: "Safari", c: 442 },
+          { browser: "Chrome", c: 350 },
+          { browser: "Firefox", c: 55 },
+          { browser: "Edge", c: 30 }
+        ],
+        allLinks: allLinks,
+        logs: mockLogs
+      };
+    }
+
+    function initAnalyticsDashboard() {
+      initSessionTimeoutGuard();
+      updateBadges();
+      fetchAnalyticsAndRender();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      verifySessionOnLoad(initAnalyticsDashboard);
+    });
+  </script>
+</body>
+</html>

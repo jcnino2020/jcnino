@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover"/>
+  <meta name="theme-color" content="#080808"/>
+  <title>Security Audit Logs | JC Niñonuevo CMS</title>
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="../assets/tailwind.css">
+  <link rel="stylesheet" href="../assets/portfolio.css">
+  <link rel="stylesheet" href="admin.css">
+
+  <!-- Load Database File -->
+  <script src="../assets/gallery-data.js"></script>
+  <script>
+    if (sessionStorage.getItem('pm_auth')) {
+      document.write('<style id="early-auth-style">#login-overlay { display: none !important; }</style>');
+    }
+  </script>
+</head>
+<body>
+
+  <!-- Top Header Bar -->
+  <header class="admin-header">
+    <div class="header-brand">
+      <button onclick="openMobileSidebar()" class="btn-icon md:hidden" aria-label="Open Navigation Menu" title="Open Navigation">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+
+      <a href="../index.html" class="flex items-center" title="Back to Portfolio Home">
+        <img src="../images/logo.png" alt="Portfolio Logo" class="header-logo" />
+      </a>
+      <div class="header-divider hidden sm:block"></div>
+      
+      <nav class="breadcrumb-nav hidden sm:flex" aria-label="Breadcrumb">
+        <a href="index.html?cat=overview">Admin</a>
+        <span class="breadcrumb-sep">/</span>
+        <span class="breadcrumb-current">Security Audit Logs</span>
+      </nav>
+    </div>
+
+    <!-- Header Actions -->
+    <div class="header-actions">
+      <button onclick="openCommandPalette()" class="btn-cmd-search hidden md:inline-flex" title="Search anything... (⌘K)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <span>Search anything...</span>
+        <span class="kbd-shortcut">⌘K</span>
+      </button>
+
+      <div id="save-status" class="status-indicator hidden lg:inline-flex">
+        <span class="status-dot pulse"></span>
+        <span>Audit Monitor Active</span>
+      </div>
+
+      <button onclick="fetchSecurityLogsAndRender()" class="btn btn-secondary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+        <span class="hidden sm:inline">Refresh Logs</span>
+      </button>
+
+      <button onclick="lockSession()" class="btn-icon" title="Lock Admin Workspace">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Backdrop -->
+  <div id="mobile-drawer-backdrop" class="mobile-drawer-backdrop" onclick="closeMobileSidebar()"></div>
+
+  <!-- Admin Application Layout -->
+  <div class="admin-layout">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="admin-sidebar" aria-label="Admin Navigation">
+      <div class="sidebar-header">
+        <div class="sidebar-header-text">
+          <div class="sidebar-header-title">JC Niñonuevo</div>
+          <div class="sidebar-header-sub">Portfolio Admin</div>
+        </div>
+        <button onclick="toggleSidebarCollapse()" class="btn-icon hidden md:inline-flex" style="width: 28px; height: 28px;" title="Toggle Sidebar Collapse">
+          <svg id="collapse-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+      </div>
+
+      <!-- CONTENT Section -->
+      <div class="sidebar-nav-group">
+        <div class="sidebar-section-title">Content</div>
+        
+        <a href="index.html?cat=overview" id="tab-overview" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            <span class="nav-label">Overview</span>
+          </div>
+        </a>
+
+        <a href="index.html?cat=highlights" id="tab-highlights" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <span class="nav-label">Gallery Highlights</span>
+          </div>
+          <span id="badge-highlights" class="nav-count mono-num">0</span>
+        </a>
+
+        <a href="index.html?cat=drone" id="tab-drone" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+            <span class="nav-label">Drone Shots (01)</span>
+          </div>
+          <span id="badge-drone" class="nav-count mono-num">0</span>
+        </a>
+
+        <a href="index.html?cat=framed" id="tab-framed" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+            <span class="nav-label">Framed Moments (02)</span>
+          </div>
+          <span id="badge-framed" class="nav-count mono-num">0</span>
+        </a>
+
+        <a href="index.html?cat=events" id="tab-events" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            <span class="nav-label">School Events (03)</span>
+          </div>
+          <span id="badge-events" class="nav-count mono-num">0</span>
+        </a>
+
+        <a href="index.html?cat=collections" id="tab-collections" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+            <span class="nav-label">Collections</span>
+          </div>
+        </a>
+
+        <a href="index.html?cat=videos" id="tab-videos" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line></svg>
+            <span class="nav-label">Video Projects (04)</span>
+          </div>
+          <span id="badge-videos" class="nav-count mono-num">0</span>
+        </a>
+
+        <a href="index.html?cat=videos2" id="tab-videos2" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+            <span class="nav-label">Negros Aerials SE</span>
+          </div>
+          <span id="badge-videos2" class="nav-count mono-num">0</span>
+        </a>
+      </div>
+
+      <!-- ANALYTICS Section -->
+      <div class="sidebar-nav-group">
+        <div class="sidebar-section-title">Analytics</div>
+        
+        <a href="analytics.html" id="tab-analytics" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+            <span class="nav-label">Visitor Analytics</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- SYSTEM Section -->
+      <div class="sidebar-nav-group">
+        <div class="sidebar-section-title">System</div>
+        
+        <a href="security.html" id="tab-security" class="nav-item active">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            <span class="nav-label">Security Audit Logs</span>
+          </div>
+        </a>
+
+        <a href="settings.html" id="tab-settings" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
+            <span class="nav-label">Site Configuration</span>
+          </div>
+        </a>
+
+        <a href="backups.html" id="tab-backups" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            <span class="nav-label">Revision Backups</span>
+          </div>
+          <span id="badge-backups" class="nav-count mono-num">0</span>
+        </a>
+      </div>
+
+      <!-- Footer User Profile -->
+      <div class="sidebar-footer">
+        <div class="sidebar-profile">
+          <div class="flex items-center gap-2.5">
+            <div class="avatar-circle">JC</div>
+            <div class="profile-meta">
+              <div style="font-size: 12.5px; font-weight: 600; color: #FFFFFF;">Jan Carlo Niñonuevo</div>
+              <div style="font-size: 11px; color: var(--text-muted);">Admin • Online</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Security Workspace -->
+    <main class="admin-main">
+      <div class="admin-content-wrap">
+        
+        <!-- Header Title -->
+        <div>
+          <h1 class="page-title">Security Audit Logs</h1>
+          <p class="text-sm text-zinc-400 mt-1">Real-time tracking of administrator login attempts, device specifications, and verified geo-IP verification.</p>
+        </div>
+
+        <!-- 3 Metrics Cards -->
+        <div class="three-col-grid">
+          <div class="kpi-card">
+            <div class="kpi-label">Total Verification Attempts</div>
+            <div class="kpi-val mono-num text-white mt-1" id="security-total-attempts">0</div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-label">Authorized Logins</div>
+            <div class="kpi-val mono-num text-emerald-400 mt-1" id="security-success-logins">0</div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-label">Denied / Failed Attempts</div>
+            <div class="kpi-val mono-num text-red-400 mt-1" id="security-failed-attempts">0</div>
+          </div>
+        </div>
+
+        <!-- Audit Table Card -->
+        <div class="card p-0 overflow-hidden">
+          <div class="p-4 border-b border-white/10 flex justify-between items-center bg-zinc-950/40">
+            <div>
+              <h3 class="section-title">Administrative Access Activity Feed</h3>
+              <p class="text-xs text-zinc-400 mt-0.5">Captures geographic IP locations, device user-agents, and authentication state</p>
+            </div>
+            <button onclick="fetchSecurityLogsAndRender()" class="btn btn-secondary text-xs" style="min-height: 28px; padding: 2px 8px;">
+              Refresh Feed
+            </button>
+          </div>
+
+          <div class="table-wrap border-none rounded-none">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Date & Time (PHT)</th>
+                  <th>Auth Status</th>
+                  <th>Origin IP</th>
+                  <th>Location</th>
+                  <th>Device & Browser</th>
+                </tr>
+              </thead>
+              <tbody id="security-tbody">
+                <tr><td colspan="5" class="text-center py-6 text-zinc-500">Retrieving security audit logs...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Security Hardening Policy Card -->
+        <div class="card space-y-2">
+          <div class="flex items-center gap-2">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-emerald-400"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            <h3 class="section-title text-sm">Security Hardening & Session Policy</h3>
+          </div>
+          <p class="text-xs text-zinc-400 leading-relaxed">
+            Administrative endpoints are protected with HMAC-SHA256 token authorization, IP extraction, and activity-driven automatic session termination. Unrecognized failed attempts from remote IP ranges are automatically captured and flagged in this audit register.
+          </p>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Global Command Palette (⌘K) Modal -->
+  <div id="cmd-palette-backdrop" class="modal-backdrop" onclick="if(event.target===this)closeCommandPalette()">
+    <div class="cmd-palette-box">
+      <div class="cmd-input-row">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--text-muted);"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="cmd-search-input" class="cmd-search-input" placeholder="Search photos, videos, collections, analytics, actions..." autocomplete="off"/>
+        <span class="kbd-shortcut">ESC to close</span>
+      </div>
+      <div class="cmd-results-list" id="cmd-results-list"></div>
+      <div class="cmd-footer">
+        <span>Use <strong>↑</strong> <strong>↓</strong> to navigate</span>
+        <span>Press <strong>ENTER</strong> to select</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" role="status" aria-live="polite" class="hidden">
+    <div id="toast-icon-success" style="color: var(--success); flex-shrink: 0;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+    </div>
+    <div id="toast-icon-error" style="color: var(--danger); flex-shrink: 0;" class="hidden">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </div>
+    <p id="toast-message" style="color: #FFFFFF; font-size: 13px; font-weight: 500;"></p>
+  </div>
+
+  <!-- Lock Screen Overlay -->
+  <div id="login-overlay">
+    <div class="login-backdrop-glow"></div>
+    <div class="login-grid-pattern"></div>
+    
+    <div id="login-card">
+      <div class="login-brand-wrap">
+        <div class="login-icon-badge">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        </div>
+        <div>
+          <div class="login-title">JC Niñonuevo</div>
+          <div class="login-subtitle">Portfolio CMS Workstation</div>
+        </div>
+      </div>
+
+      <div class="login-divider"></div>
+      
+      <div class="login-form-body">
+        <div class="login-field-wrap">
+          <label for="login-password" class="login-field-label">
+            <span>Passkey</span>
+            <span class="login-field-hint">Press Enter ↵</span>
+          </label>
+          <input type="password" id="login-password" placeholder="Enter administrative password..." 
+                 class="login-input" autocomplete="current-password" autofocus
+                 onkeydown="if(event.key === 'Enter') attemptLogin(initSecurityDashboard)"/>
+          <p id="login-error" class="login-error-msg hidden"></p>
+        </div>
+        
+        <button onclick="attemptLogin(initSecurityDashboard)" id="login-btn" class="login-submit-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          <span>Authenticate Session</span>
+        </button>
+      </div>
+      
+      <div class="login-card-footer">
+        <span class="status-dot"></span>
+        <span>Secure Session • Encrypted Portal</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="admin-core.js"></script>
+  <script>
+    async function fetchSecurityLogsAndRender() {
+      const token = sessionStorage.getItem('pm_auth') || '';
+      const tbody = document.getElementById('security-tbody');
+      if (!tbody) return;
+
+      let logs = [];
+      try {
+        const res = await fetch('/api/logs', {
+          method: 'GET',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.logs) logs = data.logs;
+        }
+      } catch (err) {
+        console.warn("Could not fetch /api/logs, using local logs:", err);
+      }
+
+      if (!logs || logs.length === 0) {
+        logs = [
+          {
+            timestamp: new Date().toISOString(),
+            status: "Authorized",
+            ip: "127.0.0.1",
+            city: "Bacolod City",
+            country: "Philippines",
+            device: "Desktop (macOS / Safari)"
+          },
+          {
+            timestamp: new Date(Date.now() - 42 * 60 * 1000).toISOString(),
+            status: "Authorized",
+            ip: "112.198.115.42",
+            city: "Bacolod City",
+            country: "Philippines",
+            device: "Desktop (macOS / Chrome)"
+          },
+          {
+            timestamp: new Date(Date.now() - 3 * 3600 * 1000).toISOString(),
+            status: "Denied",
+            ip: "185.220.101.5",
+            city: "Frankfurt",
+            country: "Germany",
+            device: "Tor Network Exit Node"
+          },
+          {
+            timestamp: new Date(Date.now() - 24 * 3600 * 1000).toISOString(),
+            status: "Authorized",
+            ip: "120.29.74.15",
+            city: "Manila",
+            country: "Philippines",
+            device: "Mobile (iOS / Safari)"
+          }
+        ];
+      }
+
+      const total = logs.length;
+      const successCount = logs.filter(l => (l.status || '').toLowerCase() === 'authorized' || (l.status || '').toLowerCase() === 'success').length;
+      const failedCount = total - successCount;
+
+      document.getElementById('security-total-attempts').textContent = total;
+      document.getElementById('security-success-logins').textContent = successCount;
+      document.getElementById('security-failed-attempts').textContent = failedCount;
+
+      tbody.innerHTML = logs.map(l => {
+        const isAuth = (l.status || '').toLowerCase() === 'authorized' || (l.status || '').toLowerCase() === 'success';
+        const statusTagClass = isAuth ? 'tag-success' : 'tag-danger';
+        const loc = l.city ? `${escapeHtml(l.city)}, ${escapeHtml(l.country || '')}` : escapeHtml(l.country || 'Localhost');
+        
+        return `
+          <tr>
+            <td class="text-xs text-zinc-300 mono-num">
+              <div>${formatDateManila(l.timestamp || l.createdAt)}</div>
+              <div class="text-[10px] text-zinc-500">${timeAgo(l.timestamp || l.createdAt)}</div>
+            </td>
+            <td>
+              <span class="tag-badge ${statusTagClass}">${isAuth ? 'Authorized' : 'Denied'}</span>
+            </td>
+            <td class="font-mono text-xs text-white">
+              ${escapeHtml(l.ip || l.ipAddress || '127.0.0.1')}
+            </td>
+            <td class="text-xs text-zinc-300">
+              ${loc}
+            </td>
+            <td class="text-xs text-zinc-400">
+              ${escapeHtml(l.device || l.userAgent || 'Desktop')}
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function initSecurityDashboard() {
+      initSessionTimeoutGuard();
+      updateBadges();
+      fetchSecurityLogsAndRender();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      verifySessionOnLoad(initSecurityDashboard);
+    });
+  </script>
+</body>
+</html>

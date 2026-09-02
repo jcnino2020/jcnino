@@ -1,0 +1,1777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover"/>
+  <meta name="theme-color" content="#080808"/>
+  <title>JC Niñonuevo Portfolio CMS | Admin Workstation</title>
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="../assets/tailwind.css">
+  <link rel="stylesheet" href="../assets/portfolio.css">
+  <link rel="stylesheet" href="admin.css">
+
+  <!-- Load Database File -->
+  <script src="../assets/gallery-data.js"></script>
+  <script>
+    // Early session check to prevent visual flash
+    if (sessionStorage.getItem('pm_auth')) {
+      document.write('<style id="early-auth-style">#login-overlay { display: none !important; }</style>');
+    }
+  </script>
+</head>
+<body>
+
+  <!-- Top Header Bar -->
+  <header class="admin-header">
+    <div class="header-brand">
+      <!-- Mobile Sidebar Hamburger Toggle -->
+      <button onclick="openMobileSidebar()" class="btn-icon md:hidden" aria-label="Open Navigation Menu" title="Open Navigation">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+
+      <a href="../index.html" class="flex items-center" title="Back to Portfolio Home">
+        <img src="../images/logo.png" alt="Portfolio Logo" class="header-logo" />
+      </a>
+      <div class="header-divider hidden sm:block"></div>
+      
+      <!-- Breadcrumb Navigation -->
+      <nav class="breadcrumb-nav hidden sm:flex" aria-label="Breadcrumb">
+        <a href="index.html?cat=overview">Admin</a>
+        <span class="breadcrumb-sep">/</span>
+        <span id="breadcrumb-active" class="breadcrumb-current">Overview</span>
+      </nav>
+    </div>
+
+    <!-- Header Actions -->
+    <div class="header-actions">
+      <!-- Global Command Search (⌘K) Trigger -->
+      <button onclick="openCommandPalette()" class="btn-cmd-search hidden md:inline-flex" title="Search anything... (⌘K)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <span>Search anything...</span>
+        <span class="kbd-shortcut">⌘K</span>
+      </button>
+
+      <!-- System Status (Plain text + dot, NO PILL) -->
+      <div id="save-status" class="status-indicator hidden lg:inline-flex">
+        <span class="status-dot pulse"></span>
+        <span>System Online</span>
+      </div>
+
+      <!-- Connect Project Folder Button -->
+      <button onclick="connectProjectFolder()" id="folder-btn" class="btn btn-secondary" title="Connect local folder for direct disk write">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+        <span id="folder-btn-text" class="hidden sm:inline">Connect Folder</span>
+      </button>
+
+      <!-- Save Changes Dropdown -->
+      <div class="relative inline-block" id="save-dropdown-wrapper">
+        <button onclick="toggleSaveDropdown()" id="save-main-btn" aria-label="Save changes" class="btn btn-primary">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+          <span>Save Changes</span>
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+
+        <div id="save-dropdown" class="dropdown-menu hidden">
+          <button onclick="publishToLiveSite([], 'CMS Update: Saved gallery changes via admin')" class="dropdown-item active-item">
+            <span style="color: var(--success); margin-top: 2px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"></polyline><line x1="12" y1="12" x2="12" y2="21"></line><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path><polyline points="16 16 12 12 8 16"></polyline></svg>
+            </span>
+            <div>
+              <div style="font-weight: 600; color: #FFFFFF; font-size: 13px;">Publish Live (GitHub)</div>
+              <div style="font-size: 11.5px; color: var(--text-muted);">Commit to GitHub & deploy via Vercel (~20s)</div>
+            </div>
+          </button>
+          <button onclick="saveChangesDirectly()" class="dropdown-item">
+            <span style="color: var(--text-secondary); margin-top: 2px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="12" x2="2" y2="12"></line><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path><line x1="6" y1="16" x2="6.01" y2="16"></line><line x1="10" y1="16" x2="10.01" y2="16"></line></svg>
+            </span>
+            <div>
+              <div style="font-weight: 600; color: #FFFFFF; font-size: 13px;">Direct Disk Overwrite</div>
+              <div style="font-size: 11.5px; color: var(--text-muted);">Write directly to assets/gallery-data.js</div>
+            </div>
+          </button>
+          <button onclick="downloadDatabase()" class="dropdown-item">
+            <span style="color: var(--text-secondary); margin-top: 2px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            </span>
+            <div>
+              <div style="font-weight: 600; color: #FFFFFF; font-size: 13px;">Download File (.js)</div>
+              <div style="font-size: 11.5px; color: var(--text-muted);">Download and place in assets/</div>
+            </div>
+          </button>
+          <button onclick="copyToClipboard()" class="dropdown-item">
+            <span style="color: var(--text-secondary); margin-top: 2px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            </span>
+            <div>
+              <div style="font-weight: 600; color: #FFFFFF; font-size: 13px;">Copy to Clipboard</div>
+              <div style="font-size: 11.5px; color: var(--text-muted);">Copy JavaScript array structure</div>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Lock Session Button -->
+      <button onclick="lockSession()" class="btn-icon" title="Lock Admin Workspace">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Backdrop -->
+  <div id="mobile-drawer-backdrop" class="mobile-drawer-backdrop" onclick="closeMobileSidebar()"></div>
+
+  <!-- Admin Application Layout -->
+  <div class="admin-layout">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="admin-sidebar" aria-label="Admin Navigation">
+      <div class="sidebar-header">
+        <div class="sidebar-header-text">
+          <div class="sidebar-header-title">JC Niñonuevo</div>
+          <div class="sidebar-header-sub">Portfolio Admin</div>
+        </div>
+        <button onclick="toggleSidebarCollapse()" class="btn-icon hidden md:inline-flex" style="width: 28px; height: 28px;" title="Toggle Sidebar Collapse">
+          <svg id="collapse-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+      </div>
+
+      <!-- CONTENT Section -->
+      <div class="sidebar-nav-group">
+        <div class="sidebar-section-title">Content</div>
+        
+        <button onclick="switchTab('overview')" id="tab-overview" class="nav-item active">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            <span class="nav-label">Overview</span>
+          </div>
+        </button>
+
+        <button onclick="switchTab('highlights')" id="tab-highlights" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <span class="nav-label">Gallery Highlights</span>
+          </div>
+          <span id="badge-highlights" class="nav-count mono-num">0</span>
+        </button>
+
+        <button onclick="switchTab('drone')" id="tab-drone" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+            <span class="nav-label">Drone Shots (01)</span>
+          </div>
+          <span id="badge-drone" class="nav-count mono-num">0</span>
+        </button>
+
+        <button onclick="switchTab('framed')" id="tab-framed" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+            <span class="nav-label">Framed Moments (02)</span>
+          </div>
+          <span id="badge-framed" class="nav-count mono-num">0</span>
+        </button>
+
+        <button onclick="switchTab('events')" id="tab-events" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            <span class="nav-label">School Events (03)</span>
+          </div>
+          <span id="badge-events" class="nav-count mono-num">0</span>
+        </button>
+
+        <button onclick="switchTab('collections')" id="tab-collections" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+            <span class="nav-label">Collections</span>
+          </div>
+        </button>
+
+        <button onclick="switchTab('videos')" id="tab-videos" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line></svg>
+            <span class="nav-label">Video Projects (04)</span>
+          </div>
+          <span id="badge-videos" class="nav-count mono-num">0</span>
+        </button>
+
+        <button onclick="switchTab('videos2')" id="tab-videos2" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+            <span class="nav-label">Negros Aerials SE</span>
+          </div>
+          <span id="badge-videos2" class="nav-count mono-num">0</span>
+        </button>
+      </div>
+
+      <!-- ANALYTICS Section -->
+      <div class="sidebar-nav-group">
+        <div class="sidebar-section-title">Analytics</div>
+        
+        <a href="analytics.html" id="tab-analytics" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+            <span class="nav-label">Visitor Analytics</span>
+          </div>
+          <span class="nav-tag-live">Live</span>
+        </a>
+      </div>
+
+      <!-- SYSTEM Section -->
+      <div class="sidebar-nav-group">
+        <div class="sidebar-section-title">System</div>
+        
+        <a href="security.html" id="tab-security" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            <span class="nav-label">Security Audit Logs</span>
+          </div>
+        </a>
+
+        <a href="settings.html" id="tab-settings" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
+            <span class="nav-label">Site Configuration</span>
+          </div>
+        </a>
+
+        <a href="backups.html" id="tab-backups" class="nav-item">
+          <div class="nav-item-content">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            <span class="nav-label">Revision Backups</span>
+          </div>
+          <span id="badge-backups" class="nav-count mono-num">0</span>
+        </a>
+      </div>
+
+      <!-- Footer User Profile -->
+      <div class="sidebar-footer">
+        <div class="sidebar-profile">
+          <div class="flex items-center gap-2.5">
+            <div class="avatar-circle">JC</div>
+            <div class="profile-meta">
+              <div style="font-size: 12.5px; font-weight: 600; color: #FFFFFF;">Jan Carlo Niñonuevo</div>
+              <div style="font-size: 11px; color: var(--text-muted);">Admin • Online</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Workspace Container -->
+    <main class="admin-main">
+      
+      <!-- ====================================================================
+           1. OVERVIEW DASHBOARD VIEW (#view-overview)
+           ==================================================================== -->
+      <section id="view-overview" class="admin-content-wrap">
+        <!-- Executive Greeting Header -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div>
+            <h1 class="page-title" id="overview-greeting">Good evening, JC</h1>
+            <p class="text-sm text-zinc-400 mt-1">Here's what's happening with your portfolio and visitor audience today.</p>
+          </div>
+          
+          <div class="flex items-center gap-2">
+            <a href="analytics.html" class="btn btn-secondary">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+              <span>Full Analytics</span>
+            </a>
+            <button onclick="triggerFilePicker()" class="btn btn-primary">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <span>Add Media</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 4 KPI Metrics Cards -->
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-label">Total Visitors</div>
+            <div class="kpi-val-row">
+              <div class="kpi-val mono-num" id="kpi-visitors">12,482</div>
+              <div class="kpi-trend positive">+18.4%</div>
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-label">Page Views</div>
+            <div class="kpi-val-row">
+              <div class="kpi-val mono-num" id="kpi-pageviews">38,921</div>
+              <div class="kpi-trend positive">+12.8%</div>
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-label">Media Views</div>
+            <div class="kpi-val-row">
+              <div class="kpi-val mono-num" id="kpi-mediaviews">21,309</div>
+              <div class="kpi-trend positive">+24.1%</div>
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-label">Avg. Session Duration</div>
+            <div class="kpi-val-row">
+              <div class="kpi-val mono-num" id="kpi-session">3m 42s</div>
+              <div class="kpi-trend positive">+8.6%</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Analytics Chart & Real-Time Split Section -->
+        <div class="analytics-overview-split">
+          <!-- Visitor Chart (2fr) -->
+          <div class="card flex flex-col justify-between">
+            <div class="card-header">
+              <div>
+                <h3 class="section-title">Visitor Traffic Trend</h3>
+                <p class="text-xs text-zinc-400 mt-0.5">Unique visitors and impressions across recent sessions</p>
+              </div>
+
+              <!-- Rectangular Segmented Time Filter -->
+              <div class="segmented-control" id="overview-chart-range">
+                <button type="button" class="segment-btn active" onclick="setOverviewChartRange('7d', this)">7D</button>
+                <button type="button" class="segment-btn" onclick="setOverviewChartRange('30d', this)">30D</button>
+                <button type="button" class="segment-btn" onclick="setOverviewChartRange('90d', this)">90D</button>
+                <button type="button" class="segment-btn" onclick="setOverviewChartRange('1y', this)">1Y</button>
+              </div>
+            </div>
+
+            <!-- SVG Smooth Trend Chart -->
+            <div class="w-full py-2">
+              <svg id="overview-trend-chart" viewBox="0 0 700 200" class="w-full h-44 overflow-visible">
+                <defs>
+                  <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.15"/>
+                    <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.0"/>
+                  </linearGradient>
+                </defs>
+                <!-- Grid Lines -->
+                <line x1="0" y1="40" x2="700" y2="40" stroke="rgba(255,255,255,0.06)" stroke-dasharray="3 3"/>
+                <line x1="0" y1="90" x2="700" y2="90" stroke="rgba(255,255,255,0.06)" stroke-dasharray="3 3"/>
+                <line x1="0" y1="140" x2="700" y2="140" stroke="rgba(255,255,255,0.06)" stroke-dasharray="3 3"/>
+                
+                <!-- Fill Path & Stroke Line -->
+                <path id="chart-area-path" d="M0,150 C80,140 140,80 220,95 C300,110 380,30 460,45 C540,60 620,120 700,60 L700,190 L0,190 Z" fill="url(#chartGrad)"/>
+                <path id="chart-line-path" d="M0,150 C80,140 140,80 220,95 C300,110 380,30 460,45 C540,60 620,120 700,60" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+                
+                <!-- Data Point Dots -->
+                <circle cx="220" cy="95" r="4" fill="#080808" stroke="#FFFFFF" stroke-width="2"/>
+                <circle cx="460" cy="45" r="4" fill="#080808" stroke="#FFFFFF" stroke-width="2"/>
+                <circle cx="700" cy="60" r="4" fill="#080808" stroke="#FFFFFF" stroke-width="2"/>
+              </svg>
+
+              <!-- Chart Days Labels -->
+              <div class="flex justify-between text-[11px] text-zinc-500 mono-num pt-3 px-1">
+                <span>Mon</span>
+                <span>Tue</span>
+                <span>Wed</span>
+                <span>Thu</span>
+                <span>Fri</span>
+                <span>Sat</span>
+                <span>Sun</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Real-Time Activity Widget (1fr) -->
+          <div class="card flex flex-col justify-between">
+            <div class="card-header">
+              <div class="flex items-center gap-2">
+                <span class="status-dot pulse"></span>
+                <h3 class="section-title">Real-Time</h3>
+              </div>
+              <span class="text-xs text-emerald-400 font-semibold mono-num">Active Now</span>
+            </div>
+
+            <div class="space-y-4 my-auto">
+              <div class="flex items-baseline gap-2">
+                <span class="text-3xl font-bold text-white mono-num">7</span>
+                <span class="text-xs text-zinc-400">visitors currently online</span>
+              </div>
+
+              <!-- Top Locations Breakdown -->
+              <div class="space-y-2.5 pt-2 border-t border-white/5">
+                <div class="flex justify-between items-center text-xs">
+                  <span class="text-zinc-300">Philippines</span>
+                  <span class="text-white font-semibold mono-num">4</span>
+                </div>
+                <div class="progress-bar-track"><div class="progress-bar-fill" style="width: 57%;"></div></div>
+
+                <div class="flex justify-between items-center text-xs">
+                  <span class="text-zinc-300">United States</span>
+                  <span class="text-white font-semibold mono-num">2</span>
+                </div>
+                <div class="progress-bar-track"><div class="progress-bar-fill" style="width: 28%;"></div></div>
+
+                <div class="flex justify-between items-center text-xs">
+                  <span class="text-zinc-300">Japan</span>
+                  <span class="text-white font-semibold mono-num">1</span>
+                </div>
+                <div class="progress-bar-track"><div class="progress-bar-fill" style="width: 15%;"></div></div>
+              </div>
+            </div>
+
+            <div class="pt-4 border-t border-white/5 flex justify-between items-center text-xs text-zinc-400">
+              <span>Primary page:</span>
+              <span class="text-white font-mono">/framed-moments.html</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Collections Hub Quick Preview -->
+        <div class="space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="section-title">Portfolio Collections</h3>
+            <button onclick="switchTab('collections')" class="text-xs text-zinc-400 hover:text-white font-semibold flex items-center gap-1">
+              View All Collections &rarr;
+            </button>
+          </div>
+
+          <div class="collections-overview-grid" id="overview-collections-summary">
+            <!-- Dynamic Collections injected here -->
+          </div>
+        </div>
+
+        <!-- Top Performing Media & Recent System Activity -->
+        <div class="dashboard-split-grid">
+          <!-- Top Performing Media (1.35fr) -->
+          <div class="card space-y-4">
+            <div class="card-header">
+              <div>
+                <h3 class="section-title">Top Performing Media</h3>
+                <p class="text-xs text-zinc-400 mt-0.5">Highest engagement and visitor appreciation</p>
+              </div>
+              <a href="analytics.html" class="text-xs text-zinc-400 hover:text-white font-semibold">View Stats &rarr;</a>
+            </div>
+
+            <div class="space-y-3" id="overview-top-media-list">
+              <!-- Top media injected dynamically -->
+            </div>
+          </div>
+
+          <!-- Recent System Activity Feed (1fr) -->
+          <div class="card space-y-4">
+            <div class="card-header">
+              <div>
+                <h3 class="section-title">Recent Activity</h3>
+                <p class="text-xs text-zinc-400 mt-0.5">Workspace updates and system revisions</p>
+              </div>
+              <a href="backups.html" class="text-xs text-zinc-400 hover:text-white font-semibold">Timeline &rarr;</a>
+            </div>
+
+            <div class="space-y-3" id="overview-recent-activity-list">
+              <!-- Recent activity injected dynamically -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           2. GALLERY & MEDIA MANAGEMENT VIEW (#view-gallery)
+           ==================================================================== -->
+      <section id="view-gallery" class="flex-1 flex flex-col hidden min-w-0">
+        <!-- Top Category Action Bar -->
+        <div class="admin-action-bar">
+          <div>
+            <h1 id="category-title" class="text-xl font-bold tracking-tight text-white">Gallery Highlights</h1>
+            <p id="category-subtitle" class="text-xs text-zinc-400 mt-0.5">Manage main highlights displayed on index.html grid.</p>
+          </div>
+
+          <div class="flex items-center gap-2.5 flex-wrap">
+            <!-- Live In-Gallery Search Filter (6px rectangular input) -->
+            <div class="search-input-wrap min-w-[200px] sm:min-w-[240px]">
+              <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <input type="text" id="gallery-search-input" oninput="handleGallerySearch(this.value)" placeholder="Filter items..." class="input-text" />
+              <button type="button" id="clear-gallery-search" class="clear-search hidden" onclick="clearGallerySearch()" title="Clear search">&times;</button>
+            </div>
+
+            <!-- Hidden File Input for Multiple Uploads -->
+            <input type="file" id="media-file-picker" multiple accept="image/*" class="hidden" onchange="handleFileSelect(event)"/>
+
+            <!-- Action Buttons -->
+            <button onclick="triggerFilePicker()" id="add-photos-btn" class="btn btn-primary">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <span id="add-btn-text">Add Photos</span>
+            </button>
+
+            <button onclick="openVideoAddModal()" id="add-video-btn" class="btn btn-secondary hidden">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+              <span>Add Video Project</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Gallery Content Wrapper with Centered 80% Max-Width & Gaps -->
+        <div class="gallery-workspace-wrap">
+          <!-- Drag & Drop Dropzone Box -->
+          <div id="drop-zone" class="drop-zone-box"
+               ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)" onclick="triggerFilePicker()">
+            <svg class="w-8 h-8 text-zinc-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+            <div class="text-sm font-bold text-white mb-0.5">Drag and drop photos here to add</div>
+            <div class="text-xs text-zinc-400">Supports JPG, PNG, WebP. Responsive multi-resolution assets generate automatically on save. Click to browse files.</div>
+          </div>
+
+          <!-- Empty State -->
+          <div id="empty-state" class="empty-state-box hidden">
+            <svg class="empty-state-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+            <div class="empty-state-title">No items found in this gallery</div>
+            <div class="empty-state-desc">Click "Add Photos" or drag image files directly into the dropzone above to begin.</div>
+            <button onclick="triggerFilePicker()" class="btn btn-primary mt-2">Add First Media Item</button>
+          </div>
+
+          <!-- Dynamic Gallery Cards Grid (4-5 cols responsive) -->
+          <div id="workspace-grid" class="gallery-grid">
+            <!-- Dynamic cards injected here -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           3. COLLECTIONS HUB VIEW (#view-collections)
+           ==================================================================== -->
+      <section id="view-collections" class="admin-content-wrap hidden">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div>
+            <h1 class="page-title">Portfolio Collections</h1>
+            <p class="text-sm text-zinc-400 mt-0.5">Curated photography bodies of work, travel montages, and client projects.</p>
+          </div>
+        </div>
+
+        <div class="collections-grid" id="collections-main-grid">
+          <!-- Collections injected dynamically -->
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Side Edit Drawer Backdrop -->
+    <div id="edit-drawer-backdrop" onclick="closeEditDrawer()"></div>
+
+    <!-- Side Edit Drawer (8px radius structure) -->
+    <aside id="edit-drawer" role="dialog" aria-modal="true" aria-label="Edit media details">
+      <div class="drawer-header">
+        <div>
+          <h3 class="font-bold text-base text-white">Modify Media Details</h3>
+          <p class="text-xs text-zinc-400 mt-0.5">Edit file information, EXIF metadata, and SEO tags</p>
+        </div>
+        <button onclick="closeEditDrawer()" class="btn-icon" title="Close Drawer">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div class="drawer-body">
+        <!-- Preview Thumbnail Frame -->
+        <div class="rounded-[6px] overflow-hidden bg-black border border-white/10 aspect-[3/2] relative flex items-center justify-center">
+          <img id="drawer-preview" src="" alt="Edit Preview" class="w-full h-full object-cover"/>
+          <div id="drawer-video-indicator" class="absolute inset-0 flex items-center justify-center bg-black/60 hidden">
+            <svg width="42" height="42" viewBox="0 0 24 24" fill="currentColor" class="text-white"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          </div>
+        </div>
+
+        <!-- Replace Image Dropzone (Photos Only) -->
+        <div id="replace-image-container" class="drawer-section">
+          <div class="drawer-section-title">
+            <span>Replace Physical Photo</span>
+            <span class="text-[10px] text-zinc-400 font-normal">Auto WebP Resize</span>
+          </div>
+
+          <div id="replace-dropzone" class="p-5 rounded-[6px] border border-dashed border-white/20 hover:border-white/40 bg-white/[0.02] flex flex-col items-center justify-center text-center cursor-pointer transition-all"
+               ondragover="handleReplaceDragOver(event)" ondragleave="handleReplaceDragLeave(event)" ondrop="handleReplaceDrop(event)" onclick="triggerReplaceFilePicker()">
+            <svg class="w-6 h-6 text-zinc-400 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            <div class="text-xs font-semibold text-white">Drag new photo here, or click to browse</div>
+            <div class="text-[11px] text-zinc-500 mt-0.5">Keeps filename and automatically generates responsive WebP sizes.</div>
+          </div>
+          <input type="file" id="replace-file-picker" accept="image/*" class="hidden" onchange="handleReplaceFileSelect(event)"/>
+
+          <!-- Pending Replace Status Area -->
+          <div id="replace-status-area" class="hidden flex flex-col gap-2 p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-[6px]">
+            <div class="flex items-center justify-between text-xs text-emerald-400 font-semibold">
+              <span class="flex items-center gap-1.5"><span class="status-dot"></span> New Photo Loaded</span>
+              <span class="text-[10px] text-zinc-400">Ready to save</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="publishReplacedImageToCloud()" id="publish-cloud-img-btn" class="btn btn-primary flex-1 text-xs" style="background: var(--success); color: #080808; border-color: var(--success);">
+                Commit Live to GitHub
+              </button>
+              <button onclick="writeReplacedImageToDisk()" id="write-img-btn" class="btn btn-secondary text-xs">
+                Write to Disk
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form fields (Photos) -->
+        <div id="drawer-form-photos" class="space-y-4">
+          <!-- Section: Basic Info -->
+          <div class="drawer-section">
+            <div class="drawer-section-title">Basic Information</div>
+            
+            <div class="space-y-1">
+              <label class="input-label">File Name</label>
+              <input type="text" id="edit-filename" class="input-text" placeholder="e.g. GH-01.jpg"/>
+              <div class="input-helper">Physical filename inside the images/ directory.</div>
+            </div>
+
+            <div class="space-y-1">
+              <label class="input-label">Photo Caption & Location</label>
+              <input type="text" id="edit-desc" class="input-text" placeholder="e.g. Aerial View of Lakawon Island • Cadiz City, Negros Occidental"/>
+              <div class="input-helper">Displayed in lightboxes and portfolio pages.</div>
+            </div>
+          </div>
+
+          <!-- Section: Location -->
+          <div class="drawer-section">
+            <div class="drawer-section-title">Location & Setting</div>
+            <div class="form-grid-2">
+              <div class="space-y-1">
+                <label class="input-label">City / Municipality</label>
+                <input type="text" id="edit-city" class="input-text" placeholder="e.g. Bacolod City"/>
+              </div>
+              <div class="space-y-1">
+                <label class="input-label">Province / State</label>
+                <input type="text" id="edit-province" class="input-text" placeholder="e.g. Negros Occidental"/>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section: Camera & EXIF Metadata -->
+          <div class="drawer-section">
+            <div class="drawer-section-title">Camera & EXIF Metadata</div>
+            <div class="form-grid-2">
+              <div class="space-y-1">
+                <label class="input-label">Camera Body</label>
+                <input type="text" id="edit-camera" class="input-text" placeholder="e.g. Nikon Z50"/>
+              </div>
+              <div class="space-y-1">
+                <label class="input-label">Lens</label>
+                <input type="text" id="edit-lens" class="input-text" placeholder="e.g. Viltrox 25mm f/1.7"/>
+              </div>
+              <div class="space-y-1">
+                <label class="input-label">Aperture</label>
+                <input type="text" id="edit-aperture" class="input-text" placeholder="e.g. f/1.7"/>
+              </div>
+              <div class="space-y-1">
+                <label class="input-label">ISO</label>
+                <input type="text" id="edit-iso" class="input-text" placeholder="e.g. 800"/>
+              </div>
+              <div class="space-y-1">
+                <label class="input-label">Shutter Speed</label>
+                <input type="text" id="edit-shutter" class="input-text" placeholder="e.g. 1/500s"/>
+              </div>
+              <div class="space-y-1">
+                <label class="input-label">Date Taken</label>
+                <input type="text" id="edit-datetaken" class="input-text" placeholder="e.g. 2026-03-15"/>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section: SEO & Alternative Text -->
+          <div class="drawer-section">
+            <div class="drawer-section-title">
+              <span>SEO Alternative Description</span>
+              <button onclick="autoGenerateAltText()" class="text-xs text-white hover:underline flex items-center gap-1 font-semibold">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                Auto Generate
+              </button>
+            </div>
+            
+            <textarea id="edit-alt" rows="3" class="input-textarea" placeholder="Explain what is in the photograph..."></textarea>
+            <div class="input-helper">Crucial for Google search indexing and screen-reader accessibility.</div>
+          </div>
+        </div>
+
+        <!-- Form fields (Videos) -->
+        <div id="drawer-form-videos" class="space-y-4 hidden">
+          <div class="drawer-section">
+            <div class="drawer-section-title">Video Project Details</div>
+            
+            <div class="space-y-1">
+              <label class="input-label">Video Title</label>
+              <input type="text" id="edit-video-title" class="input-text" placeholder="e.g. Manila 2024 Montage"/>
+            </div>
+
+            <div class="space-y-1">
+              <label class="input-label">YouTube Video ID</label>
+              <input type="text" id="edit-video-id" class="input-text" placeholder="e.g. K_9mOUj-flY"/>
+              <div class="input-helper">Code in your YouTube URL (after v= or in share link).</div>
+            </div>
+
+            <div class="space-y-1">
+              <label class="input-label">Duration</label>
+              <input type="text" id="edit-video-duration" class="input-text" placeholder="e.g. 1:01"/>
+            </div>
+
+            <div class="space-y-1">
+              <label class="input-label">Thumbnail Image Path</label>
+              <input type="text" id="edit-video-thumb" class="input-text" placeholder="e.g. images/optimized/800/Video Thumbnails/VI-01-800.webp"/>
+            </div>
+
+            <div class="space-y-1">
+              <label class="input-label">Fallback Thumbnail Path</label>
+              <input type="text" id="edit-video-fallback" class="input-text" placeholder="e.g. images/Video Thumbnails/VI-01.jpg"/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Drawer Sticky Footer -->
+      <div class="drawer-footer">
+        <button onclick="deleteActiveItem()" class="btn btn-danger flex-1">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+          <span>Delete Item</span>
+        </button>
+        <button onclick="applyDrawerEdits()" class="btn btn-primary flex-1">
+          <span>Apply Edits</span>
+        </button>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- Add New Video Modal Dialog (10px radius) -->
+  <div id="video-add-modal" role="dialog" aria-modal="true" aria-labelledby="video-modal-title" class="modal-backdrop hidden">
+    <div class="modal-box">
+      <div class="flex items-center justify-between border-b border-white/10 pb-3">
+        <div>
+          <h3 id="video-modal-title" class="font-bold text-base text-white">Add Video Project</h3>
+          <p class="text-xs text-zinc-400 mt-0.5">Embed YouTube video project with duration and thumbnail</p>
+        </div>
+        <button onclick="closeVideoAddModal()" class="btn-icon" title="Close">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div class="space-y-3.5">
+        <div class="space-y-1">
+          <label class="input-label">Target Category</label>
+          <select id="new-video-category" class="input-select">
+            <option value="videos">Video Projects (04)</option>
+            <option value="videos2">Negros Aerials SE</option>
+          </select>
+        </div>
+
+        <div class="space-y-1">
+          <label class="input-label">Video Title</label>
+          <input type="text" id="new-video-title" class="input-text" placeholder="e.g. Bacolod City Street Cinema 2026"/>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="space-y-1">
+            <label class="input-label">YouTube Video ID</label>
+            <input type="text" id="new-video-id" oninput="handleNewVideoIdChange(this.value)" class="input-text" placeholder="e.g. K_9mOUj-flY"/>
+          </div>
+          <div class="space-y-1">
+            <label class="input-label">Duration</label>
+            <input type="text" id="new-video-duration" class="input-text" placeholder="e.g. 2:45" value="1:00"/>
+          </div>
+        </div>
+
+        <div class="space-y-1">
+          <label class="input-label">Optimized Thumbnail (WebP)</label>
+          <input type="text" id="new-video-thumb" class="input-text" placeholder="images/optimized/800/Video Thumbnails/VI-01-800.webp"/>
+        </div>
+
+        <div class="space-y-1">
+          <label class="input-label">Fallback Thumbnail (JPG)</label>
+          <input type="text" id="new-video-fallback" class="input-text" placeholder="images/Video Thumbnails/VI-01.jpg"/>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end gap-2.5 pt-3 border-t border-white/10">
+        <button onclick="closeVideoAddModal()" class="btn btn-secondary">Cancel</button>
+        <button onclick="submitNewVideo()" class="btn btn-primary">Add Video Project</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Item Confirmation Modal (10px radius) -->
+  <div id="delete-confirm-modal" role="dialog" aria-modal="true" aria-labelledby="delete-modal-title" class="modal-backdrop hidden">
+    <div class="modal-box text-center">
+      <div class="w-10 h-10 rounded-[6px] bg-red-500/10 text-red-400 border border-red-500/20 flex items-center justify-center mx-auto">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+      </div>
+      <div>
+        <h3 id="delete-modal-title" class="font-bold text-base text-white">Delete Media Item?</h3>
+        <p id="delete-confirm-text" class="text-xs text-zinc-400 mt-1">Are you sure you want to remove this item from the active gallery?</p>
+      </div>
+      <div class="flex items-center justify-center gap-3 pt-2">
+        <button onclick="closeDeleteConfirmModal()" class="btn btn-secondary flex-1">Cancel</button>
+        <button onclick="executeConfirmedDelete()" class="btn btn-danger flex-1">Confirm Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Global Command Palette (⌘K) Modal -->
+  <div id="cmd-palette-backdrop" class="modal-backdrop" onclick="if(event.target===this)closeCommandPalette()">
+    <div class="cmd-palette-box">
+      <div class="cmd-input-row">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--text-muted);"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="cmd-search-input" class="cmd-search-input" placeholder="Search photos, videos, collections, analytics, actions..." autocomplete="off"/>
+        <span class="kbd-shortcut">ESC to close</span>
+      </div>
+      <div class="cmd-results-list" id="cmd-results-list">
+        <!-- Injected dynamically -->
+      </div>
+      <div class="cmd-footer">
+        <span>Use <strong style="color: #fff;">↑</strong> <strong style="color: #fff;">↓</strong> to navigate</span>
+        <span>Press <strong style="color: #fff;">ENTER</strong> to select</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification (Strict 6px radius) -->
+  <div id="toast" role="status" aria-live="polite" class="hidden">
+    <div id="toast-icon-success" style="color: var(--success); flex-shrink: 0;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+    </div>
+    <div id="toast-icon-error" style="color: var(--danger); flex-shrink: 0;" class="hidden">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </div>
+    <p id="toast-message" style="color: #FFFFFF; font-size: 13px; font-weight: 500;"></p>
+  </div>
+
+  <!-- Lock Screen Overlay -->
+  <div id="login-overlay">
+    <div class="login-backdrop-glow"></div>
+    <div class="login-grid-pattern"></div>
+    
+    <div id="login-card">
+      <div class="login-brand-wrap">
+        <div class="login-icon-badge">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        </div>
+        <div>
+          <div class="login-title">JC Niñonuevo</div>
+          <div class="login-subtitle">Portfolio CMS Workstation</div>
+        </div>
+      </div>
+
+      <div class="login-divider"></div>
+      
+      <div class="login-form-body">
+        <div class="login-field-wrap">
+          <label for="login-password" class="login-field-label">
+            <span>Passkey</span>
+            <span class="login-field-hint">Press Enter ↵</span>
+          </label>
+          <input type="password" id="login-password" placeholder="Enter administrative password..." 
+                 class="login-input" autocomplete="current-password" autofocus
+                 onkeydown="if(event.key === 'Enter') attemptLogin(initManager)"/>
+          <p id="login-error" class="login-error-msg hidden"></p>
+        </div>
+        
+        <button onclick="attemptLogin(initManager)" id="login-btn" class="login-submit-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          <span>Authenticate Session</span>
+        </button>
+      </div>
+      
+      <div class="login-card-footer">
+        <span class="status-dot"></span>
+        <span>Secure Session • Encrypted Portal</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Core & Page Logic -->
+  <script src="admin-core.js"></script>
+  <script>
+    let currentCategory = 'overview';
+    let activeEditIndex = null;
+    let draggedIndex = null;
+    let pendingReplaceBlob = null;
+    let currentGallerySearch = '';
+
+    const categoryTitles = {
+      overview: { title: "Overview", sub: "Portfolio status, visitor metrics, and performance overview." },
+      highlights: { title: "Gallery Highlights", sub: "Manage main highlights displayed on index.html grid.", btn: "Add Photos", isVid: false },
+      drone: { title: "Drone Shots (01)", sub: "Aerial view photos loaded inside drone-shots.html.", btn: "Add Photos", isVid: false },
+      framed: { title: "Framed Moments (02)", sub: "Street and editorial moments loaded inside framed-moments.html.", btn: "Add Photos", isVid: false },
+      events: { title: "School Events (03)", sub: "Yearbook, student gatherings, and event coverage inside school-events.html.", btn: "Add Photos", isVid: false },
+      collections: { title: "Collections", sub: "Curated collections and themed photo/video galleries." },
+      videos: { title: "Video Projects (04)", sub: "Main travel and yearbook Reels/Montages in video-projects.html.", btn: "Add Video", isVid: true },
+      videos2: { title: "Negros Aerials SE Videos", sub: "YouTube aerial videos in video-projects.html.", btn: "Add Video", isVid: true }
+    };
+
+    function switchTab(category) {
+      if (!categoryTitles[category]) category = 'overview';
+      currentCategory = category;
+      closeEditDrawer();
+      closeMobileSidebar();
+
+      // Update URL search query
+      const url = new URL(window.location);
+      url.searchParams.set('cat', category);
+      window.history.replaceState({}, '', url);
+
+      // Update breadcrumb
+      const bActive = document.getElementById('breadcrumb-active');
+      if (bActive) bActive.textContent = categoryTitles[category].title;
+
+      // Update Nav active classes
+      document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
+      const activeNav = document.getElementById(`tab-${category}`);
+      if (activeNav) activeNav.classList.add('active');
+
+      // Toggle Views
+      const viewOverview = document.getElementById('view-overview');
+      const viewGallery = document.getElementById('view-gallery');
+      const viewCollections = document.getElementById('view-collections');
+
+      if (category === 'overview') {
+        if (viewOverview) viewOverview.classList.remove('hidden');
+        if (viewGallery) viewGallery.classList.add('hidden');
+        if (viewCollections) viewCollections.classList.add('hidden');
+        renderOverviewDashboard();
+      } else if (category === 'collections') {
+        if (viewOverview) viewOverview.classList.add('hidden');
+        if (viewGallery) viewGallery.classList.add('hidden');
+        if (viewCollections) viewCollections.classList.remove('hidden');
+        renderCollectionsView();
+      } else {
+        if (viewOverview) viewOverview.classList.add('hidden');
+        if (viewGallery) viewGallery.classList.remove('hidden');
+        if (viewCollections) viewCollections.classList.add('hidden');
+        
+        // Update Action Bar
+        const info = categoryTitles[category];
+        document.getElementById('category-title').textContent = info.title;
+        document.getElementById('category-subtitle').textContent = info.sub;
+        document.getElementById('add-btn-text').textContent = info.btn || "Add Photos";
+
+        const addBtn = document.getElementById('add-photos-btn');
+        const addVidBtn = document.getElementById('add-video-btn');
+        const dropZone = document.getElementById('drop-zone');
+
+        if (info.isVid) {
+          if (addBtn) addBtn.classList.add('hidden');
+          if (addVidBtn) addVidBtn.classList.remove('hidden');
+          if (dropZone) dropZone.classList.add('hidden');
+        } else {
+          if (addBtn) addBtn.classList.remove('hidden');
+          if (addVidBtn) addVidBtn.classList.add('hidden');
+          if (dropZone) dropZone.classList.remove('hidden');
+        }
+
+        renderGrid();
+      }
+    }
+
+    // Dynamic Time Greeting
+    function updateGreeting() {
+      const el = document.getElementById('overview-greeting');
+      if (!el) return;
+      const hour = new Date().getHours();
+      let greeting = "Good evening, JC";
+      if (hour >= 5 && hour < 12) greeting = "Good morning, JC";
+      else if (hour >= 12 && hour < 17) greeting = "Good afternoon, JC";
+      el.textContent = greeting;
+    }
+
+    // Overview Dashboard Renderer
+    function renderOverviewDashboard() {
+      updateGreeting();
+      
+      // Update Summary Collections
+      const summaryCont = document.getElementById('overview-collections-summary');
+      if (summaryCont) {
+        const collectionsData = [
+          { key: 'highlights', title: 'Gallery Highlights', sub: 'Curated portfolio showcases', count: (localData.highlights || []).length, cover: resolveCoverThumb('highlights') },
+          { key: 'drone', title: 'Drone Shots (01)', sub: 'Aerial views & landmarks', count: (localData.drone || []).length, cover: resolveCoverThumb('drone') },
+          { key: 'framed', title: 'Framed Moments (02)', sub: 'Street & portrait frames', count: (localData.framed || []).length, cover: resolveCoverThumb('framed') },
+          { key: 'events', title: 'School Events (03)', sub: 'Live event coverage', count: (localData.events || []).length, cover: resolveCoverThumb('events') }
+        ];
+
+        summaryCont.innerHTML = collectionsData.map(c => `
+          <div class="card cursor-pointer group" onclick="switchTab('${c.key}')">
+            <div class="aspect-[16/9] rounded-[6px] overflow-hidden bg-black mb-3 border border-white/5 relative">
+              <img src="${c.cover}" onerror="this.src='../images/favicon.png'" alt="${c.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"/>
+              <div class="media-index-tag">${c.count} items</div>
+            </div>
+            <div class="font-bold text-sm text-white">${c.title}</div>
+            <div class="text-xs text-zinc-400 mt-0.5">${c.sub}</div>
+          </div>
+        `).join('');
+      }
+
+      // Top Performing Media
+      const topMediaCont = document.getElementById('overview-top-media-list');
+      if (topMediaCont) {
+        const topItems = (localData.highlights || []).slice(0, 4);
+        topMediaCont.innerHTML = topItems.map((item, idx) => `
+          <div class="flex items-center justify-between p-2.5 rounded-[6px] bg-white/[0.02] border border-white/5 hover:border-white/15 transition-all">
+            <div class="flex items-center gap-3">
+              <img src="${resolveThumbPath(item, idx, 'highlights')}" onerror="this.src='../images/${item.file}'" class="w-12 h-8 rounded-[4px] object-cover bg-black" alt="${item.file}"/>
+              <div>
+                <div class="text-xs font-bold text-white">${escapeHtml(item.file)}</div>
+                <div class="text-[11px] text-zinc-400 truncate max-w-[200px] sm:max-w-[280px]">${escapeHtml(item.desc || item.alt || 'Portfolio Highlight')}</div>
+              </div>
+            </div>
+            <div class="text-right">
+              <div class="text-xs font-bold text-white mono-num">${(4800 - idx * 620).toLocaleString()} views</div>
+              <div class="text-[10px] text-emerald-400 font-semibold mono-num">${(85 - idx * 4)}% engagement</div>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // Recent Activity Timeline
+      const recentCont = document.getElementById('overview-recent-activity-list');
+      if (recentCont) {
+        const acts = localSnapshots.slice(0, 4);
+        if (acts.length === 0) {
+          recentCont.innerHTML = `
+            <div class="p-4 text-center text-xs text-zinc-500">No revisions captured in this session. Edits will appear here automatically.</div>
+          `;
+        } else {
+          recentCont.innerHTML = acts.map(a => `
+            <div class="flex items-start justify-between p-2.5 rounded-[6px] bg-white/[0.02] border border-white/5">
+              <div>
+                <div class="text-xs font-bold text-white">${escapeHtml(a.label)}</div>
+                <div class="text-[11px] text-zinc-400 mt-0.5">${escapeHtml(a.note || 'Snapshot registered')}</div>
+              </div>
+              <div class="text-[11px] text-zinc-500 mono-num">${timeAgo(a.timestamp)}</div>
+            </div>
+          `).join('');
+        }
+      }
+    }
+
+    function setOverviewChartRange(range, btn) {
+      document.querySelectorAll('#overview-chart-range .segment-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+
+      const chartPath = document.getElementById('chart-line-path');
+      const areaPath = document.getElementById('chart-area-path');
+      if (!chartPath || !areaPath) return;
+
+      const mockPaths = {
+        '7d': {
+          line: "M0,150 C80,140 140,80 220,95 C300,110 380,30 460,45 C540,60 620,120 700,60",
+          area: "M0,150 C80,140 140,80 220,95 C300,110 380,30 460,45 C540,60 620,120 700,60 L700,190 L0,190 Z"
+        },
+        '30d': {
+          line: "M0,120 C100,80 180,130 260,70 C340,40 420,90 500,60 C580,30 640,80 700,40",
+          area: "M0,120 C100,80 180,130 260,70 C340,40 420,90 500,60 C580,30 640,80 700,40 L700,190 L0,190 Z"
+        },
+        '90d': {
+          line: "M0,90 C120,120 200,60 300,80 C400,100 480,40 560,50 C620,60 660,30 700,20",
+          area: "M0,90 C120,120 200,60 300,80 C400,100 480,40 560,50 C620,60 660,30 700,20 L700,190 L0,190 Z"
+        },
+        '1y': {
+          line: "M0,140 C100,110 200,70 300,90 C400,60 500,80 600,40 C650,30 680,25 700,15",
+          area: "M0,140 C100,110 200,70 300,90 C400,60 500,80 600,40 C650,30 680,25 700,15 L700,190 L0,190 Z"
+        }
+      };
+
+      const p = mockPaths[range] || mockPaths['7d'];
+      chartPath.setAttribute('d', p.line);
+      areaPath.setAttribute('d', p.area);
+    }
+
+    // Collections View Renderer
+    function renderCollectionsView() {
+      const container = document.getElementById('collections-main-grid');
+      if (!container) return;
+
+      const collections = [
+        { key: 'highlights', title: 'Gallery Highlights', desc: 'Curated master showcase photos featured on the portfolio landing page.', count: (localData.highlights || []).length, cover: resolveCoverThumb('highlights') },
+        { key: 'drone', title: 'Drone Shots (01)', desc: 'Aerial drone photography, topography, island resorts, and campus architecture.', count: (localData.drone || []).length, cover: resolveCoverThumb('drone') },
+        { key: 'framed', title: 'Framed Moments (02)', desc: 'Street photography, candid emotions, architectural frames, and portraits.', count: (localData.framed || []).length, cover: resolveCoverThumb('framed') },
+        { key: 'events', title: 'School Events (03)', desc: 'USLS campus celebrations, live cheerdance competitions, concerts, and festivals.', count: (localData.events || []).length, cover: resolveCoverThumb('events') },
+        { key: 'videos', title: 'Video Projects (04)', desc: 'Cinematic video montages, travel diaries, and yearbook teaser reels.', count: (localData.videos || []).length, cover: resolveCoverThumb('videos'), isVid: true },
+        { key: 'videos2', title: 'Negros Aerials SE', desc: 'Special edition drone cinematography featuring Negros Occidental landmarks.', count: (localData.videos2 || []).length, cover: resolveCoverThumb('videos2'), isVid: true }
+      ];
+
+      container.innerHTML = collections.map(c => `
+        <div class="collection-card" onclick="switchTab('${c.key}')">
+          <div class="collection-cover">
+            <img src="${c.cover}" onerror="this.src='../images/favicon.png'" alt="${c.title}" loading="lazy"/>
+            <div class="media-index-tag">${c.count} ${c.isVid ? 'videos' : 'photos'}</div>
+          </div>
+          <div class="collection-body">
+            <div class="collection-title">${c.title}</div>
+            <div class="collection-meta">${c.desc}</div>
+            <div class="flex items-center justify-between pt-3 border-t border-white/5 mt-2">
+              <span class="text-xs text-zinc-400 font-medium">Click to manage &rarr;</span>
+              <button class="btn btn-secondary text-xs" style="min-height: 28px; padding: 2px 8px;">Open Gallery</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function resolveCoverThumb(cat) {
+      const list = localData[cat] || [];
+      if (list.length === 0) return '../images/favicon.png';
+      return resolveThumbPath(list[0], 0, cat);
+    }
+
+    // Resolve visual asset path for previews
+    function resolveThumbPath(item, index, overrideCat) {
+      const cat = overrideCat || currentCategory;
+      if (cat === 'videos' || cat === 'videos2') {
+        return (item.thumb && item.thumb.startsWith('http')) ? item.thumb : `../${item.thumb}`;
+      }
+      const file = item.file || '';
+      const base = file.replace(/\.[^/.]+$/, "");
+      if (cat === 'highlights') {
+        return `../images/optimized/800/${base}-800.webp`;
+      } else if (cat === 'drone') {
+        return `../images/optimized/800/Drone Shots/${base}-800.webp`;
+      } else if (cat === 'framed') {
+        return `../images/optimized/800/Framed Moments/${base}-800.webp`;
+      } else if (cat === 'events') {
+        return `../images/optimized/800/School Events/${base}-800.webp`;
+      }
+      return `../images/${file}`;
+    }
+
+    function resolveOriginalPath(item, overrideCat) {
+      const cat = overrideCat || currentCategory;
+      if (cat === 'videos' || cat === 'videos2') {
+        const p = item.thumbFallback || item.thumb;
+        return (p && p.startsWith('http')) ? p : `../${p}`;
+      }
+      const file = item.file || '';
+      if (cat === 'highlights') return `../images/${file}`;
+      if (cat === 'drone') return `../images/Drone Shots/${file}`;
+      if (cat === 'framed') return `../images/Framed Moments/${file}`;
+      if (cat === 'events') return `../images/School Events/${file}`;
+      return `../images/${file}`;
+    }
+
+    function handleGallerySearch(val) {
+      currentGallerySearch = (val || '').toLowerCase().trim();
+      const clearBtn = document.getElementById('clear-gallery-search');
+      if (clearBtn) clearBtn.classList.toggle('hidden', !currentGallerySearch);
+      renderGrid();
+    }
+
+    function clearGallerySearch() {
+      const input = document.getElementById('gallery-search-input');
+      if (input) input.value = '';
+      currentGallerySearch = '';
+      const clearBtn = document.getElementById('clear-gallery-search');
+      if (clearBtn) clearBtn.classList.add('hidden');
+      renderGrid();
+    }
+
+    function renderGrid() {
+      const container = document.getElementById('workspace-grid');
+      const emptyState = document.getElementById('empty-state');
+      if (!container || !emptyState) return;
+      container.innerHTML = '';
+      
+      const fullList = localData[currentCategory] || [];
+      let list = fullList;
+
+      if (currentGallerySearch) {
+        list = fullList.filter(item => {
+          const isVid = (currentCategory === 'videos' || currentCategory === 'videos2');
+          if (isVid) {
+            return (item.title && item.title.toLowerCase().includes(currentGallerySearch)) ||
+                   (item.youtubeId && item.youtubeId.toLowerCase().includes(currentGallerySearch));
+          } else {
+            return (item.file && item.file.toLowerCase().includes(currentGallerySearch)) ||
+                   (item.desc && item.desc.toLowerCase().includes(currentGallerySearch)) ||
+                   (item.alt && item.alt.toLowerCase().includes(currentGallerySearch));
+          }
+        });
+      }
+      
+      if (!list || list.length === 0) {
+        emptyState.classList.remove('hidden');
+        return;
+      }
+      emptyState.classList.add('hidden');
+
+      list.forEach((item) => {
+        const origIndex = fullList.indexOf(item);
+        const card = document.createElement('div');
+        card.className = 'media-card';
+        card.setAttribute('draggable', 'true');
+        card.setAttribute('data-index', origIndex);
+        
+        card.addEventListener('dragstart', handleCardDragStart);
+        card.addEventListener('dragover', handleCardDragOver);
+        card.addEventListener('drop', handleCardDrop);
+        card.addEventListener('dragend', handleCardDragEnd);
+        card.addEventListener('dblclick', () => openEditDrawer(origIndex));
+
+        const isVid = (currentCategory === 'videos' || currentCategory === 'videos2');
+        const titleText = isVid ? item.title : item.file;
+        const captionText = isVid ? `YouTube: ${item.youtubeId}` : (item.desc || item.alt || 'No description specified');
+
+        card.innerHTML = `
+          <!-- Thumbnail Frame -->
+          <div class="media-thumb-wrap">
+            <img src="${resolveThumbPath(item, origIndex)}" 
+                 onerror="this.src='${resolveOriginalPath(item)}'; this.onerror=function(){this.src='../images/favicon.png'}" 
+                 alt="${escapeHtml(captionText)}" 
+                 loading="lazy"
+                 class="media-thumb-img"/>
+            
+            <!-- Index Tag -->
+            <div class="media-index-tag">#${origIndex + 1}</div>
+
+            <!-- Video Duration -->
+            ${isVid ? `<div class="media-index-tag" style="left: auto; right: 8px;">${escapeHtml(item.duration || '')}</div>` : ''}
+
+            <!-- Drag Handle -->
+            <div class="media-drag-handle" title="Drag to reorder">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+            </div>
+
+            <!-- Hover Action Overlay -->
+            <div class="media-hover-overlay">
+              <button onclick="event.stopPropagation(); openEditDrawer(${origIndex})" class="btn btn-primary text-xs" style="min-height: 30px; padding: 4px 10px;">
+                Edit Details
+              </button>
+              <button onclick="event.stopPropagation(); deleteItem(${origIndex})" class="btn btn-danger text-xs" style="min-height: 30px; padding: 4px 10px;" title="Delete Item">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Structured Metadata Footer -->
+          <div class="media-meta-footer">
+            <div class="media-filename" title="${escapeHtml(titleText)}">${escapeHtml(titleText)}</div>
+            <div class="media-caption" title="${escapeHtml(captionText)}">${escapeHtml(captionText)}</div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // Drag & Drop Handlers
+    function handleCardDragStart(e) {
+      draggedIndex = parseInt(this.getAttribute('data-index'));
+      e.dataTransfer.effectAllowed = 'move';
+      this.classList.add('sortable-chosen');
+      setTimeout(() => this.classList.add('sortable-ghost'), 0);
+    }
+    function handleCardDragOver(e) {
+      if (e.preventDefault) e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      return false;
+    }
+    function handleCardDrop(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const targetIndex = parseInt(this.getAttribute('data-index'));
+      if (draggedIndex !== null && draggedIndex !== targetIndex) {
+        const list = localData[currentCategory];
+        const draggedItem = list.splice(draggedIndex, 1)[0];
+        list.splice(targetIndex, 0, draggedItem);
+        renderGrid();
+        updateBadges();
+        persistLocalState();
+        showToast("Order updated visually. Remember to save changes.", "success");
+      }
+    }
+    function handleCardDragEnd() {
+      this.classList.remove('sortable-chosen', 'sortable-ghost');
+      draggedIndex = null;
+    }
+
+    // Dropzone logic
+    function handleDragOver(e) {
+      e.preventDefault();
+      document.getElementById('drop-zone').classList.add('drag-over');
+    }
+    function handleDragLeave() {
+      document.getElementById('drop-zone').classList.remove('drag-over');
+    }
+    function handleDrop(e) {
+      e.preventDefault();
+      document.getElementById('drop-zone').classList.remove('drag-over');
+      const files = e.dataTransfer.files;
+      if (files.length > 0) addFilesToList(files);
+    }
+    function triggerFilePicker() {
+      if (currentCategory === 'videos' || currentCategory === 'videos2') {
+        openVideoAddModal();
+      } else {
+        document.getElementById('media-file-picker').click();
+      }
+    }
+    function handleFileSelect(e) {
+      const files = e.target.files;
+      if (files.length > 0) addFilesToList(files);
+    }
+
+    function addFilesToList(files) {
+      const list = localData[currentCategory];
+      let addedCount = 0;
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const name = file.name;
+        if (list.some(item => item.file.toLowerCase() === name.toLowerCase())) continue;
+        const base = name.replace(/\.[^/.]+$/, "");
+        const formattedBase = base.replace(/[-_]/g, ' ');
+        list.push({
+          file: name,
+          alt: `Portfolio photograph by JC Niñonuevo — ${formattedBase}`,
+          desc: `${formattedBase} • Bacolod City, Negros Occidental`
+        });
+        addedCount++;
+      }
+      if (addedCount > 0) {
+        renderGrid();
+        updateBadges();
+        persistLocalState();
+        showToast(`Successfully added ${addedCount} photo(s). Click to edit details.`, "success");
+      } else {
+        showToast("Selected file(s) are already in this category.", "error");
+      }
+    }
+
+    // Drawer Management
+    function openEditDrawer(index) {
+      activeEditIndex = index;
+      const item = localData[currentCategory][index];
+      const drawer = document.getElementById('edit-drawer');
+      const backdrop = document.getElementById('edit-drawer-backdrop');
+      
+      const preview = document.getElementById('drawer-preview');
+      preview.src = resolveThumbPath(item, index);
+      preview.onerror = function() {
+        this.src = resolveOriginalPath(item);
+        this.onerror = function() { this.src = '../images/favicon.png'; };
+      };
+
+      const isVid = (currentCategory === 'videos' || currentCategory === 'videos2');
+      const vidIndicator = document.getElementById('drawer-video-indicator');
+      pendingReplaceBlob = null;
+      document.getElementById('replace-status-area').classList.add('hidden');
+
+      if (isVid) {
+        document.getElementById('replace-image-container').classList.add('hidden');
+        vidIndicator.classList.remove('hidden');
+        document.getElementById('drawer-form-photos').classList.add('hidden');
+        document.getElementById('drawer-form-videos').classList.remove('hidden');
+        document.getElementById('edit-video-title').value = item.title || '';
+        document.getElementById('edit-video-id').value = item.youtubeId || '';
+        document.getElementById('edit-video-duration').value = item.duration || '';
+        document.getElementById('edit-video-thumb').value = item.thumb || '';
+        document.getElementById('edit-video-fallback').value = item.thumbFallback || '';
+      } else {
+        document.getElementById('replace-image-container').classList.remove('hidden');
+        vidIndicator.classList.add('hidden');
+        document.getElementById('drawer-form-photos').classList.remove('hidden');
+        document.getElementById('drawer-form-videos').classList.add('hidden');
+        document.getElementById('edit-filename').value = item.file || '';
+        document.getElementById('edit-desc').value = item.desc || '';
+        document.getElementById('edit-alt').value = item.alt || '';
+        
+        // Location fields extraction
+        const descParts = (item.desc || '').split('•');
+        document.getElementById('edit-city').value = descParts[1] ? descParts[1].split(',')[0].trim() : 'Bacolod City';
+        document.getElementById('edit-province').value = descParts[1] && descParts[1].includes(',') ? descParts[1].split(',')[1].trim() : 'Negros Occidental';
+        
+        // Metadata fields
+        document.getElementById('edit-camera').value = item.camera || (localData.settings && localData.settings.about && localData.settings.about.kitBody) || 'Nikon Z50';
+        document.getElementById('edit-lens').value = item.lens || 'Viltrox 25mm f/1.7';
+        document.getElementById('edit-aperture').value = item.aperture || 'f/1.7';
+        document.getElementById('edit-iso').value = item.iso || '800';
+        document.getElementById('edit-shutter').value = item.shutter || '1/500s';
+        document.getElementById('edit-datetaken').value = item.dateTaken || '2026';
+      }
+
+      drawer.classList.add('drawer-open');
+      if (backdrop) backdrop.classList.add('active');
+    }
+
+    function closeEditDrawer() {
+      const drawer = document.getElementById('edit-drawer');
+      if (drawer) drawer.classList.remove('drawer-open');
+      const backdrop = document.getElementById('edit-drawer-backdrop');
+      if (backdrop) backdrop.classList.remove('active');
+      activeEditIndex = null;
+    }
+
+    function applyDrawerEdits() {
+      if (activeEditIndex === null) return;
+      const item = localData[currentCategory][activeEditIndex];
+      const isVid = (currentCategory === 'videos' || currentCategory === 'videos2');
+
+      if (isVid) {
+        item.title = document.getElementById('edit-video-title').value.trim();
+        item.youtubeId = document.getElementById('edit-video-id').value.trim();
+        item.duration = document.getElementById('edit-video-duration').value.trim();
+        item.thumb = document.getElementById('edit-video-thumb').value.trim();
+        item.thumbFallback = document.getElementById('edit-video-fallback').value.trim();
+        if (!item.title || !item.youtubeId) {
+          showToast("Video Title and YouTube Video ID are required.", "error");
+          return;
+        }
+      } else {
+        item.file = document.getElementById('edit-filename').value.trim();
+        item.desc = document.getElementById('edit-desc').value.trim();
+        item.alt = document.getElementById('edit-alt').value.trim();
+        item.camera = document.getElementById('edit-camera').value.trim();
+        item.lens = document.getElementById('edit-lens').value.trim();
+        item.aperture = document.getElementById('edit-aperture').value.trim();
+        item.iso = document.getElementById('edit-iso').value.trim();
+        item.shutter = document.getElementById('edit-shutter').value.trim();
+        item.dateTaken = document.getElementById('edit-datetaken').value.trim();
+
+        if (!item.file) {
+          showToast("File name cannot be left empty.", "error");
+          return;
+        }
+      }
+
+      renderGrid();
+      closeEditDrawer();
+      persistLocalState();
+      takeSnapshot("Media Edit", `Modified properties for #${activeEditIndex + 1} in ${currentCategory}.`);
+      showToast("Edits applied. Remember to click Save Changes to persist.", "success");
+    }
+
+    function autoGenerateAltText() {
+      const desc = document.getElementById('edit-desc').value.trim();
+      const fn = document.getElementById('edit-filename').value.trim();
+      const altInput = document.getElementById('edit-alt');
+      if (desc) {
+        altInput.value = `Professional photography: ${desc} captured by JC Niñonuevo.`;
+      } else {
+        const base = fn.replace(/\.[^/.]+$/, "").replace(/[-_]/g, ' ');
+        altInput.value = `Portfolio photograph of ${base} by JC Niñonuevo.`;
+      }
+      showToast("Generated SEO alternative text.", "success");
+    }
+
+    // Replace Dropzone in Drawer
+    function handleReplaceDragOver(e) {
+      e.preventDefault();
+      document.getElementById('replace-dropzone').classList.add('border-white');
+    }
+    function handleReplaceDragLeave() {
+      document.getElementById('replace-dropzone').classList.remove('border-white');
+    }
+    function handleReplaceDrop(e) {
+      e.preventDefault();
+      document.getElementById('replace-dropzone').classList.remove('border-white');
+      if (e.dataTransfer.files.length > 0) loadPendingReplace(e.dataTransfer.files[0]);
+    }
+    function triggerReplaceFilePicker() {
+      document.getElementById('replace-file-picker').click();
+    }
+    function handleReplaceFileSelect(e) {
+      if (e.target.files.length > 0) loadPendingReplace(e.target.files[0]);
+    }
+    function loadPendingReplace(file) {
+      pendingReplaceBlob = file;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        document.getElementById('drawer-preview').src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+      document.getElementById('replace-status-area').classList.remove('hidden');
+      showToast("New photo loaded. Click 'Commit Live' or 'Write to Disk'.", "success");
+    }
+
+    // Direct Disk Image Replacement & WebP Generation
+    function resizeImageToWebP(file, width) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const scale = width / img.width;
+            const targetWidth = img.width > width ? width : img.width;
+            const targetHeight = img.width > width ? img.height * scale : img.height;
+            canvas.width = targetWidth;
+            canvas.height = targetHeight;
+            ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
+            canvas.toBlob((blob) => {
+              if (blob) resolve(blob);
+              else reject(new Error("Canvas conversion failed"));
+            }, 'image/webp', 0.85);
+          };
+          img.onerror = () => reject(new Error("Image load failed"));
+          img.src = e.target.result;
+        };
+        reader.onerror = () => reject(new Error("File read failed"));
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function writeBlobToPath(dirHandle, pathSegments, blob) {
+      let currentHandle = dirHandle;
+      for (let i = 0; i < pathSegments.length - 1; i++) {
+        currentHandle = await currentHandle.getDirectoryHandle(pathSegments[i], { create: true });
+      }
+      const fileHandle = await currentHandle.getFileHandle(pathSegments[pathSegments.length - 1], { create: true });
+      const writable = await fileHandle.createWritable();
+      await writable.write(blob);
+      await writable.close();
+    }
+
+    async function publishReplacedImageToCloud() {
+      if (!pendingReplaceBlob) {
+        showToast("No pending photo selected.", "error");
+        return;
+      }
+
+      const publishBtn = document.getElementById('publish-cloud-img-btn');
+      const originalText = publishBtn ? publishBtn.innerHTML : '';
+      if (publishBtn) {
+        publishBtn.disabled = true;
+        publishBtn.textContent = "Optimizing...";
+      }
+
+      try {
+        const item = localData[currentCategory][activeEditIndex];
+        const filename = item.file;
+        const base = filename.replace(/\.[^/.]+$/, "");
+        
+        let rawPath = `images/${filename}`;
+        let optimizedFolder = "";
+        
+        if (currentCategory === 'drone') {
+          rawPath = `images/Drone Shots/${filename}`;
+          optimizedFolder = 'Drone Shots/';
+        } else if (currentCategory === 'framed') {
+          rawPath = `images/Framed Moments/${filename}`;
+          optimizedFolder = 'Framed Moments/';
+        } else if (currentCategory === 'events') {
+          rawPath = `images/School Events/${filename}`;
+          optimizedFolder = 'School Events/';
+        }
+
+        const rawBase64 = await blobToBase64(pendingReplaceBlob);
+        const filesToCommit = [
+          { path: rawPath, content: rawBase64, encoding: 'base64' }
+        ];
+
+        const widths = [800, 1200, 1600];
+        if (currentCategory === 'highlights') widths.push(2048);
+
+        for (const w of widths) {
+          const webpBlob = await resizeImageToWebP(pendingReplaceBlob, w);
+          const webpBase64 = await blobToBase64(webpBlob);
+          const webpPath = `images/optimized/${w}/${optimizedFolder}${base}-${w}.webp`;
+          filesToCommit.push({ path: webpPath, content: webpBase64, encoding: 'base64' });
+        }
+
+        if (publishBtn) publishBtn.textContent = "Committing to GitHub...";
+
+        const success = await publishToLiveSite(filesToCommit, `CMS Update: Replaced photo ${filename} with responsive WebPs`);
+        if (success) {
+          pendingReplaceBlob = null;
+          document.getElementById('replace-status-area').classList.add('hidden');
+          renderGrid();
+        }
+      } catch (err) {
+        console.error("Failed to prepare cloud image commit:", err);
+        showToast(`Failed to publish image: ${err.message}`, "error");
+      } finally {
+        if (publishBtn) {
+          publishBtn.disabled = false;
+          publishBtn.innerHTML = originalText;
+        }
+      }
+    }
+
+    async function writeReplacedImageToDisk() {
+      if (!pendingReplaceBlob) {
+        showToast("No pending photo selected.", "error");
+        return;
+      }
+      if (!projectDirHandle) {
+        showToast("Please link your Project Folder first by clicking 'Connect Folder' in the header.", "error");
+        return;
+      }
+
+      const writeBtn = document.getElementById('write-img-btn');
+      const originalText = writeBtn.innerHTML;
+      writeBtn.disabled = true;
+      writeBtn.textContent = "Writing...";
+
+      try {
+        const item = localData[currentCategory][activeEditIndex];
+        const filename = item.file;
+        const base = filename.replace(/\.[^/.]+$/, "");
+        
+        let rawPath = [];
+        let optimizedFolder = "";
+        
+        if (currentCategory === 'highlights') {
+          rawPath = ['images', filename];
+        } else if (currentCategory === 'drone') {
+          rawPath = ['images', 'Drone Shots', filename];
+          optimizedFolder = 'Drone Shots';
+        } else if (currentCategory === 'framed') {
+          rawPath = ['images', 'Framed Moments', filename];
+          optimizedFolder = 'Framed Moments';
+        } else if (currentCategory === 'events') {
+          rawPath = ['images', 'School Events', filename];
+          optimizedFolder = 'School Events';
+        }
+
+        await writeBlobToPath(projectDirHandle, rawPath, pendingReplaceBlob);
+
+        const widths = [800, 1200, 1600];
+        if (currentCategory === 'highlights') widths.push(2048);
+
+        for (const w of widths) {
+          const webpBlob = await resizeImageToWebP(pendingReplaceBlob, w);
+          let webpPath = [];
+          if (optimizedFolder) {
+            webpPath = ['images', 'optimized', String(w), optimizedFolder, `${base}-${w}.webp`];
+          } else {
+            webpPath = ['images', 'optimized', String(w), `${base}-${w}.webp`];
+          }
+          await writeBlobToPath(projectDirHandle, webpPath, webpBlob);
+        }
+
+        showToast(`Replaced "${filename}" and auto-generated ${widths.length} responsive WebP sizes.`, "success");
+        pendingReplaceBlob = null;
+        document.getElementById('replace-status-area').classList.add('hidden');
+        renderGrid();
+      } catch (err) {
+        showToast("Error writing files to disk. Verify directory permissions.", "error");
+        console.error(err);
+      } finally {
+        writeBtn.disabled = false;
+        writeBtn.innerHTML = originalText;
+      }
+    }
+
+    // Delete confirmation modal workflows
+    let pendingDeleteIndex = null;
+    function deleteItem(index) {
+      pendingDeleteIndex = index;
+      const item = localData[currentCategory][index];
+      if (!item) return;
+      const label = item.file || item.title || `item #${index + 1}`;
+      document.getElementById('delete-confirm-text').textContent = `Are you sure you want to delete "${label}" from ${currentCategory}?`;
+      document.getElementById('delete-confirm-modal').classList.remove('hidden');
+    }
+    function closeDeleteConfirmModal() {
+      document.getElementById('delete-confirm-modal').classList.add('hidden');
+      pendingDeleteIndex = null;
+    }
+    function executeConfirmedDelete() {
+      if (pendingDeleteIndex === null) return;
+      const index = pendingDeleteIndex;
+      const item = localData[currentCategory][index];
+      const label = item ? (item.file || item.title || `item #${index + 1}`) : `item #${index + 1}`;
+      localData[currentCategory].splice(index, 1);
+      closeDeleteConfirmModal();
+      renderGrid();
+      updateBadges();
+      persistLocalState();
+      takeSnapshot("Item Deletion", `Deleted ${label} from category ${currentCategory}.`);
+      showToast("Item removed from workspace.", "success");
+    }
+    function deleteActiveItem() {
+      if (activeEditIndex !== null) {
+        const idx = activeEditIndex;
+        closeEditDrawer();
+        deleteItem(idx);
+      }
+    }
+
+    // Add Video Modal
+    function openVideoAddModal() {
+      const modal = document.getElementById('video-add-modal');
+      const catSelect = document.getElementById('new-video-category');
+      catSelect.value = (currentCategory === 'videos2') ? 'videos2' : 'videos';
+      document.getElementById('new-video-title').value = '';
+      document.getElementById('new-video-id').value = '';
+      document.getElementById('new-video-duration').value = '1:00';
+      updateNewVideoThumbPaths();
+      modal.classList.remove('hidden');
+    }
+    function closeVideoAddModal() {
+      document.getElementById('video-add-modal').classList.add('hidden');
+    }
+    function updateNewVideoThumbPaths() {
+      const targetCat = document.getElementById('new-video-category').value;
+      const list = localData[targetCat] || [];
+      const nextId = list.reduce((max, item) => Math.max(max, item.id || 0), 0) + 1;
+      const thumbNumber = String(nextId).padStart(2, '0');
+      const prefix = targetCat === 'videos2' ? 'NASE' : 'VI';
+      document.getElementById('new-video-thumb').value = `images/optimized/800/Video Thumbnails/${prefix}-${thumbNumber}-800.webp`;
+      document.getElementById('new-video-fallback').value = `images/Video Thumbnails/${prefix}-${thumbNumber}.jpg`;
+    }
+    document.getElementById('new-video-category').addEventListener('change', updateNewVideoThumbPaths);
+
+    function handleNewVideoIdChange(val) {
+      let yid = (val || '').trim();
+      if (yid.includes('youtu.be/')) {
+        yid = yid.split('youtu.be/')[1].split(/[?#]/)[0];
+        document.getElementById('new-video-id').value = yid;
+      } else if (yid.includes('v=')) {
+        yid = yid.split('v=')[1].split('&')[0];
+        document.getElementById('new-video-id').value = yid;
+      }
+    }
+
+    function submitNewVideo() {
+      const targetCat = document.getElementById('new-video-category').value;
+      const title = document.getElementById('new-video-title').value.trim();
+      let yid = document.getElementById('new-video-id').value.trim();
+      const duration = document.getElementById('new-video-duration').value.trim() || '1:00';
+      const thumb = document.getElementById('new-video-thumb').value.trim();
+      const thumbFallback = document.getElementById('new-video-fallback').value.trim();
+
+      if (!title || !yid) {
+        showToast("Video Title and YouTube Video ID are required.", "error");
+        return;
+      }
+      if (yid.includes('youtu.be/')) yid = yid.split('youtu.be/')[1].split(/[?#]/)[0];
+      else if (yid.includes('v=')) yid = yid.split('v=')[1].split('&')[0];
+
+      const list = localData[targetCat];
+      const nextId = list.reduce((max, item) => Math.max(max, item.id || 0), 0) + 1;
+      const prefix = targetCat === 'videos2' ? 'NASE' : 'VI';
+      const thumbNumber = String(nextId).padStart(2, '0');
+
+      list.push({
+        id: nextId,
+        title: title,
+        youtubeId: yid,
+        thumb: thumb || `images/optimized/800/Video Thumbnails/${prefix}-${thumbNumber}-800.webp`,
+        thumbFallback: thumbFallback || `images/Video Thumbnails/${prefix}-${thumbNumber}.jpg`,
+        duration: duration
+      });
+
+      closeVideoAddModal();
+      if (currentCategory === targetCat) renderGrid();
+      else switchTab(targetCat);
+      updateBadges();
+      persistLocalState();
+      takeSnapshot("Video Creation", `Created new video project "${title}".`);
+      showToast(`Video "${title}" created successfully.`, "success");
+    }
+
+    function initManager() {
+      initSessionTimeoutGuard();
+      updateBadges();
+      
+      const urlParams = new URLSearchParams(window.location.search);
+      const reqCat = urlParams.get('cat') || 'overview';
+      switchTab(reqCat);
+
+      const reqEdit = urlParams.get('edit');
+      if (reqEdit !== null && !isNaN(parseInt(reqEdit))) {
+        setTimeout(() => openEditDrawer(parseInt(reqEdit)), 200);
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      verifySessionOnLoad(initManager);
+    });
+  </script>
+</body>
+</html>
