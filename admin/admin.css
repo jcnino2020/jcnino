@@ -1420,6 +1420,15 @@ aside::-webkit-scrollbar {
   border-radius: var(--radius-md);
   background: var(--bg-surface);
 }
+
+.card .table-wrap,
+.card > .table-wrap,
+.table-wrap.border-none {
+  border: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+
 .admin-table {
   width: 100%;
   border-collapse: collapse;
