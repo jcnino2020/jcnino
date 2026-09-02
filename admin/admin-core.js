@@ -873,3 +873,204 @@ document.addEventListener('DOMContentLoaded', () => {
 
   updateBadges();
 });
+
+// ============================================================================
+// HIGH-PERFORMANCE CLIENT-SIDE EXIF PARSER (STANDALONE ZERO-DEPENDENCY)
+// ============================================================================
+const DJI_DRONE_MODELS = {
+  'FC3582': 'DJI Mini 3 Pro',
+  'FC3583': 'DJI Mini 3',
+  'FC3584': 'DJI Mini 4 Pro',
+  'FC3170': 'DJI Mavic Air 2',
+  'FC3411': 'DJI Air 2S',
+  'FC220': 'DJI Mavic Pro',
+  'FC2203': 'DJI Mavic 3',
+  'FC300X': 'DJI Phantom 3 Pro',
+  'FC330': 'DJI Phantom 4'
+};
+
+function extractExifMetadata(arrayBuffer) {
+  if (!arrayBuffer) return null;
+  const view = new DataView(arrayBuffer.buffer || arrayBuffer);
+  if (view.byteLength < 16) return null;
+
+  // Support standard JPEG (SOI: 0xFFD8)
+  if (view.getUint16(0, false) !== 0xFFD8) {
+    // Check if directly a TIFF header
+    const sig = view.getUint16(0, false);
+    if (sig === 0x4949 || sig === 0x4D4D) {
+      return parseTiffPayload(view, 0, view.byteLength);
+    }
+    return null;
+  }
+
+  let offset = 2;
+  while (offset < view.byteLength - 4) {
+    if (view.getUint8(offset) !== 0xFF) break;
+    const marker = view.getUint8(offset + 1);
+    if (marker === 0xDA || marker === 0xD9) break; // SOS or EOI
+    const len = view.getUint16(offset + 2, false);
+
+    if (marker === 0xE1) { // APP1
+      const isExif = String.fromCharCode(
+        view.getUint8(offset + 4),
+        view.getUint8(offset + 5),
+        view.getUint8(offset + 6),
+        view.getUint8(offset + 7)
+      ) === 'Exif';
+      if (isExif) {
+        return parseTiffPayload(view, offset + 10, len - 8);
+      }
+    }
+    offset += 2 + len;
+  }
+  return null;
+}
+
+function parseTiffPayload(view, tiffStart, maxLen) {
+  if (tiffStart + 8 > view.byteLength) return null;
+  const endianWord = view.getUint16(tiffStart, false);
+  let le = false;
+  if (endianWord === 0x4949) le = true;
+  else if (endianWord === 0x4D4D) le = false;
+  else return null;
+
+  if (view.getUint16(tiffStart + 2, le) !== 0x002A) return null;
+  const ifd0Offset = view.getUint32(tiffStart + 4, le);
+
+  const raw = {};
+
+  function readDirectory(dirOffset) {
+    if (dirOffset <= 0 || dirOffset >= maxLen || tiffStart + dirOffset + 2 > view.byteLength) return;
+    const count = view.getUint16(tiffStart + dirOffset, le);
+    let p = tiffStart + dirOffset + 2;
+
+    for (let i = 0; i < count; i++) {
+      if (p + 12 > view.byteLength) break;
+      const tag = view.getUint16(p, le);
+      const type = view.getUint16(p + 2, le);
+      const numValues = view.getUint32(p + 4, le);
+      const valOffset = p + 8;
+
+      let val = null;
+      if (type === 2) { // ASCII String
+        const strStart = numValues > 4 ? tiffStart + view.getUint32(valOffset, le) : valOffset;
+        if (strStart + numValues <= view.byteLength) {
+          let s = '';
+          for (let j = 0; j < numValues; j++) {
+            const c = view.getUint8(strStart + j);
+            if (c === 0) break;
+            s += String.fromCharCode(c);
+          }
+          val = s.trim();
+        }
+      } else if (type === 3) { // SHORT (16-bit)
+        val = view.getUint16(valOffset, le);
+      } else if (type === 4) { // LONG (32-bit)
+        val = view.getUint32(valOffset, le);
+      } else if (type === 5 || type === 10) { // RATIONAL or SRATIONAL
+        const rOffset = tiffStart + view.getUint32(valOffset, le);
+        if (rOffset + 8 <= view.byteLength) {
+          const n = type === 10 ? view.getInt32(rOffset, le) : view.getUint32(rOffset, le);
+          const d = type === 10 ? view.getInt32(rOffset + 4, le) : view.getUint32(rOffset + 4, le);
+          val = { num: n, den: d, val: d !== 0 ? n / d : n };
+        }
+      }
+      raw[tag] = val;
+      p += 12;
+    }
+  }
+
+  readDirectory(ifd0Offset);
+  if (raw[0x8769]) readDirectory(raw[0x8769]); // Exif SubIFD
+  if (raw[0x8825]) readDirectory(raw[0x8825]); // GPS SubIFD
+
+  // 1. Camera Body Formatting
+  const make = (raw[0x010F] || '').replace(/CORPORATION/gi, '').trim();
+  let rawModel = (raw[0x0110] || '').trim();
+  let model = DJI_DRONE_MODELS[rawModel] || rawModel;
+
+  let camera = '';
+  if (model) {
+    if (make && !model.toLowerCase().includes(make.toLowerCase())) {
+      camera = `${make} ${model}`;
+    } else {
+      camera = model;
+    }
+  } else if (make) {
+    camera = make;
+  }
+  camera = camera.replace(/\s+/g, ' ').trim();
+  if (/nikon z\s*50/i.test(camera)) camera = 'Nikon Z50';
+
+  // 2. Lens Model Formatting
+  let lens = raw[0xA434] || raw[0xA433] || '';
+  if (!lens && raw[0x920A]) {
+    const fl = typeof raw[0x920A] === 'object' ? Math.round(raw[0x920A].val) : Math.round(raw[0x920A]);
+    if (fl > 0) {
+      if (fl === 25) lens = 'Viltrox 25mm f/1.7';
+      else if (fl === 56) lens = 'Viltrox 56mm f/1.4';
+      else if (fl === 85) lens = 'Viltrox 85mm f/1.8';
+      else lens = `${fl}mm Prime`;
+    }
+  }
+
+  // 3. Aperture Formatting
+  let aperture = '';
+  if (raw[0x829D]) {
+    const f = typeof raw[0x829D] === 'object' ? raw[0x829D].val : raw[0x829D];
+    if (f > 0) aperture = `f/${f % 1 === 0 ? f.toFixed(0) : f.toFixed(1)}`;
+  } else if (raw[0x9202]) {
+    const apex = typeof raw[0x9202] === 'object' ? raw[0x9202].val : raw[0x9202];
+    const f = Math.pow(2, apex / 2);
+    if (f > 0) aperture = `f/${f.toFixed(1)}`;
+  }
+
+  // 4. Shutter Speed Formatting
+  let shutter = '';
+  if (raw[0x829A]) {
+    const exp = raw[0x829A];
+    if (typeof exp === 'object') {
+      if (exp.num === 1) shutter = `1/${exp.den}s`;
+      else if (exp.val < 1 && exp.val > 0) shutter = `1/${Math.round(1 / exp.val)}s`;
+      else if (exp.val >= 1) shutter = `${exp.val.toFixed(1)}s`.replace('.0s', 's');
+    } else if (exp) {
+      shutter = `${exp}s`;
+    }
+  }
+
+  // 5. ISO Formatting
+  let iso = '';
+  if (raw[0x8827]) iso = String(raw[0x8827]);
+
+  // 6. Date / Year Formatting
+  let dateTaken = '';
+  let fullDate = raw[0x9003] || raw[0x9004] || raw[0x0132] || '';
+  if (fullDate) {
+    const match = fullDate.match(/^(\d{4})[:\-](\d{2})[:\-](\d{2})/);
+    if (match) {
+      dateTaken = match[1];
+    } else {
+      const yrMatch = fullDate.match(/^(\d{4})/);
+      if (yrMatch) dateTaken = yrMatch[1];
+    }
+  }
+
+  const hasExif = Boolean(camera || lens || aperture || iso || shutter || dateTaken);
+
+  return {
+    hasExif,
+    camera,
+    lens,
+    aperture,
+    iso,
+    shutter,
+    dateTaken,
+    fullDate,
+    raw
+  };
+}
+
+window.extractExifMetadata = extractExifMetadata;
+window.DJI_DRONE_MODELS = DJI_DRONE_MODELS;
+
