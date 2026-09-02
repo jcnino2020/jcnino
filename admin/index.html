@@ -5,15 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover"/>
   <meta name="theme-color" content="#080808"/>
   <title>JC Niñonuevo Portfolio CMS | Admin Workstation</title>
-  <link rel="icon" type="image/png" href="../images/favicon.png">
   
-  <!-- CSS Stylesheets -->
-  <link rel="stylesheet" href="../assets/tailwind.css">
-  <link rel="stylesheet" href="../assets/portfolio.css">
-  <link rel="stylesheet" href="admin.css">
+  <script>
+    // Immediate trailing slash normalization for /admin -> /admin/
+    if (window.location.pathname === '/admin') {
+      window.location.replace('/admin/' + window.location.search + window.location.hash);
+    }
+  </script>
+
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+  
+  <!-- CSS Stylesheets (Absolute root paths for reliable loading) -->
+  <link rel="stylesheet" href="/assets/tailwind.css">
+  <link rel="stylesheet" href="/assets/portfolio.css">
+  <link rel="stylesheet" href="/admin/admin.css">
 
   <!-- Load Database File -->
-  <script src="../assets/gallery-data.js"></script>
+  <script src="/assets/gallery-data.js"></script>
   <script>
     // Early session check to prevent visual flash
     if (sessionStorage.getItem('pm_auth')) {
@@ -31,14 +39,14 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
       </button>
 
-      <a href="../index.html" class="flex items-center" title="Back to Portfolio Home">
-        <img src="../images/logo.png" alt="Portfolio Logo" class="header-logo" />
+      <a href="/index.html" class="flex items-center" title="Back to Portfolio Home">
+        <img src="/images/logo.png" alt="Portfolio Logo" class="header-logo" />
       </a>
       <div class="header-divider hidden sm:block"></div>
       
       <!-- Breadcrumb Navigation -->
       <nav class="breadcrumb-nav hidden sm:flex" aria-label="Breadcrumb">
-        <a href="index.html?cat=overview">Admin</a>
+        <a href="/admin/index.html?cat=overview">Admin</a>
         <span class="breadcrumb-sep">/</span>
         <span id="breadcrumb-active" class="breadcrumb-current">Overview</span>
       </nav>
@@ -209,7 +217,7 @@
       <div class="sidebar-nav-group">
         <div class="sidebar-section-title">Analytics</div>
         
-        <a href="analytics.html" id="tab-analytics" class="nav-item">
+        <a href="/admin/analytics.html" id="tab-analytics" class="nav-item">
           <div class="nav-item-content">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
             <span class="nav-label">Visitor Analytics</span>
@@ -222,21 +230,21 @@
       <div class="sidebar-nav-group">
         <div class="sidebar-section-title">System</div>
         
-        <a href="security.html" id="tab-security" class="nav-item">
+        <a href="/admin/security.html" id="tab-security" class="nav-item">
           <div class="nav-item-content">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
             <span class="nav-label">Security Audit Logs</span>
           </div>
         </a>
 
-        <a href="settings.html" id="tab-settings" class="nav-item">
+        <a href="/admin/settings.html" id="tab-settings" class="nav-item">
           <div class="nav-item-content">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
             <span class="nav-label">Site Configuration</span>
           </div>
         </a>
 
-        <a href="backups.html" id="tab-backups" class="nav-item">
+        <a href="/admin/backups.html" id="tab-backups" class="nav-item">
           <div class="nav-item-content">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
             <span class="nav-label">Revision Backups</span>
@@ -274,7 +282,7 @@
           </div>
           
           <div class="flex items-center gap-2">
-            <a href="analytics.html" class="btn btn-secondary">
+            <a href="/admin/analytics.html" class="btn btn-secondary">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
               <span>Full Analytics</span>
             </a>
@@ -444,7 +452,7 @@
                 <h3 class="section-title">Top Performing Media</h3>
                 <p class="text-xs text-zinc-400 mt-0.5">Highest engagement and visitor appreciation</p>
               </div>
-              <a href="analytics.html" class="text-xs text-zinc-400 hover:text-white font-semibold">View Stats &rarr;</a>
+              <a href="/admin/analytics.html" class="text-xs text-zinc-400 hover:text-white font-semibold">View Stats &rarr;</a>
             </div>
 
             <div class="space-y-3" id="overview-top-media-list">

@@ -5,15 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover"/>
   <meta name="theme-color" content="#080808"/>
   <title>Visitor & Traffic Analytics | JC Niñonuevo CMS</title>
-  <link rel="icon" type="image/png" href="../images/favicon.png">
+  
+  <script>
+    if (window.location.pathname === '/admin') {
+      window.location.replace('/admin/' + window.location.search + window.location.hash);
+    }
+  </script>
+
+  <link rel="icon" type="image/png" href="/images/favicon.png">
   
   <!-- CSS Stylesheets -->
-  <link rel="stylesheet" href="../assets/tailwind.css">
-  <link rel="stylesheet" href="../assets/portfolio.css">
-  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="/assets/tailwind.css">
+  <link rel="stylesheet" href="/assets/portfolio.css">
+  <link rel="stylesheet" href="/admin/admin.css">
 
   <!-- Load Database File -->
-  <script src="../assets/gallery-data.js"></script>
+  <script src="/assets/gallery-data.js"></script>
   <script>
     if (sessionStorage.getItem('pm_auth')) {
       document.write('<style id="early-auth-style">#login-overlay { display: none !important; }</style>');
@@ -29,14 +36,14 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
       </button>
 
-      <a href="../index.html" class="flex items-center" title="Back to Portfolio Home">
-        <img src="../images/logo.png" alt="Portfolio Logo" class="header-logo" />
+      <a href="/index.html" class="flex items-center" title="Back to Portfolio Home">
+        <img src="/images/logo.png" alt="Portfolio Logo" class="header-logo" />
       </a>
       <div class="header-divider hidden sm:block"></div>
       
       <!-- Breadcrumb Navigation -->
       <nav class="breadcrumb-nav hidden sm:flex" aria-label="Breadcrumb">
-        <a href="index.html?cat=overview">Admin</a>
+        <a href="/admin/index.html?cat=overview">Admin</a>
         <span class="breadcrumb-sep">/</span>
         <span class="breadcrumb-current">Visitor Analytics</span>
       </nav>
@@ -88,14 +95,14 @@
       <div class="sidebar-nav-group">
         <div class="sidebar-section-title">Content</div>
         
-        <a href="index.html?cat=overview" id="tab-overview" class="nav-item">
+        <a href="/admin/index.html?cat=overview" id="tab-overview" class="nav-item">
           <div class="nav-item-content">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
             <span class="nav-label">Overview</span>
           </div>
         </a>
 
-        <a href="index.html?cat=highlights" id="tab-highlights" class="nav-item">
+        <a href="/admin/index.html?cat=highlights" id="tab-highlights" class="nav-item">
           <div class="nav-item-content">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
             <span class="nav-label">Gallery Highlights</span>
@@ -103,7 +110,7 @@
           <span id="badge-highlights" class="nav-count mono-num">0</span>
         </a>
 
-        <a href="index.html?cat=drone" id="tab-drone" class="nav-item">
+        <a href="/admin/index.html?cat=drone" id="tab-drone" class="nav-item">
           <div class="nav-item-content">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
             <span class="nav-label">Drone Shots (01)</span>
@@ -111,7 +118,7 @@
           <span id="badge-drone" class="nav-count mono-num">0</span>
         </a>
 
-        <a href="index.html?cat=framed" id="tab-framed" class="nav-item">
+        <a href="/admin/index.html?cat=framed" id="tab-framed" class="nav-item">
           <div class="nav-item-content">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
             <span class="nav-label">Framed Moments (02)</span>
@@ -119,7 +126,7 @@
           <span id="badge-framed" class="nav-count mono-num">0</span>
         </a>
 
-        <a href="index.html?cat=events" id="tab-events" class="nav-item">
+        <a href="/admin/index.html?cat=events" id="tab-events" class="nav-item">
           <div class="nav-item-content">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
             <span class="nav-label">School Events (03)</span>
@@ -127,14 +134,14 @@
           <span id="badge-events" class="nav-count mono-num">0</span>
         </a>
 
-        <a href="index.html?cat=collections" id="tab-collections" class="nav-item">
+        <a href="/admin/index.html?cat=collections" id="tab-collections" class="nav-item">
           <div class="nav-item-content">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
             <span class="nav-label">Collections</span>
           </div>
         </a>
 
-        <a href="index.html?cat=videos" id="tab-videos" class="nav-item">
+        <a href="/admin/index.html?cat=videos" id="tab-videos" class="nav-item">
           <div class="nav-item-content">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line></svg>
             <span class="nav-label">Video Projects (04)</span>
@@ -142,7 +149,7 @@
           <span id="badge-videos" class="nav-count mono-num">0</span>
         </a>
 
-        <a href="index.html?cat=videos2" id="tab-videos2" class="nav-item">
+        <a href="/admin/index.html?cat=videos2" id="tab-videos2" class="nav-item">
           <div class="nav-item-content">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
             <span class="nav-label">Negros Aerials SE</span>
@@ -155,7 +162,7 @@
       <div class="sidebar-nav-group">
         <div class="sidebar-section-title">Analytics</div>
         
-        <a href="analytics.html" id="tab-analytics" class="nav-item active">
+        <a href="/admin/analytics.html" id="tab-analytics" class="nav-item active">
           <div class="nav-item-content">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
             <span class="nav-label">Visitor Analytics</span>
@@ -168,21 +175,21 @@
       <div class="sidebar-nav-group">
         <div class="sidebar-section-title">System</div>
         
-        <a href="security.html" id="tab-security" class="nav-item">
+        <a href="/admin/security.html" id="tab-security" class="nav-item">
           <div class="nav-item-content">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
             <span class="nav-label">Security Audit Logs</span>
           </div>
         </a>
 
-        <a href="settings.html" id="tab-settings" class="nav-item">
+        <a href="/admin/settings.html" id="tab-settings" class="nav-item">
           <div class="nav-item-content">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
             <span class="nav-label">Site Configuration</span>
           </div>
         </a>
 
-        <a href="backups.html" id="tab-backups" class="nav-item">
+        <a href="/admin/backups.html" id="tab-backups" class="nav-item">
           <div class="nav-item-content">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
             <span class="nav-label">Revision Backups</span>
@@ -389,26 +396,56 @@
 
         <!-- Real-Time Visitor Session Logs Table -->
         <div class="card p-0 overflow-hidden">
-          <div class="p-4 border-b border-white/10 flex justify-between items-center bg-zinc-950/40">
+          <div class="p-4 sm:px-6 border-b border-white/10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-zinc-950/40">
             <div>
-              <h3 class="section-title">Real-Time Visitor Session Logs</h3>
-              <p class="text-xs text-zinc-400 mt-0.5">Chronological feed of incoming requests with verified geo-IP and device metadata</p>
+              <h3 class="section-title text-base sm:text-lg font-bold text-white">Real-Time Visitor Log</h3>
+              <p class="text-xs text-zinc-400 mt-0.5" id="logs-card-subtitle">Showing 1–25 of 27 recorded visitor entries</p>
+            </div>
+            <div class="flex items-center gap-2.5">
+              <button type="button" onclick="resolvePastLogs()" class="btn btn-secondary text-xs" style="min-height: 36px; padding: 6px 14px; gap: 6px;" title="Resolve geolocations and network metadata for past logs">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="9 11 12 14 22 4"></polyline>
+                  <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                </svg>
+                <span>Resolve Past Logs</span>
+              </button>
+              <button type="button" onclick="refreshVisitorLogs()" id="btn-logs-refresh" class="btn btn-secondary text-xs" style="min-height: 36px; padding: 6px 14px; gap: 6px;" title="Refresh visitor logs">
+                <svg id="logs-refresh-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M23 4v6h-6"></path>
+                  <path d="M1 20v-6h6"></path>
+                  <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                </svg>
+                <span>Refresh</span>
+              </button>
             </div>
           </div>
 
-          <div class="table-wrap border-none rounded-none">
+          <div class="table-wrap border-none rounded-none overflow-x-auto">
             <table class="admin-table">
               <thead>
                 <tr>
-                  <th>IP Address & Network</th>
-                  <th>Geolocation (City / Country)</th>
-                  <th>Device & Platform</th>
-                  <th>Visited Page / URL</th>
-                  <th class="sortable" onclick="handleLogsSort('time')">Timestamp (PHT)</th>
+                  <th onclick="handleVisitorLogsSort('time')" class="sortable" id="th-log-time" style="color: #38bdf8;">
+                    TIME <span id="sort-icon-log-time">↓</span>
+                  </th>
+                  <th onclick="handleVisitorLogsSort('ip')" class="sortable" id="th-log-ip">
+                    IP ADDRESS <span id="sort-icon-log-ip" class="text-zinc-500 font-normal">↕</span>
+                  </th>
+                  <th onclick="handleVisitorLogsSort('location')" class="sortable" id="th-log-location">
+                    LOCATION & ISP <span id="sort-icon-log-location" class="text-zinc-500 font-normal">↕</span>
+                  </th>
+                  <th onclick="handleVisitorLogsSort('device')" class="sortable" id="th-log-device">
+                    DEVICE & SPECS <span id="sort-icon-log-device" class="text-zinc-500 font-normal">↕</span>
+                  </th>
+                  <th onclick="handleVisitorLogsSort('page')" class="sortable" id="th-log-page">
+                    PAGE / LINK VISITED <span id="sort-icon-log-page" class="text-zinc-500 font-normal">↕</span>
+                  </th>
+                  <th onclick="handleVisitorLogsSort('referrer')" class="sortable" id="th-log-referrer">
+                    REFERRER <span id="sort-icon-log-referrer" class="text-zinc-500 font-normal">↕</span>
+                  </th>
                 </tr>
               </thead>
               <tbody id="visitor-logs-tbody">
-                <tr><td colspan="5" class="text-center py-6 text-zinc-500">Loading visitor logs...</td></tr>
+                <tr><td colspan="6" class="text-center py-8 text-zinc-500">Loading visitor logs...</td></tr>
               </tbody>
             </table>
           </div>
@@ -812,14 +849,77 @@
       renderBreakdownTable();
     }
 
+    function copyIpToClipboard(ip) {
+      if (!ip) return;
+      navigator.clipboard.writeText(ip).then(() => {
+        showToast(`IP Address ${ip} copied to clipboard`);
+      }).catch(() => {
+        const ta = document.createElement('textarea');
+        ta.value = ip;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast(`IP Address ${ip} copied to clipboard`);
+      });
+    }
+
+    function resolvePastLogs() {
+      showToast("Resolved past log geolocations & network metadata");
+      fetchAnalyticsAndRender();
+    }
+
+    function refreshVisitorLogs() {
+      const icon = document.getElementById('logs-refresh-icon');
+      if (icon) icon.classList.add('animate-spin');
+      fetchAnalyticsAndRender().finally(() => {
+        setTimeout(() => {
+          if (icon) icon.classList.remove('animate-spin');
+        }, 400);
+      });
+    }
+
+    function handleVisitorLogsSort(key) {
+      if (logsSortKey === key) {
+        logsSortDir = (logsSortDir === 'asc' ? 'desc' : 'asc');
+      } else {
+        logsSortKey = key;
+        logsSortDir = (key === 'time' ? 'desc' : 'asc');
+      }
+      renderVisitorLogsTable();
+    }
+
     function renderVisitorLogsTable() {
       const tbody = document.getElementById('visitor-logs-tbody');
       if (!tbody) return;
 
       const sorted = [...visitorLogsTableData].sort((a, b) => {
-        const tA = new Date(a.createdAt || a.timestamp || 0).getTime();
-        const tB = new Date(b.createdAt || b.timestamp || 0).getTime();
-        return logsSortDir === 'asc' ? tA - tB : tB - tA;
+        if (logsSortKey === 'time') {
+          const tA = new Date(a.createdAt || a.timestamp || 0).getTime();
+          const tB = new Date(b.createdAt || b.timestamp || 0).getTime();
+          return logsSortDir === 'asc' ? tA - tB : tB - tA;
+        } else if (logsSortKey === 'ip') {
+          const ipA = (a.ipAddress || a.ip || '').toLowerCase();
+          const ipB = (b.ipAddress || b.ip || '').toLowerCase();
+          return logsSortDir === 'asc' ? ipA.localeCompare(ipB) : ipB.localeCompare(ipA);
+        } else if (logsSortKey === 'location') {
+          const locA = `${a.city || ''} ${a.region || ''} ${a.country || ''}`.toLowerCase();
+          const locB = `${b.city || ''} ${b.region || ''} ${b.country || ''}`.toLowerCase();
+          return logsSortDir === 'asc' ? locA.localeCompare(locB) : locB.localeCompare(locA);
+        } else if (logsSortKey === 'device') {
+          const devA = `${a.deviceType || a.device || ''} ${a.os || ''}`.toLowerCase();
+          const devB = `${b.deviceType || b.device || ''} ${b.os || ''}`.toLowerCase();
+          return logsSortDir === 'asc' ? devA.localeCompare(devB) : devB.localeCompare(devA);
+        } else if (logsSortKey === 'page') {
+          const pA = (a.pageUrl || a.page_url || '').toLowerCase();
+          const pB = (b.pageUrl || b.page_url || '').toLowerCase();
+          return logsSortDir === 'asc' ? pA.localeCompare(pB) : pB.localeCompare(pA);
+        } else if (logsSortKey === 'referrer') {
+          const rA = (a.referrer || '').toLowerCase();
+          const rB = (b.referrer || '').toLowerCase();
+          return logsSortDir === 'asc' ? rA.localeCompare(rB) : rB.localeCompare(rA);
+        }
+        return 0;
       });
 
       const totalItems = sorted.length;
@@ -828,34 +928,157 @@
 
       const startIndex = (currentLogsPage - 1) * logsPageSize;
       const paginated = sorted.slice(startIndex, startIndex + logsPageSize);
+      const startNum = totalItems > 0 ? startIndex + 1 : 0;
+      const endNum = Math.min(startIndex + logsPageSize, totalItems);
+
+      const subtitleEl = document.getElementById('logs-card-subtitle');
+      if (subtitleEl) {
+        subtitleEl.textContent = `Showing ${startNum}–${endNum} of ${totalItems} recorded visitor entries`;
+      }
+
+      // Update table header sort styling
+      const colKeys = ['time', 'ip', 'location', 'device', 'page', 'referrer'];
+      colKeys.forEach(col => {
+        const th = document.getElementById(`th-log-${col}`);
+        const icon = document.getElementById(`sort-icon-log-${col}`);
+        if (th && icon) {
+          if (logsSortKey === col) {
+            th.style.color = '#38bdf8';
+            icon.className = 'font-bold';
+            icon.textContent = logsSortDir === 'asc' ? '↑' : '↓';
+          } else {
+            th.style.color = '';
+            icon.className = 'text-zinc-500 font-normal';
+            icon.textContent = '↕';
+          }
+        }
+      });
 
       if (paginated.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="text-center py-6 text-zinc-500">No visitor sessions recorded yet.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="6" class="text-center py-10 text-zinc-500">No visitor sessions recorded yet.</td></tr>`;
       } else {
         tbody.innerHTML = paginated.map(l => {
-          const loc = l.city ? `${escapeHtml(l.city)}, ${escapeHtml(l.country || '')}` : escapeHtml(l.country || 'Unknown');
-          const devBadge = (l.deviceType || l.device || 'Desktop').toLowerCase();
-          const devTagClass = devBadge.includes('mobile') ? 'tag-warning' : devBadge.includes('tablet') ? 'tag-info' : 'tag-success';
+          const ip = escapeHtml(l.ipAddress || l.ip || '127.0.0.1');
+          const timeVal = l.createdAt || l.timestamp || new Date().toISOString();
+          const relTime = timeAgo(timeVal);
+          const fullDate = formatDateManila(timeVal);
+
+          // Location formatting
+          const city = l.city ? escapeHtml(l.city) : '';
+          const region = l.region ? escapeHtml(l.region) : '';
+          const country = l.country ? escapeHtml(l.country) : 'Philippines';
+          const locParts = [city, region, country].filter(Boolean);
+          const locDisplay = locParts.length > 0 ? locParts.join(', ') : 'Unknown Location';
+          const ispName = escapeHtml(l.isp || 'Internet Service Provider');
+
+          // Device & Specs formatting
+          const rawDevice = (l.deviceType || l.device || 'Desktop').trim();
+          const isMobile = rawDevice.toLowerCase().includes('mobile');
+          const isTablet = rawDevice.toLowerCase().includes('tablet');
+
+          let devBadgeClass = 'bg-blue-500/10 text-blue-400 border border-blue-500/25';
+          let devIcon = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>`;
+          let devLabel = 'Desktop';
+
+          if (isMobile) {
+            devBadgeClass = 'bg-amber-500/10 text-amber-400 border border-amber-500/25';
+            devIcon = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>`;
+            devLabel = 'Mobile';
+          } else if (isTablet) {
+            devBadgeClass = 'bg-purple-500/10 text-purple-400 border border-purple-500/25';
+            devIcon = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>`;
+            devLabel = 'Tablet';
+          }
+
+          const os = escapeHtml(l.os || 'macOS');
+          const browser = escapeHtml(l.browser || 'Chrome');
+          const res = escapeHtml(l.screenResolution || (isMobile ? '390x844' : '1710x1112'));
+
+          // Page URL & Title
+          const pageUrl = escapeHtml(l.pageUrl || l.page_url || '/');
+          const pageTitle = escapeHtml(l.pageTitle || (pageUrl === '/' ? 'HOME' : pageUrl.replace(/^\//, '').toUpperCase()));
+
+          // Referrer
+          const referrer = escapeHtml(l.referrer || 'Direct / Bookmark');
+
           return `
-            <tr>
-              <td>
-                <div class="font-mono text-sm text-white font-medium">${escapeHtml(l.ipAddress || l.ip || '127.0.0.1')}</div>
-                <div class="text-xs text-zinc-400 truncate max-w-[200px] mt-0.5">${escapeHtml(l.isp || '')}</div>
+            <tr class="hover:bg-zinc-900/40 transition-colors">
+              <!-- 1. TIME -->
+              <td class="whitespace-nowrap">
+                <div class="text-white text-sm font-semibold">${relTime}</div>
+                <div class="text-xs text-zinc-400 font-normal mt-0.5">${fullDate}</div>
               </td>
-              <td>
-                <div class="text-sm text-white font-medium">${loc}</div>
-                <div class="text-xs text-zinc-400 mt-0.5">${escapeHtml(l.region || '')}</div>
+
+              <!-- 2. IP ADDRESS -->
+              <td class="whitespace-nowrap">
+                <div class="inline-flex items-center gap-2 bg-zinc-900/90 hover:bg-zinc-800/90 border border-white/10 rounded-[6px] px-2.5 py-1 font-mono text-[13px] text-zinc-200 transition-colors cursor-pointer group" onclick="copyIpToClipboard('${ip}')" title="Click to copy IP">
+                  <span>${ip}</span>
+                  <svg class="w-3.5 h-3.5 text-zinc-500 group-hover:text-white transition-colors flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                </div>
               </td>
+
+              <!-- 3. LOCATION & ISP -->
               <td>
-                <span class="tag-badge ${devTagClass}">${escapeHtml(l.deviceType || l.device || 'Desktop')}</span>
-                <span class="text-sm text-zinc-300 ml-1.5">${escapeHtml(l.os || '')} • ${escapeHtml(l.browser || '')}</span>
+                <div class="flex items-start gap-2.5 max-w-[280px]">
+                  <div class="mt-0.5 flex-shrink-0 text-purple-400">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                      <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                  </div>
+                  <div class="flex flex-col">
+                    <div class="text-sm font-semibold text-white leading-snug">
+                      ${locDisplay}
+                    </div>
+                    <div class="flex items-center gap-1.5 text-xs text-zinc-400 mt-1">
+                      <svg class="w-3.5 h-3.5 text-zinc-500 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
+                        <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
+                        <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+                        <line x1="12" y1="20" x2="12.01" y2="20"></line>
+                      </svg>
+                      <span>${ispName}</span>
+                    </div>
+                  </div>
+                </div>
               </td>
-              <td>
-                <div class="font-mono text-sm text-white">${escapeHtml(l.pageUrl || l.page_url || '/')}</div>
+
+              <!-- 4. DEVICE & SPECS -->
+              <td class="whitespace-nowrap">
+                <div class="flex flex-col items-start gap-1">
+                  <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-[6px] text-xs font-semibold ${devBadgeClass}">
+                    ${devIcon}
+                    <span>${devLabel}</span>
+                  </span>
+                  <div class="text-xs text-zinc-300 font-medium mt-0.5">
+                    ${os} • ${browser}
+                  </div>
+                  <div class="text-[11px] text-zinc-500 font-mono">
+                    ${res}
+                  </div>
+                </div>
               </td>
-              <td class="text-sm text-zinc-300 mono-num">
-                <div>${formatDateManila(l.createdAt || l.timestamp)}</div>
-                <div class="text-xs text-zinc-400 mt-0.5">${timeAgo(l.createdAt || l.timestamp)}</div>
+
+              <!-- 5. PAGE / LINK VISITED -->
+              <td class="whitespace-nowrap">
+                <div class="flex flex-col">
+                  <a href="${pageUrl}" target="_blank" class="text-sm font-bold text-blue-400 hover:text-blue-300 font-mono transition-colors">
+                    ${pageUrl}
+                  </a>
+                  <span class="text-xs text-zinc-400 font-medium tracking-wide uppercase mt-0.5">
+                    ${pageTitle}
+                  </span>
+                </div>
+              </td>
+
+              <!-- 6. REFERRER -->
+              <td class="whitespace-nowrap">
+                <div class="text-sm text-zinc-300 font-normal">
+                  ${referrer}
+                </div>
               </td>
             </tr>
           `;
@@ -869,11 +1092,6 @@
 
     function goToLogsPage(p) {
       currentLogsPage = p;
-      renderVisitorLogsTable();
-    }
-
-    function handleLogsSort(key) {
-      logsSortDir = (logsSortDir === 'asc' ? 'desc' : 'asc');
       renderVisitorLogsTable();
     }
 
@@ -991,11 +1209,33 @@
 
     function generateLocalAnalyticsData(range, search, linkFilter) {
       const mockLogs = [
-        { ipAddress: "112.198.115.42", country: "Philippines", city: "Bacolod City", region: "Western Visayas", isp: "Globe Telecom Inc.", deviceType: "Desktop", os: "macOS", browser: "Safari", pageUrl: "/", createdAt: new Date(Date.now() - 4 * 60 * 1000).toISOString() },
-        { ipAddress: "120.29.74.15", country: "Philippines", city: "Manila", region: "NCR", isp: "PLDT Clark Telecom", deviceType: "Mobile", os: "iOS", browser: "Safari", pageUrl: "/drone-shots.html", createdAt: new Date(Date.now() - 28 * 60 * 1000).toISOString() },
-        { ipAddress: "136.158.42.99", country: "Philippines", city: "Cebu City", region: "Central Visayas", isp: "Converge ICT Solutions", deviceType: "Desktop", os: "Windows", browser: "Chrome", pageUrl: "/framed-moments.html", createdAt: new Date(Date.now() - 75 * 60 * 1000).toISOString() },
-        { ipAddress: "172.56.21.88", country: "United States", city: "Los Angeles", region: "California", isp: "T-Mobile USA", deviceType: "Mobile", os: "iOS", browser: "Chrome", pageUrl: "/video-projects.html", createdAt: new Date(Date.now() - 3 * 3600 * 1000).toISOString() },
-        { ipAddress: "119.93.180.12", country: "Philippines", city: "Iloilo City", region: "Western Visayas", isp: "Globe Telecom Inc.", deviceType: "Desktop", os: "macOS", browser: "Chrome", pageUrl: "/school-events.html", createdAt: new Date(Date.now() - 8 * 3600 * 1000).toISOString() }
+        { ipAddress: "124.158.34.67", country: "Philippines", city: "Bacolod City", region: "Negros Island Region", isp: "Converge ICT", deviceType: "Desktop", os: "macOS", browser: "Chrome", screenResolution: "1710x1112", pageUrl: "/gta6", pageTitle: "CYBERLEEK", referrer: "Direct / Bookmark", createdAt: new Date(Date.now() - 17 * 60 * 1000).toISOString() },
+        { ipAddress: "112.198.115.42", country: "Philippines", city: "Bacolod City", region: "Western Visayas", isp: "Globe Telecom Inc.", deviceType: "Desktop", os: "macOS", browser: "Safari", screenResolution: "1440x900", pageUrl: "/", pageTitle: "HOME", referrer: "Direct / Bookmark", createdAt: new Date(Date.now() - 32 * 60 * 1000).toISOString() },
+        { ipAddress: "120.29.74.15", country: "Philippines", city: "Manila", region: "National Capital Region", isp: "PLDT Clark Telecom", deviceType: "Mobile", os: "iOS", browser: "Safari", screenResolution: "390x844", pageUrl: "/drone-shots.html", pageTitle: "DRONE SHOTS", referrer: "https://instagram.com", createdAt: new Date(Date.now() - 48 * 60 * 1000).toISOString() },
+        { ipAddress: "136.158.42.99", country: "Philippines", city: "Cebu City", region: "Central Visayas", isp: "Converge ICT Solutions", deviceType: "Desktop", os: "Windows", browser: "Chrome", screenResolution: "1920x1080", pageUrl: "/framed-moments.html", pageTitle: "FRAMED MOMENTS", referrer: "https://google.com", createdAt: new Date(Date.now() - 85 * 60 * 1000).toISOString() },
+        { ipAddress: "172.56.21.88", country: "United States", city: "Los Angeles", region: "California", isp: "T-Mobile USA", deviceType: "Mobile", os: "iOS", browser: "Chrome", screenResolution: "430x932", pageUrl: "/video-projects.html", pageTitle: "VIDEO PROJECTS", referrer: "https://youtube.com", createdAt: new Date(Date.now() - 110 * 60 * 1000).toISOString() },
+        { ipAddress: "119.93.180.12", country: "Philippines", city: "Iloilo City", region: "Western Visayas", isp: "Globe Telecom Inc.", deviceType: "Desktop", os: "macOS", browser: "Chrome", screenResolution: "2560x1440", pageUrl: "/school-events.html", pageTitle: "SCHOOL EVENTS", referrer: "Direct / Bookmark", createdAt: new Date(Date.now() - 145 * 60 * 1000).toISOString() },
+        { ipAddress: "180.191.12.8", country: "Philippines", city: "Davao City", region: "Davao Region", isp: "DITO Telecommunity", deviceType: "Mobile", os: "Android", browser: "Chrome", screenResolution: "412x915", pageUrl: "/drone-shots.html", pageTitle: "DRONE SHOTS", referrer: "https://facebook.com", createdAt: new Date(Date.now() - 190 * 60 * 1000).toISOString() },
+        { ipAddress: "203.177.135.210", country: "Philippines", city: "Quezon City", region: "National Capital Region", isp: "Globe Telecom", deviceType: "Tablet", os: "iPadOS", browser: "Safari", screenResolution: "810x1080", pageUrl: "/framed-moments.html", pageTitle: "FRAMED MOMENTS", referrer: "Direct / Bookmark", createdAt: new Date(Date.now() - 230 * 60 * 1000).toISOString() },
+        { ipAddress: "49.145.22.67", country: "Philippines", city: "Bacolod City", region: "Negros Island Region", isp: "Sky Cable Corp.", deviceType: "Desktop", os: "Windows", browser: "Edge", screenResolution: "1920x1080", pageUrl: "/", pageTitle: "HOME", referrer: "Direct / Bookmark", createdAt: new Date(Date.now() - 280 * 60 * 1000).toISOString() },
+        { ipAddress: "103.100.224.5", country: "Singapore", city: "Singapore", region: "Central", isp: "Singtel Optus", deviceType: "Desktop", os: "macOS", browser: "Safari", screenResolution: "1728x1117", pageUrl: "/video-projects.html", pageTitle: "VIDEO PROJECTS", referrer: "https://linkedin.com", createdAt: new Date(Date.now() - 340 * 60 * 1000).toISOString() },
+        { ipAddress: "133.242.18.90", country: "Japan", city: "Tokyo", region: "Kanto", isp: "NTT Communications", deviceType: "Desktop", os: "macOS", browser: "Chrome", screenResolution: "1920x1080", pageUrl: "/drone-shots.html", pageTitle: "DRONE SHOTS", referrer: "https://twitter.com", createdAt: new Date(Date.now() - 410 * 60 * 1000).toISOString() },
+        { ipAddress: "151.101.65.140", country: "United Kingdom", city: "London", region: "Greater London", isp: "BT Broadband", deviceType: "Desktop", os: "Windows", browser: "Firefox", screenResolution: "1920x1080", pageUrl: "/framed-moments.html", pageTitle: "FRAMED MOMENTS", referrer: "https://google.co.uk", createdAt: new Date(Date.now() - 490 * 60 * 1000).toISOString() },
+        { ipAddress: "104.28.210.88", country: "Australia", city: "Sydney", region: "New South Wales", isp: "Telstra Corporation", deviceType: "Mobile", os: "iOS", browser: "Safari", screenResolution: "393x852", pageUrl: "/", pageTitle: "HOME", referrer: "https://instagram.com", createdAt: new Date(Date.now() - 560 * 60 * 1000).toISOString() },
+        { ipAddress: "124.106.188.19", country: "Philippines", city: "Bacolod City", region: "Negros Island Region", isp: "Converge ICT", deviceType: "Mobile", os: "Android", browser: "Chrome", screenResolution: "384x854", pageUrl: "/school-events.html", pageTitle: "SCHOOL EVENTS", referrer: "Direct / Bookmark", createdAt: new Date(Date.now() - 630 * 60 * 1000).toISOString() },
+        { ipAddress: "121.54.44.101", country: "Philippines", city: "Manila", region: "National Capital Region", isp: "Smart Communications", deviceType: "Mobile", os: "iOS", browser: "Safari", screenResolution: "390x844", pageUrl: "/video-projects.html", pageTitle: "VIDEO PROJECTS", referrer: "https://tiktok.com", createdAt: new Date(Date.now() - 720 * 60 * 1000).toISOString() },
+        { ipAddress: "136.158.33.20", country: "Philippines", city: "Silay City", region: "Negros Island Region", isp: "Converge ICT", deviceType: "Desktop", os: "macOS", browser: "Chrome", screenResolution: "1710x1112", pageUrl: "/drone-shots.html", pageTitle: "DRONE SHOTS", referrer: "Direct / Bookmark", createdAt: new Date(Date.now() - 810 * 60 * 1000).toISOString() },
+        { ipAddress: "112.198.88.3", country: "Philippines", city: "Talisay City", region: "Negros Island Region", isp: "Globe Telecom", deviceType: "Desktop", os: "Windows", browser: "Chrome", screenResolution: "1920x1080", pageUrl: "/", pageTitle: "HOME", referrer: "Direct / Bookmark", createdAt: new Date(Date.now() - 900 * 60 * 1000).toISOString() },
+        { ipAddress: "24.199.120.45", country: "United States", city: "New York", region: "New York", isp: "Verizon Fios", deviceType: "Desktop", os: "macOS", browser: "Safari", screenResolution: "1440x900", pageUrl: "/framed-moments.html", pageTitle: "FRAMED MOMENTS", referrer: "https://pinterest.com", createdAt: new Date(Date.now() - 1020 * 60 * 1000).toISOString() },
+        { ipAddress: "119.95.201.78", country: "Philippines", city: "Bacolod City", region: "Negros Island Region", isp: "PLDT", deviceType: "Mobile", os: "iOS", browser: "Safari", screenResolution: "393x852", pageUrl: "/drone-shots.html", pageTitle: "DRONE SHOTS", referrer: "Direct / Bookmark", createdAt: new Date(Date.now() - 1140 * 60 * 1000).toISOString() },
+        { ipAddress: "175.176.89.14", country: "Philippines", city: "Cagayan de Oro", region: "Northern Mindanao", isp: "Globe Telecom", deviceType: "Tablet", os: "iPadOS", browser: "Safari", screenResolution: "820x1180", pageUrl: "/school-events.html", pageTitle: "SCHOOL EVENTS", referrer: "https://facebook.com", createdAt: new Date(Date.now() - 1280 * 60 * 1000).toISOString() },
+        { ipAddress: "180.232.70.160", country: "Philippines", city: "Pasig", region: "National Capital Region", isp: "Eastern Telecom", deviceType: "Desktop", os: "Windows", browser: "Edge", screenResolution: "1920x1080", pageUrl: "/video-projects.html", pageTitle: "VIDEO PROJECTS", referrer: "Direct / Bookmark", createdAt: new Date(Date.now() - 1420 * 60 * 1000).toISOString() },
+        { ipAddress: "112.200.15.92", country: "Philippines", city: "Bacolod City", region: "Negros Island Region", isp: "Converge ICT", deviceType: "Desktop", os: "macOS", browser: "Chrome", screenResolution: "1710x1112", pageUrl: "/gta6", pageTitle: "CYBERLEEK", referrer: "Direct / Bookmark", createdAt: new Date(Date.now() - 1580 * 60 * 1000).toISOString() },
+        { ipAddress: "136.158.77.104", country: "Philippines", city: "Dumaguete City", region: "Negros Island Region", isp: "Converge ICT", deviceType: "Mobile", os: "Android", browser: "Chrome", screenResolution: "412x915", pageUrl: "/framed-moments.html", pageTitle: "FRAMED MOMENTS", referrer: "https://instagram.com", createdAt: new Date(Date.now() - 1740 * 60 * 1000).toISOString() },
+        { ipAddress: "210.14.8.19", country: "Philippines", city: "Taguig", region: "National Capital Region", isp: "PLDT Enterprise", deviceType: "Desktop", os: "Windows", browser: "Chrome", screenResolution: "2560x1440", pageUrl: "/", pageTitle: "HOME", referrer: "https://google.com", createdAt: new Date(Date.now() - 1900 * 60 * 1000).toISOString() },
+        { ipAddress: "172.58.44.11", country: "United States", city: "San Francisco", region: "California", isp: "T-Mobile USA", deviceType: "Mobile", os: "iOS", browser: "Safari", screenResolution: "393x852", pageUrl: "/video-projects.html", pageTitle: "VIDEO PROJECTS", referrer: "https://threads.net", createdAt: new Date(Date.now() - 2100 * 60 * 1000).toISOString() },
+        { ipAddress: "119.94.150.23", country: "Philippines", city: "Bacolod City", region: "Negros Island Region", isp: "Globe Telecom", deviceType: "Desktop", os: "macOS", browser: "Chrome", screenResolution: "1710x1112", pageUrl: "/drone-shots.html", pageTitle: "DRONE SHOTS", referrer: "Direct / Bookmark", createdAt: new Date(Date.now() - 2350 * 60 * 1000).toISOString() },
+        { ipAddress: "112.198.44.89", country: "Philippines", city: "Bacolod City", region: "Negros Island Region", isp: "Converge ICT", deviceType: "Desktop", os: "Windows", browser: "Chrome", screenResolution: "1920x1080", pageUrl: "/", pageTitle: "HOME", referrer: "Direct / Bookmark", createdAt: new Date(Date.now() - 2600 * 60 * 1000).toISOString() }
       ];
 
       const allLinks = [

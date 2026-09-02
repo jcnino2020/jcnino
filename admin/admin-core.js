@@ -672,18 +672,18 @@ function buildCommandIndex() {
   const items = [];
 
   // Pages & Views
-  items.push({ type: 'page', title: 'Admin Overview Dashboard', subtitle: 'KPIs, real-time visitors, performance', url: 'index.html?cat=overview', icon: 'grid' });
-  items.push({ type: 'page', title: 'Gallery Highlights', subtitle: 'Main homepage curated highlights', url: 'index.html?cat=highlights', icon: 'image' });
-  items.push({ type: 'page', title: 'Drone Shots (01)', subtitle: 'Aerial perspectives and drone photography', url: 'index.html?cat=drone', icon: 'camera' });
-  items.push({ type: 'page', title: 'Framed Moments (02)', subtitle: 'Street, portraits, and framed editorial', url: 'index.html?cat=framed', icon: 'image' });
-  items.push({ type: 'page', title: 'School Events (03)', subtitle: 'Campus journalism and live coverage', url: 'index.html?cat=events', icon: 'users' });
-  items.push({ type: 'page', title: 'Collections Overview', subtitle: 'All curated photo/video collections', url: 'index.html?cat=collections', icon: 'layers' });
-  items.push({ type: 'page', title: 'Video Projects (04)', subtitle: 'Reels, montages, and documentaries', url: 'index.html?cat=videos', icon: 'film' });
-  items.push({ type: 'page', title: 'Negros Aerials SE Videos', subtitle: 'Special edition aerial video collection', url: 'index.html?cat=videos2', icon: 'film' });
-  items.push({ type: 'page', title: 'Visitor & Traffic Analytics', subtitle: 'Live stats, Geo-IP, devices, page breakdown', url: 'analytics.html', icon: 'trending-up' });
-  items.push({ type: 'page', title: 'Security Audit Logs', subtitle: 'Admin login feed, verification, policies', url: 'security.html', icon: 'shield' });
-  items.push({ type: 'page', title: 'Global Site Configuration', subtitle: 'Profile, bio, kit, SEO, accent colors', url: 'settings.html', icon: 'sliders' });
-  items.push({ type: 'page', title: 'Revision Backups & Snapshots', subtitle: 'Workspace timeline, rollbacks, history', url: 'backups.html', icon: 'clock' });
+  items.push({ type: 'page', title: 'Admin Overview Dashboard', subtitle: 'KPIs, real-time visitors, performance', url: '/admin/index.html?cat=overview', icon: 'grid' });
+  items.push({ type: 'page', title: 'Gallery Highlights', subtitle: 'Main homepage curated highlights', url: '/admin/index.html?cat=highlights', icon: 'image' });
+  items.push({ type: 'page', title: 'Drone Shots (01)', subtitle: 'Aerial perspectives and drone photography', url: '/admin/index.html?cat=drone', icon: 'camera' });
+  items.push({ type: 'page', title: 'Framed Moments (02)', subtitle: 'Street, portraits, and framed editorial', url: '/admin/index.html?cat=framed', icon: 'image' });
+  items.push({ type: 'page', title: 'School Events (03)', subtitle: 'Campus journalism and live coverage', url: '/admin/index.html?cat=events', icon: 'users' });
+  items.push({ type: 'page', title: 'Collections Overview', subtitle: 'All curated photo/video collections', url: '/admin/index.html?cat=collections', icon: 'layers' });
+  items.push({ type: 'page', title: 'Video Projects (04)', subtitle: 'Reels, montages, and documentaries', url: '/admin/index.html?cat=videos', icon: 'film' });
+  items.push({ type: 'page', title: 'Negros Aerials SE Videos', subtitle: 'Special edition aerial video collection', url: '/admin/index.html?cat=videos2', icon: 'film' });
+  items.push({ type: 'page', title: 'Visitor & Traffic Analytics', subtitle: 'Live stats, Geo-IP, devices, page breakdown', url: '/admin/analytics.html', icon: 'trending-up' });
+  items.push({ type: 'page', title: 'Security Audit Logs', subtitle: 'Admin login feed, verification, policies', url: '/admin/security.html', icon: 'shield' });
+  items.push({ type: 'page', title: 'Global Site Configuration', subtitle: 'Profile, bio, kit, SEO, accent colors', url: '/admin/settings.html', icon: 'sliders' });
+  items.push({ type: 'page', title: 'Revision Backups & Snapshots', subtitle: 'Workspace timeline, rollbacks, history', url: '/admin/backups.html', icon: 'clock' });
 
   // Quick Actions
   items.push({ type: 'action', title: 'Add Photos to Current Gallery', subtitle: 'Upload new photographs', action: 'triggerFilePicker', icon: 'plus' });
@@ -704,7 +704,7 @@ function buildCommandIndex() {
         type: 'media',
         title: title || 'Untitled Media',
         subtitle: `${c} • ${desc}`,
-        url: `index.html?cat=${c}&edit=${idx}`,
+        url: `/admin/index.html?cat=${c}&edit=${idx}`,
         category: c,
         index: idx,
         icon: isVid ? 'film' : 'image'
@@ -786,7 +786,9 @@ function executeCommandItem(index) {
       window[item.action]();
     }
   } else if (item.url) {
-    if (window.location.pathname.endsWith('index.html') && item.url.startsWith('index.html')) {
+    const isIndexUrl = item.url.includes('index.html');
+    const isIndexPage = window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('/admin/') || window.location.pathname.endsWith('/admin');
+    if (isIndexPage && isIndexUrl) {
       const urlParams = new URL(item.url, window.location.origin).searchParams;
       const cat = urlParams.get('cat');
       const editIdx = urlParams.get('edit');
