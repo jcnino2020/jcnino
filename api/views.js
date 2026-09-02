@@ -21,16 +21,8 @@ async function connectToDatabase() {
   return { client, db };
 }
 
-// In-memory fallback dictionary for local development if MONGODB_URI is missing
-let localMockViews = {
-  "GH-01.JPG": 142,
-  "Drone-001.JPG": 96,
-  "FM-01.JPG": 204,
-  "FM-02.JPG": 188,
-  "SE-01.JPG": 125,
-  "VI-01": 310,
-  "VI-02": 245
-};
+// In-memory store for local development if MONGODB_URI is missing
+let localMockViews = {};
 
 function isAllowedOrigin(origin) {
   if (!origin || origin === 'null' || origin === 'file://') return true;

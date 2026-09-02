@@ -64,112 +64,6 @@ function escapeRegex(string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-// Sandbox mock seed logs for local development when MongoDB has no records
-const mockSeedLogs = [
-  {
-    sessionId: "vs_89x1a2b3c",
-    ipAddress: "112.198.115.42",
-    country: "Philippines",
-    countryCode: "PH",
-    region: "Western Visayas",
-    city: "Bacolod City",
-    isp: "Globe Telecom Inc.",
-    deviceType: "Desktop",
-    os: "macOS",
-    browser: "Safari",
-    screenResolution: "1710x1112",
-    pageUrl: "/",
-    pageTitle: "JC Niñonuevo | Visual Storyteller & Cinematographer",
-    referrer: "Direct / Bookmark",
-    createdAt: new Date(Date.now() - 4 * 60 * 1000)
-  },
-  {
-    sessionId: "vs_47z9y8x7w",
-    ipAddress: "120.29.74.15",
-    country: "Philippines",
-    countryCode: "PH",
-    region: "National Capital Region",
-    city: "Manila",
-    isp: "PLDT Clark Telecom",
-    deviceType: "Mobile",
-    os: "iOS",
-    browser: "Safari",
-    screenResolution: "393x852",
-    pageUrl: "/drone-shots.html",
-    pageTitle: "Drone Shots | Aerial Perspectives - JC Niñonuevo",
-    referrer: "https://www.google.com/",
-    createdAt: new Date(Date.now() - 28 * 60 * 1000)
-  },
-  {
-    sessionId: "vs_11m22n33o",
-    ipAddress: "136.158.42.99",
-    country: "Philippines",
-    countryCode: "PH",
-    region: "Central Visayas",
-    city: "Cebu City",
-    isp: "Converge ICT Solutions",
-    deviceType: "Desktop",
-    os: "Windows",
-    browser: "Chrome",
-    screenResolution: "1920x1080",
-    pageUrl: "/framed-moments.html",
-    pageTitle: "Framed Moments | Street & Portrait Photography",
-    referrer: "https://instagram.com/",
-    createdAt: new Date(Date.now() - 75 * 60 * 1000)
-  },
-  {
-    sessionId: "vs_99k88j77h",
-    ipAddress: "172.56.21.88",
-    country: "United States",
-    countryCode: "US",
-    region: "California",
-    city: "Los Angeles",
-    isp: "T-Mobile USA",
-    deviceType: "Mobile",
-    os: "iOS",
-    browser: "Chrome",
-    screenResolution: "430x932",
-    pageUrl: "/video-projects.html",
-    pageTitle: "Video Projects | Cinematic Films - JC Niñonuevo",
-    referrer: "https://youtube.com/",
-    createdAt: new Date(Date.now() - 3 * 3600 * 1000)
-  },
-  {
-    sessionId: "vs_55t44r33e",
-    ipAddress: "119.93.180.12",
-    country: "Philippines",
-    countryCode: "PH",
-    region: "Western Visayas",
-    city: "Iloilo City",
-    isp: "Globe Telecom Inc.",
-    deviceType: "Desktop",
-    os: "macOS",
-    browser: "Chrome",
-    screenResolution: "1440x900",
-    pageUrl: "/school-events.html",
-    pageTitle: "School Events | Live Coverage & Celebrations",
-    referrer: "Direct / Bookmark",
-    createdAt: new Date(Date.now() - 8 * 3600 * 1000)
-  },
-  {
-    sessionId: "vs_22w33e44r",
-    ipAddress: "127.0.0.1",
-    country: "Local Network",
-    countryCode: "LOCAL",
-    region: "Localhost",
-    city: "Bacolod City",
-    isp: "Internal Development Environment",
-    deviceType: "Desktop",
-    os: "macOS",
-    browser: "Chrome",
-    screenResolution: "1710x893",
-    pageUrl: "/",
-    pageTitle: "JC Niñonuevo | Visual Storyteller & Cinematographer",
-    referrer: "Direct / Bookmark",
-    createdAt: new Date(Date.now() - 14 * 3600 * 1000)
-  }
-];
-
 export default async function handler(req, res) {
   // CORS Headers
   res.setHeader('Access-Control-Allow-Credentials', 'true');
@@ -372,8 +266,8 @@ export default async function handler(req, res) {
     console.warn('MongoDB Analytics lookup fallback to memory store:', err.message);
   }
 
-  // Memory fallback logic (combines localVisitorLogs and mockSeedLogs)
-  const combinedLogs = [...localVisitorLogs, ...mockSeedLogs];
+  // In-memory fallback logic (real-time locally tracked visitor logs)
+  const combinedLogs = [...localVisitorLogs];
 
   const filtered = combinedLogs.filter(l => {
     if (l.pageUrl && l.pageUrl.toLowerCase().startsWith('/admin')) return false;

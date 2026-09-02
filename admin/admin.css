@@ -3,7 +3,7 @@
    Strict No-Pills Rule: Sharp, Structured, Minimal, Photography-First Workstation
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
 :root {
   /* Surface Layers (2026 Dark UI Hierarchy) */
@@ -126,8 +126,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .mono-num {
-  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-feature-settings: "tnum";
+  font-family: inherit;
+  font-feature-settings: "tnum" 1;
   font-variant-numeric: tabular-nums;
 }
 
@@ -373,8 +373,8 @@ aside::-webkit-scrollbar {
   color: var(--text-secondary);
 }
 .kbd-shortcut {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10.5px;
+  font-family: inherit;
+  font-size: 11px;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 3px;
@@ -549,9 +549,11 @@ aside::-webkit-scrollbar {
   transition: color var(--transition-fast);
 }
 
-/* Counts (Plain Tabular Monospace — NO PILL BADGES) */
+/* Counts (Plain Tabular Numbers — NO PILL BADGES) */
 .nav-count {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: inherit;
+  font-feature-settings: "tnum" 1;
+  font-variant-numeric: tabular-nums;
   font-size: 12px;
   font-weight: 500;
   color: var(--text-muted);
@@ -562,7 +564,7 @@ aside::-webkit-scrollbar {
   font-weight: 600;
 }
 .nav-tag-live {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: inherit;
   font-size: 11px;
   font-weight: 600;
   color: var(--success);
@@ -881,7 +883,7 @@ aside::-webkit-scrollbar {
 .tf-grid-4 {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1.25rem;
+  gap: 1.5rem;
   width: 100%;
 }
 @media (max-width: 1200px) {
@@ -903,6 +905,8 @@ aside::-webkit-scrollbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 1.25rem;
+  min-width: 0;
   transition: border-color var(--transition-fast), background var(--transition-fast);
 }
 .tf-card:hover {
@@ -913,6 +917,9 @@ aside::-webkit-scrollbar {
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
 }
 .tf-metric-label {
   font-size: 12px;
@@ -920,14 +927,18 @@ aside::-webkit-scrollbar {
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--text-muted);
+  white-space: nowrap;
 }
 .tf-metric-val {
-  font-size: 34px;
+  font-size: 28px;
   font-weight: 800;
   letter-spacing: -0.025em;
-  line-height: 1.1;
+  line-height: 1.15;
   font-variant-numeric: tabular-nums;
   color: #ffffff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .tf-metric-icon {
@@ -1005,6 +1016,7 @@ aside::-webkit-scrollbar {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  min-width: 0;
 }
 .kpi-card:hover {
   border-color: var(--border-default);
@@ -1015,12 +1027,14 @@ aside::-webkit-scrollbar {
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--text-muted);
+  white-space: nowrap;
 }
 .kpi-val-row {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: 0.5rem;
+  gap: 0.75rem;
+  min-width: 0;
 }
 .kpi-val {
   font-size: 32px;
@@ -1028,9 +1042,14 @@ aside::-webkit-scrollbar {
   letter-spacing: -0.025em;
   color: var(--text-primary);
   line-height: 1.1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .kpi-trend {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: inherit;
+  font-feature-settings: "tnum" 1;
+  font-variant-numeric: tabular-nums;
   font-size: 12.5px;
   font-weight: 600;
   display: inline-flex;
@@ -1236,8 +1255,10 @@ aside::-webkit-scrollbar {
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-xs);
   padding: 2px 6px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
+  font-family: inherit;
+  font-feature-settings: "tnum" 1;
+  font-variant-numeric: tabular-nums;
+  font-size: 10.5px;
   font-weight: 600;
   color: var(--text-primary);
 }
@@ -1390,7 +1411,7 @@ aside::-webkit-scrollbar {
 }
 
 /* ==========================================================================
-   TABLES & DATA GRIDS (SHARP, TABULAR, MONOSPACE NUMBERS)
+   TABLES & DATA GRIDS (SHARP, TABULAR NUMBERS)
    ========================================================================== */
 .table-wrap {
   width: 100%;
@@ -1407,7 +1428,7 @@ aside::-webkit-scrollbar {
 }
 .admin-table th {
   background: rgba(255, 255, 255, 0.02);
-  padding: 1rem 1.25rem;
+  padding: 1.25rem 1.65rem;
   font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
@@ -1425,7 +1446,7 @@ aside::-webkit-scrollbar {
   color: var(--text-primary);
 }
 .admin-table td {
-  padding: 1.15rem 1.25rem;
+  padding: 1.35rem 1.65rem;
   border-bottom: 1px solid var(--border-subtle);
   color: var(--text-secondary);
   vertical-align: middle;
@@ -1481,7 +1502,7 @@ aside::-webkit-scrollbar {
 }
 .tag-info {
   background: var(--info-bg);
-  color: #93C5FD;
+  color: var(--info);
   border-color: var(--info-border);
 }
 
@@ -1490,12 +1511,12 @@ aside::-webkit-scrollbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 1.25rem;
+  padding: 1.25rem 1.65rem;
   border-top: 1px solid var(--border-subtle);
   font-size: 13.5px;
   color: var(--text-muted);
   flex-wrap: wrap;
-  gap: 0.85rem;
+  gap: 1rem;
 }
 .pagination-controls {
   display: flex;
@@ -1680,8 +1701,8 @@ aside::-webkit-scrollbar {
   gap: 0.65rem;
 }
 .cmd-item-category {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-family: inherit;
+  font-size: 11.5px;
   color: var(--text-muted);
 }
 
@@ -1866,7 +1887,7 @@ aside::-webkit-scrollbar {
 .login-field-hint {
   font-size: 10.5px;
   font-weight: 500;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: inherit;
   color: var(--text-muted);
   text-transform: none;
 }
@@ -1878,10 +1899,10 @@ aside::-webkit-scrollbar {
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--radius-sm); /* 6px strict */
   padding: 0 0.85rem;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: inherit;
   font-size: 13.5px;
   color: #FFFFFF;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.04em;
   outline: none;
   transition: all var(--transition-fast);
 }
@@ -1950,7 +1971,7 @@ aside::-webkit-scrollbar {
   gap: 0.45rem;
   font-size: 11px;
   color: var(--text-muted);
-  font-family: 'JetBrains Mono', monospace;
+  font-family: inherit;
   padding-top: 0.25rem;
 }
 

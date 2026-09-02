@@ -313,45 +313,45 @@
         <!-- 4 Breakdown Cards (Original 4-Column Layout) -->
         <div class="tf-grid-4">
           <!-- Top Pages -->
-          <div class="card space-y-4">
-            <div class="card-header">
-              <h3 class="section-title">Top Visited Links & Pages</h3>
+          <div class="card p-5 sm:p-6 space-y-5">
+            <div class="card-header pb-1 border-b border-white/5">
+              <h3 class="section-title text-[15px]">Top Visited Links & Pages</h3>
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-zinc-500"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
             </div>
-            <div id="top-pages-list" class="space-y-3">
+            <div id="top-pages-list" class="space-y-4 pt-1">
               <div class="text-xs text-zinc-500 py-4 text-center">Loading traffic metrics...</div>
             </div>
           </div>
 
           <!-- Visitor Locations -->
-          <div class="card space-y-4">
-            <div class="card-header">
-              <h3 class="section-title">Visitor Locations (Country & City)</h3>
+          <div class="card p-5 sm:p-6 space-y-5">
+            <div class="card-header pb-1 border-b border-white/5">
+              <h3 class="section-title text-[15px]">Visitor Locations (Country & City)</h3>
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-zinc-500"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
             </div>
-            <div id="top-locations-list" class="space-y-3">
+            <div id="top-locations-list" class="space-y-4 pt-1">
               <div class="text-xs text-zinc-500 py-4 text-center">Loading location metrics...</div>
             </div>
           </div>
 
           <!-- Operating Systems -->
-          <div class="card space-y-4">
-            <div class="card-header">
-              <h3 class="section-title">Operating Systems & Platforms</h3>
+          <div class="card p-5 sm:p-6 space-y-5">
+            <div class="card-header pb-1 border-b border-white/5">
+              <h3 class="section-title text-[15px]">Operating Systems & Platforms</h3>
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-zinc-500"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
             </div>
-            <div id="top-os-list" class="space-y-3">
+            <div id="top-os-list" class="space-y-4 pt-1">
               <div class="text-xs text-zinc-500 py-4 text-center">Loading OS metrics...</div>
             </div>
           </div>
 
           <!-- Web Browsers -->
-          <div class="card space-y-4">
-            <div class="card-header">
-              <h3 class="section-title">Web Browsers Distribution</h3>
+          <div class="card p-5 sm:p-6 space-y-5">
+            <div class="card-header pb-1 border-b border-white/5">
+              <h3 class="section-title text-[15px]">Web Browsers Distribution</h3>
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-zinc-500"><circle cx="12" cy="12" r="10"></circle><path d="M8 12a4 4 0 1 0 8 0 4 4 0 1 0-8 0"></path></svg>
             </div>
-            <div id="top-browsers-list" class="space-y-3">
+            <div id="top-browsers-list" class="space-y-4 pt-1">
               <div class="text-xs text-zinc-500 py-4 text-center">Loading browser metrics...</div>
             </div>
           </div>
@@ -359,14 +359,14 @@
 
         <!-- Pageview Breakdown Table -->
         <div class="card p-0 overflow-hidden">
-          <div class="p-4 border-b border-white/10 flex justify-between items-center bg-zinc-950/40">
-            <div>
-              <h3 class="section-title">Pageview Breakdown by URL</h3>
-              <p class="text-xs text-zinc-400 mt-0.5">Page-by-page traffic summary across all visited portfolio pages</p>
+          <div class="p-6 sm:px-8 sm:py-6 border-b border-white/10 flex justify-between items-center bg-zinc-950/40">
+            <div class="space-y-1">
+              <h3 class="section-title text-base sm:text-lg font-bold text-white">Pageview Breakdown by URL</h3>
+              <p class="text-xs text-zinc-400">Page-by-page traffic summary across all visited portfolio pages</p>
             </div>
           </div>
 
-          <div class="table-wrap border-none rounded-none">
+          <div class="table-wrap border-none rounded-none overflow-x-auto">
             <table class="admin-table">
               <thead>
                 <tr>
@@ -379,7 +379,7 @@
                 </tr>
               </thead>
               <tbody id="breakdown-tbody">
-                <tr><td colspan="6" class="text-center py-6 text-zinc-500">Loading page breakdown...</td></tr>
+                <tr><td colspan="6" class="text-center py-8 text-zinc-500">Loading page breakdown...</td></tr>
               </tbody>
             </table>
           </div>
@@ -387,29 +387,29 @@
           <div class="pagination-bar" id="breakdown-pagination-bar">
             <div id="breakdown-pagination-info">Showing 0 of 0 pages</div>
             <div class="pagination-controls">
-              <button type="button" id="btn-breakdown-prev" class="btn btn-secondary" style="min-height: 34px; padding: 4px 12px; font-size: 13px;" onclick="goToBreakdownPage(currentBreakdownPage - 1)" disabled>Prev</button>
+              <button type="button" id="btn-breakdown-prev" class="btn btn-secondary" style="min-height: 36px; padding: 6px 14px; font-size: 13px;" onclick="goToBreakdownPage(currentBreakdownPage - 1)" disabled>Prev</button>
               <div id="breakdown-page-numbers" class="flex gap-1.5"></div>
-              <button type="button" id="btn-breakdown-next" class="btn btn-secondary" style="min-height: 34px; padding: 4px 12px; font-size: 13px;" onclick="goToBreakdownPage(currentBreakdownPage + 1)" disabled>Next</button>
+              <button type="button" id="btn-breakdown-next" class="btn btn-secondary" style="min-height: 36px; padding: 6px 14px; font-size: 13px;" onclick="goToBreakdownPage(currentBreakdownPage + 1)" disabled>Next</button>
             </div>
           </div>
         </div>
 
         <!-- Real-Time Visitor Session Logs Table -->
         <div class="card p-0 overflow-hidden">
-          <div class="p-4 sm:px-6 border-b border-white/10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-zinc-950/40">
-            <div>
+          <div class="p-6 sm:px-8 sm:py-6 border-b border-white/10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-zinc-950/40">
+            <div class="space-y-1">
               <h3 class="section-title text-base sm:text-lg font-bold text-white">Real-Time Visitor Log</h3>
-              <p class="text-xs text-zinc-400 mt-0.5" id="logs-card-subtitle">Showing 1–25 of 27 recorded visitor entries</p>
+              <p class="text-xs text-zinc-400" id="logs-card-subtitle">Showing 1–25 of 27 recorded visitor entries</p>
             </div>
-            <div class="flex items-center gap-2.5">
-              <button type="button" onclick="resolvePastLogs()" class="btn btn-secondary text-xs" style="min-height: 36px; padding: 6px 14px; gap: 6px;" title="Resolve geolocations and network metadata for past logs">
+            <div class="flex items-center gap-3">
+              <button type="button" onclick="resolvePastLogs()" class="btn btn-secondary text-xs" style="min-height: 38px; padding: 7px 16px; gap: 8px;" title="Resolve geolocations and network metadata for past logs">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <polyline points="9 11 12 14 22 4"></polyline>
                   <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
                 </svg>
                 <span>Resolve Past Logs</span>
               </button>
-              <button type="button" onclick="refreshVisitorLogs()" id="btn-logs-refresh" class="btn btn-secondary text-xs" style="min-height: 36px; padding: 6px 14px; gap: 6px;" title="Refresh visitor logs">
+              <button type="button" onclick="refreshVisitorLogs()" id="btn-logs-refresh" class="btn btn-secondary text-xs" style="min-height: 38px; padding: 7px 16px; gap: 8px;" title="Refresh visitor logs">
                 <svg id="logs-refresh-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M23 4v6h-6"></path>
                   <path d="M1 20v-6h6"></path>
@@ -453,19 +453,19 @@
           <div class="pagination-bar" id="logs-pagination-bar">
             <div id="logs-pagination-info">Showing 0 of 0 entries</div>
             <div class="pagination-controls">
-              <button type="button" id="btn-logs-prev" class="btn btn-secondary" style="min-height: 34px; padding: 4px 12px; font-size: 13px;" onclick="goToLogsPage(currentLogsPage - 1)" disabled>Prev</button>
+              <button type="button" id="btn-logs-prev" class="btn btn-secondary" style="min-height: 36px; padding: 6px 14px; font-size: 13px;" onclick="goToLogsPage(currentLogsPage - 1)" disabled>Prev</button>
               <div id="logs-page-numbers" class="flex gap-1.5"></div>
-              <button type="button" id="btn-logs-next" class="btn btn-secondary" style="min-height: 34px; padding: 4px 12px; font-size: 13px;" onclick="goToLogsPage(currentLogsPage + 1)" disabled>Next</button>
+              <button type="button" id="btn-logs-next" class="btn btn-secondary" style="min-height: 36px; padding: 6px 14px; font-size: 13px;" onclick="goToLogsPage(currentLogsPage + 1)" disabled>Next</button>
             </div>
           </div>
         </div>
 
         <!-- Portfolio Media Assets Engagement Table -->
         <div class="card p-0 overflow-hidden">
-          <div class="p-4 border-b border-white/10 flex justify-between items-center bg-zinc-950/40">
-            <div>
-              <h3 class="section-title">Portfolio Media Engagement & Appreciation</h3>
-              <p class="text-xs text-zinc-400 mt-0.5">Views, appreciations (likes), and engagement ratio per individual photograph and video</p>
+          <div class="p-6 sm:px-8 sm:py-6 border-b border-white/10 flex justify-between items-center bg-zinc-950/40">
+            <div class="space-y-1">
+              <h3 class="section-title text-base sm:text-lg font-bold text-white">Portfolio Media Engagement & Appreciation</h3>
+              <p class="text-xs text-zinc-400">Views, appreciations (likes), and engagement ratio per individual photograph and video</p>
             </div>
           </div>
 
@@ -617,11 +617,22 @@
           data = await res.json();
         }
       } catch (err) {
-        console.warn("Using local analytics metrics:", err);
+        console.warn("Analytics fetch error:", err);
       }
 
       if (!data || !data.success) {
-        data = generateLocalAnalyticsData(currentAnalyticsRange, currentAnalyticsSearch, currentAnalyticsLink);
+        data = {
+          totalViews: 0,
+          uniqueVisitors: 0,
+          mobilePct: 0,
+          topCountry: 'N/A',
+          topPages: [],
+          topLocations: [],
+          topOS: [],
+          topBrowsers: [],
+          allLinks: [],
+          logs: []
+        };
       }
 
       analyticsDataCache = data;
@@ -661,20 +672,20 @@
       const container = document.getElementById('top-pages-list');
       if (!container) return;
       if (!pages || pages.length === 0) {
-        container.innerHTML = '<div class="text-xs text-zinc-500 py-3 text-center">No page traffic recorded for this period.</div>';
+        container.innerHTML = '<div class="text-xs text-zinc-500 py-4 text-center">No page traffic recorded for this period.</div>';
         return;
       }
       container.innerHTML = pages.map(p => {
         const pct = totalViews > 0 ? Math.round((p.c / totalViews) * 1000) / 10 : 0;
         return `
-          <div class="space-y-1">
-            <div class="flex justify-between text-xs items-center">
-              <a href="javascript:void(0)" onclick="handleAnalyticsLinkSelect('${escapeHtml(p.page_url)}')" class="text-blue-400 hover:underline truncate max-w-[70%] font-medium">
+          <div class="flex flex-col gap-2">
+            <div class="flex justify-between text-xs items-center gap-2">
+              <a href="javascript:void(0)" onclick="handleAnalyticsLinkSelect('${escapeHtml(p.page_url)}')" class="text-blue-400 hover:text-blue-300 hover:underline truncate flex-1 min-w-0 text-[13px] font-medium transition-colors" title="${escapeHtml(p.page_url)}">
                 ${escapeHtml(p.page_url)}
               </a>
-              <span class="text-zinc-400 mono-num">${p.c.toLocaleString()} hits (${pct}%)</span>
+              <span class="text-zinc-400 mono-num text-xs whitespace-nowrap shrink-0">${p.c.toLocaleString()} hits (${pct}%)</span>
             </div>
-            <div class="progress-bar-track">
+            <div class="progress-bar-track" style="height: 6px;">
               <div class="progress-bar-fill" style="width: ${Math.min(100, Math.max(3, pct))}%; background: #3B82F6;"></div>
             </div>
           </div>
@@ -686,22 +697,22 @@
       const container = document.getElementById('top-locations-list');
       if (!container) return;
       if (!locations || locations.length === 0) {
-        container.innerHTML = '<div class="text-xs text-zinc-500 py-3 text-center">No location records available.</div>';
+        container.innerHTML = '<div class="text-xs text-zinc-500 py-4 text-center">No location records available.</div>';
         return;
       }
       container.innerHTML = locations.map(l => {
         const pct = totalViews > 0 ? Math.round((l.c / totalViews) * 1000) / 10 : 0;
         const locLabel = l.city ? `${escapeHtml(l.city)}, ${escapeHtml(l.country)}` : escapeHtml(l.country);
         return `
-          <div class="space-y-1">
-            <div class="flex justify-between text-xs items-center">
-              <span class="text-white truncate max-w-[70%] flex items-center gap-1.5">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#C084FC" stroke-width="2" class="shrink-0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                <span>${locLabel}</span>
+          <div class="flex flex-col gap-2">
+            <div class="flex justify-between text-xs items-center gap-2">
+              <span class="text-white text-[13px] font-medium truncate flex-1 min-w-0 flex items-center gap-1.5" title="${locLabel}">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C084FC" stroke-width="2" class="shrink-0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                <span class="truncate">${locLabel}</span>
               </span>
-              <span class="text-zinc-400 mono-num">${l.c.toLocaleString()} visits (${pct}%)</span>
+              <span class="text-zinc-400 mono-num text-xs whitespace-nowrap shrink-0">${l.c.toLocaleString()} visits (${pct}%)</span>
             </div>
-            <div class="progress-bar-track">
+            <div class="progress-bar-track" style="height: 6px;">
               <div class="progress-bar-fill" style="width: ${Math.min(100, Math.max(3, pct))}%; background: #A855F7;"></div>
             </div>
           </div>
@@ -713,18 +724,18 @@
       const container = document.getElementById('top-os-list');
       if (!container) return;
       if (!osList || osList.length === 0) {
-        container.innerHTML = '<div class="text-xs text-zinc-500 py-3 text-center">No OS distribution data recorded.</div>';
+        container.innerHTML = '<div class="text-xs text-zinc-500 py-4 text-center">No OS distribution data recorded.</div>';
         return;
       }
       container.innerHTML = osList.map(o => {
         const pct = totalViews > 0 ? Math.round((o.c / totalViews) * 1000) / 10 : 0;
         return `
-          <div class="space-y-1">
-            <div class="flex justify-between text-xs">
-              <span class="text-white">${escapeHtml(o.os || 'Unknown OS')}</span>
-              <span class="text-zinc-400 mono-num">${o.c.toLocaleString()} requests (${pct}%)</span>
+          <div class="flex flex-col gap-2">
+            <div class="flex justify-between text-xs items-center gap-2">
+              <span class="text-white text-[13px] font-medium truncate flex-1 min-w-0">${escapeHtml(o.os || 'Unknown OS')}</span>
+              <span class="text-zinc-400 mono-num text-xs whitespace-nowrap shrink-0">${o.c.toLocaleString()} requests (${pct}%)</span>
             </div>
-            <div class="progress-bar-track">
+            <div class="progress-bar-track" style="height: 6px;">
               <div class="progress-bar-fill" style="width: ${Math.min(100, Math.max(3, pct))}%; background: #10B981;"></div>
             </div>
           </div>
@@ -736,18 +747,18 @@
       const container = document.getElementById('top-browsers-list');
       if (!container) return;
       if (!browsers || browsers.length === 0) {
-        container.innerHTML = '<div class="text-xs text-zinc-500 py-3 text-center">No browser distribution data recorded.</div>';
+        container.innerHTML = '<div class="text-xs text-zinc-500 py-4 text-center">No browser distribution data recorded.</div>';
         return;
       }
       container.innerHTML = browsers.map(b => {
         const pct = totalViews > 0 ? Math.round((b.c / totalViews) * 1000) / 10 : 0;
         return `
-          <div class="space-y-1">
-            <div class="flex justify-between text-xs">
-              <span class="text-white">${escapeHtml(b.browser || 'Unknown Browser')}</span>
-              <span class="text-zinc-400 mono-num">${b.c.toLocaleString()} requests (${pct}%)</span>
+          <div class="flex flex-col gap-2">
+            <div class="flex justify-between text-xs items-center gap-2">
+              <span class="text-white text-[13px] font-medium truncate flex-1 min-w-0">${escapeHtml(b.browser || 'Unknown Browser')}</span>
+              <span class="text-zinc-400 mono-num text-xs whitespace-nowrap shrink-0">${b.c.toLocaleString()} requests (${pct}%)</span>
             </div>
-            <div class="progress-bar-track">
+            <div class="progress-bar-track" style="height: 6px;">
               <div class="progress-bar-fill" style="width: ${Math.min(100, Math.max(3, pct))}%; background: #F59E0B;"></div>
             </div>
           </div>
@@ -816,7 +827,7 @@
         tbody.innerHTML = paginatedItems.map(item => `
           <tr>
             <td>
-              <div class="font-semibold text-white font-mono text-sm">${escapeHtml(item.page_url)}</div>
+              <div class="font-semibold text-white text-sm">${escapeHtml(item.page_url)}</div>
               <div class="text-xs text-zinc-400 truncate max-w-[280px]">${escapeHtml(item.page_title || '')}</div>
             </td>
             <td class="font-bold text-white mono-num text-base">${(item.totalViews || 0).toLocaleString()}</td>
@@ -1011,7 +1022,7 @@
 
               <!-- 2. IP ADDRESS -->
               <td class="whitespace-nowrap">
-                <div class="inline-flex items-center gap-2 bg-zinc-900/90 hover:bg-zinc-800/90 border border-white/10 rounded-[6px] px-2.5 py-1 font-mono text-[13px] text-zinc-200 transition-colors cursor-pointer group" onclick="copyIpToClipboard('${ip}')" title="Click to copy IP">
+                <div class="inline-flex items-center gap-2 bg-zinc-900/90 hover:bg-zinc-800/90 border border-white/10 rounded-[6px] px-2.5 py-1 text-[13px] font-medium text-zinc-200 transition-colors cursor-pointer group" onclick="copyIpToClipboard('${ip}')" title="Click to copy IP">
                   <span>${ip}</span>
                   <svg class="w-3.5 h-3.5 text-zinc-500 group-hover:text-white transition-colors flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
@@ -1056,7 +1067,7 @@
                   <div class="text-xs text-zinc-300 font-medium mt-0.5">
                     ${os} • ${browser}
                   </div>
-                  <div class="text-[11px] text-zinc-500 font-mono">
+                  <div class="text-[11px] text-zinc-500 font-medium">
                     ${res}
                   </div>
                 </div>
@@ -1065,7 +1076,7 @@
               <!-- 5. PAGE / LINK VISITED -->
               <td class="whitespace-nowrap">
                 <div class="flex flex-col">
-                  <a href="${pageUrl}" target="_blank" class="text-sm font-bold text-blue-400 hover:text-blue-300 font-mono transition-colors">
+                  <a href="${pageUrl}" target="_blank" class="text-sm font-bold text-blue-400 hover:text-blue-300 transition-colors">
                     ${pageUrl}
                   </a>
                   <span class="text-xs text-zinc-400 font-medium tracking-wide uppercase mt-0.5">
@@ -1096,25 +1107,39 @@
     }
 
     async function fetchMediaLikesAndViews() {
+      let likesMap = {};
+      let viewsMap = {};
+
+      try {
+        const [likesRes, viewsRes] = await Promise.all([
+          fetch('/api/likes').then(r => r.ok ? r.json() : {}),
+          fetch('/api/views').then(r => r.ok ? r.json() : {})
+        ]);
+        likesMap = likesRes || {};
+        viewsMap = viewsRes || {};
+      } catch (err) {
+        console.warn("Could not fetch real likes/views map:", err);
+      }
+
       const items = [];
       const cats = ['highlights', 'drone', 'framed', 'events', 'videos', 'videos2'];
       cats.forEach(c => {
         (localData[c] || []).forEach((item, idx) => {
           const isVid = (c === 'videos' || c === 'videos2');
           const id = isVid ? item.title : item.file;
+          const views = Number(viewsMap[id] || viewsMap[item.file] || 0);
+          const likes = Number(likesMap[id] || likesMap[item.file] || 0);
+          const ratio = views > 0 ? (likes / views) * 100 : 0;
+
           items.push({
             id: id,
             title: isVid ? item.title : (item.desc || item.file),
             category: c,
-            views: 450 + Math.floor(Math.random() * 800),
-            likes: 40 + Math.floor(Math.random() * 120),
-            ratio: 0
+            views: views,
+            likes: likes,
+            ratio: ratio
           });
         });
-      });
-
-      items.forEach(i => {
-        i.ratio = i.views > 0 ? (i.likes / i.views) * 100 : 0;
       });
 
       compiledAnalyticsList = items;
@@ -1135,11 +1160,16 @@
         }
       });
 
+      if (sorted.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="text-center py-8 text-zinc-500">No media items available.</td></tr>`;
+        return;
+      }
+
       tbody.innerHTML = sorted.slice(0, 30).map(item => `
         <tr>
           <td>
             <div class="font-bold text-white text-sm truncate max-w-[320px]">${escapeHtml(item.title)}</div>
-            <div class="text-xs text-zinc-400 font-mono mt-0.5">${escapeHtml(item.id)}</div>
+            <div class="text-xs text-zinc-400 mt-0.5">${escapeHtml(item.id)}</div>
           </td>
           <td class="text-sm text-zinc-300 capitalize">${escapeHtml(item.category)}</td>
           <td class="font-bold text-white mono-num text-base">${item.views.toLocaleString()}</td>
@@ -1205,82 +1235,6 @@
       const select = document.getElementById('analytics-link-select');
       if (select) select.value = '';
       fetchAnalyticsAndRender();
-    }
-
-    function generateLocalAnalyticsData(range, search, linkFilter) {
-      const mockLogs = [
-        { ipAddress: "124.158.34.67", country: "Philippines", city: "Bacolod City", region: "Negros Island Region", isp: "Converge ICT", deviceType: "Desktop", os: "macOS", browser: "Chrome", screenResolution: "1710x1112", pageUrl: "/gta6", pageTitle: "CYBERLEEK", referrer: "Direct / Bookmark", createdAt: new Date(Date.now() - 17 * 60 * 1000).toISOString() },
-        { ipAddress: "112.198.115.42", country: "Philippines", city: "Bacolod City", region: "Western Visayas", isp: "Globe Telecom Inc.", deviceType: "Desktop", os: "macOS", browser: "Safari", screenResolution: "1440x900", pageUrl: "/", pageTitle: "HOME", referrer: "Direct / Bookmark", createdAt: new Date(Date.now() - 32 * 60 * 1000).toISOString() },
-        { ipAddress: "120.29.74.15", country: "Philippines", city: "Manila", region: "National Capital Region", isp: "PLDT Clark Telecom", deviceType: "Mobile", os: "iOS", browser: "Safari", screenResolution: "390x844", pageUrl: "/drone-shots.html", pageTitle: "DRONE SHOTS", referrer: "https://instagram.com", createdAt: new Date(Date.now() - 48 * 60 * 1000).toISOString() },
-        { ipAddress: "136.158.42.99", country: "Philippines", city: "Cebu City", region: "Central Visayas", isp: "Converge ICT Solutions", deviceType: "Desktop", os: "Windows", browser: "Chrome", screenResolution: "1920x1080", pageUrl: "/framed-moments.html", pageTitle: "FRAMED MOMENTS", referrer: "https://google.com", createdAt: new Date(Date.now() - 85 * 60 * 1000).toISOString() },
-        { ipAddress: "172.56.21.88", country: "United States", city: "Los Angeles", region: "California", isp: "T-Mobile USA", deviceType: "Mobile", os: "iOS", browser: "Chrome", screenResolution: "430x932", pageUrl: "/video-projects.html", pageTitle: "VIDEO PROJECTS", referrer: "https://youtube.com", createdAt: new Date(Date.now() - 110 * 60 * 1000).toISOString() },
-        { ipAddress: "119.93.180.12", country: "Philippines", city: "Iloilo City", region: "Western Visayas", isp: "Globe Telecom Inc.", deviceType: "Desktop", os: "macOS", browser: "Chrome", screenResolution: "2560x1440", pageUrl: "/school-events.html", pageTitle: "SCHOOL EVENTS", referrer: "Direct / Bookmark", createdAt: new Date(Date.now() - 145 * 60 * 1000).toISOString() },
-        { ipAddress: "180.191.12.8", country: "Philippines", city: "Davao City", region: "Davao Region", isp: "DITO Telecommunity", deviceType: "Mobile", os: "Android", browser: "Chrome", screenResolution: "412x915", pageUrl: "/drone-shots.html", pageTitle: "DRONE SHOTS", referrer: "https://facebook.com", createdAt: new Date(Date.now() - 190 * 60 * 1000).toISOString() },
-        { ipAddress: "203.177.135.210", country: "Philippines", city: "Quezon City", region: "National Capital Region", isp: "Globe Telecom", deviceType: "Tablet", os: "iPadOS", browser: "Safari", screenResolution: "810x1080", pageUrl: "/framed-moments.html", pageTitle: "FRAMED MOMENTS", referrer: "Direct / Bookmark", createdAt: new Date(Date.now() - 230 * 60 * 1000).toISOString() },
-        { ipAddress: "49.145.22.67", country: "Philippines", city: "Bacolod City", region: "Negros Island Region", isp: "Sky Cable Corp.", deviceType: "Desktop", os: "Windows", browser: "Edge", screenResolution: "1920x1080", pageUrl: "/", pageTitle: "HOME", referrer: "Direct / Bookmark", createdAt: new Date(Date.now() - 280 * 60 * 1000).toISOString() },
-        { ipAddress: "103.100.224.5", country: "Singapore", city: "Singapore", region: "Central", isp: "Singtel Optus", deviceType: "Desktop", os: "macOS", browser: "Safari", screenResolution: "1728x1117", pageUrl: "/video-projects.html", pageTitle: "VIDEO PROJECTS", referrer: "https://linkedin.com", createdAt: new Date(Date.now() - 340 * 60 * 1000).toISOString() },
-        { ipAddress: "133.242.18.90", country: "Japan", city: "Tokyo", region: "Kanto", isp: "NTT Communications", deviceType: "Desktop", os: "macOS", browser: "Chrome", screenResolution: "1920x1080", pageUrl: "/drone-shots.html", pageTitle: "DRONE SHOTS", referrer: "https://twitter.com", createdAt: new Date(Date.now() - 410 * 60 * 1000).toISOString() },
-        { ipAddress: "151.101.65.140", country: "United Kingdom", city: "London", region: "Greater London", isp: "BT Broadband", deviceType: "Desktop", os: "Windows", browser: "Firefox", screenResolution: "1920x1080", pageUrl: "/framed-moments.html", pageTitle: "FRAMED MOMENTS", referrer: "https://google.co.uk", createdAt: new Date(Date.now() - 490 * 60 * 1000).toISOString() },
-        { ipAddress: "104.28.210.88", country: "Australia", city: "Sydney", region: "New South Wales", isp: "Telstra Corporation", deviceType: "Mobile", os: "iOS", browser: "Safari", screenResolution: "393x852", pageUrl: "/", pageTitle: "HOME", referrer: "https://instagram.com", createdAt: new Date(Date.now() - 560 * 60 * 1000).toISOString() },
-        { ipAddress: "124.106.188.19", country: "Philippines", city: "Bacolod City", region: "Negros Island Region", isp: "Converge ICT", deviceType: "Mobile", os: "Android", browser: "Chrome", screenResolution: "384x854", pageUrl: "/school-events.html", pageTitle: "SCHOOL EVENTS", referrer: "Direct / Bookmark", createdAt: new Date(Date.now() - 630 * 60 * 1000).toISOString() },
-        { ipAddress: "121.54.44.101", country: "Philippines", city: "Manila", region: "National Capital Region", isp: "Smart Communications", deviceType: "Mobile", os: "iOS", browser: "Safari", screenResolution: "390x844", pageUrl: "/video-projects.html", pageTitle: "VIDEO PROJECTS", referrer: "https://tiktok.com", createdAt: new Date(Date.now() - 720 * 60 * 1000).toISOString() },
-        { ipAddress: "136.158.33.20", country: "Philippines", city: "Silay City", region: "Negros Island Region", isp: "Converge ICT", deviceType: "Desktop", os: "macOS", browser: "Chrome", screenResolution: "1710x1112", pageUrl: "/drone-shots.html", pageTitle: "DRONE SHOTS", referrer: "Direct / Bookmark", createdAt: new Date(Date.now() - 810 * 60 * 1000).toISOString() },
-        { ipAddress: "112.198.88.3", country: "Philippines", city: "Talisay City", region: "Negros Island Region", isp: "Globe Telecom", deviceType: "Desktop", os: "Windows", browser: "Chrome", screenResolution: "1920x1080", pageUrl: "/", pageTitle: "HOME", referrer: "Direct / Bookmark", createdAt: new Date(Date.now() - 900 * 60 * 1000).toISOString() },
-        { ipAddress: "24.199.120.45", country: "United States", city: "New York", region: "New York", isp: "Verizon Fios", deviceType: "Desktop", os: "macOS", browser: "Safari", screenResolution: "1440x900", pageUrl: "/framed-moments.html", pageTitle: "FRAMED MOMENTS", referrer: "https://pinterest.com", createdAt: new Date(Date.now() - 1020 * 60 * 1000).toISOString() },
-        { ipAddress: "119.95.201.78", country: "Philippines", city: "Bacolod City", region: "Negros Island Region", isp: "PLDT", deviceType: "Mobile", os: "iOS", browser: "Safari", screenResolution: "393x852", pageUrl: "/drone-shots.html", pageTitle: "DRONE SHOTS", referrer: "Direct / Bookmark", createdAt: new Date(Date.now() - 1140 * 60 * 1000).toISOString() },
-        { ipAddress: "175.176.89.14", country: "Philippines", city: "Cagayan de Oro", region: "Northern Mindanao", isp: "Globe Telecom", deviceType: "Tablet", os: "iPadOS", browser: "Safari", screenResolution: "820x1180", pageUrl: "/school-events.html", pageTitle: "SCHOOL EVENTS", referrer: "https://facebook.com", createdAt: new Date(Date.now() - 1280 * 60 * 1000).toISOString() },
-        { ipAddress: "180.232.70.160", country: "Philippines", city: "Pasig", region: "National Capital Region", isp: "Eastern Telecom", deviceType: "Desktop", os: "Windows", browser: "Edge", screenResolution: "1920x1080", pageUrl: "/video-projects.html", pageTitle: "VIDEO PROJECTS", referrer: "Direct / Bookmark", createdAt: new Date(Date.now() - 1420 * 60 * 1000).toISOString() },
-        { ipAddress: "112.200.15.92", country: "Philippines", city: "Bacolod City", region: "Negros Island Region", isp: "Converge ICT", deviceType: "Desktop", os: "macOS", browser: "Chrome", screenResolution: "1710x1112", pageUrl: "/gta6", pageTitle: "CYBERLEEK", referrer: "Direct / Bookmark", createdAt: new Date(Date.now() - 1580 * 60 * 1000).toISOString() },
-        { ipAddress: "136.158.77.104", country: "Philippines", city: "Dumaguete City", region: "Negros Island Region", isp: "Converge ICT", deviceType: "Mobile", os: "Android", browser: "Chrome", screenResolution: "412x915", pageUrl: "/framed-moments.html", pageTitle: "FRAMED MOMENTS", referrer: "https://instagram.com", createdAt: new Date(Date.now() - 1740 * 60 * 1000).toISOString() },
-        { ipAddress: "210.14.8.19", country: "Philippines", city: "Taguig", region: "National Capital Region", isp: "PLDT Enterprise", deviceType: "Desktop", os: "Windows", browser: "Chrome", screenResolution: "2560x1440", pageUrl: "/", pageTitle: "HOME", referrer: "https://google.com", createdAt: new Date(Date.now() - 1900 * 60 * 1000).toISOString() },
-        { ipAddress: "172.58.44.11", country: "United States", city: "San Francisco", region: "California", isp: "T-Mobile USA", deviceType: "Mobile", os: "iOS", browser: "Safari", screenResolution: "393x852", pageUrl: "/video-projects.html", pageTitle: "VIDEO PROJECTS", referrer: "https://threads.net", createdAt: new Date(Date.now() - 2100 * 60 * 1000).toISOString() },
-        { ipAddress: "119.94.150.23", country: "Philippines", city: "Bacolod City", region: "Negros Island Region", isp: "Globe Telecom", deviceType: "Desktop", os: "macOS", browser: "Chrome", screenResolution: "1710x1112", pageUrl: "/drone-shots.html", pageTitle: "DRONE SHOTS", referrer: "Direct / Bookmark", createdAt: new Date(Date.now() - 2350 * 60 * 1000).toISOString() },
-        { ipAddress: "112.198.44.89", country: "Philippines", city: "Bacolod City", region: "Negros Island Region", isp: "Converge ICT", deviceType: "Desktop", os: "Windows", browser: "Chrome", screenResolution: "1920x1080", pageUrl: "/", pageTitle: "HOME", referrer: "Direct / Bookmark", createdAt: new Date(Date.now() - 2600 * 60 * 1000).toISOString() }
-      ];
-
-      const allLinks = [
-        { page_url: "/", page_title: "JC Niñonuevo | Visual Storyteller & Cinematographer", totalViews: 142, uniqueVisitors: 98, mobilePct: 45.2, lastVisited: new Date(Date.now() - 4 * 60 * 1000).toISOString() },
-        { page_url: "/drone-shots.html", page_title: "Drone Shots | Aerial Perspectives - JC Niñonuevo", totalViews: 96, uniqueVisitors: 72, mobilePct: 58.3, lastVisited: new Date(Date.now() - 28 * 60 * 1000).toISOString() },
-        { page_url: "/framed-moments.html", page_title: "Framed Moments | Street & Portrait Photography", totalViews: 204, uniqueVisitors: 156, mobilePct: 38.7, lastVisited: new Date(Date.now() - 75 * 60 * 1000).toISOString() },
-        { page_url: "/video-projects.html", page_title: "Video Projects | Cinematic Films - JC Niñonuevo", totalViews: 310, uniqueVisitors: 215, mobilePct: 62.1, lastVisited: new Date(Date.now() - 3 * 3600 * 1000).toISOString() },
-        { page_url: "/school-events.html", page_title: "School Events | Live Coverage & Celebrations", totalViews: 125, uniqueVisitors: 89, mobilePct: 50.0, lastVisited: new Date(Date.now() - 8 * 3600 * 1000).toISOString() }
-      ];
-
-      return {
-        success: true,
-        totalViews: 877,
-        uniqueVisitors: 630,
-        mobilePct: 50.8,
-        topCountry: "Philippines",
-        topPages: [
-          { page_url: "/video-projects.html", c: 310 },
-          { page_url: "/framed-moments.html", c: 204 },
-          { page_url: "/", c: 142 },
-          { page_url: "/school-events.html", c: 125 },
-          { page_url: "/drone-shots.html", c: 96 }
-        ],
-        topLocations: [
-          { city: "Bacolod City", country: "Philippines", c: 480 },
-          { city: "Manila", country: "Philippines", c: 195 },
-          { city: "Cebu City", country: "Philippines", c: 102 },
-          { city: "Los Angeles", country: "United States", c: 60 },
-          { city: "Iloilo City", country: "Philippines", c: 40 }
-        ],
-        topOS: [
-          { os: "macOS", c: 340 },
-          { os: "iOS", c: 275 },
-          { os: "Windows", c: 172 },
-          { os: "Android", c: 90 }
-        ],
-        topBrowsers: [
-          { browser: "Safari", c: 442 },
-          { browser: "Chrome", c: 350 },
-          { browser: "Firefox", c: 55 },
-          { browser: "Edge", c: 30 }
-        ],
-        allLinks: allLinks,
-        logs: mockLogs
-      };
     }
 
     function initAnalyticsDashboard() {
