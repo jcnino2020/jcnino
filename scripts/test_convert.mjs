@@ -1,4 +1,4 @@
-import handler from './convert.js';
+import handler from '../api/convert.js';
 
 const mockReq = {
   headers: {
