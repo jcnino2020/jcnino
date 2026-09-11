@@ -2,6 +2,12 @@
 <html lang="en">
 
 <head>
+  <script>
+    document.documentElement.classList.add('js');
+    window.addEventListener('error', function() {
+      document.documentElement.classList.remove('js');
+    });
+  </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   <title>Portfolio | JC Niñonuevo</title>
@@ -18,7 +24,7 @@
   <meta property="og:url" content="https://jcnino.vercel.app/">
   <meta property="og:title" content="Portfolio | JC Niñonuevo">
   <meta property="og:description"
-    content="Photography & cinematography portfolio. Drone aerials, editorial street frames, and cinematic storytelling. Based in Bacolod City.">
+    content="Explore aerial drone perspectives, street frames, and cinematic visual stories by Bacolod-based photographer JC Niñonuevo.">
   <meta property="og:image" content="https://jcnino.vercel.app/images/preview.jpg">
 
   <!-- Twitter -->
@@ -26,7 +32,7 @@
   <meta name="twitter:url" content="https://jcnino.vercel.app/">
   <meta name="twitter:title" content="Portfolio | JC Niñonuevo">
   <meta name="twitter:description" content="Photography & cinematography portfolio. Based in Bacolod City.">
-  <meta name="twitter:image" content="https://jcnino.vercel.app/images/optimized/1200/GH-01-1200.webp">
+  <meta name="twitter:image" content="https://jcnino.vercel.app/images/preview.jpg">
 
   <!-- Structured Data (JSON-LD) for Search Engines -->
   <script type="application/ld+json">
@@ -41,25 +47,51 @@
       "addressLocality": "Bacolod City",
       "addressCountry": "PH"
     },
-    "sameAs": []
+    "sameAs": [
+      "https://facebook.com/jcninoo",
+      "https://instagram.com/photos.jcnino"
+    ]
   }
   </script>
 
-  <link rel="stylesheet" href="assets/tailwind.css">
-  <link rel="stylesheet" href="assets/portfolio.css">
+  <!-- Preload Critical Hero Bold Font -->
+  <link rel="preload" href="assets/fonts/HelveticaNeue-Bold.woff2" as="font" type="font/woff2" crossorigin>
+
+  <link rel="stylesheet" href="assets/tailwind.css?v=2">
+  <link rel="stylesheet" href="assets/portfolio.css?v=2">
 
 </head>
 
 <body class="min-h-screen">
 
   <!-- Navigation -->
-  <div id="navbar-placeholder"></div>
+  <div id="navbar-placeholder">
+    <noscript>
+      <nav id="main-nav" class="fixed top-0 left-0 right-0 z-50 bg-black border-b border-border">
+        <div class="max-w-7xl mx-auto px-6 sm:px-10">
+          <div class="flex items-center justify-between h-16 md:h-20">
+            <a href="index.html" class="flex items-center">
+              <img src="images/logo.png" alt="Portfolio" class="h-5 w-auto opacity-90" />
+            </a>
+            <div class="flex items-center gap-6">
+              <a href="index.html" class="text-white text-sm font-bold">Home</a>
+              <a href="drone-shots.html" class="text-text-muted hover:text-white text-sm font-bold">Drone</a>
+              <a href="framed-moments.html" class="text-text-muted hover:text-white text-sm font-bold">Framed</a>
+              <a href="school-events.html" class="text-text-muted hover:text-white text-sm font-bold">Events</a>
+              <a href="video-projects.html" class="text-text-muted hover:text-white text-sm font-bold">Videos</a>
+              <a href="#contact" class="px-5 py-2 rounded-full bg-white text-black text-sm font-bold">Contact</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </noscript>
+  </div>
 
   <!-- Assets -->
-  <script src="assets/portfolio.js" defer></script>
+  <script src="assets/portfolio.js?v=2" defer></script>
 
   <!-- Main Content -->
-  <div>
+  <main id="main-content">
 
     <!-- Hero Section -->
     <section id="home" class="relative min-h-screen flex items-center pt-16 md:pt-20 overflow-hidden">
@@ -71,8 +103,8 @@
             <p id="hero-eyebrow"
               class="gsap-hero-item text-text-muted text-sm font-bold uppercase tracking-normal mb-6">Photo & Video</p>
             <h1 id="hero-title"
-              class="gsap-hero-item text-6xl sm:text-7xl lg:text-8xl text-white mb-8 leading-none tracking-tight font-bold">
-              Framing <br /><span class="font-light opacity-90">Stories.</span>
+              class="gsap-hero-item text-5xl sm:text-7xl lg:text-8xl leading-[1.05] sm:tracking-tight font-bold text-white mb-8">
+              Framing <span class="font-light opacity-90">Stories.</span>
             </h1>
             <p id="hero-desc"
               class="gsap-hero-item text-text-muted text-lg sm:text-xl max-w-lg mb-12 leading-relaxed font-normal">
@@ -143,7 +175,7 @@
       <div class="max-w-7xl mx-auto px-6 sm:px-10">
 
         <!-- New Header in Exact Same Style as Gallery Highlights -->
-        <div id="services-header" class="mb-6 md:mb-10">
+        <div id="services-header" class="gsap-reveal mb-6 md:mb-10" data-reveal="up-35">
           <p class="text-text-muted text-xs font-bold uppercase">Categories</p>
         </div>
 
@@ -152,7 +184,8 @@
 
           <!-- 01 Drone Shots -->
           <a href="drone-shots.html"
-            class="service-card group border border-border hover:border-white/30 transition-all duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden">
+            class="service-card gsap-reveal group border border-border hover:border-white/30 transition-all duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden"
+            data-reveal="up-50">
             <!-- BG Image -->
             <picture class="absolute inset-0 w-full h-full">
               <source type="image/webp"
@@ -187,7 +220,8 @@
 
           <!-- 02 Framed Moments -->
           <a href="framed-moments.html"
-            class="service-card group border border-border hover:border-white/30 transition-all duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden">
+            class="service-card gsap-reveal group border border-border hover:border-white/30 transition-all duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden"
+            data-reveal="up-50">
             <picture class="absolute inset-0 w-full h-full">
               <source type="image/webp"
                 srcset="images/optimized/800/Framed%20Moments/FM-01-800.webp 800w, images/optimized/1200/Framed%20Moments/FM-01-1200.webp 1200w"
@@ -219,7 +253,8 @@
 
           <!-- 03 School Events -->
           <a href="school-events.html"
-            class="service-card group border border-border hover:border-white/30 transition-all duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden">
+            class="service-card gsap-reveal group border border-border hover:border-white/30 transition-all duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden"
+            data-reveal="up-50">
             <picture class="absolute inset-0 w-full h-full">
               <source type="image/webp"
                 srcset="images/optimized/800/School%20Events/SE-01-800.webp 800w, images/optimized/1200/School%20Events/SE-01-1200.webp 1200w"
@@ -251,7 +286,8 @@
 
           <!-- 04 Video Projects -->
           <a href="video-projects.html"
-            class="service-card group border border-border hover:border-white/30 transition-all duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden">
+            class="service-card gsap-reveal group border border-border hover:border-white/30 transition-all duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden"
+            data-reveal="up-50">
             <picture class="absolute inset-0 w-full h-full">
               <source type="image/webp"
                 srcset="images/optimized/800/VP-800.webp 800w, images/optimized/1200/VP-1200.webp 1200w"
@@ -288,13 +324,27 @@
     <section id="gallery" class="py-10 md:py-16 border-t border-border">
       <div class="max-w-7xl mx-auto px-6 sm:px-10">
         <div id="gallery-header"
-          class="flex flex-col md:flex-row items-start md:items-end justify-between mb-6 md:mb-10 gap-6">
+          class="gsap-reveal flex flex-col md:flex-row items-start md:items-end justify-between mb-6 md:mb-10 gap-6"
+          data-reveal="up-35">
           <div>
             <p class="text-text-muted text-xs font-bold uppercase mb-4">Gallery Highlights</p>
             <h2 class="text-4xl sm:text-5xl text-white font-bold">Visual Journal</h2>
           </div>
         </div>
-        <div class="gallery-grid" id="highlights-grid"></div>
+        <div class="gallery-grid" id="highlights-grid">
+          <noscript>
+            <div class="p-6 text-center text-text-muted border border-border rounded-xl col-span-full">
+              <p class="text-lg text-white font-bold mb-2">Gallery Highlights</p>
+              <p class="text-sm mb-4">Explore featured photography directly in each portfolio category:</p>
+              <div class="flex flex-wrap justify-center gap-4">
+                <a href="drone-shots.html" class="px-5 py-2 rounded-full border border-white/20 text-white text-sm font-bold hover:bg-white/10">Drone Shots</a>
+                <a href="framed-moments.html" class="px-5 py-2 rounded-full border border-white/20 text-white text-sm font-bold hover:bg-white/10">Framed Moments</a>
+                <a href="school-events.html" class="px-5 py-2 rounded-full border border-white/20 text-white text-sm font-bold hover:bg-white/10">School Events</a>
+                <a href="video-projects.html" class="px-5 py-2 rounded-full border border-white/20 text-white text-sm font-bold hover:bg-white/10">Video Projects</a>
+              </div>
+            </div>
+          </noscript>
+        </div>
       </div>
     </section>
 
@@ -303,7 +353,7 @@
       <div class="max-w-7xl mx-auto px-6 sm:px-10">
         <div class="grid lg:grid-cols-12 gap-16 items-center">
 
-          <div id="about-left" class="lg:col-span-5">
+          <div id="about-left" class="gsap-reveal lg:col-span-5" data-reveal="left">
             <p class="text-text-muted text-xs font-bold uppercase mb-4">About</p>
             <h2 class="text-4xl sm:text-5xl text-white mb-6 leading-tight font-bold">The Photographer.</h2>
             <p id="about-bio" class="text-text-muted text-lg leading-relaxed mb-6">
@@ -315,16 +365,16 @@
             </p>
           </div>
 
-          <div id="about-right" class="lg:col-span-7 lg:pl-12 border-l-0 lg:border-l border-border">
+          <div id="about-right" class="gsap-reveal lg:col-span-7 lg:pl-12 border-l-0 lg:border-l border-border" data-reveal="right">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
               <div>
                 <h4 class="text-white font-bold text-sm uppercase tracking-normal mb-4">Camera Kit</h4>
                 <ul class="space-y-3 text-text-muted">
-                  <li class="flex justify-between border-b border-white/5 pb-2"><span>Body</span><span
+                  <li class="gsap-reveal flex justify-between border-b border-white/5 pb-2" data-reveal="right-20"><span>Body</span><span
                       id="about-kit-body" class="text-white font-bold">Nikon Z50</span></li>
-                  <li class="flex justify-between border-b border-white/5 pb-2"><span>Primes</span><span
+                  <li class="gsap-reveal flex justify-between border-b border-white/5 pb-2" data-reveal="right-20"><span>Primes</span><span
                       id="about-kit-primes" class="text-white font-bold text-right">Viltrox 25/56/85</span></li>
-                  <li class="flex justify-between border-b border-white/5 pb-2"><span>Zooms</span><span
+                  <li class="gsap-reveal flex justify-between border-b border-white/5 pb-2" data-reveal="right-20"><span>Zooms</span><span
                       id="about-kit-zooms" class="text-white font-bold">16-50/50-250</span></li>
                 </ul>
               </div>
@@ -407,7 +457,7 @@
       <div class="absolute inset-0 pointer-events-none opacity-5"
         style="background-image: radial-gradient(#fff 1px, transparent 1px); background-size: 20px 20px;"></div>
       <div class="max-w-3xl mx-auto px-6 sm:px-10 relative z-10">
-        <div id="contact-header" class="text-center mb-8 md:mb-12">
+        <div id="contact-header" class="gsap-reveal text-center mb-8 md:mb-12" data-reveal="up-35">
           <p class="text-text-muted text-xs font-bold uppercase mb-4">Contact</p>
           <h2 class="text-4xl sm:text-5xl text-white mb-4 font-bold">Let's Collaborate.</h2>
           <p class="text-text-muted text-lg max-w-lg mx-auto mb-6">Available for school events, portraits,
@@ -417,7 +467,8 @@
 
         <div id="contact-links" class="space-y-4 p-8 bg-surface border border-border rounded-2xl shadow-2xl">
           <a href="https://facebook.com/jcninoo" target="_blank"
-            class="contact-link flex items-center justify-between p-5 bg-black/20 border border-white/10 rounded-xl hover:bg-white hover:text-black transition-all duration-300 group">
+            class="contact-link gsap-reveal flex items-center justify-between p-5 bg-black/20 border border-white/10 rounded-xl hover:bg-white hover:text-black transition-all duration-300 group"
+            data-reveal="up-25">
             <div class="flex items-center gap-4">
               <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                 <path
@@ -432,7 +483,8 @@
           </a>
 
           <a href="https://instagram.com/photos.jcnino" target="_blank"
-            class="contact-link flex items-center justify-between p-5 bg-black/20 border border-white/10 rounded-xl hover:bg-white hover:text-black transition-all duration-300 group">
+            class="contact-link gsap-reveal flex items-center justify-between p-5 bg-black/20 border border-white/10 rounded-xl hover:bg-white hover:text-black transition-all duration-300 group"
+            data-reveal="up-25">
             <div class="flex items-center gap-4">
               <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                 <path
@@ -447,7 +499,8 @@
           </a>
 
           <a href="mailto:jcninonuevo@gmail.com"
-            class="contact-link flex items-center justify-between p-5 bg-black/20 border border-white/10 rounded-xl hover:bg-white hover:text-black transition-all duration-300 group">
+            class="contact-link gsap-reveal flex items-center justify-between p-5 bg-black/20 border border-white/10 rounded-xl hover:bg-white hover:text-black transition-all duration-300 group"
+            data-reveal="up-25">
             <div class="flex items-center gap-4">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -463,7 +516,7 @@
         </div>
       </div>
     </section>
-  </div>
+  </main>
 
   <!-- Back to Top -->
   <div class="flex justify-center py-12 border-t border-border">
@@ -592,7 +645,26 @@
     document.addEventListener('DOMContentLoaded', renderHighlights);
   </script>
 
-  <div id="footer-placeholder"></div>
+  <div id="footer-placeholder">
+    <noscript>
+      <footer id="site-footer" class="bg-bg border-t border-border py-8 md:py-12">
+        <div class="max-w-7xl mx-auto px-6 sm:px-10 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div class="flex flex-col items-center md:items-start gap-2">
+            <span class="text-white text-sm"><span class="font-bold">JC</span><span class="font-light">Niñonuevo</span> &copy; 2026</span>
+            <p class="text-text-muted text-xs">Bacolod City, Philippines</p>
+          </div>
+          <div class="flex flex-wrap justify-center gap-8">
+            <a href="index.html" class="text-text-muted hover:text-white text-sm font-bold transition-colors">Home</a>
+            <a href="drone-shots.html" class="text-text-muted hover:text-white text-sm font-bold transition-colors">Drone</a>
+            <a href="framed-moments.html" class="text-text-muted hover:text-white text-sm font-bold transition-colors">Framed</a>
+            <a href="school-events.html" class="text-text-muted hover:text-white text-sm font-bold transition-colors">Events</a>
+            <a href="video-projects.html" class="text-text-muted hover:text-white text-sm font-bold transition-colors">Videos</a>
+          </div>
+          <p class="text-text-muted text-xs font-bold">Updated July 2026</p>
+        </div>
+      </footer>
+    </noscript>
+  </div>
 
 
   <!-- Lightbox -->
@@ -611,31 +683,39 @@
     document.addEventListener('DOMContentLoaded', () => {
       gsap.registerPlugin(ScrollTrigger);
 
-      // ── 2. HERO: staggered timeline (all fromTo — explicit, no guessing)
+      // Clean up reveal helper to remove compositor layers after animation
+      const cleanReveal = (selector) => {
+        document.querySelectorAll(selector).forEach(el => {
+          el.classList.remove('gsap-reveal');
+          el.style.willChange = 'auto';
+        });
+      };
+
+      // ── 2. HERO: staggered timeline (all fromTo — explicit, with clearProps)
       const heroTl = gsap.timeline({ delay: 0.4 });
       heroTl
         .fromTo('#hero-eyebrow',
           { opacity: 0, y: 30 },
-          { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }
+          { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', clearProps: 'all' }
         )
         .fromTo('#hero-title',
           { opacity: 0, y: 45 },
-          { opacity: 1, y: 0, duration: 0.85, ease: 'power3.out' },
+          { opacity: 1, y: 0, duration: 0.85, ease: 'power3.out', clearProps: 'all' },
           '-=0.45'
         )
         .fromTo('#hero-desc',
           { opacity: 0, y: 30 },
-          { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' },
+          { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', clearProps: 'all' },
           '-=0.55'
         )
         .fromTo('#hero-buttons',
           { opacity: 0, y: 20 },
-          { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' },
+          { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', clearProps: 'all' },
           '-=0.45'
         )
         .fromTo('#hero-img-col',
           { opacity: 0, x: 60 },
-          { opacity: 1, x: 0, duration: 1, ease: 'power3.out' },
+          { opacity: 1, x: 0, duration: 1, ease: 'power3.out', clearProps: 'all' },
           '-=0.9'
         );
 
@@ -651,17 +731,37 @@
         ease: 'none'
       });
 
-      // ── 4. SERVICE CARDS: fromTo prevents stuck-invisible bug
+      // ── 4. CATEGORIES HEADER
+      gsap.fromTo('#services-header',
+        { y: 35, opacity: 0 },
+        {
+          y: 0, opacity: 1,
+          duration: 0.65, ease: 'power3.out',
+          clearProps: 'all',
+          immediateRender: false,
+          scrollTrigger: {
+            trigger: '#services-section',
+            start: 'top 95%',
+            once: true
+          },
+          onComplete: () => cleanReveal('#services-header')
+        }
+      );
+
+      // ── 4b. SERVICE CARDS: fromTo with immediateRender:false and early start
       gsap.fromTo('.service-card',
         { y: 50, opacity: 0 },
         {
           y: 0, opacity: 1,
           duration: 0.65, stagger: 0.1, ease: 'power3.out',
+          clearProps: 'all',
+          immediateRender: false,
           scrollTrigger: {
             trigger: '#services-section',
-            start: 'top 82%',
+            start: 'top 95%',
             once: true
-          }
+          },
+          onComplete: () => cleanReveal('.service-card')
         }
       );
 
@@ -671,11 +771,14 @@
         {
           y: 0, opacity: 1,
           duration: 0.7, ease: 'power3.out',
+          clearProps: 'all',
+          immediateRender: false,
           scrollTrigger: {
             trigger: '#gallery',
-            start: 'top 85%',
+            start: 'top 95%',
             once: true
-          }
+          },
+          onComplete: () => cleanReveal('#gallery-header')
         }
       );
 
@@ -687,25 +790,31 @@
         {
           x: 0, opacity: 1,
           duration: 0.85, ease: 'power3.out',
+          clearProps: 'all',
+          immediateRender: false,
           scrollTrigger: {
             trigger: '#about',
-            start: 'top 78%',
+            start: 'top 95%',
             once: true
-          }
+          },
+          onComplete: () => cleanReveal('#about-left')
         }
       );
 
-      // ── 6. ABOUT: right slides from right
+      // ── 6b. ABOUT: right slides from right
       gsap.fromTo('#about-right',
         { x: 50, opacity: 0 },
         {
           x: 0, opacity: 1,
-          duration: 0.85, delay: 0.15, ease: 'power3.out',
+          duration: 0.85, delay: 0.1, ease: 'power3.out',
+          clearProps: 'all',
+          immediateRender: false,
           scrollTrigger: {
             trigger: '#about',
-            start: 'top 78%',
+            start: 'top 95%',
             once: true
-          }
+          },
+          onComplete: () => cleanReveal('#about-right')
         }
       );
 
@@ -714,11 +823,14 @@
         {
           x: 0, opacity: 1,
           duration: 0.4, stagger: 0.07, ease: 'power2.out',
+          clearProps: 'all',
+          immediateRender: false,
           scrollTrigger: {
             trigger: '#about-right',
-            start: 'top 82%',
+            start: 'top 95%',
             once: true
-          }
+          },
+          onComplete: () => cleanReveal('#about-right li')
         }
       );
 
@@ -728,11 +840,14 @@
         {
           y: 0, opacity: 1,
           duration: 0.75, ease: 'power3.out',
+          clearProps: 'all',
+          immediateRender: false,
           scrollTrigger: {
             trigger: '#contact',
-            start: 'top 82%',
+            start: 'top 95%',
             once: true
-          }
+          },
+          onComplete: () => cleanReveal('#contact-header')
         }
       );
 
@@ -742,11 +857,14 @@
         {
           y: 0, opacity: 1,
           duration: 0.5, stagger: 0.1, ease: 'power3.out',
+          clearProps: 'all',
+          immediateRender: false,
           scrollTrigger: {
             trigger: '#contact-links',
-            start: 'top 88%',
+            start: 'top 95%',
             once: true
-          }
+          },
+          onComplete: () => cleanReveal('.contact-link')
         }
       );
 
@@ -756,13 +874,18 @@
         {
           y: 0, opacity: 1,
           duration: 0.6, ease: 'power2.out',
+          clearProps: 'all',
+          immediateRender: false,
           scrollTrigger: {
             trigger: '#site-footer',
-            start: 'top 95%',
+            start: 'top 98%',
             once: true
-          }
+          },
+          onComplete: () => cleanReveal('#site-footer')
         }
       );
+
+      window.gsapInitialized = true;
     });
   </script>
 

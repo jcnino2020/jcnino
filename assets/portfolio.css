@@ -3,42 +3,10 @@
   JC Niñonuevo Portfolio
 */
 
-/* ── Helvetica Neue Custom Font Family ── */
+/* ── Helvetica Neue Optimized WOFF2 Web Fonts (300, 400, 500, 700) ── */
 @font-face {
   font-family: 'Helvetica Neue';
-  src: url('fonts/HelveticaNeueThin.otf') format('opentype');
-  font-weight: 100;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Helvetica Neue';
-  src: url('fonts/HelveticaNeueThinItalic.otf') format('opentype');
-  font-weight: 100;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Helvetica Neue';
-  src: url('fonts/HelveticaNeueUltraLight.otf') format('opentype');
-  font-weight: 200;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Helvetica Neue';
-  src: url('fonts/HelveticaNeueUltraLightItalic.otf') format('opentype');
-  font-weight: 200;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Helvetica Neue';
-  src: url('fonts/HelveticaNeueLight.otf') format('opentype');
+  src: url('fonts/HelveticaNeue-Light.woff2') format('woff2');
   font-weight: 300;
   font-style: normal;
   font-display: swap;
@@ -46,15 +14,7 @@
 
 @font-face {
   font-family: 'Helvetica Neue';
-  src: url('fonts/HelveticaNeueLightItalic.otf') format('opentype');
-  font-weight: 300;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Helvetica Neue';
-  src: url('fonts/HelveticaNeueRoman.otf') format('opentype');
+  src: url('fonts/HelveticaNeue-Roman.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -62,15 +22,7 @@
 
 @font-face {
   font-family: 'Helvetica Neue';
-  src: url('fonts/HelveticaNeueItalic.ttf') format('truetype');
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Helvetica Neue';
-  src: url('fonts/HelveticaNeueMedium.otf') format('opentype');
+  src: url('fonts/HelveticaNeue-Medium.woff2') format('woff2');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -78,57 +30,9 @@
 
 @font-face {
   font-family: 'Helvetica Neue';
-  src: url('fonts/HelveticaNeueMediumItalic.otf') format('opentype');
-  font-weight: 500;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Helvetica Neue';
-  src: url('fonts/HelveticaNeueBold.otf') format('opentype');
+  src: url('fonts/HelveticaNeue-Bold.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Helvetica Neue';
-  src: url('fonts/HelveticaNeueBoldItalic.otf') format('opentype');
-  font-weight: 700;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Helvetica Neue';
-  src: url('fonts/HelveticaNeueHeavy.otf') format('opentype');
-  font-weight: 800;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Helvetica Neue';
-  src: url('fonts/HelveticaNeueHeavyItalic.otf') format('opentype');
-  font-weight: 800;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Helvetica Neue';
-  src: url('fonts/HelveticaNeueBlack.otf') format('opentype');
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Helvetica Neue';
-  src: url('fonts/HelveticaNeueBlackItalic.otf') format('opentype');
-  font-weight: 900;
-  font-style: italic;
   font-display: swap;
 }
 
@@ -156,6 +60,49 @@ body {
   overflow-x: hidden;
 }
 
+h1 {
+  text-wrap: balance;
+}
+
+/* Pre-animation state — only applies when JS is available.
+   Without JS, content renders normally instead of staying invisible. */
+.js .gsap-reveal {
+  opacity: 0;
+  transform: translateY(35px);
+  will-change: opacity, transform;
+}
+.js .gsap-reveal[data-reveal="up-50"] {
+  transform: translateY(50px);
+}
+.js .gsap-reveal[data-reveal="up-35"] {
+  transform: translateY(35px);
+}
+.js .gsap-reveal[data-reveal="up-30"] {
+  transform: translateY(30px);
+}
+.js .gsap-reveal[data-reveal="up-25"] {
+  transform: translateY(25px);
+}
+.js .gsap-reveal[data-reveal="up-20"] {
+  transform: translateY(20px);
+}
+.js .gsap-reveal[data-reveal="left"] {
+  transform: translateX(-50px);
+}
+.js .gsap-reveal[data-reveal="right"] {
+  transform: translateX(50px);
+}
+.js .gsap-reveal[data-reveal="right-20"] {
+  transform: translateX(20px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .js .gsap-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    will-change: auto !important;
+  }
+}
+
 ::selection {
   background: var(--text-main);
   color: var(--bg);
@@ -180,11 +127,12 @@ body {
 }
 
 /* Solid Navigation Bar (Eliminates Gray Translucent Fade Over Scrolling Content) */
-#main-nav {
-  background-color: #000000 !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  border-bottom: 1px solid var(--border) !important;
+body #main-nav,
+#navbar-placeholder #main-nav {
+  background-color: #000000;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: 1px solid var(--border);
 }
 
 /* Gallery Grid System */
@@ -235,22 +183,33 @@ body {
   overflow: hidden;
 }
 
-/* Mobile Menu Transitions */
+/* Mobile Menu Transitions — Grid rows technique (avoids magic number clipping at zoom/font scale) */
 #mobile-menu {
-  transition: max-height .4s ease, opacity .4s ease;
-}
-
-#mobile-menu.closed {
-  max-height: 0;
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
   opacity: 0;
   overflow: hidden;
   pointer-events: none;
 }
 
+#mobile-menu.closed {
+  grid-template-rows: 0fr;
+  opacity: 0;
+  pointer-events: none;
+}
+
 #mobile-menu.open {
-  max-height: 500px;
+  grid-template-rows: 1fr;
   opacity: 1;
   pointer-events: auto;
+  max-height: 100dvh;
+  overflow-y: auto;
+}
+
+#mobile-menu > .mobile-menu__inner {
+  overflow: hidden;
+  min-height: 0;
 }
 
 /* Lightbox Styling */

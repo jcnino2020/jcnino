@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>
+    document.documentElement.classList.add('js');
+    window.addEventListener('error', function() {
+      document.documentElement.classList.remove('js');
+    });
+  </script>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>Video Projects | JC Niñonuevo</title>
@@ -23,18 +29,41 @@
   <meta name="twitter:description" content="Cinematic storytelling and short-form video edits.">
   <meta name="twitter:image" content="https://jcnino.vercel.app/images/VP.jpg">
 
-  <link rel="stylesheet" href="assets/tailwind.css">
-  <link rel="stylesheet" href="assets/portfolio.css">
+  <!-- Preload Critical Bold Font -->
+  <link rel="preload" href="assets/fonts/HelveticaNeue-Bold.woff2" as="font" type="font/woff2" crossorigin>
+
+  <link rel="stylesheet" href="assets/tailwind.css?v=2">
+  <link rel="stylesheet" href="assets/portfolio.css?v=2">
 
 </head>
 <body class="min-h-screen">
 
-<div id="navbar-placeholder"></div>
+<div id="navbar-placeholder">
+  <noscript>
+    <nav id="main-nav" class="fixed top-0 left-0 right-0 z-50 bg-black border-b border-border">
+      <div class="max-w-7xl mx-auto px-6 sm:px-10">
+        <div class="flex items-center justify-between h-16 md:h-20">
+          <a href="index.html" class="flex items-center">
+            <img src="images/logo.png" alt="Portfolio" class="h-5 w-auto opacity-90" />
+          </a>
+          <div class="flex items-center gap-6">
+            <a href="index.html" class="text-text-muted hover:text-white text-sm font-bold">Home</a>
+            <a href="drone-shots.html" class="text-text-muted hover:text-white text-sm font-bold">Drone</a>
+            <a href="framed-moments.html" class="text-text-muted hover:text-white text-sm font-bold">Framed</a>
+            <a href="school-events.html" class="text-text-muted hover:text-white text-sm font-bold">Events</a>
+            <a href="video-projects.html" class="text-white text-sm font-bold">Videos</a>
+            <a href="index.html#contact" class="px-5 py-2 rounded-full bg-white text-black text-sm font-bold">Contact</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </noscript>
+</div>
 
 <!-- Assets -->
-<script src="assets/portfolio.js" defer></script>
+<script src="assets/portfolio.js?v=2" defer></script>
 
-<div class="pt-16 md:pt-20">
+<main id="main-content" class="pt-16 md:pt-20">
 
   <!-- Page Header -->
   <section id="page-header" class="pt-6 pb-6 md:py-12 border-b border-border">
@@ -87,9 +116,28 @@
   </div>
 </section>
 
-</div>
+</main>
 
-<div id="footer-placeholder"></div>
+<div id="footer-placeholder">
+  <noscript>
+    <footer id="site-footer" class="bg-bg border-t border-border py-8 md:py-12">
+      <div class="max-w-7xl mx-auto px-6 sm:px-10 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="flex flex-col items-center md:items-start gap-2">
+          <span class="text-white text-sm"><span class="font-bold">JC</span><span class="font-light">Niñonuevo</span> &copy; 2026</span>
+          <p class="text-text-muted text-xs">Bacolod City, Philippines</p>
+        </div>
+        <div class="flex flex-wrap justify-center gap-8">
+          <a href="index.html" class="text-text-muted hover:text-white text-sm font-bold transition-colors">Home</a>
+          <a href="drone-shots.html" class="text-text-muted hover:text-white text-sm font-bold transition-colors">Drone</a>
+          <a href="framed-moments.html" class="text-text-muted hover:text-white text-sm font-bold transition-colors">Framed</a>
+          <a href="school-events.html" class="text-text-muted hover:text-white text-sm font-bold transition-colors">Events</a>
+          <a href="video-projects.html" class="text-white text-sm font-bold transition-colors">Videos</a>
+        </div>
+        <p class="text-text-muted text-xs font-bold">Updated July 2026</p>
+      </div>
+    </footer>
+  </noscript>
+</div>
 
 <!-- Lightbox -->
 <div id="lightbox-placeholder"></div>
@@ -159,7 +207,16 @@
         }
       });
 
-      card.addEventListener('click', () => openVideoLightbox(videoSrc, v.title));
+      card.setAttribute('role', 'button');
+      card.setAttribute('tabindex', '0');
+      card.setAttribute('aria-label', `Play ${v.title}`);
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openVideoLightbox(videoSrc, v.title, card);
+        }
+      });
+      card.addEventListener('click', () => openVideoLightbox(videoSrc, v.title, card));
       grid.appendChild(card);
     });
   }
@@ -229,7 +286,16 @@
         }
       });
 
-      card.addEventListener('click', () => openVideoLightbox(videoSrc, v.title));
+      card.setAttribute('role', 'button');
+      card.setAttribute('tabindex', '0');
+      card.setAttribute('aria-label', `Play ${v.title}`);
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openVideoLightbox(videoSrc, v.title, card);
+        }
+      });
+      card.addEventListener('click', () => openVideoLightbox(videoSrc, v.title, card));
       grid2.appendChild(card);
     });
   }
@@ -251,36 +317,37 @@
   document.addEventListener('DOMContentLoaded', () => {
     gsap.registerPlugin(ScrollTrigger);
 
-    // ── 2. PAGE HEADER: staggered timeline on load (above fold — no ScrollTrigger)
+    // ── 2. PAGE HEADER: staggered timeline on load (above fold, with clearProps)
     const headerTl = gsap.timeline({ delay: 0.3 });
     headerTl
       .fromTo('#header-eyebrow',
         { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }
+        { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', clearProps: 'all' }
       )
       .fromTo('#header-title',
         { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' },
+        { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', clearProps: 'all' },
         '-=0.35'
       )
       .fromTo('#header-desc',
         { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' },
+        { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', clearProps: 'all' },
         '-=0.4'
       );
 
     // ── 3. VIDEO CARDS: fromTo with ScrollTrigger — safe, explicit states
-    // Only 6 cards so stagger is fast; ScrollTrigger handles near-fold edge case
-    gsap.fromTo('#video-grid .video-card',   // ← add #video-grid here
+    gsap.fromTo('#video-grid .video-card',
       { y: 40, opacity: 0 },
       {
         y: 0, opacity: 1,
         duration: 0.65,
         stagger: 0.1,
         ease: 'power3.out',
+        clearProps: 'all',
+        immediateRender: false,
         scrollTrigger: {
           trigger: '#video-grid',
-          start: 'top 88%',
+          start: 'top 95%',
           once: true
         }
       }
@@ -292,9 +359,11 @@
       {
         y: 0, opacity: 1,
         duration: 0.6, ease: 'power2.out',
+        clearProps: 'all',
+        immediateRender: false,
         scrollTrigger: {
           trigger: '#site-footer',
-          start: 'top 95%',
+          start: 'top 98%',
           once: true
         }
       }
@@ -308,9 +377,11 @@
         duration: 0.6,
         stagger: 0.12,
         ease: 'power3.out',
+        clearProps: 'all',
+        immediateRender: false,
         scrollTrigger: {
           trigger: '#channel-divider',
-          start: 'top 85%',
+          start: 'top 95%',
           once: true
         }
       }
@@ -324,13 +395,17 @@
         duration: 0.65,
         stagger: 0.1,
         ease: 'power3.out',
+        clearProps: 'all',
+        immediateRender: false,
         scrollTrigger: {
           trigger: '#video-grid-2',
-          start: 'top 88%',
+          start: 'top 95%',
           once: true
         }
       }
     );
+
+    window.gsapInitialized = true;
   });
 </script>
 

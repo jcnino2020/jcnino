@@ -49,15 +49,15 @@ const navHtml = `
       </div>
 
       <!-- Mobile Menu Button -->
-      <button id="hamburger" class="md:hidden text-white p-2 rounded-lg hover:bg-white/10 transition-colors" aria-label="Menu">
+      <button id="hamburger" class="md:hidden text-white p-2 rounded-lg hover:bg-white/10 transition-colors" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu">
         <svg id="ham-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
         <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/></svg>
       </button>
     </div>
 
     <!-- Mobile Menu -->
-    <div id="mobile-menu" class="closed md:hidden">
-      <div class="py-6 flex flex-col gap-5 border-t border-white/10">
+    <div id="mobile-menu" class="closed md:hidden" aria-hidden="true">
+      <div class="mobile-menu__inner py-6 flex flex-col gap-5 border-t border-white/10">
         <a href="index.html" data-page="index.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Home</a>
         <a href="drone-shots.html" data-page="drone-shots.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Drone Shots</a>
         <a href="framed-moments.html" data-page="framed-moments.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Framed Moments</a>
@@ -92,9 +92,9 @@ const footerHtml = `
 `;
 
 const imageLightboxHtml = `
-<div id="lightbox" class="fixed inset-0 z-[9999] bg-black/98 hidden flex-col items-center justify-center p-4 md:p-8" role="dialog" aria-modal="true" aria-label="Image lightbox">
-  <button onclick="closeLightbox()" aria-label="Close lightbox"
-    class="absolute top-6 right-6 z-50 w-12 h-12 flex items-center justify-center text-white bg-black/50 backdrop-blur-md hover:bg-white/10 transition-all rounded-full border border-white/10">
+<div id="lightbox" class="fixed inset-0 z-[9999] bg-black/98 hidden flex-col items-center justify-center p-4 md:p-8" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
+  <button onclick="closeLightbox()" aria-label="Close photo viewer"
+    class="lightbox__close absolute top-6 right-6 z-50 w-12 h-12 flex items-center justify-center text-white bg-black/50 backdrop-blur-md hover:bg-white/10 transition-all rounded-full border border-white/10">
     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/>
     </svg>
@@ -111,7 +111,7 @@ const imageLightboxHtml = `
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"/>
     </svg>
   </button>
-  <img id="lightbox-img" src="" alt="" class="max-w-full max-h-[85vh] object-contain rounded-2xl shadow-2xl" />
+  <img id="lightbox-img" src="" alt="Portfolio photograph" class="max-w-full max-h-[85vh] object-contain rounded-2xl shadow-2xl" />
   <div id="lightbox-loader" class="absolute inset-0 flex items-center justify-center pointer-events-none hidden z-30">
     <div class="spinner"></div>
   </div>
@@ -128,7 +128,7 @@ const imageLightboxHtml = `
     <!-- Description Hover Icon & Floating Card -->
     <div id="lightbox-desc-divider" class="w-[1px] h-3.5 bg-white/20 shrink-0 self-center hidden"></div>
     <div id="lightbox-desc-wrapper" class="relative group/desc hidden flex items-center justify-center shrink-0">
-      <button id="lightbox-info-btn" onclick="toggleLightboxDesc(event)" class="flex items-center justify-center text-white/70 hover:text-white transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer leading-none" aria-label="Photo description">
+      <button id="lightbox-info-btn" onclick="toggleLightboxDesc(event)" class="flex items-center justify-center text-white/70 hover:text-white transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer leading-none" aria-label="View photo details">
         <svg class="w-4 h-4 pointer-events-none shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
@@ -144,10 +144,10 @@ const imageLightboxHtml = `
 `;
 
 const videoLightboxHtml = `
-<div id="video-lightbox" class="fixed inset-0 z-[9999] bg-black/98 hidden flex-col items-center justify-center p-4 md:p-8" role="dialog" aria-modal="true" aria-label="Video lightbox">
+<div id="video-lightbox" class="fixed inset-0 z-[9999] bg-black/98 hidden flex-col items-center justify-center p-4 md:p-8" role="dialog" aria-modal="true" aria-label="Video player" hidden>
   <div class="film-grain"></div>
-  <button onclick="closeVideoLightbox()" aria-label="Close lightbox"
-    class="absolute top-6 right-6 z-50 w-12 h-12 flex items-center justify-center text-white bg-black/50 backdrop-blur-md hover:bg-white/10 transition-all rounded-full border border-white/10">
+  <button onclick="closeVideoLightbox()" aria-label="Close video player"
+    class="video-lightbox__close absolute top-6 right-6 z-50 w-12 h-12 flex items-center justify-center text-white bg-black/50 backdrop-blur-md hover:bg-white/10 transition-all rounded-full border border-white/10">
     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/>
     </svg>
@@ -240,43 +240,106 @@ function injectComponents() {
 }
 
 /**
- * Mobile Menu Toggle logic
+ * Accessible focus trap helper for modal surfaces (mobile menu, lightboxes)
+ */
+function trapFocus(container, e) {
+    const focusables = Array.from(container.querySelectorAll(
+        'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    )).filter(el => el.offsetParent !== null || el.offsetWidth > 0 || el.offsetHeight > 0);
+    if (!focusables.length) return;
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+    }
+}
+window.trapFocus = trapFocus;
+
+/**
+ * Mobile Menu Accessible Controller
+ * Includes grid-rows transition, scroll lock, focus trap, and Escape key handling.
  */
 function initMobileMenu() {
     const btn = document.getElementById('hamburger');
     const menu = document.getElementById('mobile-menu');
-    const ham = document.getElementById('ham-icon');
-    const x = document.getElementById('close-icon');
 
     if (!btn || !menu) return;
 
-    let open = false;
-
-    // Remote any duplicate events
+    // Remove any duplicate events
     const newBtn = btn.cloneNode(true);
     btn.parentNode.replaceChild(newBtn, btn);
 
-    newBtn.addEventListener('click', () => {
-        open = !open;
-        menu.classList.toggle('open', open);
-        menu.classList.toggle('closed', !open);
+    function openMobileMenu() {
+        menu.classList.remove('closed');
+        menu.classList.add('open');
+        newBtn.setAttribute('aria-expanded', 'true');
+        menu.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+
         const hamIcon = document.getElementById('ham-icon');
         const closeIcon = document.getElementById('close-icon');
-        if (hamIcon) hamIcon.classList.toggle('hidden', open);
-        if (closeIcon) closeIcon.classList.toggle('hidden', !open);
+        if (hamIcon) hamIcon.classList.add('hidden');
+        if (closeIcon) closeIcon.classList.remove('hidden');
+
+        // Focus first link in menu
+        const firstLink = menu.querySelector('a[href]');
+        if (firstLink) {
+            setTimeout(() => firstLink.focus(), 60);
+        }
+    }
+
+    function closeMobileMenu() {
+        menu.classList.remove('open');
+        menu.classList.add('closed');
+        newBtn.setAttribute('aria-expanded', 'false');
+        menu.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+
+        const hamIcon = document.getElementById('ham-icon');
+        const closeIcon = document.getElementById('close-icon');
+        if (hamIcon) hamIcon.classList.remove('hidden');
+        if (closeIcon) closeIcon.classList.add('hidden');
+
+        newBtn.focus();
+    }
+
+    newBtn.addEventListener('click', () => {
+        const isOpen = menu.classList.contains('open');
+        if (isOpen) {
+            closeMobileMenu();
+        } else {
+            openMobileMenu();
+        }
     });
 
-    // Close menu on link click
+    // Close menu on link click, awaiting menu close before scrolling for in-page anchors
     menu.querySelectorAll('a').forEach(a => {
-        a.addEventListener('click', () => {
-            open = false;
-            menu.classList.add('closed');
-            menu.classList.remove('open');
-            const hamIcon = document.getElementById('ham-icon');
-            const closeIcon = document.getElementById('close-icon');
-            if (hamIcon) hamIcon.classList.remove('hidden');
-            if (closeIcon) closeIcon.classList.add('hidden');
+        a.addEventListener('click', (e) => {
+            const href = a.getAttribute('href');
+            closeMobileMenu();
+            if (href && href.startsWith('#')) {
+                e.preventDefault();
+                setTimeout(() => {
+                    const target = document.querySelector(href);
+                    if (target) target.scrollIntoView({ behavior: 'smooth' });
+                }, 320);
+            }
         });
+    });
+
+    // Keyboard navigation: Escape closes, Tab traps focus
+    document.addEventListener('keydown', (e) => {
+        if (!menu.classList.contains('open')) return;
+        if (e.key === 'Escape') {
+            e.preventDefault();
+            closeMobileMenu();
+        } else if (e.key === 'Tab') {
+            trapFocus(menu, e);
+        }
     });
 }
 
@@ -365,7 +428,10 @@ function preloadNearbyImages(gallery, index) {
     }
 }
 
-function openLightbox(photo, gallery) {
+let lastFocusedElement = null;
+
+function openLightbox(photo, gallery, triggerEl) {
+    lastFocusedElement = triggerEl || document.activeElement;
     currentGallery = gallery;
     currentIndex = gallery.indexOf(photo);
 
@@ -374,7 +440,20 @@ function openLightbox(photo, gallery) {
 
     lb.classList.remove('hidden');
     lb.classList.add('flex');
+    lb.removeAttribute('hidden');
     document.body.style.overflow = 'hidden';
+
+    // Isolate background for assistive tech
+    const mainContent = document.getElementById('main-content');
+    if (mainContent) mainContent.setAttribute('inert', '');
+    const mainNav = document.getElementById('main-nav');
+    if (mainNav) mainNav.setAttribute('inert', '');
+
+    // Focus close button
+    const closeBtn = lb.querySelector('.lightbox__close') || lb.querySelector('button');
+    if (closeBtn) {
+        setTimeout(() => closeBtn.focus(), 60);
+    }
 
     // GSAP: fade in the backdrop
     if (window.gsap) {
@@ -574,40 +653,43 @@ function closeLightbox() {
     const descTooltip = document.getElementById('lightbox-desc-tooltip');
     if (descTooltip) descTooltip.classList.remove('active-mobile-desc');
 
-    if (window.gsap) {
-        gsap.to(lb, {
-            opacity: 0,
-            duration: 0.25,
-            ease: 'power2.in',
-            onComplete: () => {
-                lb.classList.add('hidden');
-                lb.classList.remove('flex');
-                document.body.style.overflow = '';
-                const img = document.getElementById('lightbox-img');
-                if (img) {
-                    gsap.set(img, { clearProps: 'all' });
-                }
-                const loader = document.getElementById('lightbox-loader');
-                if (loader) {
-                    loader.classList.add('hidden');
-                    loader.classList.remove('flex');
-                }
-            }
-        });
-    } else {
+    const restorePage = () => {
         lb.classList.add('hidden');
         lb.classList.remove('flex');
+        lb.setAttribute('hidden', '');
         document.body.style.overflow = '';
+
+        // Restore background content
+        const mainContent = document.getElementById('main-content');
+        if (mainContent) mainContent.removeAttribute('inert');
+        const mainNav = document.getElementById('main-nav');
+        if (mainNav) mainNav.removeAttribute('inert');
+
+        // Restore focus to triggering element
+        if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+            lastFocusedElement.focus();
+        }
+
         const img = document.getElementById('lightbox-img');
-        if (img) {
-            img.style.transform = '';
-            img.style.opacity = '';
+        if (img && window.gsap) {
+            gsap.set(img, { clearProps: 'all' });
         }
         const loader = document.getElementById('lightbox-loader');
         if (loader) {
             loader.classList.add('hidden');
             loader.classList.remove('flex');
         }
+    };
+
+    if (window.gsap) {
+        gsap.to(lb, {
+            opacity: 0,
+            duration: 0.25,
+            ease: 'power2.in',
+            onComplete: restorePage
+        });
+    } else {
+        restorePage();
     }
 }
 
@@ -629,12 +711,13 @@ function initLightboxListeners() {
     const lb = document.getElementById('lightbox');
     if (!lb) return;
 
-    // Keyboard navigation
+    // Keyboard navigation & Focus Trap
     document.addEventListener('keydown', e => {
         if (lb.classList.contains('hidden')) return;
         if (e.key === 'Escape') closeLightbox();
         if (e.key === 'ArrowLeft') prevImage();
         if (e.key === 'ArrowRight') nextImage();
+        if (e.key === 'Tab') trapFocus(lb, e);
     });
 
     // Close on background click
@@ -1064,7 +1147,10 @@ async function toggleVideoLike() {
 }
 
 // ── Default YouTube Lightbox Controller ──
-function openVideoLightbox(src, title) {
+let lastFocusedVideoElement = null;
+
+function openVideoLightbox(src, title, triggerEl) {
+    lastFocusedVideoElement = triggerEl || document.activeElement;
     const lb = document.getElementById('video-lightbox');
     const container = document.getElementById('video-player-container');
     const titleEl = document.getElementById('video-title');
@@ -1087,7 +1173,21 @@ function openVideoLightbox(src, title) {
     // Show Lightbox Modal
     lb.classList.remove('hidden');
     lb.classList.add('flex');
+    lb.removeAttribute('hidden');
     document.body.style.overflow = 'hidden';
+
+    // Isolate background for assistive tech
+    const mainContent = document.getElementById('main-content');
+    if (mainContent) mainContent.setAttribute('inert', '');
+    const mainNav = document.getElementById('main-nav');
+    if (mainNav) mainNav.setAttribute('inert', '');
+
+    // Focus close button
+    const closeBtn = lb.querySelector('.video-lightbox__close') || lb.querySelector('button');
+    if (closeBtn) {
+        setTimeout(() => closeBtn.focus(), 60);
+    }
+
     updateVideoLightboxLikeUI();
     trackImageView(youtubeId);
 
@@ -1115,10 +1215,22 @@ function closeVideoLightbox() {
         iframe.src = '';
     }
 
-    const hide = () => {
+    const restorePage = () => {
         lb.classList.add('hidden');
         lb.classList.remove('flex');
+        lb.setAttribute('hidden', '');
         document.body.style.overflow = '';
+
+        // Restore background content
+        const mainContent = document.getElementById('main-content');
+        if (mainContent) mainContent.removeAttribute('inert');
+        const mainNav = document.getElementById('main-nav');
+        if (mainNav) mainNav.removeAttribute('inert');
+
+        // Restore focus to triggering element
+        if (lastFocusedVideoElement && typeof lastFocusedVideoElement.focus === 'function') {
+            lastFocusedVideoElement.focus();
+        }
     };
 
     if (window.gsap) {
@@ -1126,10 +1238,10 @@ function closeVideoLightbox() {
             opacity: 0,
             duration: 0.25,
             ease: 'power2.in',
-            onComplete: hide
+            onComplete: restorePage
         });
     } else {
-        hide();
+        restorePage();
     }
 }
 
@@ -1140,6 +1252,9 @@ document.addEventListener('keydown', e => {
 
     if (e.key === 'Escape') {
         closeVideoLightbox();
+    }
+    if (e.key === 'Tab') {
+        trapFocus(lb, e);
     }
 });
 
