@@ -72,24 +72,6 @@ const navHtml = `
 </nav>
 `;
 
-const footerHtml = `
-<footer id="site-footer" class="bg-bg border-t border-border py-8 md:py-12">
-  <div class="max-w-7xl mx-auto px-6 sm:px-10 flex flex-col md:flex-row items-center justify-between gap-6">
-    <div class="flex flex-col items-center md:items-start gap-2">
-       <span class="text-white text-sm"><span class="font-bold">JC</span><span class="font-light">Niñonuevo</span> &copy; <span class="year"></span></span>
-       <p class="text-text-muted text-xs">Bacolod City, Philippines</p>
-    </div>
-    <div class="flex flex-wrap justify-center gap-8">
-       <a href="index.html" data-page="index.html" class="text-text-muted hover:text-white text-sm font-bold transition-colors">Home</a>
-       <a href="drone-shots.html" data-page="drone-shots.html" class="text-text-muted hover:text-white text-sm font-bold transition-colors">Drone</a>
-       <a href="framed-moments.html" data-page="framed-moments.html" class="text-text-muted hover:text-white text-sm font-bold transition-colors">Framed</a>
-       <a href="school-events.html" data-page="school-events.html" class="text-text-muted hover:text-white text-sm font-bold transition-colors">Events</a>
-       <a href="video-projects.html" data-page="video-projects.html" class="text-text-muted hover:text-white text-sm font-bold transition-colors">Videos</a>
-    </div>
-    <p class="text-text-muted text-xs font-bold">Updated July 2026</p>
-  </div>
-</footer>
-`;
 
 const imageLightboxHtml = `
 <div id="lightbox" class="fixed inset-0 z-[9999] bg-black/98 hidden flex-col items-center justify-center p-4 md:p-8" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
@@ -217,11 +199,7 @@ function injectComponents() {
         }
     }
 
-    // 3. Inject Footer
-    const footerPlaceholder = document.getElementById('footer-placeholder');
-    if (footerPlaceholder && !document.getElementById('site-footer')) {
-        footerPlaceholder.innerHTML = footerHtml;
-    }
+
 
     // Toggle Footer Link Active classes
     document.querySelectorAll('#site-footer a').forEach(a => {
@@ -1599,7 +1577,7 @@ function initAIChatWidget() {
         isLoading = true;
         if (!isHttpContext()) {
             loadingEl.remove();
-            appendMessage('assistant', 'The AI assistant is only available on the hosted site. Open jcnino.vercel.app to use it. 👋');
+            appendMessage('assistant', 'The AI assistant is only available on the hosted site. Open jcnino.dev to use it. 👋');
             isLoading = false;
             inputEl.focus();
             return;

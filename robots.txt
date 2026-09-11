@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://jcnino.vercel.app/sitemap.xml
+Sitemap: https://jcnino.dev/sitemap.xml

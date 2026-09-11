@@ -71,6 +71,12 @@ h1 {
   transform: translateY(35px);
   will-change: opacity, transform;
 }
+
+.js .gsap-hero-item,
+.js .gsap-header-item {
+  opacity: 0;
+  will-change: opacity, transform;
+}
 .js .gsap-reveal[data-reveal="up-50"] {
   transform: translateY(50px);
 }
@@ -96,7 +102,10 @@ h1 {
   transform: translateX(20px);
 }
 @media (prefers-reduced-motion: reduce) {
-  .js .gsap-reveal {
+  .js .gsap-reveal,
+  .js [data-reveal],
+  .js .gsap-hero-item,
+  .js .gsap-header-item {
     opacity: 1 !important;
     transform: none !important;
     will-change: auto !important;
@@ -212,10 +221,10 @@ body #main-nav,
   min-height: 0;
 }
 
-/* Lightbox Styling */
-#lightbox,
-#video-lightbox {
-  background-color: rgba(0, 0, 0, 0.7) !important;
+/* Lightbox Styling — Scoped ID selector (1, 0, 1) cleanly supersedes utility bg */
+body #lightbox,
+body #video-lightbox {
+  background-color: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
 }
@@ -297,12 +306,6 @@ section[id] {
   }
 }
 
-/* GSAP Prevents Flash */
-.gsap-hero-item,
-.gsap-header-item,
-.gsap-reveal {
-  opacity: 0;
-}
 
 /* ==========================================================================
    Premium UI/UX Additions
@@ -370,30 +373,28 @@ section[id] {
 @media (min-width: 1024px) {
 
   /* Lessen the gap between navigation header and starting hero body (index.html only) */
-  section#home {
-    padding-top: 3rem !important;
-    /* Lessen from 5rem (md:pt-20) */
+  body section#home {
+    padding-top: 3rem;
+    /* Specificity (1, 0, 2) cleanly supersedes Tailwind .md:pt-20 (0, 1, 0) without !important */
   }
 
-  section#home>div.w-full {
-    padding-top: 1.5rem !important;
-    /* Lessen from 5rem (md:py-20) */
+  body section#home > div.w-full {
+    padding-top: 1.5rem;
+    /* Specificity (1, 1, 3) cleanly supersedes Tailwind .md:py-20 (0, 1, 0) without !important */
   }
 
   /* Tighten vertical spacing around section divider lines (e.g. Services, About, Selected Work, Contact) */
-  section[class*="md:py-24"] {
-    padding-top: 3.5rem !important;
-    /* Lessen from 6rem (96px) to 3.5rem (56px) around dividers */
-    padding-bottom: 3.5rem !important;
-    /* Lessen from 6rem (96px) to 3.5rem (56px) around dividers */
+  body section[class*="md:py-24"] {
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
+    /* Specificity (0, 2, 2) cleanly supersedes Tailwind .md:py-24 (0, 1, 0) without !important */
   }
 
   /* Tighten vertical spacing around the footer divider line */
-  footer#site-footer[class*="md:py-12"] {
-    padding-top: 2rem !important;
-    /* Lessen from 3rem (48px) to 2rem (32px) around footer divider */
-    padding-bottom: 2rem !important;
-    /* Lessen from 3rem (48px) to 2rem (32px) around footer divider */
+  body footer#site-footer[class*="md:py-12"] {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    /* Specificity (1, 1, 2) cleanly supersedes Tailwind .md:py-12 (0, 1, 0) without !important */
   }
 }
 
@@ -503,48 +504,49 @@ section[id] {
 }
 
 /* ==========================================================================
-   OCD & Fine-Tuned Alignment Rules for Buttons and Badges
+   Precise Typography Vertical Alignment Tweaks
    (Nudging text vertically inside custom font pill layouts to counteract
-    baseline offsets and ensure absolute geometric centering)
+    baseline offsets and ensure absolute geometric centering.
+    Scoped to 'body .' giving (0, 1, 1) specificity over flat Tailwind utilities without !important)
    ========================================================================== */
-.pt-\[18px\] {
-  padding-top: 18px !important;
+body .pt-\[18px\] {
+  padding-top: 18px;
 }
 
-.pb-\[14px\] {
-  padding-bottom: 14px !important;
+body .pb-\[14px\] {
+  padding-bottom: 14px;
 }
 
-.pt-\[11px\] {
-  padding-top: 11px !important;
+body .pt-\[11px\] {
+  padding-top: 11px;
 }
 
-.pb-\[9px\] {
-  padding-bottom: 9px !important;
+body .pb-\[9px\] {
+  padding-bottom: 9px;
 }
 
-.pt-\[13px\] {
-  padding-top: 13px !important;
+body .pt-\[13px\] {
+  padding-top: 13px;
 }
 
-.pb-\[11px\] {
-  padding-bottom: 11px !important;
+body .pb-\[11px\] {
+  padding-bottom: 11px;
 }
 
-.pt-\[9px\] {
-  padding-top: 9px !important;
+body .pt-\[9px\] {
+  padding-top: 9px;
 }
 
-.pb-\[7px\] {
-  padding-bottom: 7px !important;
+body .pb-\[7px\] {
+  padding-bottom: 7px;
 }
 
-.pt-\[15px\] {
-  padding-top: 15px !important;
+body .pt-\[15px\] {
+  padding-top: 15px;
 }
 
-.pb-\[13px\] {
-  padding-bottom: 13px !important;
+body .pb-\[13px\] {
+  padding-bottom: 13px;
 }
 
 /* ============================================================
