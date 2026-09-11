@@ -58,7 +58,7 @@
   <link rel="preload" href="assets/fonts/HelveticaNeue-Bold.woff2" as="font" type="font/woff2" crossorigin>
 
   <link rel="stylesheet" href="assets/tailwind.css?v=2">
-  <link rel="stylesheet" href="assets/portfolio.css?v=2">
+  <link rel="stylesheet" href="assets/portfolio.css?v=3">
 
 </head>
 
@@ -88,7 +88,7 @@
   </div>
 
   <!-- Assets -->
-  <script src="assets/portfolio.js?v=2" defer></script>
+  <script src="assets/portfolio.js?v=4" defer></script>
 
   <!-- Main Content -->
   <main id="main-content">
@@ -642,7 +642,11 @@
       });
     }
 
-    document.addEventListener('DOMContentLoaded', renderHighlights);
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', renderHighlights);
+    } else {
+      renderHighlights();
+    }
   </script>
 
   <footer id="site-footer" class="bg-bg border-t border-border py-8 md:py-12">
@@ -676,42 +680,51 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/ScrollTrigger.min.js"></script>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      gsap.registerPlugin(ScrollTrigger);
-
-      // Clean up reveal helper to remove compositor layers after animation
+    function initAnimations() {
+      // Clean up reveal helper to remove compositor layers and reveal classes after animation
       const cleanReveal = (selector) => {
         document.querySelectorAll(selector).forEach(el => {
-          el.classList.remove('gsap-reveal');
+          el.classList.remove('gsap-reveal', 'gsap-hero-item', 'gsap-header-item');
           el.style.willChange = 'auto';
+          el.style.opacity = '1';
         });
       };
 
-      // ── 2. HERO: staggered timeline (all fromTo — explicit, with clearProps)
-      const heroTl = gsap.timeline({ delay: 0.4 });
+      if (typeof gsap === 'undefined') {
+        cleanReveal('.gsap-reveal, .gsap-hero-item, .gsap-header-item');
+        return;
+      }
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      // ── 2. HERO: staggered timeline (all fromTo — explicit, with transform clearProps and hero cleanup)
+      const heroTl = gsap.timeline({
+        delay: 0.4,
+        onComplete: () => cleanReveal('.gsap-hero-item')
+      });
       heroTl
         .fromTo('#hero-eyebrow',
           { opacity: 0, y: 30 },
-          { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', clearProps: 'all' }
+          { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', clearProps: 'transform' }
         )
         .fromTo('#hero-title',
           { opacity: 0, y: 45 },
-          { opacity: 1, y: 0, duration: 0.85, ease: 'power3.out', clearProps: 'all' },
+          { opacity: 1, y: 0, duration: 0.85, ease: 'power3.out', clearProps: 'transform' },
           '-=0.45'
         )
         .fromTo('#hero-desc',
           { opacity: 0, y: 30 },
-          { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', clearProps: 'all' },
+          { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', clearProps: 'transform' },
           '-=0.55'
         )
         .fromTo('#hero-buttons',
           { opacity: 0, y: 20 },
-          { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', clearProps: 'all' },
+          { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', clearProps: 'transform' },
           '-=0.45'
         )
         .fromTo('#hero-img-col',
           { opacity: 0, x: 60 },
-          { opacity: 1, x: 0, duration: 1, ease: 'power3.out', clearProps: 'all' },
+          { opacity: 1, x: 0, duration: 1, ease: 'power3.out', clearProps: 'transform' },
           '-=0.9'
         );
 
@@ -882,7 +895,16 @@
       );
 
       window.gsapInitialized = true;
-    });
+
+      // Safety timeout: Ensure above-fold hero items never remain stuck invisible
+      setTimeout(() => cleanReveal('.gsap-hero-item'), 2000);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initAnimations);
+    } else {
+      initAnimations();
+    }
   </script>
 
   <script>

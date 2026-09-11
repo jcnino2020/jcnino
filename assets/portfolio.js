@@ -3,7 +3,7 @@
  * JC Niñonuevo Portfolio
  */
 
-document.addEventListener('DOMContentLoaded', () => {
+function initPortfolioApp() {
     applyGlobalSettings();
     injectComponents();
     initMobileMenu();
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize Real-Time Visitor Tracking
     initVisitorTracking();
-});
+}
 
 /**
  * Global templates for Navigation, Footer, and Lightbox Elements.
@@ -57,14 +57,16 @@ const navHtml = `
 
     <!-- Mobile Menu -->
     <div id="mobile-menu" class="closed md:hidden" aria-hidden="true">
-      <div class="mobile-menu__inner py-6 flex flex-col gap-5 border-t border-white/10">
-        <a href="index.html" data-page="index.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Home</a>
-        <a href="drone-shots.html" data-page="drone-shots.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Drone Shots</a>
-        <a href="framed-moments.html" data-page="framed-moments.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Framed Moments</a>
-        <a href="school-events.html" data-page="school-events.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">School Events</a>
-        <a href="video-projects.html" data-page="video-projects.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Video Projects</a>
-        <div class="pt-4 border-t border-white/10">
-          <a href="index.html#contact" class="flex items-center justify-center w-full pt-[13px] pb-[11px] rounded-full text-lg font-bold bg-white text-black leading-none">Get in Touch</a>
+      <div class="mobile-menu__inner">
+        <div class="py-6 flex flex-col gap-5 border-t border-white/10">
+          <a href="index.html" data-page="index.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Home</a>
+          <a href="drone-shots.html" data-page="drone-shots.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Drone Shots</a>
+          <a href="framed-moments.html" data-page="framed-moments.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Framed Moments</a>
+          <a href="school-events.html" data-page="school-events.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">School Events</a>
+          <a href="video-projects.html" data-page="video-projects.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Video Projects</a>
+          <div class="pt-4 border-t border-white/10">
+            <a href="index.html#contact" class="flex items-center justify-center w-full pt-[13px] pb-[11px] rounded-full text-lg font-bold bg-white text-black leading-none">Get in Touch</a>
+          </div>
         </div>
       </div>
     </div>
@@ -351,9 +353,9 @@ function initInteractiveEffects() {
  * Lightbox Core Logic
  * Global variables to track state
  */
-let currentGallery = [];
-let currentIndex = 0;
-let swipeTriggered = false;
+var currentGallery = [];
+var currentIndex = 0;
+var swipeTriggered = false;
 
 /**
  * Preload cache — tracks URLs already requested to avoid duplicate fetches.
@@ -406,7 +408,7 @@ function preloadNearbyImages(gallery, index) {
     }
 }
 
-let lastFocusedElement = null;
+var lastFocusedElement = null;
 
 function openLightbox(photo, gallery, triggerEl) {
     lastFocusedElement = triggerEl || document.activeElement;
@@ -1741,4 +1743,18 @@ function initAIChatWidget() {
 
 // Export for inline access
 window.initAIChatWidget = initAIChatWidget;
+window.openLightbox = openLightbox;
+window.closeLightbox = closeLightbox;
+window.prevImage = prevImage;
+window.nextImage = nextImage;
+if (typeof openVideoLightbox !== 'undefined') window.openVideoLightbox = openVideoLightbox;
+if (typeof closeVideoLightbox !== 'undefined') window.closeVideoLightbox = closeVideoLightbox;
+window.initPortfolioApp = initPortfolioApp;
+
+// Run initialization once all templates, state, and functions are declared
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPortfolioApp);
+} else {
+    initPortfolioApp();
+}
 
