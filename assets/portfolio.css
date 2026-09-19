@@ -65,41 +65,13 @@ h1 {
 }
 
 /* Pre-animation state — only applies when JS is available.
-   Without JS, content renders normally instead of staying invisible. */
-.js .gsap-reveal {
-  opacity: 0;
-  transform: translateY(35px);
-  will-change: opacity, transform;
-}
-
+   Without JS, content renders normally instead of staying invisible.
+   Transform is controlled purely by GSAP fromTo to avoid double animation conflicts. */
+.js .gsap-reveal,
 .js .gsap-hero-item,
 .js .gsap-header-item {
   opacity: 0;
   will-change: opacity, transform;
-}
-.js .gsap-reveal[data-reveal="up-50"] {
-  transform: translateY(50px);
-}
-.js .gsap-reveal[data-reveal="up-35"] {
-  transform: translateY(35px);
-}
-.js .gsap-reveal[data-reveal="up-30"] {
-  transform: translateY(30px);
-}
-.js .gsap-reveal[data-reveal="up-25"] {
-  transform: translateY(25px);
-}
-.js .gsap-reveal[data-reveal="up-20"] {
-  transform: translateY(20px);
-}
-.js .gsap-reveal[data-reveal="left"] {
-  transform: translateX(-50px);
-}
-.js .gsap-reveal[data-reveal="right"] {
-  transform: translateX(50px);
-}
-.js .gsap-reveal[data-reveal="right-20"] {
-  transform: translateX(20px);
 }
 @media (prefers-reduced-motion: reduce) {
   .js .gsap-reveal,
@@ -165,7 +137,7 @@ body #main-nav,
 
 /* Gallery Item */
 .gallery-item {
-  transition: transform .4s ease, opacity .4s ease;
+  transition: transform .4s ease;
   position: relative;
   border-radius: 0.75rem;
   overflow: hidden;
@@ -187,7 +159,7 @@ body #main-nav,
 
 /* Service & Category Cards */
 .service-card {
-  transition: all 0.3s ease;
+  transition: border-color 0.3s ease;
   position: relative;
   overflow: hidden;
 }

@@ -33,7 +33,7 @@
   <link rel="preload" href="assets/fonts/HelveticaNeue-Bold.woff2" as="font" type="font/woff2" crossorigin>
 
   <link rel="stylesheet" href="assets/tailwind.css?v=2">
-  <link rel="stylesheet" href="assets/portfolio.css?v=3">
+  <link rel="stylesheet" href="assets/portfolio.css?v=4">
 
 </head>
 <body class="min-h-screen">
@@ -148,7 +148,7 @@
     grid.innerHTML = '';
     videos.forEach(v => {
       const card = document.createElement('div');
-      card.className = 'video-card group relative rounded-xl overflow-hidden cursor-pointer bg-surface border border-border hover:border-white/30 transition-all duration-300';
+      card.className = 'video-card group relative rounded-xl overflow-hidden cursor-pointer bg-surface border border-border hover:border-white/30 transition-colors duration-300';
       const videoSrc = `https://www.youtube-nocookie.com/embed/${v.youtubeId}`;
       card.innerHTML = `
         <div class="relative aspect-video overflow-hidden bg-bg">
@@ -227,7 +227,7 @@
     grid2.innerHTML = '';
     videos2.forEach(v => {
       const card = document.createElement('div');
-      card.className = 'video-card group relative rounded-xl overflow-hidden cursor-pointer bg-surface border border-border hover:border-white/30 transition-all duration-300';
+      card.className = 'video-card group relative rounded-xl overflow-hidden cursor-pointer bg-surface border border-border hover:border-white/30 transition-colors duration-300';
       const videoSrc = `https://www.youtube-nocookie.com/embed/${v.youtubeId}`;
       card.innerHTML = `
         <div class="relative aspect-video overflow-hidden bg-bg">
@@ -361,7 +361,7 @@
         duration: 0.65,
         stagger: 0.1,
         ease: 'power3.out',
-        clearProps: 'all',
+        clearProps: 'transform',
         immediateRender: false,
         scrollTrigger: {
           trigger: '#video-grid',
@@ -377,7 +377,7 @@
       {
         y: 0, opacity: 1,
         duration: 0.6, ease: 'power2.out',
-        clearProps: 'all',
+        clearProps: 'transform',
         immediateRender: false,
         scrollTrigger: {
           trigger: '#site-footer',
@@ -420,7 +420,7 @@
         duration: 0.65,
         stagger: 0.1,
         ease: 'power3.out',
-        clearProps: 'all',
+        clearProps: 'transform',
         immediateRender: false,
         scrollTrigger: {
           trigger: '#video-grid-2',
