@@ -15,9 +15,6 @@ function initPortfolioApp() {
     loadPortfolioLikes();
     initVideoLightboxObserver();
 
-    // Initialize AI Chat Widget (DeepSeek V4 Flash)
-    initAIChatWidget();
-
     // Initialize Real-Time Visitor Tracking
     initVisitorTracking();
 }
@@ -626,7 +623,7 @@ function toggleLightboxDesc(e) {
 }
 window.toggleLightboxDesc = toggleLightboxDesc;
 
-function closeLightbox() {
+function closeLightbox(immediate = false) {
     const lb = document.getElementById('lightbox');
     if (!lb) return;
 
@@ -654,6 +651,9 @@ function closeLightbox() {
         if (img && window.gsap) {
             gsap.set(img, { clearProps: 'all' });
         }
+        if (lb && window.gsap) {
+            gsap.set(lb, { clearProps: 'all' });
+        }
         const loader = document.getElementById('lightbox-loader');
         if (loader) {
             loader.classList.add('hidden');
@@ -661,7 +661,9 @@ function closeLightbox() {
         }
     };
 
-    if (window.gsap) {
+    if (immediate) {
+        restorePage();
+    } else if (window.gsap) {
         gsap.to(lb, {
             opacity: 0,
             duration: 0.25,
@@ -705,20 +707,28 @@ function initLightboxListeners() {
         if (e.target === lb) closeLightbox();
     });
 
-    // Swipe Support
+    // Touch & Swipe Support (Mobile Lightbox Gestures)
     let startX = 0, startY = 0;
+    let startTime = 0;
     let isDragging = false;
     let dragDirection = null; // 'horizontal' or 'vertical'
 
     lb.addEventListener('touchstart', e => {
+        // Ignore touches initiating on interactive controls or metadata tooltips
+        if (e.target.closest('button, a, #lightbox-desc-tooltip, input')) return;
+
         startX = e.touches[0].clientX;
         startY = e.touches[0].clientY;
+        startTime = Date.now();
         isDragging = true;
         dragDirection = null;
 
         const img = document.getElementById('lightbox-img');
         if (img && window.gsap) {
             gsap.killTweensOf(img);
+        }
+        if (window.gsap) {
+            gsap.killTweensOf(lb);
         }
     }, { passive: true });
 
@@ -733,13 +743,14 @@ function initLightboxListeners() {
         const absX = Math.abs(dx);
         const absY = Math.abs(dy);
 
-        if (!dragDirection && (absX > 10 || absY > 10)) {
+        // Lock gesture axis once user moves beyond initial 8px slop threshold
+        if (!dragDirection && (absX > 8 || absY > 8)) {
             dragDirection = absX > absY ? 'horizontal' : 'vertical';
         }
 
         if (dragDirection === 'horizontal') {
             const xVal = dx * 0.85;
-            const opacity = Math.max(0.3, 1 - Math.abs(xVal) / (window.innerWidth * 0.6));
+            const opacity = Math.max(0.35, 1 - Math.abs(xVal) / (window.innerWidth * 0.7));
             if (window.gsap) {
                 gsap.set(img, { x: xVal, opacity: opacity });
             } else {
@@ -747,13 +758,18 @@ function initLightboxListeners() {
                 img.style.opacity = opacity;
             }
         } else if (dragDirection === 'vertical') {
-            const yVal = dy * 0.85;
-            const opacity = Math.max(0.3, 1 - Math.abs(yVal) / (window.innerHeight * 0.6));
+            // Downward drag dismisses; upward drag receives elastic resistance
+            const yVal = dy > 0 ? dy * 0.85 : dy * 0.25;
+            const imgOpacity = Math.max(0.3, 1 - Math.max(0, yVal) / (window.innerHeight * 0.6));
+            const backdropOpacity = Math.max(0.2, 1 - Math.max(0, yVal) / (window.innerHeight * 0.75));
+
             if (window.gsap) {
-                gsap.set(img, { y: yVal, opacity: opacity });
+                gsap.set(img, { y: yVal, opacity: imgOpacity });
+                gsap.set(lb, { opacity: backdropOpacity });
             } else {
                 img.style.transform = `translateY(${yVal}px)`;
-                img.style.opacity = opacity;
+                img.style.opacity = imgOpacity;
+                lb.style.opacity = backdropOpacity;
             }
         }
     }, { passive: true });
@@ -767,17 +783,19 @@ function initLightboxListeners() {
 
         const dx = e.changedTouches[0].clientX - startX;
         const dy = e.changedTouches[0].clientY - startY;
+        const elapsed = Date.now() - startTime;
         const absX = Math.abs(dx);
-        const absY = Math.abs(dy);
+        const isFlickX = elapsed < 300 && absX > 35;
+        const isFlickY = elapsed < 300 && dy > 40;
 
         if (dragDirection === 'horizontal') {
-            if (absX > 80) {
-                const targetX = dx < 0 ? -window.innerWidth : window.innerWidth;
+            if (absX > 60 || isFlickX) {
+                const targetX = dx < 0 ? -window.innerWidth * 0.85 : window.innerWidth * 0.85;
                 if (window.gsap) {
                     gsap.to(img, {
                         x: targetX,
                         opacity: 0,
-                        duration: 0.2,
+                        duration: 0.18,
                         ease: 'power2.in',
                         onComplete: () => {
                             swipeTriggered = true;
@@ -798,7 +816,7 @@ function initLightboxListeners() {
                         x: 0,
                         opacity: 1,
                         duration: 0.25,
-                        ease: 'back.out(1.2)'
+                        ease: 'power2.out'
                     });
                 } else {
                     img.style.transform = '';
@@ -806,32 +824,45 @@ function initLightboxListeners() {
                 }
             }
         } else if (dragDirection === 'vertical') {
-            if (absY > 120) {
-                const targetY = dy > 0 ? window.innerHeight : -window.innerHeight;
+            // Dismiss triggered on downward pull past 80px or quick downward flick
+            if (dy > 80 || isFlickY) {
+                const targetY = window.innerHeight * 0.75;
                 if (window.gsap) {
                     gsap.to(img, {
                         y: targetY,
                         opacity: 0,
-                        duration: 0.2,
+                        duration: 0.22,
+                        ease: 'power2.in'
+                    });
+                    gsap.to(lb, {
+                        opacity: 0,
+                        duration: 0.22,
                         ease: 'power2.in',
                         onComplete: () => {
-                            closeLightbox();
+                            closeLightbox(true);
                         }
                     });
                 } else {
                     closeLightbox();
                 }
             } else {
+                // Snap back if dismissed threshold not reached
                 if (window.gsap) {
                     gsap.to(img, {
                         y: 0,
                         opacity: 1,
                         duration: 0.25,
-                        ease: 'back.out(1.2)'
+                        ease: 'power2.out'
+                    });
+                    gsap.to(lb, {
+                        opacity: 1,
+                        duration: 0.25,
+                        ease: 'power2.out'
                     });
                 } else {
                     img.style.transform = '';
                     img.style.opacity = '1';
+                    lb.style.opacity = '1';
                 }
             }
         }
@@ -1398,351 +1429,6 @@ function applyGlobalSettings() {
     }
 }
 
-/**
- * ============================================================================
- * AI CHAT WIDGET — DeepSeek V4 Flash
- * Floating chat assistant that talks to the /api/ai proxy endpoint.
- * The API key stays server-side; the browser only talks to our proxy.
- * ============================================================================
- */
-const AI_API_URL = '/api/ai';
-const AI_CHAT_STORAGE_KEY = 'jcai_chat_history';
-
-const aiChatSystemPrompt = `You are the AI assistant for JC Niñonuevo's photography & cinematography portfolio website. 
-You are friendly, knowledgeable, and concise. You help visitors learn about:
-
-- JC's work: drone aerials, editorial street frames, cinematic storytelling, school events, framed moments, and video projects
-- Photography and videography tips
-- Services and how to get in touch (Contact section, socials)
-- General questions about the portfolio site
-
-Formatting & Style Instructions:
-- Format response lists using clean Markdown bullet points (e.g. "- **Title**: Description"). Put each bullet point on its own new line.
-- Use **bold text** for titles or emphasis.
-- Do NOT use em dashes (—) or en dashes (–) anywhere in your responses. Use colons (:), commas, hyphens (-), or parentheses instead.
-- Keep responses short, helpful, visually well-structured, and warm.
-- If asked about booking or pricing, suggest contacting JC via the Contact section or email. Always stay on-topic and professional.`;
-
-function initAIChatWidget() {
-    // Skip if already initialized (avoid duplicate injects)
-    if (document.getElementById('ai-chat-widget')) return;
-
-    // Build the widget DOM
-    const container = document.createElement('div');
-    container.id = 'ai-chat-widget';
-    container.className = 'ai-chat-widget';
-    container.innerHTML = `
-        <!-- Floating Launcher Button -->
-        <button id="ai-chat-launcher" class="ai-chat-launcher" aria-label="Chat with AI assistant" aria-expanded="false">
-            <svg id="ai-chat-launcher-icon" class="ai-chat-launcher-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-            </svg>
-            <svg id="ai-chat-close-icon" class="ai-chat-close-icon" style="display:none" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M18 6 6 18M6 6l12 12"/>
-            </svg>
-        </button>
-
-        <!-- Chat Panel -->
-        <div id="ai-chat-panel" class="ai-chat-panel" role="dialog" aria-label="AI chat assistant">
-            <!-- Header -->
-            <div class="ai-chat-header">
-                <div class="ai-chat-header-avatar">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                </div>
-                <div class="ai-chat-header-text">
-                    <span class="ai-chat-header-title">JC AI Assistant</span>
-                    <span class="ai-chat-header-sub">DeepSeek V4 Flash</span>
-                </div>
-                <button id="ai-chat-clear" class="ai-chat-clear-btn" aria-label="Clear conversation">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6h14z"/></svg>
-                </button>
-            </div>
-
-            <!-- Messages -->
-            <div id="ai-chat-messages" class="ai-chat-messages">
-                <div class="ai-chat-message ai-chat-message-assistant">
-                    <div class="ai-chat-bubble">Hi! I'm JC's AI assistant. Ask me about his photography, videography, or anything about the portfolio. 👋</div>
-                </div>
-            </div>
-
-            <!-- Suggested prompts -->
-            <div id="ai-chat-suggestions" class="ai-chat-suggestions">
-                <button class="ai-chat-suggestion-chip" data-prompt="Tell me about JC's work">About JC's work</button>
-                <button class="ai-chat-suggestion-chip" data-prompt="What photography services do you offer?">Services</button>
-                <button class="ai-chat-suggestion-chip" data-prompt="How can I contact JC?">Contact</button>
-            </div>
-
-            <!-- Input -->
-            <div class="ai-chat-input-wrap">
-                <textarea id="ai-chat-input" class="ai-chat-input" rows="1" placeholder="Ask me anything..." aria-label="Message the AI assistant"></textarea>
-                <button id="ai-chat-send" class="ai-chat-send-btn" aria-label="Send message">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
-                </button>
-            </div>
-        </div>
-    `;
-    document.body.appendChild(container);
-
-    const panel = document.getElementById('ai-chat-panel');
-    const launcher = document.getElementById('ai-chat-launcher');
-    const launcherIcon = document.getElementById('ai-chat-launcher-icon');
-    const closeIcon = document.getElementById('ai-chat-close-icon');
-    const messagesEl = document.getElementById('ai-chat-messages');
-    const inputEl = document.getElementById('ai-chat-input');
-    const sendBtn = document.getElementById('ai-chat-send');
-    const clearBtn = document.getElementById('ai-chat-clear');
-
-    let isOpen = false;
-    let isLoading = false;
-
-    // Restore history from localStorage
-    let chatHistory = [];
-    try {
-        const stored = localStorage.getItem(AI_CHAT_STORAGE_KEY);
-        if (stored) {
-            const parsed = JSON.parse(stored);
-            if (Array.isArray(parsed) && parsed.length > 0) {
-                chatHistory = parsed.slice(-20);
-                renderMessagesFromHistory();
-            }
-        }
-    } catch (e) {
-        // Ignore corrupt storage
-    }
-
-    // Toggle panel
-    launcher.addEventListener('click', () => {
-        isOpen = !isOpen;
-        panel.classList.toggle('open', isOpen);
-        launcher.classList.toggle('active', isOpen);
-        launcher.setAttribute('aria-expanded', String(isOpen));
-        launcherIcon.style.display = isOpen ? 'none' : '';
-        closeIcon.style.display = isOpen ? '' : 'none';
-        if (isOpen) {
-            inputEl.focus();
-        }
-    });
-
-    // Clear conversation
-    clearBtn.addEventListener('click', () => {
-        chatHistory = [];
-        localStorage.removeItem(AI_CHAT_STORAGE_KEY);
-        messagesEl.innerHTML = `
-            <div class="ai-chat-message ai-chat-message-assistant">
-                <div class="ai-chat-bubble">Hi! I'm JC's AI assistant. Ask me about his photography, videography, or anything about the portfolio. 👋</div>
-            </div>
-        `;
-    });
-
-    // Suggested prompts
-    container.querySelectorAll('.ai-chat-suggestion-chip').forEach(chip => {
-        chip.addEventListener('click', () => {
-            inputEl.value = chip.dataset.prompt;
-            sendMessage();
-        });
-    });
-
-    // Send on Enter (Shift+Enter for newline)
-    inputEl.addEventListener('keydown', e => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            sendMessage();
-        }
-    });
-
-    sendBtn.addEventListener('click', sendMessage);
-
-    // Auto-resize the textarea
-    inputEl.addEventListener('input', () => {
-        inputEl.style.height = 'auto';
-        inputEl.style.height = Math.min(inputEl.scrollHeight, 120) + 'px';
-    });
-
-    async function sendMessage() {
-        const text = inputEl.value.trim();
-        if (!text || isLoading) return;
-
-        inputEl.value = '';
-        inputEl.style.height = 'auto';
-
-        // Hide suggestions once user starts chatting
-        const suggestions = document.getElementById('ai-chat-suggestions');
-        if (suggestions) suggestions.style.display = 'none';
-
-        // Add user message
-        appendMessage('user', text);
-        chatHistory.push({ role: 'user', content: text });
-
-        // Add loading indicator
-        const loadingEl = appendLoading();
-
-        isLoading = true;
-        if (!isHttpContext()) {
-            loadingEl.remove();
-            appendMessage('assistant', 'The AI assistant is only available on the hosted site. Open jcnino.dev to use it. 👋');
-            isLoading = false;
-            inputEl.focus();
-            return;
-        }
-        try {
-            const res = await fetch(AI_API_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    messages: [
-                        { role: 'system', content: aiChatSystemPrompt },
-                        ...chatHistory.slice(-20)
-                    ]
-                })
-            });
-
-            const data = await res.json();
-            if (!res.ok) {
-                throw new Error(data.error || 'Request failed');
-            }
-
-            const reply = data.content || 'Sorry, I could not generate a response.';
-            loadingEl.remove();
-            appendMessage('assistant', reply);
-            chatHistory.push({ role: 'assistant', content: reply });
-
-            // Persist
-            try {
-                localStorage.setItem(AI_CHAT_STORAGE_KEY, JSON.stringify(chatHistory.slice(-20)));
-            } catch (e) {
-                // Storage full — ignore
-            }
-        } catch (err) {
-            loadingEl.remove();
-            appendMessage('assistant', `⚠️ ${err.message}`);
-        }
-        isLoading = false;
-        inputEl.focus();
-    }
-
-    function appendMessage(role, content) {
-        const msgEl = document.createElement('div');
-        msgEl.className = `ai-chat-message ai-chat-message-${role}`;
-        const bubble = document.createElement('div');
-        bubble.className = 'ai-chat-bubble';
-        // Simple Markdown-ish rendering: bold, italic, inline code, line breaks
-        bubble.innerHTML = formatAIResponse(content);
-        msgEl.appendChild(bubble);
-        messagesEl.appendChild(msgEl);
-        messagesEl.scrollTop = messagesEl.scrollHeight;
-        return msgEl;
-    }
-
-    function appendLoading() {
-        const msgEl = document.createElement('div');
-        msgEl.className = 'ai-chat-message ai-chat-message-assistant';
-        msgEl.innerHTML = `<div class="ai-chat-bubble ai-chat-loading"><span></span><span></span><span></span></div>`;
-        messagesEl.appendChild(msgEl);
-        messagesEl.scrollTop = messagesEl.scrollHeight;
-        return msgEl;
-    }
-
-    function renderMessagesFromHistory() {
-        // Keep the welcome message unless history exists
-        const welcome = messagesEl.querySelector('.ai-chat-message-assistant');
-        messagesEl.innerHTML = '';
-        chatHistory.forEach(msg => {
-            appendMessage(msg.role, msg.content);
-        });
-        const suggestions = document.getElementById('ai-chat-suggestions');
-        if (suggestions && chatHistory.length > 0) {
-            suggestions.style.display = 'none';
-        }
-    }
-
-    function formatAIResponse(text) {
-        if (!text) return '';
-
-        // Replace em-dashes (—) and en-dashes (–) without stripping newlines
-        const sanitized = text.replace(/[\u2014\u2013]/g, ' - ');
-
-        // Escape HTML first to prevent XSS injection
-        const escapeHtml = (s) => s
-            .replace(/&/g, '\u0026amp;')
-            .replace(/</g, '\u0026lt;')
-            .replace(/>/g, '\u0026gt;')
-            .replace(/"/g, '\u0026quot;')
-            .replace(/'/g, '\u0026#039;');
-
-        const escaped = escapeHtml(sanitized);
-
-        // Inline markdown: links, bold, italic, code
-        const formattedInline = escaped
-            .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
-            .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-            .replace(/__(.+?)__/g, '<strong>$1</strong>')
-            .replace(/\*(.+?)\*/g, '<em>$1</em>')
-            .replace(/_([^_]+)_/g, '<em>$1</em>')
-            .replace(/`([^`]+)`/g, '<code>$1</code>');
-
-        // Block parsing: lists, headings, paragraphs
-        const lines = formattedInline.split('\n');
-        let html = '';
-        let inList = false;
-        let listType = null;
-
-        for (let i = 0; i < lines.length; i++) {
-            let line = lines[i].trim();
-
-            if (!line) {
-                if (inList) {
-                    html += listType === 'ul' ? '</ul>' : '</ol>';
-                    inList = false;
-                    listType = null;
-                }
-                continue;
-            }
-
-            const ulMatch = line.match(/^[-*•]\s+(.*)$/);
-            const olMatch = line.match(/^\d+\.\s+(.*)$/);
-
-            if (ulMatch) {
-                if (!inList || listType !== 'ul') {
-                    if (inList) html += listType === 'ul' ? '</ul>' : '</ol>';
-                    html += '<ul class="ai-chat-list">';
-                    inList = true;
-                    listType = 'ul';
-                }
-                html += `<li>${ulMatch[1]}</li>`;
-            } else if (olMatch) {
-                if (!inList || listType !== 'ol') {
-                    if (inList) html += listType === 'ul' ? '</ul>' : '</ol>';
-                    html += '<ol class="ai-chat-list">';
-                    inList = true;
-                    listType = 'ol';
-                }
-                html += `<li>${olMatch[1]}</li>`;
-            } else {
-                if (inList) {
-                    html += listType === 'ul' ? '</ul>' : '</ol>';
-                    inList = false;
-                    listType = null;
-                }
-                if (line.startsWith('### ')) {
-                    html += `<h4 class="ai-chat-heading">${line.slice(4)}</h4>`;
-                } else if (line.startsWith('## ') || line.startsWith('# ')) {
-                    html += `<h3 class="ai-chat-heading">${line.replace(/^#+\s+/, '')}</h3>`;
-                } else {
-                    html += `<p class="ai-chat-p">${line}</p>`;
-                }
-            }
-        }
-
-        if (inList) {
-            html += listType === 'ul' ? '</ul>' : '</ol>';
-        }
-
-        return html;
-    }
-}
-
-// Export for inline access
-window.initAIChatWidget = initAIChatWidget;
 window.openLightbox = openLightbox;
 window.closeLightbox = closeLightbox;
 window.prevImage = prevImage;
