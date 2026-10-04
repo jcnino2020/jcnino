@@ -59,11 +59,12 @@
 
   <link rel="stylesheet" href="assets/tailwind.css?v=2">
   <link rel="stylesheet" href="assets/portfolio.css?v=4">
-  <link rel="stylesheet" href="assets/home.css?v=1">
+  <link rel="stylesheet" href="assets/home.css?v=3">
+  <link rel="stylesheet" href="assets/viewer.css?v=2">
 
 </head>
 
-<body class="min-h-screen home-page">
+<body class="min-h-screen home-page enhanced-viewer">
 
   <!-- Navigation -->
   <div id="navbar-placeholder">
@@ -89,7 +90,7 @@
   </div>
 
   <!-- Assets -->
-  <script src="assets/portfolio.js?v=4" defer></script>
+  <script src="assets/portfolio.js?v=7" defer></script>
 
   <!-- Main Content -->
   <main id="main-content">
@@ -102,16 +103,16 @@
           <!-- Left Column: Text -->
           <div class="lg:col-span-6">
             <p id="hero-eyebrow"
-              class="gsap-hero-item text-text-muted text-sm font-bold uppercase tracking-normal mb-6">Photo & Video</p>
+              class="hero-item text-text-muted text-sm font-bold uppercase tracking-normal mb-6">Photo & Video</p>
             <h1 id="hero-title"
-              class="gsap-hero-item text-5xl sm:text-7xl lg:text-8xl leading-[1.05] sm:tracking-tight font-bold text-white mb-8">
+              class="hero-item text-5xl sm:text-7xl lg:text-8xl leading-[1.05] sm:tracking-tight font-bold text-white mb-8">
               Framing<br><span class="font-light opacity-90">Stories.</span>
             </h1>
             <p id="hero-desc"
-              class="gsap-hero-item text-text-muted text-lg sm:text-xl max-w-lg mb-12 leading-relaxed font-normal">
+              class="hero-item text-text-muted text-lg sm:text-xl max-w-lg mb-12 leading-relaxed font-normal">
               Framing stories through drone aerials, editorial street photographs, and cinematic video.
             </p>
-            <div id="hero-buttons" class="gsap-hero-item flex flex-wrap gap-5">
+            <div id="hero-buttons" class="hero-item flex flex-wrap gap-5">
               <a href="#gallery"
                 class="inline-flex items-center justify-center gap-3 px-8 pt-[18px] pb-[14px] border border-transparent bg-white text-black font-bold text-sm rounded-full hover:bg-opacity-90 transition-all group leading-none">
                 Explore Gallery
@@ -128,7 +129,7 @@
           </div>
 
           <!-- Right Column: Featured Visual -->
-          <div id="hero-img-col" class="gsap-hero-item lg:col-span-6 relative">
+          <div id="hero-img-col" class="hero-item lg:col-span-6 relative">
             <div class="aspect-[3/2] rounded-2xl overflow-hidden bg-surface relative">
               <picture>
                 <source type="image/webp" srcset="
@@ -158,7 +159,7 @@
       <div class="max-w-7xl mx-auto px-6 sm:px-10">
 
         <!-- Categories Section Header -->
-        <div id="services-header" class="gsap-reveal mb-6 md:mb-10" data-reveal="up-35">
+        <div id="services-header" class="reveal-item mb-6 md:mb-10" data-reveal="up-35">
           <h2 class="text-text-muted text-xs font-bold uppercase tracking-normal">Categories</h2>
         </div>
 
@@ -167,7 +168,7 @@
 
           <!-- 01 Drone Shots -->
           <a href="drone-shots.html"
-            class="service-card gsap-reveal group border border-border hover:border-white/30 transition-colors duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden"
+            class="service-card reveal-item group border border-border hover:border-white/30 transition-colors duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden"
             data-reveal="up-50">
             <!-- BG Image -->
             <picture class="absolute inset-0 w-full h-full">
@@ -203,7 +204,7 @@
 
           <!-- 02 Framed Moments -->
           <a href="framed-moments.html"
-            class="service-card gsap-reveal group border border-border hover:border-white/30 transition-colors duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden"
+            class="service-card reveal-item group border border-border hover:border-white/30 transition-colors duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden"
             data-reveal="up-50">
             <picture class="absolute inset-0 w-full h-full">
               <source type="image/webp"
@@ -236,7 +237,7 @@
 
           <!-- 03 School Events -->
           <a href="school-events.html"
-            class="service-card gsap-reveal group border border-border hover:border-white/30 transition-colors duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden"
+            class="service-card reveal-item group border border-border hover:border-white/30 transition-colors duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden"
             data-reveal="up-50">
             <picture class="absolute inset-0 w-full h-full">
               <source type="image/webp"
@@ -269,7 +270,7 @@
 
           <!-- 04 Video Projects -->
           <a href="video-projects.html"
-            class="service-card gsap-reveal group border border-border hover:border-white/30 transition-colors duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden"
+            class="service-card reveal-item group border border-border hover:border-white/30 transition-colors duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden"
             data-reveal="up-50">
             <picture class="absolute inset-0 w-full h-full">
               <source type="image/webp"
@@ -307,7 +308,7 @@
     <section id="gallery" class="py-10 md:py-16 border-t border-border">
       <div class="max-w-7xl mx-auto px-6 sm:px-10">
         <div id="gallery-header"
-          class="gsap-reveal flex flex-col md:flex-row items-start md:items-end justify-between mb-6 md:mb-10 gap-6"
+          class="reveal-item flex flex-col md:flex-row items-start md:items-end justify-between mb-6 md:mb-10 gap-6"
           data-reveal="up-35">
           <div>
             <p class="text-text-muted text-xs font-bold uppercase mb-4">Gallery Highlights</p>
@@ -336,7 +337,7 @@
       <div class="max-w-7xl mx-auto px-6 sm:px-10">
         <div class="grid lg:grid-cols-12 gap-16 items-center">
 
-          <div id="about-left" class="gsap-reveal lg:col-span-5" data-reveal="left">
+          <div id="about-left" class="reveal-item lg:col-span-5" data-reveal="left">
             <p class="text-text-muted text-xs font-bold uppercase mb-4">About</p>
             <h2 class="text-4xl sm:text-5xl text-white mb-6 leading-tight font-bold">The Photographer.</h2>
             <p id="about-bio" class="text-text-muted text-lg leading-relaxed mb-6">
@@ -348,16 +349,16 @@
             </p>
           </div>
 
-          <div id="about-right" class="gsap-reveal lg:col-span-7 lg:pl-12 border-l-0 lg:border-l border-border" data-reveal="right">
+          <div id="about-right" class="reveal-item lg:col-span-7 lg:pl-12 border-l-0 lg:border-l border-border" data-reveal="right">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
               <div>
                 <h3 class="text-white font-bold text-sm uppercase tracking-normal mb-4">Camera Kit</h3>
                 <ul class="space-y-3 text-text-muted">
-                  <li class="gsap-reveal flex justify-between border-b border-white/5 pb-2" data-reveal="right-20"><span>Body</span><span
+                  <li class="reveal-item flex justify-between border-b border-white/5 pb-2" data-reveal="right-20"><span>Body</span><span
                       id="about-kit-body" class="text-white font-bold">Nikon Z50</span></li>
-                  <li class="gsap-reveal flex justify-between border-b border-white/5 pb-2" data-reveal="right-20"><span>Primes</span><span
+                  <li class="reveal-item flex justify-between border-b border-white/5 pb-2" data-reveal="right-20"><span>Primes</span><span
                       id="about-kit-primes" class="text-white font-bold text-right">Viltrox 25/56/85</span></li>
-                  <li class="gsap-reveal flex justify-between border-b border-white/5 pb-2" data-reveal="right-20"><span>Zooms</span><span
+                  <li class="reveal-item flex justify-between border-b border-white/5 pb-2" data-reveal="right-20"><span>Zooms</span><span
                       id="about-kit-zooms" class="text-white font-bold">16-50/50-250</span></li>
                 </ul>
               </div>
@@ -440,7 +441,7 @@
       <div class="absolute inset-0 pointer-events-none opacity-5"
         style="background-image: radial-gradient(#fff 1px, transparent 1px); background-size: 20px 20px;"></div>
       <div class="max-w-3xl mx-auto px-6 sm:px-10 relative z-10">
-        <div id="contact-header" class="gsap-reveal text-center mb-8 md:mb-12" data-reveal="up-35">
+        <div id="contact-header" class="reveal-item text-center mb-8 md:mb-12" data-reveal="up-35">
           <p class="text-text-muted text-xs font-bold uppercase mb-4">Contact</p>
           <h2 class="text-4xl sm:text-5xl text-white mb-4 font-bold">Let's Collaborate.</h2>
           <p class="text-text-muted text-lg max-w-lg mx-auto mb-6">Available for school events, portraits,
@@ -450,7 +451,7 @@
 
         <div id="contact-links" class="space-y-4 p-8 bg-surface border border-border rounded-2xl shadow-2xl">
           <a href="https://facebook.com/jcninoo" target="_blank"
-            class="contact-link gsap-reveal flex items-center justify-between p-5 bg-black/20 border border-white/10 rounded-xl hover:bg-white hover:text-black transition-colors duration-300 group"
+            class="contact-link reveal-item flex items-center justify-between p-5 bg-black/20 border border-white/10 rounded-xl hover:bg-white hover:text-black transition-colors duration-300 group"
             data-reveal="up-25">
             <div class="flex items-center gap-4">
               <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -466,7 +467,7 @@
           </a>
 
           <a href="https://instagram.com/photos.jcnino" target="_blank"
-            class="contact-link gsap-reveal flex items-center justify-between p-5 bg-black/20 border border-white/10 rounded-xl hover:bg-white hover:text-black transition-colors duration-300 group"
+            class="contact-link reveal-item flex items-center justify-between p-5 bg-black/20 border border-white/10 rounded-xl hover:bg-white hover:text-black transition-colors duration-300 group"
             data-reveal="up-25">
             <div class="flex items-center gap-4">
               <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -482,7 +483,7 @@
           </a>
 
           <a href="mailto:jcninonuevo@gmail.com"
-            class="contact-link gsap-reveal flex items-center justify-between p-5 bg-black/20 border border-white/10 rounded-xl hover:bg-white hover:text-black transition-colors duration-300 group"
+            class="contact-link reveal-item flex items-center justify-between p-5 bg-black/20 border border-white/10 rounded-xl hover:bg-white hover:text-black transition-colors duration-300 group"
             data-reveal="up-25">
             <div class="flex items-center gap-4">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -607,25 +608,6 @@
       if (!grid) return;
       grid.innerHTML = '';
       allPhotos.forEach(p => grid.appendChild(buildCard(p, allPhotos)));
-
-      // GSAP: animate gallery items after render
-      requestAnimationFrame(() => {
-        ScrollTrigger.batch('#highlights-grid .gallery-item', {
-          onEnter: batch => gsap.fromTo(batch,
-            { y: 50, opacity: 0 },
-            {
-              y: 0,
-              opacity: 1,
-              duration: 0.6,
-              stagger: 0.06,
-              ease: 'power3.out',
-              clearProps: 'transform'
-            }
-          ),
-          once: true,
-          start: 'top 92%'
-        });
-      });
     }
 
     if (document.readyState === 'loading') {
@@ -658,220 +640,32 @@
 
 
 
-  <!-- =============================================
-     GSAP + ScrollTrigger
-     CDN: gsap@3.13 (fully free, all plugins)
-     ============================================= -->
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/ScrollTrigger.min.js"></script>
-
   <script>
     function initAnimations() {
-      // Clean up reveal helper to remove compositor layers and reveal classes after animation
-      const cleanReveal = (selector) => {
-        document.querySelectorAll(selector).forEach(el => {
-          el.classList.remove('gsap-reveal', 'gsap-hero-item', 'gsap-header-item');
-          el.style.willChange = 'auto';
-          el.style.opacity = '1';
-        });
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const animate = (element, delay = 0, move = true) => {
+        if (!element.animate) return;
+        element.animate([
+          { opacity: 0.2, transform: move ? 'translateY(16px)' : 'none' },
+          { opacity: 1, transform: 'none' }
+        ], { duration: 450, delay, easing: 'cubic-bezier(.2,.8,.2,1)' });
       };
 
-      if (typeof gsap === 'undefined') {
-        cleanReveal('.gsap-reveal, .gsap-hero-item, .gsap-header-item');
-        return;
-      }
-
-      gsap.registerPlugin(ScrollTrigger);
-
-      // ── 2. HERO: staggered timeline (all fromTo — explicit, with transform clearProps and hero cleanup)
-      const heroTl = gsap.timeline({
-        delay: 0.4,
-        onComplete: () => cleanReveal('.gsap-hero-item')
+      document.querySelectorAll('.hero-item').forEach((element, index) => {
+        animate(element, index * 60, element.id !== 'hero-img-col');
       });
-      heroTl
-        .fromTo('#hero-eyebrow',
-          { opacity: 0, y: 30 },
-          { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', clearProps: 'transform' }
-        )
-        .fromTo('#hero-title',
-          { opacity: 0, y: 45 },
-          { opacity: 1, y: 0, duration: 0.85, ease: 'power3.out', clearProps: 'transform' },
-          '-=0.45'
-        )
-        .fromTo('#hero-desc',
-          { opacity: 0, y: 30 },
-          { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', clearProps: 'transform' },
-          '-=0.55'
-        )
-        .fromTo('#hero-buttons',
-          { opacity: 0, y: 20 },
-          { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', clearProps: 'transform' },
-          '-=0.45'
-        )
-        .fromTo('#hero-img-col',
-          { opacity: 0, x: 60 },
-          { opacity: 1, x: 0, duration: 1, ease: 'power3.out', clearProps: 'transform' },
-          '-=0.9'
-        );
 
-      // ── 4. CATEGORIES HEADER
-      gsap.fromTo('#services-header',
-        { y: 35, opacity: 0 },
-        {
-          y: 0, opacity: 1,
-          duration: 0.65, ease: 'power3.out',
-          clearProps: 'transform',
-          immediateRender: false,
-          scrollTrigger: {
-            trigger: '#services-section',
-            start: 'top 95%',
-            once: true
-          },
-          onComplete: () => cleanReveal('#services-header')
-        }
-      );
-
-      // ── 4b. SERVICE CARDS: fromTo with immediateRender:false and early start
-      gsap.fromTo('.service-card',
-        { y: 50, opacity: 0 },
-        {
-          y: 0, opacity: 1,
-          duration: 0.65, stagger: 0.1, ease: 'power3.out',
-          clearProps: 'transform',
-          immediateRender: false,
-          scrollTrigger: {
-            trigger: '#services-section',
-            start: 'top 95%',
-            once: true
-          },
-          onComplete: () => cleanReveal('.service-card')
-        }
-      );
-
-      // ── 5. GALLERY HEADER
-      gsap.fromTo('#gallery-header',
-        { y: 35, opacity: 0 },
-        {
-          y: 0, opacity: 1,
-          duration: 0.7, ease: 'power3.out',
-          clearProps: 'transform',
-          immediateRender: false,
-          scrollTrigger: {
-            trigger: '#gallery',
-            start: 'top 95%',
-            once: true
-          },
-          onComplete: () => cleanReveal('#gallery-header')
-        }
-      );
-
-      // Gallery items are animated inside renderHighlights() via ScrollTrigger.batch
-
-      // ── 6. ABOUT: left slides from left, right from right
-      gsap.fromTo('#about-left',
-        { x: -50, opacity: 0 },
-        {
-          x: 0, opacity: 1,
-          duration: 0.85, ease: 'power3.out',
-          clearProps: 'transform',
-          immediateRender: false,
-          scrollTrigger: {
-            trigger: '#about',
-            start: 'top 95%',
-            once: true
-          },
-          onComplete: () => cleanReveal('#about-left')
-        }
-      );
-
-      // ── 6b. ABOUT: right slides from right
-      gsap.fromTo('#about-right',
-        { x: 50, opacity: 0 },
-        {
-          x: 0, opacity: 1,
-          duration: 0.85, delay: 0.1, ease: 'power3.out',
-          clearProps: 'transform',
-          immediateRender: false,
-          scrollTrigger: {
-            trigger: '#about',
-            start: 'top 95%',
-            once: true
-          },
-          onComplete: () => cleanReveal('#about-right')
-        }
-      );
-
-      gsap.fromTo('#about-right li',
-        { x: 20, opacity: 0 },
-        {
-          x: 0, opacity: 1,
-          duration: 0.4, stagger: 0.07, ease: 'power2.out',
-          clearProps: 'transform',
-          immediateRender: false,
-          scrollTrigger: {
-            trigger: '#about-right',
-            start: 'top 95%',
-            once: true
-          },
-          onComplete: () => cleanReveal('#about-right li')
-        }
-      );
-
-      // ── 7. CONTACT HEADER
-      gsap.fromTo('#contact-header',
-        { y: 35, opacity: 0 },
-        {
-          y: 0, opacity: 1,
-          duration: 0.75, ease: 'power3.out',
-          clearProps: 'transform',
-          immediateRender: false,
-          scrollTrigger: {
-            trigger: '#contact',
-            start: 'top 95%',
-            once: true
-          },
-          onComplete: () => cleanReveal('#contact-header')
-        }
-      );
-
-      // ── 8. CONTACT LINKS: fromTo prevents stuck-invisible bug
-      gsap.fromTo('.contact-link',
-        { y: 25, opacity: 0 },
-        {
-          y: 0, opacity: 1,
-          duration: 0.5, stagger: 0.1, ease: 'power3.out',
-          clearProps: 'transform',
-          immediateRender: false,
-          scrollTrigger: {
-            trigger: '#contact-links',
-            start: 'top 95%',
-            once: true
-          },
-          onComplete: () => cleanReveal('.contact-link')
-        }
-      );
-
-      // ── 9. FOOTER
-      gsap.fromTo('#site-footer',
-        { y: 30, opacity: 0 },
-        {
-          y: 0, opacity: 1,
-          duration: 0.6, ease: 'power2.out',
-          clearProps: 'transform',
-          immediateRender: false,
-          scrollTrigger: {
-            trigger: '#site-footer',
-            start: 'top 98%',
-            once: true
-          },
-          onComplete: () => cleanReveal('#site-footer')
-        }
-      );
-
-      window.gsapInitialized = true;
-
-      // Safety timeout: Ensure above-fold hero items never remain stuck invisible
-      setTimeout(() => cleanReveal('.gsap-hero-item'), 2000);
+      if (!('IntersectionObserver' in window)) return;
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          observer.unobserve(entry.target);
+          animate(entry.target);
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -4% 0px' });
+      document.querySelectorAll('.reveal-item, #highlights-grid .gallery-item, #site-footer').forEach(element => {
+        if (!element.parentElement.closest('.reveal-item')) observer.observe(element);
+      });
     }
 
     if (document.readyState === 'loading') {

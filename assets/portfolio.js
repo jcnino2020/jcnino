@@ -96,7 +96,7 @@ const imageLightboxHtml = `
   <div id="lightbox-loader" class="absolute inset-0 flex items-center justify-center pointer-events-none hidden z-30">
     <div class="spinner"></div>
   </div>
-  <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-row items-center gap-4 select-none bg-black/60 backdrop-blur-xl px-5 py-2.5 rounded-full border border-white/10 shadow-lg z-40">
+  <div id="lightbox-toolbar" class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-row items-center gap-4 select-none bg-black/60 backdrop-blur-xl px-5 py-2.5 rounded-full border border-white/10 shadow-lg z-40">
     <p id="lightbox-counter" class="text-white text-xs font-bold tracking-normal m-0 leading-none flex items-center shrink-0" aria-live="polite"></p>
     <div class="w-[1px] h-3.5 bg-white/20 shrink-0 self-center"></div>
     <button id="lightbox-like-btn" onclick="toggleImageLike()" class="flex items-center gap-1.5 text-white hover:scale-105 active:scale-95 transition-all duration-300 group shrink-0 leading-none">
@@ -407,6 +407,45 @@ function preloadNearbyImages(gallery, index) {
 
 var lastFocusedElement = null;
 
+const viewerAnimations = new WeakMap();
+
+function useGsapViewer() {
+    return Boolean(window.gsap) && !document.body.classList.contains('enhanced-viewer');
+}
+
+function cancelViewerAnimation(element) {
+    viewerAnimations.get(element)?.cancel();
+    viewerAnimations.delete(element);
+}
+
+function animateViewer(element, keyframes, duration, onComplete) {
+    cancelViewerAnimation(element);
+    if (!element.animate || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        onComplete?.();
+        return;
+    }
+    const animation = element.animate(keyframes, {
+        duration, easing: 'cubic-bezier(.2,.8,.2,1)'
+    });
+    viewerAnimations.set(element, animation);
+    animation.finished.then(() => {
+        if (viewerAnimations.get(element) !== animation) return;
+        viewerAnimations.delete(element);
+        onComplete?.();
+    }).catch(() => {});
+}
+
+function settleViewerDrag(img, lb) {
+    const transform = img.style.transform || 'none';
+    const opacity = img.style.opacity || '1';
+    const backdropOpacity = lb.style.opacity || '1';
+    img.style.transform = '';
+    img.style.opacity = '1';
+    lb.style.opacity = '1';
+    animateViewer(img, [{ transform, opacity }, { transform: 'none', opacity: 1 }], 180);
+    animateViewer(lb, [{ opacity: backdropOpacity }, { opacity: 1 }], 180);
+}
+
 function openLightbox(photo, gallery, triggerEl) {
     lastFocusedElement = triggerEl || document.activeElement;
     currentGallery = gallery;
@@ -433,7 +472,7 @@ function openLightbox(photo, gallery, triggerEl) {
     }
 
     // GSAP: fade in the backdrop
-    if (window.gsap) {
+    if (useGsapViewer()) {
         gsap.fromTo(lb,
             { opacity: 0 },
             { opacity: 1, duration: 0.3, ease: 'power2.out' }
@@ -442,9 +481,12 @@ function openLightbox(photo, gallery, triggerEl) {
         if (img) {
             gsap.set(img, { x: 0, y: 0, opacity: 0 });
         }
+    } else {
+        lb.style.opacity = '1';
+        animateViewer(lb, [{ opacity: 0 }, { opacity: 1 }], 180);
     }
 
-    // syncLightbox will handle the image entry animation in its onload
+    // The loaded image gets its own short entry animation.
     syncLightbox('open');
 
     // Preload nearby images
@@ -477,6 +519,7 @@ function getLightboxSrc(src) {
 }
 
 function syncLightbox(direction = null) {
+    resetLightboxZoom();
     const p = currentGallery[currentIndex];
     const img = document.getElementById('lightbox-img');
     const counter = document.getElementById('lightbox-counter');
@@ -532,7 +575,7 @@ function syncLightbox(direction = null) {
         };
 
         // Transition: Fade out the old image before showing the new one
-        if (window.gsap && (direction === 'next' || direction === 'prev') && !swipeTriggered) {
+        if (useGsapViewer() && (direction === 'next' || direction === 'prev') && !swipeTriggered) {
             gsap.to(img, {
                 opacity: 0,
                 x: direction === 'next' ? -30 : 30,
@@ -542,7 +585,8 @@ function syncLightbox(direction = null) {
             });
         } else {
             // Instant hide or direct jump for initial open, vertical/swipe loads
-            if (window.gsap) gsap.killTweensOf(img);
+            if (useGsapViewer()) gsap.killTweensOf(img);
+            cancelViewerAnimation(img);
             img.style.opacity = '0';
             startLoading();
             swipeTriggered = false; // Reset the flag
@@ -557,7 +601,7 @@ function syncLightbox(direction = null) {
                 loader.classList.remove('flex');
             }
 
-            if (window.gsap) {
+            if (useGsapViewer()) {
                 let xOffset = 0;
                 if (direction === 'next') xOffset = 30;
                 if (direction === 'prev') xOffset = -30;
@@ -582,6 +626,11 @@ function syncLightbox(direction = null) {
             } else {
                 img.style.opacity = '1';
                 img.style.transform = '';
+                const offset = direction === 'next' ? 16 : direction === 'prev' ? -16 : 0;
+                animateViewer(img, [
+                    { opacity: 0, transform: `translateX(${offset}px)` },
+                    { opacity: 1, transform: 'none' }
+                ], 180);
             }
         };
 
@@ -624,6 +673,7 @@ function toggleLightboxDesc(e) {
 window.toggleLightboxDesc = toggleLightboxDesc;
 
 function closeLightbox(immediate = false) {
+    resetLightboxZoom();
     const lb = document.getElementById('lightbox');
     if (!lb) return;
 
@@ -648,10 +698,17 @@ function closeLightbox(immediate = false) {
         }
 
         const img = document.getElementById('lightbox-img');
-        if (img && window.gsap) {
+        if (img) {
+            cancelViewerAnimation(img);
+            img.style.opacity = '1';
+            img.style.transform = '';
+        }
+        cancelViewerAnimation(lb);
+        lb.style.opacity = '';
+        if (img && useGsapViewer()) {
             gsap.set(img, { clearProps: 'all' });
         }
-        if (lb && window.gsap) {
+        if (lb && useGsapViewer()) {
             gsap.set(lb, { clearProps: 'all' });
         }
         const loader = document.getElementById('lightbox-loader');
@@ -663,7 +720,7 @@ function closeLightbox(immediate = false) {
 
     if (immediate) {
         restorePage();
-    } else if (window.gsap) {
+    } else if (useGsapViewer()) {
         gsap.to(lb, {
             opacity: 0,
             duration: 0.25,
@@ -671,7 +728,7 @@ function closeLightbox(immediate = false) {
             onComplete: restorePage
         });
     } else {
-        restorePage();
+        animateViewer(lb, [{ opacity: lb.style.opacity || '1' }, { opacity: 0 }], 150, restorePage);
     }
 }
 
@@ -689,9 +746,113 @@ function nextImage() {
     preloadNearbyImages(currentGallery, currentIndex);
 }
 
+const lightboxZoom = { scale: 1, x: 0, y: 0, pointers: new Map() };
+
+function applyLightboxZoom(scale, x = lightboxZoom.x, y = lightboxZoom.y) {
+    if (!document.body.classList.contains('enhanced-viewer')) return;
+    const img = document.getElementById('lightbox-img');
+    if (!img) return;
+    lightboxZoom.scale = Math.max(1, Math.min(4, scale));
+    const maxX = img.clientWidth * (lightboxZoom.scale - 1) / 2;
+    const maxY = img.clientHeight * (lightboxZoom.scale - 1) / 2;
+    lightboxZoom.x = Math.max(-maxX, Math.min(maxX, x));
+    lightboxZoom.y = Math.max(-maxY, Math.min(maxY, y));
+    img.style.scale = String(lightboxZoom.scale);
+    img.style.translate = `${lightboxZoom.x}px ${lightboxZoom.y}px`;
+    const zoomed = lightboxZoom.scale > 1;
+    document.getElementById('lightbox')?.classList.toggle('is-zoomed', zoomed);
+    const button = document.getElementById('lightbox-zoom-btn');
+    if (button) {
+        button.setAttribute('aria-pressed', String(zoomed));
+        button.setAttribute('aria-label', zoomed ? 'Fit photo' : 'Zoom in');
+        button.title = zoomed ? 'Fit photo' : 'Zoom in';
+    }
+}
+
+function resetLightboxZoom() {
+    lightboxZoom.pointers.clear();
+    applyLightboxZoom(1, 0, 0);
+}
+
+function initLightboxZoom() {
+    if (!document.body.classList.contains('enhanced-viewer')) return;
+    const img = document.getElementById('lightbox-img');
+    const toolbar = document.getElementById('lightbox-toolbar');
+    if (!img || !toolbar) return;
+    const button = document.createElement('button');
+    button.id = 'lightbox-zoom-btn';
+    button.type = 'button';
+    button.title = 'Zoom in';
+    button.setAttribute('aria-label', 'Zoom in');
+    button.setAttribute('aria-pressed', 'false');
+    button.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5M7.5 10.5h6"/><path class="zoom-plus" d="M10.5 7.5v6"/></svg>';
+    toolbar.appendChild(button);
+    const toggleZoom = () => applyLightboxZoom(lightboxZoom.scale > 1 ? 1 : 2, 0, 0);
+    button.addEventListener('click', toggleZoom);
+
+    let previousPoint = null;
+    let pinchDistance = 0;
+    let pinchScale = 1;
+    let dragged = false;
+    let dragOrigin = null;
+    const distance = points => Math.hypot(points[1].x - points[0].x, points[1].y - points[0].y);
+    const center = points => ({ x: (points[0].x + points[1].x) / 2, y: (points[0].y + points[1].y) / 2 });
+
+    img.addEventListener('pointerdown', e => {
+        if (e.button !== 0) return;
+        cancelViewerAnimation(img);
+        if (lightboxZoom.pointers.size === 0) {
+            dragged = false;
+            dragOrigin = { x: e.clientX, y: e.clientY };
+        }
+        lightboxZoom.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+        img.setPointerCapture(e.pointerId);
+        const points = [...lightboxZoom.pointers.values()];
+        if (points.length === 2) {
+            pinchDistance = distance(points);
+            pinchScale = lightboxZoom.scale;
+            previousPoint = center(points);
+            dragged = true;
+        } else {
+            previousPoint = points[0];
+        }
+    });
+
+    img.addEventListener('pointermove', e => {
+        if (!lightboxZoom.pointers.has(e.pointerId)) return;
+        lightboxZoom.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+        const points = [...lightboxZoom.pointers.values()];
+        const point = points.length === 2 ? center(points) : points[0];
+        if (points.length === 2 || lightboxZoom.scale > 1) {
+            const dx = point.x - previousPoint.x;
+            const dy = point.y - previousPoint.y;
+            if (Math.hypot(e.clientX - dragOrigin.x, e.clientY - dragOrigin.y) > 4) dragged = true;
+            const scale = points.length === 2 && pinchDistance > 0
+                ? pinchScale * distance(points) / pinchDistance : lightboxZoom.scale;
+            applyLightboxZoom(scale, lightboxZoom.x + dx, lightboxZoom.y + dy);
+        }
+        previousPoint = point;
+    });
+
+    const endPointer = e => {
+        lightboxZoom.pointers.delete(e.pointerId);
+        previousPoint = [...lightboxZoom.pointers.values()][0] || null;
+    };
+    img.addEventListener('pointerup', endPointer);
+    img.addEventListener('pointercancel', endPointer);
+    img.addEventListener('click', e => {
+        if (e.pointerType === 'touch' || dragged) return;
+        toggleZoom();
+    });
+    window.addEventListener('resize', () => {
+        if (lightboxZoom.scale > 1) applyLightboxZoom(lightboxZoom.scale);
+    });
+}
+
 function initLightboxListeners() {
     const lb = document.getElementById('lightbox');
     if (!lb) return;
+    initLightboxZoom();
 
     // Keyboard navigation & Focus Trap
     document.addEventListener('keydown', e => {
@@ -714,6 +875,10 @@ function initLightboxListeners() {
     let dragDirection = null; // 'horizontal' or 'vertical'
 
     lb.addEventListener('touchstart', e => {
+        if (lightboxZoom.scale > 1 || e.touches.length > 1) {
+            isDragging = false;
+            return;
+        }
         // Ignore touches initiating on interactive controls or metadata tooltips
         if (e.target.closest('button, a, #lightbox-desc-tooltip, input')) return;
 
@@ -724,15 +889,21 @@ function initLightboxListeners() {
         dragDirection = null;
 
         const img = document.getElementById('lightbox-img');
-        if (img && window.gsap) {
+        if (img) cancelViewerAnimation(img);
+        cancelViewerAnimation(lb);
+        if (img && useGsapViewer()) {
             gsap.killTweensOf(img);
         }
-        if (window.gsap) {
+        if (useGsapViewer()) {
             gsap.killTweensOf(lb);
         }
     }, { passive: true });
 
     lb.addEventListener('touchmove', e => {
+        if (lightboxZoom.scale > 1 || e.touches.length > 1) {
+            isDragging = false;
+            return;
+        }
         if (!isDragging) return;
 
         const img = document.getElementById('lightbox-img');
@@ -751,7 +922,7 @@ function initLightboxListeners() {
         if (dragDirection === 'horizontal') {
             const xVal = dx * 0.85;
             const opacity = Math.max(0.35, 1 - Math.abs(xVal) / (window.innerWidth * 0.7));
-            if (window.gsap) {
+            if (useGsapViewer()) {
                 gsap.set(img, { x: xVal, opacity: opacity });
             } else {
                 img.style.transform = `translateX(${xVal}px)`;
@@ -763,7 +934,7 @@ function initLightboxListeners() {
             const imgOpacity = Math.max(0.3, 1 - Math.max(0, yVal) / (window.innerHeight * 0.6));
             const backdropOpacity = Math.max(0.2, 1 - Math.max(0, yVal) / (window.innerHeight * 0.75));
 
-            if (window.gsap) {
+            if (useGsapViewer()) {
                 gsap.set(img, { y: yVal, opacity: imgOpacity });
                 gsap.set(lb, { opacity: backdropOpacity });
             } else {
@@ -791,7 +962,7 @@ function initLightboxListeners() {
         if (dragDirection === 'horizontal') {
             if (absX > 60 || isFlickX) {
                 const targetX = dx < 0 ? -window.innerWidth * 0.85 : window.innerWidth * 0.85;
-                if (window.gsap) {
+                if (useGsapViewer()) {
                     gsap.to(img, {
                         x: targetX,
                         opacity: 0,
@@ -807,11 +978,16 @@ function initLightboxListeners() {
                         }
                     });
                 } else {
-                    if (dx < 0) nextImage();
-                    else prevImage();
+                    animateViewer(img, [
+                        { transform: img.style.transform, opacity: img.style.opacity },
+                        { transform: `translateX(${targetX}px)`, opacity: 0 }
+                    ], 120, () => {
+                        if (dx < 0) nextImage();
+                        else prevImage();
+                    });
                 }
             } else {
-                if (window.gsap) {
+                if (useGsapViewer()) {
                     gsap.to(img, {
                         x: 0,
                         opacity: 1,
@@ -819,15 +995,14 @@ function initLightboxListeners() {
                         ease: 'power2.out'
                     });
                 } else {
-                    img.style.transform = '';
-                    img.style.opacity = '1';
+                    settleViewerDrag(img, lb);
                 }
             }
         } else if (dragDirection === 'vertical') {
             // Dismiss triggered on downward pull past 80px or quick downward flick
             if (dy > 80 || isFlickY) {
                 const targetY = window.innerHeight * 0.75;
-                if (window.gsap) {
+                if (useGsapViewer()) {
                     gsap.to(img, {
                         y: targetY,
                         opacity: 0,
@@ -847,7 +1022,7 @@ function initLightboxListeners() {
                 }
             } else {
                 // Snap back if dismissed threshold not reached
-                if (window.gsap) {
+                if (useGsapViewer()) {
                     gsap.to(img, {
                         y: 0,
                         opacity: 1,
@@ -860,9 +1035,7 @@ function initLightboxListeners() {
                         ease: 'power2.out'
                     });
                 } else {
-                    img.style.transform = '';
-                    img.style.opacity = '1';
-                    lb.style.opacity = '1';
+                    settleViewerDrag(img, lb);
                 }
             }
         }
@@ -1210,9 +1383,11 @@ function openVideoLightbox(src, title, triggerEl) {
         lb.dataset.clickListenerAttached = "true";
     }
 
-    if (window.gsap) {
+    if (useGsapViewer()) {
         gsap.fromTo(lb, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'power2.out' });
         gsap.fromTo(container, { scale: 0.94, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: 'power3.out' });
+    } else {
+        animateViewer(lb, [{ opacity: 0 }, { opacity: 1 }], 180);
     }
 }
 
@@ -1244,7 +1419,7 @@ function closeVideoLightbox() {
         }
     };
 
-    if (window.gsap) {
+    if (useGsapViewer()) {
         gsap.to(lb, {
             opacity: 0,
             duration: 0.25,
@@ -1252,7 +1427,7 @@ function closeVideoLightbox() {
             onComplete: restorePage
         });
     } else {
-        restorePage();
+        animateViewer(lb, [{ opacity: 1 }, { opacity: 0 }], 150, restorePage);
     }
 }
 
@@ -1443,4 +1618,3 @@ if (document.readyState === 'loading') {
 } else {
     initPortfolioApp();
 }
-

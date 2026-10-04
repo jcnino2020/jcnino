@@ -108,21 +108,7 @@
     overflow: visible;
   }
 
-  .home-page #lightbox-desc-wrapper:hover #lightbox-desc-tooltip,
-  .home-page #lightbox-desc-wrapper:focus-within #lightbox-desc-tooltip {
-    opacity: 1;
-    pointer-events: auto;
-  }
 
-  /* Keep the hover area connected while moving into the description. */
-  .home-page #lightbox-desc-tooltip::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    height: 1rem;
-  }
 }
 
 .home-page #selected-work .grid {
