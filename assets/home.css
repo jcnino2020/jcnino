@@ -240,10 +240,13 @@
   }
 
   .home-page #hero-img-col .hero-caption {
-    right: 102px;
+    right: 70px;
     bottom: 70px;
-    left: auto;
+    left: 70px;
     width: auto;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 40px;
     text-align: right;
     z-index: 2;
   }

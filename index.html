@@ -129,7 +129,7 @@
 
           <!-- Right Column: Featured Visual -->
           <div id="hero-img-col" class="gsap-hero-item lg:col-span-6 relative">
-            <div class="aspect-[3/2] rounded-2xl overflow-hidden bg-surface relative group">
+            <div class="aspect-[3/2] rounded-2xl overflow-hidden bg-surface relative">
               <picture>
                 <source type="image/webp" srcset="
                   images/optimized/800/GH-01-800.webp 800w,
@@ -139,7 +139,7 @@
                 " sizes="100vw" />
                 <img src="images/optimized/1200/GH-01-1200.webp" alt="Aerial view of Lakawon Island by JC Niñonuevo"
                   fetchpriority="high" loading="eager" decoding="async" width="1200" height="800"
-                  class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" />
+                  class="w-full h-full object-cover" />
               </picture>
               <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
               <div class="absolute bottom-0 left-0 right-0 p-8 hero-caption">
@@ -713,18 +713,6 @@
           { opacity: 1, x: 0, duration: 1, ease: 'power3.out', clearProps: 'transform' },
           '-=0.9'
         );
-
-      // ── 3. HERO PARALLAX: subtle scroll drift on the featured image
-      gsap.to('#hero-img-col', {
-        scrollTrigger: {
-          trigger: '#home',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 1.5
-        },
-        y: 60,
-        ease: 'none'
-      });
 
       // ── 4. CATEGORIES HEADER
       gsap.fromTo('#services-header',
