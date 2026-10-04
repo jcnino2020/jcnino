@@ -1,0 +1,343 @@
+/* Homepage-only editorial treatment. Gallery pages keep the shared styles. */
+.home-page {
+  letter-spacing: 0;
+}
+
+.home-page #home {
+  min-height: min(88svh, 840px);
+  padding-top: 80px;
+  isolation: isolate;
+}
+
+.home-page #home > div.w-full {
+  padding-top: 72px;
+  padding-bottom: 104px;
+}
+
+.home-page #home .grid {
+  gap: 48px;
+}
+
+.home-page #hero-title {
+  max-width: 850px;
+  letter-spacing: 0;
+}
+
+.home-page #hero-desc {
+  max-width: 470px;
+}
+
+.home-page #home .hero-caption {
+  text-shadow: 0 1px 12px rgba(0, 0, 0, .55);
+}
+
+.home-page #services-section,
+.home-page #gallery,
+.home-page #about,
+.home-page #selected-work,
+.home-page #contact {
+  padding-top: 88px;
+  padding-bottom: 96px;
+}
+
+.home-page #services-section .grid {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.home-page #services-section .service-card {
+  min-height: 340px;
+  height: auto;
+  border-radius: 4px;
+  padding: 30px;
+}
+
+.home-page #services-section .service-card > div.absolute.inset-0 {
+  background: linear-gradient(180deg, rgba(0, 0, 0, .58), transparent 48%, rgba(0, 0, 0, .78));
+}
+
+.home-page #services-section .service-card:nth-child(4n + 1),
+.home-page #services-section .service-card:nth-child(4n + 4) {
+  grid-column: span 7;
+}
+
+.home-page #services-section .service-card:nth-child(4n + 2),
+.home-page #services-section .service-card:nth-child(4n + 3) {
+  grid-column: span 5;
+}
+
+.home-page .service-card > div[class*="blur-3xl"] {
+  display: none;
+}
+
+.home-page .service-card::before,
+.home-page #selected-work > div > div::before {
+  display: none;
+}
+
+.home-page .service-card h3 {
+  font-size: 1.875rem;
+  line-height: 1.1;
+}
+
+.home-page .service-card > div:last-child {
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, .4);
+}
+
+.home-page #gallery .gallery-grid {
+  gap: 12px;
+}
+
+.home-page #gallery .gallery-item {
+  border-radius: 4px;
+}
+
+@media (min-width: 768px) {
+  .home-page #highlights-grid .gallery-item:hover .card-overlay,
+  .home-page #highlights-grid .gallery-item:focus-within .card-overlay {
+    opacity: 1;
+    translate: 0 0;
+    transform: none;
+  }
+
+  .home-page #highlights-grid .gallery-item:hover .photo-desc,
+  .home-page #highlights-grid .gallery-item:focus-within .photo-desc {
+    display: block;
+    -webkit-line-clamp: unset;
+    overflow: visible;
+  }
+
+  .home-page #lightbox-desc-wrapper:hover #lightbox-desc-tooltip,
+  .home-page #lightbox-desc-wrapper:focus-within #lightbox-desc-tooltip {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Keep the hover area connected while moving into the description. */
+  .home-page #lightbox-desc-tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: 1rem;
+  }
+}
+
+.home-page #selected-work .grid {
+  gap: 32px;
+}
+
+.home-page #selected-work .grid > div {
+  background: transparent;
+  border: 0;
+  border-top: 1px solid #555;
+  border-radius: 0;
+  padding: 26px 0 0;
+}
+
+.home-page #selected-work .grid > div > div:first-child {
+  display: none;
+}
+
+.home-page #contact > div:first-child {
+  display: none;
+}
+
+.home-page #contact-links {
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.home-page #contact-links .contact-link {
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #454545;
+  border-radius: 0;
+  padding: 22px 6px;
+}
+
+.home-page #contact-links .contact-link:first-child {
+  border-top: 1px solid #454545;
+}
+
+.home-page #contact-links .contact-link:hover {
+  background: #fff;
+  color: #000;
+}
+
+@media (min-width: 1024px) {
+  .home-page #home {
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .home-page #home > div {
+    position: static;
+    z-index: auto;
+  }
+
+  .home-page #home .grid {
+    display: block;
+  }
+
+  .home-page #home .grid > div:first-child {
+    position: relative;
+    z-index: 2;
+    max-width: 760px;
+  }
+
+  .home-page #hero-eyebrow,
+  .home-page #hero-desc {
+    color: #fff;
+    text-shadow: 0 1px 16px rgba(0, 0, 0, .5);
+  }
+
+  .home-page #hero-img-col {
+    position: absolute;
+    inset: -70px;
+    z-index: 0;
+  }
+
+  .home-page #hero-img-col > div {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: auto;
+    border-radius: 0;
+  }
+
+  /* The scrim sits inside the image layer, below its caption. */
+  .home-page #hero-img-col > div::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(90deg, rgba(0, 0, 0, .74), rgba(0, 0, 0, .2) 66%, transparent),
+      linear-gradient(0deg, rgba(0, 0, 0, .55), transparent 55%);
+  }
+
+  .home-page #hero-img-col > div > div:not(.hero-caption) {
+    display: none;
+  }
+
+  .home-page #hero-img-col picture,
+  .home-page #hero-img-col img {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .home-page #hero-img-col img {
+    object-fit: cover;
+    object-position: center 56%;
+    transform: none;
+    transition: none;
+  }
+
+  .home-page #hero-img-col .hero-caption {
+    right: 102px;
+    bottom: 70px;
+    left: auto;
+    width: auto;
+    text-align: right;
+    z-index: 2;
+  }
+}
+
+@media (max-width: 1023px) {
+  .home-page #home {
+    min-height: 0;
+    padding-top: 80px;
+  }
+
+  .home-page #home > div {
+    padding-top: 48px;
+    padding-bottom: 0;
+  }
+
+  .home-page #home .grid {
+    display: flex;
+    flex-direction: column;
+    gap: 44px;
+  }
+
+  .home-page #hero-title {
+    font-size: 4rem;
+  }
+
+  .home-page #hero-desc {
+    margin-bottom: 30px;
+  }
+
+  .home-page #hero-img-col > div {
+    border-radius: 4px;
+  }
+
+  .home-page #services-section .service-card {
+    grid-column: span 6 !important;
+    min-height: 290px;
+  }
+}
+
+@media (max-width: 639px) {
+  .home-page #home > div {
+    padding-top: 34px;
+  }
+
+  .home-page #home .grid {
+    gap: 36px;
+  }
+
+  .home-page #hero-title {
+    font-size: 3rem;
+    line-height: 1.08;
+    margin-bottom: 20px;
+  }
+
+  .home-page #hero-eyebrow {
+    margin-bottom: 16px;
+  }
+
+  .home-page #hero-desc {
+    font-size: 1rem;
+  }
+
+  .home-page #hero-buttons {
+    gap: 10px;
+  }
+
+  .home-page #hero-buttons a {
+    padding: 16px 19px 14px;
+  }
+
+  .home-page #home .hero-caption {
+    padding: 16px;
+  }
+
+  .home-page #home .hero-caption p:first-child {
+    font-size: 1rem;
+  }
+
+  .home-page #services-section,
+  .home-page #gallery,
+  .home-page #about,
+  .home-page #selected-work,
+  .home-page #contact {
+    padding-top: 60px;
+    padding-bottom: 64px;
+  }
+
+  .home-page #services-section .service-card {
+    grid-column: 1 / -1 !important;
+    min-height: 270px;
+  }
+
+  .home-page #selected-work .grid {
+    gap: 24px;
+  }
+}

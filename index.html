@@ -59,10 +59,11 @@
 
   <link rel="stylesheet" href="assets/tailwind.css?v=2">
   <link rel="stylesheet" href="assets/portfolio.css?v=4">
+  <link rel="stylesheet" href="assets/home.css?v=1">
 
 </head>
 
-<body class="min-h-screen">
+<body class="min-h-screen home-page">
 
   <!-- Navigation -->
   <div id="navbar-placeholder">
@@ -108,8 +109,7 @@
             </h1>
             <p id="hero-desc"
               class="gsap-hero-item text-text-muted text-lg sm:text-xl max-w-lg mb-12 leading-relaxed font-normal">
-              A visual journey through drone aerials, editorial street frames, and cinematic storytelling. Based in
-              Bacolod City.
+              Framing stories through drone aerials, editorial street photographs, and cinematic video.
             </p>
             <div id="hero-buttons" class="gsap-hero-item flex flex-wrap gap-5">
               <a href="#gallery"
@@ -136,35 +136,19 @@
                   images/optimized/1200/GH-01-1200.webp 1200w,
                   images/optimized/1600/GH-01-1600.webp 1600w,
                   images/optimized/2048/GH-01-2048.webp 2048w
-                " sizes="(max-width: 768px) 100vw, 50vw" />
+                " sizes="100vw" />
                 <img src="images/optimized/1200/GH-01-1200.webp" alt="Aerial view of Lakawon Island by JC Niñonuevo"
                   fetchpriority="high" loading="eager" decoding="async" width="1200" height="800"
                   class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" />
               </picture>
               <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
-              <div class="absolute bottom-0 left-0 right-0 p-8">
+              <div class="absolute bottom-0 left-0 right-0 p-8 hero-caption">
                 <p class="text-2xl text-white font-bold">Lakawon Island</p>
                 <p class="text-white/70 text-sm mt-1">Cadiz City</p>
               </div>
             </div>
           </div>
         </div>
-
-        <!-- Scroll Down Indicator Arrow (Smooth scroll to 4 category grids) -->
-        <a href="#services-section"
-          class="mt-8 lg:mt-0 lg:absolute lg:bottom-4 lg:left-1/2 lg:-translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer z-20 group mx-auto w-fit focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-full p-1"
-          aria-label="Scroll down to category grids">
-          <span
-            class="text-xs sm:text-sm uppercase tracking-normal text-white/60 group-hover:text-white transition-colors font-bold">Discover</span>
-          <div
-            class="w-10 h-10 sm:w-11 sm:h-11 rounded-full border border-white/20 flex items-center justify-center bg-black/50 backdrop-blur-sm group-hover:border-white/40 group-hover:bg-black/70 transition-all shadow-lg">
-            <svg
-              class="w-4 h-4 sm:w-5 sm:h-5 text-white/70 group-hover:text-white group-hover:translate-y-0.5 transition-all animate-bounce"
-              fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-            </svg>
-          </div>
-        </a>
 
       </div>
     </section>
