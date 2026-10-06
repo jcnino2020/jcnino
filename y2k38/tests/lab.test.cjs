@@ -55,13 +55,18 @@ function runUI(full) {
   });
   const play = lab.actions.find(button => button.dataset.action === 'play');
   lab.elements['[data-action="play"]'] = play || null;
+  const nowButton = lab.actions.find(button => button.dataset.action === 'now');
+  lab.elements['[data-action="now"]'] = nowButton;
   const remaining = new Element();
   const document = { documentElement: new Element(), hidden: false, listeners: {},
     querySelector: selector => ({ '[data-theme-toggle]': theme, '[data-countdown]': remaining, '[data-lab]': lab })[selector],
     createElement: () => new Element(), addEventListener(type, fn) { this.listeners[type] = fn; } };
   const timers = new Map();
   let id = 0;
+  let clock = Date.UTC(2026, 9, 6, 12, 0, 0);
+  class DeviceDate extends Date { static now() { return clock; } }
   const sandbox = vm.createContext({ document, localStorage: { getItem() { throw Error('blocked'); }, setItem() { throw Error('blocked'); } },
+    Date: DeviceDate,
     setInterval(fn) { timers.set(++id, fn); return id; }, clearInterval(key) { timers.delete(key); } });
   vm.runInContext(core, sandbox);
   vm.runInContext(app, sandbox);
@@ -69,7 +74,37 @@ function runUI(full) {
   const action = name => lab.actions.find(button => button.dataset.action === name).fire('click');
   const enter = value => { get('timestamp').value = value; get('timestamp').fire('input'); };
   assert.equal(get('bits').children.length, 32);
+  const liveTick = Array.from(timers.values()).at(-1);
+  const expectedNow = () => String(Math.floor(clock / 1000));
+  assert.equal(get('timestamp').value, expectedNow());
+  assert.equal(nowButton.attributes['aria-pressed'], 'true');
+  clock += 1000;
+  liveTick();
+  assert.equal(get('timestamp').value, expectedNow());
+  assert.equal(get('intended').textContent, '2026-10-06 12:00:01 UTC');
+  clock -= 10000;
+  liveTick();
+  assert.equal(get('timestamp').value, expectedNow());
+  document.hidden = true;
+  clock += 60000;
+  liveTick();
+  assert.notEqual(get('timestamp').value, expectedNow());
+  document.hidden = false;
+  document.listeners.visibilitychange();
+  assert.equal(get('timestamp').value, expectedNow());
+  get('timestamp').fire('focus');
+  clock += 1000;
+  const paused = get('timestamp').value;
+  liveTick();
+  assert.equal(get('timestamp').value, paused);
+  assert.equal(nowButton.attributes['aria-pressed'], 'false');
+  action('now');
+  assert.equal(get('timestamp').value, expectedNow());
+  action('last');
   assert.equal(get('signed').textContent, '2,147,483,647');
+  clock += 1000;
+  liveTick();
+  assert.equal(get('timestamp').value, '2147483647');
   action('forward');
   assert.equal(get('signed').textContent, '-2,147,483,648');
   assert.equal(lab.dataset.overflow, 'true');
@@ -77,6 +112,8 @@ function runUI(full) {
   action('back');
   assert.equal(lab.dataset.overflow, 'false');
   enter('-1');
+  liveTick();
+  assert.equal(get('timestamp').value, '-1');
   assert.equal(get('hex').textContent, '0xFFFFFFFF');
   get('bits').children[0].fire('click');
   assert.equal(get('timestamp').value, '2147483647');
@@ -102,6 +139,10 @@ function runUI(full) {
     for (let i = 0; i < 7; i++) playback();
     assert.equal(play.attributes['aria-pressed'], 'false');
     assert.equal(get('timestamp').value, '2147483651');
+    action('now');
+    clock += 1000;
+    liveTick();
+    assert.equal(get('timestamp').value, expectedNow());
     action('play');
     document.hidden = true;
     document.listeners.visibilitychange();
@@ -112,4 +153,4 @@ function runUI(full) {
 }
 runUI(false);
 runUI(true);
-console.log('Passed: domain boundaries, exact integers, bits, presets, range, validation, playback, and blocked theme storage.');
+console.log('Passed: device-clock updates, live/manual transitions, tab resync, domain boundaries, validation, playback, and blocked theme storage.');

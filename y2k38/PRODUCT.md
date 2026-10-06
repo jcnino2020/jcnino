@@ -14,6 +14,8 @@ Inferred from the existing material: students, curious visitors, and developers 
 ## Capabilities and Constraints
 Preserve the four static routes: index.html, simulator.html, history.html, solution.html. Preserve editable timestamps, bit toggles, a timeline, countdown, and theme choice. Demonstrate two's-complement wrapping explicitly; do not claim that every real system wraps or crashes. Unix timestamps use seconds and UTC throughout. No backend or account required.
 
+Overview and simulator initially follow the visitor's device clock, sampled every second. Manual editing, presets, bit toggles, or rollover playback pause live following; Live now resumes it. Returning from a hidden tab immediately resynchronizes an active live clock. Countdown remains independently live.
+
 ## Brand Commitments
 The user requests a complete domain-appropriate redesign independent of the photography portfolio and GNET. Build directly in code, following the user's established workflow choice. Y2K38 remains the product name.
 

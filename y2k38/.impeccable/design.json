@@ -279,6 +279,14 @@
       "value": "3px solid var(--teal), outline-offset: 4px",
       "purpose": "Keyboard focus for buttons, links, fields, and summaries."
     },
+    "liveClock": {
+      "intervalMs": 1000,
+      "source": "Visitor device clock via Date.now()",
+      "initialMode": "live",
+      "manualInteraction": "Pause following on input focus, editing, presets, bit toggles, or rollover playback.",
+      "resume": "Live now restores following and its pressed teal state.",
+      "visibility": "Skip hidden-tab repaint; resynchronize active following when visible."
+    },
     "fonts": {
       "source": "style.css @font-face",
       "selfHosted": [

@@ -16,3 +16,4 @@
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
 
 .interpreted,.signed-value{transition:background-color 160ms ease-out,color 160ms ease-out}
+.btn[data-action="now"][aria-pressed="true"]{background:var(--teal-soft);border-color:var(--teal);color:var(--teal)}

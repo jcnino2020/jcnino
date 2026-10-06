@@ -18,6 +18,7 @@ Concourse board: competitive on time legibility, weaker on manipulation; keep st
 
 ## SIGNATURE
 One-second boundary step updates the actual 32-bit pattern and both dates in place. Short readout settling transition, disabled for reduced motion; no decorative entrances. Native JS/BigInt semantics, native controls, accessible state announcements.
+Overview and simulator start in Live now, sampling the visitor's device clock every second. Its pressed control uses the existing teal state palette. Manual operations pause live following; Live now resumes it, and active following resynchronizes when the tab becomes visible.
 
 ## FINISH
 unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance

@@ -212,6 +212,8 @@ The plum rail uses 15px body text and 48px-minimum links. Inactive text is #e0d6
 
 The main lab is the genuinely framed tool: surface background, divider border, small corners, and clipped overflow. Header, working body, and footer are separated by dividers. An overflow data attribute changes the state and signed readout to coral, and the interpreted date to the coral wash. Reading sections outside the lab stay unframed.
 
+The instrument follows the device clock by default, updating once per second while the page is visible. Manual commands and edits pause following; focusing the timestamp field or timeline also pauses it so updates do not interrupt input. Live now resumes following and exposes its active state through aria-pressed and the existing teal wash, teal border, and teal text. A following instrument catches up to the device clock when the page becomes visible again.
+
 ### Binary Register
 
 Thirty-two accessible button cells show the actual low 32 bits from the exact BigInt timestamp. Each cell presents a digit, bit position, pressed state, and title. Value bits use teal when active; the sign bit uses the coral wash when off and solid warning color when on. The register adapts its column count without horizontal scrolling. Clicking a bit stops playback and applies the model's signed 32-bit interpretation.

@@ -38,7 +38,8 @@
   const bits = lab.querySelector('[data-bits]');
   const announcement = lab.querySelector('[data-announcement]');
   const play = lab.querySelector('[data-action="play"]');
-  let value = TimeLab.MAX32, timer = null, previousOverflow = null;
+  const nowButton = lab.querySelector('[data-action="now"]');
+  let value = TimeLab.MAX32, timer = null, previousOverflow = null, followingNow = false;
   const buttons = [];
   for (let index = 31; index >= 0; index--) {
     const button = document.createElement('button');
@@ -55,6 +56,8 @@
     bits.appendChild(button);
   }
   function stop() {
+    followingNow = false;
+    if (nowButton) nowButton.setAttribute('aria-pressed', 'false');
     if (timer) clearInterval(timer);
     timer = null;
     if (play) {
@@ -95,6 +98,15 @@
     }
     previousOverflow = data.overflow;
   }
+  function deviceSeconds() { return BigInt(Math.floor(Date.now() / 1000)); }
+  function followNow(announce = false) {
+    stop();
+    followingNow = true;
+    if (nowButton) nowButton.setAttribute('aria-pressed', 'true');
+    render(deviceSeconds(), announce);
+  }
+  input.addEventListener('focus', stop);
+  if (range) range.addEventListener('focus', stop);
   input.addEventListener('input', () => {
     stop();
     try { render(TimeLab.parse(input.value), false, true); }
@@ -105,6 +117,7 @@
     const action = button.dataset.action;
     if (action === 'play') {
       if (timer) { stop(); return; }
+      stop();
       render(TimeLab.MAX32 - 3n, true);
       button.innerHTML = '<i class="ri-pause-line" aria-hidden="true"></i> Pause';
       button.setAttribute('aria-pressed', 'true');
@@ -112,12 +125,18 @@
       timer = setInterval(() => { render(value + 1n); if (++ticks >= 7) stop(); }, 850);
       return;
     }
+    if (action === 'now') { followNow(true); return; }
     stop();
-    let next = action === 'now' ? BigInt(Math.floor(Date.now() / 1000)) :
-      action === 'epoch' ? 0n : action === 'last' ? TimeLab.MAX32 :
+    const next = action === 'epoch' ? 0n : action === 'last' ? TimeLab.MAX32 :
       action === 'overflow' ? TimeLab.BOUNDARY : value + (action === 'back' ? -1n : 1n);
     try { render(next, true); } catch (e) { error.textContent = e.message; }
   }));
-  document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); });
-  render(value);
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) { if (timer) stop(); }
+    else if (followingNow) render(deviceSeconds());
+  });
+  followNow();
+  setInterval(() => {
+    if (followingNow && !document.hidden) render(deviceSeconds());
+  }, 1000);
 })();
