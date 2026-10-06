@@ -1,0 +1,9 @@
+{
+  "source": "Official Google Fonts CSS and google/fonts repository",
+  "assets": {
+    "public-sans-400.ttf": "https://fonts.gstatic.com/s/publicsans/v21/ijwGs572Xtc6ZYQws9YVwllKVG8qX1oyOymuFpm5ww.ttf",
+    "public-sans-600.ttf": "https://fonts.gstatic.com/s/publicsans/v21/ijwGs572Xtc6ZYQws9YVwllKVG8qX1oyOymuyJ65ww.ttf",
+    "public-sans-700.ttf": "https://fonts.gstatic.com/s/publicsans/v21/ijwGs572Xtc6ZYQws9YVwllKVG8qX1oyOymu8Z65ww.ttf"
+  },
+  "license": "https://raw.githubusercontent.com/google/fonts/main/ofl/publicsans/OFL.txt"
+}

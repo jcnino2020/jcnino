@@ -1,0 +1,433 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-06T12:21:24.259Z",
+  "title": "Design System: HydroAlert Negros",
+  "extensions": {
+    "colorMeta": {
+      "ground": {
+        "role": "neutral",
+        "displayName": "Desk Ground",
+        "canonical": "#f2f5f3",
+        "tonalRamp": [
+          "oklch(15% 0.00413 157.18)",
+          "oklch(26.43% 0.00413 157.18)",
+          "oklch(37.86% 0.00413 157.18)",
+          "oklch(49.29% 0.00413 157.18)",
+          "oklch(60.71% 0.00413 157.18)",
+          "oklch(72.14% 0.00413 157.18)",
+          "oklch(83.57% 0.00413 157.18)",
+          "oklch(95% 0.00413 157.18)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "White Work Surface",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "oklch(15% 0.00000 89.88)",
+          "oklch(26.43% 0.00000 89.88)",
+          "oklch(37.86% 0.00000 89.88)",
+          "oklch(49.29% 0.00000 89.88)",
+          "oklch(60.71% 0.00000 89.88)",
+          "oklch(72.14% 0.00000 89.88)",
+          "oklch(83.57% 0.00000 89.88)",
+          "oklch(95% 0.00000 89.88)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Reading Ink",
+        "canonical": "#20352c",
+        "tonalRamp": [
+          "oklch(15% 0.03158 165.67)",
+          "oklch(26.43% 0.03158 165.67)",
+          "oklch(37.86% 0.03158 165.67)",
+          "oklch(49.29% 0.03158 165.67)",
+          "oklch(60.71% 0.03158 165.67)",
+          "oklch(72.14% 0.03158 165.67)",
+          "oklch(83.57% 0.03158 165.67)",
+          "oklch(95% 0.03158 165.67)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Supporting Gray-Green",
+        "canonical": "#58665e",
+        "tonalRamp": [
+          "oklch(15% 0.02125 160.51)",
+          "oklch(26.43% 0.02125 160.51)",
+          "oklch(37.86% 0.02125 160.51)",
+          "oklch(49.29% 0.02125 160.51)",
+          "oklch(60.71% 0.02125 160.51)",
+          "oklch(72.14% 0.02125 160.51)",
+          "oklch(83.57% 0.02125 160.51)",
+          "oklch(95% 0.02125 160.51)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Rule Line",
+        "canonical": "#d1dbd5",
+        "tonalRamp": [
+          "oklch(15% 0.01349 159.88)",
+          "oklch(26.43% 0.01349 159.88)",
+          "oklch(37.86% 0.01349 159.88)",
+          "oklch(49.29% 0.01349 159.88)",
+          "oklch(60.71% 0.01349 159.88)",
+          "oklch(72.14% 0.01349 159.88)",
+          "oklch(83.57% 0.01349 159.88)",
+          "oklch(95% 0.01349 159.88)"
+        ]
+      },
+      "forest": {
+        "role": "primary",
+        "displayName": "Forest Structure",
+        "canonical": "#154c3b",
+        "tonalRamp": [
+          "oklch(15% 0.06427 168.66)",
+          "oklch(26.43% 0.06427 168.66)",
+          "oklch(37.86% 0.06427 168.66)",
+          "oklch(49.29% 0.06427 168.66)",
+          "oklch(60.71% 0.06427 168.66)",
+          "oklch(72.14% 0.06427 168.66)",
+          "oklch(83.57% 0.06427 168.66)",
+          "oklch(95% 0.06427 168.66)"
+        ]
+      },
+      "forest-hover": {
+        "role": "primary",
+        "displayName": "Forest Hover",
+        "canonical": "#22644e",
+        "tonalRamp": [
+          "oklch(15% 0.07609 167.55)",
+          "oklch(26.43% 0.07609 167.55)",
+          "oklch(37.86% 0.07609 167.55)",
+          "oklch(49.29% 0.07609 167.55)",
+          "oklch(60.71% 0.07609 167.55)",
+          "oklch(72.14% 0.07609 167.55)",
+          "oklch(83.57% 0.07609 167.55)",
+          "oklch(95% 0.07609 167.55)"
+        ]
+      },
+      "green": {
+        "role": "primary",
+        "displayName": "Routine Green",
+        "canonical": "#236248",
+        "tonalRamp": [
+          "oklch(15% 0.07788 162.95)",
+          "oklch(26.43% 0.07788 162.95)",
+          "oklch(37.86% 0.07788 162.95)",
+          "oklch(49.29% 0.07788 162.95)",
+          "oklch(60.71% 0.07788 162.95)",
+          "oklch(72.14% 0.07788 162.95)",
+          "oklch(83.57% 0.07788 162.95)",
+          "oklch(95% 0.07788 162.95)"
+        ]
+      },
+      "green-soft": {
+        "role": "primary",
+        "displayName": "Soft Routine Green",
+        "canonical": "#e2eee7",
+        "tonalRamp": [
+          "oklch(15% 0.01578 160.61)",
+          "oklch(26.43% 0.01578 160.61)",
+          "oklch(37.86% 0.01578 160.61)",
+          "oklch(49.29% 0.01578 160.61)",
+          "oklch(60.71% 0.01578 160.61)",
+          "oklch(72.14% 0.01578 160.61)",
+          "oklch(83.57% 0.01578 160.61)",
+          "oklch(95% 0.01578 160.61)"
+        ]
+      },
+      "water": {
+        "role": "secondary",
+        "displayName": "Water Blue",
+        "canonical": "#17659b",
+        "tonalRamp": [
+          "oklch(15% 0.11225 244.88)",
+          "oklch(26.43% 0.11225 244.88)",
+          "oklch(37.86% 0.11225 244.88)",
+          "oklch(49.29% 0.11225 244.88)",
+          "oklch(60.71% 0.11225 244.88)",
+          "oklch(72.14% 0.11225 244.88)",
+          "oklch(83.57% 0.11225 244.88)",
+          "oklch(95% 0.11225 244.88)"
+        ]
+      },
+      "water-soft": {
+        "role": "secondary",
+        "displayName": "Soft Water Blue",
+        "canonical": "#e8f1f7",
+        "tonalRamp": [
+          "oklch(15% 0.01256 236.63)",
+          "oklch(26.43% 0.01256 236.63)",
+          "oklch(37.86% 0.01256 236.63)",
+          "oklch(49.29% 0.01256 236.63)",
+          "oklch(60.71% 0.01256 236.63)",
+          "oklch(72.14% 0.01256 236.63)",
+          "oklch(83.57% 0.01256 236.63)",
+          "oklch(95% 0.01256 236.63)"
+        ]
+      },
+      "amber": {
+        "role": "tertiary",
+        "displayName": "Rising Amber",
+        "canonical": "#8b530b",
+        "tonalRamp": [
+          "oklch(15% 0.10712 64.74)",
+          "oklch(26.43% 0.10712 64.74)",
+          "oklch(37.86% 0.10712 64.74)",
+          "oklch(49.29% 0.10712 64.74)",
+          "oklch(60.71% 0.10712 64.74)",
+          "oklch(72.14% 0.10712 64.74)",
+          "oklch(83.57% 0.10712 64.74)",
+          "oklch(95% 0.10712 64.74)"
+        ]
+      },
+      "amber-soft": {
+        "role": "tertiary",
+        "displayName": "Soft Rising Amber",
+        "canonical": "#fff0cf",
+        "tonalRamp": [
+          "oklch(15% 0.04596 86.46)",
+          "oklch(26.43% 0.04596 86.46)",
+          "oklch(37.86% 0.04596 86.46)",
+          "oklch(49.29% 0.04596 86.46)",
+          "oklch(60.71% 0.04596 86.46)",
+          "oklch(72.14% 0.04596 86.46)",
+          "oklch(83.57% 0.04596 86.46)",
+          "oklch(95% 0.04596 86.46)"
+        ]
+      },
+      "red": {
+        "role": "tertiary",
+        "displayName": "High-Water Red",
+        "canonical": "#ac3035",
+        "tonalRamp": [
+          "oklch(15% 0.16014 23.04)",
+          "oklch(26.43% 0.16014 23.04)",
+          "oklch(37.86% 0.16014 23.04)",
+          "oklch(49.29% 0.16014 23.04)",
+          "oklch(60.71% 0.16014 23.04)",
+          "oklch(72.14% 0.16014 23.04)",
+          "oklch(83.57% 0.16014 23.04)",
+          "oklch(95% 0.16014 23.04)"
+        ]
+      },
+      "red-soft": {
+        "role": "tertiary",
+        "displayName": "Soft High-Water Red",
+        "canonical": "#fbe9e7",
+        "tonalRamp": [
+          "oklch(15% 0.01986 25.17)",
+          "oklch(26.43% 0.01986 25.17)",
+          "oklch(37.86% 0.01986 25.17)",
+          "oklch(49.29% 0.01986 25.17)",
+          "oklch(60.71% 0.01986 25.17)",
+          "oklch(72.14% 0.01986 25.17)",
+          "oklch(83.57% 0.01986 25.17)",
+          "oklch(95% 0.01986 25.17)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "headline": {
+        "displayName": "Route Headline",
+        "purpose": "Route title; 28px at the mobile breakpoint."
+      },
+      "section": {
+        "displayName": "Section",
+        "purpose": "Default h2, with compact source-specific variants."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Default third-level heading."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Operational copy, 70ch maximum paragraph measure."
+      },
+      "button": {
+        "displayName": "Button",
+        "purpose": "Semibold action text."
+      },
+      "label": {
+        "displayName": "Field Label",
+        "purpose": "Visible field labels."
+      },
+      "small": {
+        "displayName": "Supporting Text",
+        "purpose": "Captions and secondary metadata."
+      },
+      "reading": {
+        "displayName": "Selected Reading",
+        "purpose": "Tabular water-level and rainfall values, 27px on mobile."
+      }
+    },
+    "shadows": [
+      {
+        "name": "dialog",
+        "value": "0 16px 40px rgb(32 53 44 / .16)",
+        "purpose": "Native modal decisions and report detail only."
+      }
+    ],
+    "motion": [
+      {
+        "name": "scroll",
+        "value": "smooth",
+        "purpose": "Default document scrolling; auto when reduced motion is requested."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "animation: none !important; transition: none !important",
+        "purpose": "Source override for all elements and pseudo-elements."
+      },
+      {
+        "name": "scenario-step",
+        "value": "3000ms",
+        "purpose": "Manually initiated synthetic playback interval, retained under reduced motion."
+      },
+      {
+        "name": "device-clock",
+        "value": "1000ms",
+        "purpose": "Visitor device-clock refresh interval, never sensor freshness."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "compact-desktop",
+        "value": "1050px"
+      },
+      {
+        "name": "mobile",
+        "value": "760px"
+      },
+      {
+        "name": "narrow-time-labels",
+        "value": "420px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Primary run and local-save commands.",
+      "html": "<button class=\"ds-btn ds-primary\" type=\"button\">Run scenario</button>",
+      "css": ".ds-btn{min-height:44px;border:1px solid var(--line,#d1dbd5);border-radius:var(--radius,4px);background:var(--surface,#ffffff);color:var(--ink,#20352c);display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 16px;font:600 14px/1.4 var(--font,\"Public Sans\",sans-serif);letter-spacing:0;cursor:pointer}.ds-btn:hover{background:var(--green-soft,#e2eee7)}.ds-btn:focus-visible{outline:3px solid var(--water,#17659b);outline-offset:3px}.ds-btn:disabled{cursor:not-allowed;opacity:.6}.ds-primary{background:var(--forest,#154c3b);border-color:var(--forest,#154c3b);color:#fff}.ds-primary:hover{background:var(--forest-hover,#22644e)}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Quiet route and supporting commands.",
+      "html": "<button class=\"ds-btn\" type=\"button\">Monitoring view</button>",
+      "css": ".ds-btn{min-height:44px;border:1px solid var(--line,#d1dbd5);border-radius:var(--radius,4px);background:var(--surface,#ffffff);color:var(--ink,#20352c);display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 16px;font:600 14px/1.4 var(--font,\"Public Sans\",sans-serif);letter-spacing:0;cursor:pointer}.ds-btn:hover{background:var(--green-soft,#e2eee7)}.ds-btn:focus-visible{outline:3px solid var(--water,#17659b);outline-offset:3px}.ds-btn:disabled{cursor:not-allowed;opacity:.6}"
+    },
+    {
+      "name": "Destructive Confirmation",
+      "kind": "button",
+      "refersTo": "button-destructive",
+      "description": "Local high-water confirmation and clear-all decisions.",
+      "html": "<button class=\"ds-btn ds-red\" type=\"button\">Clear local records</button>",
+      "css": ".ds-btn{min-height:44px;border:1px solid var(--line,#d1dbd5);border-radius:var(--radius,4px);background:var(--surface,#ffffff);color:var(--ink,#20352c);display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 16px;font:600 14px/1.4 var(--font,\"Public Sans\",sans-serif);letter-spacing:0;cursor:pointer}.ds-btn:hover{background:var(--green-soft,#e2eee7)}.ds-btn:focus-visible{outline:3px solid var(--water,#17659b);outline-offset:3px}.ds-btn:disabled{cursor:not-allowed;opacity:.6}.ds-red{background:var(--red-soft,#fbe9e7);color:var(--red,#ac3035);border-color:var(--red,#ac3035)}.ds-red:hover{background:var(--green-soft,#e2eee7)}"
+    },
+    {
+      "name": "Observation Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Visible label and native measurement control.",
+      "html": "<div class=\"ds-field\"><label for=\"ds-level\">Water level (m, optional)</label><input id=\"ds-level\" type=\"number\" min=\"0\" max=\"20\" step=\"0.01\" placeholder=\"e.g. 1.20\"></div>",
+      "css": ".ds-field{font:400 15px/1.6 var(--font,\"Public Sans\",sans-serif);color:var(--ink,#20352c);letter-spacing:0}.ds-field label{font-size:13px;font-weight:600;display:block;margin-bottom:8px}.ds-field input{width:100%;border:1px solid var(--line,#d1dbd5);border-radius:var(--radius,4px);background:var(--surface,#ffffff);padding:11px 12px;min-height:44px;color:var(--ink,#20352c);caret-color:var(--forest,#154c3b);font:inherit;letter-spacing:0}.ds-field input::placeholder{color:var(--muted,#58665e);opacity:1}.ds-field input:focus-visible{outline:3px solid var(--water,#17659b);outline-offset:3px}"
+    },
+    {
+      "name": "Route Navigation",
+      "kind": "nav",
+      "refersTo": "navigation-active",
+      "description": "Persistent route names in the forest header.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"HydroAlert views\"><a href=\"/hydroalert/\" aria-current=\"page\">Monitoring</a><a href=\"/hydroalert/resident.html\">Community</a><a href=\"/hydroalert/mobile/\">Field reports</a></nav>",
+      "css": ".ds-nav{display:flex;gap:4px;background:var(--forest,#154c3b);padding:14px;font-family:var(--font,\"Public Sans\",sans-serif)}.ds-nav a{min-height:44px;display:flex;align-items:center;gap:8px;padding:11px 16px;color:#d1e5da;text-decoration:none;font-size:14px;border-radius:var(--radius,4px);letter-spacing:0}.ds-nav a:hover{background:var(--forest-hover,#22644e);color:#fff}.ds-nav a[aria-current=page]{background:#fff;color:var(--forest,#154c3b);font-weight:600}.ds-nav a:focus-visible{outline:3px solid #fff;outline-offset:3px}@media(max-width:760px){.ds-nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}.ds-nav a{padding:10px 5px;font-size:12px;justify-content:center;gap:7px}}"
+    },
+    {
+      "name": "Labeled Severity",
+      "kind": "chip",
+      "refersTo": "status",
+      "description": "Text-plus-dot routine, rising and high-water states.",
+      "html": "<div class=\"ds-states\"><span class=\"ds-status\">Routine</span><span class=\"ds-status\" data-severity=\"rising\">Rising</span><span class=\"ds-status\" data-severity=\"high\">High water</span></div>",
+      "css": ".ds-states{display:flex;flex-wrap:wrap;gap:16px}.ds-status{display:inline-flex;align-items:center;gap:6px;font:600 12px/1.6 var(--font,\"Public Sans\",sans-serif);letter-spacing:0;white-space:nowrap;color:var(--green,#236248)}.ds-status::before{content:\"\";width:7px;height:7px;border-radius:50%;background:currentColor}.ds-status[data-severity=rising]{color:var(--amber,#8b530b)}.ds-status[data-severity=high]{color:var(--red,#ac3035)}"
+    },
+    {
+      "name": "Station Row",
+      "kind": "custom",
+      "refersTo": "station-selected",
+      "description": "Flat selected station with a wrapping value and explicit state.",
+      "html": "<button class=\"ds-station\" type=\"button\" aria-pressed=\"true\"><span><strong>Minoyan</strong><small>Murcia / Upstream</small></span><span class=\"ds-bottom\"><span class=\"ds-value\">1.2 m</span><span class=\"ds-status\">Routine</span></span></button>",
+      "css": ".ds-station{border:0;border-bottom:1px solid var(--line,#d1dbd5);width:100%;padding:18px 20px;background:var(--surface,#ffffff);color:var(--ink,#20352c);text-align:left;display:grid;gap:10px;cursor:pointer;font:400 15px/1.6 var(--font,\"Public Sans\",sans-serif);letter-spacing:0}.ds-station:hover{background:var(--ground,#f2f5f3)}.ds-station[aria-pressed=true]{background:var(--green-soft,#e2eee7)}.ds-station:focus-visible{outline:3px solid var(--water,#17659b);outline-offset:3px}.ds-station strong{font-size:15px;display:block;font-weight:700}.ds-station small{display:block;color:var(--muted,#58665e);font-size:12px}.ds-bottom{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}.ds-value{font:600 20px/1.6 var(--mono,ui-monospace,SFMono-Regular,Consolas,monospace);font-variant-numeric:tabular-nums}.ds-status{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;white-space:nowrap;color:var(--green,#236248)}.ds-status::before{content:\"\";width:7px;height:7px;border-radius:50%;background:currentColor}@media(max-width:760px){.ds-station{padding:14px 12px}.ds-station strong{font-size:13px}.ds-station small,.ds-status{font-size:11px}.ds-value{font-size:18px}}"
+    },
+    {
+      "name": "Example Advisory",
+      "kind": "custom",
+      "refersTo": "advisory",
+      "description": "Flat tonal advisory that maintains the example boundary.",
+      "html": "<section class=\"ds-advisory\" data-severity=\"rising\"><span class=\"ds-status\">Downstream rise example</span><h2>Downstream water is rising in this scenario.</h2><p>The synthetic downstream level has increased. For actual warnings, consult official sources and local authorities.</p></section>",
+      "css": ".ds-advisory{background:var(--green-soft,#e2eee7);padding:28px;color:var(--ink,#20352c);font:400 15px/1.6 var(--font,\"Public Sans\",sans-serif);letter-spacing:0}.ds-advisory[data-severity=rising]{background:var(--amber-soft,#fff0cf)}.ds-advisory[data-severity=high]{background:var(--red-soft,#fbe9e7)}.ds-advisory h2{font-size:27px;font-weight:600;line-height:1.25;margin:16px 0 0;text-wrap:balance}.ds-advisory p{margin:12px 0 0;color:var(--muted,#58665e);font-size:14px;max-width:70ch}.ds-status{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;white-space:nowrap;color:var(--amber,#8b530b)}.ds-status::before{content:\"\";width:7px;height:7px;border-radius:50%;background:currentColor}@media(max-width:760px){.ds-advisory{padding:22px 20px}.ds-advisory h2{font-size:24px}}"
+    },
+    {
+      "name": "Scenario Stages",
+      "kind": "custom",
+      "description": "Native radio group for manual demonstration stages.",
+      "html": "<fieldset class=\"ds-scenarios\"><legend class=\"ds-hidden\">Demonstration scenario stage</legend><label><input class=\"ds-hidden\" type=\"radio\" name=\"ds-scenario\" checked><span>Baseline</span></label><label><input class=\"ds-hidden\" type=\"radio\" name=\"ds-scenario\"><span>Upstream rain</span></label><label><input class=\"ds-hidden\" type=\"radio\" name=\"ds-scenario\"><span>Downstream rise</span></label><label><input class=\"ds-hidden\" type=\"radio\" name=\"ds-scenario\"><span>High water</span></label></fieldset>",
+      "css": ".ds-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}.ds-scenarios{display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--line,#d1dbd5);padding:0;margin:0;border-radius:var(--radius,4px);min-width:0;font:400 15px/1.6 var(--font,\"Public Sans\",sans-serif);letter-spacing:0}.ds-scenarios label{cursor:pointer;display:block}.ds-scenarios span{padding:11px 16px;min-height:44px;display:block;color:var(--muted,#58665e);background:var(--surface,#ffffff)}.ds-scenarios label+label{border-left:1px solid var(--line,#d1dbd5)}.ds-scenarios input:checked+span{background:var(--green-soft,#e2eee7);color:var(--forest,#154c3b);font-weight:600}.ds-scenarios input:focus-visible+span{outline:3px solid var(--water,#17659b);outline-offset:-3px}@media(max-width:1050px){.ds-scenarios span{padding:11px 12px;font-size:12px}}@media(max-width:760px){.ds-scenarios{display:grid;grid-template-columns:1fr 1fr;width:100%}.ds-scenarios span{padding:10px 12px;font-size:12px}.ds-scenarios label:nth-of-type(3){border-left:0;border-top:1px solid var(--line,#d1dbd5)}.ds-scenarios label:nth-of-type(4){border-top:1px solid var(--line,#d1dbd5)}}"
+    },
+    {
+      "name": "Synthetic Water Trace",
+      "kind": "custom",
+      "description": "Source baseline trace, demonstration thresholds, and ruled chart geometry.",
+      "html": "<figure class=\"ds-plot\"><svg class=\"ds-chart\" viewBox=\"0 0 680 300\" preserveAspectRatio=\"none\" role=\"img\" aria-label=\"Six illustrative baseline water readings, not recorded history\"><path class=\"ds-grid\" d=\"M60 48H620 M60 88H620 M60 128H620 M60 168H620 M60 208H620 M60 248H620\" vector-effect=\"non-scaling-stroke\"/><path class=\"ds-area\" d=\"M60 204.8 L172 200 L284 202.4 L396 200 L508 200 L620 200 L620 248 L60 248 Z\"/><path class=\"ds-threshold\" d=\"M60 188H620 M60 152H620\" vector-effect=\"non-scaling-stroke\"/><path class=\"ds-line\" d=\"M60 204.8 L172 200 L284 202.4 L396 200 L508 200 L620 200\" vector-effect=\"non-scaling-stroke\"/><circle class=\"ds-dot\" cx=\"620\" cy=\"200\" r=\"4\" vector-effect=\"non-scaling-stroke\"/></svg><figcaption>Illustrative 25-minute series, not recorded history. Demo thresholds: 1.5 m / 2.4 m.</figcaption></figure>",
+      "css": ".ds-plot{margin:0;background:var(--surface,#ffffff)}.ds-chart{width:100%;height:300px;display:block}.ds-grid{stroke:var(--line,#d1dbd5);stroke-width:1}.ds-threshold{stroke:var(--amber,#8b530b);stroke-width:1;stroke-dasharray:5 5}.ds-area{fill:var(--water-soft,#e8f1f7)}.ds-line{stroke:var(--water,#17659b);stroke-width:3;fill:none;stroke-linejoin:round}.ds-dot{fill:var(--water,#17659b);stroke:#fff;stroke-width:2}.ds-plot figcaption{font:400 12px/1.6 var(--font,\"Public Sans\",sans-serif);color:var(--muted,#58665e);letter-spacing:0}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Hydrological Station Strip-Chart Recorder",
+    "overview": "HydroAlert is a bright monitoring desk: a forest-green structural header, white working surfaces, calibrated blue traces, and ruled station records. Public Sans keeps the three task views direct and readable. Amber and red communicate changes in the synthetic scenario through explicit labels as well as color.\n\nThe identity is independent of a photography portfolio. This is an operating tool with compact controls and task-led views, not a marketing composition. The persistent prototype banner and local-only report notices are part of the visual hierarchy, because synthetic readings and unsent records must remain recognizable while using the tool.\n\nThis document was extracted from the three HTML routes, style.css, core.js, storage.js, app.js, font provenance, and the committed surface direction. Browser access was explicitly unavailable in this session. It describes source-observed design and behavior, not rendered approval or screenshot verification.",
+    "keyCharacteristics": [
+      "Bright green-and-white monitoring desk with blue water traces.",
+      "Flat ruled workspaces, compact native controls, and restrained corners.",
+      "Synthetic states expressed through labels, units, thresholds, and semantic color.",
+      "Persistent simulation and local-only disclosure across task views."
+    ],
+    "rules": [
+      {
+        "name": "State Has Words",
+        "body": "Every routine, rising, and high-water state must retain a readable label; color is supplemental.",
+        "section": "colors"
+      },
+      {
+        "name": "Stable Type",
+        "body": "Use fixed type sizes and zero letter spacing; responsive changes select discrete sizes rather than viewport-scaled type.",
+        "section": "typography"
+      },
+      {
+        "name": "Flat Desk",
+        "body": "Use ruled sections and tonal surfaces for everyday organization; reserve elevation for modal decisions and report details.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do preserve the bright monitoring desk, ruled workspaces, and blue calibrated trace.",
+      "Do keep simulation and local-only disclosures visible in all three routes.",
+      "Do pair severity colors with explicit state text and units.",
+      "Do retain native controls, keyboard focus, accessible names, and reduced-motion handling.",
+      "Do distinguish visitor-device time, synthetic chronology, and locally recorded observations.",
+      "Do preserve contain-fit real report photos and permission-based optional device location."
+    ],
+    "donts": [
+      "Don't imply live sensors, verified safety, validated lead time, alert delivery, or rescue dispatch.",
+      "Don't present the relationship diagram as a geographic map.",
+      "Don't replace the operating workspace with a photograph hero, phone frame, dark glass, or gradient heading.",
+      "Don't add nested floating cards or decorative metrics.",
+      "Don't claim browser rendering, screenshot approval, or mobile fit verification from this source-only documentation."
+    ]
+  }
+}
