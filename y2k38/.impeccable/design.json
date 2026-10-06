@@ -1,0 +1,439 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-06T11:41:20Z",
+  "title": "Design System: Y2K38 Explorer",
+  "extensions": {
+    "colorMeta": {
+      "paper": {
+        "role": "neutral",
+        "displayName": "Calibration Paper",
+        "canonical": "#f4f5f6",
+        "tonalRamp": [
+          "oklch(15% 0.005 250)",
+          "oklch(27% 0.005 250)",
+          "oklch(39% 0.005 250)",
+          "oklch(51% 0.005 250)",
+          "oklch(63% 0.005 250)",
+          "oklch(75% 0.005 250)",
+          "oklch(87% 0.005 250)",
+          "oklch(95% 0.005 250)"
+        ],
+        "tonalRampSource": "Synthesized metadata; not shipping CSS tokens."
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Instrument White",
+        "canonical": "#fff",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(27% 0 0)",
+          "oklch(39% 0 0)",
+          "oklch(51% 0 0)",
+          "oklch(63% 0 0)",
+          "oklch(75% 0 0)",
+          "oklch(87% 0 0)",
+          "oklch(95% 0 0)"
+        ],
+        "tonalRampSource": "Synthesized metadata; not shipping CSS tokens."
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Graphite Ink",
+        "canonical": "#252331",
+        "tonalRamp": [
+          "oklch(15% 0.02 295)",
+          "oklch(27% 0.02 295)",
+          "oklch(39% 0.02 295)",
+          "oklch(51% 0.02 295)",
+          "oklch(63% 0.02 295)",
+          "oklch(75% 0.02 295)",
+          "oklch(87% 0.02 295)",
+          "oklch(95% 0.02 295)"
+        ],
+        "tonalRampSource": "Synthesized metadata; not shipping CSS tokens."
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted Graphite",
+        "canonical": "#63616e",
+        "tonalRamp": [
+          "oklch(15% 0.02 295)",
+          "oklch(27% 0.02 295)",
+          "oklch(39% 0.02 295)",
+          "oklch(51% 0.02 295)",
+          "oklch(63% 0.02 295)",
+          "oklch(75% 0.02 295)",
+          "oklch(87% 0.02 295)",
+          "oklch(95% 0.02 295)"
+        ],
+        "tonalRampSource": "Synthesized metadata; not shipping CSS tokens."
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Divider Gray",
+        "canonical": "#d8d8df",
+        "tonalRamp": [
+          "oklch(15% 0.01 295)",
+          "oklch(27% 0.01 295)",
+          "oklch(39% 0.01 295)",
+          "oklch(51% 0.01 295)",
+          "oklch(63% 0.01 295)",
+          "oklch(75% 0.01 295)",
+          "oklch(87% 0.01 295)",
+          "oklch(95% 0.01 295)"
+        ],
+        "tonalRampSource": "Synthesized metadata; not shipping CSS tokens."
+      },
+      "plum": {
+        "role": "primary",
+        "displayName": "Plum Rail",
+        "canonical": "#3d294e",
+        "tonalRamp": [
+          "oklch(15% 0.06 310)",
+          "oklch(27% 0.06 310)",
+          "oklch(39% 0.06 310)",
+          "oklch(51% 0.06 310)",
+          "oklch(63% 0.06 310)",
+          "oklch(75% 0.06 310)",
+          "oklch(87% 0.06 310)",
+          "oklch(95% 0.06 310)"
+        ],
+        "tonalRampSource": "Synthesized metadata; not shipping CSS tokens."
+      },
+      "accent": {
+        "role": "primary",
+        "displayName": "Plum Link",
+        "canonical": "#654184",
+        "tonalRamp": [
+          "oklch(15% 0.1 310)",
+          "oklch(27% 0.1 310)",
+          "oklch(39% 0.1 310)",
+          "oklch(51% 0.1 310)",
+          "oklch(63% 0.1 310)",
+          "oklch(75% 0.1 310)",
+          "oklch(87% 0.1 310)",
+          "oklch(95% 0.1 310)"
+        ],
+        "tonalRampSource": "Synthesized metadata; not shipping CSS tokens."
+      },
+      "teal": {
+        "role": "secondary",
+        "displayName": "Instrument Teal",
+        "canonical": "#086d64",
+        "tonalRamp": [
+          "oklch(15% 0.09 180)",
+          "oklch(27% 0.09 180)",
+          "oklch(39% 0.09 180)",
+          "oklch(51% 0.09 180)",
+          "oklch(63% 0.09 180)",
+          "oklch(75% 0.09 180)",
+          "oklch(87% 0.09 180)",
+          "oklch(95% 0.09 180)"
+        ],
+        "tonalRampSource": "Synthesized metadata; not shipping CSS tokens."
+      },
+      "teal-soft": {
+        "role": "secondary",
+        "displayName": "Teal Wash",
+        "canonical": "#dcefeb",
+        "tonalRamp": [
+          "oklch(15% 0.03 180)",
+          "oklch(27% 0.03 180)",
+          "oklch(39% 0.03 180)",
+          "oklch(51% 0.03 180)",
+          "oklch(63% 0.03 180)",
+          "oklch(75% 0.03 180)",
+          "oklch(87% 0.03 180)",
+          "oklch(95% 0.03 180)"
+        ],
+        "tonalRampSource": "Synthesized metadata; not shipping CSS tokens."
+      },
+      "danger": {
+        "role": "tertiary",
+        "displayName": "Overflow Coral",
+        "canonical": "#a83236",
+        "tonalRamp": [
+          "oklch(15% 0.14 25)",
+          "oklch(27% 0.14 25)",
+          "oklch(39% 0.14 25)",
+          "oklch(51% 0.14 25)",
+          "oklch(63% 0.14 25)",
+          "oklch(75% 0.14 25)",
+          "oklch(87% 0.14 25)",
+          "oklch(95% 0.14 25)"
+        ],
+        "tonalRampSource": "Synthesized metadata; not shipping CSS tokens."
+      },
+      "danger-soft": {
+        "role": "tertiary",
+        "displayName": "Coral Wash",
+        "canonical": "#fae7e4",
+        "tonalRamp": [
+          "oklch(15% 0.03 25)",
+          "oklch(27% 0.03 25)",
+          "oklch(39% 0.03 25)",
+          "oklch(51% 0.03 25)",
+          "oklch(63% 0.03 25)",
+          "oklch(75% 0.03 25)",
+          "oklch(87% 0.03 25)",
+          "oklch(95% 0.03 25)"
+        ],
+        "tonalRampSource": "Synthesized metadata; not shipping CSS tokens."
+      },
+      "soft": {
+        "role": "neutral",
+        "displayName": "Quiet Lilac",
+        "canonical": "#eae8ef",
+        "tonalRamp": [
+          "oklch(15% 0.015 295)",
+          "oklch(27% 0.015 295)",
+          "oklch(39% 0.015 295)",
+          "oklch(51% 0.015 295)",
+          "oklch(63% 0.015 295)",
+          "oklch(75% 0.015 295)",
+          "oklch(87% 0.015 295)",
+          "oklch(95% 0.015 295)"
+        ],
+        "tonalRampSource": "Synthesized metadata; not shipping CSS tokens."
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Route Display",
+        "purpose": "Route titles; 36px below 760px."
+      },
+      "headline": {
+        "displayName": "Reading Headline",
+        "purpose": "Reading section headings; 25px below 760px."
+      },
+      "title": {
+        "displayName": "Section Title",
+        "purpose": "Route continuation headings; instrument title variant is 20px / 18px."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Readable educational prose, maximum 70ch."
+      },
+      "label": {
+        "displayName": "Field Label",
+        "purpose": "Supporting labels at full opacity."
+      },
+      "button": {
+        "displayName": "Command Label",
+        "purpose": "Semibold instrument commands."
+      },
+      "measurement": {
+        "displayName": "Signed Measurement",
+        "purpose": "Signed readouts with tabular numerals; 26px / 1.4 on mobile."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "readout-settle",
+        "value": "background-color 160ms ease-out, color 160ms ease-out",
+        "purpose": "Interpreted-date and signed-value state updates; disabled for reduced motion."
+      },
+      {
+        "name": "rollover-tick",
+        "value": "850ms",
+        "purpose": "Seven-step demonstration, stopped when the document is hidden."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "compact-desktop",
+        "value": "1150px",
+        "purpose": "Maximum width; narrower rail and 16-column register."
+      },
+      {
+        "name": "mobile",
+        "value": "760px",
+        "purpose": "Maximum width; top navigation and eight-column register."
+      },
+      {
+        "name": "wide-footer",
+        "value": "1600px",
+        "purpose": "Minimum width; centered footer."
+      }
+    ],
+    "darkTheme": {
+      "selector": ":root[data-theme=dark]",
+      "source": "style.css",
+      "values": {
+        "paper": "#17171b",
+        "surface": "#222228",
+        "ink": "#f1eff4",
+        "muted": "#b9b6c5",
+        "line": "#44414d",
+        "accent": "#d7b3ef",
+        "teal": "#82dbcc",
+        "teal-soft": "#203a36",
+        "danger": "#ffaea8",
+        "danger-soft": "#43282a",
+        "soft": "#302d37"
+      },
+      "purpose": "Implemented theme overrides; plum remains unchanged."
+    },
+    "focus": {
+      "value": "3px solid var(--teal), outline-offset: 4px",
+      "purpose": "Keyboard focus for buttons, links, fields, and summaries."
+    },
+    "fonts": {
+      "source": "style.css @font-face",
+      "selfHosted": [
+        {
+          "family": "Space Grotesk",
+          "weight": 700,
+          "path": "fonts/space-grotesk-700.ttf"
+        },
+        {
+          "family": "IBM Plex Sans",
+          "weight": 400,
+          "path": "fonts/ibm-plex-sans-400.ttf"
+        },
+        {
+          "family": "IBM Plex Sans",
+          "weight": 600,
+          "path": "fonts/ibm-plex-sans-600.ttf"
+        }
+      ]
+    },
+    "evidence": {
+      "sources": [
+        "style.css",
+        "app.js",
+        "core.js",
+        "index.html",
+        "simulator.html",
+        "history.html",
+        "solution.html",
+        "PRODUCT.md",
+        ".impeccable/surfaces/index-html.md"
+      ],
+      "verdict": "Ship at SOURCE-ONLY scope",
+      "resolvedFindings": [
+        "Label-opacity contrast: opacity removed.",
+        "Composition-contract mismatch: contract amended to full-width instrument."
+      ],
+      "checks": [
+        "node tests/lab.test.cjs passed domain and DOM-double behavior.",
+        "HTTP 200 checks passed for supplied pages/assets."
+      ],
+      "limits": [
+        "No screenshots.",
+        "No rendered mobile or desktop approval.",
+        "Browser access was denied, including localhost workarounds."
+      ],
+      "rasterAssets": [],
+      "visualAsset": "Interactive binary representation generated from actual timestamp data."
+    }
+  },
+  "components": [
+    {
+      "name": "Primary Command",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Emphasized command for the working experiment.",
+      "html": "<button type=\"button\" class=\"ds-button-primary\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 5v14M5 12h14\"/></svg><span>+1 second</span></button>",
+      "css": ".ds-button-primary{font-family:var(--body,\"IBM Plex Sans\",sans-serif);letter-spacing:0;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:10px 16px;border:1px solid var(--line,#d8d8df);border-radius:var(--radius,4px);font-size:14px;font-weight:600;line-height:1.4;cursor:pointer;background:var(--plum,#3d294e);border-color:var(--plum,#3d294e);color:#fff;}.ds-button-primary svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.7}.ds-button-primary:hover{background:#594068;}.ds-button-primary:focus-visible{outline:3px solid var(--teal,#086d64);outline-offset:4px;}.ds-button-primary:disabled{opacity:.55;cursor:not-allowed;}"
+    },
+    {
+      "name": "Secondary Command",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Neutral preset or supporting command.",
+      "html": "<button type=\"button\" class=\"ds-button-secondary\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M5 5v14M19 5l-10 7 10 7z\"/></svg><span>Last valid second</span></button>",
+      "css": ".ds-button-secondary{font-family:var(--body,\"IBM Plex Sans\",sans-serif);letter-spacing:0;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:10px 16px;border:1px solid var(--line,#d8d8df);border-radius:var(--radius,4px);font-size:14px;font-weight:600;line-height:1.4;cursor:pointer;background:var(--surface,#fff);color:var(--ink,#252331);}.ds-button-secondary svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.7}.ds-button-secondary:hover{background:var(--soft,#eae8ef);}.ds-button-secondary:focus-visible{outline:3px solid var(--teal,#086d64);outline-offset:4px;}.ds-button-secondary:disabled{opacity:.55;cursor:not-allowed;}"
+    },
+    {
+      "name": "Overflow Preset",
+      "kind": "button",
+      "refersTo": "button-danger",
+      "description": "Explicit overflow preset.",
+      "html": "<button type=\"button\" class=\"ds-button-danger\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 3 2 21h20zM12 9v5M12 17v1\"/></svg><span>Overflow</span></button>",
+      "css": ".ds-button-danger{font-family:var(--body,\"IBM Plex Sans\",sans-serif);letter-spacing:0;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:10px 16px;border:1px solid var(--line,#d8d8df);border-radius:var(--radius,4px);font-size:14px;font-weight:600;line-height:1.4;cursor:pointer;background:var(--danger-soft,#fae7e4);border-color:var(--danger-soft,#fae7e4);color:var(--danger,#a83236);}.ds-button-danger svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.7}.ds-button-danger:hover{background:var(--soft,#eae8ef);}.ds-button-danger:focus-visible{outline:3px solid var(--teal,#086d64);outline-offset:4px;}.ds-button-danger:disabled{opacity:.55;cursor:not-allowed;}"
+    },
+    {
+      "name": "Timestamp Field",
+      "kind": "input",
+      "refersTo": "timestamp-input",
+      "description": "Exact requested seconds with a textual error state.",
+      "html": "<div class=\"ds-field\"><label for=\"ds-timestamp\">Requested seconds since 1970-01-01</label><input id=\"ds-timestamp\" type=\"text\" value=\"2147483647\" spellcheck=\"false\"></div>",
+      "css": ".ds-field{font-family:var(--body,\"IBM Plex Sans\",sans-serif);letter-spacing:0;max-width:420px;color:var(--ink,#252331)}.ds-field label{display:block;font-size:13px;color:var(--muted,#63616e);margin-bottom:8px}.ds-field input{width:calc(100% - 26px);font-family:var(--mono,ui-monospace,SFMono-Regular,Consolas,monospace);font-size:21px;background:var(--paper,#f4f5f6);border:1px solid var(--line,#d8d8df);border-radius:var(--radius,4px);color:var(--ink,#252331);padding:12px;caret-color:var(--accent,#654184)}.ds-field input:focus-visible{outline:3px solid var(--teal,#086d64);outline-offset:4px;}.ds-field input[aria-invalid=true]{border-color:var(--danger,#a83236)}"
+    },
+    {
+      "name": "Rail Navigation",
+      "kind": "nav",
+      "refersTo": "navigation-active",
+      "description": "Plum rail with a light active route and four-track mobile navigation.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Y2K38 preview\"><a href=\"#overview\" aria-current=\"page\">Overview</a><a href=\"#simulator\">Simulator</a><a href=\"#history\">History</a><a href=\"#fix\">64-bit fix</a></nav>",
+      "css": ".ds-nav{font-family:var(--body,\"IBM Plex Sans\",sans-serif);letter-spacing:0;background:var(--plum,#3d294e);padding:20px;width:172px;display:grid;gap:8px}.ds-nav a{padding:12px;color:#e0d6e8;text-decoration:none;border-radius:var(--radius,4px);font-size:15px;min-height:24px;display:flex;align-items:center}.ds-nav a:hover{background:#503a62;color:#fff}.ds-nav a[aria-current=page]{background:#f4f5f6;color:#3d294e;font-weight:600}.ds-nav a:focus-visible{outline:3px solid var(--teal,#086d64);outline-offset:4px;}@media(max-width:760px){.ds-nav{width:auto;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}.ds-nav a{padding:9px 4px;justify-content:center;font-size:12px;min-height:26px}}"
+    },
+    {
+      "name": "Instrument Container",
+      "kind": "card",
+      "refersTo": "instrument",
+      "description": "The genuinely framed working tool; reading sections remain unframed.",
+      "html": "<section class=\"ds-instrument\"><header><h2>Signed 32-bit time</h2><span>Within signed 32-bit range</span></header><div class=\"ds-instrument-body\"><p>Both representations preserve these seconds.</p></div><footer>Two&#39;s-complement wrap model</footer></section>",
+      "css": ".ds-instrument{font-family:var(--body,\"IBM Plex Sans\",sans-serif);letter-spacing:0;background:var(--surface,#fff);color:var(--ink,#252331);border:1px solid var(--line,#d8d8df);border-radius:var(--radius,4px);overflow:hidden}.ds-instrument header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:18px 24px;border-bottom:1px solid var(--line,#d8d8df)}.ds-instrument h2{font-family:var(--display,\"Space Grotesk\",sans-serif);font-size:20px;line-height:1.15;letter-spacing:0;margin:0}.ds-instrument header span{font-size:13px;font-weight:600;color:var(--teal,#086d64)}.ds-instrument-body{padding:24px}.ds-instrument-body p{font-size:14px;color:var(--muted,#63616e);margin:0}.ds-instrument footer{padding:16px 24px;border-top:1px solid var(--line,#d8d8df);font-size:13px;color:var(--muted,#63616e)}"
+    },
+    {
+      "name": "Binary Register Cells",
+      "kind": "custom",
+      "refersTo": "bit-active",
+      "description": "Real data cells, showing sign and value-bit states. This preview is a static representative excerpt, not the application engine.",
+      "html": "<div class=\"ds-bits\" role=\"group\" aria-label=\"Representative register cells\"><button class=\"ds-bit ds-sign\" aria-label=\"Sign bit 31\" aria-pressed=\"false\"><span>0</span><small>31</small></button><button class=\"ds-bit ds-on\" aria-label=\"Bit 30\" aria-pressed=\"true\"><span>1</span><small>30</small></button><button class=\"ds-bit ds-on\" aria-label=\"Bit 29\" aria-pressed=\"true\"><span>1</span><small>29</small></button><button class=\"ds-bit\" aria-label=\"Bit 28\" aria-pressed=\"false\"><span>0</span><small>28</small></button></div>",
+      "css": ".ds-bits{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:3px;max-width:240px}.ds-bit{min-width:0;border:0;border-radius:2px;padding:12px 0 6px;background:var(--soft,#eae8ef);color:var(--muted,#63616e);display:grid;gap:7px;min-height:66px;align-content:center;font-family:var(--mono,ui-monospace,SFMono-Regular,Consolas,monospace);font-size:16px;cursor:pointer}.ds-bit small{font-size:9px}.ds-on{background:var(--teal-soft,#dcefeb);color:var(--teal,#086d64)}.ds-sign{background:var(--danger-soft,#fae7e4);color:var(--danger,#a83236)}.ds-sign[aria-pressed=true]{background:var(--danger,#a83236);color:var(--surface,#fff)}.ds-bit:hover{outline:2px solid var(--accent,#654184);outline-offset:-2px}.ds-bit:focus-visible{outline:3px solid var(--teal,#086d64);outline-offset:4px;}"
+    },
+    {
+      "name": "Overflow Date Readout",
+      "kind": "custom",
+      "refersTo": "overflow-readout",
+      "description": "Explicit interpreted UTC value on the overflow surface.",
+      "html": "<div class=\"ds-overflow\"><span>32-bit interpreted date</span><time>1901-12-13 20:45:52 UTC</time></div>",
+      "css": ".ds-overflow{font-family:var(--body,\"IBM Plex Sans\",sans-serif);letter-spacing:0;background:var(--danger-soft,#fae7e4);padding:20px 24px;color:var(--danger,#a83236)}.ds-overflow span{display:block;font-size:13px;color:var(--muted,#63616e);margin-bottom:8px}.ds-overflow time{display:block;font-family:var(--mono,ui-monospace,SFMono-Regular,Consolas,monospace);font-size:15px;overflow-wrap:anywhere;transition:background-color 160ms ease-out,color 160ms ease-out}@media(prefers-reduced-motion:reduce){.ds-overflow time{transition:none}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Time-Representation Laboratory",
+    "overview": "An instrument panel makes an invisible integer boundary observable. A plum rail anchors a light workspace; measured values, editable bits, and paired UTC dates provide the visual emphasis. This independent identity and its descriptive language are implementation choices made under the user's delegated, code-first redesign, rather than separately approved brand language.\n\nThe experience is compact, precise, and approachable. Its signature visual is actual binary data generated from the requested integer, not a raster illustration. Educational reading follows the working experiment, with source-linked evidence and explicitly bounded model claims.",
+    "keyCharacteristics": [
+      "A fixed plum rail and a light calibration workspace.",
+      "Teal preserved data; coral overflow with explicit text labels.",
+      "Geometric headings, humanist prose, and monospace measurements.",
+      "Flat surfaces and small corners that organize working instruments."
+    ],
+    "rules": [
+      {
+        "name": "The State Has Words Rule",
+        "body": "Pair teal and coral states with explicit labels, signed values, and UTC dates; color alone never explains overflow.",
+        "section": "colors"
+      },
+      {
+        "name": "The Measured Type Rule",
+        "body": "Reserve monospace for data, code, and measurement metadata; headings and prose keep their respective self-hosted families.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat Instrument Rule",
+        "body": "Use boundaries and state surfaces to explain structure; do not add ambient shadows to the existing instrument system.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do use explicit UTC dates, seconds, signedness, and state labels beside measured data.",
+      "Do use the self-hosted display and body families, and keep monospace for measurements and code.",
+      "Do preserve small corners, flat surfaces, dividers, and useful 44px control targets.",
+      "Do treat the interactive binary representation as the primary data visual.",
+      "Do disclose the source-only verification limit until rendered desktop and mobile checks are available."
+    ],
+    "donts": [
+      "Don't describe two's-complement wrapping as the behavior of every real system.",
+      "Don't reduce label opacity; use the muted text token at full opacity.",
+      "Don't add glass, gradient text, ornamental grids, emoji, or decorative cards to this identity.",
+      "Don't replace actual register data with decorative raster imagery.",
+      "Don't claim screenshot approval or rendered responsiveness from source tests alone."
+    ]
+  }
+}

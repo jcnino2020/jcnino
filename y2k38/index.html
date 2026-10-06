@@ -1,226 +1,68 @@
-<!DOCTYPE html>
-<html lang="en" class="dark">
+<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Y2K38: The Unix Millennium Bug</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace'],
-                    },
-                    colors: {
-                        deep: {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
-                            800: '#1e40af',
-                            900: '#1e3a8a',
-                            950: '#0b1021', // Custom Deep Navy
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body {
-            /* Smooth background transition */
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        /* Gradient Backgrounds */
-        .bg-gradient-dark {
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(14, 165, 233, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(37, 99, 235, 0.15) 0px, transparent 50%);
-        }
-        
-        .bg-gradient-light {
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(14, 165, 233, 0.05) 0px, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(37, 99, 235, 0.05) 0px, transparent 50%);
-        }
-
-        /* Glassmorphism Card (Adaptive) */
-        .glass-card {
-            transition: background-color 0.3s, border-color 0.3s;
-        }
-        
-        .dark .glass-card {
-            background: rgba(30, 41, 59, 0.4);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(203, 213, 225, 0.6); /* Slate 300 */
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Explore the year 2038 timestamp boundary through an interactive binary experiment.">
+  <meta name="theme-color" content="#3d294e">
+  <title>Overview | Y2K38</title>
+  <link rel="stylesheet" href="/y2k38/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
+  <script src="/y2k38/core.js" defer></script>
+  <script src="/y2k38/app.js" defer></script>
 </head>
-<body class="pb-20 antialiased selection:bg-blue-500 selection:text-white bg-slate-50 dark:bg-deep-950 text-slate-900 dark:text-slate-50 transition-colors duration-300">
-    
-    <!-- Background Gradients -->
-    <div class="fixed inset-0 pointer-events-none transition-opacity duration-300 opacity-100 dark:opacity-0 bg-gradient-light"></div>
-    <div class="fixed inset-0 pointer-events-none transition-opacity duration-300 opacity-0 dark:opacity-100 bg-gradient-dark"></div>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <aside class="rail">
+    <a class="brand" href="/y2k38/"><span class="brand-mark" aria-hidden="true"><b></b><b></b><b></b><b></b></span>Y2K38</a>
+    <nav aria-label="Y2K38"><a href="/y2k38/" aria-current="page"><i class="ri-dashboard-line" aria-hidden="true"></i><span>Overview</span></a><a href="/y2k38/simulator.html"><i class="ri-cpu-line" aria-hidden="true"></i><span>Simulator</span></a><a href="/y2k38/history.html"><i class="ri-history-line" aria-hidden="true"></i><span>History</span></a><a href="/y2k38/solution.html"><i class="ri-shield-check-line" aria-hidden="true"></i><span>64-bit fix</span></a></nav>
+    <div class="rail-bottom">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Switch to dark theme" aria-pressed="false"><i class="ri-moon-line" aria-hidden="true"></i></button>
+      <a href="/projects/"><i class="ri-arrow-left-line" aria-hidden="true"></i> Project directory</a>
+      <p class="rail-note">Time, represented.<br>A Unix timestamp explorer.</p>
+    </div>
+  </aside>
+  <div class="shell">
+    <header class="topbar"><strong>Overview</strong><span class="utc-tag"><b aria-hidden="true"></b> All dates in UTC</span></header>
+    <main id="main"><div class="page-heading"><div><h1>One second.<br>A different century.</h1><p>On 19 January 2038, seconds since the Unix epoch stop fitting in a signed 32-bit integer. The calendar keeps moving. The representation runs out.</p></div><span class="page-index">2³¹ − 1</span></div>
+  <section class="lab" data-lab aria-labelledby="lab-title">
+    <div class="lab-head"><h2 id="lab-title">Signed 32-bit time</h2><span class="state" data-state>Within signed 32-bit range</span></div>
+    <div class="lab-body">
+      <div class="lab-tools">
+        
+        <button type="button" class="btn " data-action="last"><i class="ri-skip-back-line" aria-hidden="true"></i>Last valid second</button>
+        <button type="button" class="btn primary" data-action="forward"><i class="ri-add-line" aria-hidden="true"></i>+1 second</button>
+        <span class="grow"></span>
+        
+      </div>
+      <div class="memory-label"><span>32-bit memory</span><span>Sign bit &nbsp; / &nbsp; 31 value bits</span></div>
+      <div class="bit-strip" data-bits role="group" aria-label="Binary representation, most significant bit first"></div>
+      <div class="memory-footer"><span>Most significant</span><span class="numeric" data-hex>0x7FFFFFFF</span><span>Least significant</span></div>
+      <div class="readouts">
+        <div><label for="timestamp" class="readout-label">Requested seconds since 1970-01-01</label><div class="timestamp-field"><input id="timestamp" type="text" inputmode="text" spellcheck="false" autocomplete="off" value="2147483647" data-timestamp aria-describedby="timestamp-error" maxlength="20"></div><p class="input-error" id="timestamp-error" data-error role="status"></p></div>
+        <div><span class="readout-label">Stored signed 32-bit value</span><div class="signed-value" data-signed>2,147,483,647</div></div>
+      </div>
+      <div class="date-pair">
+        <div class="date-cell"><span class="readout-label">Requested date</span><time data-intended>2038-01-19 03:14:07 UTC</time></div>
+        <div class="date-cell interpreted"><span class="readout-label">32-bit interpreted date</span><time data-interpreted>2038-01-19 03:14:07 UTC</time></div>
+      </div>
+      <p class="explanation" data-explanation>Both representations preserve these seconds. The leading bit determines the sign of the 32-bit value.</p>
+      <div class="wide-row"><span>Same seconds, stored in 64 bits</span><code data-wide>2,147,483,647</code></div>
 
-    <!-- Header -->
-    <header class="relative pt-12 pb-8 px-6 border-b border-slate-200 dark:border-white/5 transition-colors">
-        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
-            <div class="flex-1">
-                <div class="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold text-sm tracking-wide mb-2 uppercase">
-                    <span class="relative flex h-2 w-2">
-                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                      <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
-                    </span>
-                    System Architecture
-                </div>
-                <h1 class="text-5xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-slate-900 to-blue-600 dark:from-white dark:to-blue-400 tracking-tight transition-all">Y2K38</h1>
-                <p class="text-xl text-slate-500 dark:text-slate-400 mt-2 font-light">The Unix Millennium Bug Interactive Explorer</p>
-            </div>
-            
-            <div class="flex flex-col items-end gap-4">
-                <!-- Theme Toggle -->
-                <button onclick="toggleTheme()" class="p-2 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:scale-105 transition-transform shadow-sm">
-                    <!-- Sun Icon -->
-                    <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden dark:block"><circle cx="12" cy="12" r="5"/><path d="M12 1v2"/><path d="M12 21v2"/><path d="M4.22 4.22l1.42 1.42"/><path d="M18.36 18.36l1.42 1.42"/><path d="M1 12h2"/><path d="M21 12h2"/><path d="M4.22 19.78l1.42-1.42"/><path d="M18.36 5.64l1.42-1.42"/></svg>
-                    <!-- Moon Icon -->
-                    <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="block dark:hidden"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-                </button>
+      <p class="sr-only" data-announcement aria-live="polite" aria-atomic="true"></p>
+    </div>
+    <div class="lab-foot"><span>Two's-complement wrap model, not a prediction for every system.</span><a href="/y2k38/simulator.html">Full simulator <i class="ri-arrow-right-line" aria-hidden="true"></i></a></div>
+  </section>
+  <noscript><p class="model-note">JavaScript is needed for the interactive experiment. The last valid second is shown above; the next second wraps to -2,147,483,648 in this model.</p></noscript>
 
-                <div class="glass-card rounded-2xl p-6 min-w-[300px]">
-                    <div class="text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider mb-2">Time Until Overflow</div>
-                    <div id="global-countdown" class="text-3xl font-mono font-bold text-slate-800 dark:text-white tabular-nums">
-                        CALCULATING...
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <main class="max-w-6xl mx-auto p-6 space-y-16">
-        <!-- Overview & Introduction -->
-        <section class="grid md:grid-cols-2 gap-12 items-center">
-            <div class="space-y-6">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-500/10 text-blue-700 dark:text-blue-400 text-sm font-medium transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="16" y2="12"/><line x1="12" x2="12.01" y1="8" y2="8"/></svg>
-                    Introduction
-                </div>
-                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white transition-colors">The Unix Millennium Bug</h2>
-                <p class="text-slate-600 dark:text-slate-400 leading-relaxed text-lg transition-colors">
-                    The Year 2038 problem (Y2K38) relates to the representing of time in many digital systems. Many legacy databases and OS kernels count time as seconds since the Unix Epoch (Jan 1, 1970) using a signed 32-bit integer.
-                </p>
-                <p class="text-slate-600 dark:text-slate-400 leading-relaxed transition-colors">
-                    Explore our interactive dashboard tabs to simulate the crash, review historical precedents, and inspect the 64-bit architecture solutions.
-                </p>
-            </div>
-            
-            <!-- Dynamic Navigation Cards -->
-            <div class="grid gap-6">
-                <a href="simulator.html" class="glass-card p-6 rounded-2xl hover:border-blue-500/40 transition duration-300 block group no-underline">
-                    <div class="flex items-center gap-4">
-                        <span class="text-3xl group-hover:scale-110 transition-transform">💻</span>
-                        <div>
-                            <h3 class="font-bold text-lg text-slate-900 dark:text-white group-hover:text-blue-500 transition-colors">Crash Simulator</h3>
-                            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Interactively flip bits and scrub time to trigger the integer overflow.</p>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="history.html" class="glass-card p-6 rounded-2xl hover:border-blue-500/40 transition duration-300 block group no-underline">
-                    <div class="flex items-center gap-4">
-                        <span class="text-3xl group-hover:scale-110 transition-transform">⏳</span>
-                        <div>
-                            <h3 class="font-bold text-lg text-slate-900 dark:text-white group-hover:text-blue-500 transition-colors">Historical Precedents</h3>
-                            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Review YouTube's counter break, NASA's Deep Impact crash, and Boeing resets.</p>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="solution.html" class="glass-card p-6 rounded-2xl hover:border-blue-500/40 transition duration-300 block group no-underline">
-                    <div class="flex items-center gap-4">
-                        <span class="text-3xl group-hover:scale-110 transition-transform">🛡️</span>
-                        <div>
-                            <h3 class="font-bold text-lg text-slate-900 dark:text-white group-hover:text-blue-500 transition-colors">64-Bit Solutions</h3>
-                            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Understand how modern systems resolve the issue for 292 billion years.</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </section>
-    </main>
-
-    <footer class="mt-20 py-8 border-t border-slate-200 dark:border-white/5 text-center text-slate-500 dark:text-slate-600 text-sm transition-colors">
-        <p>Y2K38 Interactive Explorer © 2026</p>
-    </footer>
-
-    <script>
-        // --- Theme Toggle Logic ---
-        function toggleTheme() {
-            const html = document.documentElement;
-            if (html.classList.contains('dark')) {
-                html.classList.remove('dark');
-                localStorage.setItem('theme', 'light');
-            } else {
-                html.classList.add('dark');
-                localStorage.setItem('theme', 'dark');
-            }
-        }
-
-        // Initialize based on preference
-        if (localStorage.theme === 'light') {
-            document.documentElement.classList.remove('dark');
-        } else {
-            document.documentElement.classList.add('dark');
-        }
-
-        const MAX_INT32 = 2147483647;
-        const globalCountdownEl = document.getElementById('global-countdown');
-
-        function startGlobalCountdown() {
-            const target = MAX_INT32 * 1000;
-            setInterval(() => {
-                const now = Date.now();
-                const diff = target - now;
-                if (diff <= 0) {
-                    globalCountdownEl.innerText = "SYSTEM FAILURE";
-                    globalCountdownEl.classList.add('text-rose-500');
-                    return;
-                }
-                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-                globalCountdownEl.innerText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-            }, 1000);
-        }
-
-        startGlobalCountdown();
-    </script>
-    <script>
-        // Fix relative links if loaded without trailing slash (e.g. /folder on Vercel)
-        (function() {
-            const path = window.location.pathname;
-            if (!path.endsWith('/') && !path.split('/').pop().includes('.')) {
-                const dir = path.split('/').pop();
-                document.querySelectorAll('a').forEach(a => {
-                    const href = a.getAttribute('href');
-                    if (href && !href.startsWith('http') && !href.startsWith('/') && !href.startsWith('#')) {
-                        a.setAttribute('href', dir + '/' + href);
-                    }
-                });
-            }
-        })();
-    </script>
+  <section class="sections explain-grid">
+    <div><h2>It's a limit, not a date bug.</h2><p>Unix time counts seconds from 1 January 1970. In a signed 32-bit representation, one bit contributes the sign and the remaining 31 bits constrain the positive range.</p><div class="formula">2<sup>31</sup> - 1 = 2,147,483,647</div><p>That final positive second is <code>2038-01-19 03:14:07 UTC</code>. One more second is outside the range.</p></div>
+    <div><h2>What could be affected?</h2><p>Software, stored data, protocols, and embedded devices that still rely on signed 32-bit timestamps. A modern computer can still run old code with a narrow time representation.</p><p>Failures vary: rejected dates, incorrect comparisons, bad scheduling, or other undefined behavior. This lab shows one familiar wrapping model, not a universal crash.</p><p class="sources"><a href="https://www.gnu.org/software/gnulib/manual/html_node/Avoiding-the-year-2038-problem.html">GNU: avoiding the year 2038 problem <i class="ri-external-link-line" aria-hidden="true"></i></a></p></div>
+  </section>
+  <section class="countdown-band" aria-labelledby="countdown-title"><div><h2 id="countdown-title">Until the boundary</h2><p>19 January 2038 &middot; 03:14:08 UTC</p></div><span class="numeric" data-countdown>Calculating...</span></section>
+  <a class="next-route" href="/y2k38/history.html"><div><h3>Counters have run out before.</h3><small>Timing failures, capacity limits, and the evidence behind them.</small></div><i class="ri-arrow-right-line" aria-hidden="true"></i></a>
+</main>
+    <footer class="footer"><span>Y2K38 Explorer</span><span>Signed integers. Finite ranges. Real consequences.</span><a href="/projects/">Project directory</a></footer>
+  </div>
 </body>
 </html>

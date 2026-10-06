@@ -1,148 +1,39 @@
-<!DOCTYPE html>
-<html lang="en" class="dark">
+<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HISTORICAL PRECEDENTS | Y2K38 Explorer</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace'],
-                    },
-                    colors: {
-                        deep: {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
-                            800: '#1e40af',
-                            900: '#1e3a8a',
-                            950: '#0b1021', // Custom Deep Navy
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { transition: background-color 0.3s ease, color 0.3s ease; }
-        .bg-gradient-dark {
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(14, 165, 233, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(37, 99, 235, 0.15) 0px, transparent 50%);
-        }
-        .bg-gradient-light {
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(14, 165, 233, 0.05) 0px, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(37, 99, 235, 0.05) 0px, transparent 50%);
-        }
-        .glass-card { transition: background-color 0.3s, border-color 0.3s; }
-        .dark .glass-card {
-            background: rgba(30, 41, 59, 0.4);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(203, 213, 225, 0.6);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Source-linked examples of counter limits and timing failures.">
+  <meta name="theme-color" content="#3d294e">
+  <title>Historical precedents | Y2K38</title>
+  <link rel="stylesheet" href="/y2k38/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
+  <script src="/y2k38/core.js" defer></script>
+  <script src="/y2k38/app.js" defer></script>
 </head>
-<body class="pb-20 antialiased selection:bg-blue-500 selection:text-white bg-slate-50 dark:bg-deep-950 text-slate-900 dark:text-slate-50 transition-colors duration-300">
-    <div class="fixed inset-0 pointer-events-none transition-opacity duration-300 opacity-100 dark:opacity-0 bg-gradient-light"></div>
-    <div class="fixed inset-0 pointer-events-none transition-opacity duration-300 opacity-0 dark:opacity-100 bg-gradient-dark"></div>
-
-    <!-- Header -->
-    <header class="relative pt-12 pb-8 px-6 border-b border-slate-200 dark:border-white/5 transition-colors">
-        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
-            <div class="flex-grow">
-                <a href="index.html" class="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold text-sm tracking-wide mb-4 uppercase hover:underline">
-                    ← BACK TO HOME
-                </a>
-                <h1 class="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-slate-900 to-blue-600 dark:from-white dark:to-blue-400 tracking-tight transition-all">Historical Precedents</h1>
-                <p class="text-lg text-slate-500 dark:text-slate-400 mt-2 font-light">Real-world incidents of system integer overflows</p>
-            </div>
-            
-            <div>
-                <button onclick="toggleTheme()" class="p-2 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:scale-105 transition-transform shadow-sm">
-                    <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden dark:block"><circle cx="12" cy="12" r="5"/><path d="M12 1v2"/><path d="M12 21v2"/><path d="M4.22 4.22l1.42 1.42"/><path d="M18.36 18.36l1.42 1.42"/><path d="M1 12h2"/><path d="M21 12h2"/><path d="M4.22 19.78l1.42-1.42"/><path d="M18.36 5.64l1.42-1.42"/></svg>
-                    <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="block dark:hidden"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <main class="max-w-6xl mx-auto p-6 mt-10">
-        <div class="grid md:grid-cols-3 gap-8">
-            <!-- Gangnam Style -->
-            <div class="glass-card p-6 rounded-2xl group hover:border-blue-500/40 transition duration-300">
-                <div class="w-12 h-12 bg-rose-100 dark:bg-rose-500/20 text-rose-500 dark:text-rose-400 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
-                    🎬
-                </div>
-                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">YouTube & Gangnam Style</h3>
-                <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
-                    In 2014, Psy's "Gangnam Style" video exceeded 2,147,483,647 views. YouTube's views counter at the time used a signed 32-bit integer, causing it to break and show negative numbers.
-                </p>
-                <div class="text-xs font-mono text-gray-500 border-t border-slate-200 dark:border-white/5 pt-4 mt-2">
-                    IMPACT: Backend update to 64-bit views counter
-                </div>
-            </div>
-
-            <!-- NASA -->
-            <div class="glass-card p-6 rounded-2xl group hover:border-blue-500/40 transition duration-300">
-                <div class="w-12 h-12 bg-sky-100 dark:bg-sky-500/20 text-sky-600 dark:text-sky-400 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
-                    🚀
-                </div>
-                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">NASA Deep Impact</h3>
-                <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
-                    The space probe's internal timer tracked time in tenths of a second since launch. In 2013, this counter overflowed a signed 32-bit limit, launching a reboot loop that severed link signals.
-                </p>
-                <div class="text-xs font-mono text-gray-500 border-t border-slate-200 dark:border-white/5 pt-4 mt-2">
-                    IMPACT: Total loss of communication with the spacecraft
-                </div>
-            </div>
-
-            <!-- Boeing -->
-            <div class="glass-card p-6 rounded-2xl group hover:border-blue-500/40 transition duration-300">
-                <div class="w-12 h-12 bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
-                    ✈️
-                </div>
-                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Boeing 787 Dreamliner</h3>
-                <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
-                    An FAA airworthiness directive reported that the generator control unit (GCU) software counter overflowed a 32-bit register after exactly 248 days of continuous operation, shutting down electrical generators.
-                </p>
-                <div class="text-xs font-mono text-gray-500 border-t border-slate-200 dark:border-white/5 pt-4 mt-2">
-                    IMPACT: FAA mandated powercycle interval of 248 days
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <script>
-        function toggleTheme() {
-            const html = document.documentElement;
-            if (html.classList.contains('dark')) {
-                html.classList.remove('dark');
-                localStorage.setItem('theme', 'light');
-            } else {
-                html.classList.add('dark');
-                localStorage.setItem('theme', 'dark');
-            }
-        }
-
-        if (localStorage.theme === 'light') {
-            document.documentElement.classList.remove('dark');
-        } else {
-            document.documentElement.classList.add('dark');
-        }
-    </script>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <aside class="rail">
+    <a class="brand" href="/y2k38/"><span class="brand-mark" aria-hidden="true"><b></b><b></b><b></b><b></b></span>Y2K38</a>
+    <nav aria-label="Y2K38"><a href="/y2k38/"><i class="ri-dashboard-line" aria-hidden="true"></i><span>Overview</span></a><a href="/y2k38/simulator.html"><i class="ri-cpu-line" aria-hidden="true"></i><span>Simulator</span></a><a href="/y2k38/history.html" aria-current="page"><i class="ri-history-line" aria-hidden="true"></i><span>History</span></a><a href="/y2k38/solution.html"><i class="ri-shield-check-line" aria-hidden="true"></i><span>64-bit fix</span></a></nav>
+    <div class="rail-bottom">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Switch to dark theme" aria-pressed="false"><i class="ri-moon-line" aria-hidden="true"></i></button>
+      <a href="/projects/"><i class="ri-arrow-left-line" aria-hidden="true"></i> Project directory</a>
+      <p class="rail-note">Time, represented.<br>A Unix timestamp explorer.</p>
+    </div>
+  </aside>
+  <div class="shell">
+    <header class="topbar"><strong>Historical precedents</strong><span class="utc-tag"><b aria-hidden="true"></b> All dates in UTC</span></header>
+    <main id="main"><div class="page-heading"><div><h1>When counters<br>run out of room.</h1><p>Related failures show why finite representations matter. These are not all instances of the Unix year 2038 boundary.</p></div><span class="page-index">Evidence / context</span></div>
+  <section class="case-list" aria-label="Historical examples">
+    <article class="case"><div class="case-year">2013</div><div><h2>Deep Impact</h2><p>NASA's lessons-learned record describes a clock-time conversion overflow that disabled the spacecraft. A timing calculation can determine whether a spacecraft can orient itself and communicate.</p><a class="case-source" href="https://llis.nasa.gov/lesson/10701">NASA Lessons Learned: Deep Impact <i class="ri-external-link-line" aria-hidden="true"></i></a></div><aside class="case-aside"><strong>Time conversion overflow</strong>The confirmed lesson is broader than Unix time: test the full conversion path and its numeric limits.</aside></article>
+    <article class="case caution"><div class="case-year">2014</div><div><h2>YouTube &amp; Gangnam Style</h2><p>Google documented the video reaching two billion views. That puts a view counter close to the signed 32-bit maximum of 2,147,483,647. The widely repeated &ldquo;broke YouTube&rdquo; story is not evidence of a Unix timestamp failure.</p><a class="case-source" href="https://asia.googleblog.com/2014/06/gangnam-style-is-first-video-to-reach-2.html">Google's two-billion-view milestone <i class="ri-external-link-line" aria-hidden="true"></i></a></div><aside class="case-aside"><strong>Capacity example, not a clock failure</strong>Views and seconds share the same integer limit only when stored in the same representation. This page does not claim a verified negative-count crash.</aside></article>
+    <article class="case"><div class="case-year">2015</div><div><h2>Boeing 787 generator controls</h2><p>An FAA directive described a software counter overflow after 248 days of continuous power. Generator control units could enter failsafe mode together, creating a risk of losing all AC electrical power.</p><a class="case-source" href="https://www.federalregister.gov/documents/2015/05/01/2015-10066/airworthiness-directives-the-boeing-company-airplanes">FAA: 2015 airworthiness directive <i class="ri-external-link-line" aria-hidden="true"></i></a></div><aside class="case-aside"><strong>Elapsed-time counter overflow</strong>A different counter and timescale from Unix seconds. The 2015 directive required repetitive electrical power deactivation.</aside></article>
+  </section>
+  <section class="reader-note"><h2>The shared lesson</h2><p>A counter's unit, width, signedness, and conversion rules determine its useful lifetime. A device's physical lifespan can exceed the assumptions built into its software.</p></section>
+  <a class="next-route" href="/y2k38/solution.html"><div><h3>More bits. Better boundaries.</h3><small>What a real migration needs to check.</small></div><i class="ri-arrow-right-line" aria-hidden="true"></i></a>
+</main>
+    <footer class="footer"><span>Y2K38 Explorer</span><span>Signed integers. Finite ranges. Real consequences.</span><a href="/projects/">Project directory</a></footer>
+  </div>
 </body>
 </html>

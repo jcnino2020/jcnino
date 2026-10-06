@@ -8,30 +8,20 @@
     <!-- SEO Meta Tags -->
     <meta name="description" content="A comprehensive directory of web applications, tools, and visual projects by JC Niñonuevo.">
     
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/portfolio.css">
     
     <!-- Icons -->
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     
-    <!-- GSAP for Animations -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    
-    <link rel="stylesheet" href="/projects/style.css">
+    <link rel="stylesheet" href="/projects/style.css?v=5">
 </head>
 <body>
 
-    <div class="bg-mesh"></div>
-    <div class="grid-overlay"></div>
-
-    <nav class="navbar">
+    <nav class="navbar" aria-label="Main navigation">
         <div class="nav-content">
-            <div class="logo">
-                <i class="ri-terminal-box-fill"></i>
-                <span>Workspace</span>
-            </div>
+            <a class="logo" href="../" aria-label="JC Niñonuevo home">
+                <img src="../images/logo.png" alt="JC Niñonuevo" width="200" height="40">
+            </a>
             <a href="../" class="btn-back">
                 <i class="ri-arrow-left-line"></i> Back to Portfolio
             </a>
@@ -41,23 +31,22 @@
     <main class="container">
         <header class="hero">
             <div class="badge">Vercel Deployment Hub</div>
-            <h1 class="hero-title">Project <span>Directory</span></h1>
+            <h1 class="hero-title">Project<br><span>Directory.</span></h1>
             <p class="hero-subtitle">Explore a collection of interactive web applications, frontend demos, and backend architectures built by JC Niñonuevo.</p>
         </header>
 
         <div class="projects-grid">
             <!-- Main Portfolio -->
             <a href="../" class="project-card group">
-                <div class="card-glow" style="background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.4), transparent 50%);"></div>
                 <div class="card-content">
                     <div class="card-header">
-                        <div class="icon-box" style="background: rgba(255, 255, 255, 0.1); color: #ffffff;">
+                        <div class="icon-box">
                             <i class="ri-camera-lens-fill"></i>
                         </div>
                         <span class="status-badge online"><i class="ri-checkbox-blank-circle-fill"></i> Main Site</span>
                     </div>
                     <div class="card-body">
-                        <h3>Photography Portfolio</h3>
+                        <h2>Photography Portfolio</h2>
                         <p>The root website showcasing drone aerials, editorial street frames, and cinematic storytelling.</p>
                     </div>
                     <div class="card-footer">
@@ -74,16 +63,15 @@
 
             <!-- Project 1 -->
             <a href="../gnet/" class="project-card group">
-                <div class="card-glow"></div>
                 <div class="card-content">
                     <div class="card-header">
-                        <div class="icon-box" style="background: rgba(0, 210, 255, 0.1); color: #00d2ff;">
+                        <div class="icon-box">
                             <i class="ri-wifi-fill"></i>
                         </div>
                         <span class="status-badge online"><i class="ri-checkbox-blank-circle-fill"></i> Online</span>
                     </div>
                     <div class="card-body">
-                        <h3>GNET Network & Data</h3>
+                        <h2>GNET Network & Data</h2>
                         <p>A premier fiber internet provider landing page for Bacolod City featuring plans, services, and hotspot vouchers.</p>
                     </div>
                     <div class="card-footer">
@@ -100,16 +88,15 @@
 
             <!-- Project 2 -->
             <a href="../ex/" class="project-card group">
-                <div class="card-glow" style="background: radial-gradient(circle at top right, rgba(168, 85, 247, 0.4), transparent 50%);"></div>
                 <div class="card-content">
                     <div class="card-header">
-                        <div class="icon-box" style="background: rgba(168, 85, 247, 0.1); color: #a855f7;">
+                        <div class="icon-box">
                             <i class="ri-run-fill"></i>
                         </div>
                         <span class="status-badge online"><i class="ri-checkbox-blank-circle-fill"></i> Online</span>
                     </div>
                     <div class="card-body">
-                        <h3>VoltFit Workout</h3>
+                        <h2>VoltFit Workout</h2>
                         <p>A full-fledged, highly interactive workout companion application designed for fitness tracking and exercise routines.</p>
                     </div>
                     <div class="card-footer">
@@ -126,16 +113,15 @@
 
             <!-- Project 3 -->
             <a href="../drainwatch/" class="project-card group">
-                <div class="card-glow" style="background: radial-gradient(circle at top right, rgba(16, 185, 129, 0.4), transparent 50%);"></div>
                 <div class="card-content">
                     <div class="card-header">
-                        <div class="icon-box" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
+                        <div class="icon-box">
                             <i class="ri-drop-fill"></i>
                         </div>
                         <span class="status-badge online"><i class="ri-checkbox-blank-circle-fill"></i> Online</span>
                     </div>
                     <div class="card-body">
-                        <h3>BCD DrainWatch</h3>
+                        <h2>BCD DrainWatch</h2>
                         <p>An interactive mobile-first demo application for monitoring city drainage systems and flood alerts in real-time.</p>
                     </div>
                     <div class="card-footer">
@@ -152,16 +138,15 @@
 
             <!-- Project 4 -->
             <a href="../hydroalert/" class="project-card group">
-                <div class="card-glow" style="background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.4), transparent 50%);"></div>
                 <div class="card-content">
                     <div class="card-header">
-                        <div class="icon-box" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">
+                        <div class="icon-box">
                             <i class="ri-waves-fill"></i>
                         </div>
                         <span class="status-badge online"><i class="ri-checkbox-blank-circle-fill"></i> Online</span>
                     </div>
                     <div class="card-body">
-                        <h3>HydroAlert Dashboard</h3>
+                        <h2>HydroAlert Dashboard</h2>
                         <p>A predictive river monitoring and analytical dashboard built to showcase environmental data modeling.</p>
                     </div>
                     <div class="card-footer">
@@ -178,16 +163,15 @@
 
             <!-- Project 5 -->
             <a href="../space/" class="project-card group">
-                <div class="card-glow" style="background: radial-gradient(circle at top right, rgba(245, 158, 11, 0.4), transparent 50%);"></div>
                 <div class="card-content">
                     <div class="card-header">
-                        <div class="icon-box" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">
+                        <div class="icon-box">
                             <i class="ri-planet-fill"></i>
                         </div>
                         <span class="status-badge online"><i class="ri-checkbox-blank-circle-fill"></i> Online</span>
                     </div>
                     <div class="card-body">
-                        <h3>Space Jam: Reimagined</h3>
+                        <h2>Space Jam: Reimagined</h2>
                         <p>A visually stunning, GSAP-powered creative web experience demonstrating advanced CSS animations and typography.</p>
                     </div>
                     <div class="card-footer">
@@ -204,16 +188,15 @@
 
             <!-- Project 6 -->
             <a href="../bcc/" class="project-card group">
-                <div class="card-glow" style="background: radial-gradient(circle at top right, rgba(244, 63, 94, 0.4), transparent 50%);"></div>
                 <div class="card-content">
                     <div class="card-header">
-                        <div class="icon-box" style="background: rgba(244, 63, 94, 0.1); color: #f43f5e;">
+                        <div class="icon-box">
                             <i class="ri-database-2-fill"></i>
                         </div>
                         <span class="status-badge update"><i class="ri-checkbox-blank-circle-fill"></i> Migration</span>
                     </div>
                     <div class="card-body">
-                        <h3>BCC Database Engine</h3>
+                        <h2>BCC Database Engine</h2>
                         <p>Backend migration project transitioning from traditional MySQL relational architectures to modern NoSQL databases.</p>
                     </div>
                     <div class="card-footer">
@@ -230,16 +213,15 @@
             
             <!-- Project 7 -->
             <a href="../truthlens/" class="project-card group">
-                <div class="card-glow" style="background: radial-gradient(circle at top right, rgba(14, 165, 233, 0.4), transparent 50%);"></div>
                 <div class="card-content">
                     <div class="card-header">
-                        <div class="icon-box" style="background: rgba(14, 165, 233, 0.1); color: #0ea5e9;">
+                        <div class="icon-box">
                             <i class="ri-focus-3-line"></i>
                         </div>
                         <span class="status-badge online"><i class="ri-checkbox-blank-circle-fill"></i> Online</span>
                     </div>
                     <div class="card-body">
-                        <h3>TruthLens App</h3>
+                        <h2>TruthLens App</h2>
                         <p>A specialized utility application focused on visual verification, metadata analysis, and image forensics.</p>
                     </div>
                     <div class="card-footer">
@@ -256,16 +238,15 @@
 
             <!-- Project 8 -->
             <a href="../viaje/" class="project-card group">
-                <div class="card-glow" style="background: radial-gradient(circle at top right, rgba(163, 230, 53, 0.4), transparent 50%);"></div>
                 <div class="card-content">
                     <div class="card-header">
-                        <div class="icon-box" style="background: rgba(163, 230, 53, 0.1); color: #a3e635;">
+                        <div class="icon-box">
                             <i class="ri-flight-takeoff-line"></i>
                         </div>
                         <span class="status-badge online"><i class="ri-checkbox-blank-circle-fill"></i> Online</span>
                     </div>
                     <div class="card-body">
-                        <h3>Viaje Travel</h3>
+                        <h2>Viaje Travel</h2>
                         <p>A scenic, editorial-style travel exploration interface highlighting cinematic photos and travelogue narratives.</p>
                     </div>
                     <div class="card-footer">
@@ -288,6 +269,6 @@
         <p>© 2026 JC Niñonuevo. All systems operational. Deployed on Vercel.</p>
     </footer>
 
-    <script src="/projects/script.js"></script>
+    <script src="/projects/script.js?v=2"></script>
 </body>
 </html>

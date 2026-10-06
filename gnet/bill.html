@@ -2,182 +2,21 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Online Bill Inquiry | GNET</title>
-  <link rel="shortcut icon" href="/gnet/files/logo-250920241.png" type="image/png">
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Bootstrap -->
-  <link rel="stylesheet" href="/gnet/files/bootstrap.min.css">
-  <!-- Design System -->
-  <link rel="stylesheet" href="/gnet/styles/main.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#cf202b">
+  <title>Bill Inquiry | GNET</title>
+  <meta name="description" content="GNET Network and Data Solution. Fiber internet, home and business connectivity, and customer tools in Bacolod City.">
+  <link rel="icon" href="/gnet/files/logo-250920241.png">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
+
+  <link rel="stylesheet" href="/gnet/styles/main.css?v=4">
+  <script src="/gnet/scripts/app.js?v=3" defer></script>
+  <noscript><style>@media(max-width:959px){.navigation{flex-wrap:wrap}.site-menu{display:grid;position:static;width:100%;order:3;padding:0 0 16px;max-height:none}.menu-toggle{display:none}}</style></noscript>
 </head>
 <body>
-  <!-- PRELOADER -->
-  <div id="gnet-preloader" role="status" aria-label="Loading GNET website">
-    <img src="/gnet/files/logo-250920241.png" alt="GNET Logo" class="preloader-logo" width="80">
-    <div class="preloader-bar" role="progressbar">
-      <div class="preloader-bar-fill"></div>
-    </div>
-  </div>
+<a class="skip-link" href="#main-content">Skip to content</a><header class="site-header"><div class="utility"><div class="container utility-inner"><span>GNET Network &amp; Data Solution</span><a href="tel:+639609225835"><i class="ri-phone-line" aria-hidden="true"></i> +63 960 922 5835</a></div></div><div class="container navigation"><a class="brand" href="/gnet/" aria-label="GNET home"><img src="/gnet/files/logo-250920241.png" alt="GNET Network and Data Solutions" width="1624" height="482"></a><nav id="site-menu" class="site-menu" aria-label="Primary navigation"><a href="/gnet/">Home</a><a href="/gnet/packages.html">Packages</a><a href="/gnet/services.html">Services</a><a href="/gnet/coverage.html">Coverage</a><a href="/gnet/bill.html" aria-current="page">Bill Inquiry</a><a href="/gnet/speedtest.html">Speed Test</a></nav><div class="nav-actions"><a href="https://gnet.ph/auth" class="button button-small portal" aria-label="Member Portal" title="Member Portal"><i class="ri-user-line" aria-hidden="true"></i> <span>Member Portal</span></a><button id="menu-toggle" class="icon-button menu-toggle" aria-label="Open navigation" aria-expanded="false" aria-controls="site-menu"><i class="ri-menu-line" aria-hidden="true"></i></button></div></div></header>
+<main id="main-content"><div class="page-heading container"><h1>Your bill, at a glance.</h1><p>Look up your current balance and due date with your GNET account number.</p></div><section class="container page-section task-grid" aria-labelledby="bill-form-title"><div class="bill-tool"><h2 id="bill-form-title">Account inquiry</h2><form id="bill-form" action="https://gnet.ph/front/view_bill" method="post"><input type="hidden" name="cek_bill" value="1"><label for="account-number">Account number</label><p id="account-hint" class="field-hint">Enter the account number associated with your GNET connection.</p><div class="input-action"><input id="account-number" name="no_services" type="text" maxlength="80" required autocomplete="off" aria-describedby="account-hint bill-status" placeholder="Your GNET account number"><button type="submit" class="button button-primary" id="bill-submit">Check bill <i class="ri-arrow-right-line" aria-hidden="true"></i></button></div><p id="bill-status" class="tool-status" role="status" aria-live="polite"></p></form><div id="bill-result" hidden></div></div><aside class="help-panel"><h2>Need a hand?</h2><p>For account access or billing questions, contact GNET directly.</p><a class="text-link" href="tel:+639609225835"><i class="ri-phone-line" aria-hidden="true"></i> +63 960 922 5835</a><div class="help-divider"></div><h3>More account options</h3><p>Sign in to manage your connection through the official member portal.</p><a class="button button-outline" href="https://gnet.ph/auth">Open member portal <i class="ri-arrow-right-up-line" aria-hidden="true"></i></a></aside></section></main>
+<section class="contact-band" id="contact" aria-labelledby="contact-title"><div class="container contact-inner"><div><h2 id="contact-title">Let’s get you connected.</h2><p>Talk to GNET about your area, a plan, or your account.</p></div><a href="tel:+639609225835" class="button button-light"><i class="ri-phone-line" aria-hidden="true"></i> +63 960 922 5835</a></div></section><footer class="site-footer" id="footer"><div class="container footer-grid"><div><a href="/gnet/" class="brand footer-brand"><img src="/gnet/files/logo-250920241.png" width="1624" height="482" alt="GNET"></a><p>Fiber internet and data solutions.<br>Bacolod City &amp; surrounding areas.</p></div><div><h2>Get connected</h2><a href="/gnet/packages.html">Internet packages</a><a href="/gnet/coverage.html">Check coverage</a><a href="https://gnet.ph/auth/register">Apply for a connection</a></div><div><h2>Customer care</h2><a href="/gnet/bill.html">Check your bill</a><a href="/gnet/speedtest.html">Test your speed</a><a href="https://gnet.ph/auth">Member portal</a></div></div><div class="container footer-bottom"><span>© 2026 GNET Network and Data Solution. All rights reserved.</span><a href="/projects/">Back to project directory <i class="ri-arrow-right-line" aria-hidden="true"></i></a></div></footer>
 
-  <!-- NAVIGATION -->
-  <header id="gnet-nav" role="banner">
-    <div class="nav-inner">
-      <a href="index.html" class="nav-logo">
-        <img src="/gnet/files/logo-250920241.png" alt="GNET" width="120">
-      </a>
-      <nav class="nav-links">
-        <a href="index.html"      class="nav-link">Home</a>
-        <a href="packages.html"   class="nav-link">Packages</a>
-        <a href="bill.html"       class="nav-link active" aria-current="page">Bill</a>
-        <a href="services.html"   class="nav-link">Services</a>
-        <a href="coverage.html"   class="nav-link">Coverage</a>
-        <a href="speedtest.html"  class="nav-link">Speedtest</a>
-        <a href="#footer"         class="nav-link">Contact</a>
-      </nav>
-      <div class="nav-right">
-        <a href="tel:639609225835" class="nav-phone">+63 960 922 5835</a>
-        <a href="https://gnet.ph/auth" class="btn btn-primary btn-sm">Login</a>
-        <button class="nav-hamburger" id="nav-hamburger">
-          <span></span><span></span><span></span>
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <!-- Mobile Drawer -->
-  <nav id="mobile-drawer" class="mobile-drawer">
-    <a href="index.html"      class="nav-link" onclick="closeDrawer()">Home</a>
-    <a href="packages.html"   class="nav-link" onclick="closeDrawer()">Packages</a>
-    <a href="bill.html"       class="nav-link" onclick="closeDrawer()">Bill</a>
-    <a href="services.html"   class="nav-link" onclick="closeDrawer()">Services</a>
-    <a href="coverage.html"   class="nav-link" onclick="closeDrawer()">Coverage</a>
-    <a href="speedtest.html"  class="nav-link" onclick="closeDrawer()">Speedtest</a>
-    <a href="#footer"         class="nav-link" onclick="closeDrawer()">Contact</a>
-  </nav>
-
-  <main id="main-content" style="padding-top: 120px;">
-    <!-- CHECK BILL SECTION -->
-    <section id="checkbill" class="section">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-tagline">Online Bill Inquiry</span>
-          <h2 class="section-title">Check Your Bill</h2>
-          <p class="section-subtitle">Enter your account number to instantly view your current balance and due date.</p>
-        </div>
-
-        <div class="bill-card" style="max-width: 600px; margin: 0 auto;">
-          <div class="bill-input-group">
-            <div class="bill-input-wrap">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-              <input
-                type="text"
-                id="no_services"
-                name="no_services"
-                class="bill-input"
-                placeholder="Enter your Account Number"
-                aria-label="Account Number"
-                autocomplete="off"
-              >
-            </div>
-            <button
-              class="btn btn-primary"
-              id="check-bill-btn"
-              onclick="cek_bill()"
-              style="flex-shrink:0; height:52px; padding:0 24px;"
-            >
-              Check Bill
-            </button>
-          </div>
-
-          <div class="loading" aria-live="polite"></div>
-          <div class="bill-result-wrap view_data" aria-live="polite"></div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer id="footer" style="padding: 40px 0;">
-    <div class="container" style="text-align: center;">
-      <p>© Copyright 2026 · <strong>GNET Network and Data Solution</strong> · All rights reserved.</p>
-    </div>
-  </footer>
-
-  <script src="/gnet/files/jquery-3.6.0.min.js"></script>
-  <script src="/gnet/files/bootstrap.bundle.min.js"></script>
-  <script>
-    setTimeout(function() {
-        var preloader = document.getElementById('gnet-preloader');
-        if (preloader) preloader.classList.add('hidden');
-    }, 500);
-
-    var nav = document.getElementById('gnet-nav');
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > 50) nav.classList.add('scrolled');
-        else nav.classList.remove('scrolled');
-    }, { passive: true });
-
-    var hamburger = document.getElementById('nav-hamburger');
-    var drawer    = document.getElementById('mobile-drawer');
-
-    function closeDrawer() {
-        if (drawer) drawer.classList.remove('open');
-        if (hamburger) hamburger.classList.remove('open');
-    }
-
-    if (hamburger) {
-        hamburger.addEventListener('click', function() {
-            var isOpen = drawer.classList.contains('open');
-            if (isOpen) closeDrawer();
-            else {
-                drawer.classList.add('open');
-                hamburger.classList.add('open');
-            }
-        });
-    }
-
-    function cek_bill() {
-        var no = $('#no_services').val();
-        var no_services = $('[name="no_services"]');
-
-        if (no == '') {
-            $('#no_services').focus();
-        } else {
-            $.ajax({
-                type: 'POST',
-                data: "cek_bill=" + 1 + "&no_services=" + no_services.val(),
-                url: 'https://gnet.ph/front/view_bill',
-                cache: false,
-                beforeSend: function() {
-                    no_services.attr('disabled', true);
-                    $('#check-bill-btn').addClass('btn-loading');
-                    $('.loading').html(`
-                        <div style="display:flex; align-items:center; justify-content:center; gap:12px; padding:24px; color:#94a3b8; font-size:0.875rem;">
-                            Looking up your account…
-                        </div>
-                    `);
-                },
-                success: function(data) {
-                    no_services.attr('disabled', false);
-                    $('#check-bill-btn').removeClass('btn-loading');
-                    $('.loading').html('');
-                    $('.view_data').html(data);
-                },
-                error: function() {
-                    no_services.attr('disabled', false);
-                    $('#check-bill-btn').removeClass('btn-loading');
-                    $('.loading').html('');
-                    $('.view_data').html('<p style="color:#f43f5e; padding:16px; text-align:center; font-size:0.875rem;">Unable to retrieve bill. Please try again or contact support.</p>');
-                }
-            });
-        }
-        return false;
-    }
-
-    document.getElementById('no_services').addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') cek_bill();
-    });
-  </script>
 </body>
 </html>

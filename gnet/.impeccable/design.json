@@ -1,0 +1,253 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-06T11:19:40.492Z",
+  "title": "Design System: GNET",
+  "extensions": {
+    "colorMeta": {
+      "bg": {
+        "role": "neutral",
+        "displayName": "Cool Field"
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "White Paper"
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Charcoal Ink"
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Quiet Gray"
+      },
+      "red": {
+        "role": "primary",
+        "displayName": "GNET Red"
+      },
+      "red-hover": {
+        "role": "primary",
+        "displayName": "Deep Command Red"
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Divider Gray"
+      },
+      "tint": {
+        "role": "primary",
+        "displayName": "Pale Red"
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Homepage headline at 72px/800; 56px tablet and 48px mobile."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section headings; 28px at mobile widths."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Service and tool titles."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Standard paragraphs at 17px; form input has a component-local 16px size."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Standard button text."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "button-state",
+        "value": "background 160ms ease, color 160ms ease, border-color 160ms ease",
+        "purpose": "Shared button transitions; disabled under prefers-reduced-motion."
+      },
+      {
+        "name": "scroll",
+        "value": "smooth",
+        "purpose": "Document scroll behavior; auto under prefers-reduced-motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "compact-desktop",
+        "value": "1199px"
+      },
+      {
+        "name": "collapsed-navigation",
+        "value": "959px"
+      },
+      {
+        "name": "mobile",
+        "value": "639px"
+      }
+    ],
+    "focus": {
+      "value": "3px solid var(--red)",
+      "offset": "4px",
+      "purpose": "Shared visible keyboard focus."
+    },
+    "verification": {
+      "method": "source extraction",
+      "sources": [
+        "styles/main.css",
+        "index.html",
+        "packages.html",
+        "services.html",
+        "bill.html",
+        "coverage.html",
+        "speedtest.html",
+        "PRODUCT.md",
+        ".impeccable/surfaces/index-html.md"
+      ],
+      "renderedEvidence": false,
+      "visualApproval": false,
+      "limitation": "Browser evidence unavailable following earlier browser-access denial. No computed-style or visual approval claim. Tonal ramps omitted because no authored ramp exists and this extraction is restricted to implemented CSS."
+    },
+    "assetProvenance": {
+      "mode": "Incumbent logo/package/service reuse unchanged; generated illustrative homepage raster",
+      "generatedRasterCount": 1,
+      "logo": "/gnet/files/logo-250920241.png",
+      "photograph": {
+        "path": "/gnet/files/home-fiber-hero.webp",
+        "source": "Generated illustrative home-broadband image, not an actual customer, site, or endorsed equipment",
+        "dimensions": [
+          1672,
+          941
+        ],
+        "approximateBytes": 97000,
+        "promptFile": "/gnet/files/home-fiber-hero.prompt.txt",
+        "promptSidecar": "/gnet/files/home-fiber-hero.webp.json",
+        "rawAssetInspected": true,
+        "renderedEvidence": false
+      },
+      "packages": [
+        "/gnet/files/package-251016-bdf990e5ab.png",
+        "/gnet/files/package-251016-39f4578da4.png",
+        "/gnet/files/package-251016-caf1d10728.png"
+      ],
+      "services": [
+        "/gnet/files/product-260527-a3f6463aae.png",
+        "/gnet/files/product-260527-bb178e174e.png",
+        "/gnet/files/product-260527-41483d7709.png",
+        "/gnet/files/product-260527-a8084766a3.png",
+        "/gnet/files/product-260527-ff97af526a.png",
+        "/gnet/files/product-260527-5aa1dcd9f1.png"
+      ],
+      "limit": "Incumbent provenance does not independently verify authorship or licensing. Original image files were not altered."
+    },
+    "fontProvenance": {
+      "mode": "Section-local self-hosted OFL fonts",
+      "files": [
+        "/gnet/files/barlow-700.woff2",
+        "/gnet/files/barlow-800.woff2",
+        "/gnet/files/source-sans-latin.woff2",
+        "/gnet/files/source-sans-latin-ext.woff2"
+      ],
+      "licenses": [
+        "/gnet/files/barlow-OFL.txt",
+        "/gnet/files/source-sans-OFL.txt"
+      ],
+      "portfolioFontPaths": false
+    }
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Red registration and task commands.",
+      "html": "<button class=\"ds-primary\">Get connected</button>",
+      "css": ".ds-primary{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:48px;padding:12px 22px;border:1px solid transparent;border-radius:var(--radius,6px);font-family:'Source Sans 3',Arial,sans-serif;font-size:14px;font-weight:700;line-height:1.4;letter-spacing:0;text-align:center;background:var(--red,#cf202b);color:white;cursor:pointer;transition:background 160ms ease,color 160ms ease,border-color 160ms ease}.ds-primary:hover{background:var(--red-hover,#ad1822)}.ds-primary:focus-visible{outline:3px solid var(--red,#cf202b);outline-offset:4px}.ds-primary:disabled{opacity:.6;cursor:wait}@media(prefers-reduced-motion:reduce){.ds-primary{transition:none}}"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary commands and unhighlighted plan applications.",
+      "html": "<button class=\"ds-outline\">Apply now</button>",
+      "css": ".ds-outline{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 22px;border:1px solid #a2abb4;border-radius:var(--radius,6px);font-family:'Source Sans 3',Arial,sans-serif;font-size:14px;font-weight:700;line-height:1.4;letter-spacing:0;background:transparent;color:var(--ink,#20252b);cursor:pointer;transition:background 160ms ease,color 160ms ease,border-color 160ms ease}.ds-outline:hover{color:var(--red,#cf202b);background:var(--tint,#fff0f0);border-color:var(--red,#cf202b)}.ds-outline:focus-visible{outline:3px solid var(--red,#cf202b);outline-offset:4px}.ds-outline:disabled{opacity:.6;cursor:wait}@media(prefers-reduced-motion:reduce){.ds-outline{transition:none}}"
+    },
+    {
+      "name": "Small Tinted Button",
+      "kind": "button",
+      "refersTo": "button-small",
+      "description": "Member portal access with retained accessible name.",
+      "html": "<a class=\"ds-small\" href=\"https://gnet.ph/auth\" aria-label=\"Member Portal\">Member Portal</a>",
+      "css": ".ds-small{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 14px;border:1px solid transparent;border-radius:var(--radius,6px);font-family:'Source Sans 3',Arial,sans-serif;font-size:13px;font-weight:700;line-height:1.4;letter-spacing:0;text-decoration:none;background:var(--tint,#fff0f0);color:var(--red,#cf202b);transition:background 160ms ease,color 160ms ease,border-color 160ms ease}.ds-small:hover{background:#ffdfdf;color:var(--red-hover,#ad1822)}.ds-small:focus-visible{outline:3px solid var(--red,#cf202b);outline-offset:4px}@media(prefers-reduced-motion:reduce){.ds-small{transition:none}}"
+    },
+    {
+      "name": "Light Button",
+      "kind": "button",
+      "refersTo": "button-light",
+      "description": "Contact command on the red band.",
+      "html": "<button class=\"ds-light\">Talk to GNET</button>",
+      "css": ".ds-light{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 22px;border:1px solid transparent;border-radius:var(--radius,6px);font-family:'Source Sans 3',Arial,sans-serif;font-size:14px;font-weight:700;line-height:1.4;letter-spacing:0;background:white;color:var(--red,#cf202b);cursor:pointer;transition:background 160ms ease,color 160ms ease,border-color 160ms ease}.ds-light:hover{background:#ffe2e2;color:var(--red-hover,#ad1822)}.ds-light:focus-visible{outline:3px solid var(--red,#cf202b);outline-offset:4px}@media(prefers-reduced-motion:reduce){.ds-light{transition:none}}"
+    },
+    {
+      "name": "Bill Inquiry Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Subscriber bill inquiry text entry.",
+      "html": "<label class=\"ds-field-label\" for=\"ds-account\">Account number</label><input class=\"ds-field\" id=\"ds-account\" placeholder=\"Account number\">",
+      "css": ".ds-field-label{display:block;margin-bottom:8px;font-family:'Source Sans 3',Arial,sans-serif;font-size:14px;font-weight:700;color:var(--ink,#20252b)}.ds-field{min-width:0;width:100%;min-height:50px;padding:12px 16px;background:white;border:1px solid #919ba5;border-radius:var(--radius,6px);color:var(--ink,#20252b);font-family:'Source Sans 3',Arial,sans-serif;font-size:16px;line-height:1.6;letter-spacing:0;caret-color:var(--red,#cf202b)}.ds-field::placeholder{color:var(--muted,#59636f)}.ds-field:focus-visible{outline:3px solid var(--red,#cf202b);outline-offset:4px}"
+    },
+    {
+      "name": "Primary Navigation",
+      "kind": "nav",
+      "description": "Route links with red active and hover rule.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Primary navigation\"><a href=\"/gnet/\" aria-current=\"page\">Home</a><a href=\"/gnet/packages.html\">Packages</a><a href=\"/gnet/services.html\">Services</a></nav>",
+      "css": ".ds-nav{display:flex;align-items:center;gap:22px;background:white;font-family:'Source Sans 3',Arial,sans-serif;line-height:1.6;letter-spacing:0}.ds-nav a{padding-block:30px;white-space:nowrap;font-size:14px;font-weight:500;color:var(--ink,#20252b);text-decoration:none;border-bottom:2px solid transparent}.ds-nav a:hover,.ds-nav a[aria-current=page]{color:var(--red,#cf202b);border-bottom-color:var(--red,#cf202b)}.ds-nav a:focus-visible{outline:3px solid var(--red,#cf202b);outline-offset:4px}"
+    },
+    {
+      "name": "Plan Card",
+      "kind": "card",
+      "refersTo": "plan-card",
+      "description": "Flat repeated plan item; static card has no independent interactive state.",
+      "html": "<article class=\"ds-plan\"><p>GNet FiberHome</p><h3>90<span> Mbps</span></h3><div class=\"ds-cost\"><strong>₱850</strong><span>/ month</span></div></article>",
+      "css": ".ds-plan{padding:28px;background:var(--paper,#ffffff);border:1px solid var(--line,#dce1e6);border-radius:var(--radius,6px);min-width:0;color:var(--ink,#20252b);font-family:'Source Sans 3',Arial,sans-serif;line-height:1.6;letter-spacing:0}.ds-plan>p{margin:0 0 20px;color:var(--muted,#59636f);font-size:14px}.ds-plan h3{margin:0;font-family:'Barlow',Arial,sans-serif;font-size:56px;font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums}.ds-plan h3 span{font-size:20px;font-weight:500}.ds-cost{display:flex;gap:8px;align-items:baseline;margin-top:24px;padding-bottom:24px;border-bottom:1px solid var(--line,#dce1e6)}.ds-cost strong{font-size:32px;font-weight:700}.ds-cost>span{font-size:14px;color:var(--muted,#59636f)}@media(max-width:959px){.ds-plan{padding:22px}}@media(max-width:639px){.ds-plan{padding:28px}.ds-plan h3{font-size:44px}}"
+    },
+    {
+      "name": "Plan Choice",
+      "kind": "chip",
+      "refersTo": "plan-choice",
+      "description": "Native radio selection with visible selected and focus states.",
+      "html": "<label class=\"ds-choice\"><input type=\"radio\" name=\"ds-plan\" checked><span>90 Mbps</span></label>",
+      "css": ".ds-choice{position:relative;display:block;cursor:pointer;font-family:'Source Sans 3',Arial,sans-serif;line-height:1.6;letter-spacing:0}.ds-choice input{position:absolute;opacity:0;width:1px;height:1px}.ds-choice span{display:flex;align-items:center;justify-content:center;padding:14px 8px;background:white;border:1px solid #a2abb4;border-radius:var(--radius,6px);font-size:14px;font-weight:500;color:var(--ink,#20252b)}.ds-choice input:checked+span{color:white;background:var(--red,#cf202b);border-color:var(--red,#cf202b)}.ds-choice input:focus-visible+span{outline:3px solid var(--red,#cf202b);outline-offset:4px}"
+    },
+    {
+      "name": "FAQ Disclosure",
+      "kind": "custom",
+      "description": "Native expandable answer with divider and rotating plus.",
+      "html": "<details class=\"ds-faq\"><summary>How do I check coverage?<svg class=\"ds-plus\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"M12 5v14M5 12h14\"/></svg></summary><p>Open the coverage page to check your area.</p></details>",
+      "css": ".ds-faq{border-bottom:1px solid var(--line,#dce1e6);font-family:'Source Sans 3',Arial,sans-serif;line-height:1.6;letter-spacing:0;color:var(--ink,#20252b)}.ds-faq summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:22px;font-weight:500;cursor:pointer}.ds-faq summary::-webkit-details-marker{display:none}.ds-plus{flex-shrink:0}.ds-faq[open] .ds-plus{transform:rotate(45deg)}.ds-faq summary:focus-visible{outline:3px solid var(--red,#cf202b);outline-offset:4px}.ds-faq p{margin:0;color:var(--muted,#59636f);padding-bottom:24px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Local Telecom Storefront",
+    "overview": "GNET has an independent ISP identity: recognizable red signage, cool white and pale gray fields, pale blue service areas, charcoal text, and practical controls. Barlow headings and Source Sans 3 interface text support package comparison and repeated subscriber tasks through clear headings, bordered tools, and direct navigation.\n\nThe implemented system is flat, compact around tools, and more spacious around product information. Existing GNET identity and service artwork remain brand anchors, paired with a generated illustrative home-broadband image. GNET uses section-local fonts and imagery, independent of the photography portfolio. This document extracts `styles/main.css` and the six HTML routes; browser evidence was unavailable following an earlier browser-access denial. It records implemented source, not visual approval or verified computed styles.",
+    "keyCharacteristics": [
+      "Red commands and active states.",
+      "Self-hosted Barlow and Source Sans 3 with fixed responsive sizes.",
+      "Flat ruled sections and gently rounded controls.",
+      "Existing brand and product artwork with illustrative broadband imagery."
+    ],
+    "rules": [],
+    "dos": [
+      "Do use the implemented red commands, cool fields, and charcoal text.",
+      "Do retain visible keyboard focus and native form/disclosure semantics.",
+      "Do preserve the existing GNET logo and supplied artwork.",
+      "Do keep customer tools readable, bounded, and responsive."
+    ],
+    "donts": [
+      "Don't import photography-portfolio fonts, photographs, or shared styles into GNET.",
+      "Don't introduce glow, mesh backgrounds, preloaders, or animated signal rings into this selected visual world.",
+      "Don't add decorative shadows or nest complete page sections inside cards.",
+      "Don't represent source extraction as rendered visual approval."
+    ]
+  }
+}
