@@ -20,7 +20,12 @@ for (const [href, hex] of accents) {
         assert.ok(contrast(accent, mix(accent, 0.12, surface)) >= 3, `Icon contrast: ${href}`);
     }
 }
-const links = [...html.matchAll(/<a href="([^"]+)" class="project-card group">/g)].map(match => match[1]);
+const cards = [...html.matchAll(/<a href="([^"]+)" class="project-card group"([^>]*)>/g)];
+const links = cards.map(match => match[1]);
+for (const [tag, href] of cards) {
+    assert.match(tag, /target="_blank"/, `Must open in a new tab: ${href}`);
+    assert.match(tag, /rel="noopener noreferrer"/, `Missing new-tab protection: ${href}`);
+}
 assert.equal(new Set(links).size, links.length, 'Project links must be unique');
 
 // Support directories and saved third-party resources are not standalone sites.
