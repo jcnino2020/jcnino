@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover"/>
-  <meta name="theme-color" content="#080808"/>
+  <meta name="theme-color" content="#142820"/>
   <title>JC Niñonuevo Portfolio CMS | Admin Workstation</title>
   
   <script>
@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="/assets/tailwind.css">
   <link rel="stylesheet" href="/assets/portfolio.css">
   <link rel="stylesheet" href="/admin/admin.css?v=editorial-v2">
+  <link rel="stylesheet" href="/admin/workspace.css">
 
   <!-- Load Database File -->
   <script src="/assets/gallery-data.js"></script>
@@ -72,7 +73,7 @@
       <!-- System Status (Plain text + dot, NO PILL) -->
       <div id="save-status" class="status-indicator hidden lg:inline-flex">
         <span class="status-dot pulse"></span>
-        <span>System Online</span>
+        <span>Portfolio workspace</span>
       </div>
 
       <!-- Connect Project Folder Button -->
@@ -83,7 +84,7 @@
 
       <!-- Save Changes Dropdown -->
       <div class="relative inline-block" id="save-dropdown-wrapper">
-        <button onclick="toggleSaveDropdown()" id="save-main-btn" aria-label="Save changes" class="btn btn-primary">
+        <button onclick="toggleSaveDropdown()" id="save-main-btn" aria-label="Save or publish changes" class="btn btn-primary">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
           <span>Save Changes</span>
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
@@ -147,7 +148,7 @@
       <div class="sidebar-header">
         <div class="sidebar-header-text">
           <div class="sidebar-header-title">JC Niñonuevo</div>
-          <div class="sidebar-header-sub">Portfolio Admin</div>
+          <div class="sidebar-header-sub">Portfolio workspace</div>
         </div>
         <button onclick="toggleSidebarCollapse()" class="btn-icon hidden md:inline-flex" style="width: 28px; height: 28px;" title="Toggle Sidebar Collapse">
           <svg id="collapse-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
@@ -156,7 +157,7 @@
 
       <!-- CONTENT Section -->
       <div class="sidebar-nav-group">
-        <div class="sidebar-section-title">Content</div>
+        <div class="sidebar-section-title">Library</div>
         
         <button onclick="switchTab('overview')" id="tab-overview" class="nav-item active">
           <div class="nav-item-content">
@@ -223,12 +224,12 @@
 
       <!-- ANALYTICS Section -->
       <div class="sidebar-nav-group">
-        <div class="sidebar-section-title">Analytics</div>
+        <div class="sidebar-section-title">Insights</div>
         
         <a href="/admin/analytics.html" id="tab-analytics" class="nav-item">
           <div class="nav-item-content">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
-            <span class="nav-label">Visitor Analytics</span>
+            <span class="nav-label">Analytics</span>
           </div>
           <span class="nav-tag-live">Live</span>
         </a>
@@ -236,26 +237,26 @@
 
       <!-- SYSTEM Section -->
       <div class="sidebar-nav-group">
-        <div class="sidebar-section-title">System</div>
+        <div class="sidebar-section-title">Site</div>
         
         <a href="/admin/security.html" id="tab-security" class="nav-item">
           <div class="nav-item-content">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-            <span class="nav-label">Security Audit Logs</span>
+            <span class="nav-label">Security</span>
           </div>
         </a>
 
         <a href="/admin/settings.html" id="tab-settings" class="nav-item">
           <div class="nav-item-content">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
-            <span class="nav-label">Site Configuration</span>
+            <span class="nav-label">Settings</span>
           </div>
         </a>
 
         <a href="/admin/backups.html" id="tab-backups" class="nav-item">
           <div class="nav-item-content">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-            <span class="nav-label">Revision Backups</span>
+            <span class="nav-label">Backups</span>
           </div>
           <span id="badge-backups" class="nav-count mono-num">0</span>
         </a>
@@ -285,9 +286,8 @@
         <!-- Understated Editorial Page Header -->
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 pb-2 border-b border-white/5">
           <div>
-            <div class="text-[11px] font-bold tracking-[0.08em] text-zinc-500 uppercase">PORTFOLIO WORKSTATION</div>
-            <h1 class="page-title mt-0.5 tracking-tight text-white font-bold text-2xl sm:text-3xl">OVERVIEW</h1>
-            <p class="text-xs sm:text-sm text-zinc-400 mt-1">Portfolio activity and audience performance.</p>
+            <h1 class="page-title mt-0.5 tracking-tight text-white font-bold text-2xl sm:text-3xl">Portfolio overview</h1>
+            <p class="text-xs sm:text-sm text-zinc-400 mt-1">Curate the work, then review its reach.</p>
           </div>
           
           <div class="flex items-center gap-2 flex-wrap">
@@ -297,7 +297,7 @@
             </a>
             <button onclick="triggerFilePicker()" class="btn btn-primary">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-              <span>+ Add Media</span>
+              <span>Add media</span>
             </button>
           </div>
         </div>
@@ -308,7 +308,7 @@
             <div class="analytics-strip-label">Total Visitors</div>
             <div class="analytics-strip-value" id="kpi-visitors">—</div>
             <div class="analytics-strip-meta">
-              <span class="analytics-strip-trend positive" id="kpi-visitors-trend">+18.4%</span>
+              <span class="analytics-strip-trend neutral" id="kpi-visitors-trend">—</span>
               <span class="text-zinc-500 text-[11px]">vs prev period</span>
             </div>
           </div>
@@ -317,7 +317,7 @@
             <div class="analytics-strip-label">Page Views</div>
             <div class="analytics-strip-value" id="kpi-pageviews">—</div>
             <div class="analytics-strip-meta">
-              <span class="analytics-strip-trend positive" id="kpi-pageviews-trend">+12.8%</span>
+              <span class="analytics-strip-trend neutral" id="kpi-pageviews-trend">—</span>
               <span class="text-zinc-500 text-[11px]">impressions</span>
             </div>
           </div>
@@ -326,7 +326,7 @@
             <div class="analytics-strip-label">Media Views</div>
             <div class="analytics-strip-value" id="kpi-mediaviews">—</div>
             <div class="analytics-strip-meta">
-              <span class="analytics-strip-trend positive" id="kpi-mediaviews-trend">+24.1%</span>
+              <span class="analytics-strip-trend neutral" id="kpi-mediaviews-trend">—</span>
               <span class="text-zinc-500 text-[11px]">engagements</span>
             </div>
           </div>
@@ -335,7 +335,7 @@
             <div class="analytics-strip-label">Avg. Session Duration</div>
             <div class="analytics-strip-value" id="kpi-session">—</div>
             <div class="analytics-strip-meta">
-              <span class="analytics-strip-trend positive" id="kpi-session-trend">+8.6%</span>
+              <span class="analytics-strip-trend neutral" id="kpi-session-trend">—</span>
               <span class="text-zinc-500 text-[11px]">retention</span>
             </div>
           </div>
@@ -376,7 +376,7 @@
               <div class="traffic-stat-main">
                 <span class="traffic-stat-main-num" id="traffic-stat-total">—</span>
                 <span class="traffic-stat-main-label" id="traffic-stat-total-label">visitors</span>
-                <span class="text-xs font-semibold text-emerald-400 mono-num" id="traffic-stat-comparison">+18.4% vs previous period</span>
+                <span class="text-xs font-semibold text-emerald-400 mono-num" id="traffic-stat-comparison">Waiting for data</span>
               </div>
 
               <div class="traffic-stat-sub-group ml-auto">
@@ -435,14 +435,14 @@
                 <span class="live-monitor-title">REAL-TIME MONITOR</span>
                 <span class="live-badge-clean">
                   <span class="status-dot pulse"></span>
-                  <span>Active now</span>
+                  <span>15-min window</span>
                 </span>
               </div>
 
               <div class="py-4">
                 <div class="live-count-row">
                   <span class="live-count-num" id="live-online-count">0</span>
-                  <span class="live-count-sub">visitors currently online</span>
+                  <span class="live-count-sub">visitors in the last 15 minutes</span>
                 </div>
               </div>
 
@@ -1211,6 +1211,8 @@
     let realAnalyticsData = null;
     let realViewsMap = {};
     let realLikesMap = {};
+    let viewsAvailable = false;
+    let likesAvailable = false;
     let currentOverviewRange = '7d';
     let currentOverviewMetric = 'visitors'; // 'visitors' | 'pageviews' | 'sessions'
     let isFetchingOverviewAnalytics = false;
@@ -1219,6 +1221,11 @@
     async function loadRealOverviewAnalytics() {
       if (isFetchingOverviewAnalytics) return;
       isFetchingOverviewAnalytics = true;
+      realAnalyticsData = null;
+      realViewsMap = {};
+      realLikesMap = {};
+      viewsAvailable = false;
+      likesAvailable = false;
       const token = sessionStorage.getItem('pm_auth') || '';
 
       try {
@@ -1226,18 +1233,20 @@
           fetch(`/api/analytics?range=${currentOverviewRange}&limit=1000`, {
             headers: { 'Authorization': `Bearer ${token}` }
           }).then(r => r.ok ? r.json() : null),
-          fetch('/api/views').then(r => r.ok ? r.json() : {}),
-          fetch('/api/likes').then(r => r.ok ? r.json() : {})
+          fetch('/api/views').then(r => r.ok ? r.json() : null),
+          fetch('/api/likes').then(r => r.ok ? r.json() : null)
         ]);
 
         if (analyticsRes.status === 'fulfilled' && analyticsRes.value && analyticsRes.value.success) {
           realAnalyticsData = analyticsRes.value;
         }
-        if (viewsRes.status === 'fulfilled' && viewsRes.value) {
+        if (viewsRes.status === 'fulfilled' && viewsRes.value && typeof viewsRes.value === 'object') {
           realViewsMap = viewsRes.value;
+          viewsAvailable = true;
         }
-        if (likesRes.status === 'fulfilled' && likesRes.value) {
+        if (likesRes.status === 'fulfilled' && likesRes.value && typeof likesRes.value === 'object') {
           realLikesMap = likesRes.value;
+          likesAvailable = true;
         }
       } catch (err) {
         console.warn("Could not fetch remote analytics, using calculated local metrics:", err);
@@ -1308,10 +1317,10 @@
         }
       });
 
-      let avgSeconds = countedSessions > 0 ? Math.round((totalSessionDurationMs / countedSessions) / 1000) : (totalPageViews > 0 ? 195 : 0);
+      let avgSeconds = countedSessions > 0 ? Math.round((totalSessionDurationMs / countedSessions) / 1000) : 0;
       const mins = Math.floor(avgSeconds / 60);
       const secs = avgSeconds % 60;
-      const sessionDurationStr = totalPageViews > 0 ? `${mins}m ${String(secs).padStart(2, '0')}s` : '0m 00s';
+      const sessionDurationStr = countedSessions > 0 ? `${mins}m ${String(secs).padStart(2, '0')}s` : '—';
 
       // 4. Update the Unified Analytics KPI Strip
       const elVisitors = document.getElementById('kpi-visitors');
@@ -1319,9 +1328,9 @@
       const elMediaViews = document.getElementById('kpi-mediaviews');
       const elSession = document.getElementById('kpi-session');
 
-      if (elVisitors) elVisitors.textContent = uniqueVisitors > 0 ? uniqueVisitors.toLocaleString() : (totalPageViews > 0 ? totalPageViews.toLocaleString() : '0');
-      if (elPageViews) elPageViews.textContent = totalPageViews.toLocaleString();
-      if (elMediaViews) elMediaViews.textContent = totalMediaViews > 0 ? totalMediaViews.toLocaleString() : '0';
+      if (elVisitors) elVisitors.textContent = realAnalyticsData ? uniqueVisitors.toLocaleString() : '—';
+      if (elPageViews) elPageViews.textContent = realAnalyticsData ? totalPageViews.toLocaleString() : '—';
+      if (elMediaViews) elMediaViews.textContent = viewsAvailable ? totalMediaViews.toLocaleString() : '—';
       if (elSession) elSession.textContent = sessionDurationStr;
 
       // Real trend calculations
@@ -1339,15 +1348,12 @@
         if (olderLogs.length > 0) {
           pageviewsTrendPct = Math.round(((recentLogs.length - olderLogs.length) / olderLogs.length) * 1000) / 10;
         }
-      } else if (totalPageViews > 0) {
-        visitorsTrendPct = 18.4;
-        pageviewsTrendPct = 12.8;
       }
 
-      updateTrendBadge('kpi-visitors-trend', visitorsTrendPct);
-      updateTrendBadge('kpi-pageviews-trend', pageviewsTrendPct);
-      updateTrendBadge('kpi-mediaviews-trend', 24.1);
-      updateTrendBadge('kpi-session-trend', 8.6);
+      updateTrendBadge('kpi-visitors-trend', logs.length >= 4 ? visitorsTrendPct : null);
+      updateTrendBadge('kpi-pageviews-trend', logs.length >= 4 ? pageviewsTrendPct : null);
+      updateTrendBadge('kpi-mediaviews-trend', null);
+      updateTrendBadge('kpi-session-trend', null);
 
       // 5. Render Real-Time Monitor
       renderRealTimePanel(logs);
@@ -1365,7 +1371,10 @@
     function updateTrendBadge(id, pct) {
       const el = document.getElementById(id);
       if (!el) return;
-      if (pct > 0) {
+      if (pct === null) {
+        el.className = 'analytics-strip-trend neutral';
+        el.textContent = '—';
+      } else if (pct > 0) {
         el.className = 'analytics-strip-trend positive';
         el.textContent = `+${pct}%`;
       } else if (pct < 0) {
@@ -1389,14 +1398,14 @@
       const onlineCount = onlineSessions.size;
 
       if (onlineEl) {
-        onlineEl.textContent = onlineCount > 0 ? String(onlineCount) : (logs.length > 0 ? '1' : '0');
+        onlineEl.textContent = realAnalyticsData ? String(onlineCount) : '—';
       }
 
       // Location breakdown
-      const targetLogs = recentLogs.length > 0 ? recentLogs : logs.slice(0, 30);
+      const targetLogs = recentLogs;
       const locCounts = {};
       targetLogs.forEach(l => {
-        const c = l.country || 'Philippines';
+        const c = l.country || 'Unknown location';
         locCounts[c] = (locCounts[c] || 0) + 1;
       });
 
@@ -1405,13 +1414,9 @@
 
       if (locationsList) {
         if (sortedLocs.length === 0) {
-          locationsList.innerHTML = `
-            <div class="live-location-row">
-              <span>Philippines</span>
-              <span class="live-location-val">1 (100%)</span>
-            </div>
-            <div class="progress-bar-track"><div class="progress-bar-fill" style="width: 100%;"></div></div>
-          `;
+          locationsList.innerHTML = realAnalyticsData
+            ? '<p class="live-empty">No active locations in the last 15 minutes.</p>'
+            : '<p class="live-empty">Analytics is unavailable right now.</p>';
         } else {
           locationsList.innerHTML = sortedLocs.map(([country, cnt]) => {
             const pct = Math.round((cnt / totalLoc) * 100);
@@ -1436,12 +1441,9 @@
 
       if (pagesList) {
         if (sortedPages.length === 0) {
-          pagesList.innerHTML = `
-            <div class="live-page-item">
-              <span class="text-white font-medium truncate">/framed-moments.html</span>
-              <span class="live-page-views">active</span>
-            </div>
-          `;
+          pagesList.innerHTML = realAnalyticsData
+            ? '<p class="live-empty">No active pages in the last 15 minutes.</p>'
+            : '<p class="live-empty">Analytics is unavailable right now.</p>';
         } else {
           pagesList.innerHTML = sortedPages.map(([page, cnt]) => `
             <div class="live-page-item">
@@ -1495,13 +1497,7 @@
         return b.visitors.size;
       });
 
-      let effectivePoints = dataPoints;
-      const sumPoints = dataPoints.reduce((a, b) => a + b, 0);
-      if (sumPoints === 0) {
-        const baseTotal = currentOverviewMetric === 'pageviews' ? (totalPageViews || 2840) : (uniqueVisitors || 1420);
-        const factors = [0.11, 0.13, 0.16, 0.14, 0.19, 0.15, 0.12];
-        effectivePoints = factors.map(f => Math.round(baseTotal * f));
-      }
+      const effectivePoints = dataPoints;
 
       const totalMetricVal = effectivePoints.reduce((a, b) => a + b, 0);
       const peakVal = Math.max(...effectivePoints, 1);
@@ -1523,11 +1519,13 @@
       const info = metricLabels[currentOverviewMetric] || metricLabels.visitors;
 
       if (elTitle) elTitle.textContent = info.title;
-      if (elTotal) elTotal.textContent = totalMetricVal.toLocaleString();
+      if (elTotal) elTotal.textContent = realAnalyticsData ? totalMetricVal.toLocaleString() : '—';
       if (elLabel) elLabel.textContent = info.label;
-      if (elPeak) elPeak.textContent = peakVal.toLocaleString();
-      if (elAvg) elAvg.textContent = avgVal.toLocaleString();
-      if (elComp) elComp.textContent = '+18.4% vs previous period';
+      if (elPeak) elPeak.textContent = realAnalyticsData ? peakVal.toLocaleString() : '—';
+      if (elAvg) elAvg.textContent = realAnalyticsData ? avgVal.toLocaleString() : '—';
+      if (elComp) elComp.textContent = logs.length >= 4
+        ? 'Based on available visit logs'
+        : 'Not enough data to compare';
 
       // Plot SVG Path (Width: 700, Height: 170, Top padding: 25, Bottom padding: 25)
       const chartW = 700;
@@ -1604,11 +1602,16 @@
       const topMediaCont = document.getElementById('overview-top-media-list');
       if (!topMediaCont) return;
 
-      const sorted = [...compiledMediaList].sort((a, b) => b.views - a.views);
+      if (!viewsAvailable) {
+        topMediaCont.innerHTML = '<div class="p-4 text-center text-xs text-zinc-500">View data is unavailable right now.</div>';
+        return;
+      }
+
+      const sorted = compiledMediaList.filter(item => item.views > 0).sort((a, b) => b.views - a.views);
       const topItems = sorted.slice(0, 4);
 
       if (topItems.length === 0) {
-        topMediaCont.innerHTML = `<div class="p-4 text-center text-xs text-zinc-500">No media items available.</div>`;
+        topMediaCont.innerHTML = `<div class="p-4 text-center text-xs text-zinc-500">No media views recorded yet.</div>`;
         return;
       }
 
@@ -1625,8 +1628,8 @@
             </div>
           </div>
           <div class="text-right flex-shrink-0">
-            <div class="text-xs font-bold text-white mono-num">${item.views > 0 ? item.views.toLocaleString() : (4800 - idx * 620).toLocaleString()} views</div>
-            <div class="text-[10px] text-emerald-400 font-semibold mono-num mt-0.5">${item.ratio > 0 ? item.ratio.toFixed(1) + '%' : (85 - idx * 4) + '%'} appreciation</div>
+            <div class="text-xs font-bold text-white mono-num">${item.views.toLocaleString()} views</div>
+            <div class="text-[10px] text-emerald-400 font-semibold mono-num mt-0.5">${likesAvailable ? item.ratio.toFixed(1) + '% appreciation' : 'Likes unavailable'}</div>
           </div>
         </div>
       `).join('');
@@ -1656,7 +1659,7 @@
             <div class="recent-media-caption" title="${escapeHtml(item.desc)}">${escapeHtml(item.desc || item.category)}</div>
             <div class="recent-media-footer">
               <span class="capitalize text-zinc-400">${escapeHtml(item.category)}</span>
-              <span class="font-semibold text-white">${item.views > 0 ? item.views.toLocaleString() + ' views' : '#' + (idx + 1)}</span>
+              <span class="font-semibold text-white">${viewsAvailable ? item.views.toLocaleString() + ' views' : 'Views unavailable'}</span>
             </div>
           </div>
         </div>
@@ -1703,14 +1706,7 @@
         if (acts.length === 0) {
           recentCont.innerHTML = `
             <div class="activity-row">
-              <span class="activity-time">Now</span>
-              <span class="activity-detail">Active Workstation Session<span class="activity-sub">• System listening for updates</span></span>
-              <span class="activity-badge">Live</span>
-            </div>
-            <div class="activity-row">
-              <span class="activity-time">Today</span>
-              <span class="activity-detail">Gallery Highlights Curated<span class="activity-sub">• Master archive verified</span></span>
-              <span class="activity-badge">Clean</span>
+              <span class="activity-detail">No revisions yet<span class="activity-sub">Edits and snapshots in this browser will appear here.</span></span>
             </div>
           `;
         } else {

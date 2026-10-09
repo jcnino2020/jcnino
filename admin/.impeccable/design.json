@@ -1,0 +1,29 @@
+{
+  "name": "Portfolio Workbench",
+  "scope": "admin",
+  "mode": "operate",
+  "colors": {
+    "header": "#142820",
+    "rail": "#193329",
+    "canvas": "#f2f5f2",
+    "surface": "#ffffff",
+    "ink": "#182d22",
+    "secondaryInk": "#456154",
+    "mutedInk": "#50685a",
+    "action": "#197c59",
+    "selected": "#c7eabe",
+    "rule": "#dce6de",
+    "error": "#ad3f3d"
+  },
+  "geometry": {
+    "controlRadius": "5px",
+    "surfaceRadius": "6px",
+    "headerHeight": "60px",
+    "sidebarWidth": "252px"
+  },
+  "type": {
+    "family": "Inter, system-ui, sans-serif",
+    "baseSize": "15px",
+    "dataNumerals": "tabular-nums"
+  }
+}
