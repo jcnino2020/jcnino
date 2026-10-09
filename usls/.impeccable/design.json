@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-09T03:23:13Z",
+  "title": "Design System: University of St. La Salle",
+  "extensions": {
+    "colorMeta": {
+      "pine": {"role":"primary","displayName":"Institutional Pine","canonical":"#073e2b","tonalRamp":["#031b13","#073e2b","#145b42","#337a5d","#609d7e","#94bea1","#c8decf","#f0f6f0"]},
+      "pine-deep": {"role":"primary","displayName":"Deep Pine","canonical":"#042c20","tonalRamp":["#02160f","#042c20","#104b37","#2a6e52","#569475","#8bb9a0","#c3dcca","#eef5ef"]},
+      "leaf": {"role":"primary","displayName":"Leaf Green","canonical":"#15704b","tonalRamp":["#073020","#0d5035","#15704b","#378c67","#63aa87","#96c9a9","#c9e4d0","#eff8f0"]},
+      "gold": {"role":"secondary","displayName":"Wayfinding Gold","canonical":"#d5a846","tonalRamp":["#382b10","#614b19","#8e6b23","#b88e32","#d5a846","#e3c273","#efdaa6","#faf2df"]},
+      "gold-light": {"role":"secondary","displayName":"Light Gold","canonical":"#f1dba3","tonalRamp":["#3b2f18","#65502a","#90723c","#b89a5b","#d6bd80","#f1dba3","#f7e9c9","#fcf7e9"]},
+      "paper": {"role":"neutral","displayName":"Warm White Paper","canonical":"#f4f7f2","tonalRamp":["#253026","#435348","#647568","#89988b","#b2bfb1","#d9e2d7","#f4f7f2","#ffffff"]},
+      "white": {"role":"neutral","displayName":"White","canonical":"#fff","tonalRamp":["#262b27","#444b46","#657067","#89968c","#b0bcb2","#d5dfd6","#f0f5f0","#ffffff"]},
+      "ink": {"role":"neutral","displayName":"Green Ink","canonical":"#17352b","tonalRamp":["#0b1d17","#17352b","#2c5341","#4c755c","#799c7f","#a9c3aa","#d6e3d6","#f3f7f2"]},
+      "muted": {"role":"neutral","displayName":"Muted Green","canonical":"#51685d","tonalRamp":["#16291e","#31473a","#51685d","#728a79","#9aaf9e","#c0d0c0","#e0e9df","#f6f9f5"]},
+      "line": {"role":"neutral","displayName":"Line Green","canonical":"#cbd8ce","tonalRamp":["#253629","#455a49","#667c69","#8ba08d","#afc1b0","#cbd8ce","#e3ebe3","#f7faf7"]},
+      "sky": {"role":"neutral","displayName":"Pale Sky","canonical":"#e7eff0","tonalRamp":["#223133","#405154","#62767a","#8b9fa1","#b8c9cb","#d5e2e3","#e7eff0","#f9fbfb"]}
+    },
+    "typographyMeta": {
+      "display": {"displayName":"Home display","purpose":"University name over the campus photograph."},
+      "headline": {"displayName":"Interior headline","purpose":"Green title bands and the news story title."},
+      "title": {"displayName":"Section title","purpose":"Major sections and editorial wayfinding."},
+      "body": {"displayName":"Body copy","purpose":"Descriptions, requirements, and supporting information."},
+      "label": {"displayName":"Action label","purpose":"Buttons, navigation, and directional links."}
+    },
+    "shadows": [
+      {"name":"mobile-navigation","value":"0 10px 25px rgba(0,0,0,.12)","purpose":"Separates the open mobile navigation disclosure from page content."}
+    ],
+    "motion": [
+      {"name":"reduced-motion","value":"animation-duration: .01ms; transition-duration: .01ms; scroll-behavior: auto","purpose":"Applied under prefers-reduced-motion: reduce."}
+    ],
+    "breakpoints": [
+      {"name":"large-tablet","value":"1100px"},
+      {"name":"tablet","value":"800px"},
+      {"name":"mobile","value":"600px"}
+    ]
+  },
+  "components": [
+    {
+      "name":"Dark Action",
+      "kind":"button",
+      "refersTo":"button-dark",
+      "description":"Default pine action on light sections.",
+      "html":"<a class=\"ds-button ds-button-dark\" href=\"#\">Plan your application</a>",
+      "css":".ds-button{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 20px;border:1px solid transparent;border-radius:3px;text-decoration:none;font:700 13px/1.2 'Public Sans',Arial,sans-serif}.ds-button-dark{background:var(--pine);color:var(--white)}.ds-button-dark:hover{background:var(--leaf)}.ds-button-dark:focus-visible{outline:3px solid var(--pine);outline-offset:3px}"
+    },
+    {
+      "name":"Gold Action",
+      "kind":"button",
+      "refersTo":"button-gold",
+      "description":"Emphatic application route on a green band.",
+      "html":"<a class=\"ds-button ds-button-gold\" href=\"#\">Plan your application</a>",
+      "css":".ds-button{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 20px;border:1px solid transparent;border-radius:3px;text-decoration:none;font:700 13px/1.2 'Public Sans',Arial,sans-serif}.ds-button-gold{background:var(--gold);color:var(--pine-deep)}.ds-button-gold:hover{background:#e7bd5e}.ds-button-gold:focus-visible{outline:3px solid var(--gold-light);outline-offset:3px}"
+    },
+    {
+      "name":"Outlined Action",
+      "kind":"button",
+      "refersTo":"button-outline",
+      "description":"Secondary action beside a filled button.",
+      "html":"<a class=\"ds-button ds-button-outline\" href=\"#\">Read current requirements</a>",
+      "css":".ds-button{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 20px;border:1px solid;border-radius:3px;text-decoration:none;font:700 13px/1.2 'Public Sans',Arial,sans-serif}.ds-button-outline{border-color:var(--pine);color:var(--pine);background:transparent}.ds-button-outline:hover{background:var(--pine);color:var(--white)}.ds-button-outline:focus-visible{outline:3px solid var(--pine);outline-offset:3px}"
+    },
+    {
+      "name":"Primary Navigation",
+      "kind":"nav",
+      "description":"Compact masthead routes with a gold active rule.",
+      "html":"<nav class=\"ds-nav\" aria-label=\"Primary\"><a href=\"#\">Academics</a><a href=\"#\" aria-current=\"page\">Admissions</a><a href=\"#\">Research</a></nav>",
+      "css":".ds-nav{display:flex;align-items:center;gap:31px;background:var(--white)}.ds-nav a{display:inline-flex;align-items:center;min-height:44px;border-bottom:2px solid transparent;color:var(--ink);text-decoration:none;font:600 13px 'Public Sans',Arial,sans-serif}.ds-nav a:hover,.ds-nav a[aria-current=page]{color:var(--leaf);border-color:var(--gold)}.ds-nav a:focus-visible{outline:3px solid var(--pine);outline-offset:3px}"
+    },
+    {
+      "name":"Applicant Pathway Tabs",
+      "kind":"custom",
+      "description":"Three route choices over one information panel.",
+      "html":"<div class=\"ds-tabs\" role=\"tablist\" aria-label=\"Applicant pathways\"><button role=\"tab\" aria-selected=\"true\">Undergraduate</button><button role=\"tab\" aria-selected=\"false\">Basic education</button><button role=\"tab\" aria-selected=\"false\">Professional schools</button></div>",
+      "css":".ds-tabs{display:flex;border-bottom:1px solid #a9c3b5}.ds-tabs button{flex:1;min-height:48px;padding:0 12px;border:0;border-bottom:3px solid transparent;background:transparent;color:var(--muted);text-align:left;font:600 14px 'Public Sans',Arial,sans-serif;cursor:pointer}.ds-tabs button:hover{color:var(--pine)}.ds-tabs button[aria-selected=true]{color:var(--pine);border-color:var(--gold)}.ds-tabs button:focus-visible{outline:3px solid var(--pine);outline-offset:3px}"
+    },
+    {
+      "name":"Ruled Information Row",
+      "kind":"custom",
+      "description":"Open row for colleges, services, and resource links.",
+      "html":"<a class=\"ds-row\" href=\"#\"><strong>Academic pathways</strong><span aria-hidden=\"true\">↗</span></a>",
+      "css":".ds-row{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:80px;padding:13px 4px 13px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);color:var(--ink);text-decoration:none}.ds-row strong{font:500 21px/1.2 Newsreader,Georgia,serif}.ds-row span{color:var(--leaf);font-size:18px}.ds-row:hover{color:var(--leaf)}.ds-row:focus-visible{outline:3px solid var(--pine);outline-offset:3px}"
+    },
+    {
+      "name":"News Card",
+      "kind":"card",
+      "refersTo":"news-card",
+      "description":"The site's sole repeated framed content pattern.",
+      "html":"<article class=\"ds-news\"><a href=\"#\"><div class=\"ds-news-image\"></div><div class=\"ds-news-copy\"><span>29 SEP 2026 · ACADEMIC ACHIEVEMENT</span><h3>USLS Nursing places 10th nationwide</h3></div></a></article>",
+      "css":".ds-news{overflow:hidden;border:1px solid var(--line);border-radius:4px;background:var(--white)}.ds-news a{display:block;color:var(--ink);text-decoration:none}.ds-news-image{height:150px;background:var(--sky)}.ds-news-copy{padding:19px 19px 22px}.ds-news-copy span{color:var(--muted);font:600 11px 'Public Sans',Arial,sans-serif}.ds-news-copy h3{margin:10px 0 0;font:500 25px/1.15 Newsreader,Georgia,serif}.ds-news a:hover h3{color:var(--leaf)}.ds-news a:focus-visible{outline:3px solid var(--pine);outline-offset:-3px}"
+    }
+  ],
+  "narrative": {
+    "northStar":"The Admissions Prospectus",
+    "overview":"The site reads as a working university front door. Real campus photography gives the home page a sense of place; a green masthead, compact utility links, and direct applicant actions make the next step easy to find. Interior pages are quieter and denser, using title bands, clear source links, and ruled rows to organize university information.\n\nThe material character is flat and editorial. Warm white and pale blue-green bands create rhythm without turning every section into a card. Gold appears as a precise wayfinding accent on active navigation, selected tabs, top rules, and key calls to action.",
+    "keyCharacteristics":["Authentic campus and university imagery at useful scale.","Newsreader headlines paired with compact Public Sans navigation and body copy.","Green institutional bands, restrained gold marks, and readable ruled lists.","One consistent masthead and footer across all six routes."],
+    "rules":[
+      {"name":"The Gold Marker Rule","body":"Gold marks direction or emphasis; it does not become a large background except on the deliberate gold action.","section":"colors"},
+      {"name":"The Two Voices Rule","body":"Use Newsreader for prominent headlines and editorial leads. Use Public Sans for navigation, controls, supporting copy, and metadata.","section":"typography"},
+      {"name":"The Ruled Row Rule","body":"Program paths, services, admissions routes, and secondary links use aligned rows and dividers; reserve framed cards for image-led news items.","section":"layout"},
+      {"name":"The Visible Focus Rule","body":"Interactive elements carry a 3px focus outline, using pine on light backgrounds and light gold on dark backgrounds. Reduced-motion preference removes smooth scrolling and transition duration.","section":"components"}
+    ],
+    "dos":["Do show a real campus or university image when a large visual is needed.","Do put dense information in ruled rows with clear route labels and source links.","Do retain the green masthead, compact utility destinations, and clear applicant action."],
+    "donts":["Don't repeat the large home hero on interior routes; use the compact green title band.","Don't wrap every section or list in floating cards.","Don't use generic stock imagery, fabricated deadline badges, or decorative dashboard motifs."]
+  }
+}
