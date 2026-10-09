@@ -241,11 +241,11 @@
 @media (max-width: 1023px) {
   .home-page #home {
     min-height: 0;
-    padding-top: 80px;
+    padding-top: 88px;
   }
 
   .home-page #home > div {
-    padding-top: 48px;
+    padding-top: 0;
     padding-bottom: 0;
   }
 
@@ -274,10 +274,6 @@
 }
 
 @media (max-width: 639px) {
-  .home-page #home > div {
-    padding-top: 34px;
-  }
-
   .home-page #home .grid {
     gap: 36px;
   }
