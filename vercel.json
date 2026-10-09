@@ -6,7 +6,27 @@
       "source": "/admin",
       "destination": "/admin/",
       "permanent": true
-    }
+    },
+    { "source": "/bcc", "destination": "/bcc/", "permanent": true },
+    { "source": "/ccna2", "destination": "/ccna2/", "permanent": true },
+    { "source": "/drainwatch", "destination": "/drainwatch/", "permanent": true },
+    { "source": "/ex", "destination": "/ex/", "permanent": true },
+    { "source": "/gnet", "destination": "/gnet/", "permanent": true },
+    { "source": "/hydroalert", "destination": "/hydroalert/", "permanent": true },
+    { "source": "/hydroalert/mobile", "destination": "/hydroalert/mobile/", "permanent": true },
+    { "source": "/jsonfeed", "destination": "/jsonfeed/", "permanent": true },
+    { "source": "/photorss", "destination": "/photorss/", "permanent": true },
+    { "source": "/projects", "destination": "/projects/", "permanent": true },
+    { "source": "/quanti0216", "destination": "/quanti0216/", "permanent": true },
+    { "source": "/rssfeed", "destination": "/rssfeed/", "permanent": true },
+    { "source": "/space", "destination": "/space/", "permanent": true },
+    { "source": "/truthlens", "destination": "/truthlens/", "permanent": true },
+    { "source": "/usls", "destination": "/usls/", "permanent": true },
+    { "source": "/viaje", "destination": "/viaje/", "permanent": true },
+    { "source": "/webanim", "destination": "/webanim/", "permanent": true },
+    { "source": "/webanim/skyward", "destination": "/webanim/skyward/", "permanent": true },
+    { "source": "/webanim/skyward+js", "destination": "/webanim/skyward+js/", "permanent": true },
+    { "source": "/y2k38", "destination": "/y2k38/", "permanent": true }
   ],
   "headers": [
     {
