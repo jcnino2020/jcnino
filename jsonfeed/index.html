@@ -1,156 +1,79 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Cat Collection | GSAP & Tailwind</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        serif: ['Playfair Display', 'serif'],
-                    },
-                    colors: {
-                        museum: {
-                            dark: '#121212',
-                            card: '#1e1e1e',
-                            accent: '#d4af37'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-
-    <style>
-        /* Custom scrollbar just to be extra fancy */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #121212; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #555; }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#203b3d">
+  <meta name="description" content="Explore cat-related artworks from the Art Institute of Chicago collection.">
+  <title>The Feline Archive | Cat Art at the Art Institute of Chicago</title>
+  <link rel="preconnect" href="https://api.artic.edu">
+  <link rel="preconnect" href="https://www.artic.edu">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="core.js" defer></script>
+  <script src="app.js" defer></script>
 </head>
-<body class="bg-museum-dark text-gray-200 antialiased min-h-screen flex flex-col">
-
-    <header class="sticky top-0 z-50 w-full bg-museum-dark/80 backdrop-blur-md border-b border-white/10 py-6">
-        <div class="container mx-auto px-4 text-center">
-            <h1 class="font-serif text-4xl md:text-5xl text-white tracking-tight mb-2">
-                The Feline Archive
-            </h1>
-            <h3 class="font-sans text-xs md:text-sm text-museum-accent uppercase tracking-[0.2em]">
-                Art Institute of Chicago • Jan Carlo G. Niñonuevo
-            </h3>
+<body>
+  <a class="skip-link" href="#collection">Skip to collection</a>
+  <header class="masthead">
+    <div class="masthead-inner">
+      <div class="masthead-top">
+        <a class="portfolio-link" href="../projects/" aria-label="Back to projects"><i class="ri-arrow-left-line" aria-hidden="true"></i><span>Projects</span></a>
+        <span class="edition">An independent collection explorer</span>
+      </div>
+      <div class="masthead-main">
+        <div class="brand">
+          <h1>The Feline<br>Archive<span class="brand-stop">.</span></h1>
+          <p>Cat-related works from the Art Institute of Chicago, gathered live from its collection.</p>
         </div>
-    </header>
+        <div class="masthead-mark" aria-hidden="true"><span>CAT</span><span>ART</span><span>INDEX</span></div>
+      </div>
+    </div>
+  </header>
 
-    <main class="flex-grow container mx-auto px-4 py-10">
-        <div id="art-gallery" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            <div class="loading-skeleton col-span-full text-center py-20">
-                <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-museum-accent mb-4"></div>
-                <p class="text-gray-500 animate-pulse">Curating the collection...</p>
-            </div>
-        </div>
-    </main>
+  <main id="collection" class="collection">
+    <div class="collection-head">
+      <div class="collection-title">
+        <h2>Explore the collection</h2>
+        <p id="result-status" role="status" aria-live="polite">Finding artworks...</p>
+      </div>
+      <form id="search-form" class="search" role="search">
+        <label for="search-input">Search within cat art</label>
+        <div class="search-field"><i class="ri-search-line" aria-hidden="true"></i><input id="search-input" type="search" name="q" placeholder="Try portrait, Japan, or sculpture" autocomplete="off"><button class="search-submit" type="submit" aria-label="Search artworks" title="Search artworks"><i class="ri-arrow-right-line" aria-hidden="true"></i></button></div>
+      </form>
+    </div>
 
-    <footer class="border-t border-white/10 py-8 text-center text-gray-600 text-sm">
-        <p>&copy; 2025 • Powered by Art Institute of Chicago API</p>
-    </footer>
+    <div class="collection-tools">
+      <div class="view-tabs" role="group" aria-label="Collection view">
+        <button id="all-tab" type="button" aria-pressed="true">All works <span id="all-count">0</span></button>
+        <button id="saved-tab" type="button" aria-pressed="false">Saved <span id="saved-count">0</span></button>
+      </div>
+      <div class="collection-source"><span class="source-dot" aria-hidden="true"></span>Art Institute of Chicago API</div>
+    </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <div id="gallery" class="gallery" aria-busy="true">
+      <div class="gallery-message loading-message"><div class="loading-bars" aria-hidden="true"><span></span><span></span><span></span></div><h3>Opening the collection</h3><p>Looking for cat-related works in the museum catalogue.</p></div>
+    </div>
+    <div class="more-row"><button id="load-more" class="more-button" type="button" hidden>Load more artworks <i class="ri-arrow-down-line" aria-hidden="true"></i></button></div>
+  </main>
 
-    <script>
-        const galleryContainer = document.getElementById('art-gallery');
-        const API_URL = 'https://api.artic.edu/api/v1/artworks/search?q=cats&fields=id,title,image_id,thumbnail,artist_display&limit=12';
+  <footer class="site-footer">
+    <p>Artwork data and images from the <a href="https://www.artic.edu/" target="_blank" rel="noopener noreferrer">Art Institute of Chicago <i class="ri-arrow-right-up-line" aria-hidden="true"></i></a>. This independent project is not affiliated with the museum.</p>
+    <p>Collection explorer by Jan Carlo G. Niñonuevo.</p>
+  </footer>
 
-        // Create Card HTML using Tailwind classes
-        const createArtCard = (artwork) => {
-            if (!artwork.image_id) return '';
-
-            const fullImageUrl = `https://www.artic.edu/iiif/2/${artwork.image_id}/full/600,/0/default.jpg`;
-            const altText = artwork.thumbnail ? artwork.thumbnail.alt_text : artwork.title;
-            const artist = artwork.artist_display ? artwork.artist_display.split('\n')[0] : 'Unknown Artist';
-
-            // Note the 'opacity-0 translate-y-10' classes are NOT here. 
-            // We let GSAP handle the initial state so it works even if JS fails (graceful degradation strategy).
-            
-            return `
-                <article class="art-card group relative bg-museum-card rounded-xl overflow-hidden shadow-lg border border-white/5 hover:shadow-2xl hover:shadow-black/50 transition-shadow duration-300">
-                    <div class="aspect-[4/3] overflow-hidden relative">
-                        <img 
-                            src="${fullImageUrl}" 
-                            alt="${altText}" 
-                            loading="lazy"
-                            class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-                        >
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    </div>
-                    
-                    <div class="p-6 relative">
-                        <h2 class="font-serif text-xl text-white mb-2 line-clamp-2 leading-tight group-hover:text-museum-accent transition-colors">
-                            ${artwork.title}
-                        </h2>
-                        <p class="text-sm text-gray-400 font-light border-t border-white/10 pt-3 mt-3">
-                            ${artist}
-                        </p>
-                    </div>
-                </article>
-            `;
-        };
-
-        async function loadGallery() {
-            try {
-                const response = await fetch(API_URL);
-                const data = await response.json();
-                const artworks = data.data;
-
-                // Clear loading spinner
-                galleryContainer.innerHTML = '';
-
-                if (artworks.length === 0) {
-                    galleryContainer.innerHTML = '<p class="text-center text-red-400 col-span-full">No cats found.</p>';
-                    return;
-                }
-
-                // Inject HTML
-                galleryContainer.innerHTML = artworks.map(createArtCard).join('');
-
-                // ------------------------------------------------
-                // GSAP ANIMATION MAGIC
-                // ------------------------------------------------
-                // This is where the "Pro" feel comes from. 
-                // Instead of basic CSS keyframes, we use a staggered tween.
-                
-                gsap.from(".art-card", {
-                    y: 50,              // Start 50px down
-                    opacity: 0,         // Start invisible
-                    duration: 0.8,      // Take 0.8 seconds
-                    stagger: 0.1,       // Wait 0.1s between each card
-                    ease: "power3.out", // Smooth deceleration
-                    clearProps: "all"   // Clean up inline styles after animation
-                });
-
-            } catch (error) {
-                console.error(error);
-                galleryContainer.innerHTML = `
-                    <div class="col-span-full text-center py-10">
-                        <p class="text-red-400 mb-2">Failed to load gallery.</p>
-                        <button onclick="location.reload()" class="bg-white text-black px-4 py-2 rounded hover:bg-gray-200 transition">Try Again</button>
-                    </div>
-                `;
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', loadGallery);
-    </script>
-
+  <dialog id="art-dialog" class="art-dialog" aria-labelledby="dialog-title">
+    <div class="dialog-shell">
+      <div class="dialog-top"><span class="dialog-index" id="dialog-index">Collection record</span><button id="dialog-close" class="icon-button" type="button" aria-label="Close artwork" title="Close artwork"><i class="ri-close-line" aria-hidden="true"></i></button></div>
+      <div class="dialog-body">
+        <div class="dialog-stage"><div id="dialog-image-wrap" class="dialog-image-wrap"></div><div class="dialog-nav"><button id="dialog-prev" class="icon-button" type="button" aria-label="Previous artwork" title="Previous artwork"><i class="ri-arrow-left-line" aria-hidden="true"></i></button><button id="dialog-next" class="icon-button" type="button" aria-label="Next artwork" title="Next artwork"><i class="ri-arrow-right-line" aria-hidden="true"></i></button></div></div>
+        <div class="dialog-info"><p id="dialog-kind" class="dialog-kind"></p><h2 id="dialog-title"></h2><p id="dialog-artist" class="dialog-artist"></p><dl class="record-meta"><div><dt>Date</dt><dd id="dialog-date"></dd></div><div><dt>Type</dt><dd id="dialog-type"></dd></div><div><dt>Credit</dt><dd id="dialog-credit"></dd></div></dl><div class="dialog-actions"><button id="dialog-save" class="save-action" type="button" aria-pressed="false"><i class="ri-bookmark-line" aria-hidden="true"></i><span>Save work</span></button><a id="dialog-source" class="source-action" target="_blank" rel="noopener noreferrer">Museum record <i class="ri-arrow-right-up-line" aria-hidden="true"></i></a></div><p class="local-note">Saved works stay in this browser.</p></div>
+      </div>
+    </div>
+  </dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
 </body>
 </html>

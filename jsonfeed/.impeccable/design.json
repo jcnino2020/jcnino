@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-09T02:59:39Z",
+  "title": "Design System: The Feline Archive",
+  "extensions": {
+    "colorMeta": {
+      "catalog-ink": { "role": "neutral", "displayName": "Catalog Ink", "canonical": "#193335", "tonalRamp": ["oklch(15% 0.025 190)", "oklch(26% 0.025 190)", "oklch(37% 0.025 190)", "oklch(49% 0.025 190)", "oklch(61% 0.025 190)", "oklch(73% 0.025 190)", "oklch(84% 0.025 190)", "oklch(95% 0.025 190)"] },
+      "muted-ink": { "role": "neutral", "displayName": "Muted Ink", "canonical": "#4d6767", "tonalRamp": ["oklch(15% 0.02 190)", "oklch(26% 0.02 190)", "oklch(37% 0.02 190)", "oklch(49% 0.02 190)", "oklch(61% 0.02 190)", "oklch(73% 0.02 190)", "oklch(84% 0.02 190)", "oklch(95% 0.02 190)"] },
+      "index-teal": { "role": "neutral", "displayName": "Index Teal", "canonical": "#203b3d", "tonalRamp": ["oklch(15% 0.025 195)", "oklch(26% 0.025 195)", "oklch(37% 0.025 195)", "oklch(49% 0.025 195)", "oklch(61% 0.025 195)", "oklch(73% 0.025 195)", "oklch(84% 0.025 195)", "oklch(95% 0.025 195)"] },
+      "index-rule": { "role": "neutral", "displayName": "Index Rule", "canonical": "#688284", "tonalRamp": ["oklch(15% 0.02 195)", "oklch(26% 0.02 195)", "oklch(37% 0.02 195)", "oklch(49% 0.02 195)", "oklch(61% 0.02 195)", "oklch(73% 0.02 195)", "oklch(84% 0.02 195)", "oklch(95% 0.02 195)"] },
+      "gallery-paper": { "role": "neutral", "displayName": "Gallery Paper", "canonical": "#f1f5f2", "tonalRamp": ["oklch(15% 0.008 155)", "oklch(26% 0.008 155)", "oklch(37% 0.008 155)", "oklch(49% 0.008 155)", "oklch(61% 0.008 155)", "oklch(73% 0.008 155)", "oklch(84% 0.008 155)", "oklch(95% 0.008 155)"] },
+      "artwork-mount": { "role": "neutral", "displayName": "Artwork Mount", "canonical": "#e1e9e5", "tonalRamp": ["oklch(15% 0.012 155)", "oklch(26% 0.012 155)", "oklch(37% 0.012 155)", "oklch(49% 0.012 155)", "oklch(61% 0.012 155)", "oklch(73% 0.012 155)", "oklch(84% 0.012 155)", "oklch(95% 0.012 155)"] },
+      "white": { "role": "neutral", "displayName": "White", "canonical": "#fff", "tonalRamp": ["oklch(15% 0 0)", "oklch(26% 0 0)", "oklch(37% 0 0)", "oklch(49% 0 0)", "oklch(61% 0 0)", "oklch(73% 0 0)", "oklch(84% 0 0)", "oklch(95% 0 0)"] },
+      "catalog-rule": { "role": "neutral", "displayName": "Catalog Rule", "canonical": "#c3d0ca", "tonalRamp": ["oklch(15% 0.014 155)", "oklch(26% 0.014 155)", "oklch(37% 0.014 155)", "oklch(49% 0.014 155)", "oklch(61% 0.014 155)", "oklch(73% 0.014 155)", "oklch(84% 0.014 155)", "oklch(95% 0.014 155)"] },
+      "vermilion": { "role": "primary", "displayName": "Vermilion", "canonical": "#b83d2d", "tonalRamp": ["oklch(15% 0.13 31)", "oklch(26% 0.13 31)", "oklch(37% 0.13 31)", "oklch(49% 0.13 31)", "oklch(61% 0.13 31)", "oklch(73% 0.13 31)", "oklch(84% 0.13 31)", "oklch(95% 0.13 31)"] },
+      "vermilion-deep": { "role": "primary", "displayName": "Deep Vermilion", "canonical": "#8f2d22", "tonalRamp": ["oklch(15% 0.12 31)", "oklch(26% 0.12 31)", "oklch(37% 0.12 31)", "oklch(49% 0.12 31)", "oklch(61% 0.12 31)", "oklch(73% 0.12 31)", "oklch(84% 0.12 31)", "oklch(95% 0.12 31)"] },
+      "pale-mint": { "role": "neutral", "displayName": "Pale Mint", "canonical": "#c7e2d7", "tonalRamp": ["oklch(15% 0.03 160)", "oklch(26% 0.03 160)", "oklch(37% 0.03 160)", "oklch(49% 0.03 160)", "oklch(61% 0.03 160)", "oklch(73% 0.03 160)", "oklch(84% 0.03 160)", "oklch(95% 0.03 160)"] },
+      "focus-vermilion": { "role": "primary", "displayName": "Focus Vermilion", "canonical": "#cf4f36", "tonalRamp": ["oklch(15% 0.13 31)", "oklch(26% 0.13 31)", "oklch(37% 0.13 31)", "oklch(49% 0.13 31)", "oklch(61% 0.13 31)", "oklch(73% 0.13 31)", "oklch(84% 0.13 31)", "oklch(95% 0.13 31)"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Archive name in the masthead." },
+      "section": { "displayName": "Section", "purpose": "Collection and state headings." },
+      "artwork-title": { "displayName": "Artwork Title", "purpose": "Artwork names in gallery labels." },
+      "body": { "displayName": "Body", "purpose": "Short descriptions and state messages." },
+      "label": { "displayName": "Label", "purpose": "Controls, counts, and catalog keys." }
+    },
+    "shadows": [
+      { "name": "dialog", "value": "0 18px 80px rgb(0 0 0 / 26%)", "purpose": "Lift the open artwork above its dark backdrop." },
+      { "name": "toast", "value": "0 6px 30px rgb(0 0 0 / 18%)", "purpose": "Separate temporary feedback from the gallery." }
+    ],
+    "motion": [
+      { "name": "artwork-hover", "value": "transform .28s cubic-bezier(.16, 1, .3, 1)", "purpose": "Gently enlarge the contained image on hover." },
+      { "name": "dialog-entry", "value": "dialog-in .22s cubic-bezier(.16, 1, .3, 1)", "purpose": "Fade and raise the selected artwork dialog; suppressed for reduced motion." }
+    ],
+    "breakpoints": [
+      { "name": "gallery-two-column", "value": "1050px" },
+      { "name": "dialog-stack", "value": "700px" },
+      { "name": "gallery-one-column", "value": "500px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Search Field", "kind": "input", "refersTo": "search-field", "description": "Compact archive query field with a separate submit area.",
+      "html": "<label class=\"ds-search-label\" for=\"ds-search-input\">Search within cat art</label><div class=\"ds-search-field\"><input id=\"ds-search-input\" placeholder=\"Try portrait, Japan, or sculpture\"><button class=\"ds-search-submit\" aria-label=\"Search artworks\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"M5 12h14m-7-7 7 7-7 7\"/></svg></button></div>",
+      "css": ".ds-search-label{display:block;margin-bottom:8px;color:#193335;font:700 12px Helvetica Neue,Helvetica,Arial,sans-serif}.ds-search-field{display:flex;align-items:center;height:48px;padding-left:14px;background:#fff;border:1px solid #8da9a4;border-radius:2px}.ds-search-field:focus-within{outline:3px solid #cf4f36;outline-offset:2px}.ds-search-field input{width:100%;min-width:0;border:0;outline:0;background:transparent;color:#193335;font:14px Helvetica Neue,Helvetica,Arial,sans-serif}.ds-search-submit{align-self:stretch;flex:0 0 46px;border:0;border-left:1px solid #c3d0ca;background:#e9f0ec;color:#193335;font-size:20px}.ds-search-submit:hover{background:#c7e2d7}.ds-search-submit:focus-visible{outline:3px solid #cf4f36;outline-offset:2px}"
+    },
+    {
+      "name": "Collection Views", "kind": "nav", "refersTo": "view-tabs", "description": "All and Saved controls with a rule and active vermilion underline.",
+      "html": "<div class=\"ds-view-tabs\"><button aria-pressed=\"true\">All works <span>24</span></button><button aria-pressed=\"false\">Saved <span>3</span></button></div>",
+      "css": ".ds-view-tabs{display:flex;gap:24px;border-bottom:1px solid #8ba7a1}.ds-view-tabs button{min-height:43px;padding:0 0 10px;border:0;border-bottom:3px solid transparent;background:none;color:#4d6767;font:600 14px Helvetica Neue,Helvetica,Arial,sans-serif;white-space:nowrap}.ds-view-tabs button:hover{color:#193335}.ds-view-tabs button[aria-pressed=true]{border-color:#b83d2d;color:#193335}.ds-view-tabs button:focus-visible{outline:3px solid #cf4f36;outline-offset:3px}.ds-view-tabs span{padding-left:5px;font-size:12px;font-weight:400;font-variant-numeric:tabular-nums}"
+    },
+    {
+      "name": "Artwork Label", "kind": "card", "refersTo": "artwork-mount", "description": "A pale mount and numbered catalog label without a card shell.",
+      "html": "<div class=\"ds-work\"><div class=\"ds-work-media\"><span>Artwork image</span></div><div class=\"ds-work-label\"><span class=\"ds-work-number\">01</span><div class=\"ds-work-copy\"><strong>Artwork title</strong><small>Artist name · Date</small></div></div></div>",
+      "css": ".ds-work{width:280px;color:#193335}.ds-work-media{display:grid;place-items:center;aspect-ratio:1/1.04;padding:18px;background:#e1e9e5;color:#4d6767;font:500 24px Newsreader,Georgia,serif}.ds-work-label{display:grid;grid-template-columns:35px minmax(0,1fr);gap:11px;padding-top:14px}.ds-work-number{padding-top:5px;border-top:2px solid #b83d2d;color:#8f2d22;font:700 11px Helvetica Neue,Helvetica,Arial,sans-serif}.ds-work-copy{border-top:1px solid #c3d0ca;padding-top:5px}.ds-work-copy strong{display:block;font:500 22px/1.13 Newsreader,Georgia,serif}.ds-work-copy small{display:block;margin-top:7px;color:#4d6767;font:12px/1.45 Helvetica Neue,Helvetica,Arial,sans-serif}"
+    },
+    {
+      "name": "Save Action", "kind": "button", "refersTo": "save-button", "description": "Vermilion action with a pale selected state.",
+      "html": "<button class=\"ds-save-action\" aria-pressed=\"false\">Save work</button>",
+      "css": ".ds-save-action{min-height:46px;padding:0 15px;border:1px solid #b83d2d;background:#b83d2d;color:#fff;font:700 13px Helvetica Neue,Helvetica,Arial,sans-serif}.ds-save-action:hover{background:#8f2d22}.ds-save-action[aria-pressed=true]{background:#f8e5dd;color:#8f2d22}.ds-save-action:focus-visible{outline:3px solid #cf4f36;outline-offset:3px}"
+    },
+    {
+      "name": "Load More", "kind": "button", "refersTo": "load-more-button", "description": "Outlined gallery command that inverts on hover.",
+      "html": "<button class=\"ds-more-button\">Load more artworks <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"M12 4v16m-7-7 7 7 7-7\"/></svg></button>",
+      "css": ".ds-more-button{min-height:48px;padding:0 22px;border:1px solid #193335;background:transparent;color:#193335;font:700 13px Helvetica Neue,Helvetica,Arial,sans-serif}.ds-more-button:hover{background:#193335;color:#fff}.ds-more-button:focus-visible{outline:3px solid #cf4f36;outline-offset:3px}"
+    },
+    {
+      "name": "Gallery Message", "kind": "custom", "refersTo": "gallery-message", "description": "Quiet full-width state panel for loading, empty, and failure messages.",
+      "html": "<div class=\"ds-gallery-message\"><h3>No works found</h3><p>Try a broader search within the cat-art collection.</p><button>Clear search</button></div>",
+      "css": ".ds-gallery-message{min-height:260px;padding:34px;background:#fff;border:1px solid #c3d0ca;color:#193335}.ds-gallery-message h3{margin:8px 0 4px;font:500 30px Newsreader,Georgia,serif}.ds-gallery-message p{max-width:55ch;margin:0;color:#4d6767;font:14px/1.6 Helvetica Neue,Helvetica,Arial,sans-serif}.ds-gallery-message button{min-height:44px;margin-top:22px;padding:0 18px;border:0;background:#203b3d;color:#fff;font:700 13px Helvetica Neue,Helvetica,Arial,sans-serif}.ds-gallery-message button:hover{background:#8f2d22}.ds-gallery-message button:focus-visible{outline:3px solid #cf4f36;outline-offset:3px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Open Print-Room Cabinet",
+    "overview": "The archive treats each artwork as a catalogued object. Pale mounts give the images room to breathe, slim rules organize their labels, and a deep index surface identifies the collection. The gallery is image-led and asymmetrical, with one larger lead work and compact controls above it. The material idea stays functional: crisp type, quiet surfaces, restrained vermilion markers, and metadata that remains legible when an image is missing. Motion is brief and serves selection or opening a work.",
+    "keyCharacteristics": ["Artworks occupy the visual center; their labels live directly beneath them.", "The dark index header contrasts with a pale, open gallery.", "Thin rules and numbering establish catalog rhythm without enclosing every work in a card."],
+    "rules": [
+      { "name": "The Sparse Marker Rule", "body": "Use vermilion for state and catalog accents, leaving artwork colors dominant.", "section": "colors" },
+      { "name": "The Object Name Rule", "body": "Let artwork titles carry expressive type; keep surrounding catalog facts plain.", "section": "typography" },
+      { "name": "The Flat Catalog Rule", "body": "Keep gallery items unshadowed; reserve shadows for overlays.", "section": "elevation" }
+    ],
+    "dos": ["Do keep each artwork entirely visible within its mount.", "Do keep title, artist, and catalog details legible when an image is unavailable.", "Do use thin rules and controlled spacing to organize repeated records.", "Do show the vermilion accent where an item or view has meaningful state."],
+    "donts": ["Don't add shadowed cards around every gallery item.", "Don't crop artworks to force identical image compositions.", "Don't turn the cabinet reference into literal drawer ornaments or paper textures."]
+  }
+}
