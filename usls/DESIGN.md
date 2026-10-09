@@ -15,21 +15,21 @@ colors:
   sky: "#e7eff0"
 typography:
   display:
-    fontFamily: "Newsreader, Georgia, serif"
+    fontFamily: "Public Sans, Arial, sans-serif"
     fontSize: "5.7rem"
-    fontWeight: 500
+    fontWeight: 600
     lineHeight: 0.96
     letterSpacing: "0"
   headline:
-    fontFamily: "Newsreader, Georgia, serif"
+    fontFamily: "Public Sans, Arial, sans-serif"
     fontSize: "4.4rem"
-    fontWeight: 500
+    fontWeight: 600
     lineHeight: 1.03
     letterSpacing: "0"
   title:
-    fontFamily: "Newsreader, Georgia, serif"
+    fontFamily: "Public Sans, Arial, sans-serif"
     fontSize: "2.7rem"
-    fontWeight: 500
+    fontWeight: 600
     lineHeight: 1.1
     letterSpacing: "0"
   body:
@@ -102,7 +102,7 @@ The material character is flat and editorial. Warm white and pale blue-green ban
 **Key Characteristics:**
 
 - Authentic campus and university imagery at useful scale.
-- Newsreader headlines paired with compact Public Sans navigation and body copy.
+- Public Sans throughout, with size and weight creating hierarchy.
 - Green institutional bands, restrained gold marks, and readable ruled lists.
 - One consistent masthead and footer across all six routes.
 
@@ -128,13 +128,11 @@ The material character is flat and editorial. Warm white and pale blue-green ban
 
 ## Typography
 
-**Display Font:** Newsreader, with Georgia and serif fallbacks. It is loaded from Google Fonts in the HTML.
+**Font:** Public Sans, with Arial and sans-serif fallbacks. Its regular, semibold, and bold weights are loaded from local font files; no external font request is needed.
 
-**Body Font:** Public Sans, with Arial and sans-serif fallbacks. Its regular, semibold, and bold weights are loaded from local font files.
+Semibold Public Sans gives institution and story headlines a clear, contemporary voice. Regular Public Sans keeps explanations and reading passages comfortable, while bold marks navigation and actions. The home display is 5.7rem on desktop, 4.2rem below 800px, and 3.15rem below 600px. Interior page titles step from 4.4rem to 3.4rem and 2.7rem at those same breakpoints. Section headings start at 2.7rem and fall to 2.15rem on small screens.
 
-Newsreader gives institution and story headlines an editorial voice; Public Sans keeps destinations, instructions, and small metadata crisp. The home display is 5.7rem on desktop, 4.2rem below 800px, and 3.15rem below 600px. Interior page titles step from 4.4rem to 3.4rem and 2.7rem at those same breakpoints. Section headings start at 2.7rem and fall to 2.15rem on small screens.
-
-**The Two Voices Rule.** Use Newsreader for prominent headlines and editorial leads. Use Public Sans for navigation, controls, supporting copy, and metadata.
+**The Single Family Rule.** Use Public Sans throughout; create hierarchy with size, weight, and spacing rather than a second typeface.
 
 ## Layout
 
@@ -168,7 +166,7 @@ Three full-width, 48px tabs sit on a divider. The selected tab uses pine text an
 
 ### News Cards and Information Rows
 
-News is the one repeated framed card: white surface, 1px line border, 4px corners, large image, compact date/category label, and Newsreader title. Other repeated links use open rows with line dividers and leaf directional arrows. Aside panels use a gold top rule and no surrounding card.
+News is the one repeated framed card: white surface, 1px line border, 4px corners, large image, compact date/category label, and semibold Public Sans title. Other repeated links use open rows with line dividers and leaf directional arrows. Aside panels use a gold top rule and no surrounding card.
 
 **The Visible Focus Rule.** Interactive elements carry a 3px focus outline, using pine on light backgrounds and light gold on dark backgrounds. Reduced-motion preference removes smooth scrolling and transition duration.
 

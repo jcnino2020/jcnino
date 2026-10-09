@@ -79,7 +79,7 @@
       "kind":"custom",
       "description":"Open row for colleges, services, and resource links.",
       "html":"<a class=\"ds-row\" href=\"#\"><strong>Academic pathways</strong><span aria-hidden=\"true\">↗</span></a>",
-      "css":".ds-row{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:80px;padding:13px 4px 13px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);color:var(--ink);text-decoration:none}.ds-row strong{font:500 21px/1.2 Newsreader,Georgia,serif}.ds-row span{color:var(--leaf);font-size:18px}.ds-row:hover{color:var(--leaf)}.ds-row:focus-visible{outline:3px solid var(--pine);outline-offset:3px}"
+      "css":".ds-row{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:80px;padding:13px 4px 13px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);color:var(--ink);text-decoration:none}.ds-row strong{font:600 21px/1.2 'Public Sans',Arial,sans-serif}.ds-row span{color:var(--leaf);font-size:18px}.ds-row:hover{color:var(--leaf)}.ds-row:focus-visible{outline:3px solid var(--pine);outline-offset:3px}"
     },
     {
       "name":"News Card",
@@ -87,16 +87,16 @@
       "refersTo":"news-card",
       "description":"The site's sole repeated framed content pattern.",
       "html":"<article class=\"ds-news\"><a href=\"#\"><div class=\"ds-news-image\"></div><div class=\"ds-news-copy\"><span>29 SEP 2026 · ACADEMIC ACHIEVEMENT</span><h3>USLS Nursing places 10th nationwide</h3></div></a></article>",
-      "css":".ds-news{overflow:hidden;border:1px solid var(--line);border-radius:4px;background:var(--white)}.ds-news a{display:block;color:var(--ink);text-decoration:none}.ds-news-image{height:150px;background:var(--sky)}.ds-news-copy{padding:19px 19px 22px}.ds-news-copy span{color:var(--muted);font:600 11px 'Public Sans',Arial,sans-serif}.ds-news-copy h3{margin:10px 0 0;font:500 25px/1.15 Newsreader,Georgia,serif}.ds-news a:hover h3{color:var(--leaf)}.ds-news a:focus-visible{outline:3px solid var(--pine);outline-offset:-3px}"
+      "css":".ds-news{overflow:hidden;border:1px solid var(--line);border-radius:4px;background:var(--white)}.ds-news a{display:block;color:var(--ink);text-decoration:none}.ds-news-image{height:150px;background:var(--sky)}.ds-news-copy{padding:19px 19px 22px}.ds-news-copy span{color:var(--muted);font:600 11px 'Public Sans',Arial,sans-serif}.ds-news-copy h3{margin:10px 0 0;font:600 25px/1.15 'Public Sans',Arial,sans-serif}.ds-news a:hover h3{color:var(--leaf)}.ds-news a:focus-visible{outline:3px solid var(--pine);outline-offset:-3px}"
     }
   ],
   "narrative": {
     "northStar":"The Admissions Prospectus",
     "overview":"The site reads as a working university front door. Real campus photography gives the home page a sense of place; a green masthead, compact utility links, and direct applicant actions make the next step easy to find. Interior pages are quieter and denser, using title bands, clear source links, and ruled rows to organize university information.\n\nThe material character is flat and editorial. Warm white and pale blue-green bands create rhythm without turning every section into a card. Gold appears as a precise wayfinding accent on active navigation, selected tabs, top rules, and key calls to action.",
-    "keyCharacteristics":["Authentic campus and university imagery at useful scale.","Newsreader headlines paired with compact Public Sans navigation and body copy.","Green institutional bands, restrained gold marks, and readable ruled lists.","One consistent masthead and footer across all six routes."],
+    "keyCharacteristics":["Authentic campus and university imagery at useful scale.","Public Sans throughout, with size and weight creating hierarchy.","Green institutional bands, restrained gold marks, and readable ruled lists.","One consistent masthead and footer across all six routes."],
     "rules":[
       {"name":"The Gold Marker Rule","body":"Gold marks direction or emphasis; it does not become a large background except on the deliberate gold action.","section":"colors"},
-      {"name":"The Two Voices Rule","body":"Use Newsreader for prominent headlines and editorial leads. Use Public Sans for navigation, controls, supporting copy, and metadata.","section":"typography"},
+      {"name":"The Single Family Rule","body":"Use Public Sans throughout; create hierarchy with size, weight, and spacing rather than a second typeface.","section":"typography"},
       {"name":"The Ruled Row Rule","body":"Program paths, services, admissions routes, and secondary links use aligned rows and dividers; reserve framed cards for image-led news items.","section":"layout"},
       {"name":"The Visible Focus Rule","body":"Interactive elements carry a 3px focus outline, using pine on light backgrounds and light gold on dark backgrounds. Reduced-motion preference removes smooth scrolling and transition duration.","section":"components"}
     ],

@@ -11,6 +11,7 @@ for (const page of pages) {
   assert.match(source, /id="site-header"/, `${page}: shared header`);
   assert.match(source, /id="site-footer"/, `${page}: shared footer`);
   assert.match(source, /<title>[^<]+<\/title>/, `${page}: title`);
+  assert.doesNotMatch(source, /Newsreader|fonts\.googleapis\.com|fonts\.gstatic\.com/, `${page}: local sans-serif typography`);
   assert.doesNotMatch(source, /href="#"/, `${page}: dead link`);
   assert.doesNotMatch(source, /gnet\.ph\/auth|2025 admission/i, `${page}: stale application content`);
 
@@ -25,6 +26,8 @@ for (const page of pages) {
 }
 
 const script = fs.readFileSync(path.join(root, 'site.js'), 'utf8');
+const stylesheet = fs.readFileSync(path.join(root, 'style.css'), 'utf8');
+assert.doesNotMatch(stylesheet, /Newsreader|Georgia|(?<!sans-)serif\b/, 'USLS uses sans-serif typography throughout');
 assert.match(script, /aria-expanded/, 'mobile menu accessibility');
 assert.match(script, /aria-selected/, 'tab accessibility');
 assert.match(script, /Independent website redesign concept/, 'concept disclosure');
