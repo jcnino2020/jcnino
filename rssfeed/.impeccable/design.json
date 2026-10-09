@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-09T00:00:00.000Z",
+  "title": "Design System: Vox Reader",
+  "extensions": {
+    "colorMeta": {
+      "paper": { "role": "neutral", "displayName": "Paper", "tonalRamp": ["oklch(15% 0 0)", "oklch(26% 0 0)", "oklch(38% 0 0)", "oklch(49% 0 0)", "oklch(61% 0 0)", "oklch(72% 0 0)", "oklch(84% 0 0)", "oklch(95% 0 0)"] },
+      "desk": { "role": "neutral", "displayName": "Desk", "tonalRamp": ["oklch(15% .003 155)", "oklch(26% .003 155)", "oklch(38% .003 155)", "oklch(49% .003 155)", "oklch(61% .003 155)", "oklch(72% .003 155)", "oklch(84% .003 155)", "oklch(95% .003 155)"] },
+      "ink": { "role": "neutral", "displayName": "Charcoal Ink", "tonalRamp": ["oklch(15% .01 155)", "oklch(26% .01 155)", "oklch(38% .01 155)", "oklch(49% .01 155)", "oklch(61% .01 155)", "oklch(72% .01 155)", "oklch(84% .01 155)", "oklch(95% .01 155)"] },
+      "muted": { "role": "neutral", "displayName": "Quiet Green-Grey", "tonalRamp": ["oklch(15% .015 150)", "oklch(26% .015 150)", "oklch(38% .015 150)", "oklch(49% .015 150)", "oklch(61% .015 150)", "oklch(72% .015 150)", "oklch(84% .015 150)", "oklch(95% .015 150)"] },
+      "rule": { "role": "neutral", "displayName": "Catalogue Rule", "tonalRamp": ["oklch(15% .008 150)", "oklch(26% .008 150)", "oklch(38% .008 150)", "oklch(49% .008 150)", "oklch(61% .008 150)", "oklch(72% .008 150)", "oklch(84% .008 150)", "oklch(95% .008 150)"] },
+      "yellow": { "role": "primary", "displayName": "Masthead Yellow", "tonalRamp": ["oklch(15% .15 100)", "oklch(26% .15 100)", "oklch(38% .15 100)", "oklch(49% .15 100)", "oklch(61% .15 100)", "oklch(72% .15 100)", "oklch(84% .15 100)", "oklch(95% .15 100)"] },
+      "selected": { "role": "primary", "displayName": "Selection Wash", "tonalRamp": ["oklch(15% .055 100)", "oklch(26% .055 100)", "oklch(38% .055 100)", "oklch(49% .055 100)", "oklch(61% .055 100)", "oklch(72% .055 100)", "oklch(84% .055 100)", "oklch(95% .055 100)"] },
+      "blue": { "role": "secondary", "displayName": "Source Blue", "tonalRamp": ["oklch(15% .09 240)", "oklch(26% .09 240)", "oklch(38% .09 240)", "oklch(49% .09 240)", "oklch(61% .09 240)", "oklch(72% .09 240)", "oklch(84% .09 240)", "oklch(95% .09 240)"] },
+      "danger": { "role": "secondary", "displayName": "Error Red", "tonalRamp": ["oklch(15% .15 30)", "oklch(26% .15 30)", "oklch(38% .15 30)", "oklch(49% .15 30)", "oklch(61% .15 30)", "oklch(72% .15 30)", "oklch(84% .15 30)", "oklch(95% .15 30)"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Wordmark", "purpose": "Vox identity; 36px on narrow screens." },
+      "headline": { "displayName": "Article Headline", "purpose": "Selected story; 30px at 1050px and 28px at 760px." },
+      "title": { "displayName": "Catalogue Title", "purpose": "Scannable story rows." },
+      "body": { "displayName": "Reading Text", "purpose": "Publisher content, adjustable to 16px, 18px or 20px." },
+      "label": { "displayName": "Interface", "purpose": "Public Sans tools and supporting labels." }
+    },
+    "shadows": [],
+    "motion": [
+      { "name": "reader-arrival", "value": "220ms cubic-bezier(.16,1,.3,1)", "purpose": "Opacity .6 to 1, translateY 6px to 0; disabled for reduced motion." },
+      { "name": "reading-scroll", "value": "smooth", "purpose": "Article scroll behavior; auto for reduced motion." }
+    ],
+    "breakpoints": [
+      { "name": "compact-desktop", "value": "1050px" },
+      { "name": "single-pane", "value": "760px" },
+      { "name": "small-phone", "value": "360px" }
+    ],
+    "tonalRampNote": "Synthesized OKLCH ramps are panel metadata only; the CSS colors in DESIGN.md frontmatter remain normative."
+  },
+  "components": [
+    {
+      "name": "Bookmark Tool", "kind": "button", "refersTo": "icon-button", "description": "Fixed icon target with a pressed saved state.",
+      "html": "<button class=\"ds-icon\" aria-label=\"Save story\" title=\"Save story\" aria-pressed=\"false\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"M6 3h12v18l-6-4-6 4Z\"/></svg></button>",
+      "css": ".ds-icon{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border:1px solid transparent;border-radius:4px;background:transparent;color:var(--ink,#202522);cursor:pointer}.ds-icon:hover{background:#e2e7e3}.ds-icon[aria-pressed=true]{background:var(--selected,#fff8cd);border-color:#c7b543}.ds-icon:focus-visible{outline:3px solid var(--blue,#135b83);outline-offset:3px}.ds-icon:active{background:var(--selected,#fff8cd)}"
+    },
+    {
+      "name": "Catalogue Search", "kind": "input", "refersTo": "search", "description": "Search titles, authors and topics.",
+      "html": "<label class=\"ds-search\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><circle cx=\"10\" cy=\"10\" r=\"6\"/><path d=\"m15 15 6 6\"/></svg><input type=\"search\" placeholder=\"Search stories\" aria-label=\"Search titles, authors and topics\"/></label>",
+      "css": ".ds-search{display:flex;align-items:center;gap:10px;padding:0 12px;border:1px solid #9ba89e;border-radius:4px;background:var(--paper,#fff);color:var(--muted,#5f6861);font:14px/1.5 var(--ui,'Public Sans',sans-serif)}.ds-search:focus-within{outline:2px solid var(--blue,#135b83);outline-offset:2px}.ds-search input{width:100%;min-width:0;min-height:44px;border:0;outline:0;background:transparent;color:var(--ink,#202522);font:inherit}.ds-search input::placeholder{color:var(--muted,#5f6861)}"
+    },
+    {
+      "name": "Collection Views", "kind": "nav", "description": "Latest and Saved collections with an underlined active state.",
+      "html": "<div class=\"ds-views\" role=\"group\" aria-label=\"Story collection\"><button aria-pressed=\"true\">Latest <span>10</span></button><button aria-pressed=\"false\">Saved <span>2</span></button></div>",
+      "css": ".ds-views{display:flex;gap:20px;border-bottom:1px solid var(--rule,#d8ded9);font:14px/1.5 var(--ui,'Public Sans',sans-serif)}.ds-views button{display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:12px 0;border:0;border-bottom:3px solid transparent;background:transparent;color:var(--muted,#5f6861);font:inherit;cursor:pointer}.ds-views button[aria-pressed=true]{border-bottom-color:var(--ink,#202522);color:var(--ink,#202522);font-weight:600}.ds-views span{font-size:12px;font-variant-numeric:tabular-nums}.ds-views button:focus-visible{outline:3px solid var(--blue,#135b83);outline-offset:3px}"
+    },
+    {
+      "name": "Catalogue Row", "kind": "custom", "refersTo": "story-selected", "description": "Selected story with category and provenance metadata.",
+      "html": "<button class=\"ds-story\" aria-current=\"true\"><span>Culture</span><h2>Example publisher story</h2><p>Oct 9, 2026 · Vox staff</p></button>",
+      "css": ".ds-story{width:100%;padding:20px 24px;text-align:left;border:0;border-top:1px solid var(--rule,#d8ded9);background:var(--selected,#fff8cd);color:var(--ink,#202522);font-family:var(--ui,'Public Sans',sans-serif);cursor:pointer}.ds-story span{display:block;margin-bottom:6px;font-size:12px;color:var(--blue,#135b83)}.ds-story h2{margin:0;font-size:16px;line-height:1.4;font-weight:600;overflow-wrap:anywhere}.ds-story p{margin:10px 0 0;font-size:12px;color:var(--muted,#5f6861)}.ds-story:hover{background:#fff2a6}.ds-story:focus-visible{outline:3px solid var(--blue,#135b83);outline-offset:3px}"
+    },
+    {
+      "name": "Feed Retry", "kind": "button", "refersTo": "retry-button", "description": "Recovery action within the feed-error state.",
+      "html": "<button class=\"ds-retry\">Try again</button>",
+      "css": ".ds-retry{min-height:44px;padding:10px 16px;border:0;border-radius:4px;background:var(--ink,#202522);color:var(--paper,#fff);font:14px/1.5 var(--ui,'Public Sans',sans-serif);cursor:pointer}.ds-retry:focus-visible{outline:3px solid var(--blue,#135b83);outline-offset:3px}.ds-retry:disabled{cursor:not-allowed;opacity:.45}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Library Catalogue",
+    "overview": "A clean reading desk pairs a browsable catalogue with a continuous article pane. Quiet, compact tools support scanning and returning to saved stories; the reading text has space to breathe.\n\nWhite paper, a yellow masthead, charcoal type and blue source actions establish the visual identity. This is an independent Vox RSS reader: publisher attribution and original-source links remain visible, and the interface makes no promise of complete article access.",
+    "keyCharacteristics": ["Flat, ruled catalogue rows.", "Clear selected and saved states.", "Sans-serif tools with serif reading text.", "Publisher imagery inside the article flow."],
+    "rules": [],
+    "dos": ["Do use ruled catalogue rows and a continuous reading pane.", "Do preserve publisher attribution, original-source links and honest feed status.", "Do maintain visible focus, fixed icon targets and reduced-motion behavior.", "Do place publisher imagery within the readable article flow."],
+    "donts": ["Don't replace the reading desk with promotional cards or an article modal.", "Don't imply official Vox affiliation or guaranteed complete article access.", "Don't present browser-local saves as remote sync or promise offline images."]
+  }
+}

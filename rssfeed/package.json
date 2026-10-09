@@ -1,0 +1,6 @@
+{
+  "name": "vox-reading-desk",
+  "private": true,
+  "scripts": { "test": "node tests/reader.test.cjs" },
+  "devDependencies": { "jsdom": "26.1.0" }
+}

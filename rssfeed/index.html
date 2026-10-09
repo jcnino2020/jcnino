@@ -1,278 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vox: Immersive Reader</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300&display=swap" rel="stylesheet">
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        serif: ['Merriweather', 'serif'],
-                    },
-                    colors: {
-                        vox: {
-                            yellow: '#FFF200',
-                            black: '#1c1c1c',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-
-    <style>
-        /* Custom Styles for the raw HTML content inside the modal */
-        .article-body p { margin-bottom: 1.5em; line-height: 1.8; font-size: 1.1rem; color: #374151; }
-        .article-body h2, .article-body h3 { font-family: 'Inter', sans-serif; font-weight: 700; margin-top: 2em; margin-bottom: 0.5em; color: #111; }
-        .article-body a { color: #2563eb; text-decoration: underline; }
-        .article-body img { max-width: 100%; height: auto; border-radius: 8px; margin: 20px 0; }
-        .article-body blockquote { border-left: 4px solid #FFF200; padding-left: 20px; font-style: italic; color: #555; }
-        .article-body figure { margin: 0; }
-        
-        /* Hide scrollbar for main body when modal is open */
-        body.modal-open { overflow: hidden; }
-    </style>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A personal Vox RSS reading desk with search and browser-local saved stories.">
+  <title>Vox Reader | Reading Desk</title>
+  <link rel="stylesheet" href="style.css?v=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
+  <script src="vendor/purify.min.js" defer></script><script src="core.js" defer></script><script src="app.js" defer></script>
 </head>
-<body class="antialiased text-gray-800 bg-gray-50">
-
-    <header class="bg-vox-black text-white border-b-4 border-vox-yellow sticky top-0 z-40 shadow-lg">
-        <div class="container mx-auto px-4 py-5 flex justify-between items-center">
-            <h1 class="font-serif font-bold text-2xl md:text-3xl tracking-tight select-none">
-                <span class="text-vox-yellow">Vox</span> Reader
-            </h1>
-            <div class="text-xs text-gray-400 font-sans uppercase tracking-widest hidden sm:block">
-                Jan Carlo G. Niñonuevo • BSIT 3-B
-            </div>
-        </div>
-    </header>
-
-    <main class="container mx-auto px-4 py-10">
-        <div id="feed-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div class="animate-pulse col-span-full text-center py-20">
-                <div class="h-8 w-8 bg-vox-black rounded-full mx-auto mb-4 animate-spin"></div>
-                <p class="text-gray-500 font-mono">Fetching latest stories...</p>
-            </div>
-        </div>
-    </main>
-
-    <div id="modal-overlay" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm hidden opacity-0 transition-opacity" onclick="closeModal()"></div>
-    
-    <div id="modal-container" class="fixed inset-0 z-[60] flex items-center justify-center pointer-events-none hidden">
-        <div id="modal-card" class="bg-white w-full max-w-3xl h-[90vh] md:h-[85vh] rounded-xl shadow-2xl overflow-hidden flex flex-col pointer-events-auto transform scale-95 opacity-0">
-            
-            <div class="bg-white border-b border-gray-100 p-4 flex justify-between items-center sticky top-0 z-10">
-                <span class="text-xs font-bold uppercase tracking-widest text-vox-yellow bg-black px-2 py-1 rounded">News</span>
-                <button onclick="closeModal()" class="p-2 hover:bg-gray-100 rounded-full transition group">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500 group-hover:text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
-
-            <div class="overflow-y-auto p-6 md:p-10" id="modal-scroll-area">
-                <h2 id="modal-title" class="font-serif text-3xl md:text-4xl font-bold text-gray-900 leading-tight mb-4"></h2>
-                
-                <div class="flex items-center text-sm text-gray-500 mb-8 font-sans border-b border-gray-100 pb-4">
-                    <span id="modal-author" class="font-bold text-black mr-2"></span> • 
-                    <span id="modal-date" class="ml-2"></span>
-                </div>
-
-                <img id="modal-image" class="w-full h-64 md:h-96 object-cover rounded-lg mb-8 shadow-sm" src="" alt="">
-
-                <div id="modal-body" class="article-body font-serif text-gray-700">
-                    </div>
-
-                <div class="mt-10 pt-8 border-t border-gray-100 text-center">
-                    <a id="modal-link" href="#" target="_blank" class="inline-block bg-vox-black text-white font-sans font-bold py-3 px-8 rounded hover:bg-vox-yellow hover:text-black transition-colors duration-300">
-                        Read Original on Vox.com
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script>
-        const feedContainer = document.getElementById('feed-container');
-        
-        // Elements for Modal
-        const modalOverlay = document.getElementById('modal-overlay');
-        const modalContainer = document.getElementById('modal-container');
-        const modalCard = document.getElementById('modal-card');
-        
-        // Global array to store our news data
-        let allNewsItems = [];
-
-        // --- Helpers ---
-        async function fetchFeed(url) {
-            const targets = [
-                `/api/convert?url=${encodeURIComponent(url)}`,
-                `https://corsproxy.io/?${encodeURIComponent(url)}`,
-                `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`
-            ];
-            
-            for (let target of targets) {
-                try {
-                    const response = await fetch(target);
-                    if (!response.ok) throw new Error(`Status ${response.status}`);
-                    
-                    const text = await response.text();
-                    
-                    if (target.includes('allorigins')) {
-                        const json = JSON.parse(text);
-                        if (json && json.contents) return json.contents;
-                    }
-                    
-                    if (text && text.length > 100) {
-                        return text;
-                    }
-                } catch (e) {
-                    console.warn(`Proxy ${target} failed:`, e.message);
-                }
-            }
-            throw new Error("All proxies failed to load RSS feed");
-        }
-
-        function extractImage(htmlContent) {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(htmlContent, 'text/html');
-            const img = doc.querySelector('img');
-            return img ? img.src : 'https://upload.wikimedia.org/wikipedia/commons/a/a2/Vox_logo.svg';
-        }
-
-        function extractTextSummary(htmlContent) {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(htmlContent, 'text/html');
-            return doc.body.textContent || "";
-        }
-
-        function formatDate(dateString) {
-            return new Date(dateString).toLocaleDateString('en-US', { 
-                year: 'numeric', month: 'long', day: 'numeric' 
-            });
-        }
-
-        // --- Main Logic ---
-        async function loadNews() {
-            try {
-                const text = await fetchFeed('https://www.vox.com/rss/index.xml');
-                const xmlDoc = new DOMParser().parseFromString(text, "application/xml");
-                const items = Array.from(xmlDoc.querySelectorAll("entry"));
-
-                // Clear Loading
-                feedContainer.innerHTML = '';
-
-                // Process data and store in global array
-                allNewsItems = items.map((item, index) => {
-                    const contentRaw = item.querySelector("content").textContent;
-                    return {
-                        index: index,
-                        title: item.querySelector("title").textContent,
-                        link: item.querySelector("link").getAttribute('href'),
-                        content: contentRaw,
-                        summary: extractTextSummary(contentRaw),
-                        image: extractImage(contentRaw),
-                        published: item.querySelector("published").textContent,
-                        author: item.querySelector("author > name") ? item.querySelector("author > name").textContent : "Vox Staff"
-                    };
-                });
-
-                // Render Cards
-                if (allNewsItems.length === 0) {
-                    feedContainer.innerHTML = '<p class="col-span-full text-center">No news found.</p>';
-                    return;
-                }
-
-                feedContainer.innerHTML = allNewsItems.map(item => `
-                    <article onclick="openModal(${item.index})" class="cursor-pointer group bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-xl hover:border-gray-300 transition-all duration-300 flex flex-col h-full">
-                        <div class="relative h-56 overflow-hidden">
-                            <img src="${item.image}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy">
-                            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
-                        </div>
-                        <div class="p-6 flex flex-col flex-grow">
-                            <h2 class="font-serif font-bold text-xl text-gray-900 leading-tight mb-3 group-hover:text-blue-700 transition-colors">
-                                ${item.title}
-                            </h2>
-                            <p class="text-sm text-gray-500 font-sans mb-4 line-clamp-3">
-                                ${item.summary}
-                            </p>
-                            <div class="mt-auto flex items-center text-xs font-bold uppercase tracking-wider text-vox-black">
-                                Read Story <span class="ml-2 transform group-hover:translate-x-1 transition-transform">→</span>
-                            </div>
-                        </div>
-                    </article>
-                `).join('');
-
-                // Animate Entrance
-                gsap.from("#feed-container article", {
-                    y: 50, opacity: 0, duration: 0.6, stagger: 0.1, ease: "power2.out"
-                });
-
-            } catch (error) {
-                console.error(error);
-                feedContainer.innerHTML = `<p class="col-span-full text-center text-red-500">Error loading feed.</p>`;
-            }
-        }
-
-        // --- Modal Logic ---
-        function openModal(index) {
-            const item = allNewsItems[index];
-            if (!item) return;
-
-            // Populate Data
-            document.getElementById('modal-title').innerText = item.title;
-            document.getElementById('modal-author').innerText = item.author;
-            document.getElementById('modal-date').innerText = formatDate(item.published);
-            document.getElementById('modal-image').src = item.image;
-            document.getElementById('modal-body').innerHTML = item.content; // Inject full HTML
-            document.getElementById('modal-link').href = item.link;
-
-            // Show Logic
-            modalOverlay.classList.remove('hidden');
-            modalContainer.classList.remove('hidden');
-            document.body.classList.add('modal-open'); // Stop background scroll
-            
-            // Reset scroll position
-            document.getElementById('modal-scroll-area').scrollTop = 0;
-
-            // Animation In
-            gsap.to(modalOverlay, { autoAlpha: 1, duration: 0.3 });
-            gsap.fromTo(modalCard, 
-                { y: 50, scale: 0.95, opacity: 0 },
-                { y: 0, scale: 1, opacity: 1, duration: 0.4, ease: "back.out(1.2)" }
-            );
-        }
-
-        function closeModal() {
-            // Animation Out
-            gsap.to(modalOverlay, { autoAlpha: 0, duration: 0.3 });
-            gsap.to(modalCard, { 
-                y: 20, scale: 0.95, opacity: 0, duration: 0.2, 
-                onComplete: () => {
-                    modalOverlay.classList.add('hidden');
-                    modalContainer.classList.add('hidden');
-                    document.body.classList.remove('modal-open');
-                } 
-            });
-        }
-
-        // Close on Escape Key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeModal();
-        });
-
-        // Initialize
-        loadNews();
-    </script>
+<body>
+  <a href="#article-title" class="skip">Skip to reading pane</a>
+  <header class="masthead">
+    <a class="wordmark" href="./" aria-label="Vox Reader home"><strong>Vox</strong><span>Reader</span></a>
+    <p>Less noise.<br>More context.</p>
+    <a class="directory" href="/projects/" title="Project directory"><i class="ri-arrow-left-line" aria-hidden="true"></i><span>Projects</span></a>
+  </header>
+  <main class="desk">
+    <section class="catalogue" aria-label="Story catalogue">
+      <div class="catalogue-tools">
+        <div class="catalogue-heading"><h1>Your reading desk</h1><button id="refresh" class="icon-button" title="Refresh feed" aria-label="Refresh feed"><i class="ri-refresh-line" aria-hidden="true"></i></button></div>
+        <label class="search"><i class="ri-search-line" aria-hidden="true"></i><input id="search" type="search" placeholder="Search stories" aria-label="Search titles, authors and topics" autocomplete="off"></label>
+        <div class="views" role="group" aria-label="Story collection"><button id="latest" aria-pressed="true">Latest <span id="latest-count">0</span></button><button id="saved" aria-pressed="false"><i class="ri-bookmark-line" aria-hidden="true"></i>Saved <span id="saved-count">0</span></button></div>
+        <div class="index-meta"><span id="result-count">Connecting to Vox...</span><label class="sort-label">Sort<select id="sort" aria-label="Sort stories"><option value="newest">Newest first</option><option value="oldest">Oldest first</option></select></label></div>
+      </div>
+      <p id="feed-status" class="feed-status" role="status">Loading the publisher feed...</p>
+      <div id="stories" class="story-list" aria-busy="true"><div class="loading-state"><i class="ri-rss-line" aria-hidden="true"></i><p>Finding your next read...</p></div></div>
+      <div class="catalogue-footer"><p>Stories from <a href="https://www.vox.com" target="_blank" rel="noopener noreferrer">Vox</a>. An independent reader by JC Niñonuevo.</p><p>Saved stories stay in this browser.</p></div>
+    </section>
+    <section id="reader" class="reader" aria-label="Reading pane">
+      <div class="reader-toolbar">
+        <button id="back" class="back-button" title="Back to stories"><i class="ri-arrow-left-line" aria-hidden="true"></i>Stories</button>
+        <span id="reading-position">Vox / RSS edition</span>
+        <div class="reader-actions"><label class="size-label"><i class="ri-font-size-2" aria-hidden="true"></i><select id="text-size" aria-label="Article text size"><option value="16">Small</option><option value="18" selected>Standard</option><option value="20">Large</option></select></label><button id="save" class="icon-button" title="Save story" aria-label="Save story" aria-pressed="false" disabled><i class="ri-bookmark-line" aria-hidden="true"></i></button><a id="source" class="icon-button" title="Read original on Vox (new tab)" aria-label="Read original on Vox (new tab)" target="_blank" rel="noopener noreferrer" hidden><i class="ri-external-link-line" aria-hidden="true"></i></a></div>
+      </div>
+      <div id="reading-progress" class="reading-progress" aria-hidden="true"><span></span></div>
+      <div class="reading-scroll" id="reading-scroll">
+        <article id="article" class="article"><div id="article-meta" class="article-meta">Vox Reader</div><h2 id="article-title" tabindex="-1">A little room to read.</h2><p id="article-byline" class="byline">Your stories will appear here when the feed arrives.</p><div id="article-content" class="article-body"><p>Select a story from the catalogue, or return to a saved one.</p></div><a id="article-original" class="original-link" target="_blank" rel="noopener noreferrer" hidden>Read original on Vox <i class="ri-arrow-right-up-line" aria-hidden="true"></i></a><div id="feed-note" class="feed-note" hidden>This is the content provided by Vox's RSS feed. The original article may include more content or updates.</div></article>
+      </div>
+    </section>
+  </main>
+  <p id="notice" class="toast" role="status" hidden></p>
+  <noscript><div class="no-script">JavaScript is needed to load and save stories. <a href="https://www.vox.com" target="_blank" rel="noopener noreferrer">Read Vox directly</a>.</div></noscript>
 </body>
 </html>

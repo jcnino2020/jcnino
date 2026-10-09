@@ -1,0 +1,9 @@
+{
+  "DOMPurify": {
+    "version": "3.3.3",
+    "source": "https://www.npmjs.com/package/dompurify/v/3.3.3",
+    "repository": "https://github.com/cure53/DOMPurify",
+    "file": "purify.min.js",
+    "license": "LICENSE"
+  }
+}
