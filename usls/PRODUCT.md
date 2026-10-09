@@ -12,10 +12,10 @@ Prospective students and applicants are the primary audience, confirmed by the u
 An independent redesign concept for the University of St. La Salle in Bacolod City. It should read with the clarity and usefulness of a university website, while routing real application, account, and information tasks to verified official USLS destinations.
 
 ## Operating Context
-This is a static six-page subsite in a personal portfolio: home, academics, admissions, research, campus life, and one news story. It does not own a university account system, admissions records, or a live news feed. Institutional information was checked against usls.edu.ph on 9 October 2026.
+This is a static public-information subsite in a personal portfolio. It covers the major university sections locally: home, about, academics and programs, basic and graduate education, admissions and scholarships, campus life and services, mission, research, news, and contact. It does not own a university account system, admissions records, or a live news feed. Institutional information was checked against usls.edu.ph on 9 October 2026.
 
 ## Capabilities and Constraints
-- Keep all six existing routes and make their navigation consistent and functional.
+- Keep all existing routes and make the major public sections readable locally with consistent navigation.
 - Present verified university structure: seven colleges, professional schools, basic education, Liceo De La Salle, and graduate studies.
 - Route applications to the official USLS admissions pages and AIMS portal. Do not create a fake application form or link to unrelated services.
 - Use current official news and quality information with source links and dates; do not imply that static content updates automatically.

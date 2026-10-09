@@ -104,7 +104,7 @@ The material character is flat and editorial. Warm white and pale blue-green ban
 - Authentic campus and university imagery at useful scale.
 - Public Sans throughout, with size and weight creating hierarchy.
 - Green institutional bands, restrained gold marks, and readable ruled lists.
-- One consistent masthead and footer across all six routes.
+- One consistent masthead and footer across all public-information routes.
 
 ## Colors
 
