@@ -7,7 +7,7 @@ const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const config = JSON.parse(readFileSync(join(root, 'vercel.json'), 'utf8'));
 const redirects = new Map(config.redirects.map(({ source, destination, permanent }) => {
   assert.equal(permanent, true, `${source} should be permanent`);
-  return [source, destination];
+  return [source.replace(/\\\+/g, '+'), destination];
 }));
 
 function checkDirectories(directory, route = '') {

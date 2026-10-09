@@ -25,7 +25,7 @@
     { "source": "/viaje", "destination": "/viaje/", "permanent": true },
     { "source": "/webanim", "destination": "/webanim/", "permanent": true },
     { "source": "/webanim/skyward", "destination": "/webanim/skyward/", "permanent": true },
-    { "source": "/webanim/skyward+js", "destination": "/webanim/skyward+js/", "permanent": true },
+    { "source": "/webanim/skyward\\+js", "destination": "/webanim/skyward+js/", "permanent": true },
     { "source": "/y2k38", "destination": "/y2k38/", "permanent": true }
   ],
   "headers": [
