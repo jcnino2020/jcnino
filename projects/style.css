@@ -24,7 +24,7 @@ a:focus-visible { outline: 2px solid var(--text-main); outline-offset: 5px; }
 .project-card[href="../drainwatch/"] { --project-accent: #34d399; }
 .project-card[href="../hydroalert/"] { --project-accent: #60a5fa; }
 .project-card[href="../space/"] { --project-accent: #fbbf24; }
-.project-card[href="../bcc/"] { --project-accent: #fb7185; }
+.project-card[href="../bcc/"] { --project-accent: #7dd6a1; }
 .project-card[href="../truthlens/"] { --project-accent: #38bdf8; }
 .project-card[href="../viaje/"] { --project-accent: #a3e635; }
 .project-card[href="../y2k38/"] { --project-accent: #ff997a; }

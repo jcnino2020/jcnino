@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-09T00:00:00+08:00",
+  "title": "Design System: BCC Elite Grading Portal",
+  "extensions": {
+    "colorMeta": {
+      "forest": { "role": "primary", "displayName": "Forest", "canonical": "#184b38" },
+      "forest-dark": { "role": "primary", "displayName": "Deep Forest", "canonical": "#103d2e" },
+      "forest-light": { "role": "primary", "displayName": "Soft Forest", "canonical": "#e7f1ea" },
+      "gold": { "role": "secondary", "displayName": "Academic Gold", "canonical": "#aa7723" },
+      "gold-light": { "role": "secondary", "displayName": "Gold Paper", "canonical": "#fbf3e1" },
+      "ink": { "role": "neutral", "displayName": "Ink", "canonical": "#1d3028" },
+      "muted": { "role": "neutral", "displayName": "Muted Ink", "canonical": "#55655d" },
+      "line": { "role": "neutral", "displayName": "Rule", "canonical": "#ccd8d0" },
+      "surface": { "role": "neutral", "displayName": "Paper", "canonical": "#fff" },
+      "ground": { "role": "neutral", "displayName": "Desk Ground", "canonical": "#f3f6f3" },
+      "alert": { "role": "tertiary", "displayName": "Alert Red", "canonical": "#9d342e" }
+    },
+    "typographyMeta": {
+      "entry-heading": { "displayName": "Entry heading", "purpose": "Role entry introduction." },
+      "page-heading": { "displayName": "Page heading", "purpose": "Current workspace view." },
+      "section-heading": { "displayName": "Section heading", "purpose": "Ruled record section title." },
+      "body": { "displayName": "Body", "purpose": "General text and explanation." },
+      "table": { "displayName": "Table", "purpose": "Course and grade rows." },
+      "label": { "displayName": "Label", "purpose": "Fields, metadata, and status." }
+    },
+    "shadows": [],
+    "motion": [
+      { "name": "reduced-motion-scroll", "value": "scroll-behavior: auto", "purpose": "Disable smooth document scrolling when reduced motion is preferred." }
+    ],
+    "breakpoints": [
+      { "name": "compact-desktop", "value": "1000px" },
+      { "name": "mobile", "value": "760px" },
+      { "name": "narrow-mobile", "value": "420px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Forest action used to save sample grades and enter the gradebook.",
+      "html": "<button class=\"ds-button ds-button-primary\" type=\"button\">Save sample grades</button>",
+      "css": ".ds-button{min-height:44px;display:inline-flex;align-items:center;justify-content:center;padding:9px 15px;border:1px solid #a7b9ac;border-radius:4px;font:600 14px/1.55 -apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;cursor:pointer}.ds-button-primary{color:#fff;background:#184b38;border-color:#184b38}.ds-button-primary:hover{background:#245f45}.ds-button:focus-visible{outline:3px solid #aa7723;outline-offset:3px}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Outlined action for printing a demonstration copy.",
+      "html": "<button class=\"ds-button ds-button-secondary\" type=\"button\">Print demo copy</button>",
+      "css": ".ds-button{min-height:44px;display:inline-flex;align-items:center;justify-content:center;padding:9px 15px;border:1px solid #a7b9ac;border-radius:4px;font:600 14px/1.55 -apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;cursor:pointer}.ds-button-secondary{color:#1d3028;background:#fff}.ds-button-secondary:hover{background:#e7f1ea}.ds-button:focus-visible{outline:3px solid #aa7723;outline-offset:3px}"
+    },
+    {
+      "name": "Grade Field",
+      "kind": "input",
+      "refersTo": "field",
+      "description": "Labeled gradebook numeric field with a visible gold keyboard focus.",
+      "html": "<div class=\"ds-field\"><label for=\"ds-midterm\">Midterm grade</label><input id=\"ds-midterm\" type=\"number\" min=\"1\" max=\"5\" step=\"0.01\" value=\"1.25\"></div>",
+      "css": ".ds-field{display:grid;gap:6px;color:#1d3028;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif}.ds-field label{font-size:13px;font-weight:600}.ds-field input{width:100%;min-height:44px;border:1px solid #9fb1a3;border-radius:4px;padding:8px 11px;background:#fff;color:#1d3028;font:inherit;caret-color:#184b38}.ds-field input:focus-visible{outline:3px solid #aa7723;outline-offset:3px}"
+    },
+    {
+      "name": "Workspace Navigation",
+      "kind": "nav",
+      "description": "Forest role-aware navigation with a pale gold active view.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Workspace views\"><button type=\"button\" class=\"ds-nav-button\">Overview</button><button type=\"button\" class=\"ds-nav-button\" aria-current=\"page\">My grades</button><button type=\"button\" class=\"ds-nav-button\">Schedule</button></nav>",
+      "css": ".ds-nav{display:grid;gap:3px;padding:20px 14px;background:#103d2e;max-width:248px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif}.ds-nav-button{width:100%;min-height:45px;padding:10px 14px;border:0;border-radius:4px;background:transparent;color:#d9e9de;text-align:left;font-family:inherit;font-size:14px;line-height:1.55;cursor:pointer}.ds-nav-button:hover{background:#235b42;color:#fff}.ds-nav-button[aria-current=page]{background:#f2e0ab;color:#173b2d;font-weight:700}.ds-nav-button:focus-visible{outline:3px solid #f2e0ab;outline-offset:3px}@media(max-width:760px){.ds-nav{display:flex;overflow-x:auto;max-width:none;padding:0 12px}.ds-nav-button{width:auto;flex:0 0 auto;min-height:52px;border-radius:0;white-space:nowrap}.ds-nav-button[aria-current=page]{background:transparent;color:#fff;box-shadow:inset 0 -3px 0 #edcc70}}"
+    },
+    {
+      "name": "Demo Notice",
+      "kind": "custom",
+      "description": "Gold-paper disclosure that the workspace is a browser-only sample.",
+      "html": "<div class=\"ds-demo-flag\">Interactive demo. These are sample accounts and grades. No school login or live database is connected.</div>",
+      "css": ".ds-demo-flag{padding:13px 15px;border:1px solid #e0ca9b;background:#fbf3e1;color:#664615;font:400 13px/1.55 -apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif}"
+    },
+    {
+      "name": "Record Table",
+      "kind": "custom",
+      "description": "Rectangular ruled academic record with stable numeric columns and sample state.",
+      "html": "<div class=\"ds-record\"><div class=\"ds-record-head\"><h2>Second semester grades</h2><p>Sample academic year 2025–2026</p></div><div class=\"ds-table-scroll\"><table><thead><tr><th>Course</th><th>Title</th><th>Midterm</th><th>Final</th><th>Status</th></tr></thead><tbody><tr><td class=\"ds-code\">IT311</td><td>Web Development 2</td><td class=\"ds-numeric\">1.25</td><td class=\"ds-numeric\">1.50</td><td><span class=\"ds-tag\">Sample</span></td></tr></tbody></table></div><p class=\"ds-record-note\">Demonstration record. These grades are not official.</p></div>",
+      "css": ".ds-record{background:#fff;border:1px solid #ccd8d0;color:#1d3028;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif}.ds-record-head{padding:20px 24px;border-bottom:1px solid #ccd8d0}.ds-record-head h2{margin:0;font-size:20px;line-height:1.25}.ds-record-head p{margin:4px 0 0;color:#55655d;font-size:13px}.ds-table-scroll{width:100%;overflow-x:auto}.ds-record table{width:100%;min-width:620px;border-collapse:collapse}.ds-record th{padding:12px 16px;border-bottom:1px solid #ccd8d0;background:#f6f8f6;color:#55655d;text-align:left;font-size:12px}.ds-record td{padding:14px 16px;border-bottom:1px solid #e0e8e2;font-size:14px}.ds-code{font-weight:700;color:#184b38;font-variant-numeric:tabular-nums}.ds-numeric{white-space:nowrap;font-variant-numeric:tabular-nums}.ds-tag{display:inline-block;padding:3px 7px;background:#e6f3ea;color:#1b6142;font-size:12px}.ds-record-note{margin:0;padding:14px 20px;border-top:1px solid #ccd8d0;color:#55655d;font-size:12px}"
+    },
+    {
+      "name": "Role Option",
+      "kind": "custom",
+      "description": "Full-width role row from the sample entry selector.",
+      "html": "<button type=\"button\" class=\"ds-role\"><span class=\"ds-role-icon\" aria-hidden=\"true\">S</span><span><strong>Student</strong><small>Review grades and class schedule</small></span><span class=\"ds-role-arrow\" aria-hidden=\"true\">→</span></button>",
+      "css": ".ds-role{width:100%;display:grid;grid-template-columns:46px minmax(0,1fr) 24px;gap:18px;align-items:center;padding:19px 8px;border:0;border-top:1px solid #ccd8d0;border-bottom:1px solid #ccd8d0;background:transparent;color:#1d3028;text-align:left;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;cursor:pointer}.ds-role:hover,.ds-role:focus-visible{background:#e7f1ea}.ds-role:focus-visible{outline:3px solid #aa7723;outline-offset:3px}.ds-role-icon{width:44px;height:44px;display:grid;place-items:center;border:1px solid #ccd8d0;color:#184b38;font-size:22px}.ds-role strong{display:block;font-size:17px}.ds-role small{display:block;margin-top:2px;color:#55655d;font-size:13px}.ds-role-arrow{color:#184b38;font-size:21px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Academic Record Desk",
+    "overview": "BCC Elite presents sample academic work as a clear, usable record desk. The independent light system combines white and muted green paper surfaces, deep forest navigation, restrained gold, dark text, ruled tables, and compact controls. The first entry view uses the pre-existing crest at bcc/assets/img/logo.png; that reference asset does not establish official institutional endorsement. The visual language serves three direct paths: a student reads grades and schedule, while faculty and administrators inspect a roster and edit browser-local demonstration grades. Sample status stays visible in entry, workspace, records, and the printed copy. This is a browser-only concept, not a live college service.",
+    "keyCharacteristics": [
+      "Forest navigation against light record surfaces.",
+      "Rectangular, ruled tables and dense but readable numeric columns.",
+      "Gold for active work and sample notices, with explicit text labels.",
+      "Role-aware navigation and a print treatment that marks the report as a demonstration."
+    ],
+    "rules": [
+      { "name": "The Record Contrast Rule", "body": "Keep record data in dark text on light surfaces; use forest as structure and emphasis, not as a data-table fill.", "section": "colors" },
+      { "name": "The Numeric Alignment Rule", "body": "Keep grades, course codes, and summary values stable with tabular numerals where the source applies them.", "section": "typography" },
+      { "name": "The Ruled Surface Rule", "body": "Prefer the existing one-pixel borders and section divisions to decorative shadow or glass effects.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do keep sample and browser-local status explicit in every relevant workflow.",
+      "Do preserve the forest, gold, light-paper system and ruled record layout.",
+      "Do keep role-specific navigation, grade tables, print labeling, and reset behavior legible at narrow widths.",
+      "Do use the pre-existing crest on entry with its provenance understood as a reference asset."
+    ],
+    "donts": [
+      "Don't present demonstration data or print output as official college records.",
+      "Don't convert the working record desk into a dark glass login showcase or a decorative dashboard.",
+      "Don't replace horizontal table scrolling with cramped, unreadable grade columns."
+    ]
+  }
+}

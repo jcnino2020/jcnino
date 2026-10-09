@@ -1,103 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | BCC Elite Grading Portal</title>
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Explore the BCC Elite academic records demo as a student, faculty member, or administrator.">
+  <title>BCC Elite | Academic Records Demo</title>
+  <link rel="stylesheet" href="assets/css/style.css?v=2">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
+  <script src="core.js" defer></script>
+  <script src="entry.js" defer></script>
 </head>
-<body class="login-bg">
-    <div class="login-container">
-        <div class="login-card glass">
-            <img src="assets/img/logo.png" alt="BCC Logo" class="login-logo">
-            <div class="login-header">
-                <h1>BCC ELITE</h1>
-                <p>Online Grading Portal</p>
-            </div>
-
-            <div id="error-msg" class="error-msg" style="color: var(--error); margin-bottom: 20px; font-size: 0.9rem; font-weight: 600; display: none;"></div>
-
-            <form id="login-form">
-                <div class="form-group">
-                    <label for="username">Username / Student ID</label>
-                    <input type="text" id="username" class="form-input" placeholder="Enter your username" required autofocus>
-                </div>
-                <div class="form-group" style="margin-bottom: 30px;">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" class="form-input" placeholder="••••••••" required>
-                </div>
-                <button type="submit" class="btn-primary">
-                    Sign In to Portal <i class="fas fa-arrow-right" style="margin-left: 8px;"></i>
-                </button>
-            </form>
-
-            <div style="margin-top: 30px; color: var(--text-muted); font-size: 0.8rem;">
-                &copy; <span id="copyright-year"></span> Bacolod City College. All Rights Reserved.
-            </div>
+<body class="entry-page">
+  <header class="entry-topbar"><a class="site-title" href="./">BCC <span>Elite</span></a><a class="project-link" href="/projects/"><i class="ri-arrow-left-line" aria-hidden="true"></i>Projects</a></header>
+  <main class="entry-layout">
+    <section class="entry-context" aria-labelledby="entry-intro">
+      <img class="entry-crest" src="assets/img/logo.png" alt="BCC Elite grading portal crest" width="160" height="160">
+      <div><h1 id="entry-intro">Academic records,<br>in one place.</h1><p>Explore a sample grading workspace for students, faculty, and administrators.</p></div>
+      <div class="entry-context-footer"><span>Academic year 2025–2026 · Sample records</span><span>Bacolod City College concept</span></div>
+    </section>
+    <section class="entry-select" aria-labelledby="entry-select-title">
+      <div class="entry-select-inner">
+        <div class="demo-flag"><i class="ri-information-line" aria-hidden="true"></i><span>Interactive demo. These are sample accounts and grades. No school login or live database is connected.</span></div>
+        <h2 id="entry-select-title">Choose a workspace</h2>
+        <p class="entry-help">Select a sample role to see its records and tasks.</p>
+        <div class="role-list">
+          <button type="button" class="role-option" data-user="student1"><span class="role-icon"><i class="ri-graduation-cap-line" aria-hidden="true"></i></span><span><strong>Student</strong><small>Review grades and class schedule</small></span><i class="ri-arrow-right-line role-arrow" aria-hidden="true"></i></button>
+          <button type="button" class="role-option" data-user="faculty1"><span class="role-icon"><i class="ri-book-open-line" aria-hidden="true"></i></span><span><strong>Faculty</strong><small>Review students and enter demo grades</small></span><i class="ri-arrow-right-line role-arrow" aria-hidden="true"></i></button>
+          <button type="button" class="role-option" data-user="admin"><span class="role-icon"><i class="ri-settings-3-line" aria-hidden="true"></i></span><span><strong>Administrator</strong><small>Inspect records and reset sample changes</small></span><i class="ri-arrow-right-line role-arrow" aria-hidden="true"></i></button>
         </div>
-    </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Check if already logged in
-            if (sessionStorage.getItem('user_id')) {
-                window.location.href = 'dashboard.html';
-                return;
-            }
-
-            const form = document.getElementById('login-form');
-            const errorMsg = document.getElementById('error-msg');
-
-            const mockUsers = [
-                {
-                    username: 'admin',
-                    password: 'password',
-                    role: 'admin',
-                    full_name: 'System Administrator',
-                    email: 'admin@bcc.edu.ph'
-                },
-                {
-                    username: 'faculty1',
-                    password: 'password',
-                    role: 'faculty',
-                    full_name: 'Dr. Maria Clara',
-                    email: 'm.clara@bcc.edu.ph'
-                },
-                {
-                    username: 'student1',
-                    password: 'password',
-                    role: 'student',
-                    full_name: 'Juan Dela Cruz',
-                    email: 'j.delacruz@student.bcc.edu.ph'
-                }
-            ];
-
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const username = document.getElementById('username').value.trim();
-                const password = document.getElementById('password').value;
-
-                if (username && password) {
-                    const user = mockUsers.find(u => u.username === username && u.password === password);
-                    if (user) {
-                        sessionStorage.setItem('user_id', user.username);
-                        sessionStorage.setItem('role', user.role);
-                        sessionStorage.setItem('full_name', user.full_name);
-                        sessionStorage.setItem('email', user.email);
-                        window.location.href = 'dashboard.html';
-                    } else {
-                        errorMsg.innerHTML = '<i class="fas fa-exclamation-circle"></i> Invalid username or password. (Try: admin / password)';
-                        errorMsg.style.display = 'block';
-                    }
-                } else {
-                    errorMsg.innerHTML = '<i class="fas fa-exclamation-circle"></i> Please enter both username and password.';
-                    errorMsg.style.display = 'block';
-                }
-            });
-
-            document.getElementById('copyright-year').textContent = new Date().getFullYear();
-        });
-    </script>
+        <p id="entry-error" class="form-error" role="alert" hidden></p>
+        <p class="entry-fineprint">Faculty and administrator changes stay in this browser. Use Switch role to return here.</p>
+      </div>
+    </section>
+  </main>
+  <noscript><p class="no-script">JavaScript is required for this interactive demo.</p></noscript>
 </body>
 </html>

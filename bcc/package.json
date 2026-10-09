@@ -1,0 +1,6 @@
+{
+  "name": "bcc-elite-demo",
+  "private": true,
+  "scripts": { "test": "node tests/portal.test.cjs" },
+  "devDependencies": { "jsdom": "26.1.0" }
+}
