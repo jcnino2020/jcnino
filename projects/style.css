@@ -27,6 +27,18 @@ a:focus-visible { outline: 2px solid var(--text-main); outline-offset: 5px; }
 .project-card[href="../bcc/"] { --project-accent: #fb7185; }
 .project-card[href="../truthlens/"] { --project-accent: #38bdf8; }
 .project-card[href="../viaje/"] { --project-accent: #a3e635; }
+.project-card[href="../y2k38/"] { --project-accent: #ff997a; }
+.project-card[href="../usls/"] { --project-accent: #6ee7a0; }
+.project-card[href="../ccna2/"] { --project-accent: #67d8ed; }
+.project-card[href="../quanti0216/"] { --project-accent: #c4a5ff; }
+.project-card[href="../rssfeed/"] { --project-accent: #f6d76b; }
+.project-card[href="../photorss/"] { --project-accent: #ff8daa; }
+.project-card[href="../jsonfeed/"] { --project-accent: #ffc18a; }
+.project-card[href="../webanim/"] { --project-accent: #7dd3fc; }
+.project-card[href="../webanim/skyward/"] { --project-accent: #9bbcff; }
+.project-card[href="../webanim/skyward+js/"] { --project-accent: #b0a0ff; }
+.project-card[href="../hydroalert/mobile/"] { --project-accent: #5ee0cb; }
+.project-card[href="../admin/"] { --project-accent: #f0abfc; }
 .project-card:hover { background: #171717; background: color-mix(in srgb, var(--project-accent) 10%, var(--surface)); border-color: var(--project-accent); }
 .project-card:focus-visible { outline-color: var(--project-accent); }
 .card-content { padding: 28px; display: flex; flex-direction: column; height: 100%; }
