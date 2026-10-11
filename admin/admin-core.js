@@ -593,8 +593,10 @@ function updateBadges() {
     const count = (localData[c] || []).length;
     const bDesktop = document.getElementById(`badge-${c}`);
     const bMobile = document.getElementById(`mobile-badge-${c}`);
+    const bMode = document.getElementById(`mode-count-${c}`);
     if (bDesktop) bDesktop.textContent = count;
     if (bMobile) bMobile.textContent = count;
+    if (bMode) bMode.textContent = count;
   });
 
   const bBackups = document.getElementById('badge-backups');

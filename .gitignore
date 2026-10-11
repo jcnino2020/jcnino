@@ -29,3 +29,6 @@ dist/
 # Tailwind standalone CLI
 tailwindcss-macos-arm64
 
+.DS_Store
+assets/.DS_Store
+images/.DS_Store

@@ -250,7 +250,6 @@ aside::-webkit-scrollbar {
   height: 6px;
   border-radius: 50%;
   background: var(--success);
-  box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
   display: inline-block;
 }
 .status-dot.pulse {
@@ -2629,7 +2628,7 @@ aside::-webkit-scrollbar {
 }
 
 .login-field-hint {
-  font-size: 10.5px;
+  font-size: 11.5px;
   font-weight: 500;
   font-family: inherit;
   color: var(--text-muted);

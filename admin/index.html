@@ -48,14 +48,15 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
       </button>
 
-      <a href="/index.html" class="flex items-center" title="Back to Portfolio Home">
+      <a href="/index.html" class="flex items-center gap-2.5" title="Back to Portfolio Home">
         <img src="/images/logo.png" alt="Portfolio Logo" class="header-logo" />
+        <span class="studio-tag hidden sm:inline-flex">CINEMA SUITE // CMS</span>
       </a>
       <div class="header-divider hidden sm:block"></div>
       
       <!-- Breadcrumb Navigation -->
       <nav class="breadcrumb-nav hidden sm:flex" aria-label="Breadcrumb">
-        <a href="/admin/index.html?cat=overview">Admin</a>
+        <a href="/admin/index.html?cat=overview">Studio</a>
         <span class="breadcrumb-sep">/</span>
         <span id="breadcrumb-active" class="breadcrumb-current">Overview</span>
       </nav>
@@ -70,10 +71,10 @@
         <span class="kbd-shortcut">⌘K</span>
       </button>
 
-      <!-- System Status (Plain text + dot, NO PILL) -->
+      <!-- System Status -->
       <div id="save-status" class="status-indicator hidden lg:inline-flex">
         <span class="status-dot pulse"></span>
-        <span>Portfolio workspace</span>
+        <span class="mono-num uppercase tracking-wider text-[11px] font-semibold text-amber-400">Studio Telemetry</span>
       </div>
 
       <!-- Connect Project Folder Button -->
@@ -279,6 +280,61 @@
     <!-- Main Workspace Container -->
     <main class="admin-main">
       
+      <!-- Studio Mode Horizon Transport Strip -->
+      <nav class="studio-mode-bar" aria-label="Studio Mode Switcher">
+        <div class="studio-mode-scroll">
+          <button type="button" onclick="switchTab('overview')" class="studio-mode-chip active" data-cat="overview" title="Overview & Mission Telemetry (0)">
+            <span class="mode-shortcut">0</span>
+            <span class="mode-label">Mission Overview</span>
+          </button>
+          <button type="button" onclick="switchTab('highlights')" class="studio-mode-chip" data-cat="highlights" title="Gallery Highlights (1)">
+            <span class="mode-shortcut">1</span>
+            <span class="mode-label">Highlights</span>
+            <span class="mode-count" id="mode-count-highlights">0</span>
+          </button>
+          <button type="button" onclick="switchTab('drone')" class="studio-mode-chip" data-cat="drone" title="Drone Shots (2)">
+            <span class="mode-shortcut">2</span>
+            <span class="mode-label">Drone Shots (01)</span>
+            <span class="mode-count" id="mode-count-drone">0</span>
+          </button>
+          <button type="button" onclick="switchTab('framed')" class="studio-mode-chip" data-cat="framed" title="Framed Moments (3)">
+            <span class="mode-shortcut">3</span>
+            <span class="mode-label">Framed (02)</span>
+            <span class="mode-count" id="mode-count-framed">0</span>
+          </button>
+          <button type="button" onclick="switchTab('events')" class="studio-mode-chip" data-cat="events" title="School Events (4)">
+            <span class="mode-shortcut">4</span>
+            <span class="mode-label">Events (03)</span>
+            <span class="mode-count" id="mode-count-events">0</span>
+          </button>
+          <button type="button" onclick="switchTab('collections')" class="studio-mode-chip" data-cat="collections" title="Collections Hub (5)">
+            <span class="mode-shortcut">5</span>
+            <span class="mode-label">Collections</span>
+          </button>
+          <button type="button" onclick="switchTab('videos')" class="studio-mode-chip" data-cat="videos" title="Video Projects (6)">
+            <span class="mode-shortcut">6</span>
+            <span class="mode-label">Video Projects (04)</span>
+            <span class="mode-count" id="mode-count-videos">0</span>
+          </button>
+          <button type="button" onclick="switchTab('videos2')" class="studio-mode-chip" data-cat="videos2" title="Negros Aerials SE (7)">
+            <span class="mode-shortcut">7</span>
+            <span class="mode-label">Negros Aerials</span>
+            <span class="mode-count" id="mode-count-videos2">0</span>
+          </button>
+          <div class="h-4 w-[1px] bg-white/10 mx-1 flex-shrink-0"></div>
+          <a href="/admin/analytics.html" class="studio-mode-chip" title="Visitor & Traffic Analytics">
+            <span class="mode-label">Analytics</span>
+            <span class="text-[9.5px] font-mono text-emerald-400 font-bold uppercase tracking-wider">Live</span>
+          </a>
+          <a href="/admin/settings.html" class="studio-mode-chip" title="System Settings">
+            <span class="mode-label">Settings</span>
+          </a>
+          <a href="/admin/backups.html" class="studio-mode-chip" title="Snapshot Backups">
+            <span class="mode-label">Backups</span>
+          </a>
+        </div>
+      </nav>
+      
       <!-- ====================================================================
            1. OVERVIEW DASHBOARD VIEW (#view-overview)
            ==================================================================== -->
@@ -349,7 +405,7 @@
               <div>
                 <div class="text-[11px] font-bold uppercase tracking-[0.08em] text-zinc-500 mb-1">AUDIENCE TRAFFIC</div>
                 <div class="flex items-center gap-3">
-                  <h3 class="text-base font-semibold text-white" id="traffic-metric-title">Visitor Traffic Trend</h3>
+                  <h2 class="text-base font-semibold text-white" id="traffic-metric-title">Visitor Traffic Trend</h2>
                 </div>
               </div>
 
@@ -620,7 +676,7 @@
     <aside id="edit-drawer" role="dialog" aria-modal="true" aria-label="Edit media details">
       <div class="drawer-header">
         <div>
-          <h3 class="font-bold text-base text-white">Modify Media Details</h3>
+          <h2 class="font-bold text-base text-white">Modify Media Details</h2>
           <p class="text-xs text-zinc-400 mt-0.5">Edit file information, EXIF metadata, and SEO tags</p>
         </div>
         <button onclick="closeEditDrawer()" class="btn-icon" title="Close Drawer">
@@ -1162,6 +1218,11 @@
       document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
       const activeNav = document.getElementById(`tab-${category}`);
       if (activeNav) activeNav.classList.add('active');
+
+      // Update Studio Mode Horizon Chips
+      document.querySelectorAll('.studio-mode-chip').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-cat') === category);
+      });
 
       // Toggle Views
       const viewOverview = document.getElementById('view-overview');
@@ -1871,8 +1932,8 @@
                  loading="lazy"
                  class="media-thumb-img"/>
             
-            <!-- Index Tag -->
-            <div class="media-index-tag">#${origIndex + 1}</div>
+            <!-- Darkroom Frame Index Tag -->
+            <div class="media-index-tag">${isVid ? 'CLIP' : 'ROLL'} • FR ${String(origIndex + 1).padStart(2, '0')}</div>
 
             <!-- Video Duration -->
             ${isVid ? `<div class="media-index-tag" style="left: auto; right: 8px;">${escapeHtml(item.duration || '')}</div>` : ''}
@@ -1885,7 +1946,7 @@
             <!-- Hover Action Overlay -->
             <div class="media-hover-overlay">
               <button onclick="event.stopPropagation(); openEditDrawer(${origIndex})" class="btn btn-primary text-xs" style="min-height: 30px; padding: 4px 10px;">
-                Edit Details
+                Inspect & Edit
               </button>
               <button onclick="event.stopPropagation(); deleteItem(${origIndex})" class="btn btn-danger text-xs" style="min-height: 30px; padding: 4px 10px;" title="Delete Item">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
@@ -1897,6 +1958,17 @@
           <div class="media-meta-footer">
             <div class="media-filename" title="${escapeHtml(titleText)}">${escapeHtml(titleText)}</div>
             <div class="media-caption" title="${escapeHtml(captionText)}">${escapeHtml(captionText)}</div>
+            ${item.camera ? `
+              <div class="flex items-center gap-1.5 text-[10.5px] text-amber-400 font-mono mt-1 pt-1 border-t border-white/5 truncate">
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-400 flex-shrink-0"></span>
+                <span>${escapeHtml(item.camera)}${item.aperture ? ' • ' + escapeHtml(item.aperture) : ''}${item.shutter ? ' • ' + escapeHtml(item.shutter) : ''}</span>
+              </div>
+            ` : (isVid ? `
+              <div class="flex items-center gap-1.5 text-[10.5px] text-cyan-400 font-mono mt-1 pt-1 border-t border-white/5 truncate">
+                <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 flex-shrink-0"></span>
+                <span>4K YOUTUBE • ${escapeHtml(item.duration || 'HD')}</span>
+              </div>
+            ` : '')}
           </div>
         `;
         container.appendChild(card);
@@ -2897,9 +2969,52 @@
       }
     }
 
+    // Studio Keyboard Quick-Switching (0-7 keys)
+    window.addEventListener('keydown', (e) => {
+      const activeEl = document.activeElement;
+      const isInput = activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA' || activeEl.tagName === 'SELECT' || activeEl.isContentEditable);
+      if (isInput || e.metaKey || e.ctrlKey || e.altKey) return;
+      const keyMap = {
+        '0': 'overview',
+        '1': 'highlights',
+        '2': 'drone',
+        '3': 'framed',
+        '4': 'events',
+        '5': 'collections',
+        '6': 'videos',
+        '7': 'videos2'
+      };
+      if (keyMap[e.key]) {
+        e.preventDefault();
+        switchTab(keyMap[e.key]);
+      }
+    });
+
     window.addEventListener('DOMContentLoaded', () => {
       verifySessionOnLoad(initManager);
     });
   </script>
+
+  <!-- Floating Glass Command Dock -->
+  <aside class="floating-command-dock" id="floating-command-dock" aria-label="Quick Actions Dock">
+    <button type="button" onclick="triggerFilePicker()" class="dock-btn primary" title="Add Media Files">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+      <span>+ Add Media</span>
+    </button>
+    <div class="dock-divider"></div>
+    <button type="button" onclick="openCommandPalette()" class="dock-btn" title="Command Search (⌘K)">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <span>Search ⌘K</span>
+    </button>
+    <button type="button" onclick="switchTab('overview')" class="dock-btn" title="Mission Telemetry Overview">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+      <span>Overview</span>
+    </button>
+    <div class="dock-divider"></div>
+    <button type="button" onclick="toggleSaveDropdown()" class="dock-btn" id="dock-save-btn" title="Save & Publish Changes">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+      <span class="text-amber-400 font-bold">Publish</span>
+    </button>
+  </aside>
 </body>
 </html>
