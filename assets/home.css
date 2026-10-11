@@ -244,11 +244,6 @@
     padding-top: 88px;
   }
 
-  .home-page #home > div {
-    padding-top: 0;
-    padding-bottom: 0;
-  }
-
   .home-page #home .grid {
     display: flex;
     flex-direction: column;
@@ -270,6 +265,13 @@
   .home-page #services-section .service-card {
     grid-column: span 6 !important;
     min-height: 290px;
+  }
+}
+
+@media (max-width: 767px) {
+  .home-page #home > div.w-full {
+    padding-top: 0;
+    padding-bottom: 0;
   }
 }
 
