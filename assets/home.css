@@ -271,7 +271,7 @@
 @media (max-width: 767px) {
   .home-page #home > div.w-full {
     padding-top: 0;
-    padding-bottom: 0;
+    padding-bottom: 40px;
   }
 }
 
