@@ -21,3 +21,7 @@ STORY: Find a collection, inspect recent work, edit media, save or publish. Revi
 FIRST VIEWPORT: 224px desktop rail, 68px header, 28px title, four photographic collection shortcuts, then a three-column recent-work grid. Mobile uses a drawer and two columns. Add media is beside the page heading. Audience at a glance is the signature native disclosure; motion only conveys feedback.
 FORM: User-pinned clean reset, code-led. Grounded candidates considered: contact sheet, editing desk, archive index, quiet studio, proofing room, filing cabinet, gallery registrar. Quiet studio is fourth; degraded seed a3122661 provided no catalog challengers.
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+
+## Public portfolio parity correction
+
+The owner pinned the public index and Framed Moments as visual authority: replace charcoal and custom sizing with their exact black/white palette, Helvetica Neue scale, pill actions and 4px photo corners. Use 48px desktop / 36px mobile titles, 18px introduction, 14px bold navigation, 80px/64px headers and public gutters. This supersedes the prior custom neutral palette and comfortable-scale decisions while preserving admin workflows and analytics.

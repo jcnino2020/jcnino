@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "generatedAt": "2026-10-30T22:21:44.955079+00:00",
-  "title": "Design System: Portfolio Admin",
+  "title": "Design System: Portfolio Admin \u2014 Public Portfolio Parity",
   "extensions": {
     "shadows": [
       {
@@ -37,7 +37,7 @@
       },
       {
         "name": "single-media-column",
-        "value": "480px"
+        "value": "640px"
       }
     ],
     "verification": {
@@ -58,19 +58,24 @@
         "drawer expanded-state semantics"
       ]
     },
-    "comfortableScale": {
+    "publicPortfolioParity": {
+      "sources": [
+        "assets/portfolio.css",
+        "framed-moments.html",
+        "index.html"
+      ],
       "body": "16px",
-      "input": "16px",
-      "navigation": "15px",
-      "titleDesktop": "34px",
-      "titleMobile": "30px",
-      "metadata": "13px",
-      "buttonMinHeight": "44px",
-      "inputMinHeight": "46px",
-      "sidebar": "264px",
-      "headerDesktop": "76px",
-      "headerMobile": "68px",
-      "drawer": "280px"
+      "pageTitleDesktop": "48px/48px",
+      "pageTitleMobile": "36px/40px",
+      "introduction": "18px/28px",
+      "navigation": "14px bold",
+      "headerDesktop": "80px",
+      "headerMobile": "64px",
+      "sidebar": "248px",
+      "mobileDrawer": "264px",
+      "photoRadius": "4px",
+      "actionRadius": "9999px",
+      "gridGap": "16px"
     }
   },
   "components": [
@@ -80,7 +85,7 @@
       "refersTo": "button-primary",
       "description": "Comfortably sized operational action.",
       "html": "<button class=\"ds-button-primary\">Save changes</button>",
-      "css": ".ds-button-primary{font-family:var(--font-workspace,Helvetica Neue,Helvetica,Arial,sans-serif);background:#eeeeef;color:#151619;border:1px solid #eeeeef;min-height:44px;border-radius:6px;padding:10px 18px;font-size:14px;font-weight:600;cursor:pointer;transition:background 140ms cubic-bezier(.16,1,.3,1)}.ds-button-primary:hover{background:#fff;border-color:#fff;}.ds-button-primary:focus-visible{outline:2px solid #e0e1e6;outline-offset:4px}@media(prefers-reduced-motion:reduce){.ds-button-primary,.ds-button-secondary,.ds-field,.ds-nav-link,.ds-tab{transition-duration:.01ms}}"
+      "css": ".ds-button-primary{font-family:var(--font-workspace,Helvetica Neue,Helvetica,Arial,sans-serif);background:#ffffff;color:#000000;border:1px solid #ffffff;min-height:44px;border-radius:9999px;padding:10px 18px;font-size:14px;font-weight:700;cursor:pointer;transition:background 140ms cubic-bezier(.16,1,.3,1)}.ds-button-primary:hover{background:#fff;border-color:#fff;}.ds-button-primary:focus-visible{outline:2px solid #ffffff;outline-offset:4px}@media(prefers-reduced-motion:reduce){.ds-button-primary,.ds-button-secondary,.ds-field,.ds-nav-link,.ds-tab{transition-duration:.01ms}}"
     },
     {
       "name": "Secondary button",
@@ -88,7 +93,7 @@
       "refersTo": "button-secondary",
       "description": "Comfortably sized operational action.",
       "html": "<button class=\"ds-button-secondary\">Save changes</button>",
-      "css": ".ds-button-secondary{font-family:var(--font-workspace,Helvetica Neue,Helvetica,Arial,sans-serif);background:transparent;color:var(--text-secondary,#c1c2c8);border:1px solid #3a3b41;min-height:44px;border-radius:6px;padding:10px 18px;font-size:14px;font-weight:600;cursor:pointer;transition:background 140ms cubic-bezier(.16,1,.3,1)}.ds-button-secondary:hover{background:#24252a;color:#fff;}.ds-button-secondary:focus-visible{outline:2px solid #e0e1e6;outline-offset:4px}@media(prefers-reduced-motion:reduce){.ds-button-primary,.ds-button-secondary,.ds-field,.ds-nav-link,.ds-tab{transition-duration:.01ms}}"
+      "css": ".ds-button-secondary{font-family:var(--font-workspace,Helvetica Neue,Helvetica,Arial,sans-serif);background:transparent;color:var(--text-secondary,#b3b3b3);border:1px solid #333333;min-height:44px;border-radius:9999px;padding:10px 18px;font-size:14px;font-weight:700;cursor:pointer;transition:background 140ms cubic-bezier(.16,1,.3,1)}.ds-button-secondary:hover{background:#24252a;color:#fff;}.ds-button-secondary:focus-visible{outline:2px solid #ffffff;outline-offset:4px}@media(prefers-reduced-motion:reduce){.ds-button-primary,.ds-button-secondary,.ds-field,.ds-nav-link,.ds-tab{transition-duration:.01ms}}"
     },
     {
       "name": "Text field",
@@ -96,14 +101,14 @@
       "refersTo": "field",
       "description": "Editable portfolio metadata.",
       "html": "<label class=\"ds-label\">Title<input class=\"ds-field\" placeholder=\"Photograph title\"></label>",
-      "css": ".ds-label{font-family:var(--font-workspace,Helvetica Neue,Helvetica,Arial,sans-serif);display:grid;gap:8px;font-size:14px;color:var(--text-secondary,#c1c2c8)}.ds-field{font-family:var(--font-workspace,Helvetica Neue,Helvetica,Arial,sans-serif);background:#141518;color:var(--text-primary,#f1f1f2);border:1px solid #3a3b41;border-radius:6px;padding:10px 12px;min-height:46px;font-size:16px}.ds-field::placeholder{color:#9698a2}.ds-field:focus{border-color:#fff}.ds-field:focus-visible{outline:2px solid #e0e1e6;outline-offset:4px}@media(prefers-reduced-motion:reduce){.ds-button-primary,.ds-button-secondary,.ds-field,.ds-nav-link,.ds-tab{transition-duration:.01ms}}"
+      "css": ".ds-label{font-family:var(--font-workspace,Helvetica Neue,Helvetica,Arial,sans-serif);display:grid;gap:8px;font-size:14px;color:var(--text-secondary,#b3b3b3)}.ds-field{font-family:var(--font-workspace,Helvetica Neue,Helvetica,Arial,sans-serif);background:#000000;color:var(--text-primary,#ffffff);border:1px solid #333333;border-radius:6px;padding:10px 12px;min-height:46px;font-size:16px}.ds-field::placeholder{color:#9698a2}.ds-field:focus{border-color:#fff}.ds-field:focus-visible{outline:2px solid #ffffff;outline-offset:4px}@media(prefers-reduced-motion:reduce){.ds-button-primary,.ds-button-secondary,.ds-field,.ds-nav-link,.ds-tab{transition-duration:.01ms}}"
     },
     {
       "name": "Rail navigation",
       "kind": "nav",
       "description": "One persistent desktop navigation, a drawer on mobile.",
       "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-link ds-selected\" href=\"#overview\" aria-current=\"page\">Overview</a><a class=\"ds-nav-link\" href=\"#media\">Media library</a></nav>",
-      "css": ".ds-nav{font-family:var(--font-workspace,Helvetica Neue,Helvetica,Arial,sans-serif);background:#161719;padding:12px;width:200px;display:grid;gap:3px}.ds-nav-link{color:var(--text-secondary,#c1c2c8);font-size:14px;padding:8px 10px;border-radius:6px;text-decoration:none;min-height:22px}.ds-nav-link:hover{background:#ffffff0a;color:#f1f1f2}.ds-nav-link.ds-selected{background:#2c2d32;color:#fff;font-weight:500}.ds-nav-link:focus-visible{outline:2px solid #e0e1e6;outline-offset:4px}@media(prefers-reduced-motion:reduce){.ds-button-primary,.ds-button-secondary,.ds-field,.ds-nav-link,.ds-tab{transition-duration:.01ms}}"
+      "css": ".ds-nav{font-family:var(--font-workspace,Helvetica Neue,Helvetica,Arial,sans-serif);background:#000000;padding:12px;width:200px;display:grid;gap:3px}.ds-nav-link{color:var(--text-secondary,#b3b3b3);font-size:14px;padding:8px 10px;border-radius:6px;text-decoration:none;min-height:22px}.ds-nav-link:hover{background:#ffffff0a;color:#ffffff}.ds-nav-link.ds-selected{background:#0f0f0f;color:#fff;font-weight:500}.ds-nav-link:focus-visible{outline:2px solid #ffffff;outline-offset:4px}@media(prefers-reduced-motion:reduce){.ds-button-primary,.ds-button-secondary,.ds-field,.ds-nav-link,.ds-tab{transition-duration:.01ms}}"
     },
     {
       "name": "Form card",
@@ -111,21 +116,21 @@
       "refersTo": "card",
       "description": "Flat supporting form container.",
       "html": "<section class=\"ds-card\"><h3 class=\"ds-card-title\">Portfolio details</h3><p class=\"ds-card-copy\">Manage how your work is presented.</p></section>",
-      "css": ".ds-card{font-family:var(--font-workspace,Helvetica Neue,Helvetica,Arial,sans-serif);background:var(--bg-secondary,#191a1d);border:1px solid #2b2c30;border-radius:10px;padding:24px;color:var(--text-primary,#f1f1f2)}.ds-card-title{margin:0 0 12px;font-size:15px;font-weight:600}.ds-card-copy{margin:0;color:var(--text-muted,#a1a2ab);font-size:16px}@media(prefers-reduced-motion:reduce){.ds-button-primary,.ds-button-secondary,.ds-field,.ds-nav-link,.ds-tab{transition-duration:.01ms}}"
+      "css": ".ds-card{font-family:var(--font-workspace,Helvetica Neue,Helvetica,Arial,sans-serif);background:var(--bg-secondary,#0f0f0f);border:1px solid #1f1f1f;border-radius:10px;padding:24px;color:var(--text-primary,#ffffff)}.ds-card-title{margin:0 0 12px;font-size:15px;font-weight:600}.ds-card-copy{margin:0;color:var(--text-muted,#a0a0a0);font-size:16px}@media(prefers-reduced-motion:reduce){.ds-button-primary,.ds-button-secondary,.ds-field,.ds-nav-link,.ds-tab{transition-duration:.01ms}}"
     },
     {
       "name": "Audience disclosure",
       "kind": "custom",
       "description": "Progressively reveals supporting audience information.",
       "html": "<details class=\"ds-disclosure\"><summary>Audience at a glance</summary><div class=\"ds-disclosure-body\">Audience metrics appear here.</div></details>",
-      "css": ".ds-disclosure{font-family:var(--font-workspace,Helvetica Neue,Helvetica,Arial,sans-serif);border-block:1px solid #2b2c30;color:var(--text-primary,#f1f1f2)}.ds-disclosure summary{cursor:pointer;padding:20px 0;font-size:14px;font-weight:500}.ds-disclosure summary::marker{color:#9698a2}.ds-disclosure-body{padding-bottom:24px;color:var(--text-muted,#a1a2ab);font-size:16px}.ds-disclosure summary:focus-visible{outline:2px solid #e0e1e6;outline-offset:4px}@media(prefers-reduced-motion:reduce){.ds-button-primary,.ds-button-secondary,.ds-field,.ds-nav-link,.ds-tab{transition-duration:.01ms}}"
+      "css": ".ds-disclosure{font-family:var(--font-workspace,Helvetica Neue,Helvetica,Arial,sans-serif);border-block:1px solid #1f1f1f;color:var(--text-primary,#ffffff)}.ds-disclosure summary{cursor:pointer;padding:20px 0;font-size:14px;font-weight:500}.ds-disclosure summary::marker{color:#9698a2}.ds-disclosure-body{padding-bottom:24px;color:var(--text-muted,#a0a0a0);font-size:16px}.ds-disclosure summary:focus-visible{outline:2px solid #ffffff;outline-offset:4px}@media(prefers-reduced-motion:reduce){.ds-button-primary,.ds-button-secondary,.ds-field,.ds-nav-link,.ds-tab{transition-duration:.01ms}}"
     },
     {
       "name": "Metric filter",
       "kind": "chip",
       "description": "Compact range selector with a neutral selected state.",
       "html": "<div class=\"ds-tabs\"><button class=\"ds-tab ds-tab-active\" aria-pressed=\"true\">7 days</button><button class=\"ds-tab\" aria-pressed=\"false\">30 days</button></div>",
-      "css": ".ds-tabs{display:inline-flex;background:#0007;border:1px solid #2b2c30;border-radius:6px;padding:2px;gap:2px}.ds-tab{font-family:var(--font-workspace,Helvetica Neue,Helvetica,Arial,sans-serif);padding:4px 10px;font-size:14px;font-weight:600;color:var(--text-muted,#a1a2ab);background:transparent;border:0;border-radius:4px;cursor:pointer}.ds-tab:hover{color:#f1f1f2}.ds-tab-active{background:#fff;color:#000}.ds-tab-active:hover{color:#000}.ds-tab:focus-visible{outline:2px solid #e0e1e6;outline-offset:4px}@media(prefers-reduced-motion:reduce){.ds-button-primary,.ds-button-secondary,.ds-field,.ds-nav-link,.ds-tab{transition-duration:.01ms}}"
+      "css": ".ds-tabs{display:inline-flex;background:#0007;border:1px solid #1f1f1f;border-radius:6px;padding:2px;gap:2px}.ds-tab{font-family:var(--font-workspace,Helvetica Neue,Helvetica,Arial,sans-serif);padding:4px 10px;font-size:14px;font-weight:600;color:var(--text-muted,#a0a0a0);background:transparent;border:0;border-radius:4px;cursor:pointer}.ds-tab:hover{color:#ffffff}.ds-tab-active{background:#fff;color:#000}.ds-tab-active:hover{color:#000}.ds-tab:focus-visible{outline:2px solid #ffffff;outline-offset:4px}@media(prefers-reduced-motion:reduce){.ds-button-primary,.ds-button-secondary,.ds-field,.ds-nav-link,.ds-tab{transition-duration:.01ms}}"
     }
   ],
   "narrative": {
