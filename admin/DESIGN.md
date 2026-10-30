@@ -23,18 +23,18 @@ colors:
 typography:
   title:
     fontFamily: "Helvetica Neue, Helvetica, Arial, sans-serif"
-    fontSize: "28px"
+    fontSize: "34px"
     fontWeight: 600
     lineHeight: 1.2
     letterSpacing: "-0.025em"
   body:
     fontFamily: "Helvetica Neue, Helvetica, Arial, sans-serif"
-    fontSize: "14px"
+    fontSize: "16px"
     lineHeight: 1.5
     letterSpacing: "-0.01em"
   label:
     fontFamily: "Helvetica Neue, Helvetica, Arial, sans-serif"
-    fontSize: "12px"
+    fontSize: "14px"
     fontWeight: 500
     letterSpacing: "0"
 rounded:
@@ -56,12 +56,12 @@ components:
     backgroundColor: "{colors.action}"
     textColor: "{colors.action-ink}"
     rounded: "{rounded.control}"
-    padding: "8px 14px"
+    padding: "10px 18px"
   button-secondary:
     backgroundColor: "transparent"
     textColor: "{colors.secondary-ink}"
     rounded: "{rounded.control}"
-    padding: "8px 14px"
+    padding: "10px 18px"
   field:
     backgroundColor: "{colors.field}"
     textColor: "{colors.ink}"
@@ -96,9 +96,9 @@ Helvetica Neue with Helvetica, Arial and sans-serif fallbacks carries every role
 
 ## Layout
 
-Desktop uses a 224px rail and 68px header. The main work surface is capped at 1360px with 40px top, 44px inline and 64px bottom padding and 32px section gaps. Recent work uses three columns and 24px gutters; collection shortcuts use four photographs.
+Desktop uses a 264px rail and 68px header. The main work surface is capped at 1360px with 40px top, 44px inline and 64px bottom padding and 32px section gaps. Recent work uses three columns and 24px gutters; collection shortcuts use four photographs.
 
-At 1100px and below, inline padding becomes 28px, recent work uses two columns, and settings side content stacks. At 768px and below, the rail becomes a 252px off-canvas drawer, the header is 60px high, collection shortcuts become two columns, and content padding becomes 28px 20px 44px. At 640px and below, media grids use two columns with 14px gaps, forms stack, edit drawers fill the viewport width, and buttons are at least 40px high. At 360px and below, media grids use one column. Touch devices expose media actions; keyboard focus also reveals them.
+At 1100px and below, inline padding becomes 28px, recent work uses two columns, and settings side content stacks. At 768px and below, the rail becomes a 280px off-canvas drawer, the header is 60px high, collection shortcuts become two columns, and content padding becomes 28px 20px 44px. At 640px and below, media grids use two columns with 14px gaps, forms stack, edit drawers fill the viewport width, and buttons are at least 40px high. At 360px and below, media grids use one column. Touch devices expose media actions; keyboard focus also reveals them.
 
 ## Elevation & Depth
 
@@ -124,3 +124,7 @@ Visual verification covered desktop and mobile overview plus mobile settings; mo
 - Don't introduce decorative dashboard panels or repeated navigation.
 - Don't add decorative gradients, pulsing status lights or hover lift.
 - Don't hide essential media actions from keyboard or touch users.
+
+## Comfortable scale
+
+The owner requested larger sizing throughout the admin. The final scale is 16px body and inputs, 34px desktop / 30px mobile page titles, 19px section titles, 15px navigation, 14px control labels, and 13px supporting metadata. Buttons are at least 44px tall and inputs 46px. Desktop rail is 264px and header 76px; mobile header is 68px and drawer 280px. Below 480px, photographic grids use one column for larger previews and readable captions. The final Comfortable scale block in workspace.css takes precedence over earlier dimensions.

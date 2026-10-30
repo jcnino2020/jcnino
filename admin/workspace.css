@@ -1938,3 +1938,84 @@ body { min-height: 100dvh; }
   .header-brand .hidden, .header-actions .btn-cmd-search.hidden { display: flex; }
   .header-brand .studio-tag.hidden { display: inline-flex; }
 }
+
+/* Comfortable scale across every admin route. */
+:root { --sidebar-width: 264px; --header-height: 76px; }
+html { font-size: 16px; }
+body { line-height: 1.55; }
+.page-title, .admin-action-bar h1 { font-size: 34px; }
+.admin-content-wrap > :first-child p, .admin-action-bar p { font-size: 16px; }
+.admin-content-wrap, .gallery-workspace-wrap { gap: 36px; }
+.sidebar-header { padding: 26px 20px 20px; }
+.sidebar-header-title { font-size: 17px; }
+.sidebar-header-sub, .sidebar-section-title { font-size: 13px; }
+.sidebar-nav-group { gap: 4px; }
+.nav-item { min-height: 46px; font-size: 15px; padding: 10px 12px; }
+.nav-icon { width: 19px; height: 19px; }
+.nav-count { font-size: 13px; }
+.header-brand .header-logo { width: 166px; max-height: 34px; }
+.header-brand .studio-tag, .breadcrumb-nav, .btn-cmd-search { font-size: 14px; }
+.btn, .dock-btn, .dropdown-item { font-size: 14px; min-height: 44px; }
+.btn { padding: 10px 18px; }
+.btn-icon { min-width: 44px; min-height: 44px; }
+.btn svg, .btn-icon svg { width: 17px; height: 17px; }
+.section-title, .editorial-section-header h3, .settings-section > summary { font-size: 19px; }
+.input-label, .drawer-section-title { font-size: 14px; }
+.input-text, .input-select, .input-textarea, .search-input-wrap .input-text, .login-input {
+  font-size: 16px; min-height: 46px; padding: 12px 14px; line-height: 1.5;
+}
+.input-helper, .analytics-strip-meta, .recent-media-footer, .editorial-collection-meta { font-size: 13px; }
+.media-filename, .recent-media-title, .editorial-collection-name { font-size: 16px; }
+.media-caption, .recent-media-caption { font-size: 14px; }
+.workspace-disclosure summary { font-size: 17px; padding-block: 24px; }
+.disclosure-note { font-size: 14px; }
+.analytics-strip-label, .traffic-stat-sub-label, .traffic-stat-main-label { font-size: 14px; }
+.analytics-strip-value { font-size: 34px; }
+.traffic-metric-tab, .time-range-tab { min-height: 44px; padding: 10px 14px; font-size: 14px; }
+.admin-table th, .analytics-table th { font-size: 14px; padding: 16px; }
+.admin-table td, .analytics-table td { font-size: 15px; padding: 18px 16px; }
+.drawer-header h2 { font-size: 24px; }
+.login-title { font-size: 28px; }
+.login-subtitle, .login-field-label { font-size: 15px; }
+.login-submit-btn { min-height: 48px; font-size: 16px; }
+.login-card-footer { font-size: 13px; }
+/* Older templates use fixed utility sizes; bring supporting text onto the ramp. */
+.admin-main .text-xs, .admin-main [class*="text-[10"], .admin-main [class*="text-[11"],
+.admin-main [class*="text-[12"], .admin-main [class*="text-[9"] { font-size: 13px; }
+.admin-main .text-sm { font-size: 16px; }
+.admin-main .text-base { font-size: 19px; }
+@media (max-width: 1100px) {
+  .header-brand .studio-tag, .header-actions .btn-cmd-search { display: none; }
+  .gallery-grid { grid-template-columns: repeat(auto-fill,minmax(260px,1fr)); }
+}
+@media (max-width: 768px) {
+  :root { --header-height: 68px; }
+  .admin-header { height: 68px; padding-inline: 12px; }
+  .header-brand { gap: 8px; }
+  .header-brand .header-logo { width: 100px; }
+  .header-actions { gap: 6px; }
+  .header-actions .btn { font-size: 13px; padding-inline: 10px; }
+  .header-actions .btn svg { width: 14px; height: 14px; }
+  .admin-sidebar, .admin-sidebar.collapsed { width: 280px; }
+  .admin-sidebar.mobile-open .nav-item { padding: 10px 12px; }
+  .page-title, .admin-action-bar h1 { font-size: 30px; }
+  .section-title, .editorial-section-header h3 { font-size: 18px; }
+  .media-filename, .recent-media-title { font-size: 16px; }
+  .form-grid-2, .form-grid-3 { gap: 24px; }
+  .admin-action-bar > div:last-child { flex-wrap: wrap; }
+  .search-input-wrap { flex-basis: 100%; }
+}
+@media (max-width: 480px) {
+  .recent-media-grid, .gallery-grid, #overview-collections-summary { grid-template-columns: minmax(0,1fr); gap: 24px; }
+  .editorial-collection-meta { font-size: 14px; }
+  .header-brand .header-logo { width: 88px; }
+  .header-brand > button { min-width: 36px; }
+}
+@media (max-width: 360px) {
+  .admin-header { padding-inline: 8px; gap: 6px; }
+  .header-brand { gap: 4px; }
+  .header-brand .header-logo { width: 64px; }
+  .header-actions { gap: 4px; }
+  .header-actions .btn { font-size: 12px; padding-inline: 8px; }
+  .header-actions .btn-icon { min-width: 40px; width: 40px; }
+}
