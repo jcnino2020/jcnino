@@ -9,7 +9,7 @@ const stylesheet = fs.readFileSync(path.join(root, 'workspace.css'), 'utf8');
 
 for (const page of pages) {
   const source = fs.readFileSync(path.join(root, `${page}.html`), 'utf8');
-  assert.match(source, /href="\/admin\/workspace\.css"/, `${page}: shared redesign`);
+  assert.match(source, /href="\/admin\/workspace\.css(?:\?[^"]*)?"/, `${page}: shared redesign`);
   assert.match(source, /class="admin-header"/, `${page}: header`);
   assert.match(source, /class="admin-sidebar"/, `${page}: sidebar`);
   assert.match(source, /class="admin-main"/, `${page}: workspace`);

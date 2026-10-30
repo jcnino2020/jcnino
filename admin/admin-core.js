@@ -1076,3 +1076,12 @@ function parseTiffPayload(view, tiffStart, maxLen) {
 window.extractExifMetadata = extractExifMetadata;
 window.DJI_DRONE_MODELS = DJI_DRONE_MODELS;
 
+
+// Match pointer activation for keyboard users of photographic navigation tiles.
+document.addEventListener('keydown', (event) => {
+  if ((event.key === 'Enter' || event.key === ' ') &&
+      event.target.matches('.recent-media-card[role="button"], .editorial-collection-card[role="button"]')) {
+    event.preventDefault();
+    event.target.click();
+  }
+});

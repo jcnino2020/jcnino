@@ -19,7 +19,7 @@
   <link rel="stylesheet" href="/assets/tailwind.css">
   <link rel="stylesheet" href="/assets/portfolio.css">
   <link rel="stylesheet" href="/admin/admin.css?v=editorial-v2">
-  <link rel="stylesheet" href="/admin/workspace.css">
+  <link rel="stylesheet" href="/admin/workspace.css?v=calm-reset-3">
 
   <!-- Load Database File -->
   <script src="/assets/gallery-data.js"></script>
@@ -74,7 +74,7 @@
       <!-- System Status -->
       <div id="save-status" class="status-indicator hidden lg:inline-flex">
         <span class="status-dot pulse"></span>
-        <span class="mono-num uppercase tracking-wider text-[11px] font-semibold text-amber-400">Studio Telemetry</span>
+        <span class="mono-num uppercase tracking-wider text-[11px] font-semibold text-amber-400">Draft workspace</span>
       </div>
 
       <!-- Connect Project Folder Button -->
@@ -170,7 +170,7 @@
         <button onclick="switchTab('highlights')" id="tab-highlights" class="nav-item">
           <div class="nav-item-content">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-            <span class="nav-label">Gallery Highlights</span>
+            <span class="nav-label">Highlights</span>
           </div>
           <span id="badge-highlights" class="nav-count mono-num">0</span>
         </button>
@@ -178,7 +178,7 @@
         <button onclick="switchTab('drone')" id="tab-drone" class="nav-item">
           <div class="nav-item-content">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
-            <span class="nav-label">Drone Shots (01)</span>
+            <span class="nav-label">Drone shots</span>
           </div>
           <span id="badge-drone" class="nav-count mono-num">0</span>
         </button>
@@ -186,7 +186,7 @@
         <button onclick="switchTab('framed')" id="tab-framed" class="nav-item">
           <div class="nav-item-content">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-            <span class="nav-label">Framed Moments (02)</span>
+            <span class="nav-label">Framed moments</span>
           </div>
           <span id="badge-framed" class="nav-count mono-num">0</span>
         </button>
@@ -194,7 +194,7 @@
         <button onclick="switchTab('events')" id="tab-events" class="nav-item">
           <div class="nav-item-content">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-            <span class="nav-label">School Events (03)</span>
+            <span class="nav-label">School events</span>
           </div>
           <span id="badge-events" class="nav-count mono-num">0</span>
         </button>
@@ -209,7 +209,7 @@
         <button onclick="switchTab('videos')" id="tab-videos" class="nav-item">
           <div class="nav-item-content">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line></svg>
-            <span class="nav-label">Video Projects (04)</span>
+            <span class="nav-label">Video projects</span>
           </div>
           <span id="badge-videos" class="nav-count mono-num">0</span>
         </button>
@@ -232,7 +232,7 @@
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
             <span class="nav-label">Analytics</span>
           </div>
-          <span class="nav-tag-live">Live</span>
+
         </a>
       </div>
 
@@ -270,7 +270,7 @@
             <div class="avatar-circle">JC</div>
             <div class="profile-meta">
               <div style="font-size: 12.5px; font-weight: 600; color: #FFFFFF;">Jan Carlo Niñonuevo</div>
-              <div style="font-size: 11px; color: var(--text-muted);">Admin • Online</div>
+              <div style="font-size: 11px; color: var(--text-muted);">Portfolio owner</div>
             </div>
           </div>
         </div>
@@ -281,59 +281,7 @@
     <main class="admin-main">
       
       <!-- Studio Mode Horizon Transport Strip -->
-      <nav class="studio-mode-bar" aria-label="Studio Mode Switcher">
-        <div class="studio-mode-scroll">
-          <button type="button" onclick="switchTab('overview')" class="studio-mode-chip active" data-cat="overview" title="Overview & Mission Telemetry (0)">
-            <span class="mode-shortcut">0</span>
-            <span class="mode-label">Mission Overview</span>
-          </button>
-          <button type="button" onclick="switchTab('highlights')" class="studio-mode-chip" data-cat="highlights" title="Gallery Highlights (1)">
-            <span class="mode-shortcut">1</span>
-            <span class="mode-label">Highlights</span>
-            <span class="mode-count" id="mode-count-highlights">0</span>
-          </button>
-          <button type="button" onclick="switchTab('drone')" class="studio-mode-chip" data-cat="drone" title="Drone Shots (2)">
-            <span class="mode-shortcut">2</span>
-            <span class="mode-label">Drone Shots (01)</span>
-            <span class="mode-count" id="mode-count-drone">0</span>
-          </button>
-          <button type="button" onclick="switchTab('framed')" class="studio-mode-chip" data-cat="framed" title="Framed Moments (3)">
-            <span class="mode-shortcut">3</span>
-            <span class="mode-label">Framed (02)</span>
-            <span class="mode-count" id="mode-count-framed">0</span>
-          </button>
-          <button type="button" onclick="switchTab('events')" class="studio-mode-chip" data-cat="events" title="School Events (4)">
-            <span class="mode-shortcut">4</span>
-            <span class="mode-label">Events (03)</span>
-            <span class="mode-count" id="mode-count-events">0</span>
-          </button>
-          <button type="button" onclick="switchTab('collections')" class="studio-mode-chip" data-cat="collections" title="Collections Hub (5)">
-            <span class="mode-shortcut">5</span>
-            <span class="mode-label">Collections</span>
-          </button>
-          <button type="button" onclick="switchTab('videos')" class="studio-mode-chip" data-cat="videos" title="Video Projects (6)">
-            <span class="mode-shortcut">6</span>
-            <span class="mode-label">Video Projects (04)</span>
-            <span class="mode-count" id="mode-count-videos">0</span>
-          </button>
-          <button type="button" onclick="switchTab('videos2')" class="studio-mode-chip" data-cat="videos2" title="Negros Aerials SE (7)">
-            <span class="mode-shortcut">7</span>
-            <span class="mode-label">Negros Aerials</span>
-            <span class="mode-count" id="mode-count-videos2">0</span>
-          </button>
-          <div class="h-4 w-[1px] bg-white/10 mx-1 flex-shrink-0"></div>
-          <a href="/admin/analytics.html" class="studio-mode-chip" title="Visitor & Traffic Analytics">
-            <span class="mode-label">Analytics</span>
-            <span class="text-[9.5px] font-mono text-emerald-400 font-bold uppercase tracking-wider">Live</span>
-          </a>
-          <a href="/admin/settings.html" class="studio-mode-chip" title="System Settings">
-            <span class="mode-label">Settings</span>
-          </a>
-          <a href="/admin/backups.html" class="studio-mode-chip" title="Snapshot Backups">
-            <span class="mode-label">Backups</span>
-          </a>
-        </div>
-      </nav>
+
       
       <!-- ====================================================================
            1. OVERVIEW DASHBOARD VIEW (#view-overview)
@@ -342,8 +290,8 @@
         <!-- Understated Editorial Page Header -->
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 pb-2 border-b border-white/5">
           <div>
-            <h1 class="page-title mt-0.5 tracking-tight text-white font-bold text-2xl sm:text-3xl">Portfolio overview</h1>
-            <p class="text-xs sm:text-sm text-zinc-400 mt-1">Curate the work, then review its reach.</p>
+            <h1 class="page-title mt-0.5 tracking-tight text-white font-bold text-2xl sm:text-3xl">Your workspace</h1>
+            <p class="text-xs sm:text-sm text-zinc-400 mt-1">A little space to focus on your work.</p>
           </div>
           
           <div class="flex items-center gap-2 flex-wrap">
@@ -358,7 +306,45 @@
           </div>
         </div>
 
-        <!-- Unified Analytics Strip (No SaaS Boxes) -->
+        <!-- Hero Collections Section -->
+        <div class="space-y-3 pt-2">
+          <div class="flex items-center justify-between pb-2 border-b border-white/5">
+            <div>
+
+              <h3 class="text-base font-semibold text-white mt-0.5">Collections</h3>
+            </div>
+            <button onclick="switchTab('collections')" class="text-xs text-zinc-400 hover:text-white font-semibold flex items-center gap-1.5 transition-colors">
+              <span>View All Collections</span>
+              <span class="text-zinc-500">&rarr;</span>
+            </button>
+          </div>
+
+          <div class="editorial-collection-grid" id="overview-collections-summary">
+            <!-- Hero Collections injected dynamically -->
+          </div>
+        </div>
+
+        <!-- Recent work Editorial Section -->
+        <div class="space-y-3 pt-2">
+          <div class="flex items-center justify-between pb-2 border-b border-white/5">
+            <div>
+
+              <h3 class="text-base font-semibold text-white mt-0.5">Recent work</h3>
+            </div>
+            <button onclick="switchTab('highlights')" class="text-xs text-zinc-400 hover:text-white font-semibold flex items-center gap-1.5 transition-colors">
+              <span>Manage Highlights</span>
+              <span class="text-zinc-500">&rarr;</span>
+            </button>
+          </div>
+
+          <div class="recent-media-grid" id="overview-recent-media-grid">
+            <!-- Injected dynamically: 4-6 photographs with filename, location, real views -->
+          </div>
+        </div>
+
+        <details class="workspace-disclosure overview-audience">
+          <summary><span>Audience at a glance</span><span class="disclosure-note">Traffic & recent visitors</span></summary>
+          <div class="disclosure-body">        <!-- Unified Analytics Strip (No SaaS Boxes) -->
         <div class="analytics-strip">
           <div class="analytics-strip-cell">
             <div class="analytics-strip-label">Total Visitors</div>
@@ -403,7 +389,7 @@
           <div class="traffic-workstation">
             <div class="traffic-header">
               <div>
-                <div class="text-[11px] font-bold uppercase tracking-[0.08em] text-zinc-500 mb-1">AUDIENCE TRAFFIC</div>
+
                 <div class="flex items-center gap-3">
                   <h2 class="text-base font-semibold text-white" id="traffic-metric-title">Visitor Traffic Trend</h2>
                 </div>
@@ -521,50 +507,17 @@
           </div>
         </div>
 
-        <!-- Hero Portfolio Collections Section -->
-        <div class="space-y-3 pt-2">
-          <div class="flex items-center justify-between pb-2 border-b border-white/5">
-            <div>
-              <div class="text-[11px] font-bold uppercase tracking-[0.08em] text-zinc-500">PHOTOGRAPHY ARCHIVE</div>
-              <h3 class="text-base font-semibold text-white mt-0.5">Portfolio Collections</h3>
-            </div>
-            <button onclick="switchTab('collections')" class="text-xs text-zinc-400 hover:text-white font-semibold flex items-center gap-1.5 transition-colors">
-              <span>View All Collections</span>
-              <span class="text-zinc-500">&rarr;</span>
-            </button>
           </div>
+        </details>
 
-          <div class="editorial-collection-grid" id="overview-collections-summary">
-            <!-- Hero Collections injected dynamically -->
-          </div>
-        </div>
-
-        <!-- Recent Media Editorial Section -->
-        <div class="space-y-3 pt-2">
-          <div class="flex items-center justify-between pb-2 border-b border-white/5">
-            <div>
-              <div class="text-[11px] font-bold uppercase tracking-[0.08em] text-zinc-500">CURATION FEED</div>
-              <h3 class="text-base font-semibold text-white mt-0.5">Recent Media</h3>
-            </div>
-            <button onclick="switchTab('highlights')" class="text-xs text-zinc-400 hover:text-white font-semibold flex items-center gap-1.5 transition-colors">
-              <span>Manage Highlights</span>
-              <span class="text-zinc-500">&rarr;</span>
-            </button>
-          </div>
-
-          <div class="recent-media-grid" id="overview-recent-media-grid">
-            <!-- Injected dynamically: 4-6 photographs with filename, location, real views -->
-          </div>
-        </div>
-
-        <!-- Top Performing Media & Recent Activity Timeline -->
+        <!-- Most viewed & Recent changes Timeline -->
         <div class="overview-bottom-grid pt-2">
-          <!-- Top Performing Media -->
+          <!-- Most viewed -->
           <div class="editorial-section">
             <div class="editorial-section-header">
               <div>
-                <div class="text-[11px] font-bold uppercase tracking-[0.08em] text-zinc-500">PERFORMANCE RANKING</div>
-                <h3 class="text-base font-semibold text-white mt-0.5">Top Performing Media</h3>
+
+                <h3 class="text-base font-semibold text-white mt-0.5">Most viewed</h3>
               </div>
               <a href="/admin/analytics.html" class="editorial-section-action">View Analytics &rarr;</a>
             </div>
@@ -578,8 +531,8 @@
           <div class="editorial-section">
             <div class="editorial-section-header">
               <div>
-                <div class="text-[11px] font-bold uppercase tracking-[0.08em] text-zinc-500">AUDIT LOG</div>
-                <h3 class="text-base font-semibold text-white mt-0.5">Recent Activity</h3>
+
+                <h3 class="text-base font-semibold text-white mt-0.5">Recent changes</h3>
               </div>
               <a href="backups.html" class="editorial-section-action">Timeline &rarr;</a>
             </div>
@@ -598,7 +551,7 @@
         <!-- Top Category Action Bar -->
         <div class="admin-action-bar">
           <div>
-            <h1 id="category-title" class="text-xl font-bold tracking-tight text-white">Gallery Highlights</h1>
+            <h1 id="category-title" class="text-xl font-bold tracking-tight text-white">Highlights</h1>
             <p id="category-subtitle" class="text-xs text-zinc-400 mt-0.5">Manage main highlights displayed on index.html grid.</p>
           </div>
 
@@ -657,7 +610,7 @@
       <section id="view-collections" class="admin-content-wrap hidden">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
-            <h1 class="page-title">Portfolio Collections</h1>
+            <h1 class="page-title">Collections</h1>
             <p class="text-sm text-zinc-400 mt-0.5">Curated photography bodies of work, travel montages, and client projects.</p>
           </div>
         </div>
@@ -732,13 +685,13 @@
             <div class="drawer-section-title">Basic Information</div>
             
             <div class="space-y-1">
-              <label class="input-label">File Name</label>
+              <label class="input-label" for="edit-filename">File Name</label>
               <input type="text" id="edit-filename" class="input-text" placeholder="e.g. GH-01.jpg"/>
               <div class="input-helper">Physical filename inside the images/ directory.</div>
             </div>
 
             <div class="space-y-1">
-              <label class="input-label">Photo Caption & Location</label>
+              <label class="input-label" for="edit-desc">Photo Caption & Location</label>
               <input type="text" id="edit-desc" class="input-text" placeholder="e.g. Aerial View of Lakawon Island • Cadiz City, Negros Occidental"/>
               <div class="input-helper">Displayed in lightboxes and portfolio pages.</div>
             </div>
@@ -749,11 +702,11 @@
             <div class="drawer-section-title">Location & Setting</div>
             <div class="form-grid-2">
               <div class="space-y-1">
-                <label class="input-label">City / Municipality</label>
+                <label class="input-label" for="edit-city">City / Municipality</label>
                 <input type="text" id="edit-city" class="input-text" placeholder="e.g. Bacolod City"/>
               </div>
               <div class="space-y-1">
-                <label class="input-label">Province / State</label>
+                <label class="input-label" for="edit-province">Province / State</label>
                 <input type="text" id="edit-province" class="input-text" placeholder="e.g. Negros Occidental"/>
               </div>
             </div>
@@ -770,27 +723,27 @@
             </div>
             <div class="form-grid-2">
               <div class="space-y-1">
-                <label class="input-label">Camera Body</label>
+                <label class="input-label" for="edit-camera">Camera Body</label>
                 <input type="text" id="edit-camera" class="input-text" placeholder="e.g. Nikon Z50"/>
               </div>
               <div class="space-y-1">
-                <label class="input-label">Lens</label>
+                <label class="input-label" for="edit-lens">Lens</label>
                 <input type="text" id="edit-lens" class="input-text" placeholder="e.g. Viltrox 25mm f/1.7"/>
               </div>
               <div class="space-y-1">
-                <label class="input-label">Aperture</label>
+                <label class="input-label" for="edit-aperture">Aperture</label>
                 <input type="text" id="edit-aperture" class="input-text" placeholder="e.g. f/1.7"/>
               </div>
               <div class="space-y-1">
-                <label class="input-label">ISO</label>
+                <label class="input-label" for="edit-iso">ISO</label>
                 <input type="text" id="edit-iso" class="input-text" placeholder="e.g. 800"/>
               </div>
               <div class="space-y-1">
-                <label class="input-label">Shutter Speed</label>
+                <label class="input-label" for="edit-shutter">Shutter Speed</label>
                 <input type="text" id="edit-shutter" class="input-text" placeholder="e.g. 1/500s"/>
               </div>
               <div class="space-y-1">
-                <label class="input-label">Date Taken</label>
+                <label class="input-label" for="edit-datetaken">Date Taken</label>
                 <input type="text" id="edit-datetaken" class="input-text" placeholder="e.g. 2026-03-15"/>
               </div>
             </div>
@@ -817,28 +770,28 @@
             <div class="drawer-section-title">Video Project Details</div>
             
             <div class="space-y-1">
-              <label class="input-label">Video Title</label>
+              <label class="input-label" for="edit-video-title">Video Title</label>
               <input type="text" id="edit-video-title" class="input-text" placeholder="e.g. Manila 2024 Montage"/>
             </div>
 
             <div class="space-y-1">
-              <label class="input-label">YouTube Video ID</label>
+              <label class="input-label" for="edit-video-id">YouTube Video ID</label>
               <input type="text" id="edit-video-id" class="input-text" placeholder="e.g. K_9mOUj-flY"/>
               <div class="input-helper">Code in your YouTube URL (after v= or in share link).</div>
             </div>
 
             <div class="space-y-1">
-              <label class="input-label">Duration</label>
+              <label class="input-label" for="edit-video-duration">Duration</label>
               <input type="text" id="edit-video-duration" class="input-text" placeholder="e.g. 1:01"/>
             </div>
 
             <div class="space-y-1">
-              <label class="input-label">Thumbnail Image Path</label>
+              <label class="input-label" for="edit-video-thumb">Thumbnail Image Path</label>
               <input type="text" id="edit-video-thumb" class="input-text" placeholder="e.g. images/optimized/800/Video Thumbnails/VI-01-800.webp"/>
             </div>
 
             <div class="space-y-1">
-              <label class="input-label">Fallback Thumbnail Path</label>
+              <label class="input-label" for="edit-video-fallback">Fallback Thumbnail Path</label>
               <input type="text" id="edit-video-fallback" class="input-text" placeholder="e.g. images/Video Thumbnails/VI-01.jpg"/>
             </div>
           </div>
@@ -926,17 +879,17 @@
         <!-- Right Column: Metadata Form -->
         <div class="space-y-3">
           <div class="space-y-1">
-            <label class="input-label">Target Gallery Collection</label>
+            <label class="input-label" for="upload-category">Target Gallery Collection</label>
             <select id="upload-category" class="input-select" onchange="handleUploadCategoryChange(this.value)">
-              <option value="highlights">Gallery Highlights (Landing Master)</option>
-              <option value="drone">Drone Shots (01)</option>
-              <option value="framed">Framed Moments (02)</option>
-              <option value="events">School Events (03)</option>
+              <option value="highlights">Highlights (Landing Master)</option>
+              <option value="drone">Drone shots</option>
+              <option value="framed">Framed moments</option>
+              <option value="events">School events</option>
             </select>
           </div>
 
           <div class="space-y-1">
-            <label class="input-label">Destination File Name</label>
+            <label class="input-label" for="upload-filename">Destination File Name</label>
             <input type="text" id="upload-filename" class="input-text" placeholder="e.g. GH-41.JPG or Lakawon-Aerial.jpg" oninput="handleUploadFilenameInput(this.value)"/>
             <p class="input-helper">Saved in images/ and optimized WebP folders.</p>
           </div>
@@ -951,11 +904,11 @@
 
           <div class="form-grid-2">
             <div class="space-y-1">
-              <label class="input-label">City / Location</label>
+              <label class="input-label" for="upload-city">City / Location</label>
               <input type="text" id="upload-city" class="input-text" placeholder="e.g. Cadiz City" value="Bacolod City" oninput="updateUploadCaptionFields()"/>
             </div>
             <div class="space-y-1">
-              <label class="input-label">Province / Region</label>
+              <label class="input-label" for="upload-province">Province / Region</label>
               <input type="text" id="upload-province" class="input-text" placeholder="e.g. Negros Occidental" value="Negros Occidental" oninput="updateUploadCaptionFields()"/>
             </div>
           </div>
@@ -1046,36 +999,36 @@
 
       <div class="space-y-3.5">
         <div class="space-y-1">
-          <label class="input-label">Target Category</label>
+          <label class="input-label" for="new-video-category">Target Category</label>
           <select id="new-video-category" class="input-select">
-            <option value="videos">Video Projects (04)</option>
+            <option value="videos">Video projects</option>
             <option value="videos2">Negros Aerials SE</option>
           </select>
         </div>
 
         <div class="space-y-1">
-          <label class="input-label">Video Title</label>
+          <label class="input-label" for="new-video-title">Video Title</label>
           <input type="text" id="new-video-title" class="input-text" placeholder="e.g. Bacolod City Street Cinema 2026"/>
         </div>
 
         <div class="form-grid-2">
           <div class="space-y-1">
-            <label class="input-label">YouTube Video ID</label>
+            <label class="input-label" for="new-video-id">YouTube Video ID</label>
             <input type="text" id="new-video-id" oninput="handleNewVideoIdChange(this.value)" class="input-text" placeholder="e.g. K_9mOUj-flY"/>
           </div>
           <div class="space-y-1">
-            <label class="input-label">Duration</label>
+            <label class="input-label" for="new-video-duration">Duration</label>
             <input type="text" id="new-video-duration" class="input-text" placeholder="e.g. 2:45" value="1:00"/>
           </div>
         </div>
 
         <div class="space-y-1">
-          <label class="input-label">Optimized Thumbnail (WebP)</label>
+          <label class="input-label" for="new-video-thumb">Optimized Thumbnail (WebP)</label>
           <input type="text" id="new-video-thumb" class="input-text" placeholder="images/optimized/800/Video Thumbnails/VI-01-800.webp"/>
         </div>
 
         <div class="space-y-1">
-          <label class="input-label">Fallback Thumbnail (JPG)</label>
+          <label class="input-label" for="new-video-fallback">Fallback Thumbnail (JPG)</label>
           <input type="text" id="new-video-fallback" class="input-text" placeholder="images/Video Thumbnails/VI-01.jpg"/>
         </div>
       </div>
@@ -1145,7 +1098,7 @@
         </div>
         <div>
           <div class="login-title">JC Niñonuevo</div>
-          <div class="login-subtitle">Portfolio CMS Workstation</div>
+          <div class="login-subtitle">Your portfolio, behind the scenes.</div>
         </div>
       </div>
 
@@ -1157,7 +1110,7 @@
             <span>Passkey</span>
             <span class="login-field-hint">Press Enter ↵</span>
           </label>
-          <input type="password" id="login-password" placeholder="Enter administrative password..." 
+          <input type="password" id="login-password" placeholder="Enter your password"
                  class="login-input" autocomplete="current-password" autofocus
                  onkeydown="if(event.key === 'Enter') attemptLogin(initManager)"/>
           <p id="login-error" class="login-error-msg hidden"></p>
@@ -1165,13 +1118,13 @@
         
         <button onclick="attemptLogin(initManager)" id="login-btn" class="login-submit-btn">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-          <span>Authenticate Session</span>
+          <span>Sign in</span>
         </button>
       </div>
       
       <div class="login-card-footer">
         <span class="status-dot"></span>
-        <span>Secure Session • Encrypted Portal</span>
+        <span>Private portfolio workspace</span>
       </div>
     </div>
   </div>
@@ -1190,12 +1143,12 @@
 
     const categoryTitles = {
       overview: { title: "Overview", sub: "Portfolio status, visitor metrics, and performance overview." },
-      highlights: { title: "Gallery Highlights", sub: "Manage main highlights displayed on index.html grid.", btn: "Add Photos", isVid: false },
-      drone: { title: "Drone Shots (01)", sub: "Aerial view photos loaded inside drone-shots.html.", btn: "Add Photos", isVid: false },
-      framed: { title: "Framed Moments (02)", sub: "Street and editorial moments loaded inside framed-moments.html.", btn: "Add Photos", isVid: false },
-      events: { title: "School Events (03)", sub: "Yearbook, student gatherings, and event coverage inside school-events.html.", btn: "Add Photos", isVid: false },
+      highlights: { title: "Highlights", sub: "Manage main highlights displayed on index.html grid.", btn: "Add Photos", isVid: false },
+      drone: { title: "Drone shots", sub: "Aerial view photos loaded inside drone-shots.html.", btn: "Add Photos", isVid: false },
+      framed: { title: "Framed moments", sub: "Street and editorial moments loaded inside framed-moments.html.", btn: "Add Photos", isVid: false },
+      events: { title: "School events", sub: "Yearbook, student gatherings, and event coverage inside school-events.html.", btn: "Add Photos", isVid: false },
       collections: { title: "Collections", sub: "Curated collections and themed photo/video galleries." },
-      videos: { title: "Video Projects (04)", sub: "Main travel and yearbook Reels/Montages in video-projects.html.", btn: "Add Video", isVid: true },
+      videos: { title: "Video projects", sub: "Main travel and yearbook Reels/Montages in video-projects.html.", btn: "Add Video", isVid: true },
       videos2: { title: "Negros Aerials SE Videos", sub: "YouTube aerial videos in video-projects.html.", btn: "Add Video", isVid: true }
     };
 
@@ -1422,10 +1375,10 @@
       // 6. Render Dynamic SVG Chart with real data
       renderRealTrendChart(logs, uniqueVisitors, totalPageViews);
 
-      // 7. Render Top Performing Media (sorted by real views/likes)
+      // 7. Render Most viewed (sorted by real views/likes)
       renderTopMediaSection(compiledMediaList);
 
-      // 8. Render Recent Media
+      // 8. Render Recent work
       renderRecentMediaSection(compiledMediaList);
     }
 
@@ -1708,7 +1661,7 @@
       }
 
       container.innerHTML = recentItems.map((item, idx) => `
-        <div class="recent-media-card" onclick="openMediaInDrawer('${item.category}', ${item.index})">
+        <div class="recent-media-card" role="button" tabindex="0" onclick="openMediaInDrawer('${item.category}', ${item.index})">
           <div class="recent-media-thumb">
             <img src="${resolveThumbPath(item.item, item.index, item.category)}" 
                  onerror="this.src='../images/favicon.png'" 
@@ -1738,14 +1691,14 @@
       const summaryCont = document.getElementById('overview-collections-summary');
       if (summaryCont) {
         const collectionsData = [
-          { key: 'highlights', title: 'Gallery Highlights', sub: 'Master portfolio showcases', count: (localData.highlights || []).length, cover: resolveCoverThumb('highlights') },
-          { key: 'drone', title: 'Drone Shots (01)', sub: 'Aerial topography & coastlines', count: (localData.drone || []).length, cover: resolveCoverThumb('drone') },
-          { key: 'framed', title: 'Framed Moments (02)', sub: 'Street, candids & portraits', count: (localData.framed || []).length, cover: resolveCoverThumb('framed') },
-          { key: 'events', title: 'School Events (03)', sub: 'Campus gatherings & festivals', count: (localData.events || []).length, cover: resolveCoverThumb('events') }
+          { key: 'highlights', title: 'Highlights', sub: 'Master portfolio showcases', count: (localData.highlights || []).length, cover: resolveCoverThumb('highlights') },
+          { key: 'drone', title: 'Drone shots', sub: 'Aerial topography & coastlines', count: (localData.drone || []).length, cover: resolveCoverThumb('drone') },
+          { key: 'framed', title: 'Framed moments', sub: 'Street, candids & portraits', count: (localData.framed || []).length, cover: resolveCoverThumb('framed') },
+          { key: 'events', title: 'School events', sub: 'Campus gatherings & festivals', count: (localData.events || []).length, cover: resolveCoverThumb('events') }
         ];
 
         summaryCont.innerHTML = collectionsData.map(c => `
-          <div class="editorial-collection-card" onclick="switchTab('${c.key}')">
+          <div class="editorial-collection-card" role="button" tabindex="0" onclick="switchTab('${c.key}')">
             <div class="editorial-photo-cover">
               <img src="${c.cover}" onerror="this.src='../images/favicon.png'" alt="${c.title}" loading="lazy"/>
             </div>
@@ -1760,7 +1713,7 @@
         `).join('');
       }
 
-      // 2. Render Recent Activity Timeline
+      // 2. Render Recent changes Timeline
       const recentCont = document.getElementById('overview-recent-activity-list');
       if (recentCont) {
         const acts = localSnapshots.slice(0, 4);
@@ -1791,11 +1744,11 @@
       if (!container) return;
 
       const collections = [
-        { key: 'highlights', title: 'Gallery Highlights', desc: 'Curated master showcase photos featured on the portfolio landing page.', count: (localData.highlights || []).length, cover: resolveCoverThumb('highlights') },
-        { key: 'drone', title: 'Drone Shots (01)', desc: 'Aerial drone photography, topography, island resorts, and campus architecture.', count: (localData.drone || []).length, cover: resolveCoverThumb('drone') },
-        { key: 'framed', title: 'Framed Moments (02)', desc: 'Street photography, candid emotions, architectural frames, and portraits.', count: (localData.framed || []).length, cover: resolveCoverThumb('framed') },
-        { key: 'events', title: 'School Events (03)', desc: 'USLS campus celebrations, live cheerdance competitions, concerts, and festivals.', count: (localData.events || []).length, cover: resolveCoverThumb('events') },
-        { key: 'videos', title: 'Video Projects (04)', desc: 'Cinematic video montages, travel diaries, and yearbook teaser reels.', count: (localData.videos || []).length, cover: resolveCoverThumb('videos'), isVid: true },
+        { key: 'highlights', title: 'Highlights', desc: 'Curated master showcase photos featured on the portfolio landing page.', count: (localData.highlights || []).length, cover: resolveCoverThumb('highlights') },
+        { key: 'drone', title: 'Drone shots', desc: 'Aerial drone photography, topography, island resorts, and campus architecture.', count: (localData.drone || []).length, cover: resolveCoverThumb('drone') },
+        { key: 'framed', title: 'Framed moments', desc: 'Street photography, candid emotions, architectural frames, and portraits.', count: (localData.framed || []).length, cover: resolveCoverThumb('framed') },
+        { key: 'events', title: 'School events', desc: 'USLS campus celebrations, live cheerdance competitions, concerts, and festivals.', count: (localData.events || []).length, cover: resolveCoverThumb('events') },
+        { key: 'videos', title: 'Video projects', desc: 'Cinematic video montages, travel diaries, and yearbook teaser reels.', count: (localData.videos || []).length, cover: resolveCoverThumb('videos'), isVid: true },
         { key: 'videos2', title: 'Negros Aerials SE', desc: 'Special edition drone cinematography featuring Negros Occidental landmarks.', count: (localData.videos2 || []).length, cover: resolveCoverThumb('videos2'), isVid: true }
       ];
 
@@ -2995,26 +2948,6 @@
     });
   </script>
 
-  <!-- Floating Glass Command Dock -->
-  <aside class="floating-command-dock" id="floating-command-dock" aria-label="Quick Actions Dock">
-    <button type="button" onclick="triggerFilePicker()" class="dock-btn primary" title="Add Media Files">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-      <span>+ Add Media</span>
-    </button>
-    <div class="dock-divider"></div>
-    <button type="button" onclick="openCommandPalette()" class="dock-btn" title="Command Search (⌘K)">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-      <span>Search ⌘K</span>
-    </button>
-    <button type="button" onclick="switchTab('overview')" class="dock-btn" title="Mission Telemetry Overview">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-      <span>Overview</span>
-    </button>
-    <div class="dock-divider"></div>
-    <button type="button" onclick="toggleSaveDropdown()" class="dock-btn" id="dock-save-btn" title="Save & Publish Changes">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
-      <span class="text-amber-400 font-bold">Publish</span>
-    </button>
-  </aside>
+
 </body>
 </html>

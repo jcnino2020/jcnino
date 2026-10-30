@@ -1,29 +1,137 @@
 {
-  "name": "Portfolio Workbench",
-  "scope": "admin",
-  "mode": "operate",
-  "colors": {
-    "header": "#142820",
-    "rail": "#193329",
-    "canvas": "#f2f5f2",
-    "surface": "#ffffff",
-    "ink": "#182d22",
-    "secondaryInk": "#456154",
-    "mutedInk": "#50685a",
-    "action": "#197c59",
-    "selected": "#c7eabe",
-    "rule": "#dce6de",
-    "error": "#ad3f3d"
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-30T22:21:44.955079+00:00",
+  "title": "Design System: Portfolio Admin",
+  "extensions": {
+    "shadows": [
+      {
+        "name": "dropdown",
+        "value": "0 12px 32px #0006",
+        "purpose": "Floating dropdown menus; resting cards stay flat."
+      }
+    ],
+    "motion": [
+      {
+        "name": "fast",
+        "value": "140ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Control feedback."
+      },
+      {
+        "name": "normal",
+        "value": "220ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Drawer movement."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "compact-desktop",
+        "value": "1100px"
+      },
+      {
+        "name": "drawer",
+        "value": "768px"
+      },
+      {
+        "name": "stacked-forms",
+        "value": "640px"
+      },
+      {
+        "name": "single-media-column",
+        "value": "360px"
+      }
+    ],
+    "verification": {
+      "reviewed": [
+        "desktop overview",
+        "mobile overview",
+        "mobile settings",
+        "mobile navigation open and selected route"
+      ],
+      "outsideVisualReview": [
+        "save",
+        "publish",
+        "backend behavior"
+      ],
+      "followups": [
+        "drawer focus transfer",
+        "drawer focus trap",
+        "drawer expanded-state semantics"
+      ]
+    }
   },
-  "geometry": {
-    "controlRadius": "5px",
-    "surfaceRadius": "6px",
-    "headerHeight": "60px",
-    "sidebarWidth": "252px"
-  },
-  "type": {
-    "family": "Inter, system-ui, sans-serif",
-    "baseSize": "15px",
-    "dataNumerals": "tabular-nums"
+  "components": [
+    {
+      "name": "Primary button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Compact operational action.",
+      "html": "<button class=\"ds-button-primary\">Save changes</button>",
+      "css": ".ds-button-primary{font-family:var(--font-workspace,Helvetica Neue,Helvetica,Arial,sans-serif);background:#eeeeef;color:#151619;border:1px solid #eeeeef;min-height:38px;border-radius:6px;padding:8px 14px;font-size:12px;font-weight:600;cursor:pointer;transition:background 140ms cubic-bezier(.16,1,.3,1)}.ds-button-primary:hover{background:#fff;border-color:#fff;}.ds-button-primary:focus-visible{outline:2px solid #e0e1e6;outline-offset:4px}@media(prefers-reduced-motion:reduce){.ds-button-primary,.ds-button-secondary,.ds-field,.ds-nav-link,.ds-tab{transition-duration:.01ms}}"
+    },
+    {
+      "name": "Secondary button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Compact operational action.",
+      "html": "<button class=\"ds-button-secondary\">Save changes</button>",
+      "css": ".ds-button-secondary{font-family:var(--font-workspace,Helvetica Neue,Helvetica,Arial,sans-serif);background:transparent;color:var(--text-secondary,#c1c2c8);border:1px solid #3a3b41;min-height:38px;border-radius:6px;padding:8px 14px;font-size:12px;font-weight:600;cursor:pointer;transition:background 140ms cubic-bezier(.16,1,.3,1)}.ds-button-secondary:hover{background:#24252a;color:#fff;}.ds-button-secondary:focus-visible{outline:2px solid #e0e1e6;outline-offset:4px}@media(prefers-reduced-motion:reduce){.ds-button-primary,.ds-button-secondary,.ds-field,.ds-nav-link,.ds-tab{transition-duration:.01ms}}"
+    },
+    {
+      "name": "Text field",
+      "kind": "input",
+      "refersTo": "field",
+      "description": "Editable portfolio metadata.",
+      "html": "<label class=\"ds-label\">Title<input class=\"ds-field\" placeholder=\"Photograph title\"></label>",
+      "css": ".ds-label{font-family:var(--font-workspace,Helvetica Neue,Helvetica,Arial,sans-serif);display:grid;gap:8px;font-size:12px;color:var(--text-secondary,#c1c2c8)}.ds-field{font-family:var(--font-workspace,Helvetica Neue,Helvetica,Arial,sans-serif);background:#141518;color:var(--text-primary,#f1f1f2);border:1px solid #3a3b41;border-radius:6px;padding:10px 12px;min-height:40px;font-size:13px}.ds-field::placeholder{color:#9698a2}.ds-field:focus{border-color:#fff}.ds-field:focus-visible{outline:2px solid #e0e1e6;outline-offset:4px}@media(prefers-reduced-motion:reduce){.ds-button-primary,.ds-button-secondary,.ds-field,.ds-nav-link,.ds-tab{transition-duration:.01ms}}"
+    },
+    {
+      "name": "Rail navigation",
+      "kind": "nav",
+      "description": "One persistent desktop navigation, a drawer on mobile.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-link ds-selected\" href=\"#overview\" aria-current=\"page\">Overview</a><a class=\"ds-nav-link\" href=\"#media\">Media library</a></nav>",
+      "css": ".ds-nav{font-family:var(--font-workspace,Helvetica Neue,Helvetica,Arial,sans-serif);background:#161719;padding:12px;width:200px;display:grid;gap:3px}.ds-nav-link{color:var(--text-secondary,#c1c2c8);font-size:12px;padding:8px 10px;border-radius:6px;text-decoration:none;min-height:22px}.ds-nav-link:hover{background:#ffffff0a;color:#f1f1f2}.ds-nav-link.ds-selected{background:#2c2d32;color:#fff;font-weight:500}.ds-nav-link:focus-visible{outline:2px solid #e0e1e6;outline-offset:4px}@media(prefers-reduced-motion:reduce){.ds-button-primary,.ds-button-secondary,.ds-field,.ds-nav-link,.ds-tab{transition-duration:.01ms}}"
+    },
+    {
+      "name": "Form card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Flat supporting form container.",
+      "html": "<section class=\"ds-card\"><h3 class=\"ds-card-title\">Portfolio details</h3><p class=\"ds-card-copy\">Manage how your work is presented.</p></section>",
+      "css": ".ds-card{font-family:var(--font-workspace,Helvetica Neue,Helvetica,Arial,sans-serif);background:var(--bg-secondary,#191a1d);border:1px solid #2b2c30;border-radius:10px;padding:24px;color:var(--text-primary,#f1f1f2)}.ds-card-title{margin:0 0 12px;font-size:15px;font-weight:600}.ds-card-copy{margin:0;color:var(--text-muted,#a1a2ab);font-size:13px}@media(prefers-reduced-motion:reduce){.ds-button-primary,.ds-button-secondary,.ds-field,.ds-nav-link,.ds-tab{transition-duration:.01ms}}"
+    },
+    {
+      "name": "Audience disclosure",
+      "kind": "custom",
+      "description": "Progressively reveals supporting audience information.",
+      "html": "<details class=\"ds-disclosure\"><summary>Audience at a glance</summary><div class=\"ds-disclosure-body\">Audience metrics appear here.</div></details>",
+      "css": ".ds-disclosure{font-family:var(--font-workspace,Helvetica Neue,Helvetica,Arial,sans-serif);border-block:1px solid #2b2c30;color:var(--text-primary,#f1f1f2)}.ds-disclosure summary{cursor:pointer;padding:20px 0;font-size:14px;font-weight:500}.ds-disclosure summary::marker{color:#9698a2}.ds-disclosure-body{padding-bottom:24px;color:var(--text-muted,#a1a2ab);font-size:13px}.ds-disclosure summary:focus-visible{outline:2px solid #e0e1e6;outline-offset:4px}@media(prefers-reduced-motion:reduce){.ds-button-primary,.ds-button-secondary,.ds-field,.ds-nav-link,.ds-tab{transition-duration:.01ms}}"
+    },
+    {
+      "name": "Metric filter",
+      "kind": "chip",
+      "description": "Compact range selector with a neutral selected state.",
+      "html": "<div class=\"ds-tabs\"><button class=\"ds-tab ds-tab-active\" aria-pressed=\"true\">7 days</button><button class=\"ds-tab\" aria-pressed=\"false\">30 days</button></div>",
+      "css": ".ds-tabs{display:inline-flex;background:#0007;border:1px solid #2b2c30;border-radius:6px;padding:2px;gap:2px}.ds-tab{font-family:var(--font-workspace,Helvetica Neue,Helvetica,Arial,sans-serif);padding:4px 10px;font-size:12px;font-weight:600;color:var(--text-muted,#a1a2ab);background:transparent;border:0;border-radius:4px;cursor:pointer}.ds-tab:hover{color:#f1f1f2}.ds-tab-active{background:#fff;color:#000}.ds-tab-active:hover{color:#000}.ds-tab:focus-visible{outline:2px solid #e0e1e6;outline-offset:4px}@media(prefers-reduced-motion:reduce){.ds-button-primary,.ds-button-secondary,.ds-field,.ds-nav-link,.ds-tab{transition-duration:.01ms}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Quiet Studio",
+    "overview": "A restrained charcoal workspace for maintaining a photography portfolio. Helvetica Neue, quiet rules and pale actions keep the operational interface familiar while photography supplies the visual emphasis. This system applies only to the admin; the public portfolio remains its own surface.",
+    "keyCharacteristics": [
+      "One navigation rail and a generous work surface.",
+      "Photographic thumbnails with compact supporting text.",
+      "Flat resting surfaces and progressive disclosure."
+    ],
+    "rules": [],
+    "dos": [
+      "Do use the pale primary action for the next meaningful operation.",
+      "Do preserve visible keyboard focus and reduced-motion support.",
+      "Do keep semantic color tied to status, errors and data."
+    ],
+    "donts": [
+      "Don't introduce decorative dashboard panels or repeated navigation.",
+      "Don't add decorative gradients, pulsing status lights or hover lift.",
+      "Don't hide essential media actions from keyboard or touch users."
+    ]
   }
 }
