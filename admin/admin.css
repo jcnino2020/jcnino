@@ -3,7 +3,7 @@
    Strict No-Pills Rule: Sharp, Structured, Minimal, Photography-First Workstation
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
 
 :root {
   /* Surface Layers (2026 Dark UI Hierarchy) */
@@ -76,7 +76,7 @@
 html {
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   font-size: 15.5px;
   line-height: 1.55;
@@ -2659,7 +2659,7 @@ aside::-webkit-scrollbar {
 .login-input::placeholder {
   color: var(--text-muted);
   letter-spacing: normal;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 12.5px;
 }
 
