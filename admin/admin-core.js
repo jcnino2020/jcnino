@@ -93,8 +93,6 @@ async function attemptLogin(onSuccess) {
     Verifying...
   `;
 
-  const isLocal = checkIsLocalEnvironment();
-
   try {
     const res = await fetch('/api/auth', {
       method: 'POST',
@@ -109,25 +107,13 @@ async function attemptLogin(onSuccess) {
       sessionStorage.setItem('pm_auth', data.token);
       hideLoginOverlay();
       if (typeof onSuccess === 'function') onSuccess();
-      showToast("Authenticated successfully. Welcome back, JC!", "success");
-    } else if (isLocal) {
-      sessionStorage.setItem('pm_auth', 'local_sandbox_authorized');
-      hideLoginOverlay();
-      if (typeof onSuccess === 'function') onSuccess();
-      showToast("Local sandbox mode activated. Access granted.", "success");
+      showToast(data.auditRecorded === false ? "Signed in. Audit storage is unavailable; this attempt was not saved." : "Authenticated successfully. Welcome back, JC!", data.auditRecorded === false ? "error" : "success");
     } else {
       showLoginError(data.error || "Incorrect password");
     }
   } catch (err) {
     console.error("Auth error:", err);
-    if (isLocal) {
-      sessionStorage.setItem('pm_auth', 'local_sandbox_authorized');
-      hideLoginOverlay();
-      if (typeof onSuccess === 'function') onSuccess();
-      showToast("Offline local sandbox mode activated. Access granted.", "success");
-    } else {
-      showLoginError("Offline mode: Unable to connect to the authentication server.");
-    }
+    showLoginError("Unable to connect to the authentication server. Try again.");
   } finally {
     loginBtn.disabled = false;
     loginBtn.innerHTML = `
@@ -197,13 +183,6 @@ async function verifySessionOnLoad(onSuccess) {
   const token = sessionStorage.getItem('pm_auth');
   if (!token) return;
 
-  const isLocal = checkIsLocalEnvironment();
-  if (isLocal && token === 'local_sandbox_authorized') {
-    hideLoginOverlay();
-    if (typeof onSuccess === 'function') onSuccess();
-    return;
-  }
-
   try {
     const res = await fetch('/api/logs', {
       method: 'GET',
@@ -218,13 +197,7 @@ async function verifySessionOnLoad(onSuccess) {
     }
   } catch (err) {
     console.error("Session verification failed:", err);
-    if (isLocal) {
-      sessionStorage.setItem('pm_auth', 'local_sandbox_authorized');
-      hideLoginOverlay();
-      if (typeof onSuccess === 'function') onSuccess();
-    } else {
-      showLoginOverlayWithError("Authentication server unreachable. Please log in again.");
-    }
+    showLoginOverlayWithError("Authentication server unreachable. Please log in again.");
   }
 }
 
