@@ -128,3 +128,10 @@ h1,h2,h3,h4{color:var(--text-primary);font-weight:500;letter-spacing:-.025em}.mo
  .traffic-range button { padding:10px; font-size:13px }
  .traffic-chart svg { min-height:180px }
 }
+
+/* Opaque Studio table headers replace translucent dark-theme utilities. */
+.studio-panel-heading{background:var(--bg-secondary);border-color:var(--border-subtle);color:var(--text-primary)}
+
+.studio-traffic-row:hover{background:var(--bg-hover)}
+.studio-ip-chip{background:var(--bg-primary);color:var(--text-primary)!important}
+.studio-ip-chip:hover{background:var(--bg-active)}

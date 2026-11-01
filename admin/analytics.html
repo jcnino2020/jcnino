@@ -17,7 +17,7 @@
   <!-- CSS Stylesheets -->
   <link rel="stylesheet" href="/assets/tailwind.css?v=2">
   <link rel="stylesheet" href="/admin/admin.css">
-  <link rel="stylesheet" href="/admin/workspace.css?v=studio-2">
+  <link rel="stylesheet" href="/admin/workspace.css?v=studio-panels-1">
 
   <!-- Load Database File -->
   <script src="/assets/gallery-data.js"></script>
@@ -362,7 +362,7 @@
 
         <!-- Pageview Breakdown Table -->
         <div class="card p-0 overflow-hidden">
-          <div class="p-6 sm:px-8 sm:py-6 border-b border-white/10 flex justify-between items-center bg-zinc-950/40">
+          <div class="p-6 sm:px-8 sm:py-6 border-b border-white/10 flex justify-between items-center studio-panel-heading">
             <div class="space-y-1">
               <h3 class="section-title text-base sm:text-lg font-bold text-white">Pageview Breakdown by URL</h3>
               <p class="text-xs text-zinc-400">Page-by-page traffic summary across all visited portfolio pages</p>
@@ -399,7 +399,7 @@
 
         <!-- Real-Time Visitor Session Logs Table -->
         <div class="card p-0 overflow-hidden">
-          <div class="p-6 sm:px-8 sm:py-6 border-b border-white/10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-zinc-950/40">
+          <div class="p-6 sm:px-8 sm:py-6 border-b border-white/10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 studio-panel-heading">
             <div class="space-y-1">
               <h3 class="section-title text-base sm:text-lg font-bold text-white">Real-Time Visitor Log</h3>
               <p class="text-xs text-zinc-400" id="logs-card-subtitle">Showing 1–25 of 27 recorded visitor entries</p>
@@ -465,7 +465,7 @@
 
         <!-- Portfolio Media Assets Engagement Table -->
         <div class="card p-0 overflow-hidden">
-          <div class="p-6 sm:px-8 sm:py-6 border-b border-white/10 flex justify-between items-center bg-zinc-950/40">
+          <div class="p-6 sm:px-8 sm:py-6 border-b border-white/10 flex justify-between items-center studio-panel-heading">
             <div class="space-y-1">
               <h3 class="section-title text-base sm:text-lg font-bold text-white">Portfolio Media Engagement & Appreciation</h3>
               <p class="text-xs text-zinc-400">Views, appreciations (likes), and engagement ratio per individual photograph and video</p>
@@ -1031,7 +1031,7 @@
           const referrer = escapeHtml(l.referrer || 'Direct / Bookmark');
 
           return `
-            <tr class="hover:bg-zinc-900/40 transition-colors">
+            <tr class="studio-traffic-row transition-colors">
               <!-- 1. TIME -->
               <td class="whitespace-nowrap">
                 <div class="text-white text-sm font-semibold">${relTime}</div>
@@ -1040,7 +1040,7 @@
 
               <!-- 2. IP ADDRESS -->
               <td class="whitespace-nowrap">
-                <div class="inline-flex items-center gap-2 bg-zinc-900/90 hover:bg-zinc-800/90 border border-white/10 rounded-[6px] px-2.5 py-1 text-[13px] font-medium text-zinc-200 transition-colors cursor-pointer group" onclick="copyIpToClipboard('${ip}')" title="Click to copy IP">
+                <div class="inline-flex items-center gap-2 studio-ip-chip border border-white/10 rounded-[6px] px-2.5 py-1 text-[13px] font-medium text-zinc-200 transition-colors cursor-pointer group" onclick="copyIpToClipboard('${ip}')" title="Click to copy IP">
                   <span>${ip}</span>
                   <svg class="w-3.5 h-3.5 text-zinc-500 group-hover:text-white transition-colors flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
