@@ -18,7 +18,7 @@
   <!-- CSS Stylesheets (Absolute root paths for reliable loading) -->
   <link rel="stylesheet" href="/assets/tailwind.css?v=2">
   <link rel="stylesheet" href="/admin/admin.css?v=editorial-v2">
-  <link rel="stylesheet" href="/admin/workspace.css?v=studio-2">
+  <link rel="stylesheet" href="/admin/workspace.css?v=studio-traffic-1">
 
   <!-- Load Database File -->
   <script src="/assets/gallery-data.js"></script>
@@ -308,6 +308,8 @@
           </div>
         </div>
 
+        <section id="dashboard-traffic" aria-label="Visitor analytics"></section>
+
         <!-- Hero Collections Section -->
         <div class="space-y-3 pt-2">
           <div class="flex items-center justify-between pb-2 border-b border-white/5">
@@ -343,174 +345,6 @@
             <!-- Injected dynamically: 4-6 photographs with filename, location, real views -->
           </div>
         </div>
-
-        <details class="workspace-disclosure overview-audience">
-          <summary><span>Audience at a glance</span><span class="disclosure-note">Traffic & recent visitors</span></summary>
-          <div class="disclosure-body">        <!-- Unified Analytics Strip (No SaaS Boxes) -->
-        <div class="analytics-strip">
-          <div class="analytics-strip-cell">
-            <div class="analytics-strip-label">Total Visitors</div>
-            <div class="analytics-strip-value" id="kpi-visitors">—</div>
-            <div class="analytics-strip-meta">
-              <span class="analytics-strip-trend neutral" id="kpi-visitors-trend">—</span>
-              <span class="text-zinc-500 text-[11px]">vs prev period</span>
-            </div>
-          </div>
-
-          <div class="analytics-strip-cell">
-            <div class="analytics-strip-label">Page Views</div>
-            <div class="analytics-strip-value" id="kpi-pageviews">—</div>
-            <div class="analytics-strip-meta">
-              <span class="analytics-strip-trend neutral" id="kpi-pageviews-trend">—</span>
-              <span class="text-zinc-500 text-[11px]">impressions</span>
-            </div>
-          </div>
-
-          <div class="analytics-strip-cell">
-            <div class="analytics-strip-label">Media Views</div>
-            <div class="analytics-strip-value" id="kpi-mediaviews">—</div>
-            <div class="analytics-strip-meta">
-              <span class="analytics-strip-trend neutral" id="kpi-mediaviews-trend">—</span>
-              <span class="text-zinc-500 text-[11px]">engagements</span>
-            </div>
-          </div>
-
-          <div class="analytics-strip-cell">
-            <div class="analytics-strip-label">Avg. Session Duration</div>
-            <div class="analytics-strip-value" id="kpi-session">—</div>
-            <div class="analytics-strip-meta">
-              <span class="analytics-strip-trend neutral" id="kpi-session-trend">—</span>
-              <span class="text-zinc-500 text-[11px]">retention</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Analytics Chart & Real-Time Split Section -->
-        <div class="analytics-overview-split">
-          <!-- Visitor Traffic Analytical Workstation -->
-          <div class="traffic-workstation">
-            <div class="traffic-header">
-              <div>
-
-                <div class="flex items-center gap-3">
-                  <h2 class="text-base font-semibold text-white" id="traffic-metric-title">Visitor Traffic Trend</h2>
-                </div>
-              </div>
-
-              <div class="flex items-center gap-3 flex-wrap">
-                <!-- Metric Selector: Visitors / Page Views / Sessions -->
-                <div class="traffic-metric-tabs" id="traffic-metric-selector">
-                  <button type="button" class="traffic-metric-tab active" data-metric="visitors" onclick="setOverviewMetric('visitors', this)">Visitors</button>
-                  <button type="button" class="traffic-metric-tab" data-metric="pageviews" onclick="setOverviewMetric('pageviews', this)">Page Views</button>
-                  <button type="button" class="traffic-metric-tab" data-metric="sessions" onclick="setOverviewMetric('sessions', this)">Sessions</button>
-                </div>
-
-                <!-- Flat Rectangular Time Selector (Strictly No Capsules) -->
-                <div class="time-range-tabs" id="overview-chart-range">
-                  <button type="button" class="time-range-tab active" data-range="7d" onclick="setOverviewChartRange('7d', this)">7D</button>
-                  <button type="button" class="time-range-tab" data-range="30d" onclick="setOverviewChartRange('30d', this)">30D</button>
-                  <button type="button" class="time-range-tab" data-range="90d" onclick="setOverviewChartRange('90d', this)">90D</button>
-                  <button type="button" class="time-range-tab" data-range="1y" onclick="setOverviewChartRange('1y', this)">1Y</button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Analytical Stats Strip (Total, vs Previous, Peak, Average) -->
-            <div class="traffic-stats-strip">
-              <div class="traffic-stat-main">
-                <span class="traffic-stat-main-num" id="traffic-stat-total">—</span>
-                <span class="traffic-stat-main-label" id="traffic-stat-total-label">visitors</span>
-                <span class="text-xs font-semibold text-emerald-400 mono-num" id="traffic-stat-comparison">Waiting for data</span>
-              </div>
-
-              <div class="traffic-stat-sub-group ml-auto">
-                <div class="traffic-stat-sub">
-                  <span class="traffic-stat-sub-label">Peak</span>
-                  <span class="traffic-stat-sub-val" id="traffic-stat-peak">—</span>
-                </div>
-                <div class="traffic-stat-sub">
-                  <span class="traffic-stat-sub-label">Average</span>
-                  <span class="traffic-stat-sub-val" id="traffic-stat-avg">—</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Dynamic SVG Traffic Chart -->
-            <div class="w-full pt-1">
-              <svg id="overview-trend-chart" viewBox="0 0 700 170" class="w-full h-40 overflow-visible">
-                <defs>
-                  <linearGradient id="chartGradSubtle" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#295f4d" stop-opacity="0.08"/>
-                    <stop offset="100%" stop-color="#295f4d" stop-opacity="0.0"/>
-                  </linearGradient>
-                </defs>
-                <!-- Grid Lines -->
-                <line x1="0" y1="35" x2="700" y2="35" stroke="#d5ded8" stroke-dasharray="3 3"/>
-                <line x1="0" y1="85" x2="700" y2="85" stroke="#d5ded8" stroke-dasharray="3 3"/>
-                <line x1="0" y1="135" x2="700" y2="135" stroke="#d5ded8" stroke-dasharray="3 3"/>
-                
-                <!-- Area Fill & Stroke Line -->
-                <path id="chart-area-path" d="M0,135 L700,135 L700,165 L0,165 Z" fill="url(#chartGradSubtle)"/>
-                <path id="chart-line-path" d="M0,135 L700,135" fill="none" stroke="#295f4d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                
-                <!-- Data Points Group -->
-                <g id="chart-points-group">
-                  <!-- Points injected dynamically -->
-                </g>
-              </svg>
-
-              <!-- Chart Days Labels -->
-              <div class="flex justify-between text-[11px] text-zinc-500 mono-num pt-3 px-1 border-t border-white/5" id="chart-x-labels">
-                <span>Mon</span>
-                <span>Tue</span>
-                <span>Wed</span>
-                <span>Thu</span>
-                <span>Fri</span>
-                <span>Sat</span>
-                <span>Sun</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Real-Time Live Monitoring Panel -->
-          <div class="live-monitor-panel">
-            <div>
-              <div class="live-monitor-header">
-                <span class="live-monitor-title">REAL-TIME MONITOR</span>
-                <span class="live-badge-clean">
-                  <span class="status-dot pulse"></span>
-                  <span>15-min window</span>
-                </span>
-              </div>
-
-              <div class="py-4">
-                <div class="live-count-row">
-                  <span class="live-count-num" id="live-online-count">0</span>
-                  <span class="live-count-sub">visitors in the last 15 minutes</span>
-                </div>
-              </div>
-
-              <!-- Top Locations Breakdown -->
-              <div class="pt-3 border-t border-white/5">
-                <div class="live-section-label">Top Visitor Locations</div>
-                <div class="space-y-2" id="live-locations-list">
-                  <!-- Live locations dynamically injected -->
-                </div>
-              </div>
-            </div>
-
-            <!-- Active Pages List -->
-            <div class="pt-3 border-t border-white/5">
-              <div class="live-section-label">Current Pages</div>
-              <div class="live-pages-list" id="live-pages-list">
-                <!-- Active pages dynamically injected -->
-              </div>
-            </div>
-          </div>
-        </div>
-
-          </div>
-        </details>
 
         <!-- Most viewed & Recent changes Timeline -->
         <div class="overview-bottom-grid pt-2">
@@ -1250,38 +1084,26 @@
     }
 
     // Real Analytics Data State (No Mockups)
-    let realAnalyticsData = null;
     let realViewsMap = {};
     let realLikesMap = {};
     let viewsAvailable = false;
     let likesAvailable = false;
-    let currentOverviewRange = '7d';
-    let currentOverviewMetric = 'visitors'; // 'visitors' | 'pageviews' | 'sessions'
     let isFetchingOverviewAnalytics = false;
 
     // Fetch real analytics from APIs
     async function loadRealOverviewAnalytics() {
       if (isFetchingOverviewAnalytics) return;
       isFetchingOverviewAnalytics = true;
-      realAnalyticsData = null;
       realViewsMap = {};
       realLikesMap = {};
       viewsAvailable = false;
       likesAvailable = false;
-      const token = sessionStorage.getItem('pm_auth') || '';
-
       try {
-        const [analyticsRes, viewsRes, likesRes] = await Promise.allSettled([
-          fetch(`/api/analytics?range=${currentOverviewRange}&limit=1000`, {
-            headers: { 'Authorization': `Bearer ${token}` }
-          }).then(r => r.ok ? r.json() : null),
+        const [viewsRes, likesRes] = await Promise.allSettled([
           fetch('/api/views').then(r => r.ok ? r.json() : null),
           fetch('/api/likes').then(r => r.ok ? r.json() : null)
         ]);
 
-        if (analyticsRes.status === 'fulfilled' && analyticsRes.value && analyticsRes.value.success) {
-          realAnalyticsData = analyticsRes.value;
-        }
         if (viewsRes.status === 'fulfilled' && viewsRes.value && typeof viewsRes.value === 'object') {
           realViewsMap = viewsRes.value;
           viewsAvailable = true;
@@ -1291,7 +1113,7 @@
           likesAvailable = true;
         }
       } catch (err) {
-        console.warn("Could not fetch remote analytics, using calculated local metrics:", err);
+        console.warn("Media engagement unavailable:", err);
       } finally {
         isFetchingOverviewAnalytics = false;
         applyRealAnalyticsToOverview();
@@ -1328,316 +1150,8 @@
         });
       });
 
-      // 2. Real Visitor & Page View counts
-      const logs = (realAnalyticsData && realAnalyticsData.logs) || [];
-      const totalPageViews = realAnalyticsData ? (realAnalyticsData.totalViews || logs.length) : 0;
-      const uniqueVisitors = realAnalyticsData ? (realAnalyticsData.uniqueVisitors || new Set(logs.map(l => l.sessionId)).size) : 0;
-
-      // 3. Average session duration from session timestamps
-      const sessionTimes = {};
-      logs.forEach(l => {
-        if (!l.sessionId) return;
-        const t = new Date(l.createdAt || l.timestamp).getTime();
-        if (!sessionTimes[l.sessionId]) {
-          sessionTimes[l.sessionId] = { min: t, max: t, count: 1 };
-        } else {
-          sessionTimes[l.sessionId].min = Math.min(sessionTimes[l.sessionId].min, t);
-          sessionTimes[l.sessionId].max = Math.max(sessionTimes[l.sessionId].max, t);
-          sessionTimes[l.sessionId].count += 1;
-        }
-      });
-
-      let totalSessionDurationMs = 0;
-      let countedSessions = 0;
-      Object.values(sessionTimes).forEach(s => {
-        if (s.count > 1) {
-          const diff = s.max - s.min;
-          if (diff > 0 && diff < 3600000) {
-            totalSessionDurationMs += diff;
-            countedSessions++;
-          }
-        }
-      });
-
-      let avgSeconds = countedSessions > 0 ? Math.round((totalSessionDurationMs / countedSessions) / 1000) : 0;
-      const mins = Math.floor(avgSeconds / 60);
-      const secs = avgSeconds % 60;
-      const sessionDurationStr = countedSessions > 0 ? `${mins}m ${String(secs).padStart(2, '0')}s` : '—';
-
-      // 4. Update the Unified Analytics KPI Strip
-      const elVisitors = document.getElementById('kpi-visitors');
-      const elPageViews = document.getElementById('kpi-pageviews');
-      const elMediaViews = document.getElementById('kpi-mediaviews');
-      const elSession = document.getElementById('kpi-session');
-
-      if (elVisitors) elVisitors.textContent = realAnalyticsData ? uniqueVisitors.toLocaleString() : '—';
-      if (elPageViews) elPageViews.textContent = realAnalyticsData ? totalPageViews.toLocaleString() : '—';
-      if (elMediaViews) elMediaViews.textContent = viewsAvailable ? totalMediaViews.toLocaleString() : '—';
-      if (elSession) elSession.textContent = sessionDurationStr;
-
-      // Real trend calculations
-      let visitorsTrendPct = 0;
-      let pageviewsTrendPct = 0;
-      if (logs.length >= 4) {
-        const mid = Math.floor(logs.length / 2);
-        const recentLogs = logs.slice(0, mid);
-        const olderLogs = logs.slice(mid);
-        const recentSess = new Set(recentLogs.map(l => l.sessionId)).size;
-        const olderSess = new Set(olderLogs.map(l => l.sessionId)).size;
-        if (olderSess > 0) {
-          visitorsTrendPct = Math.round(((recentSess - olderSess) / olderSess) * 1000) / 10;
-        }
-        if (olderLogs.length > 0) {
-          pageviewsTrendPct = Math.round(((recentLogs.length - olderLogs.length) / olderLogs.length) * 1000) / 10;
-        }
-      }
-
-      updateTrendBadge('kpi-visitors-trend', logs.length >= 4 ? visitorsTrendPct : null);
-      updateTrendBadge('kpi-pageviews-trend', logs.length >= 4 ? pageviewsTrendPct : null);
-      updateTrendBadge('kpi-mediaviews-trend', null);
-      updateTrendBadge('kpi-session-trend', null);
-
-      // 5. Render Real-Time Monitor
-      renderRealTimePanel(logs);
-
-      // 6. Render Dynamic SVG Chart with real data
-      renderRealTrendChart(logs, uniqueVisitors, totalPageViews);
-
-      // 7. Render Most viewed (sorted by real views/likes)
       renderTopMediaSection(compiledMediaList);
-
-      // 8. Render Recent work
       renderRecentMediaSection(compiledMediaList);
-    }
-
-    function updateTrendBadge(id, pct) {
-      const el = document.getElementById(id);
-      if (!el) return;
-      if (pct === null) {
-        el.className = 'analytics-strip-trend neutral';
-        el.textContent = '—';
-      } else if (pct > 0) {
-        el.className = 'analytics-strip-trend positive';
-        el.textContent = `+${pct}%`;
-      } else if (pct < 0) {
-        el.className = 'analytics-strip-trend negative';
-        el.textContent = `${pct}%`;
-      } else {
-        el.className = 'analytics-strip-trend neutral';
-        el.textContent = `0.0%`;
-      }
-    }
-
-    function renderRealTimePanel(logs) {
-      const onlineEl = document.getElementById('live-online-count');
-      const locationsList = document.getElementById('live-locations-list');
-      const pagesList = document.getElementById('live-pages-list');
-
-      // 15-minute live window
-      const fifteenMinsAgo = Date.now() - 15 * 60 * 1000;
-      const recentLogs = logs.filter(l => new Date(l.createdAt || l.timestamp).getTime() >= fifteenMinsAgo);
-      const onlineSessions = new Set(recentLogs.map(l => l.sessionId || l.ipAddress));
-      const onlineCount = onlineSessions.size;
-
-      if (onlineEl) {
-        onlineEl.textContent = realAnalyticsData ? String(onlineCount) : '—';
-      }
-
-      // Location breakdown
-      const targetLogs = recentLogs;
-      const locCounts = {};
-      targetLogs.forEach(l => {
-        const c = l.country || 'Unknown location';
-        locCounts[c] = (locCounts[c] || 0) + 1;
-      });
-
-      const totalLoc = Object.values(locCounts).reduce((a, b) => a + b, 0) || 1;
-      const sortedLocs = Object.entries(locCounts).sort((a, b) => b[1] - a[1]).slice(0, 3);
-
-      if (locationsList) {
-        if (sortedLocs.length === 0) {
-          locationsList.innerHTML = realAnalyticsData
-            ? '<p class="live-empty">No active locations in the last 15 minutes.</p>'
-            : '<p class="live-empty">Analytics is unavailable right now.</p>';
-        } else {
-          locationsList.innerHTML = sortedLocs.map(([country, cnt]) => {
-            const pct = Math.round((cnt / totalLoc) * 100);
-            return `
-              <div class="live-location-row">
-                <span>${escapeHtml(country)}</span>
-                <span class="live-location-val">${cnt} (${pct}%)</span>
-              </div>
-              <div class="progress-bar-track"><div class="progress-bar-fill" style="width: ${pct}%;"></div></div>
-            `;
-          }).join('');
-        }
-      }
-
-      // Active pages
-      const pageCounts = {};
-      targetLogs.forEach(l => {
-        const p = l.pageUrl || '/';
-        pageCounts[p] = (pageCounts[p] || 0) + 1;
-      });
-      const sortedPages = Object.entries(pageCounts).sort((a, b) => b[1] - a[1]).slice(0, 3);
-
-      if (pagesList) {
-        if (sortedPages.length === 0) {
-          pagesList.innerHTML = realAnalyticsData
-            ? '<p class="live-empty">No active pages in the last 15 minutes.</p>'
-            : '<p class="live-empty">Analytics is unavailable right now.</p>';
-        } else {
-          pagesList.innerHTML = sortedPages.map(([page, cnt]) => `
-            <div class="live-page-item">
-              <a href="${escapeHtml(page)}" target="_blank" class="truncate max-w-[190px] font-medium text-white">${escapeHtml(page)}</a>
-              <span class="live-page-views">${cnt} ${cnt === 1 ? 'view' : 'views'}</span>
-            </div>
-          `).join('');
-        }
-      }
-    }
-
-    function renderRealTrendChart(logs, uniqueVisitors, totalPageViews) {
-      const daysCount = (currentOverviewRange === '30d') ? 30 : (currentOverviewRange === '90d' ? 12 : (currentOverviewRange === '1y' ? 12 : 7));
-      const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-      const now = new Date();
-      
-      // Build daily buckets
-      const buckets = [];
-      for (let i = daysCount - 1; i >= 0; i--) {
-        const d = new Date(now.getTime() - i * 24 * 60 * 60 * 1000);
-        buckets.push({
-          date: d,
-          dayLabel: dayNames[d.getDay()],
-          dateStr: d.toISOString().split('T')[0],
-          visitors: new Set(),
-          pageviews: 0,
-          sessions: new Set()
-        });
-      }
-
-      logs.forEach(l => {
-        const t = new Date(l.createdAt || l.timestamp);
-        const dateStr = t.toISOString().split('T')[0];
-        const b = buckets.find(item => item.dateStr === dateStr);
-        if (b) {
-          b.pageviews += 1;
-          if (l.sessionId) {
-            b.visitors.add(l.sessionId);
-            b.sessions.add(l.sessionId);
-          } else if (l.ipAddress) {
-            b.visitors.add(l.ipAddress);
-            b.sessions.add(l.ipAddress);
-          }
-        }
-      });
-
-      // Extract numerical values based on currentOverviewMetric
-      const dataPoints = buckets.map(b => {
-        if (currentOverviewMetric === 'pageviews') return b.pageviews;
-        if (currentOverviewMetric === 'sessions') return b.sessions.size;
-        return b.visitors.size;
-      });
-
-      const effectivePoints = dataPoints;
-
-      const totalMetricVal = effectivePoints.reduce((a, b) => a + b, 0);
-      const peakVal = Math.max(...effectivePoints, 1);
-      const avgVal = Math.round(totalMetricVal / effectivePoints.length);
-
-      // Update Analytical Header
-      const elTitle = document.getElementById('traffic-metric-title');
-      const elTotal = document.getElementById('traffic-stat-total');
-      const elLabel = document.getElementById('traffic-stat-total-label');
-      const elPeak = document.getElementById('traffic-stat-peak');
-      const elAvg = document.getElementById('traffic-stat-avg');
-      const elComp = document.getElementById('traffic-stat-comparison');
-
-      const metricLabels = {
-        visitors: { title: 'Unique Visitor Traffic', label: 'unique visitors' },
-        pageviews: { title: 'Total Page Views & Impressions', label: 'page views' },
-        sessions: { title: 'Audience Sessions & Visits', label: 'sessions' }
-      };
-      const info = metricLabels[currentOverviewMetric] || metricLabels.visitors;
-
-      if (elTitle) elTitle.textContent = info.title;
-      if (elTotal) elTotal.textContent = realAnalyticsData ? totalMetricVal.toLocaleString() : '—';
-      if (elLabel) elLabel.textContent = info.label;
-      if (elPeak) elPeak.textContent = realAnalyticsData ? peakVal.toLocaleString() : '—';
-      if (elAvg) elAvg.textContent = realAnalyticsData ? avgVal.toLocaleString() : '—';
-      if (elComp) elComp.textContent = logs.length >= 4
-        ? 'Based on available visit logs'
-        : 'Not enough data to compare';
-
-      // Plot SVG Path (Width: 700, Height: 170, Top padding: 25, Bottom padding: 25)
-      const chartW = 700;
-      const chartH = 170;
-      const topPad = 25;
-      const bottomPad = 25;
-      const plotH = chartH - topPad - bottomPad;
-      const maxPlot = Math.max(peakVal * 1.15, 1);
-
-      const coords = effectivePoints.map((val, idx) => {
-        const x = Math.round((idx / (effectivePoints.length - 1)) * chartW);
-        const y = Math.round(chartH - bottomPad - (val / maxPlot) * plotH);
-        return { x, y, val };
-      });
-
-      let linePathD = `M${coords[0].x},${coords[0].y}`;
-      for (let i = 0; i < coords.length - 1; i++) {
-        const curr = coords[i];
-        const next = coords[i + 1];
-        const cpx1 = curr.x + (next.x - curr.x) / 2;
-        const cpy1 = curr.y;
-        const cpx2 = curr.x + (next.x - curr.x) / 2;
-        const cpy2 = next.y;
-        linePathD += ` C${cpx1},${cpy1} ${cpx2},${cpy2} ${next.x},${next.y}`;
-      }
-
-      const elLinePath = document.getElementById('chart-line-path');
-      const elAreaPath = document.getElementById('chart-area-path');
-      const elPointsGroup = document.getElementById('chart-points-group');
-
-      if (elLinePath) elLinePath.setAttribute('d', linePathD);
-      if (elAreaPath) elAreaPath.setAttribute('d', `${linePathD} L${chartW},${chartH} L0,${chartH} Z`);
-
-      if (elPointsGroup) {
-        elPointsGroup.innerHTML = coords.map((c, i) => `
-          <circle cx="${c.x}" cy="${c.y}" r="3.5" fill="#fdfefe" stroke="#295f4d" stroke-width="1.8">
-            <title>${buckets[i]?.dateStr || ''}: ${c.val.toLocaleString()} ${info.label}</title>
-          </circle>
-        `).join('');
-      }
-
-      // Update X-Axis labels
-      const elXLabels = document.getElementById('chart-x-labels');
-      if (elXLabels) {
-        if (effectivePoints.length <= 7) {
-          elXLabels.innerHTML = buckets.map(b => `<span>${b.dayLabel}</span>`).join('');
-        } else {
-          const step = Math.floor(buckets.length / 6);
-          const labels = [];
-          for (let i = 0; i < buckets.length; i += step) {
-            const b = buckets[i];
-            labels.push(`<span>${b.date.getMonth() + 1}/${b.date.getDate()}</span>`);
-          }
-          elXLabels.innerHTML = labels.join('');
-        }
-      }
-    }
-
-    function setOverviewMetric(metric, btn) {
-      currentOverviewMetric = metric;
-      document.querySelectorAll('#traffic-metric-selector .traffic-metric-tab').forEach(b => b.classList.remove('active'));
-      if (btn) btn.classList.add('active');
-      applyRealAnalyticsToOverview();
-    }
-
-    function setOverviewChartRange(range, btn) {
-      currentOverviewRange = range;
-      document.querySelectorAll('#overview-chart-range .time-range-tab').forEach(b => b.classList.remove('active'));
-      if (btn) btn.classList.add('active');
-      loadRealOverviewAnalytics();
     }
 
     function renderTopMediaSection(compiledMediaList) {
@@ -1764,6 +1278,7 @@
 
       // 3. Load 100% Real Live Analytics
       loadRealOverviewAnalytics();
+      window.dispatchEvent(new Event("studio-overview"));
     }
 
     // Collections View Renderer
@@ -2916,5 +2431,6 @@
   </script>
 
 
+  <script type="module" src="/admin/dashboard-traffic.js?v=1"></script>
 </body>
 </html>

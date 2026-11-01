@@ -1,4 +1,4 @@
-import crypto from 'crypto';
+import { authenticated, prepareResponse } from '../lib/admin-session.js';
 import { normalizeCityName, localVisitorLogs } from './track_visitor.js';
 
 let cachedClient = null;
@@ -26,77 +26,14 @@ async function connectToDatabase() {
   return { client, db };
 }
 
-function isAllowedOrigin(origin) {
-  if (!origin || origin === 'null' || origin === 'file://') return true;
-  const localRegex = /^https?:\/\/(localhost|127\.0\.0\.1|0\.0\.0\.0|\[::1\]|192\.168\.\d+\.\d+|10\.\d+\.\d+\.\d+|172\.(1[6-9]|2\d|3[01])\.\d+\.\d+|[a-zA-Z0-9-]+\.local|[a-zA-Z0-9-]+\.internal)(:\d+)?$/;
-  const pagesDevRegex = /^https:\/\/([a-zA-Z0-9-]+\.)*pages\.dev$/;
-  const vercelRegex = /^https:\/\/([a-zA-Z0-9-]+\.)*vercel\.app$/;
-  const githubPagesRegex = /^https:\/\/([a-zA-Z0-9-]+\.)*github\.io$/;
-  const customDomainRegex = /^https?:\/\/([a-zA-Z0-9-]+\.)*(jcnino\.(dev|com|me)|jcninonuevo\.com)$/;
-  return localRegex.test(origin) || pagesDevRegex.test(origin) || vercelRegex.test(origin) || githubPagesRegex.test(origin) || customDomainRegex.test(origin);
-}
-
-function verifyToken(token, expectedPassword) {
-  if (!token) return false;
-  if (token === 'local_sandbox_authorized') return true;
-  const parts = token.split('.');
-  if (parts.length !== 2) return false;
-  
-  const [payloadStr, signature] = parts;
-  const expectedSignature = crypto.createHmac('sha256', expectedPassword)
-    .update(payloadStr)
-    .digest('base64url');
-    
-  if (signature !== expectedSignature) return false;
-  
-  try {
-    const payload = JSON.parse(Buffer.from(payloadStr, 'base64url').toString('utf8'));
-    if (Date.now() > payload.expiresAt) {
-      return false;
-    }
-    return true;
-  } catch (e) {
-    return false;
-  }
-}
-
 function escapeRegex(string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 export default async function handler(req, res) {
-  // CORS Headers
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  const origin = req.headers.origin;
-  if (origin && isAllowedOrigin(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
-  } else {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-  }
-
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS');
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization'
-  );
-
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
-
-  if (req.method !== 'GET') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
-
-  // Security Check: Authorize request using token
-  const authHeader = req.headers['authorization'] || '';
-  const expectedPassword = process.env.ADMIN_PASSWORD;
-  const token = authHeader.startsWith('Bearer ') ? authHeader.substring(7) : authHeader;
-
-  const isLocalEnv = !process.env.MONGODB_URI;
-  if (!isLocalEnv && expectedPassword && !verifyToken(token, expectedPassword)) {
-    return res.status(401).json({ error: 'Unauthorized administrative access' });
-  }
+  if (!prepareResponse(req, res)) return;
+  if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
+  if (!authenticated(req)) return res.status(401).json({ error: 'Sign in to view analytics.' });
 
   let query = req.query;
   if (!query && req.url) {
@@ -112,15 +49,14 @@ export default async function handler(req, res) {
   const range = (query.range || '7d').toLowerCase();
   const search = (query.search || '').trim().toLowerCase();
   const linkFilter = (query.link || query.page_url || '').trim();
-  const page = Math.max(1, parseInt(query.page || '1', 10));
-  const limit = Math.min(1000, Math.max(1, parseInt(query.limit || '1000', 10)));
+  const page = Math.max(1, parseInt(query.page || '1', 10) || 1);
+  const limit = Math.min(1000, Math.max(1, (parseInt(query.limit || '50', 10) || 50)));
   const offset = (page - 1) * limit;
 
   const now = new Date();
   let startDate = null;
   if (range === 'today') {
-    startDate = new Date();
-    startDate.setHours(0, 0, 0, 0);
+    startDate = new Date(new Date(now.getTime() + 8 * 3600000).toISOString().slice(0, 10) + 'T00:00:00+08:00');
   } else if (range === '24h') {
     startDate = new Date(now.getTime() - 24 * 60 * 60 * 1000);
   } else if (range === '7d') {
@@ -129,6 +65,7 @@ export default async function handler(req, res) {
     startDate = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
   }
 
+  if (range === '90d' || range === '1y') startDate = new Date(now.getTime() - (range === '90d' ? 90 : 365) * 86400000);
   const hasMongo = !!process.env.MONGODB_URI;
 
   try {
@@ -144,6 +81,7 @@ export default async function handler(req, res) {
         query.createdAt = { $gte: startDate };
       }
 
+      if (/^\/admin/i.test(linkFilter)) return res.status(400).json({error:'Admin pages are excluded.'});
       if (linkFilter) {
         query.pageUrl = { $regex: new RegExp('^' + escapeRegex(linkFilter) + '($|\\?)', 'i') };
       }
@@ -163,7 +101,7 @@ export default async function handler(req, res) {
 
       const totalViews = await collection.countDocuments(query);
       const distinctSessions = await collection.distinct('sessionId', query);
-      const uniqueVisitors = distinctSessions.length;
+      const uniqueVisitors = distinctSessions.filter(Boolean).length;
 
       const mobileCount = await collection.countDocuments({
         ...query,
@@ -219,6 +157,13 @@ export default async function handler(req, res) {
       ]).toArray();
       const topBrowsers = topBrowsersAgg.map(b => ({ browser: b._id || 'Unknown', c: b.c }));
 
+      const daily = await collection.aggregate([
+        { $match: query },
+        { $group: { _id: { $dateToString: { date: '$createdAt', format: '%Y-%m-%d', timezone: 'Asia/Manila' } }, views: { $sum: 1 }, sessions: { $addToSet: '$sessionId' } } },
+        { $sort: { _id: 1 } },
+        { $project: { _id: 0, day: '$_id', views: 1, visitors: { $size: { $setDifference: ['$sessions', [null, '']] } } } }
+      ]).toArray();
+
       const logs = await collection.find(query).sort({ createdAt: -1 }).skip(offset).limit(limit).toArray();
 
       const allLinksAgg = await collection.aggregate([
@@ -246,6 +191,7 @@ export default async function handler(req, res) {
 
       return res.status(200).json({
         success: true,
+        daily, timezone: 'Asia/Manila', from: startDate, to: now, source: 'database',
         totalViews,
         uniqueVisitors,
         mobilePct,
@@ -263,8 +209,11 @@ export default async function handler(req, res) {
       });
     }
   } catch (err) {
-    console.warn('MongoDB Analytics lookup fallback to memory store:', err.message);
+    console.error('Analytics storage unavailable:', err.message);
+    return res.status(503).json({ error: 'Visitor analytics are temporarily unavailable. Retry shortly.' });
   }
+
+  if (process.env.VERCEL) return res.status(503).json({error:'Visitor storage is not configured.'});
 
   // In-memory fallback logic (real-time locally tracked visitor logs)
   const combinedLogs = [...localVisitorLogs];
@@ -272,7 +221,7 @@ export default async function handler(req, res) {
   const filtered = combinedLogs.filter(l => {
     if (l.pageUrl && l.pageUrl.toLowerCase().startsWith('/admin')) return false;
     if (startDate && new Date(l.createdAt) < startDate) return false;
-    if (linkFilter && !l.pageUrl.toLowerCase().startsWith(linkFilter.toLowerCase())) return false;
+    if (linkFilter && !new RegExp('^' + escapeRegex(linkFilter) + '($|\\?)', 'i').test(l.pageUrl || '/')) return false;
     if (search) {
       const matchIp = (l.ipAddress || '').toLowerCase().includes(search);
       const matchCountry = (l.country || '').toLowerCase().includes(search);
@@ -287,7 +236,7 @@ export default async function handler(req, res) {
   });
 
   const totalViews = filtered.length;
-  const sessions = new Set(filtered.map(l => l.sessionId));
+  const sessions = new Set(filtered.map(l => l.sessionId).filter(Boolean));
   const uniqueVisitors = sessions.size;
 
   const mobileCount = filtered.filter(l => l.deviceType === 'Mobile' || l.deviceType === 'Tablet').length;
@@ -388,8 +337,15 @@ export default async function handler(req, res) {
     }))
     .sort((a, b) => b.totalViews - a.totalViews);
 
+  const dailyMap = new Map();
+  for (const l of filtered) {
+    const day = new Date(new Date(l.createdAt).getTime() + 8 * 3600000).toISOString().slice(0, 10);
+    if (!dailyMap.has(day)) dailyMap.set(day, { day, views: 0, sessions: new Set() });
+    const row = dailyMap.get(day); row.views++; if (l.sessionId) row.sessions.add(l.sessionId);
+  }
+  const daily = [...dailyMap.values()].sort((a,b)=>a.day.localeCompare(b.day)).map(r=>({day:r.day,views:r.views,visitors:r.sessions.size}));
   return res.status(200).json({
-    success: true,
+    success: true, daily, timezone: 'Asia/Manila', from: startDate, to: now, source: 'local',
     totalViews,
     uniqueVisitors,
     mobilePct,

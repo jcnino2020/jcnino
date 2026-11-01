@@ -71,3 +71,60 @@ h1,h2,h3,h4{color:var(--text-primary);font-weight:500;letter-spacing:-.025em}.mo
 @media (max-width: 768px){html,body{font-size:15px}.admin-sidebar{width:272px}.admin-sidebar .nav-item{font-size:14px;min-height:42px}.nav-icon{width:17px;height:17px}.sidebar-header-title{font-size:15px}.sidebar-header-sub{font-size:12px}.sidebar-section-title{font-size:12px}.sidebar-profile{font-size:13px}.editorial-collection-name{font-size:17px}.editorial-collection-meta{font-size:12px}.drawer-header h2{font-size:18px}.drawer-body .input-text,.drawer-body .input-textarea,.drawer-body .input-select{font-size:16px}}
 /* Keep the Apply action visible while the larger desktop inspector scrolls internally. */
 @media (min-width: 1100px){#edit-drawer{height:calc(100dvh - 320px);min-height:380px}}
+
+/* Studio traffic reporting: full-period aggregates, independent of log pagination. */
+#dashboard-traffic { margin:24px 0 36px; padding:28px; background:var(--bg-surface); border:1px solid var(--border-subtle); border-radius:8px; min-width:0 }
+.traffic-section-heading { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:22px }
+.traffic-section-heading h2 { font-size:24px; font-weight:650; letter-spacing:-.025em }
+.traffic-section-heading h3,.traffic-ranking h3 { font-size:17px; font-weight:650 }
+.traffic-section-heading p,.traffic-period,.traffic-note,.traffic-section-heading>span { color:var(--text-secondary); font-size:14px; margin-top:6px }
+.traffic-range { display:flex; flex-wrap:wrap; gap:6px; margin:0 0 20px }
+.traffic-range button { padding:10px 14px; border-radius:5px; font-size:14px; color:var(--text-secondary); border:1px solid transparent }
+.traffic-range button:hover { background:var(--bg-hover) }
+.traffic-range button[aria-pressed=true] { background:var(--bg-active); color:var(--accent); border-color:var(--border-subtle) }
+.traffic-filters { display:flex; align-items:end; gap:12px; flex-wrap:wrap; margin-bottom:20px }
+.traffic-filters label { display:grid; gap:8px; font-size:14px; font-weight:550; min-width:180px }
+.traffic-filters input,.traffic-filters select { width:100%; min-height:44px }
+.traffic-search { flex:1 }
+.traffic-metrics { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); border-block:1px solid var(--border-subtle); margin:20px 0 28px }
+.traffic-metrics>div { padding:22px 20px 22px 0 }
+.traffic-metrics dt { color:var(--text-secondary); font-size:14px }
+.traffic-metrics dd { margin:8px 0 0; font-size:30px; font-weight:600; letter-spacing:-.025em; overflow-wrap:anywhere; font-variant-numeric:tabular-nums }
+.traffic-chart { margin-bottom:30px }
+.traffic-chart svg { display:block; width:100%; max-height:340px; margin-bottom:16px }
+.traffic-chart svg text { fill:var(--text-secondary); font:12px sans-serif }
+.traffic-chart summary,.traffic-log summary { cursor:pointer; font-size:14px; padding:12px 0; font-weight:550 }
+.traffic-ranking-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:32px 40px; margin-bottom:28px }
+.traffic-ranking ol { padding:0; list-style:none; margin-top:18px }
+.traffic-ranking li { margin-bottom:17px }
+.traffic-ranking li>div { display:flex; justify-content:space-between; gap:14px; font-size:14px; margin-bottom:7px }
+.traffic-ranking li>div>span:first-child,.traffic-ranking button { overflow-wrap:anywhere; text-align:left }
+.traffic-ranking li>div>span:last-child { white-space:nowrap; font-variant-numeric:tabular-nums }
+.traffic-ranking small { color:var(--text-secondary) }
+.traffic-ranking button { color:var(--accent); text-decoration:underline; text-underline-offset:3px }
+.traffic-ranking progress { display:block; width:100%; height:5px; border:0; border-radius:3px; overflow:hidden; background:var(--bg-hover); accent-color:var(--accent) }
+.traffic-ranking progress::-webkit-progress-bar { background:var(--bg-hover) }
+.traffic-ranking progress::-webkit-progress-value { background:var(--accent) }
+.traffic-ranking progress::-moz-progress-bar { background:var(--accent) }
+.traffic-log { border-top:1px solid var(--border-subtle) }
+.traffic-log summary span { color:var(--text-secondary); font-weight:400; margin-left:12px }
+.traffic-table-scroll { overflow:auto; max-height:480px }
+#dashboard-traffic table { width:100%; font-size:14px; border-collapse:collapse; text-align:left; font-variant-numeric:tabular-nums }
+#dashboard-traffic th,#dashboard-traffic td { padding:14px 16px; border-bottom:1px solid var(--border-subtle); vertical-align:top; min-width:130px }
+#dashboard-traffic th { background:var(--bg-hover); font-weight:600 }
+#dashboard-traffic td small { display:block; color:var(--text-secondary); margin-top:5px }
+.traffic-pagination { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:20px 0; font-size:14px }
+.traffic-empty { padding:28px 0; color:var(--text-secondary); font-size:15px }
+.traffic-note { line-height:1.6; max-width:80ch }
+#dashboard-traffic button:disabled { opacity:.45; cursor:default }
+@media(max-width:700px) {
+ #dashboard-traffic { padding:18px; margin-top:12px }
+ .traffic-section-heading { align-items:start; flex-wrap:wrap }
+ .traffic-section-heading h2 { font-size:22px }
+ .traffic-metrics { grid-template-columns:repeat(2,minmax(0,1fr)) }
+ .traffic-metrics dd { font-size:25px }
+ .traffic-ranking-grid { grid-template-columns:1fr; gap:20px }
+ .traffic-filters label { min-width:0; width:100%; flex-basis:100% }
+ .traffic-range button { padding:10px; font-size:13px }
+ .traffic-chart svg { min-height:180px }
+}

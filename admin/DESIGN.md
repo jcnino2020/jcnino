@@ -55,3 +55,5 @@ layer, replacing the previous accumulated overrides. Every admin route shares it
 The library additionally loads locally vendored ExifReader and capture-metadata.js.
 Reduced motion, focus rings, authentication, Blob uploads, database publication,
 settings forms, security history, and snapshot recovery remain part of the product.
+
+Visitor analytics appears above collections on Overview. It uses authenticated full-period aggregates from visitor_logs, Asia/Manila daily buckets, page/search filters, ranking bars, and a paginated visitor log. Browser sessions are estimates, not unique people. Empty, local-only, and unavailable data are labelled.

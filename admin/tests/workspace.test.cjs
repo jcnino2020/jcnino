@@ -28,6 +28,8 @@ assert.match(stylesheet, /:focus-visible/, 'keyboard focus');
 
 const overview = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 assert.doesNotMatch(overview, /2840|1420|4800|18\.4%|12\.8%|24\.1%|8\.6%|\b195\b/, 'no fabricated analytics values');
-assert.match(overview, /No active locations in the last 15 minutes/, 'honest live empty state');
+const traffic = fs.readFileSync(path.join(root, 'dashboard-traffic.js'), 'utf8');
+assert.match(traffic, /No page views recorded in this period/, 'honest traffic empty state');
+assert.match(overview, /id="dashboard-traffic"/, 'visible dashboard reporting');
 assert.match(overview, /No revisions yet/, 'honest activity empty state');
 console.log(`${pages.length} admin pages passed workspace checks`);
