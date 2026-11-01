@@ -12,7 +12,7 @@ for (const page of pages) {
   assert.match(source, /href="\/admin\/workspace\.css(?:\?[^"]*)?"/, `${page}: shared redesign`);
   assert.match(source, /class="admin-header"/, `${page}: header`);
   assert.match(source, /class="admin-sidebar"/, `${page}: sidebar`);
-  assert.match(source, /class="admin-main"/, `${page}: workspace`);
+  assert.match(source, /class="admin-main(?: [^"]*)?"/, `${page}: workspace`);
   assert.match(source, /<div class="sidebar-section-title">Library<\/div>/, `${page}: library navigation`);
   assert.match(source, /<div class="sidebar-section-title">Insights<\/div>/, `${page}: insights navigation`);
   assert.match(source, /<div class="sidebar-section-title">Site<\/div>/, `${page}: site navigation`);

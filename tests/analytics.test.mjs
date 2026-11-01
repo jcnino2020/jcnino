@@ -13,7 +13,7 @@ test('full-period totals and daily buckets are independent of paginated logs; fi
  const authorization='Bearer '+payload+'.'+crypto.createHmac('sha256','analytics-test').update(payload).digest('base64url');
  const request=async query=>{const r=res();await handler({method:'GET',headers:{authorization},query},r);assert.equal(r.code,200);return r.body;};
  localVisitorLogs.splice(0,localVisitorLogs.length,...Array.from({length:45},(_,i)=>({sessionId:'session-'+i%3,pageUrl:i%2?'/work':'/',createdAt:new Date(),country:'Philippines',city:'Bacolod',browser:'Safari',os:'iOS',deviceType:'Mobile',isp:'Test network'})),{sessionId:'admin',pageUrl:'/admin/',createdAt:new Date()});
- let d=await request({range:'7d',limit:'20',page:'2'});assert.equal(d.totalViews,45);assert.equal(d.uniqueVisitors,3);assert.equal(d.logs.length,20);assert.equal(d.daily.reduce((s,r)=>s+r.views,0),45);assert.equal(d.timezone,'Asia/Manila');assert.equal(d.mobilePct,100);
+ let d=await request({range:'7d',limit:'20',page:'2'});assert.equal(d.totalViews,45);assert.equal(d.uniqueVisitors,3);assert.equal(d.logs.length,20);assert.equal(d.daily.reduce((s,r)=>s+r.views,0),45);assert.equal(d.timezone,'Asia/Manila');assert.equal(d.mobilePct,100);assert.equal(d.topPages.reduce((n,r)=>n+r.c,0),45);assert.ok(d.topPages.every(r=>r.visitors>0&&r.lastVisited));
  d=await request({range:'today',link:'/work',search:'safari'});assert.equal(d.totalViews,22);assert.ok(d.logs.every(r=>r.pageUrl==='/work'));assert.equal(new Date(d.from).getUTCHours(),16);
  d=await request({range:'all',search:'no matching result'});assert.equal(d.totalViews,0);assert.deepEqual(d.daily,[]);assert.deepEqual(d.logs,[]);
  localVisitorLogs.length=0;

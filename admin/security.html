@@ -17,7 +17,7 @@
   <!-- CSS Stylesheets -->
   <link rel="stylesheet" href="/assets/tailwind.css?v=2">
   <link rel="stylesheet" href="/admin/admin.css">
-  <link rel="stylesheet" href="/admin/workspace.css?v=studio-panels-1">
+  <link rel="stylesheet" href="/admin/workspace.css?v=superadmin-1">
 
   <!-- Load Database File -->
   <script src="/assets/gallery-data.js"></script>
@@ -214,18 +214,19 @@
     </aside>
 
     <!-- Main Security Workspace -->
-    <main class="admin-main">
+    <main class="admin-main report-page">
       <div class="admin-content-wrap">
         
         <!-- Header Title -->
         <div>
-          <h1 class="page-title">Security Audit Logs</h1>
+          <h1 class="page-title">Security</h1>
           <p class="text-sm text-zinc-400 mt-1">Review administrator sign-ins and recent access attempts.</p>
+          <p class="report-notice mt-4">Request IPs and available location headers are recorded by the server. Locations are approximate; browsers may hide or simplify their identity.</p>
           <p id="audit-connection" role="status" class="text-sm text-zinc-400 mt-1">Checking audit storage…</p>
         </div>
 
         <!-- 3 Metrics Cards -->
-        <div class="three-col-grid">
+        <div class="report-security-metrics">
           <div class="kpi-card">
             <div class="kpi-label">Total Verification Attempts</div>
             <div class="kpi-val mono-num text-white mt-1" id="security-total-attempts">—</div>
@@ -243,10 +244,10 @@
         </div>
 
         <!-- Audit Table Card -->
-        <div class="card p-0 overflow-hidden">
-          <div class="p-4 border-b border-white/10 flex justify-between items-center" style="background:var(--bg-secondary)">
+        <div class="report-table-shell">
+          <div class="flex justify-between items-center gap-4">
             <div>
-              <h3 class="section-title">Administrative Access Activity Feed</h3>
+              <h2 class="report-table-title">Authentication & IP history</h2>
               <p class="text-xs text-zinc-400 mt-0.5">Persisted sign-in attempts · newest first · totals include all stored history</p>
             </div>
             <button onclick="fetchSecurityLogsAndRender()" class="btn btn-secondary text-xs" style="min-height: 28px; padding: 2px 8px;">
@@ -362,6 +363,11 @@
   <!-- Scripts -->
   <script src="admin-core.js?v=real-audit-1"></script>
   <script>
+    function deviceSummary(ua) {
+      const os = /iphone|ipad/i.test(ua) ? 'iOS / iPadOS' : /android/i.test(ua) ? 'Android' : /windows/i.test(ua) ? 'Windows' : /macintosh|mac os/i.test(ua) ? 'macOS' : /linux/i.test(ua) ? 'Linux' : '';
+      const browser = /edg\//i.test(ua) ? 'Edge' : /opr\//i.test(ua) ? 'Opera' : /chrome|crios/i.test(ua) ? 'Chrome' : /firefox|fxios/i.test(ua) ? 'Firefox' : /safari/i.test(ua) ? 'Safari' : '';
+      return [os, browser].filter(Boolean).join(' · ') || 'Not identified';
+    }
     let auditPage = 1, auditRequest = 0;
     function changeAuditPage(delta) { auditPage = Math.max(1, auditPage + delta); fetchSecurityLogsAndRender(); }
     async function fetchSecurityLogsAndRender() {
@@ -434,7 +440,7 @@
               ${loc}
             </td>
             <td class="text-xs text-zinc-400">
-              ${escapeHtml(l.device || l.userAgent || 'Unavailable')}
+              ${escapeHtml(deviceSummary(l.userAgent || l.device || ''))}<details><summary>View user-agent</summary>${escapeHtml(l.userAgent || 'Not provided')}</details>
             </td>
           </tr>
         `;

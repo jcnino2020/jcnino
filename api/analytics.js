@@ -119,14 +119,14 @@ export default async function handler(req, res) {
 
       const topPagesAgg = await collection.aggregate([
         { $match: query },
-        { $group: { _id: '$pageUrl', page_title: { $first: '$pageTitle' }, c: { $sum: 1 } } },
+        { $group: { _id: '$pageUrl', page_title: { $first: '$pageTitle' }, c: { $sum: 1 }, sessions: { $addToSet: '$sessionId' }, lastVisited: { $max: '$createdAt' } } },
         { $sort: { c: -1 } },
-        { $limit: 5 }
+        { $limit: 100 }
       ]).toArray();
       const topPages = topPagesAgg.map(p => ({
         page_url: p._id || '/',
         page_title: p.page_title || p._id || '/',
-        c: p.c
+        c: p.c, visitors: p.sessions.filter(Boolean).length, lastVisited: p.lastVisited
       }));
 
       const topLocAgg = await collection.aggregate([
@@ -252,13 +252,15 @@ export default async function handler(req, res) {
   const pageCounts = {};
   filtered.forEach(l => {
     const p = l.pageUrl || '/';
-    if (!pageCounts[p]) pageCounts[p] = { count: 0, title: l.pageTitle || p };
+    if (!pageCounts[p]) pageCounts[p] = { count: 0, title: l.pageTitle || p, sessions: new Set(), lastVisited: l.createdAt };
+    if(l.sessionId)pageCounts[p].sessions.add(l.sessionId);
+    if(new Date(l.createdAt)>new Date(pageCounts[p].lastVisited))pageCounts[p].lastVisited=l.createdAt;
     pageCounts[p].count += 1;
   });
   const topPages = Object.keys(pageCounts)
-    .map(p => ({ page_url: p, page_title: pageCounts[p].title, c: pageCounts[p].count }))
+    .map(p => ({ page_url: p, page_title: pageCounts[p].title, c: pageCounts[p].count, visitors: pageCounts[p].sessions.size, lastVisited: pageCounts[p].lastVisited }))
     .sort((a, b) => b.c - a.c)
-    .slice(0, 5);
+    .slice(0, 100);
 
   const locCounts = {};
   filtered.forEach(l => {

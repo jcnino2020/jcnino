@@ -57,3 +57,5 @@ Reduced motion, focus rings, authentication, Blob uploads, database publication,
 settings forms, security history, and snapshot recovery remain part of the product.
 
 Visitor analytics appears above collections on Overview. It uses authenticated full-period aggregates from visitor_logs, Asia/Manila daily buckets, page/search filters, ranking bars, and a paginated visitor log. Browser sessions are estimates, not unique people. Empty, local-only, and unavailable data are labelled.
+
+Analytics and Security reports follow the Sugar Inventory Superadmin reporting structure: Traffic/Statistics/Media tabs, bordered filter and ranking sections, full-period page breakdowns, chart data tables, and a plain authentication history table. Studio navigation and light palette remain shared with the media workspace.
