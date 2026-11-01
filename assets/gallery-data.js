@@ -661,7 +661,7 @@ window.galleryData = {
       email: "jcninonuevo@gmail.com"
     },
     seo: {
-      title: "Portfolio | JC Niñonuevo",
+      title: "Portfolio - JC Niñonuevo",
       description: "Photography & cinematography portfolio of JC Niñonuevo. Drone aerials, editorial street frames, and cinematic storytelling. Based in Bacolod City.",
       keywords: "photography, cinematography, drone, bacolod, portfolio, JC Niñonuevo"
     },
