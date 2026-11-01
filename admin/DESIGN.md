@@ -10,9 +10,9 @@ colors:
   accent: "#295f4d"
 typography:
   family: "Studio Helvetica, Helvetica Neue, Helvetica, Arial, sans-serif"
-  titleSize: "28px"
+  titleSize: "36px"
   titleWeight: 500
-  bodySize: "14px"
+  bodySize: "16px"
 rounded:
   controls: "6px"
   photographs: "4px"
@@ -31,9 +31,10 @@ name, actual images, collection names, existing routes, and working APIs are ret
 Self-hosted Helvetica Neue, cool silver surfaces, green actions, and restrained
 borders carry the approved concept through every admin page.
 
-The header is 68px on desktop and 62px on mobile. The persistent navigation rail is
-198px (180px on smaller desktops). Page headings are 28–30px, medium weight, with
-short supporting copy. Controls use 12–13px text and clear contrast; the visual
+The header is 78px on desktop, 84px on large displays, and 62px on mobile. The
+persistent navigation rail is 264px, 240px on smaller desktops, and 296px at 1800px
+and above. Page headings are 34–40px, medium weight, with short supporting copy.
+Navigation uses 15–16px text and 44–48px rows. Controls use 14–16px text and clear contrast; the visual
 emphasis belongs to the photographs. Photo cards have 4:3 crops and compact titles
 and filenames. Selection uses a green border. Frame numbering and quality claims
 are removed.
