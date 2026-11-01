@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover"/>
-  <meta name="theme-color" content="#000000"/>
-  <title>Security Audit Logs | JC Niñonuevo CMS</title>
+  <meta name="theme-color" content="#f1f3f3"/>
+  <title>Security - JC Niñonuevo</title>
   
   <script>
     if (window.location.pathname === '/admin') {
@@ -16,9 +16,8 @@
   
   <!-- CSS Stylesheets -->
   <link rel="stylesheet" href="/assets/tailwind.css?v=2">
-  <link rel="stylesheet" href="/assets/portfolio.css?v=4">
   <link rel="stylesheet" href="/admin/admin.css">
-  <link rel="stylesheet" href="/admin/workspace.css?v=portfolio-parity-2">
+  <link rel="stylesheet" href="/admin/workspace.css?v=studio-1">
 
   <!-- Load Database File -->
   <script src="/assets/gallery-data.js"></script>
@@ -30,7 +29,7 @@
     }
   </script>
 </head>
-<body>
+<body class="studio-admin">
 
   <!-- Top Header Bar -->
   <header class="admin-header">
@@ -40,8 +39,8 @@
       </button>
 
       <a href="/index.html" class="flex items-center gap-2.5" title="Back to Portfolio Home">
-        <img src="/images/logo.png" alt="Portfolio Logo" class="header-logo" />
-        <span class="studio-tag hidden sm:inline-flex">Portfolio / Admin</span>
+        <span class="studio-wordmark">JC Niñonuevo<span> / workspace</span></span>
+        <span class="studio-tag hidden sm:inline-flex">Studio</span>
       </a>
       <div class="header-divider hidden sm:block"></div>
       
@@ -206,7 +205,7 @@
           <div class="flex items-center gap-2.5">
             <div class="avatar-circle">JC</div>
             <div class="profile-meta">
-              <div style="font-size: 12.5px; font-weight: 600; color: #FFFFFF;">Jan Carlo Niñonuevo</div>
+              <div style="font-size: 12.5px; font-weight: 600; color: var(--text-primary);">Jan Carlo Niñonuevo</div>
               <div style="font-size: 11px; color: var(--text-muted);">Portfolio owner</div>
             </div>
           </div>
@@ -221,7 +220,7 @@
         <!-- Header Title -->
         <div>
           <h1 class="page-title">Security Audit Logs</h1>
-          <p class="text-sm text-zinc-400 mt-1">Real-time tracking of administrator login attempts, device specifications, and verified geo-IP verification.</p>
+          <p class="text-sm text-zinc-400 mt-1">Review administrator sign-ins and recent access attempts.</p>
         </div>
 
         <!-- 3 Metrics Cards -->
@@ -311,7 +310,7 @@
     <div id="toast-icon-error" style="color: var(--danger); flex-shrink: 0;" class="hidden">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
     </div>
-    <p id="toast-message" style="color: #FFFFFF; font-size: 13px; font-weight: 500;"></p>
+    <p id="toast-message" style="color: var(--text-primary); font-size: 13px; font-weight: 500;"></p>
   </div>
 
   <!-- Lock Screen Overlay -->
@@ -358,7 +357,7 @@
   </div>
 
   <!-- Scripts -->
-  <script src="admin-core.js?v=blob-1"></script>
+  <script src="admin-core.js?v=studio-1"></script>
   <script>
     async function fetchSecurityLogsAndRender() {
       const token = sessionStorage.getItem('pm_auth') || '';
@@ -366,6 +365,7 @@
       if (!tbody) return;
 
       let logs = [];
+      let available = false;
       try {
         const res = await fetch('/api/logs', {
           method: 'GET',
@@ -373,61 +373,31 @@
         });
         if (res.ok) {
           const data = await res.json();
-          if (data && data.logs) logs = data.logs;
+          logs = Array.isArray(data) ? data : (Array.isArray(data.logs) ? data.logs : []);
+          available = data?.available !== false && (Array.isArray(data) || Array.isArray(data.logs));
         }
       } catch (err) {
         console.warn("Could not fetch /api/logs, using local logs:", err);
-      }
-
-      if (!logs || logs.length === 0) {
-        logs = [
-          {
-            timestamp: new Date().toISOString(),
-            status: "Authorized",
-            ip: "127.0.0.1",
-            city: "Bacolod City",
-            country: "Philippines",
-            device: "Desktop (macOS / Safari)"
-          },
-          {
-            timestamp: new Date(Date.now() - 42 * 60 * 1000).toISOString(),
-            status: "Authorized",
-            ip: "112.198.115.42",
-            city: "Bacolod City",
-            country: "Philippines",
-            device: "Desktop (macOS / Chrome)"
-          },
-          {
-            timestamp: new Date(Date.now() - 3 * 3600 * 1000).toISOString(),
-            status: "Denied",
-            ip: "185.220.101.5",
-            city: "Frankfurt",
-            country: "Germany",
-            device: "Tor Network Exit Node"
-          },
-          {
-            timestamp: new Date(Date.now() - 24 * 3600 * 1000).toISOString(),
-            status: "Authorized",
-            ip: "120.29.74.15",
-            city: "Manila",
-            country: "Philippines",
-            device: "Mobile (iOS / Safari)"
-          }
-        ];
       }
 
       const total = logs.length;
       const successCount = logs.filter(l => (l.status || '').toLowerCase() === 'authorized' || (l.status || '').toLowerCase() === 'success').length;
       const failedCount = total - successCount;
 
-      document.getElementById('security-total-attempts').textContent = total;
-      document.getElementById('security-success-logins').textContent = successCount;
-      document.getElementById('security-failed-attempts').textContent = failedCount;
+      document.getElementById('security-total-attempts').textContent = available ? total : '—';
+      document.getElementById('security-success-logins').textContent = available ? successCount : '—';
+      document.getElementById('security-failed-attempts').textContent = available ? failedCount : '—';
 
+      if (!logs.length) {
+        tbody.innerHTML = `<tr><td colspan="5" class="security-empty">${available ? 'No sign-in activity recorded yet.' : 'Sign-in history is unavailable. Try refreshing or check the database connection.'}</td></tr>`;
+        return;
+      }
       tbody.innerHTML = logs.map(l => {
         const isAuth = (l.status || '').toLowerCase() === 'authorized' || (l.status || '').toLowerCase() === 'success';
         const statusTagClass = isAuth ? 'tag-success' : 'tag-danger';
-        const loc = l.city ? `${escapeHtml(l.city)}, ${escapeHtml(l.country || '')}` : escapeHtml(l.country || 'Localhost');
+        const city = l.geo?.city || l.city || '';
+        const country = l.geo?.country || l.country || '';
+        const loc = [city, country].filter(Boolean).map(escapeHtml).join(', ') || 'Unavailable';
         
         return `
           <tr>
@@ -439,13 +409,13 @@
               <span class="tag-badge ${statusTagClass}">${isAuth ? 'Authorized' : 'Denied'}</span>
             </td>
             <td class="text-xs text-white">
-              ${escapeHtml(l.ip || l.ipAddress || '127.0.0.1')}
+              ${escapeHtml(l.ip || l.ipAddress || 'Unavailable')}
             </td>
             <td class="text-xs text-zinc-300">
               ${loc}
             </td>
             <td class="text-xs text-zinc-400">
-              ${escapeHtml(l.device || l.userAgent || 'Desktop')}
+              ${escapeHtml(l.device || l.userAgent || 'Unavailable')}
             </td>
           </tr>
         `;

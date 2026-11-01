@@ -16,7 +16,7 @@ The public site presents JC Niñonuevo's photography, film, and projects. The ad
 
 ## Operating Context
 
-The admin is a static browser interface backed by gallery data, local draft storage and snapshots, optional local-folder write access, and GitHub publishing. Some account and analytics operations depend on external APIs. The user is open to changing admin workflows during a full redesign.
+The admin is a static browser interface backed by gallery data, local draft storage and snapshots, optional local-folder write access, Blob photo storage, and MongoDB gallery publishing. Some account and analytics operations depend on external APIs. The user is open to changing admin workflows during a full redesign.
 
 ## Capabilities and Constraints
 

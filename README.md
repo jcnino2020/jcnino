@@ -67,8 +67,7 @@ back to an unauthenticated local session or a simulated successful upload.
 `/api/gallery` stores the live gallery in MongoDB's `portfolio_gallery` collection.
 The first publication includes all existing gallery data. Public pages load the
 committed gallery as a fallback, then the live database snapshot. Uploads publish
-immediately; other edits, order changes, and removals remain local until **Save
-Changes → Publish Live**. No redeploy is needed for these content changes. Revision
+immediately; other edits, order changes, and removals remain local until **Publish changes**. No redeploy is needed for these content changes. Revision
 checks reject conflicting publications from other tabs. A stale local draft is
 archived under `pm_previous_gallery_draft` before loading a newer live revision.
 
@@ -79,3 +78,20 @@ blocked until it recovers.
 
 Run uploader/API checks with `node --test tests/gallery.test.mjs` and the existing
 workspace checks with `node admin/tests/workspace.test.cjs`.
+
+## Studio admin
+
+The approved Studio design uses a silver workspace, green actions, and a persistent
+photo inspector on desktop. On smaller screens, selecting a photo opens a focused
+editing drawer. The same visual system covers library, collections, videos,
+analytics, settings, security, backups, and sign-in. Primary **Publish changes**
+saves to the live database; **More** retains local save and export options.
+
+Uploads read embedded camera, lens, aperture, shutter speed, ISO, focal length, and
+full capture date before WebP conversion. The metadata is saved alongside the Blob
+URLs and remains editable. JPEG, PNG, and WebP EXIF is parsed locally using the
+vendored ExifReader 4.52.0 library. Missing metadata remains blank; a lens is never
+guessed from focal length. GPS metadata is not added to the gallery record.
+
+Run `node admin/tests/capture-metadata.test.cjs` for EXIF extraction and formatting,
+and `node --test tests/security-logs.test.mjs` for honest audit-storage fallback.

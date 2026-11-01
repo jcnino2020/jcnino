@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover"/>
-  <meta name="theme-color" content="#000000"/>
-  <title>Visitor & Traffic Analytics | JC Niñonuevo CMS</title>
+  <meta name="theme-color" content="#f1f3f3"/>
+  <title>Analytics - JC Niñonuevo</title>
   
   <script>
     if (window.location.pathname === '/admin') {
@@ -16,9 +16,8 @@
   
   <!-- CSS Stylesheets -->
   <link rel="stylesheet" href="/assets/tailwind.css?v=2">
-  <link rel="stylesheet" href="/assets/portfolio.css?v=4">
   <link rel="stylesheet" href="/admin/admin.css">
-  <link rel="stylesheet" href="/admin/workspace.css?v=portfolio-parity-2">
+  <link rel="stylesheet" href="/admin/workspace.css?v=studio-1">
 
   <!-- Load Database File -->
   <script src="/assets/gallery-data.js"></script>
@@ -30,7 +29,7 @@
     }
   </script>
 </head>
-<body>
+<body class="studio-admin">
 
   <!-- Top Header Bar -->
   <header class="admin-header">
@@ -40,8 +39,8 @@
       </button>
 
       <a href="/index.html" class="flex items-center gap-2.5" title="Back to Portfolio Home">
-        <img src="/images/logo.png" alt="Portfolio Logo" class="header-logo" />
-        <span class="studio-tag hidden sm:inline-flex">Portfolio / Admin</span>
+        <span class="studio-wordmark">JC Niñonuevo<span> / workspace</span></span>
+        <span class="studio-tag hidden sm:inline-flex">Studio</span>
       </a>
       <div class="header-divider hidden sm:block"></div>
       
@@ -208,7 +207,7 @@
           <div class="flex items-center gap-2.5">
             <div class="avatar-circle">JC</div>
             <div class="profile-meta">
-              <div style="font-size: 12.5px; font-weight: 600; color: #FFFFFF;">Jan Carlo Niñonuevo</div>
+              <div style="font-size: 12.5px; font-weight: 600; color: var(--text-primary);">Jan Carlo Niñonuevo</div>
               <div style="font-size: 11px; color: var(--text-muted);">Portfolio owner</div>
             </div>
           </div>
@@ -519,7 +518,7 @@
     <div id="toast-icon-error" style="color: var(--danger); flex-shrink: 0;" class="hidden">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
     </div>
-    <p id="toast-message" style="color: #FFFFFF; font-size: 13px; font-weight: 500;"></p>
+    <p id="toast-message" style="color: var(--text-primary); font-size: 13px; font-weight: 500;"></p>
   </div>
 
   <!-- Lock Screen Overlay -->
@@ -566,7 +565,7 @@
   </div>
 
   <!-- Scripts -->
-  <script src="admin-core.js?v=blob-1"></script>
+  <script src="admin-core.js?v=studio-1"></script>
   <script>
     let currentAnalyticsRange = '7d';
     let currentAnalyticsSearch = '';
@@ -624,7 +623,8 @@
         console.warn("Analytics fetch error:", err);
       }
 
-      if (!data || !data.success) {
+      const analyticsAvailable = Boolean(data?.success);
+      if (!analyticsAvailable) {
         data = {
           totalViews: 0,
           uniqueVisitors: 0,
@@ -648,6 +648,20 @@
       const topLocEl = document.getElementById('metric-top-location');
       topLocEl.textContent = data.topCountry || 'N/A';
       topLocEl.title = data.topCountry || 'N/A';
+
+      let availability = document.getElementById('analytics-availability');
+      if (!availability) {
+        availability = document.createElement('p');
+        availability.id = 'analytics-availability';
+        availability.className = 'input-helper';
+        availability.setAttribute('role', 'status');
+        document.querySelector('.admin-content-wrap > div:first-child')?.appendChild(availability);
+      }
+      availability.textContent = analyticsAvailable ? '' : 'Analytics are unavailable. Refresh to retry; these totals do not represent live traffic.';
+      availability.hidden = analyticsAvailable;
+      if (!analyticsAvailable) {
+        for (const id of ['metric-total-views', 'metric-unique-visitors', 'metric-mobile-pct', 'metric-top-location']) document.getElementById(id).textContent = '—';
+      }
 
       // 2. Breakdown Visual Progress Lists
       renderTopPagesList(data.topPages || [], data.totalViews || 0);

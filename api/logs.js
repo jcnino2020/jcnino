@@ -55,47 +55,8 @@ function verifyToken(token, expectedPassword) {
   }
 }
 
-// Sandbox local in-memory mock logs if MongoDB is absent
-let localMockLogs = [
-  {
-    _id: "mock-1",
-    timestamp: new Date(Date.now() - 600000).toISOString(),
-    status: "Success",
-    ip: "112.198.115.42",
-    userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36",
-    geo: {
-      city: "Bacolod City",
-      country: "PH",
-      region: "06"
-    }
-  },
-  {
-    _id: "mock-2",
-    timestamp: new Date(Date.now() - 3600000).toISOString(),
-    status: "Failed",
-    ip: "103.14.62.198",
-    userAgent: "Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 Mobile/15E148 Safari/604.1",
-    geo: {
-      city: "Manila",
-      country: "PH",
-      region: "NCR"
-    }
-  },
-  {
-    _id: "mock-3",
-    timestamp: new Date(Date.now() - 14400000).toISOString(),
-    status: "Success",
-    ip: "127.0.0.1",
-    userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Safari/605.1.15",
-    geo: {
-      city: "Local Host",
-      country: "PH",
-      region: "06"
-    }
-  }
-];
-
 export default async function handler(req, res) {
+  res.setHeader('Cache-Control', 'no-store');
   // CORS Headers
   res.setHeader('Access-Control-Allow-Credentials', true);
   
@@ -144,8 +105,8 @@ export default async function handler(req, res) {
 
   try {
     if (!hasMongo) {
-      // Local development mock logs
-      return res.status(200).json(localMockLogs);
+      // Authentication succeeded, but no audit store is configured. Never invent sign-ins.
+      return res.status(200).json({ logs: [], available: false });
     }
 
     const { db } = await connectToDatabase();

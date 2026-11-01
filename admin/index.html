@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover"/>
-  <meta name="theme-color" content="#000000"/>
-  <title>JC Niñonuevo Portfolio CMS | Admin Workstation</title>
+  <meta name="theme-color" content="#f1f3f3"/>
+  <title>Studio - JC Niñonuevo</title>
   
   <script>
     // Immediate trailing slash normalization for /admin -> /admin/
@@ -17,9 +17,8 @@
   
   <!-- CSS Stylesheets (Absolute root paths for reliable loading) -->
   <link rel="stylesheet" href="/assets/tailwind.css?v=2">
-  <link rel="stylesheet" href="/assets/portfolio.css?v=4">
   <link rel="stylesheet" href="/admin/admin.css?v=editorial-v2">
-  <link rel="stylesheet" href="/admin/workspace.css?v=portfolio-parity-2">
+  <link rel="stylesheet" href="/admin/workspace.css?v=studio-1">
 
   <!-- Load Database File -->
   <script src="/assets/gallery-data.js"></script>
@@ -40,7 +39,7 @@
     }
   </script>
 </head>
-<body>
+<body class="studio-admin">
 
   <!-- Top Header Bar -->
   <header class="admin-header">
@@ -51,8 +50,8 @@
       </button>
 
       <a href="/index.html" class="flex items-center gap-2.5" title="Back to Portfolio Home">
-        <img src="/images/logo.png" alt="Portfolio Logo" class="header-logo" />
-        <span class="studio-tag hidden sm:inline-flex">Portfolio / Admin</span>
+        <span class="studio-wordmark">JC Niñonuevo<span> / workspace</span></span>
+        <span class="studio-tag hidden sm:inline-flex">Studio</span>
       </a>
       <div class="header-divider hidden sm:block"></div>
       
@@ -87,19 +86,20 @@
 
       <!-- Save Changes Dropdown -->
       <div class="relative inline-block" id="save-dropdown-wrapper">
-        <button onclick="toggleSaveDropdown()" id="save-main-btn" aria-label="Save or publish changes" class="btn btn-primary">
+        <button onclick="publishToLiveSite()" id="save-main-btn" aria-label="Publish changes" class="btn btn-primary">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
-          <span>Save Changes</span>
+          <span>Publish changes</span>
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
         </button>
 
+        <button onclick="toggleSaveDropdown()" class="btn btn-secondary studio-save-options" aria-label="More save options" title="Export and local save options">More</button>
         <div id="save-dropdown" class="dropdown-menu hidden">
           <button onclick="publishToLiveSite([], 'CMS Update: Saved gallery changes via admin')" class="dropdown-item active-item">
             <span style="color: var(--success); margin-top: 2px;">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"></polyline><line x1="12" y1="12" x2="12" y2="21"></line><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path><polyline points="16 16 12 12 8 16"></polyline></svg>
             </span>
             <div>
-              <div style="font-weight: 600; color: #FFFFFF; font-size: 13px;">Publish Live</div>
+              <div style="font-weight: 600; color: var(--text-primary); font-size: 13px;">Publish Live</div>
               <div style="font-size: 11.5px; color: var(--text-muted);">Save gallery changes instantly; no redeploy</div>
             </div>
           </button>
@@ -108,7 +108,7 @@
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="12" x2="2" y2="12"></line><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path><line x1="6" y1="16" x2="6.01" y2="16"></line><line x1="10" y1="16" x2="10.01" y2="16"></line></svg>
             </span>
             <div>
-              <div style="font-weight: 600; color: #FFFFFF; font-size: 13px;">Direct Disk Overwrite</div>
+              <div style="font-weight: 600; color: var(--text-primary); font-size: 13px;">Direct Disk Overwrite</div>
               <div style="font-size: 11.5px; color: var(--text-muted);">Write directly to assets/gallery-data.js</div>
             </div>
           </button>
@@ -117,7 +117,7 @@
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
             </span>
             <div>
-              <div style="font-weight: 600; color: #FFFFFF; font-size: 13px;">Download File (.js)</div>
+              <div style="font-weight: 600; color: var(--text-primary); font-size: 13px;">Download File (.js)</div>
               <div style="font-size: 11.5px; color: var(--text-muted);">Download and place in assets/</div>
             </div>
           </button>
@@ -126,7 +126,7 @@
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
             </span>
             <div>
-              <div style="font-weight: 600; color: #FFFFFF; font-size: 13px;">Copy to Clipboard</div>
+              <div style="font-weight: 600; color: var(--text-primary); font-size: 13px;">Copy to Clipboard</div>
               <div style="font-size: 11.5px; color: var(--text-muted);">Copy JavaScript array structure</div>
             </div>
           </button>
@@ -271,7 +271,7 @@
           <div class="flex items-center gap-2.5">
             <div class="avatar-circle">JC</div>
             <div class="profile-meta">
-              <div style="font-size: 12.5px; font-weight: 600; color: #FFFFFF;">Jan Carlo Niñonuevo</div>
+              <div style="font-size: 12.5px; font-weight: 600; color: var(--text-primary);">Jan Carlo Niñonuevo</div>
               <div style="font-size: 11px; color: var(--text-muted);">Portfolio owner</div>
             </div>
           </div>
@@ -293,7 +293,7 @@
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 pb-2 border-b border-white/5">
           <div>
             <h1 class="page-title mt-0.5 tracking-tight text-white font-bold text-2xl sm:text-3xl">Your workspace</h1>
-            <p class="text-xs sm:text-sm text-zinc-400 mt-1">A little space to focus on your work.</p>
+            <p class="text-xs sm:text-sm text-zinc-400 mt-1">Curate your collections and decide what goes live next.</p>
           </div>
           
           <div class="flex items-center gap-2 flex-wrap">
@@ -440,18 +440,18 @@
               <svg id="overview-trend-chart" viewBox="0 0 700 170" class="w-full h-40 overflow-visible">
                 <defs>
                   <linearGradient id="chartGradSubtle" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.08"/>
-                    <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.0"/>
+                    <stop offset="0%" stop-color="#295f4d" stop-opacity="0.08"/>
+                    <stop offset="100%" stop-color="#295f4d" stop-opacity="0.0"/>
                   </linearGradient>
                 </defs>
                 <!-- Grid Lines -->
-                <line x1="0" y1="35" x2="700" y2="35" stroke="rgba(255,255,255,0.06)" stroke-dasharray="3 3"/>
-                <line x1="0" y1="85" x2="700" y2="85" stroke="rgba(255,255,255,0.06)" stroke-dasharray="3 3"/>
-                <line x1="0" y1="135" x2="700" y2="135" stroke="rgba(255,255,255,0.06)" stroke-dasharray="3 3"/>
+                <line x1="0" y1="35" x2="700" y2="35" stroke="#d5ded8" stroke-dasharray="3 3"/>
+                <line x1="0" y1="85" x2="700" y2="85" stroke="#d5ded8" stroke-dasharray="3 3"/>
+                <line x1="0" y1="135" x2="700" y2="135" stroke="#d5ded8" stroke-dasharray="3 3"/>
                 
                 <!-- Area Fill & Stroke Line -->
                 <path id="chart-area-path" d="M0,135 L700,135 L700,165 L0,165 Z" fill="url(#chartGradSubtle)"/>
-                <path id="chart-line-path" d="M0,135 L700,135" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path id="chart-line-path" d="M0,135 L700,135" fill="none" stroke="#295f4d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 
                 <!-- Data Points Group -->
                 <g id="chart-points-group">
@@ -554,7 +554,7 @@
         <div class="admin-action-bar">
           <div>
             <h1 id="category-title" class="text-xl font-bold tracking-tight text-white">Highlights</h1>
-            <p id="category-subtitle" class="text-xs text-zinc-400 mt-0.5">Manage main highlights displayed on index.html grid.</p>
+            <p id="category-subtitle" class="text-xs text-zinc-400 mt-0.5">Your selected photographs. Arrange, edit, and publish.</p>
           </div>
 
           <div class="flex items-center gap-2.5 flex-wrap">
@@ -600,39 +600,16 @@
           </div>
 
           <!-- Dynamic Gallery Cards Grid (4-5 cols responsive) -->
+          <div class="studio-library-layout">
           <div id="workspace-grid" class="gallery-grid">
             <!-- Dynamic cards injected here -->
           </div>
-        </div>
-      </section>
-
-      <!-- ====================================================================
-           3. COLLECTIONS HUB VIEW (#view-collections)
-           ==================================================================== -->
-      <section id="view-collections" class="admin-content-wrap hidden">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-          <div>
-            <h1 class="page-title">Collections</h1>
-            <p class="text-sm text-zinc-400 mt-0.5">Curated photography bodies of work, travel montages, and client projects.</p>
-          </div>
-        </div>
-
-        <div class="collections-grid" id="collections-main-grid">
-          <!-- Collections injected dynamically -->
-        </div>
-      </section>
-
-    </main>
-
-    <!-- Side Edit Drawer Backdrop -->
-    <div id="edit-drawer-backdrop" onclick="closeEditDrawer()"></div>
-
     <!-- Side Edit Drawer (8px radius structure) -->
-    <aside id="edit-drawer" role="dialog" aria-modal="true" aria-label="Edit media details">
+    <aside id="edit-drawer" role="region" aria-label="Edit media details">
       <div class="drawer-header">
         <div>
-          <h2 class="font-bold text-base text-white">Modify Media Details</h2>
-          <p class="text-xs text-zinc-400 mt-0.5">Edit file information, EXIF metadata, and SEO tags</p>
+          <h2 class="font-bold text-base text-white">Photo details</h2>
+          <p class="text-xs text-zinc-400 mt-0.5">Review the photo and refine its details.</p>
         </div>
         <button onclick="closeEditDrawer()" class="btn-icon" title="Close Drawer">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -648,11 +625,16 @@
           </div>
         </div>
 
+          <div class="studio-order-controls" aria-label="Photo order">
+            <button type="button" id="move-photo-earlier" onclick="moveActiveMedia(-1)" class="btn btn-secondary">Move earlier</button>
+            <button type="button" id="move-photo-later" onclick="moveActiveMedia(1)" class="btn btn-secondary">Move later</button>
+          </div>
+
         <!-- Replace Image Dropzone (Photos Only) -->
         <div id="replace-image-container" class="drawer-section">
           <div class="drawer-section-title">
-            <span>Replace Physical Photo</span>
-            <span class="text-[10px] text-zinc-400 font-normal">Auto WebP Resize</span>
+            <span>Replace photo</span>
+            <span class="text-[10px] text-zinc-400 font-normal">Automatic compression</span>
           </div>
 
           <div id="replace-dropzone" class="p-5 rounded-[6px] border border-dashed border-white/20 hover:border-white/40 bg-white/[0.02] flex flex-col items-center justify-center text-center cursor-pointer transition-all"
@@ -693,12 +675,27 @@
             </div>
 
             <div class="space-y-1">
-              <label class="input-label" for="edit-desc">Photo Caption & Location</label>
-              <input type="text" id="edit-desc" class="input-text" placeholder="e.g. Aerial View of Lakawon Island • Cadiz City, Negros Occidental"/>
+              <label class="input-label" for="edit-desc">Caption</label>
+              <textarea id="edit-desc" rows="3" class="input-textarea" placeholder="e.g. Aerial View of Lakawon Island • Cadiz City, Negros Occidental"></textarea>
               <div class="input-helper">Displayed in lightboxes and portfolio pages.</div>
             </div>
           </div>
 
+          <!-- Section: SEO & Alternative Text -->
+          <div class="drawer-section">
+            <div class="drawer-section-title">
+              <span>Alternative text</span>
+              <button onclick="autoGenerateAltText()" class="text-xs text-white hover:underline flex items-center gap-1 font-semibold">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                Auto Generate
+              </button>
+            </div>
+
+            <textarea id="edit-alt" rows="3" class="input-textarea" placeholder="Explain what is in the photograph..."></textarea>
+            <div class="input-helper">Crucial for Google search indexing and screen-reader accessibility.</div>
+          </div>
+
+          <details class="studio-details"><summary>Camera and location details</summary>
           <!-- Section: Location -->
           <div class="drawer-section">
             <div class="drawer-section-title">Location & Setting</div>
@@ -714,13 +711,13 @@
             </div>
           </div>
 
-          <!-- Section: Camera & EXIF Metadata -->
+          <!-- Section: Camera details -->
           <div class="drawer-section">
             <div class="flex items-center justify-between mb-2">
-              <div class="drawer-section-title mb-0">Camera & EXIF Metadata</div>
+              <div class="drawer-section-title mb-0">Camera details</div>
               <button type="button" onclick="extractExifForActiveDrawerItem()" class="text-xs text-emerald-400 hover:underline flex items-center gap-1 font-medium cursor-pointer" title="Extract EXIF tags directly from the original photo">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                <span>⚡ Read from EXIF</span>
+                <span>Read from photo</span>
               </button>
             </div>
             <div class="form-grid-2">
@@ -731,6 +728,10 @@
               <div class="space-y-1">
                 <label class="input-label" for="edit-lens">Lens</label>
                 <input type="text" id="edit-lens" class="input-text" placeholder="e.g. Viltrox 25mm f/1.7"/>
+              </div>
+              <div class="space-y-1">
+                <label class="input-label" for="edit-focal">Focal length</label>
+                <input type="text" id="edit-focal" class="input-text" placeholder="Not embedded"/>
               </div>
               <div class="space-y-1">
                 <label class="input-label" for="edit-aperture">Aperture</label>
@@ -751,19 +752,9 @@
             </div>
           </div>
 
-          <!-- Section: SEO & Alternative Text -->
-          <div class="drawer-section">
-            <div class="drawer-section-title">
-              <span>SEO Alternative Description</span>
-              <button onclick="autoGenerateAltText()" class="text-xs text-white hover:underline flex items-center gap-1 font-semibold">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-                Auto Generate
-              </button>
-            </div>
-            
-            <textarea id="edit-alt" rows="3" class="input-textarea" placeholder="Explain what is in the photograph..."></textarea>
-            <div class="input-helper">Crucial for Google search indexing and screen-reader accessibility.</div>
-          </div>
+
+          </details>
+
         </div>
 
         <!-- Form fields (Videos) -->
@@ -811,6 +802,32 @@
         </button>
       </div>
     </aside>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           3. COLLECTIONS HUB VIEW (#view-collections)
+           ==================================================================== -->
+      <section id="view-collections" class="admin-content-wrap hidden">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div>
+            <h1 class="page-title">Collections</h1>
+            <p class="text-sm text-zinc-400 mt-0.5">Curated photography bodies of work, travel montages, and client projects.</p>
+          </div>
+        </div>
+
+        <div class="collections-grid" id="collections-main-grid">
+          <!-- Collections injected dynamically -->
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Side Edit Drawer Backdrop -->
+    <div id="edit-drawer-backdrop" onclick="closeEditDrawer()"></div>
+
+
 
   </div>
 
@@ -820,7 +837,7 @@
       <!-- Modal Header -->
       <div class="flex items-center justify-between border-b border-white/10 pb-3.5">
         <div>
-          <h3 id="upload-modal-title" class="font-bold text-lg text-white">Upload & Curate Photography</h3>
+          <h3 id="upload-modal-title" class="font-bold text-lg text-white">Add photographs</h3>
           <p class="text-xs text-zinc-400 mt-0.5">Choose a gallery, add a caption, and publish your photos. Images are compressed automatically.</p>
         </div>
         <button onclick="closePhotoUploadModal()" class="btn-icon" title="Close modal">
@@ -880,7 +897,7 @@
         <!-- Right Column: Metadata Form -->
         <div class="space-y-3">
           <div class="space-y-1">
-            <label class="input-label" for="upload-category">Target Gallery Collection</label>
+            <label class="input-label" for="upload-category">Gallery</label>
             <select id="upload-category" class="input-select" onchange="handleUploadCategoryChange(this.value)">
               <option value="highlights">Highlights (Landing Master)</option>
               <option value="drone">Drone shots</option>
@@ -890,7 +907,7 @@
           </div>
 
           <div class="space-y-1">
-            <label class="input-label" for="upload-filename">Destination File Name</label>
+            <label class="input-label" for="upload-filename">File name</label>
             <input type="text" id="upload-filename" class="input-text" placeholder="e.g. GH-41.JPG or Lakawon-Aerial.jpg" oninput="handleUploadFilenameInput(this.value)"/>
             <p class="input-helper">New photos are stored online. Existing photos stay in place.</p>
           </div>
@@ -917,7 +934,7 @@
           <div class="space-y-1">
             <div class="flex items-center justify-between">
               <label class="input-label">Editorial Caption (Desc)</label>
-              <button type="button" onclick="formatUploadCaption()" class="text-[11px] text-emerald-400 hover:underline">✨ Format Caption</button>
+              <button type="button" onclick="formatUploadCaption()" class="text-[11px] text-emerald-400 hover:underline">Format caption</button>
             </div>
             <textarea id="upload-desc" rows="2" class="input-textarea" placeholder="Title • City, Province"></textarea>
           </div>
@@ -925,7 +942,7 @@
           <div class="space-y-1">
             <div class="flex items-center justify-between">
               <label class="input-label">Alt Text (Accessibility & SEO)</label>
-              <button type="button" onclick="autoGenerateUploadAlt()" class="text-[11px] text-zinc-400 hover:text-white">✨ Auto Alt</button>
+              <button type="button" onclick="autoGenerateUploadAlt()" class="text-[11px] text-zinc-400 hover:text-white">Auto alt text</button>
             </div>
             <input type="text" id="upload-alt" class="input-text" placeholder="Portfolio photograph by JC Niñonuevo..."/>
           </div>
@@ -933,7 +950,7 @@
           <!-- Camera Settings -->
           <div class="pt-1 border-t border-white/5 space-y-2">
             <div class="flex items-center justify-between">
-              <div class="text-[11px] font-semibold uppercase tracking-wider text-zinc-400">Capture Metadata (EXIF)</div>
+              <div class="text-[11px] font-semibold uppercase tracking-wider text-zinc-400">Camera details</div>
               <div id="upload-exif-indicator" class="text-[11px] text-emerald-400 flex items-center gap-1 font-mono">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 <span id="upload-exif-text">Auto-extracted from EXIF</span>
@@ -941,30 +958,36 @@
             </div>
             <div class="form-grid-2">
               <div class="space-y-1">
-                <label class="input-label text-[11px]">Camera Body</label>
-                <input type="text" id="upload-camera" class="input-text" style="min-height: 36px; padding: 0.45rem 0.75rem; font-size: 13px;" placeholder="e.g. Nikon Z50" value="Nikon Z50"/>
+                <label class="input-label text-[11px]" for="upload-camera">Camera Body</label>
+                <input type="text" id="upload-camera" class="input-text" style="min-height: 36px; padding: 0.45rem 0.75rem; font-size: 13px;" placeholder="e.g. Nikon Z50" value=""/>
               </div>
               <div class="space-y-1">
-                <label class="input-label text-[11px]">Lens</label>
-                <input type="text" id="upload-lens" class="input-text" style="min-height: 36px; padding: 0.45rem 0.75rem; font-size: 13px;" placeholder="e.g. Viltrox 25mm f/1.7" value="Viltrox 25mm f/1.7"/>
+                <label class="input-label text-[11px]" for="upload-lens">Lens</label>
+                <input type="text" id="upload-lens" class="input-text" style="min-height: 36px; padding: 0.45rem 0.75rem; font-size: 13px;" placeholder="e.g. Viltrox 25mm f/1.7" value=""/>
+              </div>
+            </div>
+            <div class="form-grid-2">
+              <div class="space-y-1">
+                <label class="input-label" for="upload-focal">Focal length</label>
+                <input type="text" id="upload-focal" class="input-text" placeholder="Not embedded"/>
               </div>
             </div>
             <div class="grid grid-cols-4 gap-2">
               <div class="space-y-1">
-                <label class="input-label text-[11px]">Aperture</label>
-                <input type="text" id="upload-aperture" class="input-text" style="min-height: 36px; padding: 0.45rem 0.6rem; font-size: 12px;" value="f/1.7"/>
+                <label class="input-label text-[11px]" for="upload-aperture">Aperture</label>
+                <input type="text" id="upload-aperture" class="input-text" style="min-height: 36px; padding: 0.45rem 0.6rem; font-size: 12px;" value=""/>
               </div>
               <div class="space-y-1">
-                <label class="input-label text-[11px]">ISO</label>
-                <input type="text" id="upload-iso" class="input-text" style="min-height: 36px; padding: 0.45rem 0.6rem; font-size: 12px;" value="800"/>
+                <label class="input-label text-[11px]" for="upload-iso">ISO</label>
+                <input type="text" id="upload-iso" class="input-text" style="min-height: 36px; padding: 0.45rem 0.6rem; font-size: 12px;" value=""/>
               </div>
               <div class="space-y-1">
-                <label class="input-label text-[11px]">Shutter</label>
-                <input type="text" id="upload-shutter" class="input-text" style="min-height: 36px; padding: 0.45rem 0.6rem; font-size: 12px;" value="1/500s"/>
+                <label class="input-label text-[11px]" for="upload-shutter">Shutter</label>
+                <input type="text" id="upload-shutter" class="input-text" style="min-height: 36px; padding: 0.45rem 0.6rem; font-size: 12px;" value=""/>
               </div>
               <div class="space-y-1">
-                <label class="input-label text-[11px]">Year</label>
-                <input type="text" id="upload-datetaken" class="input-text" style="min-height: 36px; padding: 0.45rem 0.6rem; font-size: 12px;" value="2026"/>
+                <label class="input-label text-[11px]" for="upload-datetaken">Date taken</label>
+                <input type="text" id="upload-datetaken" class="input-text" style="min-height: 36px; padding: 0.45rem 0.6rem; font-size: 12px;" value=""/>
               </div>
             </div>
           </div>
@@ -1084,7 +1107,7 @@
     <div id="toast-icon-error" style="color: var(--danger); flex-shrink: 0;" class="hidden">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
     </div>
-    <p id="toast-message" style="color: #FFFFFF; font-size: 13px; font-weight: 500;"></p>
+    <p id="toast-message" style="color: var(--text-primary); font-size: 13px; font-weight: 500;"></p>
   </div>
 
   <!-- Lock Screen Overlay -->
@@ -1131,20 +1154,24 @@
   </div>
 
   <!-- Admin Core & Page Logic -->
-  <script src="admin-core.js?v=blob-1"></script>
+  <script src="/admin/vendor/exif-reader.js"></script>
+  <script src="/admin/capture-metadata.js?v=studio-1"></script>
+  <script src="admin-core.js?v=studio-1"></script>
   <script>
     let currentCategory = 'overview';
     let activeEditIndex = null;
     let draggedIndex = null;
     let pendingReplaceBlob = null;
+    let studioReturnFocus = null;
     let currentGallerySearch = '';
     let uploadQueue = [];
+    let photoReadVersion = 0;
     let uploadQueueIndex = 0;
     const uploadedImagePreviews = {};
 
     const categoryTitles = {
       overview: { title: "Overview", sub: "Portfolio status, visitor metrics, and performance overview." },
-      highlights: { title: "Highlights", sub: "Manage main highlights displayed on index.html grid.", btn: "Add Photos", isVid: false },
+      highlights: { title: "Highlights", sub: "Your selected photographs. Arrange, edit, and publish.", btn: "Add Photos", isVid: false },
       drone: { title: "Drone shots", sub: "Aerial view photos loaded inside drone-shots.html.", btn: "Add Photos", isVid: false },
       framed: { title: "Framed moments", sub: "Street and editorial moments loaded inside framed-moments.html.", btn: "Add Photos", isVid: false },
       events: { title: "School events", sub: "Yearbook, student gatherings, and event coverage inside school-events.html.", btn: "Add Photos", isVid: false },
@@ -1576,7 +1603,7 @@
 
       if (elPointsGroup) {
         elPointsGroup.innerHTML = coords.map((c, i) => `
-          <circle cx="${c.x}" cy="${c.y}" r="3.5" fill="#080808" stroke="#FFFFFF" stroke-width="1.8">
+          <circle cx="${c.x}" cy="${c.y}" r="3.5" fill="#fdfefe" stroke="#295f4d" stroke-width="1.8">
             <title>${buckets[i]?.dateStr || ''}: ${c.val.toLocaleString()} ${info.label}</title>
           </circle>
         `).join('');
@@ -1858,6 +1885,7 @@
       
       if (!list || list.length === 0) {
         emptyState.classList.remove('hidden');
+        closeEditDrawer();
         return;
       }
       emptyState.classList.add('hidden');
@@ -1873,10 +1901,14 @@
         card.addEventListener('dragover', handleCardDragOver);
         card.addEventListener('drop', handleCardDrop);
         card.addEventListener('dragend', handleCardDragEnd);
-        card.addEventListener('dblclick', () => openEditDrawer(origIndex));
+        card.addEventListener('click', () => openEditDrawer(origIndex));
+        card.setAttribute('tabindex', '0');
+        card.setAttribute('role', 'group');
+        card.setAttribute('aria-label', `Edit ${item.file || item.title}`);
+        card.addEventListener('keydown', event => { if (event.target === card && (event.key === 'Enter' || event.key === ' ')) { event.preventDefault(); openEditDrawer(origIndex); } });
 
         const isVid = (currentCategory === 'videos' || currentCategory === 'videos2');
-        const titleText = isVid ? item.title : item.file;
+        const titleText = isVid ? item.title : (item.desc || '').split('•')[0].trim() || item.file;
         const captionText = isVid ? `YouTube: ${item.youtubeId}` : (item.desc || item.alt || 'No description specified');
 
         card.innerHTML = `
@@ -1902,7 +1934,7 @@
             <!-- Hover Action Overlay -->
             <div class="media-hover-overlay">
               <button onclick="event.stopPropagation(); openEditDrawer(${origIndex})" class="btn btn-primary text-xs" style="min-height: 30px; padding: 4px 10px;">
-                Inspect & Edit
+                Edit details
               </button>
               <button onclick="event.stopPropagation(); deleteItem(${origIndex})" class="btn btn-danger text-xs" style="min-height: 30px; padding: 4px 10px;" title="Delete Item">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
@@ -1913,7 +1945,7 @@
           <!-- Structured Metadata Footer -->
           <div class="media-meta-footer">
             <div class="media-filename" title="${escapeHtml(titleText)}">${escapeHtml(titleText)}</div>
-            <div class="media-caption" title="${escapeHtml(captionText)}">${escapeHtml(captionText)}</div>
+            <div class="media-caption" title="${escapeHtml(captionText)}">${escapeHtml(isVid ? captionText : item.file)}</div>
             ${item.camera ? `
               <div class="flex items-center gap-1.5 text-[10.5px] text-amber-400 font-mono mt-1 pt-1 border-t border-white/5 truncate">
                 <span class="w-1.5 h-1.5 rounded-full bg-amber-400 flex-shrink-0"></span>
@@ -1922,13 +1954,17 @@
             ` : (isVid ? `
               <div class="flex items-center gap-1.5 text-[10.5px] text-cyan-400 font-mono mt-1 pt-1 border-t border-white/5 truncate">
                 <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 flex-shrink-0"></span>
-                <span>4K YOUTUBE • ${escapeHtml(item.duration || 'HD')}</span>
+                <span>YouTube ${escapeHtml(item.duration || '')}</span>
               </div>
             ` : '')}
           </div>
         `;
         container.appendChild(card);
       });
+      if (matchMedia('(min-width: 1100px)').matches) {
+        const index = activeEditIndex !== null && list.includes(fullList[activeEditIndex]) ? activeEditIndex : fullList.indexOf(list[0]);
+        openEditDrawer(index);
+      }
     }
 
     // Drag & Drop Handlers
@@ -2003,10 +2039,12 @@
         initialCat = 'highlights';
       }
 
+      const readVersion = ++photoReadVersion;
       uploadQueue = [];
       uploadQueueIndex = 0;
       let loadedCount = 0;
       const finishedReading = () => {
+        if (readVersion !== photoReadVersion) return;
         loadedCount++;
         if (loadedCount === validFiles.length && uploadQueue.length) displayUploadModal();
       };
@@ -2032,12 +2070,14 @@
           console.warn("EXIF extraction error for", file.name, exErr);
         }
 
+        if (readVersion !== photoReadVersion) return;
         // 2. Read as Data URL for preview and dimensions
         const reader = new FileReader();
         reader.onload = (e) => {
           const dataUrl = e.target.result;
           const img = new Image();
           img.onload = () => {
+            if (readVersion !== photoReadVersion) return;
             const rawName = file.name;
             const base = rawName.replace(/\.[^/.]+$/, "").replace(/[-_]/g, ' ');
             const sanitizedName = rawName.replace(/\s+/g, '-');
@@ -2065,6 +2105,7 @@
               aperture: exif?.aperture || '',
               iso: exif?.iso || '',
               shutter: exif?.shutter || '',
+              focalLength: exif?.focalLength || '',
               dateTaken: exif?.dateTaken || '',
               exif: exif,
               hasExif: Boolean(exif && exif.hasExif)
@@ -2089,16 +2130,19 @@
       document.getElementById('photo-upload-modal').classList.remove('hidden');
       renderActiveUploadQueueItem();
       renderUploadBatchThumbs();
+      document.getElementById('upload-category').focus();
     }
 
     function closePhotoUploadModal(force = false) {
       if (!force && document.getElementById('upload-submit-btn').disabled) return;
       document.getElementById('photo-upload-modal').classList.add('hidden');
+      photoReadVersion++;
       uploadQueue.forEach(item => { if (item.previewUrl) URL.revokeObjectURL(item.previewUrl); });
       uploadQueue = [];
       uploadQueueIndex = 0;
       const picker = document.getElementById('media-file-picker');
       if (picker) picker.value = '';
+      document.getElementById('add-photos-btn')?.focus();
     }
 
     function renderActiveUploadQueueItem() {
@@ -2128,6 +2172,7 @@
       document.getElementById('upload-aperture').value = item.aperture;
       document.getElementById('upload-iso').value = item.iso;
       document.getElementById('upload-shutter').value = item.shutter;
+      document.getElementById('upload-focal').value = item.focalLength || '';
       document.getElementById('upload-datetaken').value = item.dateTaken;
 
       // EXIF indicators
@@ -2140,7 +2185,7 @@
           exifIndicator.classList.remove('hidden');
           exifIndicator.innerHTML = `
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            <span>Direct EXIF Ingested</span>
+            <span>Filled from your photo</span>
           `;
         }
         if (exifSummary && exifSummaryText) {
@@ -2151,13 +2196,14 @@
             item.aperture,
             item.shutter,
             item.iso ? `ISO ${item.iso}` : '',
+            item.focalLength,
             item.dateTaken
           ].filter(Boolean);
           exifSummaryText.textContent = parts.join(' • ');
         }
       } else {
         if (exifIndicator) {
-          exifIndicator.innerHTML = `<span class="text-zinc-500">Preset / Manual Metadata</span>`;
+          exifIndicator.innerHTML = `<span class="text-zinc-500">No embedded camera details. You can add them manually.</span>`;
         }
         if (exifSummary) exifSummary.classList.add('hidden');
       }
@@ -2189,6 +2235,7 @@
           if (exif.aperture) document.getElementById('edit-aperture').value = exif.aperture;
           if (exif.iso) document.getElementById('edit-iso').value = exif.iso;
           if (exif.shutter) document.getElementById('edit-shutter').value = exif.shutter;
+          if (exif.focalLength) document.getElementById('edit-focal').value = exif.focalLength;
           if (exif.dateTaken) document.getElementById('edit-datetaken').value = exif.dateTaken;
 
           showToast(`EXIF read: ${exif.camera || ''} ${exif.aperture || ''} ${exif.shutter || ''} ISO ${exif.iso || ''}`, "success");
@@ -2259,6 +2306,7 @@
       item.aperture = document.getElementById('upload-aperture').value.trim();
       item.iso = document.getElementById('upload-iso').value.trim();
       item.shutter = document.getElementById('upload-shutter').value.trim();
+      item.focalLength = document.getElementById('upload-focal').value.trim();
       item.dateTaken = document.getElementById('upload-datetaken').value.trim();
     }
 
@@ -2351,7 +2399,7 @@
             desc: item.desc || `${item.title} • ${item.city}, ${item.province}`,
             alt: item.alt || `Portfolio photograph of ${item.title} by JC Niñonuevo`,
             camera: item.camera, lens: item.lens, aperture: item.aperture,
-            iso: item.iso, shutter: item.shutter, dateTaken: item.dateTaken
+            iso: item.iso, shutter: item.shutter, focalLength: item.focalLength, dateTaken: item.dateTaken
           };
           const list = localData[category] || (localData[category] = []);
           const previous = list.slice();
@@ -2426,15 +2474,23 @@
         document.getElementById('edit-province').value = descParts[1] && descParts[1].includes(',') ? descParts[1].split(',')[1].trim() : 'Negros Occidental';
         
         // Metadata fields
-        document.getElementById('edit-camera').value = item.camera || (localData.settings && localData.settings.about && localData.settings.about.kitBody) || 'Nikon Z50';
-        document.getElementById('edit-lens').value = item.lens || 'Viltrox 25mm f/1.7';
-        document.getElementById('edit-aperture').value = item.aperture || 'f/1.7';
-        document.getElementById('edit-iso').value = item.iso || '800';
-        document.getElementById('edit-shutter').value = item.shutter || '1/500s';
-        document.getElementById('edit-datetaken').value = item.dateTaken || '2026';
+        document.getElementById('edit-camera').value = item.camera || '';
+        document.getElementById('edit-lens').value = item.lens || '';
+        document.getElementById('edit-aperture').value = item.aperture || '';
+        document.getElementById('edit-iso').value = item.iso || '';
+        document.getElementById('edit-shutter').value = item.shutter || '';
+        document.getElementById('edit-focal').value = item.focalLength || '';
+        document.getElementById('edit-datetaken').value = item.dateTaken || '';
       }
 
+      studioReturnFocus = document.activeElement;
+      document.getElementById('move-photo-earlier').disabled = index === 0;
+      document.getElementById('move-photo-later').disabled = index === localData[currentCategory].length - 1;
       drawer.classList.add('drawer-open');
+      drawer.setAttribute('role', matchMedia('(min-width: 1100px)').matches ? 'region' : 'dialog');
+      drawer.setAttribute('aria-modal', String(!matchMedia('(min-width: 1100px)').matches));
+      document.querySelectorAll('.media-card').forEach(card => card.classList.toggle('selected', Number(card.dataset.index) === index));
+      if (!matchMedia('(min-width: 1100px)').matches) drawer.querySelector('button')?.focus();
       if (backdrop) backdrop.classList.add('active');
     }
 
@@ -2444,6 +2500,25 @@
       const backdrop = document.getElementById('edit-drawer-backdrop');
       if (backdrop) backdrop.classList.remove('active');
       activeEditIndex = null;
+      document.querySelectorAll('.media-card').forEach(card => card.classList.remove('selected'));
+      if (studioReturnFocus?.isConnected && !matchMedia('(min-width: 1100px)').matches) studioReturnFocus.focus();
+    }
+
+    function moveActiveMedia(offset) {
+      if (activeEditIndex === null) return;
+      if (pendingReplaceBlob) { showToast('Publish or discard the replacement photo before changing order.', 'error'); return; }
+      const draftFields = [...document.querySelectorAll('#edit-drawer input, #edit-drawer textarea, #edit-drawer select')].map(field => [field.id, field.value]);
+      const list = localData[currentCategory];
+      const target = activeEditIndex + offset;
+      if (target < 0 || target >= list.length) return;
+      const [item] = list.splice(activeEditIndex, 1);
+      list.splice(target, 0, item);
+      activeEditIndex = target;
+      renderGrid();
+      openEditDrawer(target);
+      draftFields.forEach(([id, value]) => { document.getElementById(id).value = value; });
+      persistLocalState();
+      showToast('Order updated in your draft. Publish changes to make it live.', 'success');
     }
 
     function applyDrawerEdits() {
@@ -2470,6 +2545,7 @@
         item.aperture = document.getElementById('edit-aperture').value.trim();
         item.iso = document.getElementById('edit-iso').value.trim();
         item.shutter = document.getElementById('edit-shutter').value.trim();
+        item.focalLength = document.getElementById('edit-focal').value.trim();
         item.dateTaken = document.getElementById('edit-datetaken').value.trim();
 
         if (!item.file) {
@@ -2479,10 +2555,10 @@
       }
 
       renderGrid();
-      closeEditDrawer();
+      if (!matchMedia('(min-width: 1100px)').matches) closeEditDrawer();
       persistLocalState();
       takeSnapshot("Media Edit", `Modified properties for #${activeEditIndex + 1} in ${currentCategory}.`);
-      showToast("Edits applied. Remember to click Save Changes to persist.", "success");
+      showToast("Edits saved to your draft. Publish changes to make them live.", "success");
     }
 
     function autoGenerateAltText() {
@@ -2517,8 +2593,18 @@
     function handleReplaceFileSelect(e) {
       if (e.target.files.length > 0) loadPendingReplace(e.target.files[0]);
     }
-    function loadPendingReplace(file) {
+    async function loadPendingReplace(file) {
+      if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type) || file.size > 40 * 1024 * 1024) {
+        showToast('Choose a JPG, PNG, or WebP photo under 40 MB.', 'error'); return;
+      }
       pendingReplaceBlob = file;
+      const replacementIndex = activeEditIndex;
+      const replacementCategory = currentCategory;
+      const metadata = extractExifMetadata(await file.arrayBuffer()) || {};
+      if (pendingReplaceBlob !== file || activeEditIndex !== replacementIndex || currentCategory !== replacementCategory) return;
+      for (const [field, key] of Object.entries({camera:'camera', lens:'lens', aperture:'aperture', iso:'iso', shutter:'shutter', focal:'focalLength', datetaken:'dateTaken'})) {
+        document.getElementById(`edit-${field}`).value = metadata[key] || '';
+      }
       const reader = new FileReader();
       reader.onload = (e) => {
         document.getElementById('drawer-preview').src = e.target.result;
@@ -2583,6 +2669,7 @@
       try {
         const media = await uploadPhotoToBlob(pendingReplaceBlob, item.file, category, message => { if (button) button.textContent = message; });
         Object.assign(item, media);
+        for (const [field, key] of Object.entries({camera:'camera', lens:'lens', aperture:'aperture', iso:'iso', shutter:'shutter', focal:'focalLength', datetaken:'dateTaken'})) item[key] = document.getElementById(`edit-${field}`).value.trim();
         if (!await publishToLiveSite([], `Replaced ${item.file}`)) { Object.assign(item, previous); for (const key of ['url', 'variants', 'storage']) if (!(key in previous)) delete item[key]; persistLocalState(); return; }
         delete uploadedImagePreviews[item.file];
         pendingReplaceBlob = null;
@@ -2776,7 +2863,7 @@
       updateBadges();
       
       const urlParams = new URLSearchParams(window.location.search);
-      const reqCat = urlParams.get('cat') || 'overview';
+      const reqCat = urlParams.get('cat') || 'highlights';
       switchTab(reqCat);
 
       const reqEdit = urlParams.get('edit');
@@ -2784,6 +2871,23 @@
         setTimeout(() => openEditDrawer(parseInt(reqEdit)), 200);
       }
     }
+
+    document.addEventListener('keydown', event => {
+      const modal = document.querySelector('.modal-backdrop:not(.hidden)') ||
+        (!matchMedia('(min-width: 1100px)').matches && document.querySelector('#edit-drawer.drawer-open'));
+      if (!modal) return;
+      if (event.key === 'Escape') {
+        if (modal.id === 'photo-upload-modal') closePhotoUploadModal();
+        else if (modal.id === 'edit-drawer') closeEditDrawer();
+        else modal.querySelector('button[title="Close"], button[title="Close modal"], .btn-icon')?.click();
+        return;
+      }
+      if (event.key !== 'Tab') return;
+      const controls = [...modal.querySelectorAll('button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), [tabindex="0"]')].filter(element => element.getClientRects().length);
+      if (!controls.length) return;
+      if (event.shiftKey && document.activeElement === controls[0]) { event.preventDefault(); controls.at(-1).focus(); }
+      else if (!event.shiftKey && document.activeElement === controls.at(-1)) { event.preventDefault(); controls[0].focus(); }
+    });
 
     // Studio Keyboard Quick-Switching (0-7 keys)
     window.addEventListener('keydown', (e) => {
