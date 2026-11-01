@@ -546,7 +546,7 @@ function syncLightbox(direction = null) {
             if (descText && descWrapper) {
                 if (descVal) {
                     if (descVal.includes('•')) {
-                        const parts = descVal.split('•').map(s => s.trim());
+                        const parts = descVal.split('•').map(s => escapeGalleryText(s.trim()));
                         const title = parts[0];
                         const locParts = parts.slice(1).flatMap(p => p.split(',').map(s => s.trim()));
                         const locHTML = locParts.map(lp => `<span class="text-white/75 text-xs sm:text-sm font-medium tracking-wide">${lp}</span>`).join('');

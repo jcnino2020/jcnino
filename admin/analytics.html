@@ -22,6 +22,8 @@
 
   <!-- Load Database File -->
   <script src="/assets/gallery-data.js"></script>
+  <script src="/api/gallery?format=js"></script>
+  <script src="/assets/gallery-media.js?v=blob-1"></script>
   <script>
     if (sessionStorage.getItem('pm_auth')) {
       document.write('<style id="early-auth-style">#login-overlay { display: none !important; }</style>');
@@ -564,7 +566,7 @@
   </div>
 
   <!-- Scripts -->
-  <script src="admin-core.js"></script>
+  <script src="admin-core.js?v=blob-1"></script>
   <script>
     let currentAnalyticsRange = '7d';
     let currentAnalyticsSearch = '';

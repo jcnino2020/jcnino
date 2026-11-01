@@ -49,3 +49,33 @@ Photography, video work, and portfolio content by JC Niñonuevo.
 - Facebook: https://facebook.com/jcninoo
 - Instagram: https://instagram.com/photos.jcnino
 - Email: jcninonuevo@gmail.com
+
+## Admin photo uploads
+
+The admin uploads new photos to a **public Vercel Blob store**, with browser-generated
+800 / 1200 / 1600 / 2048 px WebP variants. Each compressed image is limited to 2 MB;
+source JPG, PNG, and WebP photos may be up to 40 MB. Original files are not uploaded.
+The filename identifies the item; duplicate names in a gallery must be renamed or
+replaced through the existing item's editor.
+
+Connect a public Blob store to the `jcnino` Vercel project before deployment. The
+Blob SDK supports Vercel's `BLOB_STORE_ID` / runtime OIDC connection, or the legacy
+`BLOB_READ_WRITE_TOKEN` environment variable. Secrets stay on the server. Existing
+`ADMIN_PASSWORD` and `MONGODB_URI` settings are required. Publishing never falls
+back to an unauthenticated local session or a simulated successful upload.
+
+`/api/gallery` stores the live gallery in MongoDB's `portfolio_gallery` collection.
+The first publication includes all existing gallery data. Public pages load the
+committed gallery as a fallback, then the live database snapshot. Uploads publish
+immediately; other edits, order changes, and removals remain local until **Save
+Changes → Publish Live**. No redeploy is needed for these content changes. Revision
+checks reject conflicting publications from other tabs. A stale local draft is
+archived under `pm_previous_gallery_draft` before loading a newer live revision.
+
+Removing or replacing a photo does not purge its Blob files, so saved snapshots can
+still restore it. Blob cleanup is a separate storage-maintenance operation. If the
+database is unavailable, public pages use the committed gallery and publishing is
+blocked until it recovers.
+
+Run uploader/API checks with `node --test tests/gallery.test.mjs` and the existing
+workspace checks with `node admin/tests/workspace.test.cjs`.

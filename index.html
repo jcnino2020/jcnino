@@ -90,7 +90,7 @@
   </div>
 
   <!-- Assets -->
-  <script src="assets/portfolio.js?v=7" defer></script>
+  <script src="assets/portfolio.js?v=blob-1" defer></script>
 
   <!-- Main Content -->
   <main id="main-content">
@@ -515,12 +515,15 @@
   </div>
 
   <script src="assets/gallery-data.js"></script>
+  <script src="/api/gallery?format=js"></script>
+  <script src="/assets/gallery-media.js?v=blob-1"></script>
   <script>
     const allPhotos = window.galleryData.highlights.map((p, i) => {
       const base = p.file.replace(/\.[^/.]+$/, ""); // e.g. "GH-01"
       return {
         id: i,
-        src: 'images/' + p.file,
+        media: p,
+        src: p.url || 'images/' + p.file,
         base: base,
         alt: p.alt || ('Portfolio photograph by JC Niñonuevo — ' + base),
         desc: p.desc || ''
@@ -531,7 +534,7 @@
       const wrap = document.createElement('div');
       wrap.className = 'gallery-item relative rounded-xl overflow-hidden cursor-pointer group';
       const b = p.base;
-      const rawDesc = p.desc || p.alt || '';
+      const rawDesc = escapeGalleryText(p.desc || p.alt || '');
       let descHTML = '';
       if (rawDesc.includes('•')) {
         const parts = rawDesc.split('•').map(s => s.trim());
@@ -547,15 +550,15 @@
         <source
           type="image/webp"
           srcset="
-            images/optimized/800/${b}-800.webp 800w,
-            images/optimized/1200/${b}-1200.webp 1200w,
-            images/optimized/1600/${b}-1600.webp 1600w
+            ${galleryMediaURL(p.media, 800, `images/optimized/800/${b}-800.webp`)} 800w,
+            ${galleryMediaURL(p.media, 1200, `images/optimized/1200/${b}-1200.webp`)} 1200w,
+            ${galleryMediaURL(p.media, 1600, `images/optimized/1600/${b}-1600.webp`)} 1600w
           "
           sizes="(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
         <img
-          src="images/optimized/1200/${b}-1200.webp"
-          alt="${p.alt}"
+          src="${galleryMediaURL(p.media, 1200, `images/optimized/1200/${b}-1200.webp`)}"
+          alt="${escapeGalleryText(p.alt)}"
           loading="lazy"
           decoding="async"
           class="w-full h-auto block"

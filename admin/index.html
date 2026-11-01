@@ -23,6 +23,8 @@
 
   <!-- Load Database File -->
   <script src="/assets/gallery-data.js"></script>
+  <script src="/api/gallery?format=js"></script>
+  <script src="/assets/gallery-media.js?v=blob-1"></script>
   <script>
     // Clean up any stale service workers
     if ('serviceWorker' in navigator) {
@@ -97,8 +99,8 @@
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"></polyline><line x1="12" y1="12" x2="12" y2="21"></line><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path><polyline points="16 16 12 12 8 16"></polyline></svg>
             </span>
             <div>
-              <div style="font-weight: 600; color: #FFFFFF; font-size: 13px;">Publish Live (GitHub)</div>
-              <div style="font-size: 11.5px; color: var(--text-muted);">Commit to GitHub & deploy via Vercel (~20s)</div>
+              <div style="font-weight: 600; color: #FFFFFF; font-size: 13px;">Publish Live</div>
+              <div style="font-size: 11.5px; color: var(--text-muted);">Save gallery changes instantly; no redeploy</div>
             </div>
           </button>
           <button onclick="saveChangesDirectly()" class="dropdown-item">
@@ -586,7 +588,7 @@
                ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)" onclick="triggerFilePicker()">
             <svg class="w-8 h-8 text-zinc-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
             <div class="text-sm font-bold text-white mb-0.5">Drag and drop photos here to add</div>
-            <div class="text-xs text-zinc-400">Supports JPG, PNG, WebP. Responsive multi-resolution assets generate automatically on save. Click to browse files.</div>
+            <div class="text-xs text-zinc-400">JPG, PNG, or WebP up to 40 MB each. Photos are compressed and published when you upload.</div>
           </div>
 
           <!-- Empty State -->
@@ -669,7 +671,7 @@
             </div>
             <div class="flex items-center gap-2">
               <button onclick="publishReplacedImageToCloud()" id="publish-cloud-img-btn" class="btn btn-primary flex-1 text-xs" style="background: var(--success); color: #080808; border-color: var(--success);">
-                Commit Live to GitHub
+                Publish Photo
               </button>
               <button onclick="writeReplacedImageToDisk()" id="write-img-btn" class="btn btn-secondary text-xs">
                 Write to Disk
@@ -687,7 +689,7 @@
             <div class="space-y-1">
               <label class="input-label" for="edit-filename">File Name</label>
               <input type="text" id="edit-filename" class="input-text" placeholder="e.g. GH-01.jpg"/>
-              <div class="input-helper">Physical filename inside the images/ directory.</div>
+              <div class="input-helper">Photo filename used to identify this gallery item.</div>
             </div>
 
             <div class="space-y-1">
@@ -818,9 +820,8 @@
       <!-- Modal Header -->
       <div class="flex items-center justify-between border-b border-white/10 pb-3.5">
         <div>
-          <div class="text-[11px] font-mono tracking-wider text-zinc-400 uppercase font-semibold">PORTFOLIO ARCHIVE / INGESTION</div>
           <h3 id="upload-modal-title" class="font-bold text-lg text-white">Upload & Curate Photography</h3>
-          <p class="text-xs text-zinc-400 mt-0.5">Stage high-resolution photograph, curate metadata, and auto-generate responsive WebP assets.</p>
+          <p class="text-xs text-zinc-400 mt-0.5">Choose a gallery, add a caption, and publish your photos. Images are compressed automatically.</p>
         </div>
         <button onclick="closePhotoUploadModal()" class="btn-icon" title="Close modal">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -840,7 +841,7 @@
             <span class="upload-badge" id="upload-badge-dims">-- × -- px</span>
             <span class="upload-badge" id="upload-badge-size">-- KB</span>
             <span class="upload-badge" id="upload-badge-format">IMAGE</span>
-            <span class="upload-badge highlight">Auto WebP 800 / 1200 / 1600 / 2048</span>
+            <span class="upload-badge highlight">Automatic WebP compression</span>
           </div>
 
           <!-- Live EXIF Summary Banner -->
@@ -862,16 +863,16 @@
           <!-- Optimization Pipeline Summary -->
           <div class="upload-specs-box">
             <div class="upload-specs-row">
-              <span class="upload-specs-label">Optimization Engine</span>
-              <span class="upload-specs-val text-emerald-400">Client Canvas + /api/upload</span>
+              <span class="upload-specs-label">Photo Processing</span>
+              <span class="upload-specs-val text-emerald-400">Automatic WebP compression</span>
             </div>
             <div class="upload-specs-row">
-              <span class="upload-specs-label">Target Sizes</span>
+              <span class="upload-specs-label">Photo Sizes</span>
               <span class="upload-specs-val">800w, 1200w, 1600w, 2048w WebP</span>
             </div>
             <div class="upload-specs-row">
               <span class="upload-specs-label">Compression Quality</span>
-              <span class="upload-specs-val">0.88 Editorial Photographic</span>
+              <span class="upload-specs-val">High quality, compressed WebP</span>
             </div>
           </div>
         </div>
@@ -891,7 +892,7 @@
           <div class="space-y-1">
             <label class="input-label" for="upload-filename">Destination File Name</label>
             <input type="text" id="upload-filename" class="input-text" placeholder="e.g. GH-41.JPG or Lakawon-Aerial.jpg" oninput="handleUploadFilenameInput(this.value)"/>
-            <p class="input-helper">Saved in images/ and optimized WebP folders.</p>
+            <p class="input-helper">New photos are stored online. Existing photos stay in place.</p>
           </div>
 
           <div class="space-y-1">
@@ -972,12 +973,12 @@
 
       <!-- Footer Actions -->
       <div class="flex items-center justify-between gap-3 pt-3.5 border-t border-white/10 mt-1">
-        <div id="upload-status-indicator" class="text-xs text-zinc-400 truncate max-w-sm">Ready to upload and process.</div>
+        <div role="status" aria-live="polite" id="upload-status-indicator" class="text-xs text-zinc-400 truncate max-w-sm">Uploads publish immediately. Other edits stay in your draft until you publish.</div>
         <div class="flex items-center gap-2.5">
           <button type="button" onclick="closePhotoUploadModal()" class="btn btn-secondary">Cancel</button>
           <button type="button" id="upload-submit-btn" onclick="executeUploadAndProcess()" class="btn btn-primary" style="min-width: 180px;">
             <svg id="upload-submit-spinner" class="animate-spin hidden" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation: spin 1s linear infinite;"><circle cx="12" cy="12" r="10" stroke-opacity="0.25"></circle><path d="M12 2a10 10 0 0 1 10 10"></path></svg>
-            <span id="upload-submit-label">Upload & Optimize</span>
+            <span id="upload-submit-label">Upload & Publish</span>
           </button>
         </div>
       </div>
@@ -1130,7 +1131,7 @@
   </div>
 
   <!-- Admin Core & Page Logic -->
-  <script src="admin-core.js?v=exif-v4"></script>
+  <script src="admin-core.js?v=blob-1"></script>
   <script>
     let currentCategory = 'overview';
     let activeEditIndex = null;
@@ -1784,6 +1785,7 @@
       }
       const file = item.file || '';
       if (uploadedImagePreviews[file]) return uploadedImagePreviews[file];
+      if (item.url) return item.variants?.[800] || item.url;
       if (item.previewUrl) return item.previewUrl;
       const base = file.replace(/\.[^/.]+$/, "");
       if (cat === 'highlights') {
@@ -1806,6 +1808,7 @@
       }
       const file = item.file || '';
       if (uploadedImagePreviews[file]) return uploadedImagePreviews[file];
+      if (item.url) return item.url;
       if (item.previewUrl) return item.previewUrl;
       if (cat === 'highlights') return `../images/${file}`;
       if (cat === 'drone') return `../images/Drone Shots/${file}`;
@@ -2003,10 +2006,14 @@
       uploadQueue = [];
       uploadQueueIndex = 0;
       let loadedCount = 0;
+      const finishedReading = () => {
+        loadedCount++;
+        if (loadedCount === validFiles.length && uploadQueue.length) displayUploadModal();
+      };
 
-      const validFiles = Array.from(files).filter(f => f.type.startsWith('image/'));
+      const validFiles = Array.from(files).filter(f => ['image/jpeg', 'image/png', 'image/webp'].includes(f.type) && f.size <= 40 * 1024 * 1024);
       if (validFiles.length === 0) {
-        showToast("Please select valid image files (JPG, PNG, WebP).", "error");
+        showToast("Choose JPG, PNG, or WebP photos under 40 MB each.", "error");
         return;
       }
 
@@ -2053,12 +2060,12 @@
               sizeBytes: file.size,
               format: (file.type.split('/')[1] || 'jpeg').toUpperCase(),
               // Real EXIF metadata extracted directly from camera:
-              camera: (exif && exif.camera) ? exif.camera : ((localData.settings && localData.settings.about && localData.settings.about.kitBody) || 'Nikon Z50'),
-              lens: (exif && exif.lens) ? exif.lens : 'Viltrox 25mm f/1.7',
-              aperture: (exif && exif.aperture) ? exif.aperture : 'f/1.7',
-              iso: (exif && exif.iso) ? exif.iso : '800',
-              shutter: (exif && exif.shutter) ? exif.shutter : '1/500s',
-              dateTaken: (exif && exif.dateTaken) ? exif.dateTaken : String(new Date().getFullYear()),
+              camera: exif?.camera || '',
+              lens: exif?.lens || '',
+              aperture: exif?.aperture || '',
+              iso: exif?.iso || '',
+              shutter: exif?.shutter || '',
+              dateTaken: exif?.dateTaken || '',
               exif: exif,
               hasExif: Boolean(exif && exif.hasExif)
             };
@@ -2066,17 +2073,12 @@
             item.alt = `Portfolio photograph of ${item.title} in ${item.city}, ${item.province} by JC Niñonuevo`;
 
             uploadQueue.push(item);
-            loadedCount++;
-
-            if (loadedCount === totalFiles) {
-              displayUploadModal();
-              if (item.hasExif) {
-                showToast(`Direct EXIF extracted: ${item.camera}, ${item.lens}, ${item.aperture}, ${item.shutter}, ISO ${item.iso}`, "success");
-              }
-            }
+            finishedReading();
           };
+          img.onerror = () => { showToast(`Could not open ${file.name}. Choose a valid photo.`, 'error'); finishedReading(); };
           img.src = dataUrl;
         };
+        reader.onerror = () => { showToast(`Could not read ${file.name}. Try selecting it again.`, 'error'); finishedReading(); };
         reader.readAsDataURL(file);
       }
     }
@@ -2089,8 +2091,10 @@
       renderUploadBatchThumbs();
     }
 
-    function closePhotoUploadModal() {
+    function closePhotoUploadModal(force = false) {
+      if (!force && document.getElementById('upload-submit-btn').disabled) return;
       document.getElementById('photo-upload-modal').classList.add('hidden');
+      uploadQueue.forEach(item => { if (item.previewUrl) URL.revokeObjectURL(item.previewUrl); });
       uploadQueue = [];
       uploadQueueIndex = 0;
       const picker = document.getElementById('media-file-picker');
@@ -2158,7 +2162,7 @@
         if (exifSummary) exifSummary.classList.add('hidden');
       }
 
-      document.getElementById('upload-status-indicator').textContent = `Ready to process item ${uploadQueueIndex + 1} of ${uploadQueue.length}.`;
+      document.getElementById('upload-status-indicator').textContent = `Photo ${uploadQueueIndex + 1} of ${uploadQueue.length}. Uploading publishes immediately.`;
     }
 
     async function extractExifForActiveDrawerItem() {
@@ -2219,6 +2223,7 @@
     }
 
     function selectQueueIndex(idx) {
+      if (document.getElementById('upload-submit-btn').disabled) return;
       syncCurrentFormToActiveItem();
       uploadQueueIndex = idx;
       renderActiveUploadQueueItem();
@@ -2226,6 +2231,7 @@
     }
 
     function removeQueueItem(idx) {
+      if (document.getElementById('upload-submit-btn').disabled) return;
       uploadQueue.splice(idx, 1);
       if (uploadQueue.length === 0) {
         closePhotoUploadModal();
@@ -2297,144 +2303,82 @@
       showToast("Generated descriptive alt text.", "success");
     }
 
+    async function uploadPhotoToBlob(file, filename, category, onStatus = () => {}) {
+      if (window.galleryLiveAvailable !== true) throw new Error('Live gallery unavailable. Reload or check the database connection before uploading.');
+      const uploadId = crypto.randomUUID();
+      const variants = {};
+      for (const width of [800, 1200, 1600, 2048]) {
+        onStatus(`Compressing ${filename} at ${width}px…`);
+        const image = await resizeImageToWebP(file, width);
+        if (image.type !== 'image/webp') throw new Error('This browser cannot create WebP photos. Please use a current browser.');
+        if (image.size > 2 * 1024 * 1024) throw new Error('Compressed photo exceeds 2 MB. Choose a smaller source photo and retry.');
+        onStatus(`Uploading ${filename} at ${width}px…`);
+        const response = await fetch('/api/upload', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${sessionStorage.getItem('pm_auth') || ''}` },
+          body: JSON.stringify({ category, filename, width, uploadId, base64: await blobToBase64(image) })
+        });
+        const result = await response.json();
+        if (!response.ok || !result.success) throw new Error(result.error || 'Photo upload failed. Please retry.');
+        variants[width] = result.url;
+      }
+      return { url: variants[2048], variants, storage: 'blob' };
+    }
+
     async function executeUploadAndProcess() {
       syncCurrentFormToActiveItem();
-      if (uploadQueue.length === 0) return;
-
-      const submitBtn = document.getElementById('upload-submit-btn');
+      if (!uploadQueue.length) return;
+      const button = document.getElementById('upload-submit-btn');
       const spinner = document.getElementById('upload-submit-spinner');
       const label = document.getElementById('upload-submit-label');
-      const statusEl = document.getElementById('upload-status-indicator');
-
-      submitBtn.disabled = true;
+      const status = document.getElementById('upload-status-indicator');
+      button.disabled = true;
       spinner.classList.remove('hidden');
-
-      let successCount = 0;
-      let lastTargetCategory = currentCategory;
-
+      let completed = 0;
+      let targetCategory = currentCategory;
       try {
-        for (let i = 0; i < uploadQueue.length; i++) {
-          const item = uploadQueue[i];
+        // Each photo is published separately, so a later failure cannot lose earlier successes.
+        for (const item of uploadQueue) {
+          if (item.published) continue;
           const filename = item.filename || item.fileObj.name;
-          const cat = item.category || 'highlights';
-          lastTargetCategory = cat;
-
-          statusEl.textContent = `Optimizing ${filename} (${i + 1}/${uploadQueue.length})...`;
-          label.textContent = `Processing ${i + 1}/${uploadQueue.length}...`;
-
-          // 1. Generate WebPs across widths
-          const widths = [800, 1200, 1600];
-          if (cat === 'highlights') widths.push(2048);
-
-          const webpsPayload = [];
-          for (const w of widths) {
-            statusEl.textContent = `Generating ${w}px WebP for ${filename}...`;
-            const webpBlob = await resizeImageToWebP(item.fileObj, w);
-            const webpBase64 = await blobToBase64(webpBlob);
-            webpsPayload.push({ width: w, base64: webpBase64 });
-          }
-
-          // 2. Prepare raw base64
-          const rawBase64 = await blobToBase64(item.fileObj);
-
-          // 3. Send to /api/upload
-          statusEl.textContent = `Saving ${filename} to portfolio archive...`;
-          let uploadSuccess = false;
-          try {
-            const token = sessionStorage.getItem('pm_auth') || '';
-            const res = await fetch('/api/upload', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-              },
-              body: JSON.stringify({
-                category: cat,
-                filename: filename,
-                rawBase64: rawBase64,
-                webps: webpsPayload
-              })
-            });
-            const data = await res.json();
-            if (res.ok && data.success) {
-              uploadSuccess = true;
-            } else {
-              console.warn("Upload API notice:", data.error || data.message);
-            }
-          } catch (apiErr) {
-            console.warn("Direct /api/upload fetch error, caching in memory:", apiErr);
-          }
-
-          // 4. Cache preview in memory so it renders instantly
-          uploadedImagePreviews[filename] = item.previewUrl || item.dataUrl;
-
-          // 5. Add or update in localData[cat]
-          const catList = localData[cat] || [];
-          const existingIdx = catList.findIndex(e => e.file.toLowerCase() === filename.toLowerCase());
-          const newMediaRecord = {
-            file: filename,
+          const category = item.category || 'highlights';
+          if ((localData[category] || []).some(photo => photo.file.toLowerCase() === filename.toLowerCase())) throw new Error(`${filename} already exists in this gallery. Rename the upload, or use Replace Photo on the existing item.`);
+          targetCategory = category;
+          label.textContent = `Uploading ${completed + 1}/${uploadQueue.length}…`;
+          if (!item.blobMedia) item.blobMedia = await uploadPhotoToBlob(item.fileObj, filename, category, message => { status.textContent = message; });
+          const record = {
+            file: filename, ...item.blobMedia,
             desc: item.desc || `${item.title} • ${item.city}, ${item.province}`,
             alt: item.alt || `Portfolio photograph of ${item.title} by JC Niñonuevo`,
-            camera: item.camera,
-            lens: item.lens,
-            aperture: item.aperture,
-            iso: item.iso,
-            shutter: item.shutter,
-            dateTaken: item.dateTaken
+            camera: item.camera, lens: item.lens, aperture: item.aperture,
+            iso: item.iso, shutter: item.shutter, dateTaken: item.dateTaken
           };
-
-          if (existingIdx >= 0) {
-            catList[existingIdx] = newMediaRecord;
-          } else {
-            catList.unshift(newMediaRecord); // Add to top of gallery
+          const list = localData[category] || (localData[category] = []);
+          const previous = list.slice();
+          const existing = list.findIndex(photo => photo.file.toLowerCase() === filename.toLowerCase());
+          if (existing >= 0) list[existing] = record;
+          else list.unshift(record);
+          persistLocalState();
+          status.textContent = `Publishing ${filename}…`;
+          if (!await publishToLiveSite([], `Uploaded ${filename}`)) {
+            localData[category] = previous;
+            persistLocalState();
+            throw new Error('Photo uploaded, but gallery publication failed. Retry after resolving the publish error.');
           }
-
-          successCount++;
+          item.published = true;
+          completed++;
         }
-
-        // 6. Update master galleryData and persist state
-        window.galleryData = JSON.parse(JSON.stringify(localData));
-        persistLocalState();
-
-        // 7. Auto-save database to disk via /api/save in background
-        try {
-          fetch('/api/save', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${sessionStorage.getItem('pm_auth') || ''}`
-            },
-            body: JSON.stringify({
-              files: [{
-                path: 'assets/gallery-data.js',
-                content: compileDatabase(),
-                encoding: 'utf-8'
-              }],
-              message: `CMS Upload: Added ${successCount} new photo(s) with responsive WebPs`
-            })
-          }).catch(e => console.warn("Background auto-save failed:", e));
-        } catch (e) {}
-
-        takeSnapshot("Photo Ingestion", `Uploaded and optimized ${successCount} photo(s) in ${lastTargetCategory}.`);
-        showToast(`Successfully uploaded ${successCount} photo(s) with responsive WebP variants.`, "success");
-        closePhotoUploadModal();
-
-        // 8. Switch to target category if not already active and render
-        if (currentCategory !== lastTargetCategory) {
-          switchTab(lastTargetCategory);
-        } else {
-          renderGrid();
-          updateBadges();
-        }
-
-      } catch (err) {
-        console.error("Upload error:", err);
-        showToast(`Upload error: ${err.message}`, "error");
-        statusEl.textContent = `Error: ${err.message}`;
+        showToast('Photos uploaded and published. No redeploy needed.', 'success');
+        closePhotoUploadModal(true);
+      } catch (error) {
+        status.textContent = error.message;
+        showToast(error.message, 'error');
       } finally {
-        submitBtn.disabled = false;
+        button.disabled = false;
         spinner.classList.add('hidden');
-        label.textContent = "Upload & Optimize";
+        label.textContent = 'Upload & Publish';
+        if (currentCategory !== targetCategory) switchTab(targetCategory);
+        else { renderGrid(); updateBadges(); }
       }
     }
 
@@ -2585,7 +2529,7 @@
       };
       reader.readAsDataURL(file);
       document.getElementById('replace-status-area').classList.remove('hidden');
-      showToast("New photo loaded. Click 'Write to Disk' or 'Commit Live'.", "success");
+      showToast("New photo loaded. Click 'Publish Photo' to upload and publish your replacement.", "success");
     }
 
     // Direct Disk Image Replacement & WebP Generation
@@ -2628,69 +2572,24 @@
     }
 
     async function publishReplacedImageToCloud() {
-      if (!pendingReplaceBlob) {
-        showToast("No pending photo selected.", "error");
-        return;
-      }
-
-      const publishBtn = document.getElementById('publish-cloud-img-btn');
-      const originalText = publishBtn ? publishBtn.innerHTML : '';
-      if (publishBtn) {
-        publishBtn.disabled = true;
-        publishBtn.textContent = "Optimizing...";
-      }
-
+      if (!pendingReplaceBlob) { showToast('Choose a replacement photo first.', 'error'); return; }
+      const button = document.getElementById('publish-cloud-img-btn');
+      const label = button?.innerHTML;
+      if (button) button.disabled = true;
+      const category = currentCategory;
+      const index = activeEditIndex;
+      const item = localData[category][index];
+      const previous = { ...item };
       try {
-        const item = localData[currentCategory][activeEditIndex];
-        const filename = item.file;
-        const base = filename.replace(/\.[^/.]+$/, "");
-        
-        let rawPath = `images/${filename}`;
-        let optimizedFolder = "";
-        
-        if (currentCategory === 'drone') {
-          rawPath = `images/Drone Shots/${filename}`;
-          optimizedFolder = 'Drone Shots/';
-        } else if (currentCategory === 'framed') {
-          rawPath = `images/Framed Moments/${filename}`;
-          optimizedFolder = 'Framed Moments/';
-        } else if (currentCategory === 'events') {
-          rawPath = `images/School Events/${filename}`;
-          optimizedFolder = 'School Events/';
-        }
-
-        const rawBase64 = await blobToBase64(pendingReplaceBlob);
-        const filesToCommit = [
-          { path: rawPath, content: rawBase64, encoding: 'base64' }
-        ];
-
-        const widths = [800, 1200, 1600];
-        if (currentCategory === 'highlights') widths.push(2048);
-
-        for (const w of widths) {
-          const webpBlob = await resizeImageToWebP(pendingReplaceBlob, w);
-          const webpBase64 = await blobToBase64(webpBlob);
-          const webpPath = `images/optimized/${w}/${optimizedFolder}${base}-${w}.webp`;
-          filesToCommit.push({ path: webpPath, content: webpBase64, encoding: 'base64' });
-        }
-
-        if (publishBtn) publishBtn.textContent = "Committing to GitHub...";
-
-        const success = await publishToLiveSite(filesToCommit, `CMS Update: Replaced photo ${filename} with responsive WebPs`);
-        if (success) {
-          pendingReplaceBlob = null;
-          document.getElementById('replace-status-area').classList.add('hidden');
-          renderGrid();
-        }
-      } catch (err) {
-        console.error("Failed to prepare cloud image commit:", err);
-        showToast(`Failed to publish image: ${err.message}`, "error");
-      } finally {
-        if (publishBtn) {
-          publishBtn.disabled = false;
-          publishBtn.innerHTML = originalText;
-        }
-      }
+        const media = await uploadPhotoToBlob(pendingReplaceBlob, item.file, category, message => { if (button) button.textContent = message; });
+        Object.assign(item, media);
+        if (!await publishToLiveSite([], `Replaced ${item.file}`)) { Object.assign(item, previous); for (const key of ['url', 'variants', 'storage']) if (!(key in previous)) delete item[key]; persistLocalState(); return; }
+        delete uploadedImagePreviews[item.file];
+        pendingReplaceBlob = null;
+        document.getElementById('replace-status-area').classList.add('hidden');
+        renderGrid();
+      } catch (error) { showToast(error.message, 'error'); }
+      finally { if (button) { button.disabled = false; button.innerHTML = label; } }
     }
 
     async function writeReplacedImageToDisk() {
@@ -2712,42 +2611,6 @@
         const base = filename.replace(/\.[^/.]+$/, "");
         const widths = [800, 1200, 1600];
         if (currentCategory === 'highlights') widths.push(2048);
-
-        // Try /api/upload endpoint first (works directly on local dev server)
-        try {
-          const webpsPayload = [];
-          for (const w of widths) {
-            const webpBlob = await resizeImageToWebP(pendingReplaceBlob, w);
-            const webpBase64 = await blobToBase64(webpBlob);
-            webpsPayload.push({ width: w, base64: webpBase64 });
-          }
-          const rawBase64 = await blobToBase64(pendingReplaceBlob);
-
-          const res = await fetch('/api/upload', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${sessionStorage.getItem('pm_auth') || ''}`
-            },
-            body: JSON.stringify({
-              category: currentCategory,
-              filename: filename,
-              rawBase64: rawBase64,
-              webps: webpsPayload
-            })
-          });
-          const data = await res.json();
-          if (res.ok && data.success) {
-            uploadedImagePreviews[filename] = URL.createObjectURL(pendingReplaceBlob);
-            showToast(`Replaced "${filename}" and saved ${widths.length} WebP variants to disk.`, "success");
-            pendingReplaceBlob = null;
-            document.getElementById('replace-status-area').classList.add('hidden');
-            renderGrid();
-            return;
-          }
-        } catch (apiErr) {
-          console.warn("Direct /api/upload failed, checking projectDirHandle:", apiErr);
-        }
 
         // Project folder handle fallback
         if (projectDirHandle) {

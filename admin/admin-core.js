@@ -8,6 +8,8 @@
 
 // Shared State
 let localData = window.galleryData ? JSON.parse(JSON.stringify(window.galleryData)) : {};
+let galleryRevision = window.galleryRevision || null;
+let livePublishPending = false;
 let localSnapshots = [];
 let projectDirHandle = null;
 let sessionIdleTimer = null;
@@ -20,7 +22,13 @@ try {
   if (savedState) {
     const parsed = JSON.parse(savedState);
     if (parsed && typeof parsed === 'object') {
-      localData = Object.assign({}, localData, parsed);
+      const draftRevision = JSON.parse(localStorage.getItem('pm_gallery_revision') || 'null');
+      if (draftRevision === galleryRevision) {
+        localData = Object.assign({}, localData, parsed);
+      } else {
+        localStorage.setItem('pm_previous_gallery_draft', savedState);
+        console.info('A newer gallery was published. The previous local draft is preserved in pm_previous_gallery_draft.');
+      }
     }
   }
 } catch (e) {
@@ -41,6 +49,7 @@ try {
 function persistLocalState() {
   try {
     localStorage.setItem('pm_local_data_v2', JSON.stringify(localData));
+    localStorage.setItem('pm_gallery_revision', JSON.stringify(galleryRevision));
   } catch (e) {
     console.warn("Could not persist local draft data:", e);
   }
@@ -288,76 +297,42 @@ function blobToBase64(blob) {
   });
 }
 
-// Publish direct changes to GitHub repository via serverless /api/save endpoint
+// Publish gallery metadata to MongoDB; existing disk/export workflows remain available.
 async function publishToLiveSite(extraFiles = [], customMessage = null) {
-  const dropdown = document.getElementById('save-dropdown');
-  if (dropdown) dropdown.classList.add('hidden');
-
-  const token = sessionStorage.getItem('pm_auth') || '';
-  const isLocal = checkIsLocalEnvironment();
-
-  const saveBtn = document.getElementById('save-main-btn');
-  const originalSaveBtnText = saveBtn ? saveBtn.innerHTML : '';
-  if (saveBtn) {
-    saveBtn.disabled = true;
-    saveBtn.innerHTML = `
-      <svg class="animate-spin" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation: spin 1s linear infinite;"><circle cx="12" cy="12" r="10" stroke-opacity="0.25"></circle><path d="M12 2a10 10 0 0 1 10 10"></path></svg>
-      Publishing...
-    `;
+  document.getElementById('save-dropdown')?.classList.add('hidden');
+  if (livePublishPending) { showToast('A publish is already in progress.', 'error'); return false; }
+  if (extraFiles.length) { showToast('Upload replacement photos using the photo uploader.', 'error'); return false; }
+  if (window.galleryLiveAvailable !== true) {
+    showToast('Live gallery unavailable. Reload the admin or check the database connection. Your draft is kept locally.', 'error');
+    return false;
   }
-
-  showToast("Pushing updates to GitHub repository...", "success");
-
+  livePublishPending = true;
+  const button = document.getElementById('save-main-btn');
+  const label = button?.innerHTML;
+  const publishedData = JSON.parse(JSON.stringify(localData));
+  if (button) { button.disabled = true; button.textContent = 'Publishing…'; }
   try {
-    const filesToCommit = [
-      {
-        path: 'assets/gallery-data.js',
-        content: compileDatabase(),
-        encoding: 'utf-8'
-      },
-      ...extraFiles
-    ];
-
-    const message = customMessage || `CMS Update: Modified portfolio gallery data [skip ci]`;
-
-    const res = await fetch('/api/save', {
+    const response = await fetch('/api/gallery', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify({
-        files: filesToCommit,
-        message: message
-      })
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${sessionStorage.getItem('pm_auth') || ''}` },
+      body: JSON.stringify({ data: publishedData, revision: galleryRevision })
     });
-
-    const data = await res.json();
-
-    if (res.ok && data.success) {
-      window.galleryData = JSON.parse(JSON.stringify(localData));
-      persistLocalState();
-      takeSnapshot("Live Publish", `Committed ${filesToCommit.length} file(s) to GitHub: ${data.commitSha ? data.commitSha.substring(0, 7) : 'latest'}`);
-      
-      showToast("Committed to GitHub. Live deployment active (~20s).", "success");
-      return true;
-    } else {
-      const errorMsg = data.error || "Failed to commit changes to GitHub.";
-      if (data.setupGuide) {
-        alert(`${errorMsg}\n\n${data.setupGuide}`);
-      }
-      showToast(`GitHub Publish Failed: ${errorMsg}`, "error");
-      return false;
-    }
-  } catch (err) {
-    console.error("Cloud publish error:", err);
-    showToast(`Error during GitHub publish: ${err.message}`, "error");
+    const result = await response.json();
+    if (!response.ok || !result.success) throw new Error(result.error || 'Could not publish gallery.');
+    galleryRevision = result.revision;
+    window.galleryRevision = result.revision;
+    window.galleryData = publishedData;
+    persistLocalState();
+    takeSnapshot('Live Publish', customMessage || 'Published gallery changes without redeploying.');
+    showToast('Gallery published. Changes are live now.', 'success');
+    return true;
+  } catch (error) {
+    persistLocalState();
+    showToast(error.message, 'error');
     return false;
   } finally {
-    if (saveBtn) {
-      saveBtn.disabled = false;
-      saveBtn.innerHTML = originalSaveBtnText;
-    }
+    livePublishPending = false;
+    if (button) { button.disabled = false; button.innerHTML = label; }
   }
 }
 
@@ -689,7 +664,7 @@ function buildCommandIndex() {
 
   // Quick Actions
   items.push({ type: 'action', title: 'Add Photos to Current Gallery', subtitle: 'Upload new photographs', action: 'triggerFilePicker', icon: 'plus' });
-  items.push({ type: 'action', title: 'Publish Changes to Live Site', subtitle: 'Commit to GitHub & deploy via Vercel', action: 'publishToLiveSite', icon: 'upload-cloud' });
+  items.push({ type: 'action', title: 'Publish Changes to Live Site', subtitle: 'Save gallery changes instantly', action: 'publishToLiveSite', icon: 'upload-cloud' });
   items.push({ type: 'action', title: 'Save Directly to Disk', subtitle: 'Write assets/gallery-data.js locally', action: 'saveChangesDirectly', icon: 'hard-drive' });
   items.push({ type: 'action', title: 'Create Manual Snapshot Backup', subtitle: 'Create an instant rollback point', action: 'createManualSnapshotPrompt', icon: 'bookmark' });
   items.push({ type: 'action', title: 'Connect Project Folder', subtitle: 'Link local folder for automatic write', action: 'connectProjectFolder', icon: 'folder' });
