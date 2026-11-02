@@ -220,3 +220,6 @@ body.editor-modal-open{overflow:hidden}
  #edit-drawer .drawer-footer{padding:14px 16px max(14px,env(safe-area-inset-bottom));gap:8px}
  #edit-drawer .drawer-footer .btn{font-size:14px;padding:10px 12px}
 }
+
+.gallery-reorder-help{margin:0 28px;font-size:14px;line-height:1.6;color:var(--text-secondary)}
+@media(max-width:640px){.gallery-reorder-help{margin-inline:18px}}

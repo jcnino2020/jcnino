@@ -18,7 +18,7 @@
   <!-- CSS Stylesheets (Absolute root paths for reliable loading) -->
   <link rel="stylesheet" href="/assets/tailwind.css?v=2">
   <link rel="stylesheet" href="/admin/admin.css?v=editorial-v2">
-  <link rel="stylesheet" href="/admin/workspace.css?v=editor-modal-1">
+  <link rel="stylesheet" href="/admin/workspace.css?v=drag-order-1">
 
   <!-- Load Database File -->
   <script src="/assets/gallery-data.js"></script>
@@ -434,6 +434,7 @@
           </div>
 
           <!-- Dynamic Gallery Cards Grid (4-5 cols responsive) -->
+          <p id="gallery-reorder-help" class="gallery-reorder-help">Drag photos to reorder. Keyboard: focus a photo and press Alt + ↑ or ↓. Publish changes to save the order online.</p>
           <div class="studio-library-layout">
           <div id="workspace-grid" class="gallery-grid">
             <!-- Dynamic cards injected here -->
@@ -490,10 +491,7 @@
         </div>
 
         <div class="editor-fields">
-          <div class="studio-order-controls" aria-label="Photo order">
-            <button type="button" id="move-photo-earlier" onclick="moveActiveMedia(-1)" class="btn btn-secondary">Move earlier</button>
-            <button type="button" id="move-photo-later" onclick="moveActiveMedia(1)" class="btn btn-secondary">Move later</button>
-          </div>
+
 
         <!-- Replace Image Dropzone (Photos Only) -->
         <div id="replace-image-container" class="drawer-section">
@@ -1422,11 +1420,21 @@
         card.addEventListener('dragover', handleCardDragOver);
         card.addEventListener('drop', handleCardDrop);
         card.addEventListener('dragend', handleCardDragEnd);
-        card.addEventListener('click', () => openEditDrawer(origIndex));
+        card.addEventListener('click', () => { card.focus({preventScroll:true}); openEditDrawer(origIndex); });
         card.setAttribute('tabindex', '0');
         card.setAttribute('role', 'group');
         card.setAttribute('aria-label', `Edit ${item.file || item.title}`);
-        card.addEventListener('keydown', event => { if (event.target === card && (event.key === 'Enter' || event.key === ' ')) { event.preventDefault(); openEditDrawer(origIndex); } });
+        card.setAttribute('aria-describedby', 'gallery-reorder-help');
+        card.setAttribute('aria-keyshortcuts', 'Alt+ArrowUp Alt+ArrowDown');
+        card.addEventListener('keydown', event => {
+          if (event.target !== card) return;
+          if (event.altKey && ['ArrowUp', 'ArrowDown'].includes(event.key)) {
+            event.preventDefault(); event.stopPropagation();
+            reorderGalleryItem(origIndex, event.key === 'ArrowUp' ? -1 : 1);
+          } else if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault(); openEditDrawer(origIndex);
+          }
+        });
 
         const isVid = (currentCategory === 'videos' || currentCategory === 'videos2');
         const titleText = isVid ? item.title : (item.desc || '').split('•')[0].trim() || item.file;
@@ -1511,7 +1519,7 @@
         renderGrid();
         updateBadges();
         persistLocalState();
-        showToast("Order updated visually. Remember to save changes.", "success");
+        showToast("Order updated. Publish changes to save the order online.", "success");
       }
     }
     function handleCardDragEnd() {
@@ -2005,8 +2013,6 @@
       }
 
       if (!drawer.classList.contains('drawer-open')) studioReturnFocus = document.activeElement;
-      document.getElementById('move-photo-earlier').disabled = index === 0;
-      document.getElementById('move-photo-later').disabled = index === localData[currentCategory].length - 1;
       drawer.classList.add('drawer-open');
       drawer.setAttribute('role', 'dialog');
       drawer.setAttribute('aria-modal', 'true');
@@ -2032,21 +2038,16 @@
       if (studioReturnFocus?.isConnected) studioReturnFocus.focus({preventScroll:true});
     }
 
-    function moveActiveMedia(offset) {
-      if (activeEditIndex === null) return;
-      if (pendingReplaceBlob) { showToast('Publish or discard the replacement photo before changing order.', 'error'); return; }
-      const draftFields = [...document.querySelectorAll('#edit-drawer input, #edit-drawer textarea, #edit-drawer select')].map(field => [field.id, field.value]);
+    function reorderGalleryItem(index, offset) {
       const list = localData[currentCategory];
-      const target = activeEditIndex + offset;
+      const target = index + offset;
       if (target < 0 || target >= list.length) return;
-      const [item] = list.splice(activeEditIndex, 1);
+      const [item] = list.splice(index, 1);
       list.splice(target, 0, item);
-      activeEditIndex = target;
       renderGrid();
-      openEditDrawer(target);
-      draftFields.forEach(([id, value]) => { document.getElementById(id).value = value; });
       persistLocalState();
-      showToast('Order updated in your draft. Publish changes to make it live.', 'success');
+      document.querySelector(`.media-card[data-index="${target}"]`)?.focus({preventScroll:true});
+      showToast(`Moved to position ${target + 1}. Publish changes to save the order online.`, 'success');
     }
 
     function applyDrawerEdits() {
