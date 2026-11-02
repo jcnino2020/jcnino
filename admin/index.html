@@ -18,7 +18,7 @@
   <!-- CSS Stylesheets (Absolute root paths for reliable loading) -->
   <link rel="stylesheet" href="/assets/tailwind.css?v=2">
   <link rel="stylesheet" href="/admin/admin.css?v=editorial-v2">
-  <link rel="stylesheet" href="/admin/workspace.css?v=dashboard-list-padding-1">
+  <link rel="stylesheet" href="/admin/workspace.css?v=reference-exif-1">
 
   <!-- Load Database File -->
   <script src="/assets/gallery-data.js"></script>
@@ -582,6 +582,12 @@
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                 <span>Read from photo</span>
               </button>
+            </div>
+            <div class="reference-exif-import">
+              <button type="button" id="reference-exif-button" class="btn btn-secondary" onclick="document.getElementById('reference-exif-picker').click()">Read EXIF from reference photo</button>
+              <input id="reference-exif-picker" type="file" accept="image/*,.heic,.heif,.tif,.tiff" class="hidden" onchange="importReferenceExif(event)"/>
+              <p class="input-helper">Reads camera details only. Your gallery picture stays unchanged; the reference file is not uploaded.</p>
+              <p id="reference-exif-status" role="status" aria-live="polite" class="input-helper"></p>
             </div>
             <div class="form-grid-2">
               <div class="space-y-1">
@@ -1740,6 +1746,35 @@
       document.getElementById('upload-status-indicator').textContent = `Photo ${uploadQueueIndex + 1} of ${uploadQueue.length}. Uploading publishes immediately.`;
     }
 
+    let referenceExifRequest = 0;
+    async function importReferenceExif(event) {
+      const file = event.target.files?.[0];
+      event.target.value = '';
+      if (!file || activeEditIndex === null) return;
+      const request = ++referenceExifRequest;
+      const item = localData[currentCategory][activeEditIndex];
+      const category = currentCategory;
+      const button = document.getElementById('reference-exif-button');
+      const status = document.getElementById('reference-exif-status');
+      button.disabled = true;
+      status.textContent = 'Reading reference photo…';
+      try {
+        const result = await readUploadCaptureMetadata(file);
+        if (request !== referenceExifRequest || currentCategory !== category || localData[currentCategory]?.[activeEditIndex] !== item) return;
+        const inputs = {camera:'edit-camera', lens:'edit-lens', aperture:'edit-aperture', shutter:'edit-shutter', iso:'edit-iso', focalLength:'edit-focal', dateTaken:'edit-datetaken'};
+        for (const [key,id] of Object.entries(inputs)) {
+          if (result.fields[key]) document.getElementById(id).value = result.fields[key];
+        }
+        status.textContent = result.count
+          ? `Read ${result.count} camera fields from ${file.name}. Missing tags left unchanged. Apply Edits to keep the details; the picture stays unchanged.`
+          : 'No supported camera tags found. Choose a photo with embedded EXIF; your existing details are unchanged.';
+      } catch (error) {
+        if (request === referenceExifRequest) status.textContent = 'Could not read this reference. Try the original JPEG or TIFF with embedded EXIF. Your picture and details are unchanged.';
+      } finally {
+        if (request === referenceExifRequest) button.disabled = false;
+      }
+    }
+
     async function extractExifForActiveDrawerItem() {
       if (activeEditIndex === null) return;
       const item = localData[currentCategory][activeEditIndex];
@@ -1961,6 +1996,9 @@
 
     // Drawer Management
     function openEditDrawer(index) {
+      referenceExifRequest++;
+      document.getElementById('reference-exif-button').disabled = false;
+      document.getElementById('reference-exif-status').textContent = '';
       activeEditIndex = index;
       const item = localData[currentCategory][index];
       const drawer = document.getElementById('edit-drawer');
@@ -2026,6 +2064,7 @@
     }
 
     function closeEditDrawer() {
+      referenceExifRequest++;
       const drawer = document.getElementById('edit-drawer');
       if (drawer) drawer.classList.remove('drawer-open');
       const backdrop = document.getElementById('edit-drawer-backdrop');
