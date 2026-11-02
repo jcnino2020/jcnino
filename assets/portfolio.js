@@ -883,9 +883,10 @@ function initLightboxListeners() {
         if (e.key === 'Tab') trapFocus(lb, e);
     });
 
-    // Close on background click
+    // Empty space anywhere in the viewer returns to the gallery.
     lb.addEventListener('click', e => {
-        if (e.target === lb) closeLightbox();
+        if (e.defaultPrevented || e.target.closest('#lightbox-img, button, a, input, #lightbox-desc-tooltip')) return;
+        closeLightbox();
     });
 
     // Touch & Swipe Support (Mobile Lightbox Gestures)
