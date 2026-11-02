@@ -202,3 +202,13 @@
 .photo-capture-details dl>div{display:grid;grid-template-columns:100px minmax(0,1fr);gap:12px;align-items:baseline}
 .photo-capture-details dt{font-size:12px;color:#b9b9b9}
 .photo-capture-details dd{font-size:12px;color:#f5f5f5;margin:0;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+
+/* Size the floating controls to their contents instead of half the viewport. */
+.enhanced-viewer #lightbox-toolbar{width:max-content;max-width:calc(100vw - 24px);box-sizing:border-box}
+.enhanced-viewer #lightbox-toolbar>*,.enhanced-viewer #lightbox-toolbar button{flex-shrink:0}
+@media(max-width:767px){
+ .enhanced-viewer #lightbox-toolbar{gap:4px;padding:6px;max-width:calc(100vw - 24px)}
+ .enhanced-viewer #lightbox-counter{padding-inline:4px;font-size:13px}
+ .enhanced-viewer #lightbox-desc-tooltip{width:min(360px,calc(100vw - 32px));box-sizing:border-box;max-height:min(60dvh,calc(100dvh - 144px));padding:16px}
+ .photo-capture-details dl>div{grid-template-columns:88px minmax(0,1fr);gap:10px}
+}
