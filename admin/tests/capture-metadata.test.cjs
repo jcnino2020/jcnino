@@ -25,3 +25,14 @@ assert.equal(context.captureFieldsFromTags({}).count,0,'Missing metadata stays b
 const stripped=context.ExifReader.load(fs.readFileSync(path.join(__dirname,'../../images/optimized/800/GH-01-800.webp')),{expanded:true});assert.equal(context.captureFieldsFromTags(stripped).count,0);
 fs.writeFileSync('/tmp/jc-synthetic-exif-test.jpg',fixture);
 console.log('EXIF extraction, formatting, absent metadata and no lens guessing passed.');
+// Nikon MakerNote lens spec is separate from the shooting focal length/aperture.
+for(const little of [false,true]){
+ const note=new Uint8Array(68);note.set([78,105,107,111,110,0,2,16,0,0]);const view=new DataView(note.buffer,10);
+ view.setUint16(0,little?0x4949:0x4d4d);view.setUint16(2,42,little);view.setUint32(4,8,little);view.setUint16(8,1,little);view.setUint16(10,0x84,little);view.setUint16(12,5,little);view.setUint32(14,4,little);view.setUint32(18,26,little);
+ [50,50,18,18].forEach((n,i)=>{view.setUint32(26+i*8,n,little);view.setUint32(30+i*8,i<2?1:10,little);});
+ const tags={exif:{MakerNote:{value:Array.from(note)},FocalLength:{value:[50,1]},FNumber:{value:[28,10]}}};
+ assert.equal(context.captureFieldsFromTags(tags).fields.lens,'50mm f/1.8');
+ tags.exif.LensModel={description:'Explicit lens model'};assert.equal(context.captureFieldsFromTags(tags).fields.lens,'Explicit lens model');delete tags.exif.LensModel;
+ view.setUint32(18,999999,little);tags.exif.MakerNote.value=Array.from(note);assert.equal(context.captureFieldsFromTags(tags).fields.lens,'','Malformed MakerNote must not throw or guess');
+}
+console.log('Nikon lens specifications, model precedence, both byte orders and malformed metadata passed.');
