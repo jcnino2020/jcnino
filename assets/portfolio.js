@@ -861,7 +861,7 @@ function initLightboxZoom() {
     img.addEventListener('pointerup', endPointer);
     img.addEventListener('pointercancel', endPointer);
     img.addEventListener('click', e => {
-        if (e.pointerType === 'touch' || dragged) return;
+        if (e.pointerType === 'touch' || dragged || window.matchMedia('(max-width: 767px)').matches) return;
         toggleZoom();
     });
     window.addEventListener('resize', () => {
@@ -883,10 +883,18 @@ function initLightboxListeners() {
         if (e.key === 'Tab') trapFocus(lb, e);
     });
 
-    // Empty space anywhere in the viewer returns to the gallery.
+    let suppressTapUntil = 0;
+    // On phones, the stage edges navigate; the remaining backdrop dismisses.
     lb.addEventListener('click', e => {
-        if (e.defaultPrevented || e.target.closest('#lightbox-img, button, a, input, #lightbox-desc-tooltip')) return;
-        closeLightbox();
+        if (e.defaultPrevented || Date.now() < suppressTapUntil || e.target.closest('button, a, input, #lightbox-desc-tooltip')) return;
+        const stage = lb.querySelector('.viewer-stage');
+        const bounds = stage.getBoundingClientRect();
+        const mobile = window.matchMedia('(max-width: 767px)').matches;
+        if (mobile && lightboxZoom.scale === 1 && e.clientY >= bounds.top && e.clientY <= bounds.bottom) {
+            if (e.clientX < window.innerWidth * .25) { prevImage(); return; }
+            if (e.clientX > window.innerWidth * .75) { nextImage(); return; }
+        }
+        if (!e.target.closest('#lightbox-img')) closeLightbox();
     });
 
     // Touch & Swipe Support (Mobile Lightbox Gestures)
@@ -896,6 +904,7 @@ function initLightboxListeners() {
     let dragDirection = null; // 'horizontal' or 'vertical'
 
     lb.addEventListener('touchstart', e => {
+        if (e.touches.length > 1) suppressTapUntil = Date.now() + 700;
         if (lightboxZoom.scale > 1 || e.touches.length > 1) {
             isDragging = false;
             return;
@@ -921,6 +930,7 @@ function initLightboxListeners() {
     }, { passive: true });
 
     lb.addEventListener('touchmove', e => {
+        suppressTapUntil = Date.now() + 700;
         if (lightboxZoom.scale > 1 || e.touches.length > 1) {
             isDragging = false;
             return;
