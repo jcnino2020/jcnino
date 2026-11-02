@@ -420,7 +420,9 @@ function openLightbox(photo, gallery, triggerEl) {
     const lb = document.getElementById('lightbox');
     if (!lb) return;
 
-    lb.classList.remove('hidden');
+    lb.classList.remove('hidden', 'viewer-closing');
+    lb.style.pointerEvents = '';
+    for (const element of [lb, ...lb.querySelectorAll('.viewer-stage, .viewer-header, .viewer-bottom, #lightbox-desc-tooltip')]) cancelViewerAnimation(element);
     lb.classList.add('flex');
     lb.removeAttribute('hidden');
     document.body.style.overflow = 'hidden';
@@ -689,15 +691,20 @@ function toggleLightboxDesc(e) {
 window.toggleLightboxDesc = toggleLightboxDesc;
 
 function closeLightbox(immediate = false) {
-    resetLightboxZoom();
     const lb = document.getElementById('lightbox');
-    if (!lb) return;
+    if (!lb || lb.hidden || (lb.classList.contains('viewer-closing') && !immediate)) return;
+    lb.classList.add('viewer-closing');
+    lb.style.pointerEvents = 'none';
 
     const descTooltip = document.getElementById('lightbox-desc-tooltip');
-    if (descTooltip) { cancelViewerAnimation(descTooltip); descTooltip.classList.remove('active-mobile-desc'); descTooltip.hidden = true; }
-    lb.classList.remove('viewer-details-open');
+    if (descTooltip) cancelViewerAnimation(descTooltip);
 
     const restorePage = () => {
+        resetLightboxZoom();
+        lb.classList.remove('viewer-closing', 'viewer-details-open');
+        lb.style.pointerEvents = '';
+        for (const element of lb.querySelectorAll('.viewer-stage, .viewer-header, .viewer-bottom, #lightbox-desc-tooltip')) cancelViewerAnimation(element);
+        if (descTooltip) { descTooltip.classList.remove('active-mobile-desc'); descTooltip.hidden = true; }
         lb.classList.add('hidden');
         lb.classList.remove('flex');
         lb.setAttribute('hidden', '');
@@ -745,11 +752,27 @@ function closeLightbox(immediate = false) {
             onComplete: restorePage
         });
     } else {
-        animateViewer(lb, [{ opacity: lb.style.opacity || '1' }, { opacity: 0 }], 150, restorePage);
+        // Keep the composition intact until the exit finishes, including zoom and details.
+        const stage = lb.querySelector('.viewer-stage');
+        animateViewer(stage, [
+            { opacity: 1, transform: 'scale(1)', transformOrigin: 'center' },
+            { opacity: 0, transform: 'scale(.96)', transformOrigin: 'center' }
+        ], 200);
+        animateViewer(lb.querySelector('.viewer-header'), [
+            { opacity: 1, transform: 'none' },
+            { opacity: 0, transform: 'translateY(-10px)' }
+        ], 160);
+        animateViewer(lb.querySelector('.viewer-bottom'), [
+            { opacity: 1, transform: 'none' },
+            { opacity: 0, transform: 'translateY(10px)' }
+        ], 160);
+        if (descTooltip && !descTooltip.hidden) animateViewer(descTooltip, [{ opacity: 1 }, { opacity: 0 }], 160);
+        animateViewer(lb, [{ opacity: lb.style.opacity || '1' }, { opacity: 0 }], 220, restorePage);
     }
 }
 
 function prevImage() {
+    if (document.getElementById('lightbox')?.classList.contains('viewer-closing')) return;
     if (currentGallery.length === 0) return;
     currentIndex = (currentIndex - 1 + currentGallery.length) % currentGallery.length;
     syncLightbox('prev');
@@ -757,6 +780,7 @@ function prevImage() {
 }
 
 function nextImage() {
+    if (document.getElementById('lightbox')?.classList.contains('viewer-closing')) return;
     if (currentGallery.length === 0) return;
     currentIndex = (currentIndex + 1) % currentGallery.length;
     syncLightbox('next');
