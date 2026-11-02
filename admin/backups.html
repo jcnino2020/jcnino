@@ -17,7 +17,7 @@
   <!-- CSS Stylesheets -->
   <link rel="stylesheet" href="/assets/tailwind.css?v=2">
   <link rel="stylesheet" href="/admin/admin.css">
-  <link rel="stylesheet" href="/admin/workspace.css?v=reference-drop-1">
+  <link rel="stylesheet" href="/admin/workspace.css?v=mobile-navigation-1">
 
   <!-- Load Database File -->
   <script src="/assets/gallery-data.js"></script>
@@ -333,7 +333,7 @@
   </div>
 
   <!-- Scripts -->
-  <script src="admin-core.js?v=real-audit-1"></script>
+  <script src="admin-core.js?v=mobile-navigation-1"></script>
   <script>
     function renderBackupsTimeline() {
       const tbody = document.getElementById('backups-tbody');
@@ -391,5 +391,6 @@
       verifySessionOnLoad(initBackupsDashboard);
     });
   </script>
+  <script src="/admin/mobile-nav.js?v=1" defer></script>
 </body>
 </html>

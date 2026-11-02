@@ -581,7 +581,8 @@ function toggleSidebarCollapse() {
   }
 }
 
-function openMobileSidebar() {
+function openMobileSidebar(section) {
+  if (window.studioMobileNavigation) return window.studioMobileNavigation.open(section);
   const sidebar = document.querySelector('.admin-sidebar');
   const backdrop = document.getElementById('mobile-drawer-backdrop');
   if (sidebar) sidebar.classList.add('mobile-open');
@@ -589,6 +590,7 @@ function openMobileSidebar() {
 }
 
 function closeMobileSidebar() {
+  if (window.studioMobileNavigation) return window.studioMobileNavigation.close();
   const sidebar = document.querySelector('.admin-sidebar');
   const backdrop = document.getElementById('mobile-drawer-backdrop');
   if (sidebar) sidebar.classList.remove('mobile-open');

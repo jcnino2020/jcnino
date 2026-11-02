@@ -237,3 +237,44 @@ body.editor-modal-open{overflow:hidden}
 @media(max-width:767px){.journey-grid{grid-template-columns:1fr}.journey-card{padding:18px}.journey-heading{flex-wrap:wrap}.visitor-journeys .traffic-section-heading{align-items:start}}
 
 .reference-exif-drop-label{font-size:15px;font-weight:500;color:var(--text-primary);margin:0}.reference-exif-import{border-style:dashed;transition:background-color 140ms ease,border-color 140ms ease}.reference-exif-import.reference-drag-over{background:var(--bg-active);border-color:var(--accent);outline:2px solid var(--accent);outline-offset:2px}
+
+/* Mobile Studio navigation: primary destinations at thumb height, focused sheets. */
+.studio-mobile-nav,.mobile-sheet-header,.mobile-sheet-actions{display:none}
+@media(max-width:768px){
+ body{padding-bottom:calc(76px + env(safe-area-inset-bottom));scroll-padding-bottom:calc(92px + env(safe-area-inset-bottom))}
+ .admin-header{height:66px;padding:0 16px;gap:12px}
+ .header-brand{min-width:0;gap:0}.header-brand>[onclick="openMobileSidebar()"]{display:none!important}
+ .studio-wordmark{font-size:16px;max-width:150px;overflow:hidden;text-overflow:ellipsis;display:block}
+ .header-actions{gap:6px;margin-left:auto;flex-shrink:0}.admin-header #save-main-btn{min-height:44px;font-size:13px;padding:9px 12px}.admin-header #save-main-btn svg{display:none}.admin-header .header-actions>.btn-icon{display:none}
+ .admin-main{width:100%;min-width:0}.admin-content-wrap{padding-top:26px}
+ .studio-mobile-nav{position:fixed;inset:auto 0 0;z-index:70;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;padding:8px 12px calc(8px + env(safe-area-inset-bottom));border-top:1px solid var(--border-default);background:var(--bg-surface)}
+ .studio-mobile-nav>a,.studio-mobile-nav>button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-width:0;min-height:56px;border:0;border-radius:8px;color:var(--text-secondary);font-size:11px;font-weight:500;text-decoration:none;line-height:1.2}
+ .studio-mobile-nav .is-current{color:var(--accent);background:var(--bg-active)}.studio-mobile-nav svg{width:22px;height:22px;flex-shrink:0}
+ .studio-mobile-nav>a:active,.studio-mobile-nav>button:active{background:var(--bg-hover);transform:none}
+ body:has(#login-overlay:not(.hidden)) .studio-mobile-nav,body.editor-modal-open .studio-mobile-nav{visibility:hidden;pointer-events:none}
+ .admin-sidebar,.admin-sidebar.collapsed{display:none;transform:none;width:100%;max-width:none}
+ .admin-sidebar.mobile-open{display:flex;position:fixed;inset:auto 0 0;width:100%;max-width:none;height:auto;max-height:calc(100dvh - 56px);min-height:0;z-index:101;transform:none;overflow-y:auto;overscroll-behavior:contain;border:1px solid var(--border-subtle);border-bottom:0;border-radius:20px 20px 0 0;padding:0 18px calc(20px + env(safe-area-inset-bottom));background:var(--bg-surface);box-shadow:0 -12px 48px rgba(20,35,28,.15);animation:studio-menu-enter 180ms ease-out}
+ .mobile-sheet-header{display:flex;position:sticky;top:0;align-items:start;justify-content:space-between;gap:20px;padding:25px 2px 20px;background:var(--bg-surface);z-index:2;border-bottom:1px solid var(--border-subtle);margin-bottom:18px;flex-shrink:0}
+ .mobile-sheet-header h2{font-size:25px;font-weight:600;letter-spacing:-.025em;margin:0;color:var(--text-primary)}.mobile-sheet-header p{font-size:14px;color:var(--text-secondary);margin-top:5px}.mobile-sheet-header .btn-icon{width:44px;height:44px;flex-shrink:0;background:var(--bg-primary);border-radius:50%;color:var(--text-primary)}
+ .admin-sidebar.mobile-open .sidebar-header{display:none}
+ .admin-sidebar.mobile-open .sidebar-nav-group{padding:0;flex-shrink:0}
+ .admin-sidebar[data-mobile-section=library] [data-mobile-group=more],.admin-sidebar[data-mobile-section=more] [data-mobile-group=library]{display:none}
+ .admin-sidebar.mobile-open[data-mobile-section=library] [data-mobile-group=library]{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .admin-sidebar[data-mobile-section=library] .sidebar-section-title,.admin-sidebar[data-mobile-section=library] .sidebar-footer,.admin-sidebar[data-mobile-section=library] .mobile-sheet-actions{display:none}
+ .admin-sidebar.mobile-open .nav-item{min-height:62px;margin:0;padding:14px 12px;border:1px solid var(--border-subtle);border-radius:9px;font-size:14px;gap:8px;background:var(--bg-secondary);color:var(--text-primary);width:100%}
+ .admin-sidebar.mobile-open .nav-item.active{background:var(--bg-active);border-color:#b1c9b9;color:var(--accent)}
+ .admin-sidebar.mobile-open .nav-item-content{min-width:0;gap:10px}.admin-sidebar.mobile-open .nav-label{display:block;white-space:normal;line-height:1.35}.admin-sidebar.mobile-open .nav-count{display:block;opacity:1;font-size:12px;padding:0;background:none;flex-shrink:0}.admin-sidebar.mobile-open .nav-icon{display:block;min-width:20px;width:20px;height:20px}.admin-sidebar.mobile-open.collapsed .nav-item{justify-content:space-between}
+ .admin-sidebar[data-mobile-section=more] .sidebar-nav-group{display:grid;gap:8px;margin-bottom:16px}.admin-sidebar[data-mobile-section=more] .sidebar-section-title{display:block;font-size:12px;padding:0;margin:0 2px 4px;color:var(--text-secondary)}
+ .admin-sidebar[data-mobile-section=more] .sidebar-footer{margin:0;padding:0;order:3}.admin-sidebar[data-mobile-section=more] .sidebar-profile{padding:18px 2px 0;margin-top:18px}
+ .mobile-sheet-actions{display:grid;gap:8px;padding-top:4px}.mobile-sheet-actions .btn{justify-content:space-between;font-size:14px;min-height:48px;padding:12px 14px}.mobile-sheet-actions svg{width:18px;height:18px}
+ #mobile-drawer-backdrop.active{display:block;position:fixed;inset:0;z-index:100;background:rgba(23,39,30,.42);opacity:1;visibility:visible;backdrop-filter:none}
+ body.mobile-navigation-open{overflow:hidden}body.mobile-navigation-open .studio-mobile-nav{visibility:hidden}
+ #toast{bottom:calc(92px + env(safe-area-inset-bottom))}
+}
+@keyframes studio-menu-enter{from{transform:translateY(24px);opacity:.7}to{transform:translateY(0);opacity:1}}
+@media(prefers-reduced-motion:reduce){.admin-sidebar.mobile-open{animation:none}}
+@media(max-width:768px){
+ .admin-sidebar[data-mobile-section=more] [data-mobile-group=library],.admin-sidebar[data-mobile-section=library] [data-mobile-group=more]{display:none!important}
+ .admin-sidebar.mobile-open[data-mobile-section=library] #tab-overview{display:none}
+ .admin-sidebar.mobile-open[data-mobile-section=library] [data-mobile-group=library]>.nav-item:last-child{grid-column:1/-1}
+}

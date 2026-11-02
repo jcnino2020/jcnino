@@ -61,3 +61,5 @@ Visitor analytics appears above collections on Overview. It uses authenticated f
 Analytics and Security reports follow the Sugar Inventory Superadmin reporting structure: Traffic/Statistics/Media tabs, bordered filter and ranking sections, full-period page breakdowns, chart data tables, and a plain authentication history table. Studio navigation and light palette remain shared with the media workspace.
 
 Photo editing uses a centered two-column modal: contained preview on the left, scrollable fields on the right, and persistent Delete/Cancel/Apply actions. It fills the viewport on small screens. The gallery keeps its full width; background interaction and scrolling are blocked while editing. Escape and Cancel close it and restore focus.
+
+Mobile admin navigation uses a fixed four-destination bottom bar (Overview, Library, Analytics, More) below 769px. Library opens a gallery sheet with live counts; More opens a separate tools sheet. Sheets preserve existing destinations, trap keyboard focus, dismiss with Escape/backdrop/close, block background interaction, and restore desktop sidebar placement on resize. Publishing stays in the top bar.
