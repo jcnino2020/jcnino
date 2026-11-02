@@ -176,3 +176,8 @@ h1,h2,h3,h4{color:var(--text-primary);font-weight:500;letter-spacing:-.025em}.mo
 .report-stats-range{display:grid;gap:8px;font-size:14px;max-width:240px;margin:24px 0}.report-stats-range select{min-height:44px}
 
 .traffic-chart-point{cursor:pointer;outline:none}.traffic-point-dot{pointer-events:none}.traffic-chart-point:hover .traffic-point-dot,.traffic-chart-point:focus .traffic-point-dot,.traffic-chart-point[aria-pressed=true] .traffic-point-dot{stroke:var(--accent);stroke-width:8;stroke-opacity:.25;vector-effect:non-scaling-stroke}.traffic-point-readout{min-height:44px;padding:10px 14px;margin:0 0 12px;border-radius:6px;background:var(--bg-active);color:var(--accent);font-size:14px;font-weight:500;font-variant-numeric:tabular-nums}
+
+/* Use one spacing source between the overview heading and its traffic panel. */
+#view-overview{gap:24px}
+#view-overview>div:first-child{padding-bottom:0}
+#view-overview>#dashboard-traffic{margin:0}
