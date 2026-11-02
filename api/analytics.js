@@ -30,6 +30,19 @@ function escapeRegex(string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
+export function summarizeJourneys(logs) {
+  const groups = new Map();
+  for (const entry of logs) {
+    if (typeof entry.sessionId !== 'string' || !entry.sessionId) continue;
+    if (!groups.has(entry.sessionId)) groups.set(entry.sessionId, []);
+    groups.get(entry.sessionId).push(entry);
+  }
+  return [...groups].map(([sessionId, rows])=>{
+    rows.sort((a,b)=>new Date(a.createdAt)-new Date(b.createdAt));
+    return {sessionId,total:rows.length,firstSeen:rows[0].createdAt,lastSeen:rows.at(-1).createdAt,steps:rows.slice(-6).map(r=>({pageUrl:r.pageUrl,pageTitle:r.pageTitle,createdAt:r.createdAt}))};
+  }).sort((a,b)=>new Date(b.lastSeen)-new Date(a.lastSeen)).slice(0,8);
+}
+
 export default async function handler(req, res) {
   if (!prepareResponse(req, res)) return;
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
@@ -46,6 +59,7 @@ export default async function handler(req, res) {
   }
   query = query || {};
 
+  const visitor = typeof query.visitor === 'string' ? query.visitor.slice(0,200) : '';
   const range = (query.range || '7d').toLowerCase();
   const search = (query.search || '').trim().toLowerCase();
   const linkFilter = (query.link || query.page_url || '').trim();
@@ -77,6 +91,7 @@ export default async function handler(req, res) {
         pageUrl: { $not: /^\/admin/i }
       };
 
+      if (visitor) query.sessionId = visitor;
       if (startDate) {
         query.createdAt = { $gte: startDate };
       }
@@ -164,7 +179,15 @@ export default async function handler(req, res) {
         { $project: { _id: 0, day: '$_id', views: 1, visitors: { $size: { $setDifference: ['$sessions', [null, '']] } } } }
       ]).toArray();
 
-      const logs = await collection.find(query).sort({ createdAt: -1 }).skip(offset).limit(limit).toArray();
+      const recentSessions = await collection.aggregate([
+        {$match: {$and:[query,{sessionId:{$type:'string',$ne:''}}]}},
+        {$group:{_id:'$sessionId',total:{$sum:1},firstSeen:{$min:'$createdAt'},lastSeen:{$max:'$createdAt'}}},
+        {$sort:{lastSeen:-1}},{$limit:8}
+      ]).toArray();
+      const journeys = await Promise.all(recentSessions.map(async group=>({sessionId:group._id,total:group.total,firstSeen:group.firstSeen,lastSeen:group.lastSeen,
+        steps:(await collection.find({...query,sessionId:group._id},{projection:{pageUrl:1,pageTitle:1,createdAt:1}}).sort({createdAt:-1,_id:-1}).limit(6).toArray()).reverse()
+      })));
+      const logs = await collection.find(query).sort({ createdAt: visitor ? 1 : -1, _id: visitor ? 1 : -1 }).skip(offset).limit(limit).toArray();
 
       const allLinksAgg = await collection.aggregate([
         { $match: { pageUrl: { $not: /^\/admin/i } } },
@@ -191,6 +214,7 @@ export default async function handler(req, res) {
 
       return res.status(200).json({
         success: true,
+        journeys, selectedSession:visitor || null,
         daily, timezone: 'Asia/Manila', from: startDate, to: now, source: 'database',
         totalViews,
         uniqueVisitors,
@@ -219,6 +243,7 @@ export default async function handler(req, res) {
   const combinedLogs = [...localVisitorLogs];
 
   const filtered = combinedLogs.filter(l => {
+    if (visitor && l.sessionId !== visitor) return false;
     if (l.pageUrl && l.pageUrl.toLowerCase().startsWith('/admin')) return false;
     if (startDate && new Date(l.createdAt) < startDate) return false;
     if (linkFilter && !new RegExp('^' + escapeRegex(linkFilter) + '($|\\?)', 'i').test(l.pageUrl || '/')) return false;
@@ -296,7 +321,7 @@ export default async function handler(req, res) {
     .slice(0, 5);
 
   const paginatedLogs = filtered
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    .sort((a, b) => (new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()) * (visitor ? 1 : -1))
     .slice(offset, offset + limit)
     .map(l => ({
       ...l,
@@ -347,7 +372,7 @@ export default async function handler(req, res) {
   }
   const daily = [...dailyMap.values()].sort((a,b)=>a.day.localeCompare(b.day)).map(r=>({day:r.day,views:r.views,visitors:r.sessions.size}));
   return res.status(200).json({
-    success: true, daily, timezone: 'Asia/Manila', from: startDate, to: now, source: 'local',
+    success: true, journeys:summarizeJourneys(filtered), selectedSession:visitor || null, daily, timezone: 'Asia/Manila', from: startDate, to: now, source: 'local',
     totalViews,
     uniqueVisitors,
     mobilePct,
