@@ -18,7 +18,7 @@
   <!-- CSS Stylesheets (Absolute root paths for reliable loading) -->
   <link rel="stylesheet" href="/assets/tailwind.css?v=2">
   <link rel="stylesheet" href="/admin/admin.css?v=editorial-v2">
-  <link rel="stylesheet" href="/admin/workspace.css?v=journeys-1">
+  <link rel="stylesheet" href="/admin/workspace.css?v=reference-drop-1">
 
   <!-- Load Database File -->
   <script src="/assets/gallery-data.js"></script>
@@ -583,7 +583,8 @@
                 <span>Read from photo</span>
               </button>
             </div>
-            <div class="reference-exif-import">
+            <div class="reference-exif-import" ondragover="handleReferenceExifDragOver(event)" ondragleave="handleReferenceExifDragLeave(event)" ondrop="handleReferenceExifDrop(event)">
+              <p class="reference-exif-drop-label">Drag a reference photo here</p>
               <button type="button" id="reference-exif-button" class="btn btn-secondary" onclick="document.getElementById('reference-exif-picker').click()">Read EXIF from reference photo</button>
               <input id="reference-exif-picker" type="file" accept="image/*,.heic,.heif,.tif,.tiff" class="hidden" onchange="importReferenceExif(event)"/>
               <p class="input-helper">Reads camera details only. Your gallery picture stays unchanged; the reference file is not uploaded.</p>
@@ -1750,7 +1751,33 @@
     async function importReferenceExif(event) {
       const file = event.target.files?.[0];
       event.target.value = '';
+      return readReferenceExifFile(file);
+    }
+    function handleReferenceExifDragOver(event) {
+      event.preventDefault(); event.stopPropagation();
+      event.dataTransfer.dropEffect = 'copy';
+      event.currentTarget.classList.add('reference-drag-over');
+    }
+    function handleReferenceExifDragLeave(event) {
+      event.preventDefault(); event.stopPropagation();
+      if (!event.currentTarget.contains(event.relatedTarget)) event.currentTarget.classList.remove('reference-drag-over');
+    }
+    function handleReferenceExifDrop(event) {
+      event.preventDefault(); event.stopPropagation();
+      event.currentTarget.classList.remove('reference-drag-over');
+      const files = event.dataTransfer.files;
+      if (files.length !== 1) {
+        document.getElementById('reference-exif-status').textContent = 'Drop one reference photo at a time.';
+        return;
+      }
+      return readReferenceExifFile(files[0]);
+    }
+    async function readReferenceExifFile(file) {
       if (!file || activeEditIndex === null) return;
+      if (!(file.type || '').startsWith('image/') && !/\.(jpe?g|heic|heif|tiff?|png|webp|avif)$/i.test(file.name)) {
+        document.getElementById('reference-exif-status').textContent = 'Choose an image file with embedded camera metadata.';
+        return;
+      }
       const request = ++referenceExifRequest;
       const item = localData[currentCategory][activeEditIndex];
       const category = currentCategory;
@@ -1999,6 +2026,7 @@
       referenceExifRequest++;
       document.getElementById('reference-exif-button').disabled = false;
       document.getElementById('reference-exif-status').textContent = '';
+      document.querySelector('.reference-exif-import').classList.remove('reference-drag-over');
       activeEditIndex = index;
       const item = localData[currentCategory][index];
       const drawer = document.getElementById('edit-drawer');

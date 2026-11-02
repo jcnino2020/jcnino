@@ -10,6 +10,11 @@ const context=vm.createContext({document,activeEditIndex:0,currentCategory:'high
 (async()=>{
  const event={target:{files:[{name:'reference.jpg'}],value:'selected'}};await context.importReferenceExif(event);
  assert.equal(document.getElementById('edit-camera').value,'Nikon Z50');assert.equal(document.getElementById('edit-iso').value,'800');assert.equal(document.getElementById('edit-lens').value,'existing');assert.equal(JSON.stringify(item),before,'Import must not alter the saved image or metadata before Apply');assert.equal(context.pendingReplaceBlob,pendingReplaceBlob,'Reference must not become a replacement image');assert.equal(event.target.value,'');assert.equal(document.getElementById('reference-exif-button').disabled,false);
+ let prevented=false,stopped=false;
+ const drop={preventDefault(){prevented=true;},stopPropagation(){stopped=true;},currentTarget:{classList:{remove(){}}},dataTransfer:{files:[{name:'reference.jpg',type:'image/jpeg'}]}};
+ await context.handleReferenceExifDrop(drop);assert.equal(prevented,true);assert.equal(stopped,true);assert.equal(document.getElementById('edit-camera').value,'Nikon Z50');assert.equal(JSON.stringify(item),before,'Dropped reference must not replace the gallery image');
+ drop.dataTransfer.files.push({name:'second.jpg'});await context.handleReferenceExifDrop(drop);assert.match(document.getElementById('reference-exif-status').textContent,/one reference photo/);
+ drop.dataTransfer.files=[{name:'notes.txt',type:'text/plain'}];await context.handleReferenceExifDrop(drop);assert.match(document.getElementById('reference-exif-status').textContent,/Choose an image/);
  result={fields:{},count:0};await context.importReferenceExif(event);assert.equal(document.getElementById('edit-camera').value,'Nikon Z50');assert.match(document.getElementById('reference-exif-status').textContent,/No supported camera tags/);
  console.log('Reference EXIF fills fields without replacing or modifying the gallery image.');
 })().catch(error=>{console.error(error);process.exitCode=1;});
