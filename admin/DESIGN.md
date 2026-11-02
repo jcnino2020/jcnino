@@ -63,3 +63,5 @@ Analytics and Security reports follow the Sugar Inventory Superadmin reporting s
 Photo editing uses a centered two-column modal: contained preview on the left, scrollable fields on the right, and persistent Delete/Cancel/Apply actions. It fills the viewport on small screens. The gallery keeps its full width; background interaction and scrolling are blocked while editing. Escape and Cancel close it and restore focus.
 
 Mobile admin navigation uses a fixed four-destination bottom bar (Overview, Library, Analytics, More) below 769px. Library opens a gallery sheet with live counts; More opens a separate tools sheet. Sheets preserve existing destinations, trap keyboard focus, dismiss with Escape/backdrop/close, block background interaction, and restore desktop sidebar placement on resize. Publishing stays in the top bar.
+
+Desktop uses the same four navigation destinations in its persistent rail: Overview and Analytics are direct links, Library and More disclose nested real links. The active section expands automatically on route changes. Counts stay attached to the original gallery links; desktop and mobile share one set of destinations.
