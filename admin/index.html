@@ -18,7 +18,7 @@
   <!-- CSS Stylesheets (Absolute root paths for reliable loading) -->
   <link rel="stylesheet" href="/assets/tailwind.css?v=2">
   <link rel="stylesheet" href="/admin/admin.css?v=editorial-v2">
-  <link rel="stylesheet" href="/admin/workspace.css?v=drag-order-1">
+  <link rel="stylesheet" href="/admin/workspace.css?v=dashboard-list-padding-1">
 
   <!-- Load Database File -->
   <script src="/assets/gallery-data.js"></script>
@@ -1163,7 +1163,7 @@
       if (!topMediaCont) return;
 
       if (!viewsAvailable) {
-        topMediaCont.innerHTML = '<div class="p-4 text-center text-xs text-zinc-500">View data is unavailable right now.</div>';
+        topMediaCont.innerHTML = '<div class="overview-media-empty">View data is unavailable right now.</div>';
         return;
       }
 
@@ -1171,7 +1171,7 @@
       const topItems = sorted.slice(0, 4);
 
       if (topItems.length === 0) {
-        topMediaCont.innerHTML = `<div class="p-4 text-center text-xs text-zinc-500">No media views recorded yet.</div>`;
+        topMediaCont.innerHTML = `<div class="overview-media-empty">No media views recorded yet.</div>`;
         return;
       }
 

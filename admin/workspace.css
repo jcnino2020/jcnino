@@ -223,3 +223,10 @@ body.editor-modal-open{overflow:hidden}
 
 .gallery-reorder-help{margin:0 28px;font-size:14px;line-height:1.6;color:var(--text-secondary)}
 @media(max-width:640px){.gallery-reorder-help{margin-inline:18px}}
+
+/* Give dashboard lists real interior spacing, including empty states. */
+#overview-recent-activity-list .activity-row,#overview-top-media-list .top-media-row{padding:18px 22px;gap:18px}
+#overview-recent-activity-list .activity-row:last-child,#overview-top-media-list .top-media-row:last-child{border-bottom:0}
+#overview-recent-activity-list .activity-sub{margin-left:0;margin-top:4px;white-space:normal;line-height:1.6}
+.overview-media-empty{padding:28px 22px;min-height:104px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:14px;line-height:1.6;color:var(--text-secondary)}
+@media(max-width:640px){#overview-recent-activity-list .activity-row,#overview-top-media-list .top-media-row{padding:16px;gap:12px}.overview-media-empty{padding:24px 16px}}
