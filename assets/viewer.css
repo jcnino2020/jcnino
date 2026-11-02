@@ -105,7 +105,7 @@
   bottom: calc(100% + 12px);
   width: min(360px, calc(100vw - 32px));
   max-width: none;
-  max-height: min(40dvh, 320px);
+  max-height: min(60dvh, 520px);
   overflow-y: auto;
   margin-bottom: 0;
   translate: -50% 0;
@@ -194,3 +194,11 @@
   width: 20px;
   height: 20px;
 }
+
+/* Saved capture information is displayed only when the photo supplies it. */
+.photo-capture-details{margin-top:18px;padding-top:16px;border-top:1px solid #555;text-align:left}
+.photo-capture-details h3{font-size:13px;font-weight:600;color:#fff;margin:0 0 12px}
+.photo-capture-details dl{display:grid;gap:9px;margin:0}
+.photo-capture-details dl>div{display:grid;grid-template-columns:100px minmax(0,1fr);gap:12px;align-items:baseline}
+.photo-capture-details dt{font-size:12px;color:#b9b9b9}
+.photo-capture-details dd{font-size:12px;color:#f5f5f5;margin:0;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}

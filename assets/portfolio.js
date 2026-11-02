@@ -109,7 +109,7 @@ const imageLightboxHtml = `
     <!-- Description Hover Icon & Floating Card -->
     <div id="lightbox-desc-divider" class="w-[1px] h-3.5 bg-white/20 shrink-0 self-center hidden"></div>
     <div id="lightbox-desc-wrapper" class="relative group/desc hidden flex items-center justify-center shrink-0">
-      <button id="lightbox-info-btn" onclick="toggleLightboxDesc(event)" class="flex items-center justify-center text-white/70 hover:text-white transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer leading-none" aria-label="View photo details">
+      <button id="lightbox-info-btn" onclick="toggleLightboxDesc(event)" class="flex items-center justify-center text-white/70 hover:text-white transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer leading-none" aria-label="View photo details" aria-controls="lightbox-desc-tooltip" aria-expanded="false">
         <svg class="w-4 h-4 pointer-events-none shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
@@ -117,7 +117,7 @@ const imageLightboxHtml = `
 
       <!-- Hover Card Floating Above Pill -->
       <div id="lightbox-desc-tooltip" class="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 w-[85vw] max-w-sm p-4 bg-black/90 backdrop-blur-2xl rounded-2xl border border-white/15 shadow-2xl text-center opacity-0 group-hover/desc:opacity-100 pointer-events-none group-hover/desc:pointer-events-auto transition-all duration-300">
-        <p id="lightbox-desc-text" class="text-white/90 text-xs sm:text-sm font-normal leading-relaxed m-0"></p>
+        <div id="lightbox-desc-text" class="text-white/90 text-xs sm:text-sm font-normal leading-relaxed m-0"></div>
       </div>
     </div>
   </div>
@@ -540,11 +540,13 @@ function syncLightbox(direction = null) {
             const descDivider = document.getElementById('lightbox-desc-divider');
             const descTooltip = document.getElementById('lightbox-desc-tooltip');
             const descVal = p.desc || p.alt || '';
+            const captureHtml = photoCameraDetails(p.media || p);
+            document.getElementById('lightbox-info-btn')?.setAttribute('aria-expanded', 'false');
 
             if (descTooltip) descTooltip.classList.remove('active-mobile-desc');
 
             if (descText && descWrapper) {
-                if (descVal) {
+                if (descVal || captureHtml) {
                     if (descVal.includes('•')) {
                         const parts = descVal.split('•').map(s => escapeGalleryText(s.trim()));
                         const title = parts[0];
@@ -554,6 +556,7 @@ function syncLightbox(direction = null) {
                     } else {
                         descText.textContent = descVal;
                     }
+                    if (captureHtml) descText.insertAdjacentHTML('beforeend', captureHtml);
                     descWrapper.classList.remove('hidden');
                     if (descDivider) descDivider.classList.remove('hidden');
                 } else {
@@ -661,6 +664,13 @@ function syncLightbox(direction = null) {
     }
 }
 
+function photoCameraDetails(photo) {
+    const labels = [['camera','Camera'],['lens','Lens'],['focalLength','Focal length'],['aperture','Aperture'],['shutter','Shutter speed'],['iso','ISO'],['dateTaken','Date taken']];
+    const rows = labels.filter(([key]) => typeof photo?.[key] === 'string' && photo[key].trim());
+    if (!rows.length) return '';
+    return '<section class="photo-capture-details" aria-label="Camera details"><h3>Camera details</h3><dl>' + rows.map(([key,label]) => '<div><dt>' + label + '</dt><dd>' + escapeGalleryText(photo[key]) + '</dd></div>').join('') + '</dl></section>';
+}
+
 function toggleLightboxDesc(e) {
     if (e) {
         e.stopPropagation();
@@ -668,7 +678,8 @@ function toggleLightboxDesc(e) {
     }
     const tooltip = document.getElementById('lightbox-desc-tooltip');
     if (!tooltip) return;
-    tooltip.classList.toggle('active-mobile-desc');
+    const expanded = tooltip.classList.toggle('active-mobile-desc');
+    document.getElementById('lightbox-info-btn')?.setAttribute('aria-expanded', String(expanded));
 }
 window.toggleLightboxDesc = toggleLightboxDesc;
 
