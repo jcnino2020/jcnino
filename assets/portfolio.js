@@ -62,54 +62,19 @@ const navHtml = `
 
 
 const imageLightboxHtml = `
-<div id="lightbox" class="fixed inset-0 z-[9999] bg-black/98 hidden flex-col items-center justify-center p-4 md:p-8" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
-  <button onclick="closeLightbox()" aria-label="Close photo viewer"
-    class="lightbox__close absolute top-6 right-6 z-50 w-12 h-12 flex items-center justify-center text-white bg-black/50 backdrop-blur-md hover:bg-white/10 transition-all rounded-full border border-white/10">
-    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/>
-    </svg>
-  </button>
-  <button onclick="prevImage()" aria-label="Previous image"
-    class="absolute left-4 md:left-12 lg:left-24 xl:left-40 top-1/2 -translate-y-1/2 z-50 w-12 h-12 md:w-14 md:h-14 flex items-center justify-center text-white bg-black/50 backdrop-blur-md hover:bg-white/10 transition-all border border-white/10 rounded-full">
-    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"/>
-    </svg>
-  </button>
-  <button onclick="nextImage()" aria-label="Next image"
-    class="absolute right-4 md:right-12 lg:right-24 xl:right-40 top-1/2 -translate-y-1/2 z-50 w-12 h-12 md:w-14 md:h-14 flex items-center justify-center text-white bg-black/50 backdrop-blur-md hover:bg-white/10 transition-all border border-white/10 rounded-full">
-    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"/>
-    </svg>
-  </button>
-  <img id="lightbox-img" src="" alt="Portfolio photograph" class="max-w-full max-h-[85vh] object-contain rounded-2xl shadow-2xl" />
-  <div id="lightbox-loader" class="absolute inset-0 flex items-center justify-center pointer-events-none hidden z-30">
-    <div class="spinner"></div>
-  </div>
-  <div id="lightbox-toolbar" class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-row items-center gap-4 select-none bg-black/60 backdrop-blur-xl px-5 py-2.5 rounded-full border border-white/10 shadow-lg z-40">
-    <p id="lightbox-counter" class="text-white text-xs font-bold tracking-normal m-0 leading-none flex items-center shrink-0" aria-live="polite"></p>
-    <div class="w-[1px] h-3.5 bg-white/20 shrink-0 self-center"></div>
-    <button id="lightbox-like-btn" onclick="toggleImageLike()" class="flex items-center gap-1.5 text-white hover:scale-105 active:scale-95 transition-all duration-300 group shrink-0 leading-none">
-      <svg id="lightbox-like-icon" class="w-4 h-4 text-white group-hover:text-red-500 transition-colors shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-      </svg>
-      <span id="lightbox-like-count" class="text-xs font-bold min-w-[10px] leading-none flex items-center justify-center">0</span>
-    </button>
-
-    <!-- Description Hover Icon & Floating Card -->
-    <div id="lightbox-desc-divider" class="w-[1px] h-3.5 bg-white/20 shrink-0 self-center hidden"></div>
-    <div id="lightbox-desc-wrapper" class="relative group/desc hidden flex items-center justify-center shrink-0">
-      <button id="lightbox-info-btn" onclick="toggleLightboxDesc(event)" class="flex items-center justify-center text-white/70 hover:text-white transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer leading-none" aria-label="View photo details" aria-controls="lightbox-desc-tooltip" aria-expanded="false">
-        <svg class="w-4 h-4 pointer-events-none shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      </button>
-
-      <!-- Hover Card Floating Above Pill -->
-      <div id="lightbox-desc-tooltip" class="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 w-[85vw] max-w-sm p-4 bg-black/90 backdrop-blur-2xl rounded-2xl border border-white/15 shadow-2xl text-center opacity-0 group-hover/desc:opacity-100 pointer-events-none group-hover/desc:pointer-events-auto transition-all duration-300">
-        <div id="lightbox-desc-text" class="text-white/90 text-xs sm:text-sm font-normal leading-relaxed m-0"></div>
-      </div>
+<div id="lightbox" class="photo-viewer hidden" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
+  <div class="viewer-header">
+    <div class="viewer-photo-heading"><h2 id="viewer-photo-title">Photograph</h2><p id="viewer-photo-location"></p></div>
+    <div id="lightbox-toolbar" class="viewer-actions">
+      <button id="lightbox-like-btn" onclick="toggleImageLike()" aria-label="Appreciate photo"><svg id="lightbox-like-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg><span class="viewer-action-label">Like</span><span id="lightbox-like-count">0</span></button>
+      <span id="lightbox-desc-divider" hidden></span>
+      <div id="lightbox-desc-wrapper"><button id="lightbox-info-btn" onclick="toggleLightboxDesc(event)" aria-label="View photo details" aria-controls="lightbox-desc-tooltip" aria-expanded="false"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v1"/></svg><span>Details</span></button>
+      <aside id="lightbox-desc-tooltip" aria-label="Photo details" hidden><div class="viewer-details-heading"><h3>Photo details</h3><button type="button" onclick="toggleLightboxDesc(event)" aria-label="Close photo details"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div><div id="lightbox-desc-text"></div></aside></div>
     </div>
+    <button onclick="closeLightbox()" aria-label="Close photo viewer" class="lightbox__close"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
   </div>
+  <div class="viewer-stage"><img id="lightbox-img" src="" alt="Portfolio photograph"/><div id="lightbox-loader" class="hidden" aria-hidden="true"><div class="spinner"></div></div></div>
+  <div class="viewer-bottom" aria-label="Photo navigation"><button onclick="prevImage()" aria-label="Previous image"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg><span>Previous</span></button><p id="lightbox-counter" aria-live="polite"></p><button onclick="nextImage()" aria-label="Next image"><span>Next</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m10 6 6 6-6 6"/></svg></button></div>
 </div>
 `;
 
@@ -498,9 +463,12 @@ function syncLightbox(direction = null) {
             const descTooltip = document.getElementById('lightbox-desc-tooltip');
             const descVal = p.desc || p.alt || '';
             const captureHtml = photoCameraDetails(p.media || p);
-            document.getElementById('lightbox-info-btn')?.setAttribute('aria-expanded', 'false');
+            const detailsOpen = document.getElementById('lightbox').classList.contains('viewer-details-open');
+            document.getElementById('lightbox-info-btn')?.setAttribute('aria-expanded', String(detailsOpen));
+            document.getElementById('viewer-photo-title').textContent = (p.desc || p.title || p.alt || 'Photograph').split('•')[0].trim();
+            document.getElementById('viewer-photo-location').textContent = (p.desc || '').split('•').slice(1).map(part=>part.trim()).join(' · ');
 
-            if (descTooltip) descTooltip.classList.remove('active-mobile-desc');
+            if (descTooltip) { descTooltip.classList.remove('active-mobile-desc'); descTooltip.hidden = !detailsOpen; }
 
             if (descText && descWrapper) {
                 if (descVal || captureHtml) {
@@ -635,7 +603,8 @@ function toggleLightboxDesc(e) {
     }
     const tooltip = document.getElementById('lightbox-desc-tooltip');
     if (!tooltip) return;
-    const expanded = tooltip.classList.toggle('active-mobile-desc');
+    const expanded = document.getElementById('lightbox').classList.toggle('viewer-details-open');
+    tooltip.hidden = !expanded;
     document.getElementById('lightbox-info-btn')?.setAttribute('aria-expanded', String(expanded));
 }
 window.toggleLightboxDesc = toggleLightboxDesc;
@@ -646,7 +615,8 @@ function closeLightbox(immediate = false) {
     if (!lb) return;
 
     const descTooltip = document.getElementById('lightbox-desc-tooltip');
-    if (descTooltip) descTooltip.classList.remove('active-mobile-desc');
+    if (descTooltip) { descTooltip.classList.remove('active-mobile-desc'); descTooltip.hidden = true; }
+    lb.classList.remove('viewer-details-open');
 
     const restorePage = () => {
         lb.classList.add('hidden');
@@ -734,6 +704,8 @@ function applyLightboxZoom(scale, x = lightboxZoom.x, y = lightboxZoom.y) {
         button.setAttribute('aria-pressed', String(zoomed));
         button.setAttribute('aria-label', zoomed ? 'Fit photo' : 'Zoom in');
         button.title = zoomed ? 'Fit photo' : 'Zoom in';
+        const label = button.querySelector('.viewer-action-label');
+        if(label)label.textContent = zoomed ? 'Fit' : 'Zoom';
     }
 }
 
@@ -754,6 +726,7 @@ function initLightboxZoom() {
     button.setAttribute('aria-label', 'Zoom in');
     button.setAttribute('aria-pressed', 'false');
     button.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5M7.5 10.5h6"/><path class="zoom-plus" d="M10.5 7.5v6"/></svg>';
+    button.insertAdjacentHTML('beforeend','<span class="viewer-action-label">Zoom</span>');
     toolbar.appendChild(button);
     const toggleZoom = () => applyLightboxZoom(lightboxZoom.scale > 1 ? 1 : 2, 0, 0);
     button.addEventListener('click', toggleZoom);
