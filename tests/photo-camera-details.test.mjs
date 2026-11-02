@@ -16,8 +16,8 @@ test('verified DJI display aliases leave unknown models and saved EXIF unchanged
  assert.equal(context.cameraDisplayName('DJI FC9999'),'DJI FC9999');assert.equal(context.cameraDisplayName('Canon FC1102'),'Canon FC1102');assert.equal(context.cameraDisplayName('Nikon Z50'),'Nikon Z50');
 });
 
-test('all Mini and Lito names are supported and shared camera codes remain honest',()=>{
- const codes={FC7203:'DJI Mavic Mini / Mini SE',FC7303:'DJI Mini 2',FC7503:'DJI Mini 2 SE',FC7703:'DJI Mini 4K',FC3682:'DJI Mini 3',FC3582:'DJI Mini 3 Pro',FC8482:'DJI Mini 4 Pro',FC9313:'DJI Mini 5 Pro',FC9670:'DJI Lito 1',FC9589:'DJI Lito X1'};
+test('all Mini and Lito names are supported and shared camera code follows the chosen display label',()=>{
+ const codes={FC7203:'DJI Mini SE',FC7303:'DJI Mini 2',FC7503:'DJI Mini 2 SE',FC7703:'DJI Mini 4K',FC3682:'DJI Mini 3',FC3582:'DJI Mini 3 Pro',FC8482:'DJI Mini 4 Pro',FC9313:'DJI Mini 5 Pro',FC9670:'DJI Lito 1',FC9589:'DJI Lito X1'};
  for(const [code,name] of Object.entries(codes))assert.equal(context.cameraDisplayName('DJI '+code),name);
  for(const name of ['Mavic Mini','Mini SE','Mini 2','Mini 2 SE','Mini 3','Mini 3 Pro','Mini 4K','Mini 4 Pro','Mini 5 Pro','Lito 1','Lito X1'])assert.equal(context.cameraDisplayName(name.toLowerCase()),'DJI '+name);
  assert.equal(context.cameraDisplayName('DJI FC9999'),'DJI FC9999');

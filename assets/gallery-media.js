@@ -15,7 +15,7 @@ function cameraDisplayName(value) {
   const model = original.toUpperCase().replace(/^DJI\s+/, '');
   const names = {
     FC1102: 'DJI Spark',
-    FC7203: 'DJI Mavic Mini / Mini SE', // Both aircraft use this camera model.
+    FC7203: 'DJI Mini SE', // User-preferred label for this shared camera code.
     FC7303: 'DJI Mini 2',
     FC7503: 'DJI Mini 2 SE',
     FC7703: 'DJI Mini 4K',
