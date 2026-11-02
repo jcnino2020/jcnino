@@ -65,9 +65,13 @@ function captureFieldsFromTags(groups) {
   const match=date.match(/^(\d{4})[:\-](\d{2})[:\-](\d{2})(?:[ T](\d{2}):(\d{2})(?::(\d{2}))?)?/);
   const fullDate=match ? `${match[1]}-${match[2]}-${match[3]}${match[4]?` ${match[4]}:${match[5]}${match[6]?`:${match[6]}`:''}`:''}` : '';
   const round=value=>String(Number(value.toFixed(2)));
-  // Never guess a lens model from focal length, or fill missing data with camera presets.
-  const fields={camera,lens:text('LensModel') || nikonLensSpecification(exif),aperture:aperture?`f/${round(aperture)}`:'',shutter:exposure?(exposure<1?`1/${Math.round(1/exposure)}s`:`${round(exposure)}s`):'',iso:iso?String(iso):'',focalLength:focal?`${round(focal)} mm`:'',dateTaken:fullDate};
-  return {fields,count:Object.values(fields).filter(Boolean).length};
+  // Prefer embedded lens information. Spark has no interchangeable lens and often
+  // omits LensModel, so an exact DJI+FC1102 match can use its documented fixed lens.
+  // https://www.dji.com/support/product/spark (25mm equivalent, f/2.6)
+  const embeddedLens=text('LensModel') || nikonLensSpecification(exif);
+  const sparkFixedLens=/^DJI$/i.test(make) && /^(?:DJI\s+)?FC1102$/i.test(model) ? 'DJI Spark fixed lens — 25mm equivalent f/2.6 (DJI specification)' : '';
+  const fields={camera,lens:embeddedLens || sparkFixedLens,aperture:aperture?`f/${round(aperture)}`:'',shutter:exposure?(exposure<1?`1/${Math.round(1/exposure)}s`:`${round(exposure)}s`):'',iso:iso?String(iso):'',focalLength:focal?`${round(focal)} mm`:'',dateTaken:fullDate};
+  return {fields,count:Object.values(fields).filter(Boolean).length,lensSource:embeddedLens?'embedded':sparkFixedLens?'manufacturer specification':''};
 }
 async function readUploadCaptureMetadata(file) {
   const bytes=await file.arrayBuffer();

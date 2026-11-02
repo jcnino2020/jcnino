@@ -36,3 +36,10 @@ for(const little of [false,true]){
  view.setUint32(18,999999,little);tags.exif.MakerNote.value=Array.from(note);assert.equal(context.captureFieldsFromTags(tags).fields.lens,'','Malformed MakerNote must not throw or guess');
 }
 console.log('Nikon lens specifications, model precedence, both byte orders and malformed metadata passed.');
+
+const spark=context.captureFieldsFromTags({exif:{Make:{description:'DJI'},Model:{description:'FC1102'},FocalLength:{value:[449,100]},FNumber:{value:[26,10]}}});
+assert.match(spark.fields.lens,/DJI Spark fixed lens/);assert.match(spark.fields.lens,/25mm equivalent f\/2.6/);assert.equal(spark.lensSource,'manufacturer specification');
+assert.equal(context.captureFieldsFromTags({exif:{Model:{description:'FC1102'}}}).fields.lens,'','Require an exact manufacturer and model match');
+assert.equal(context.captureFieldsFromTags({exif:{Make:{description:'DJI'},Model:{description:'FC9999'}}}).fields.lens,'','Do not guess unsupported fixed lenses');
+const explicitSpark=context.captureFieldsFromTags({exif:{Make:{description:'DJI'},Model:{description:'FC1102'},LensModel:{description:'Embedded lens'}}});assert.equal(explicitSpark.fields.lens,'Embedded lens');assert.equal(explicitSpark.lensSource,'embedded');
+console.log('Spark fixed-lens lookup is labelled, maker-scoped and subordinate to embedded lens metadata.');

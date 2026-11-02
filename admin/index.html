@@ -1001,7 +1001,7 @@
 
   <!-- Admin Core & Page Logic -->
   <script src="/admin/vendor/exif-reader.js"></script>
-  <script src="/admin/capture-metadata.js?v=nikon-lens-1"></script>
+  <script src="/admin/capture-metadata.js?v=dji-lens-1"></script>
   <script src="admin-core.js?v=real-audit-1"></script>
   <script>
     let currentCategory = 'overview';
@@ -1812,7 +1812,7 @@
           }
         }
         status.textContent = result.count
-          ? `Read ${result.count} camera fields from ${file.name}. Missing tags left unchanged. Apply Edits to keep the details; the picture stays unchanged.`
+          ? `Read ${result.count} camera fields from ${file.name}.${result.lensSource === 'manufacturer specification' ? ' Lens filled from DJI’s published fixed-lens specification, not an embedded lens tag.' : ''} Missing tags left unchanged. Apply Edits to keep the details; the picture stays unchanged.`
           : 'No supported camera tags found. Choose a photo with embedded EXIF; your existing details are unchanged.';
       } catch (error) {
         if (request === referenceExifRequest) status.textContent = 'Could not read this reference. Try the original JPEG or TIFF with embedded EXIF. Your picture and details are unchanged.';
