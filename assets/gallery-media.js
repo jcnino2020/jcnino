@@ -61,14 +61,14 @@ function photoLocation(photo) {
 function photoLocationDetails(photo) {
   const location=photoLocation(photo);
   const caption=String(photo?.desc||'').split('•').slice(1).map(s=>s.trim()).join(', ');
-  if(!location || location.source==='unresolved') return (location?.query || caption) ? '<section class="photo-location"><h3>Location</h3><p>'+escapeGalleryText(location?.query || caption)+'</p><a href="https://www.openstreetmap.org/search?query='+encodeURIComponent(location?.query || caption)+'" target="_blank" rel="noopener noreferrer">Find on OpenStreetMap ↗</a></section>' : '';
+  if(!location || location.source==='unresolved') return (location?.query || caption) ? '<section class="photo-location"><h3>Location</h3><p>'+escapeGalleryText(location?.query || caption)+'</p><a href="https://www.google.com/maps/search/?api=1&amp;query='+encodeURIComponent(location?.query || caption)+'" target="_blank" rel="noopener noreferrer">Find on Google Maps ↗</a></section>' : '';
   const {lat,lon,label,source}=location;
   const detailed=source==='gps'||source==='place';
   const delta=detailed?.004:.04;
   const bbox=[Math.max(-180,lon-delta),Math.max(-90,lat-delta),Math.min(180,lon+delta),Math.min(90,lat+delta)].join(',');
-  const link='https://www.openstreetmap.org/?mlat='+lat+'&mlon='+lon+'#map='+(detailed?16:12)+'/'+lat+'/'+lon;
+  const link='https://www.google.com/maps/search/?api=1&amp;query='+encodeURIComponent(lat+','+lon);
   const src='https://www.openstreetmap.org/export/embed.html?bbox='+encodeURIComponent(bbox)+'&layer=mapnik&marker='+encodeURIComponent(lat+','+lon);
-  return '<section class="photo-location" aria-label="Photo location"><h3>Location</h3><p>'+escapeGalleryText(label)+'</p><small>'+(source==='place'?'Named place · from description':source==='gps'?'From photo GPS':'Approximate area · from description')+'</small><iframe title="OpenStreetMap photo location" loading="lazy" referrerpolicy="no-referrer" src="'+src+'"></iframe><a href="'+link+'" target="_blank" rel="noopener noreferrer">Open in OpenStreetMap ↗</a></section>';
+  return '<section class="photo-location" aria-label="Photo location"><h3>Location</h3><p>'+escapeGalleryText(label)+'</p><small>'+(source==='place'?'Named place · from description':source==='gps'?'From photo GPS':'Approximate area · from description')+'</small><iframe title="OpenStreetMap photo location" loading="lazy" referrerpolicy="no-referrer" src="'+src+'"></iframe><a href="'+link+'" target="_blank" rel="noopener noreferrer">Open in Google Maps ↗</a></section>';
 }
 
 // One-time cached OSM Nominatim lookup; no visitor geocoding requests.
