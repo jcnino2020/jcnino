@@ -23,7 +23,7 @@
   <!-- Load Database File -->
   <script src="/assets/gallery-data.js"></script>
   <script src="/api/gallery?format=js"></script>
-  <script src="/assets/gallery-media.js?v=blob-1"></script>
+  <script src="/assets/gallery-media.js?v=mini-lito-2"></script>
   <script>
     // Clean up any stale service workers
     if ('serviceWorker' in navigator) {
@@ -593,7 +593,8 @@
             <div class="form-grid-2">
               <div class="space-y-1">
                 <label class="input-label" for="edit-camera">Camera Body</label>
-                <input type="text" id="edit-camera" class="input-text" placeholder="e.g. Nikon Z50"/>
+                <input type="text" id="edit-camera" class="input-text" placeholder="e.g. Nikon Z50" aria-describedby="edit-camera-source"/>
+                <p id="edit-camera-source" class="input-helper"></p>
               </div>
               <div class="space-y-1">
                 <label class="input-label" for="edit-lens">Lens</label>
@@ -1485,7 +1486,7 @@
             ${item.camera ? `
               <div class="flex items-center gap-1.5 text-[10.5px] text-amber-400 font-mono mt-1 pt-1 border-t border-white/5 truncate">
                 <span class="w-1.5 h-1.5 rounded-full bg-amber-400 flex-shrink-0"></span>
-                <span>${escapeHtml(item.camera)}${item.aperture ? ' • ' + escapeHtml(item.aperture) : ''}${item.shutter ? ' • ' + escapeHtml(item.shutter) : ''}</span>
+                <span>${escapeHtml(cameraDisplayName(item.camera))}${item.aperture ? ' • ' + escapeHtml(item.aperture) : ''}${item.shutter ? ' • ' + escapeHtml(item.shutter) : ''}</span>
               </div>
             ` : (isVid ? `
               <div class="flex items-center gap-1.5 text-[10.5px] text-cyan-400 font-mono mt-1 pt-1 border-t border-white/5 truncate">
@@ -1747,6 +1748,21 @@
       document.getElementById('upload-status-indicator').textContent = `Photo ${uploadQueueIndex + 1} of ${uploadQueue.length}. Uploading publishes immediately.`;
     }
 
+    function setCameraEditorValue(raw) {
+      const input = document.getElementById('edit-camera');
+      const original = String(raw || '');
+      const display = cameraDisplayName(original);
+      input.value = display;
+      input.dataset.originalCamera = original;
+      input.dataset.displayCamera = display;
+      document.getElementById('edit-camera-source').textContent = display !== original ? `Original EXIF: ${original}` : '';
+    }
+    function cameraEditorValue() {
+      const input = document.getElementById('edit-camera');
+      const value = input.value.trim();
+      return value === input.dataset.displayCamera ? input.dataset.originalCamera : value;
+    }
+
     let referenceExifRequest = 0;
     async function importReferenceExif(event) {
       const file = event.target.files?.[0];
@@ -1790,7 +1806,10 @@
         if (request !== referenceExifRequest || currentCategory !== category || localData[currentCategory]?.[activeEditIndex] !== item) return;
         const inputs = {camera:'edit-camera', lens:'edit-lens', aperture:'edit-aperture', shutter:'edit-shutter', iso:'edit-iso', focalLength:'edit-focal', dateTaken:'edit-datetaken'};
         for (const [key,id] of Object.entries(inputs)) {
-          if (result.fields[key]) document.getElementById(id).value = result.fields[key];
+          if (result.fields[key]) {
+            if (key === 'camera') setCameraEditorValue(result.fields[key]);
+            else document.getElementById(id).value = result.fields[key];
+          }
         }
         status.textContent = result.count
           ? `Read ${result.count} camera fields from ${file.name}. Missing tags left unchanged. Apply Edits to keep the details; the picture stays unchanged.`
@@ -1821,7 +1840,7 @@
 
         const exif = extractExifMetadata(arrayBuffer);
         if (exif && exif.hasExif) {
-          if (exif.camera) document.getElementById('edit-camera').value = exif.camera;
+          if (exif.camera) setCameraEditorValue(exif.camera);
           if (exif.lens) document.getElementById('edit-lens').value = exif.lens;
           if (exif.aperture) document.getElementById('edit-aperture').value = exif.aperture;
           if (exif.iso) document.getElementById('edit-iso').value = exif.iso;
@@ -2069,7 +2088,7 @@
         document.getElementById('edit-province').value = descParts[1] && descParts[1].includes(',') ? descParts[1].split(',')[1].trim() : 'Negros Occidental';
         
         // Metadata fields
-        document.getElementById('edit-camera').value = item.camera || '';
+        setCameraEditorValue(item.camera || '');
         document.getElementById('edit-lens').value = item.lens || '';
         document.getElementById('edit-aperture').value = item.aperture || '';
         document.getElementById('edit-iso').value = item.iso || '';
@@ -2136,7 +2155,7 @@
         item.file = document.getElementById('edit-filename').value.trim();
         item.desc = document.getElementById('edit-desc').value.trim();
         item.alt = document.getElementById('edit-alt').value.trim();
-        item.camera = document.getElementById('edit-camera').value.trim();
+        item.camera = cameraEditorValue();
         item.lens = document.getElementById('edit-lens').value.trim();
         item.aperture = document.getElementById('edit-aperture').value.trim();
         item.iso = document.getElementById('edit-iso').value.trim();
