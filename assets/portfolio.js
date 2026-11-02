@@ -24,37 +24,48 @@ function initPortfolioApp() {
  * This completely isolates layout changes to this single JavaScript file
  * and avoids fetching HTML over CORS, supporting direct local execution.
  */
-const publicPhotoLinks = [
-    ['index.html#gallery', '', 'Highlights', 'A selection of recent work'],
-    ['drone-shots.html', 'drone-shots.html', 'Drone shots', 'Coastlines, landscapes, and aerial views'],
-    ['framed-moments.html', 'framed-moments.html', 'Framed moments', 'Street scenes and everyday stories'],
-    ['school-events.html', 'school-events.html', 'School events', 'Campus life and performances']
-];
-const publicNavArrow = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>';
-const photoNavLinks = publicPhotoLinks.map(([href,page,title,note]) => `<a href="${href}" ${page ? `data-page="${page}"` : ''}><span><strong>${title}</strong><small>${note}</small></span>${publicNavArrow}</a>`).join('');
 const navHtml = `
-<nav id="main-nav" class="public-navigation" aria-label="Main navigation">
-  <div class="public-nav-bar">
-    <a href="index.html" class="public-nav-brand" aria-label="JC Niñonuevo — home"><img src="images/logo.png" alt="JC Niñonuevo"/><span>Photography & film</span></a>
-    <div id="nav-links" class="public-desktop-links">
-      <a href="index.html" data-page="index.html" class="nav-link">Home</a>
-      <details id="public-photo-menu" class="public-photo-menu">
-        <summary aria-controls="public-photo-links">Photography <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
-        <div id="public-photo-links" class="public-photo-links">${photoNavLinks}</div>
-      </details>
-      <a href="video-projects.html" data-page="video-projects.html" class="nav-link">Films</a>
-      <a href="index.html#about" class="nav-link">About</a>
+<nav id="main-nav" class="fixed top-0 left-0 right-0 z-50 bg-black border-b border-border">
+  <div class="max-w-7xl mx-auto px-6 sm:px-10">
+    <div class="flex items-center justify-between h-16 md:h-20">
+      <a href="index.html" class="flex items-center">
+        <img src="images/logo.png" alt="Portfolio" class="h-5 w-auto opacity-90 hover:opacity-100 transition-opacity" />
+      </a>
+
+      <!-- Desktop Nav -->
+      <div class="hidden md:flex items-center gap-10" id="nav-links">
+        <a href="index.html" data-page="index.html" class="nav-link text-text-muted hover:text-white text-sm font-bold tracking-normal transition-colors">Home</a>
+        <a href="drone-shots.html" data-page="drone-shots.html" class="nav-link text-text-muted hover:text-white text-sm font-bold tracking-normal transition-colors">Drone</a>
+        <a href="framed-moments.html" data-page="framed-moments.html" class="nav-link text-text-muted hover:text-white text-sm font-bold tracking-normal transition-colors">Framed</a>
+        <a href="school-events.html" data-page="school-events.html" class="nav-link text-text-muted hover:text-white text-sm font-bold tracking-normal transition-colors">Events</a>
+        <a href="video-projects.html" data-page="video-projects.html" class="nav-link text-text-muted hover:text-white text-sm font-bold tracking-normal transition-colors">Videos</a>
+      </div>
+
+      <div class="hidden md:flex items-center gap-6" id="nav-cta">
+        <a href="index.html#contact" class="inline-flex items-center justify-center px-6 pt-[11px] pb-[9px] border border-transparent bg-white text-black text-sm font-bold rounded-full hover:bg-opacity-90 transition-all hover:scale-105 leading-none">Contact</a>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button id="hamburger" class="md:hidden text-white p-2 rounded-lg hover:bg-white/10 transition-colors" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu">
+        <svg id="ham-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
     </div>
-    <a href="index.html#contact" class="public-nav-contact" id="nav-cta">Let’s talk ${publicNavArrow}</a>
-    <button id="hamburger" class="public-menu-toggle" aria-label="Open navigation" aria-expanded="false" aria-controls="mobile-menu"><span id="public-menu-label">Menu</span><svg id="ham-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg><svg id="close-icon" class="hidden" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
-  </div>
-  <div id="mobile-menu" class="closed" aria-hidden="true" inert>
-    <div class="public-mobile-menu-inner">
-      <a href="index.html" data-page="index.html" class="public-mobile-primary">Home ${publicNavArrow}</a>
-      <section class="public-mobile-photography" aria-labelledby="mobile-photography-heading"><h2 id="mobile-photography-heading">Photography</h2><div>${photoNavLinks}</div></section>
-      <div class="public-mobile-secondary"><a href="video-projects.html" data-page="video-projects.html">Films ${publicNavArrow}</a><a href="index.html#about">About ${publicNavArrow}</a></div>
-      <a href="index.html#contact" class="public-mobile-contact">Let’s talk ${publicNavArrow}</a>
-      <p class="public-mobile-location">JC Niñonuevo · Bacolod, Philippines</p>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="closed md:hidden" aria-hidden="true">
+      <div class="mobile-menu__inner">
+        <div class="py-6 flex flex-col gap-5 border-t border-white/10">
+          <a href="index.html" data-page="index.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Home</a>
+          <a href="drone-shots.html" data-page="drone-shots.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Drone Shots</a>
+          <a href="framed-moments.html" data-page="framed-moments.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Framed Moments</a>
+          <a href="school-events.html" data-page="school-events.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">School Events</a>
+          <a href="video-projects.html" data-page="video-projects.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Video Projects</a>
+          <div class="pt-4 border-t border-white/10">
+            <a href="index.html#contact" class="flex items-center justify-center w-full pt-[13px] pb-[11px] rounded-full text-lg font-bold bg-white text-black leading-none">Get in Touch</a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </nav>
@@ -87,14 +98,14 @@ const videoLightboxHtml = `
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/>
     </svg>
   </button>
-  
+
   <div id="video-player-container" class="w-full max-w-5xl aspect-video bg-black rounded-xl overflow-hidden shadow-2xl relative border border-white/5">
     <iframe id="video-iframe" class="w-full h-full" src="" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>
   </div>
-  
+
   <div class="flex flex-row items-center justify-between w-full max-w-5xl mt-6 px-2 gap-4">
     <p id="video-title" class="text-white text-lg font-bold text-left"></p>
-    
+
     <!-- Like Button -->
     <button id="video-like-btn" onclick="toggleVideoLike()" class="flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 hover:border-white/30 text-white transition-all duration-300 hover:scale-105 active:scale-95 group shrink-0 leading-none">
       <svg id="video-like-icon" class="w-4 h-4 text-white group-hover:text-red-500 transition-colors shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -131,11 +142,9 @@ function injectComponents() {
             if (normPage === normAttr || (normPage === 'index' && normAttr === 'index')) {
                 a.classList.remove('text-text-muted');
                 a.classList.add('text-white', 'active');
-                a.setAttribute('aria-current','page');
             } else {
                 a.classList.remove('text-white', 'active');
                 a.classList.add('text-text-muted');
-                a.removeAttribute('aria-current');
             }
         }
     });
@@ -167,7 +176,6 @@ function injectComponents() {
             } else {
                 a.classList.remove('text-white');
                 a.classList.add('text-text-muted');
-                a.removeAttribute('aria-current');
             }
         }
     });
@@ -198,46 +206,81 @@ window.trapFocus = trapFocus;
  * Includes grid-rows transition, scroll lock, focus trap, and Escape key handling.
  */
 function initMobileMenu() {
-    const btn=document.getElementById('hamburger'),menu=document.getElementById('mobile-menu');
-    const photography=document.getElementById('public-photo-menu');
-    if(!btn||!menu)return;
-    const mobile=matchMedia('(max-width:900px)');
-    let previousOverflow='';
-    function close(restore=true){
-        const wasOpen=menu.classList.contains('open');
-        menu.classList.remove('open');menu.classList.add('closed');menu.inert=true;
-        menu.setAttribute('aria-hidden','true');btn.setAttribute('aria-expanded','false');btn.setAttribute('aria-label','Open navigation');
-        document.getElementById('public-menu-label').textContent='Menu';
-        document.getElementById('ham-icon').classList.remove('hidden');document.getElementById('close-icon').classList.add('hidden');
-        if(wasOpen)document.body.style.overflow=previousOverflow;
-        document.body.classList.remove('public-menu-open');
-        document.getElementById('main-content')?.removeAttribute('inert');
-        if(wasOpen&&restore)btn.focus({preventScroll:true});
-    }
-    function open(){
-        if(!mobile.matches)return;
-        previousOverflow=document.body.style.overflow;menu.inert=false;menu.classList.remove('closed');menu.classList.add('open');menu.scrollTop=0;
-        btn.setAttribute('aria-expanded','true');btn.setAttribute('aria-label','Close navigation');menu.setAttribute('aria-hidden','false');
-        document.getElementById('public-menu-label').textContent='Close';document.getElementById('ham-icon').classList.add('hidden');document.getElementById('close-icon').classList.remove('hidden');
-        document.body.style.overflow='hidden';document.body.classList.add('public-menu-open');document.getElementById('main-content')?.setAttribute('inert','');
-        menu.querySelector('a')?.focus({preventScroll:true});
-    }
-    btn.addEventListener('click',()=>menu.classList.contains('open')?close():open());
-    menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>close(false)));
-    mobile.addEventListener('change',()=>{close(false);if(photography)photography.open=false;});
-    document.addEventListener('click',event=>{if(photography?.open&&!photography.contains(event.target))photography.open=false;});
-    if(photography?.querySelector('a.active'))photography.classList.add('has-active-gallery');
-    document.addEventListener('keydown',event=>{
-        if(event.key==='Escape'){
-            if(menu.classList.contains('open')){event.preventDefault();close();}
-            else if(photography?.open){photography.open=false;photography.querySelector('summary').focus();}
-            return;
+    const btn = document.getElementById('hamburger');
+    const menu = document.getElementById('mobile-menu');
+
+    if (!btn || !menu) return;
+
+    // Remove any duplicate events
+    const newBtn = btn.cloneNode(true);
+    btn.parentNode.replaceChild(newBtn, btn);
+
+    function openMobileMenu() {
+        menu.classList.remove('closed');
+        menu.classList.add('open');
+        newBtn.setAttribute('aria-expanded', 'true');
+        menu.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+
+        const hamIcon = document.getElementById('ham-icon');
+        const closeIcon = document.getElementById('close-icon');
+        if (hamIcon) hamIcon.classList.add('hidden');
+        if (closeIcon) closeIcon.classList.remove('hidden');
+
+        // Focus first link in menu
+        const firstLink = menu.querySelector('a[href]');
+        if (firstLink) {
+            setTimeout(() => firstLink.focus(), 60);
         }
-        if(event.key==='Tab'&&menu.classList.contains('open')){
-            const controls=[btn,...menu.querySelectorAll('a[href]')];
-            const first=controls[0],last=controls.at(-1);
-            if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}
-            else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}
+    }
+
+    function closeMobileMenu() {
+        menu.classList.remove('open');
+        menu.classList.add('closed');
+        newBtn.setAttribute('aria-expanded', 'false');
+        menu.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+
+        const hamIcon = document.getElementById('ham-icon');
+        const closeIcon = document.getElementById('close-icon');
+        if (hamIcon) hamIcon.classList.remove('hidden');
+        if (closeIcon) closeIcon.classList.add('hidden');
+
+        newBtn.focus();
+    }
+
+    newBtn.addEventListener('click', () => {
+        const isOpen = menu.classList.contains('open');
+        if (isOpen) {
+            closeMobileMenu();
+        } else {
+            openMobileMenu();
+        }
+    });
+
+    // Close menu on link click, awaiting menu close before scrolling for in-page anchors
+    menu.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', (e) => {
+            const href = a.getAttribute('href');
+            closeMobileMenu();
+            if (href && href.startsWith('#')) {
+                e.preventDefault();
+                setTimeout(() => {
+                    const target = document.querySelector(href);
+                    if (target) target.scrollIntoView({ behavior: 'smooth' });
+                }, 320);
+            }
+        });
+    });
+
+    // Keyboard navigation: Escape closes, Tab traps focus
+    document.addEventListener('keydown', (e) => {
+        if (!menu.classList.contains('open')) return;
+        if (e.key === 'Escape') {
+            e.preventDefault();
+            closeMobileMenu();
+        } else if (e.key === 'Tab') {
+            trapFocus(menu, e);
         }
     });
 }
