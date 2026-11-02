@@ -384,6 +384,7 @@ function cancelViewerAnimation(element) {
 }
 
 function animateViewer(element, keyframes, duration, onComplete) {
+    if (!element) { onComplete?.(); return; }
     cancelViewerAnimation(element);
     if (!element.animate || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         onComplete?.();
@@ -450,6 +451,16 @@ function openLightbox(photo, gallery, triggerEl) {
         lb.style.opacity = '1';
         animateViewer(lb, [{ opacity: 0 }, { opacity: 1 }], 180);
     }
+
+    // Let the photograph lead; controls settle into their own edges.
+    animateViewer(lb.querySelector('.viewer-header'), [
+        { opacity: 0, transform: 'translateY(-12px)' },
+        { opacity: 1, transform: 'none' }
+    ], 260);
+    animateViewer(lb.querySelector('.viewer-bottom'), [
+        { opacity: 0, transform: 'translateY(12px)' },
+        { opacity: 1, transform: 'none' }
+    ], 300);
 
     // The loaded image gets its own short entry animation.
     syncLightbox('open');
@@ -597,11 +608,11 @@ function syncLightbox(direction = null) {
             } else {
                 img.style.opacity = '1';
                 img.style.transform = '';
-                const offset = direction === 'next' ? 16 : direction === 'prev' ? -16 : 0;
+                const offset = direction === 'next' ? 28 : direction === 'prev' ? -28 : 0;
                 animateViewer(img, [
-                    { opacity: 0, transform: `translateX(${offset}px)` },
+                    { opacity: 0, transform: direction === 'open' ? 'scale(.975)' : `translateX(${offset}px)` },
                     { opacity: 1, transform: 'none' }
-                ], 180);
+                ], direction === 'open' ? 320 : 240);
             }
         };
 
@@ -646,8 +657,33 @@ function toggleLightboxDesc(e) {
     }
     const tooltip = document.getElementById('lightbox-desc-tooltip');
     if (!tooltip) return;
-    const expanded = document.getElementById('lightbox').classList.toggle('viewer-details-open');
-    tooltip.hidden = !expanded;
+    const viewer = document.getElementById('lightbox');
+    const stage = viewer.querySelector('.viewer-stage');
+    const before = stage.getBoundingClientRect();
+    const expanded = viewer.classList.toggle('viewer-details-open');
+    const mobile = window.matchMedia('(max-width: 767px)').matches;
+    const offset = mobile ? 'translateY(24px)' : 'translateX(24px)';
+    cancelViewerAnimation(tooltip);
+    if (expanded) {
+        tooltip.hidden = false;
+        animateViewer(tooltip, [
+            { opacity: 0, transform: offset },
+            { opacity: 1, transform: 'none' }
+        ], 280);
+    } else {
+        animateViewer(tooltip, [
+            { opacity: 1, transform: 'none' },
+            { opacity: 0, transform: offset }
+        ], 160, () => { if (!viewer.classList.contains('viewer-details-open')) tooltip.hidden = true; });
+    }
+    // FLIP the image stage instead of animating layout on every frame.
+    const after = stage.getBoundingClientRect();
+    if (!mobile && before.width && after.width) {
+        animateViewer(stage, [
+            { transform: `translateX(${(before.x + before.width / 2) - (after.x + after.width / 2)}px)` },
+            { transform: 'none' }
+        ], 280);
+    }
     document.getElementById('lightbox-info-btn')?.setAttribute('aria-expanded', String(expanded));
 }
 window.toggleLightboxDesc = toggleLightboxDesc;
@@ -658,7 +694,7 @@ function closeLightbox(immediate = false) {
     if (!lb) return;
 
     const descTooltip = document.getElementById('lightbox-desc-tooltip');
-    if (descTooltip) { descTooltip.classList.remove('active-mobile-desc'); descTooltip.hidden = true; }
+    if (descTooltip) { cancelViewerAnimation(descTooltip); descTooltip.classList.remove('active-mobile-desc'); descTooltip.hidden = true; }
     lb.classList.remove('viewer-details-open');
 
     const restorePage = () => {

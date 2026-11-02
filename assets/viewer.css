@@ -256,3 +256,10 @@
  .viewer-bottom{position:relative;inset:auto;left:auto;bottom:auto;translate:none;justify-self:center;margin:0 0 max(16px,env(safe-area-inset-bottom))}
  .enhanced-viewer #lightbox #lightbox-desc-tooltip{z-index:5}
 }
+
+.viewer-stage{transform-origin:left center}
+.enhanced-viewer #lightbox button{transition:background-color 140ms ease,color 140ms ease,border-color 140ms ease}
+.enhanced-viewer #lightbox button:active{background:#393939}
+@media(prefers-reduced-motion:reduce){
+ .enhanced-viewer #lightbox button{transition:none}
+}
