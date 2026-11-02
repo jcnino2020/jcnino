@@ -668,7 +668,7 @@ function photoCameraDetails(photo) {
     const labels = [['camera','Camera'],['lens','Lens'],['focalLength','Focal length'],['aperture','Aperture'],['shutter','Shutter speed'],['iso','ISO'],['dateTaken','Date taken']];
     const rows = labels.filter(([key]) => typeof photo?.[key] === 'string' && photo[key].trim());
     if (!rows.length) return '';
-    return '<section class="photo-capture-details" aria-label="Camera details"><h3>Camera details</h3><dl>' + rows.map(([key,label]) => '<div><dt>' + label + '</dt><dd>' + escapeGalleryText(photo[key]) + '</dd></div>').join('') + '</dl></section>';
+    return '<section class="photo-capture-details" aria-label="Camera details"><h3>Camera details</h3><dl>' + rows.map(([key,label]) => '<div><dt>' + label + '</dt><dd>' + escapeGalleryText(key === 'camera' ? cameraDisplayName(photo[key]) : photo[key]) + '</dd></div>').join('') + '</dl></section>';
 }
 
 function toggleLightboxDesc(e) {
