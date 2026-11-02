@@ -31,7 +31,7 @@ function cameraDisplayName(value) {
   };
   const fullNames = ['Mavic Mini','Mini SE','Mini 2','Mini 2 SE','Mini 3','Mini 3 Pro','Mini 4K','Mini 4 Pro','Mini 5 Pro','Lito 1','Lito X1'];
   const explicit = fullNames.find(name => name.toUpperCase() === model.replace(/\s+/g,' '));
-  return names[model] || (explicit ? 'DJI ' + explicit : original);
+  return names[model] ? `${names[model]} (${model})` : (explicit ? 'DJI ' + explicit : original);
 }
 
 // Additional code evidence (original EXIF / first-hand camera tests):
