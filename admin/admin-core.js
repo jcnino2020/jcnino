@@ -832,7 +832,7 @@ function extractExifMetadata(arrayBuffer) {
   try {
     const groups = ExifReader.load(arrayBuffer, { expanded: true });
     const result = captureFieldsFromTags(groups);
-    return { ...result.fields, hasExif: result.count > 0, fullDate: result.fields.dateTaken };
+    return { ...result.fields, gps:captureGpsFromTags(groups), hasExif: result.count > 0, fullDate: result.fields.dateTaken };
   } catch { return null; }
 }
 window.extractExifMetadata = extractExifMetadata;

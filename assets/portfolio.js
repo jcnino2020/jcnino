@@ -516,7 +516,7 @@ function syncLightbox(direction = null) {
             const descDivider = document.getElementById('lightbox-desc-divider');
             const descTooltip = document.getElementById('lightbox-desc-tooltip');
             const descVal = p.desc || p.alt || '';
-            const captureHtml = photoCameraDetails(p.media || p);
+            const captureHtml = photoCameraDetails(p.media || p) + photoLocationDetails(p.media || p);
             const detailsOpen = document.getElementById('lightbox').classList.contains('viewer-details-open');
             document.getElementById('lightbox-info-btn')?.setAttribute('aria-expanded', String(detailsOpen));
             document.getElementById('viewer-photo-title').textContent = (p.desc || p.title || p.alt || 'Photograph').split('•')[0].trim();
@@ -886,7 +886,7 @@ function initLightboxListeners() {
     let suppressTapUntil = 0;
     // On phones, the stage edges navigate; the remaining backdrop dismisses.
     lb.addEventListener('click', e => {
-        if (e.defaultPrevented || Date.now() < suppressTapUntil || e.target.closest('button, a, input, #lightbox-desc-tooltip')) return;
+        if (e.defaultPrevented || Date.now() < suppressTapUntil || e.target.closest('button, a, input, iframe, #lightbox-desc-tooltip')) return;
         const stage = lb.querySelector('.viewer-stage');
         const bounds = stage.getBoundingClientRect();
         const mobile = window.matchMedia('(max-width: 767px)').matches;

@@ -73,8 +73,13 @@ function captureFieldsFromTags(groups) {
   const fields={camera,lens:embeddedLens || sparkFixedLens,aperture:aperture?`f/${round(aperture)}`:'',shutter:exposure?(exposure<1?`1/${Math.round(1/exposure)}s`:`${round(exposure)}s`):'',iso:iso?String(iso):'',focalLength:focal?`${round(focal)} mm`:'',dateTaken:fullDate};
   return {fields,count:Object.values(fields).filter(Boolean).length,lensSource:embeddedLens?'embedded':sparkFixedLens?'manufacturer specification':''};
 }
+function captureGpsFromTags(groups) {
+  const lat=Number(groups.gps?.Latitude),lon=Number(groups.gps?.Longitude);
+  if(groups.gps?.Latitude === undefined || groups.gps?.Longitude === undefined || !Number.isFinite(lat) || !Number.isFinite(lon) || Math.abs(lat)>90 || Math.abs(lon)>180)return null;
+  return {latitude:lat,longitude:lon};
+}
 async function readUploadCaptureMetadata(file) {
   const bytes=await file.arrayBuffer();
   const groups=ExifReader.load(bytes,{expanded:true});
-  return captureFieldsFromTags(groups);
+  return {...captureFieldsFromTags(groups),gps:captureGpsFromTags(groups)};
 }

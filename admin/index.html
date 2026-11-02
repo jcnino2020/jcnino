@@ -23,7 +23,7 @@
   <!-- Load Database File -->
   <script src="/assets/gallery-data.js"></script>
   <script src="/api/gallery?format=js"></script>
-  <script src="/assets/gallery-media.js?v=camera-model-code-1"></script>
+  <script src="/assets/gallery-media.js?v=photo-map-1"></script>
   <script>
     // Clean up any stale service workers
     if ('serviceWorker' in navigator) {
@@ -1001,8 +1001,8 @@
 
   <!-- Admin Core & Page Logic -->
   <script src="/admin/vendor/exif-reader.js"></script>
-  <script src="/admin/capture-metadata.js?v=dji-lens-1"></script>
-  <script src="admin-core.js?v=mobile-navigation-1"></script>
+  <script src="/admin/capture-metadata.js?v=gps-1"></script>
+  <script src="admin-core.js?v=gps-1"></script>
   <script>
     let currentCategory = 'overview';
     let activeEditIndex = null;
@@ -1644,6 +1644,7 @@
               shutter: exif?.shutter || '',
               focalLength: exif?.focalLength || '',
               dateTaken: exif?.dateTaken || '',
+              gps: exif?.gps || null,
               exif: exif,
               hasExif: Boolean(exif && exif.hasExif)
             };
@@ -1804,6 +1805,7 @@
       try {
         const result = await readUploadCaptureMetadata(file);
         if (request !== referenceExifRequest || currentCategory !== category || localData[currentCategory]?.[activeEditIndex] !== item) return;
+        if(result.gps)document.getElementById('edit-datetaken').dataset.gps=JSON.stringify(result.gps);
         const inputs = {camera:'edit-camera', lens:'edit-lens', aperture:'edit-aperture', shutter:'edit-shutter', iso:'edit-iso', focalLength:'edit-focal', dateTaken:'edit-datetaken'};
         for (const [key,id] of Object.entries(inputs)) {
           if (result.fields[key]) {
@@ -1847,6 +1849,7 @@
           if (exif.shutter) document.getElementById('edit-shutter').value = exif.shutter;
           if (exif.focalLength) document.getElementById('edit-focal').value = exif.focalLength;
           if (exif.dateTaken) document.getElementById('edit-datetaken').value = exif.dateTaken;
+          if (exif.gps) document.getElementById('edit-datetaken').dataset.gps = JSON.stringify(exif.gps);
 
           showToast(`EXIF read: ${exif.camera || ''} ${exif.aperture || ''} ${exif.shutter || ''} ISO ${exif.iso || ''}`, "success");
         } else {
@@ -2009,7 +2012,7 @@
             desc: item.desc || `${item.title} • ${item.city}, ${item.province}`,
             alt: item.alt || `Portfolio photograph of ${item.title} by JC Niñonuevo`,
             camera: item.camera, lens: item.lens, aperture: item.aperture,
-            iso: item.iso, shutter: item.shutter, focalLength: item.focalLength, dateTaken: item.dateTaken
+            iso: item.iso, shutter: item.shutter, focalLength: item.focalLength, dateTaken: item.dateTaken, gps: item.gps || null
           };
           const list = localData[category] || (localData[category] = []);
           const previous = list.slice();
@@ -2095,6 +2098,7 @@
         document.getElementById('edit-shutter').value = item.shutter || '';
         document.getElementById('edit-focal').value = item.focalLength || '';
         document.getElementById('edit-datetaken').value = item.dateTaken || '';
+        document.getElementById('edit-datetaken').dataset.gps = JSON.stringify(item.gps || null);
       }
 
       if (!drawer.classList.contains('drawer-open')) studioReturnFocus = document.activeElement;
@@ -2162,6 +2166,7 @@
         item.shutter = document.getElementById('edit-shutter').value.trim();
         item.focalLength = document.getElementById('edit-focal').value.trim();
         item.dateTaken = document.getElementById('edit-datetaken').value.trim();
+        item.gps = JSON.parse(document.getElementById('edit-datetaken').dataset.gps || 'null');
 
         if (!item.file) {
           showToast("File name cannot be left empty.", "error");
@@ -2285,6 +2290,7 @@
         const media = await uploadPhotoToBlob(pendingReplaceBlob, item.file, category, message => { if (button) button.textContent = message; });
         Object.assign(item, media);
         for (const [field, key] of Object.entries({camera:'camera', lens:'lens', aperture:'aperture', iso:'iso', shutter:'shutter', focal:'focalLength', datetaken:'dateTaken'})) item[key] = document.getElementById(`edit-${field}`).value.trim();
+        item.gps = JSON.parse(document.getElementById('edit-datetaken').dataset.gps || 'null');
         if (!await publishToLiveSite([], `Replaced ${item.file}`)) { Object.assign(item, previous); for (const key of ['url', 'variants', 'storage']) if (!(key in previous)) delete item[key]; persistLocalState(); return; }
         delete uploadedImagePreviews[item.file];
         pendingReplaceBlob = null;
