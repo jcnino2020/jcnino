@@ -18,7 +18,7 @@
   <!-- CSS Stylesheets (Absolute root paths for reliable loading) -->
   <link rel="stylesheet" href="/assets/tailwind.css?v=2">
   <link rel="stylesheet" href="/admin/admin.css?v=editorial-v2">
-  <link rel="stylesheet" href="/admin/workspace.css?v=inspector-fixed-1">
+  <link rel="stylesheet" href="/admin/workspace.css?v=editor-modal-1">
 
   <!-- Load Database File -->
   <script src="/assets/gallery-data.js"></script>
@@ -439,13 +439,43 @@
             <!-- Dynamic cards injected here -->
           </div>
     <!-- Side Edit Drawer (8px radius structure) -->
-    <aside id="edit-drawer" role="region" aria-label="Edit media details">
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           3. COLLECTIONS HUB VIEW (#view-collections)
+           ==================================================================== -->
+      <section id="view-collections" class="admin-content-wrap hidden">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div>
+            <h1 class="page-title">Collections</h1>
+            <p class="text-sm text-zinc-400 mt-0.5">Curated photography bodies of work, travel montages, and client projects.</p>
+          </div>
+        </div>
+
+        <div class="collections-grid" id="collections-main-grid">
+          <!-- Collections injected dynamically -->
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Side Edit Drawer Backdrop -->
+
+
+
+
+  </div>
+
+    <aside id="edit-drawer" role="dialog" aria-modal="true" aria-labelledby="edit-modal-title" tabindex="-1">
       <div class="drawer-header">
         <div>
-          <h2 class="font-bold text-base text-white">Photo details</h2>
+          <h2 id="edit-modal-title" class="font-bold text-base text-white">Photo details</h2>
           <p class="text-xs text-zinc-400 mt-0.5">Review the photo and refine its details.</p>
         </div>
-        <button onclick="closeEditDrawer()" class="btn-icon" title="Close Drawer">
+        <button onclick="closeEditDrawer()" class="btn-icon" title="Close editor" aria-label="Close editor">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </button>
       </div>
@@ -459,6 +489,7 @@
           </div>
         </div>
 
+        <div class="editor-fields">
           <div class="studio-order-controls" aria-label="Photo order">
             <button type="button" id="move-photo-earlier" onclick="moveActiveMedia(-1)" class="btn btn-secondary">Move earlier</button>
             <button type="button" id="move-photo-later" onclick="moveActiveMedia(1)" class="btn btn-secondary">Move later</button>
@@ -623,10 +654,12 @@
             </div>
           </div>
         </div>
+        </div>
       </div>
 
       <!-- Drawer Sticky Footer -->
       <div class="drawer-footer">
+        <button type="button" onclick="closeEditDrawer()" class="btn btn-secondary">Cancel</button>
         <button onclick="deleteActiveItem()" class="btn btn-danger flex-1">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
           <span>Delete Item</span>
@@ -636,34 +669,7 @@
         </button>
       </div>
     </aside>
-          </div>
-        </div>
-      </section>
-
-      <!-- ====================================================================
-           3. COLLECTIONS HUB VIEW (#view-collections)
-           ==================================================================== -->
-      <section id="view-collections" class="admin-content-wrap hidden">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-          <div>
-            <h1 class="page-title">Collections</h1>
-            <p class="text-sm text-zinc-400 mt-0.5">Curated photography bodies of work, travel montages, and client projects.</p>
-          </div>
-        </div>
-
-        <div class="collections-grid" id="collections-main-grid">
-          <!-- Collections injected dynamically -->
-        </div>
-      </section>
-
-    </main>
-
-    <!-- Side Edit Drawer Backdrop -->
     <div id="edit-drawer-backdrop" onclick="closeEditDrawer()"></div>
-
-
-
-  </div>
 
   <!-- Add New Photography / Upload & Curation Modal (Strict Zero-Pills) -->
   <div id="photo-upload-modal" role="dialog" aria-modal="true" aria-labelledby="upload-modal-title" class="modal-backdrop hidden">
@@ -1998,14 +2004,18 @@
         document.getElementById('edit-datetaken').value = item.dateTaken || '';
       }
 
-      studioReturnFocus = document.activeElement;
+      if (!drawer.classList.contains('drawer-open')) studioReturnFocus = document.activeElement;
       document.getElementById('move-photo-earlier').disabled = index === 0;
       document.getElementById('move-photo-later').disabled = index === localData[currentCategory].length - 1;
       drawer.classList.add('drawer-open');
-      drawer.setAttribute('role', matchMedia('(min-width: 1100px)').matches ? 'region' : 'dialog');
-      drawer.setAttribute('aria-modal', String(!matchMedia('(min-width: 1100px)').matches));
+      drawer.setAttribute('role', 'dialog');
+      drawer.setAttribute('aria-modal', 'true');
+      document.body.classList.add('editor-modal-open');
+      document.querySelector('.admin-header').inert = true;
+      document.querySelector('.admin-layout').inert = true;
       document.querySelectorAll('.media-card').forEach(card => card.classList.toggle('selected', Number(card.dataset.index) === index));
-      if (!matchMedia('(min-width: 1100px)').matches) drawer.querySelector('button')?.focus();
+      drawer.querySelector('.drawer-body').scrollTop = 0;
+      drawer.querySelector('.drawer-header button')?.focus({preventScroll:true});
       if (backdrop) backdrop.classList.add('active');
     }
 
@@ -2014,9 +2024,12 @@
       if (drawer) drawer.classList.remove('drawer-open');
       const backdrop = document.getElementById('edit-drawer-backdrop');
       if (backdrop) backdrop.classList.remove('active');
+      document.body.classList.remove('editor-modal-open');
+      document.querySelector('.admin-header').inert = false;
+      document.querySelector('.admin-layout').inert = false;
       activeEditIndex = null;
       document.querySelectorAll('.media-card').forEach(card => card.classList.remove('selected'));
-      if (studioReturnFocus?.isConnected && !matchMedia('(min-width: 1100px)').matches) studioReturnFocus.focus();
+      if (studioReturnFocus?.isConnected) studioReturnFocus.focus({preventScroll:true});
     }
 
     function moveActiveMedia(offset) {
@@ -2388,8 +2401,8 @@
     }
 
     document.addEventListener('keydown', event => {
-      const modal = document.querySelector('.modal-backdrop:not(.hidden)') ||
-        (!matchMedia('(min-width: 1100px)').matches && document.querySelector('#edit-drawer.drawer-open'));
+      const modal = document.querySelector('#edit-drawer.drawer-open') ||
+        document.querySelector('.modal-backdrop:not(.hidden)');
       if (!modal) return;
       if (event.key === 'Escape') {
         if (modal.id === 'photo-upload-modal') closePhotoUploadModal();
@@ -2408,6 +2421,7 @@
     window.addEventListener('keydown', (e) => {
       const activeEl = document.activeElement;
       const isInput = activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA' || activeEl.tagName === 'SELECT' || activeEl.isContentEditable);
+      if (document.querySelector('#edit-drawer.drawer-open')) return;
       if (isInput || e.metaKey || e.ctrlKey || e.altKey) return;
       const keyMap = {
         '0': 'overview',
