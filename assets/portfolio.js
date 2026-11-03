@@ -7,6 +7,7 @@ function initPortfolioApp() {
     applyGlobalSettings();
     injectComponents();
     initMobileMenu();
+    initPublicMoreNavigation();
     updateYear();
     initLightboxListeners();
     initInteractiveEffects();
@@ -24,6 +25,18 @@ function initPortfolioApp() {
  * This completely isolates layout changes to this single JavaScript file
  * and avoids fetching HTML over CORS, supporting direct local execution.
  */
+const moreNavigationLinks = [
+    ['Services', 'services.html'],
+    ['Project stories', 'stories.html'],
+    ['Albums', 'gallery.html?view=albums'],
+    ['Map', 'map.html'],
+    ['Favourites', 'gallery.html?view=favourites'],
+    ['About', 'index.html#about'],
+    ['Media kit (PDF)', 'assets/downloads/jc-ninonuevo-media-kit.pdf']
+];
+function moreNavigation(id) {
+    return `<div class="public-nav-more"><button type="button" class="public-nav-more-toggle" aria-expanded="false" aria-controls="${id}">More <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><div id="${id}" class="public-nav-more-links" hidden>${moreNavigationLinks.map(([label,href]) => `<a href="${href}"${href.endsWith('.pdf') ? ' download' : ''}>${label}</a>`).join('')}</div></div>`;
+}
 const navHtml = `
 <nav id="main-nav" class="fixed top-0 left-0 right-0 z-50 bg-black border-b border-border">
   <div class="max-w-7xl mx-auto px-6 sm:px-10">
@@ -35,12 +48,12 @@ const navHtml = `
       <!-- Desktop Nav -->
       <div class="hidden md:flex items-center gap-10" id="nav-links">
         <a href="index.html" data-page="index.html" class="nav-link text-text-muted hover:text-white text-sm font-bold tracking-normal transition-colors">Home</a>
-        <a href="services.html" data-page="services.html" class="nav-link text-text-muted hover:text-white text-sm font-bold tracking-normal transition-colors">Services</a>
         <a href="gallery.html" data-page="gallery.html" class="nav-link text-text-muted hover:text-white text-sm font-bold tracking-normal transition-colors">Gallery</a>
         <a href="drone-shots.html" data-page="drone-shots.html" class="nav-link text-text-muted hover:text-white text-sm font-bold tracking-normal transition-colors">Drone</a>
         <a href="framed-moments.html" data-page="framed-moments.html" class="nav-link text-text-muted hover:text-white text-sm font-bold tracking-normal transition-colors">Framed</a>
         <a href="school-events.html" data-page="school-events.html" class="nav-link text-text-muted hover:text-white text-sm font-bold tracking-normal transition-colors">Events</a>
         <a href="video-projects.html" data-page="video-projects.html" class="nav-link text-text-muted hover:text-white text-sm font-bold tracking-normal transition-colors">Videos</a>
+        ${moreNavigation('desktop-more-navigation')}
       </div>
 
       <div class="hidden md:flex items-center gap-6" id="nav-cta">
@@ -59,12 +72,12 @@ const navHtml = `
       <div class="mobile-menu__inner">
         <div class="py-6 flex flex-col gap-5 border-t border-white/10">
           <a href="index.html" data-page="index.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Home</a>
-          <a href="services.html" data-page="services.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Services</a>
           <a href="gallery.html" data-page="gallery.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Explore Gallery</a>
           <a href="drone-shots.html" data-page="drone-shots.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Drone Shots</a>
           <a href="framed-moments.html" data-page="framed-moments.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Framed Moments</a>
           <a href="school-events.html" data-page="school-events.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">School Events</a>
           <a href="video-projects.html" data-page="video-projects.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Video Projects</a>
+          ${moreNavigation('mobile-more-navigation')}
           <div class="pt-4 border-t border-white/10">
             <a href="contact.html" class="flex items-center justify-center w-full pt-[13px] pb-[11px] rounded-full text-lg font-bold bg-white text-black leading-none">Get in Touch</a>
           </div>
@@ -287,6 +300,55 @@ function initMobileMenu() {
             trapFocus(menu, e);
         }
     });
+}
+
+/** Secondary navigation uses a disclosure so links retain normal Tab behavior. */
+function initPublicMoreNavigation() {
+    const groups = [...document.querySelectorAll('.public-nav-more')];
+    const close = (group, restoreFocus = false) => {
+        group.querySelector('.public-nav-more-links').hidden = true;
+        const toggle = group.querySelector('button');
+        toggle.setAttribute('aria-expanded', 'false');
+        if (restoreFocus) toggle.focus();
+    };
+    for (const group of groups) {
+        const toggle = group.querySelector('button');
+        const links = group.querySelector('.public-nav-more-links');
+        toggle.addEventListener('click', () => {
+            const open = links.hidden;
+            groups.forEach(other => close(other));
+            links.hidden = !open;
+            toggle.setAttribute('aria-expanded', String(open));
+        });
+        toggle.addEventListener('keydown', event => {
+            if (event.key !== 'ArrowDown') return;
+            event.preventDefault(); links.hidden = false;
+            toggle.setAttribute('aria-expanded', 'true'); links.querySelector('a').focus();
+        });
+        group.addEventListener('focusout', event => {
+            if (!group.contains(event.relatedTarget)) close(group);
+        });
+        links.addEventListener('click', event => {
+            if (event.target.closest('a')) close(group);
+        });
+        const current = new URL(location.href);
+        for (const link of links.querySelectorAll('a')) {
+            const target = new URL(link.href);
+            const normal = path => path.replace(/\.html$/, '').replace(/\/$/, '') || '/index';
+            if (!target.hash && normal(target.pathname) === normal(current.pathname) && [...target.searchParams].every(([key,value]) => current.searchParams.get(key) === value)) {
+                link.setAttribute('aria-current', 'page');toggle.classList.add('is-current');
+            }
+        }
+    }
+    document.addEventListener('pointerdown', event => {
+        groups.forEach(group => { if (!group.contains(event.target)) close(group); });
+    });
+    document.addEventListener('keydown', event => {
+        if (event.key !== 'Escape') return;
+        const open = groups.find(group => !group.querySelector('.public-nav-more-links').hidden);
+        if (open) { event.preventDefault(); event.stopImmediatePropagation(); close(open, true); }
+    }, true);
+    matchMedia('(min-width:768px)').addEventListener('change', () => groups.forEach(group => close(group)));
 }
 
 /**
