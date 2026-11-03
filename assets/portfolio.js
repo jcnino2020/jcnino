@@ -35,6 +35,7 @@ const navHtml = `
       <!-- Desktop Nav -->
       <div class="hidden md:flex items-center gap-10" id="nav-links">
         <a href="index.html" data-page="index.html" class="nav-link text-text-muted hover:text-white text-sm font-bold tracking-normal transition-colors">Home</a>
+        <a href="gallery.html" data-page="gallery.html" class="nav-link text-text-muted hover:text-white text-sm font-bold tracking-normal transition-colors">Gallery</a>
         <a href="drone-shots.html" data-page="drone-shots.html" class="nav-link text-text-muted hover:text-white text-sm font-bold tracking-normal transition-colors">Drone</a>
         <a href="framed-moments.html" data-page="framed-moments.html" class="nav-link text-text-muted hover:text-white text-sm font-bold tracking-normal transition-colors">Framed</a>
         <a href="school-events.html" data-page="school-events.html" class="nav-link text-text-muted hover:text-white text-sm font-bold tracking-normal transition-colors">Events</a>
@@ -57,6 +58,7 @@ const navHtml = `
       <div class="mobile-menu__inner">
         <div class="py-6 flex flex-col gap-5 border-t border-white/10">
           <a href="index.html" data-page="index.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Home</a>
+          <a href="gallery.html" data-page="gallery.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Explore Gallery</a>
           <a href="drone-shots.html" data-page="drone-shots.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Drone Shots</a>
           <a href="framed-moments.html" data-page="framed-moments.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Framed Moments</a>
           <a href="school-events.html" data-page="school-events.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">School Events</a>
