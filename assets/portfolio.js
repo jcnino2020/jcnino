@@ -414,6 +414,7 @@ function settleViewerDrag(img, lb) {
 
 function openLightbox(photo, gallery, triggerEl) {
     lastFocusedElement = triggerEl || document.activeElement;
+    globalThis.PhotoViewerFeatures?.onOpen();
     currentGallery = gallery;
     currentIndex = gallery.indexOf(photo);
 
@@ -499,6 +500,8 @@ function getLightboxSrc(src) {
 function syncLightbox(direction = null) {
     resetLightboxZoom();
     const p = currentGallery[currentIndex];
+    if (!p) return;
+    globalThis.PhotoViewerFeatures?.onChange(p, currentGallery, currentIndex);
     const img = document.getElementById('lightbox-img');
     const counter = document.getElementById('lightbox-counter');
 
@@ -547,6 +550,8 @@ function syncLightbox(direction = null) {
                 }
             }
 
+            globalThis.PhotoViewerFeatures?.onDetails();
+
             // Show loading state if not already cached
             if (!probe.complete) {
                 img.classList.add('lb-loading');
@@ -578,6 +583,8 @@ function syncLightbox(direction = null) {
 
         // Trigger smooth entry once loaded
         img.onload = function () {
+            if (currentGallery[currentIndex] !== p) return;
+            globalThis.PhotoViewerFeatures?.onLoaded();
             img.classList.remove('lb-loading');
             const loader = document.getElementById('lightbox-loader');
             if (loader) {
@@ -618,17 +625,19 @@ function syncLightbox(direction = null) {
             }
         };
 
-        // Fallback to original if optimized WebP fails
+        // Try the published original once, then present an explicit retry state.
+        let triedOriginal = false;
         img.onerror = function () {
+            if (currentGallery[currentIndex] !== p) return;
             img.classList.remove('lb-loading');
             const loader = document.getElementById('lightbox-loader');
-            if (loader) {
-                loader.classList.add('hidden');
-                loader.classList.remove('flex');
-            }
-            if (img.src !== p.src) {
+            if (loader) { loader.classList.add('hidden'); loader.classList.remove('flex'); }
+            if (!triedOriginal && new URL(img.src, location.href).href !== new URL(p.src, location.href).href) {
+                triedOriginal = true;
                 img.src = p.src;
-                img.onerror = null;
+            } else {
+                img.style.opacity = '0';
+                globalThis.PhotoViewerFeatures?.onError();
             }
         };
     }
@@ -693,6 +702,7 @@ window.toggleLightboxDesc = toggleLightboxDesc;
 function closeLightbox(immediate = false) {
     const lb = document.getElementById('lightbox');
     if (!lb || lb.hidden || (lb.classList.contains('viewer-closing') && !immediate)) return;
+    globalThis.PhotoViewerFeatures?.onClosing();
     lb.classList.add('viewer-closing');
     lb.style.pointerEvents = 'none';
 
