@@ -35,6 +35,7 @@ const navHtml = `
       <!-- Desktop Nav -->
       <div class="hidden md:flex items-center gap-10" id="nav-links">
         <a href="index.html" data-page="index.html" class="nav-link text-text-muted hover:text-white text-sm font-bold tracking-normal transition-colors">Home</a>
+        <a href="services.html" data-page="services.html" class="nav-link text-text-muted hover:text-white text-sm font-bold tracking-normal transition-colors">Services</a>
         <a href="gallery.html" data-page="gallery.html" class="nav-link text-text-muted hover:text-white text-sm font-bold tracking-normal transition-colors">Gallery</a>
         <a href="drone-shots.html" data-page="drone-shots.html" class="nav-link text-text-muted hover:text-white text-sm font-bold tracking-normal transition-colors">Drone</a>
         <a href="framed-moments.html" data-page="framed-moments.html" class="nav-link text-text-muted hover:text-white text-sm font-bold tracking-normal transition-colors">Framed</a>
@@ -43,7 +44,7 @@ const navHtml = `
       </div>
 
       <div class="hidden md:flex items-center gap-6" id="nav-cta">
-        <a href="index.html#contact" class="inline-flex items-center justify-center px-6 pt-[11px] pb-[9px] border border-transparent bg-white text-black text-sm font-bold rounded-full hover:bg-opacity-90 transition-all hover:scale-105 leading-none">Contact</a>
+        <a href="contact.html" class="inline-flex items-center justify-center px-6 pt-[11px] pb-[9px] border border-transparent bg-white text-black text-sm font-bold rounded-full hover:bg-opacity-90 transition-all hover:scale-105 leading-none">Contact</a>
       </div>
 
       <!-- Mobile Menu Button -->
@@ -58,13 +59,14 @@ const navHtml = `
       <div class="mobile-menu__inner">
         <div class="py-6 flex flex-col gap-5 border-t border-white/10">
           <a href="index.html" data-page="index.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Home</a>
+          <a href="services.html" data-page="services.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Services</a>
           <a href="gallery.html" data-page="gallery.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Explore Gallery</a>
           <a href="drone-shots.html" data-page="drone-shots.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Drone Shots</a>
           <a href="framed-moments.html" data-page="framed-moments.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Framed Moments</a>
           <a href="school-events.html" data-page="school-events.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">School Events</a>
           <a href="video-projects.html" data-page="video-projects.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Video Projects</a>
           <div class="pt-4 border-t border-white/10">
-            <a href="index.html#contact" class="flex items-center justify-center w-full pt-[13px] pb-[11px] rounded-full text-lg font-bold bg-white text-black leading-none">Get in Touch</a>
+            <a href="contact.html" class="flex items-center justify-center w-full pt-[13px] pb-[11px] rounded-full text-lg font-bold bg-white text-black leading-none">Get in Touch</a>
           </div>
         </div>
       </div>

@@ -31,13 +31,14 @@ function initStudioMobileNavigation() {
   desktopNav.append(overview,library.button,library.panel,analytics,more.button,more.panel);
   library.panel.append(groups[0]);
   groups.slice(1).forEach(group=>{if(group.querySelector('.nav-item'))more.panel.append(group);else group.remove();});
+  const enquiries=document.createElement('a');enquiries.className='nav-item';enquiries.href='/admin/enquiries.html';enquiries.dataset.mobileGroup='more';enquiries.classList.toggle('active',location.pathname.includes('enquiries'));enquiries.innerHTML=icons.more+'<span class="nav-label">Enquiries & testimonials</span>';more.panel.append(enquiries);
   sidebar.querySelector('.sidebar-header').after(desktopNav);
   let lastDesktopSection='';
   const mobile=matchMedia('(max-width:768px)');let opened=false,returnFocus=null;
   const main=document.querySelector('.admin-main'),header=document.querySelector('.admin-header');
   function sync(){
     let selected='overview';const path=location.pathname;
-    if(path.includes('analytics'))selected='analytics';else if(/security|settings|backups/.test(path))selected='more';else if((new URLSearchParams(location.search).get('cat')||'overview')!=='overview')selected='library';
+    if(path.includes('analytics'))selected='analytics';else if(/security|settings|backups|enquiries/.test(path))selected='more';else if((new URLSearchParams(location.search).get('cat')||'overview')!=='overview')selected='library';
     [library,more].forEach((group,i)=>{const key=i===0?'library':'more';group.button.dataset.current=String(selected===key);});
     if(selected!==lastDesktopSection){
       if(selected==='library'||selected==='more'){

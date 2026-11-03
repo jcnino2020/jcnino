@@ -1,0 +1,13 @@
+import crypto from 'node:crypto';import {authenticated,prepareResponse}from'../lib/admin-session.js';import{enquiryStore}from'../lib/enquiry-store.js';import{validateEnquiry}from'../lib/enquiry-validation.js';
+export function createEnquiriesHandler(getStore=enquiryStore){return async function(req,res){if(!prepareResponse(req,res))return;try{
+ if(req.method==='POST'){
+  if(req.body?.website)return res.status(201).json({success:true});const checked=validateEnquiry(req.body);if(checked.error)return res.status(400).json({error:checked.error});const {requestId,...fields}=checked.value;const {enquiries,limits}=await getStore();if(await enquiries.findOne({_id:requestId}))return res.status(201).json({success:true});
+  const ip=(req.headers['x-forwarded-for']||req.socket?.remoteAddress||'unknown').split(',')[0].trim();const hour=Math.floor(Date.now()/3600000);const hash=crypto.createHmac('sha256',process.env.ADMIN_PASSWORD||process.env.MONGODB_URI||'enquiries').update(ip).digest('hex');
+  try{await limits.updateOne({_id:hash+':'+hour,count:{$lt:5}},{$inc:{count:1},$setOnInsert:{expiresAt:new Date((hour+2)*3600000)}},{upsert:true});}catch(e){if(e.code===11000)return res.status(429).json({error:'Too many enquiries. Please try later or use the email link.'});throw e;}
+  try{await enquiries.insertOne({_id:requestId,...fields,status:'new',createdAt:new Date()});}catch(e){if(e.code!==11000)throw e;}return res.status(201).json({success:true});
+ }
+ if(!['GET','PATCH'].includes(req.method))return res.status(405).json({error:'Method not allowed.'});if(!authenticated(req))return res.status(401).json({error:'Sign in to view enquiries.'});const {enquiries}=await getStore();
+ if(req.method==='GET'){const filter=['new','read','archived'].includes(req.query?.status)?{status:req.query.status}:{};const page=Math.max(0,Math.min(200,Number.parseInt(req.query?.page||'0',10)||0));const [items,total]=await Promise.all([enquiries.find(filter).sort({createdAt:-1}).skip(page*30).limit(30).toArray(),enquiries.countDocuments(filter)]);return res.status(200).json({items,total,page});}
+ const {id,status}=req.body||{};if(typeof id!=='string'||id.length>80||!['new','read','archived'].includes(status))return res.status(400).json({error:'Invalid enquiry update.'});const result=await enquiries.updateOne({_id:id},{$set:{status,updatedAt:new Date()}});return result.matchedCount?res.status(200).json({success:true}):res.status(404).json({error:'Enquiry not found.'});
+ }catch{res.status(503).json({error:'The enquiry service is temporarily unavailable. Please use the email link or try again later.'});}};}
+export default createEnquiriesHandler();

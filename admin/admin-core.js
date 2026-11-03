@@ -10,6 +10,7 @@
 let localData = window.galleryData ? JSON.parse(JSON.stringify(window.galleryData)) : {};
 let galleryRevision = window.galleryRevision || null;
 let livePublishPending = false;
+let hadLocalGalleryDraft = false;
 let localSnapshots = [];
 let projectDirHandle = null;
 let sessionIdleTimer = null;
@@ -24,6 +25,7 @@ try {
     if (parsed && typeof parsed === 'object') {
       const draftRevision = JSON.parse(localStorage.getItem('pm_gallery_revision') || 'null');
       if (draftRevision === galleryRevision) {
+        hadLocalGalleryDraft = true;
         localData = Object.assign({}, localData, parsed);
       } else {
         localStorage.setItem('pm_previous_gallery_draft', savedState);
@@ -186,6 +188,7 @@ async function hydratePrivateGallery() {
   const saved=await response.json();if(!saved.data)return;
   if(saved.revision!==galleryRevision){localStorage.setItem('pm_previous_gallery_draft',JSON.stringify(localData));localData=saved.data;galleryRevision=saved.revision;}
   else for(const key of ['highlights','drone','framed','events'])for(const item of localData[key]||[]){const original=(saved.data[key]||[]).find(p=>p.file===item.file);if(original)for(const field of ['gps','location'])if(!Object.hasOwn(item,field)&&Object.hasOwn(original,field))item[field]=original[field];delete item.publicLocation;}
+  if(!hadLocalGalleryDraft&&saved.data.settings?.testimonials){localData.settings ||= {};localData.settings.testimonials=structuredClone(saved.data.settings.testimonials);}
   window.galleryRevision=galleryRevision;persistLocalState();
 }
 
