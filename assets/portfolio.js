@@ -1621,12 +1621,13 @@ function applyGlobalSettings() {
 
     // 2. Dynamic SEO & Metadata Injections
     if (settings.seo) {
+        const seoTitle = String(settings.seo.title || '').replace(/\s*\|\s*/g, ' - ');
         // Only override the <title> on the homepage; subpages keep their own per-page titles
         const path = (window.location.pathname.split('/').pop() || 'index.html');
         const norm = path.replace(/\.html$/, '');
         const isHome = (norm === 'index' || norm === '');
         if (settings.seo.title && isHome) {
-            document.title = settings.seo.title;
+            document.title = seoTitle;
         }
         if (settings.seo.description) {
             let descEl = document.querySelector('meta[name="description"]');
@@ -1654,9 +1655,9 @@ function applyGlobalSettings() {
         }
         if (settings.seo.title && isHome) {
             const ogTitle = document.querySelector('meta[property="og:title"]');
-            if (ogTitle) ogTitle.content = settings.seo.title;
+            if (ogTitle) ogTitle.content = seoTitle;
             const twTitle = document.querySelector('meta[name="twitter:title"]');
-            if (twTitle) twTitle.content = settings.seo.title;
+            if (twTitle) twTitle.content = seoTitle;
         }
     }
 

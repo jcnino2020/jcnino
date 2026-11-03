@@ -507,7 +507,7 @@
       document.getElementById('settings-social-ig').value = socials.instagram || '';
       document.getElementById('settings-social-email').value = socials.email || '';
 
-      document.getElementById('settings-seo-title').value = seo.title || '';
+      document.getElementById('settings-seo-title').value = String(seo.title || '').replace(/\s*\|\s*/g, ' - ');
       document.getElementById('settings-seo-keywords').value = seo.keywords || '';
       document.getElementById('settings-seo-desc').value = seo.description || '';
 
@@ -551,7 +551,7 @@
       socials.instagram = document.getElementById('settings-social-ig').value.trim();
       socials.email = document.getElementById('settings-social-email').value.trim();
 
-      seo.title = document.getElementById('settings-seo-title').value.trim();
+      seo.title = document.getElementById('settings-seo-title').value.trim().replace(/\s*\|\s*/g, ' - ');
       seo.keywords = document.getElementById('settings-seo-keywords').value.trim();
       seo.description = document.getElementById('settings-seo-desc').value.trim();
 
