@@ -14,3 +14,9 @@
 
 /* Match the navigation container: px-6, sm:px-10, max-w-7xl. */
 @media(min-width:640px){.explore-main{padding-inline:40px}}
+
+/* Legacy photo cards have both Info and Favourite controls on touch screens. */
+@media(max-width:767px){
+ .gallery-item>.photo-save{left:12px;right:auto;top:12px}
+ .gallery-item>.info-btn{top:12px;right:12px;width:44px;height:44px}
+}
