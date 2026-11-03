@@ -302,28 +302,71 @@ function initMobileMenu() {
     });
 }
 
+/* Shared, interruptible motion for both More disclosures. */
+const disclosureAnimations = new WeakMap();
+function setPortfolioDisclosure(panel, button, open, restoreFocus = false) {
+    if (button.getAttribute('aria-expanded') === String(open)) {
+        if (restoreFocus) button.focus();
+        return;
+    }
+    const previous = disclosureAnimations.get(panel);
+    const style = previous && getComputedStyle(panel);
+    const from = style ? {opacity:style.opacity, transform:style.transform} :
+        {opacity:open ? 0 : 1, transform:open ? 'translateY(-5px) scaleY(.97)' : 'none'};
+    previous?.cancel();
+    button.setAttribute('aria-expanded', String(open));
+    panel.inert = !open;
+    if (restoreFocus) button.focus();
+    if (!panel.animate || matchMedia('(prefers-reduced-motion:reduce)').matches) {
+        panel.hidden = !open; disclosureAnimations.delete(panel); return;
+    }
+    panel.hidden = false;
+    const animation = panel.animate([from, {opacity:open ? 1 : 0, transform:open ? 'none' : 'translateY(-3px) scaleY(.98)'}],
+        {duration:open ? 180 : 120, easing:'cubic-bezier(.16,1,.3,1)', fill:'both'});
+    disclosureAnimations.set(panel, animation);
+    animation.onfinish = () => {
+        if (disclosureAnimations.get(panel) !== animation) return;
+        panel.hidden = !open; animation.cancel(); disclosureAnimations.delete(panel);
+    };
+}
+window.setPortfolioDisclosure = setPortfolioDisclosure;
+function bindPortfolioDisclosureHover(group, button, open, close) {
+    let timer, openedByHover = false;
+    group.addEventListener('pointerenter', event => {
+        if (event.pointerType !== 'mouse' || !matchMedia('(hover:hover) and (pointer:fine)').matches) return;
+        clearTimeout(timer);
+        openedByHover = button.getAttribute('aria-expanded') !== 'true';
+        open();
+    });
+    group.addEventListener('pointerleave', event => {
+        if (event.pointerType !== 'mouse') return;
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            if (!group.contains(document.activeElement) || document.activeElement === button) close();
+        }, 180);
+    });
+    return () => {const consumed = openedByHover && button.getAttribute('aria-expanded') === 'true'; openedByHover = false; return consumed;};
+}
+window.bindPortfolioDisclosureHover = bindPortfolioDisclosureHover;
+
 /** Secondary navigation uses a disclosure so links retain normal Tab behavior. */
 function initPublicMoreNavigation() {
     const groups = [...document.querySelectorAll('.public-nav-more')];
     const close = (group, restoreFocus = false) => {
-        group.querySelector('.public-nav-more-links').hidden = true;
-        const toggle = group.querySelector('button');
-        toggle.setAttribute('aria-expanded', 'false');
-        if (restoreFocus) toggle.focus();
+        setPortfolioDisclosure(group.querySelector('.public-nav-more-links'), group.querySelector('button'), false, restoreFocus);
     };
     for (const group of groups) {
         const toggle = group.querySelector('button');
         const links = group.querySelector('.public-nav-more-links');
+        const open = () => {groups.forEach(other => {if (other !== group) close(other);});setPortfolioDisclosure(links, toggle, true);};
+        const consumeHover = bindPortfolioDisclosureHover(group, toggle, open, () => close(group));
         toggle.addEventListener('click', () => {
-            const open = links.hidden;
-            groups.forEach(other => close(other));
-            links.hidden = !open;
-            toggle.setAttribute('aria-expanded', String(open));
+            if (consumeHover()) return;
+            if (toggle.getAttribute('aria-expanded') === 'true') close(group); else open();
         });
         toggle.addEventListener('keydown', event => {
             if (event.key !== 'ArrowDown') return;
-            event.preventDefault(); links.hidden = false;
-            toggle.setAttribute('aria-expanded', 'true'); links.querySelector('a').focus();
+            event.preventDefault(); open(); links.querySelector('a').focus();
         });
         group.addEventListener('focusout', event => {
             if (!group.contains(event.relatedTarget)) close(group);
@@ -345,7 +388,7 @@ function initPublicMoreNavigation() {
     });
     document.addEventListener('keydown', event => {
         if (event.key !== 'Escape') return;
-        const open = groups.find(group => !group.querySelector('.public-nav-more-links').hidden);
+        const open = groups.find(group => group.querySelector('button').getAttribute('aria-expanded') === 'true');
         if (open) { event.preventDefault(); event.stopImmediatePropagation(); close(open, true); }
     }, true);
     matchMedia('(min-width:768px)').addEventListener('change', () => groups.forEach(group => close(group)));

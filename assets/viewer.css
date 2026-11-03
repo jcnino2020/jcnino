@@ -331,3 +331,8 @@
  .enhanced-viewer #lightbox .viewer-actions>button,.enhanced-viewer #lightbox .viewer-tools-toggle{padding:9px 8px;font-size:11px;gap:5px}
  .enhanced-viewer #lightbox .viewer-actions>button svg{width:16px;height:16px}
 }
+
+.viewer-tools-menu .viewer-tools{transform-origin:top right}
+@media(min-width:768px) and (hover:hover) and (pointer:fine){
+ .viewer-tools-menu::after{content:"";position:absolute;top:100%;left:0;right:0;height:12px}
+}

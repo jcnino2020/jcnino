@@ -581,3 +581,8 @@ body .pb-\[13px\] {
  #mobile-menu .public-nav-more-links a{padding:12px 14px;font-size:17px;min-height:48px}
 }
 @media(prefers-reduced-motion:reduce){.public-nav-more-toggle svg{transition:none}}
+
+.public-nav-more-links{transform-origin:top right}
+@media(min-width:768px) and (hover:hover) and (pointer:fine){
+ .public-nav-more::after{content:"";position:absolute;top:100%;left:0;right:0;height:12px}
+}
