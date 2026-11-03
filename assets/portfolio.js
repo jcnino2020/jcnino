@@ -1766,15 +1766,20 @@ function applyGlobalSettings() {
 
     // 5. Dynamic Social Icons & Email Addresses
     if (settings.socials) {
-        const fbLink = document.querySelector('a[href*="facebook.com"]');
-        if (fbLink) fbLink.href = settings.socials.facebook;
+        document.querySelectorAll('a[href*="facebook.com"]').forEach(link => {
+            if (settings.socials.facebook) link.href = settings.socials.facebook;
+        });
 
-        const igLink = document.querySelector('a[href*="instagram.com"]');
-        if (igLink) igLink.href = settings.socials.instagram;
+        document.querySelectorAll('a[href*="instagram.com"]').forEach(link => {
+            if (settings.socials.instagram) link.href = settings.socials.instagram;
+        });
 
         const emailLinks = document.querySelectorAll('a[href^="mailto:"]');
         emailLinks.forEach(link => {
-            link.href = 'mailto:' + settings.socials.email;
+            if (settings.socials.email) {
+                link.href = 'mailto:' + settings.socials.email;
+                if (link.hasAttribute('data-footer-email')) link.textContent = settings.socials.email;
+            }
         });
     }
 }
