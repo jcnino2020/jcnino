@@ -308,3 +308,26 @@
 @media(min-width:768px){
  .enhanced-viewer #lightbox .viewer-stage,.enhanced-viewer #lightbox #lightbox-desc-tooltip{bottom:245px}
 }
+
+/* Secondary photo actions live beside the main controls, outside the filmstrip. */
+.viewer-tools-menu{position:relative;flex-shrink:0;z-index:8}
+.viewer-tools-menu .viewer-tools{position:absolute;top:calc(100% + 10px);right:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;width:min(300px,calc(100vw - 32px));max-width:none;padding:12px;box-sizing:border-box;border:1px solid #444;border-radius:8px;background:#161616}
+.viewer-tools-menu .viewer-tools[hidden]{display:none!important}
+.enhanced-viewer #lightbox .viewer-tools button,.viewer-tools-menu .viewer-tools select{width:100%;font-size:13px;min-height:44px;padding:10px}
+.viewer-tools-menu .viewer-tools .viewer-share-link{position:static;grid-column:1/-1;width:100%;min-width:0;box-sizing:border-box}
+.viewer-tools-menu .viewer-tools select:focus-visible{outline:2px solid #ddd;outline-offset:3px}
+@media(min-width:768px){.enhanced-viewer #lightbox .viewer-stage,.enhanced-viewer #lightbox #lightbox-desc-tooltip{bottom:195px}}
+@media(max-width:767px){
+ .enhanced-viewer #lightbox .viewer-actions{gap:6px}
+ .enhanced-viewer #lightbox .viewer-actions>button,.enhanced-viewer #lightbox .viewer-tools-toggle{padding:9px 10px}
+ .enhanced-viewer #lightbox #lightbox-desc-tooltip{bottom:185px;max-height:max(120px,calc(100dvh - 340px))}
+}
+@media(max-width:767px){
+ .viewer-tools-menu{position:static}
+ .viewer-tools-menu .viewer-tools{top:calc(100% + 8px);right:16px;z-index:8}
+}
+@media(max-width:380px){
+ .enhanced-viewer #lightbox .viewer-actions{gap:4px}
+ .enhanced-viewer #lightbox .viewer-actions>button,.enhanced-viewer #lightbox .viewer-tools-toggle{padding:9px 8px;font-size:11px;gap:5px}
+ .enhanced-viewer #lightbox .viewer-actions>button svg{width:16px;height:16px}
+}
