@@ -105,6 +105,7 @@ async function attemptLogin(onSuccess) {
 
     if (res.ok && data.success) {
       sessionStorage.setItem('pm_auth', data.token);
+      await hydratePrivateGallery();
       hideLoginOverlay();
       if (typeof onSuccess === 'function') onSuccess();
       showToast(data.auditRecorded === false ? "Signed in. Audit storage is unavailable; this attempt was not saved." : "Authenticated successfully. Welcome back, JC!", data.auditRecorded === false ? "error" : "success");
@@ -179,6 +180,15 @@ function lockSession() {
   showToast("Admin session locked.", "success");
 }
 
+async function hydratePrivateGallery() {
+  const response=await fetch('/api/gallery',{headers:{Authorization:'Bearer '+(sessionStorage.getItem('pm_auth')||'')}});
+  if(!response.ok)throw new Error('Could not load private gallery details.');
+  const saved=await response.json();if(!saved.data)return;
+  if(saved.revision!==galleryRevision){localStorage.setItem('pm_previous_gallery_draft',JSON.stringify(localData));localData=saved.data;galleryRevision=saved.revision;}
+  else for(const key of ['highlights','drone','framed','events'])for(const item of localData[key]||[]){const original=(saved.data[key]||[]).find(p=>p.file===item.file);if(original)for(const field of ['gps','location'])if(!Object.hasOwn(item,field)&&Object.hasOwn(original,field))item[field]=original[field];delete item.publicLocation;}
+  window.galleryRevision=galleryRevision;persistLocalState();
+}
+
 async function verifySessionOnLoad(onSuccess) {
   const token = sessionStorage.getItem('pm_auth');
   if (!token) return;
@@ -190,6 +200,7 @@ async function verifySessionOnLoad(onSuccess) {
     });
 
     if (res.ok) {
+      await hydratePrivateGallery();
       hideLoginOverlay();
       if (typeof onSuccess === 'function') onSuccess();
     } else {

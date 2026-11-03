@@ -1,3 +1,12 @@
+// Preserve ambiguous lens variants; standardize typography and confirmed full names.
+function normalizeLensName(value,camera='') {
+  const text=String(value||'').trim().replace(/\s+/g,' ');
+  if(!text)return '';
+  if(/^AF-S DX VR (?:Zoom-)?Nikkor 18[-–]55mm f\/3\.5[-–]5\.6G$/i.test(text))return 'AF-S DX VR Zoom-Nikkor 18–55mm f/3.5–5.6G';
+  if(/^AF-S DX VR Nikkor 55[-–]300mm (?:f\/)?4\.5[-–]5\.6G ED$/i.test(text))return 'AF-S DX VR Nikkor 55–300mm f/4.5–5.6G ED';
+  if(/nikon/i.test(camera)&&/^(?:Nikon )?18(?:\.0)?[-–]55(?:\.0)? ?mm f\/3\.5[-–]5\.6$/i.test(text))return 'Nikon 18–55mm f/3.5–5.6';
+  return text;
+}
 /* ExifReader 4.52.0 (vendored locally) reads files in the browser, before compression. */
 // Nikon type-3 MakerNote tag 0x0084 contains four unsigned rationals:
 // minimum/maximum lens focal length and maximum apertures (ExifTool Nikon Lens).
@@ -70,7 +79,7 @@ function captureFieldsFromTags(groups) {
   // https://www.dji.com/support/product/spark (25mm equivalent, f/2.6)
   const embeddedLens=text('LensModel') || nikonLensSpecification(exif);
   const sparkFixedLens=/^DJI$/i.test(make) && /^(?:DJI\s+)?FC1102$/i.test(model) ? 'DJI Spark fixed lens — 25mm equivalent f/2.6 (DJI specification)' : '';
-  const fields={camera,lens:embeddedLens || sparkFixedLens,aperture:aperture?`f/${round(aperture)}`:'',shutter:exposure?(exposure<1?`1/${Math.round(1/exposure)}s`:`${round(exposure)}s`):'',iso:iso?String(iso):'',focalLength:focal?`${round(focal)} mm`:'',dateTaken:fullDate};
+  const fields={camera,lens:normalizeLensName(embeddedLens || sparkFixedLens,camera),aperture:aperture?`f/${round(aperture)}`:'',shutter:exposure?(exposure<1?`1/${Math.round(1/exposure)}s`:`${round(exposure)}s`):'',iso:iso?String(iso):'',focalLength:focal?`${round(focal)} mm`:'',dateTaken:fullDate};
   return {fields,count:Object.values(fields).filter(Boolean).length,lensSource:embeddedLens?'embedded':sparkFixedLens?'manufacturer specification':''};
 }
 function captureGpsFromTags(groups) {

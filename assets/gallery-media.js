@@ -44,7 +44,7 @@ function cameraDisplayName(value) {
 // FC9589: https://www.helicomicro.com/2026/04/23/dji-lito-x1-test/
 
 // Named places in captions take precedence; camera GPS is a fallback.
-function photoLocation(photo) {
+function resolvePhotoLocation(photo) {
   const description=String(photo?.desc||'');
   const named=photoNamedPlaces.find(place=>new RegExp(place.pattern,'i').test(description));
   if(named)return named.location ? {...named.location,label:named.label,source:'place'} : {label:named.label,query:named.label,source:'unresolved'};
@@ -58,7 +58,19 @@ function photoLocation(photo) {
   const label=String(photo?.desc||'').split('•').slice(1).map(s=>s.trim()).join(', ');
   return photoDescriptionLocations[label] || (label.includes('Bacolod') ? photoDescriptionLocations['Bacolod City, Negros Occidental'] : null);
 }
+function photoLocation(photo) {
+  if(photo?.locationVisibility==='hidden')return null;
+  const manual=photo?.location;
+  const valid=manual&&Number.isFinite(manual.lat)&&Number.isFinite(manual.lon)&&Math.abs(manual.lat)<=90&&Math.abs(manual.lon)<=180;
+  if(photo?.locationVisibility==='approximate') {
+    const point=photo.publicLocation || (valid?manual:resolvePhotoLocation(photo));
+    return point&&Number.isFinite(point.lat)&&Number.isFinite(point.lon)?{lat:Number(point.lat.toFixed(2)),lon:Number(point.lon.toFixed(2)),label:'Approximate area',source:'approximate'}:null;
+  }
+  if(valid)return {...manual,label:manual.label||'Photo location',source:'place'};
+  return resolvePhotoLocation(photo);
+}
 function photoLocationDetails(photo) {
+  if(photo?.locationVisibility==='hidden')return '';
   const location=photoLocation(photo);
   const caption=String(photo?.desc||'').split('•').slice(1).map(s=>s.trim()).join(', ');
   if(!location || location.source==='unresolved') return (location?.query || caption) ? '<section class="photo-location"><h3>Location</h3><p>'+escapeGalleryText(location?.query || caption)+'</p><a href="https://www.google.com/maps/search/?api=1&amp;query='+encodeURIComponent(location?.query || caption)+'" target="_blank" rel="noopener noreferrer">Find on Google Maps ↗</a></section>' : '';
@@ -68,7 +80,7 @@ function photoLocationDetails(photo) {
   const bbox=[Math.max(-180,lon-delta),Math.max(-90,lat-delta),Math.min(180,lon+delta),Math.min(90,lat+delta)].join(',');
   const link='https://www.google.com/maps/search/?api=1&amp;query='+encodeURIComponent(lat+','+lon);
   const src='https://www.openstreetmap.org/export/embed.html?bbox='+encodeURIComponent(bbox)+'&layer=mapnik&marker='+encodeURIComponent(lat+','+lon);
-  return '<section class="photo-location" aria-label="Photo location"><h3>Location</h3><p>'+escapeGalleryText(label)+'</p><small>'+(source==='place'?'Named place · from description':source==='gps'?'From photo GPS':'Approximate area · from description')+'</small><iframe title="OpenStreetMap photo location" loading="lazy" referrerpolicy="no-referrer" src="'+src+'"></iframe><a href="'+link+'" target="_blank" rel="noopener noreferrer">Open in Google Maps ↗</a></section>';
+  return '<section class="photo-location" aria-label="Photo location"><h3>Location</h3><p>'+escapeGalleryText(label)+'</p><small>'+(source==='place'?'Named place · from description':source==='gps'?'From photo GPS':source==='approximate'?'Approximate area · precise coordinates hidden':'Approximate area · from description')+'</small><iframe title="OpenStreetMap photo location" loading="lazy" referrerpolicy="no-referrer" src="'+src+'"></iframe><a href="'+link+'" target="_blank" rel="noopener noreferrer">Open in Google Maps ↗</a></section>';
 }
 
 // One-time cached OSM Nominatim lookup; no visitor geocoding requests.

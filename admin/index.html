@@ -23,7 +23,7 @@
   <!-- Load Database File -->
   <script src="/assets/gallery-data.js"></script>
   <script src="/api/gallery?format=js"></script>
-  <script src="/assets/gallery-media.js?v=google-map-link-1"></script>
+  <script src="/assets/gallery-media.js?v=location-privacy-1"></script>
   <script>
     // Clean up any stale service workers
     if ('serviceWorker' in navigator) {
@@ -38,6 +38,8 @@
       document.write('<style id="early-auth-style">#login-overlay { display: none !important; }</style>');
     }
   </script>
+  <link rel="stylesheet" href="/admin/library-tools.css?v=1">
+  <link rel="stylesheet" href="/assets/vendor/leaflet/leaflet.css?v=1">
 </head>
 <body class="studio-admin">
 
@@ -1001,8 +1003,8 @@
 
   <!-- Admin Core & Page Logic -->
   <script src="/admin/vendor/exif-reader.js"></script>
-  <script src="/admin/capture-metadata.js?v=gps-1"></script>
-  <script src="admin-core.js?v=gps-1"></script>
+  <script src="/admin/capture-metadata.js?v=library-tools-1"></script>
+  <script src="admin-core.js?v=library-tools-1"></script>
   <script>
     let currentCategory = 'overview';
     let activeEditIndex = null;
@@ -1410,6 +1412,7 @@
         });
       }
       
+      if(window.libraryMissingOnly && !currentCategory.startsWith('videos'))list=list.filter(item=>LibraryToolsCore.missing(item).length);
       if (!list || list.length === 0) {
         emptyState.classList.remove('hidden');
         closeEditDrawer();
@@ -1576,6 +1579,7 @@
         initialCat = 'highlights';
       }
 
+      if(window.AdminLibraryTools){files=await AdminLibraryTools.duplicatesBeforeUpload(files);if(!files.length)return;}
       const readVersion = ++photoReadVersion;
       uploadQueue = [];
       uploadQueueIndex = 0;
@@ -2221,6 +2225,7 @@
       const replacementIndex = activeEditIndex;
       const replacementCategory = currentCategory;
       const metadata = extractExifMetadata(await file.arrayBuffer()) || {};
+      document.getElementById('edit-datetaken').dataset.gps=JSON.stringify(metadata.gps || null);
       if (pendingReplaceBlob !== file || activeEditIndex !== replacementIndex || currentCategory !== replacementCategory) return;
       for (const [field, key] of Object.entries({camera:'camera', lens:'lens', aperture:'aperture', iso:'iso', shutter:'shutter', focal:'focalLength', datetaken:'dateTaken'})) {
         document.getElementById(`edit-${field}`).value = metadata[key] || '';
@@ -2389,6 +2394,7 @@
       const index = pendingDeleteIndex;
       const item = localData[currentCategory][index];
       const label = item ? (item.file || item.title || `item #${index + 1}`) : `item #${index + 1}`;
+      if(window.AdminLibraryTools && !AdminLibraryTools.rememberDelete(currentCategory,item,index))return;
       localData[currentCategory].splice(index, 1);
       closeDeleteConfirmModal();
       renderGrid();
@@ -2540,5 +2546,8 @@
 
   <script type="module" src="/admin/dashboard-traffic.js?v=journeys-1"></script>
   <script src="/admin/mobile-nav.js?v=desktop-navigation-1" defer></script>
+<script src="/assets/vendor/leaflet/leaflet.js?v=1"></script>
+<script src="/admin/library-tools-core.js?v=1"></script>
+<script src="/admin/library-tools.js?v=1" defer></script>
 </body>
 </html>

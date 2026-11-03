@@ -1,3 +1,4 @@
+import { publicGallery } from '../lib/public-gallery.js';
 import { randomUUID } from 'node:crypto';
 import { authenticated, prepareResponse } from '../lib/admin-session.js';
 import { galleryCollection, validateGallery } from '../lib/gallery-store.js';
@@ -14,10 +15,10 @@ export function createGalleryHandler(getCollection = galleryCollection) {
       if (req.method === 'GET') {
         const saved = await collection.findOne({ _id: 'live' });
         if (script) {
-          const data = JSON.stringify(saved?.data || null).replaceAll('<', '\\u003c');
+          const data = JSON.stringify(authenticated(req) ? saved?.data || null : publicGallery(saved?.data || null)).replaceAll('<', '\\u003c');
           return res.status(200).send(`${saved ? `window.galleryData = ${data};` : ''}\nwindow.galleryRevision = ${JSON.stringify(saved?.revision || null)};\nwindow.galleryLiveAvailable = true;`);
         }
-        return res.status(200).json({ data: saved?.data || null, revision: saved?.revision || null });
+        return res.status(200).json({ data: authenticated(req) ? saved?.data || null : publicGallery(saved?.data || null), revision: saved?.revision || null });
       }
       const { data, revision } = req.body || {};
       if (!validateGallery(data) || JSON.stringify(data).length > 3000000 || !(revision === null || typeof revision === 'string')) {
