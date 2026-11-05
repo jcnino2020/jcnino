@@ -347,3 +347,11 @@
 .location-loading{width:220px;max-width:70%;border-radius:4px;background:linear-gradient(90deg,#242424 25%,#383838 50%,#242424 75%);background-size:200% 100%;animation:location-shimmer 1.4s ease-in-out infinite;color:transparent!important}
 @keyframes location-shimmer{to{background-position:-200% 0}}
 @media(prefers-reduced-motion:reduce){.location-loading{animation:none}}
+/* Local balanced viewer refinement: shared outer edges, tight photo/detail gap. */
+@media(min-width:1024px){
+ .enhanced-viewer #lightbox.viewer-details-open{--viewer-edge:max(24px,calc((100vw - 1600px)/2));--viewer-panel:clamp(300px,25vw,380px)}
+ .enhanced-viewer #lightbox.viewer-details-open .viewer-stage{left:var(--viewer-edge);right:calc(var(--viewer-edge) + var(--viewer-panel) + 28px);justify-content:flex-end}
+ .enhanced-viewer #lightbox.viewer-details-open #lightbox-desc-tooltip{right:var(--viewer-edge);width:var(--viewer-panel);padding:24px}
+}
+.photo-coordinate-disclosure{margin:8px 0 16px;color:#aaa;font-size:12px}
+.photo-coordinate-disclosure summary{cursor:pointer;min-height:28px;display:list-item;text-decoration:underline;text-underline-offset:4px}

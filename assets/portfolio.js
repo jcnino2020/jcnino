@@ -659,7 +659,7 @@ function syncLightbox(direction = null) {
                         fetch('https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=' + lat + '&longitude=' + lon + '&localityLanguage=en', { signal: AbortSignal.timeout(10000) })
                         .then(response => { if (!response.ok) throw Error('Location unavailable'); return response.json(); })
                         .then(result => {
-                            const label = [...new Set([result.locality || result.city, result.principalSubdivision, result.countryName].filter(Boolean))].join(', ');
+                            const label = compactPhotoPlace(result);
                             if (!label) { apply(fallback); return; }
                             try { sessionStorage.setItem(key, label); } catch {}
                             apply(label);
@@ -689,7 +689,15 @@ function syncLightbox(direction = null) {
                             if (!Number.isFinite(lat) || !Number.isFinite(lon)) return;
                             const locationName = el.closest('.photo-location')?.querySelector('p');
                             const locationNote = el.closest('.photo-location')?.querySelector('small');
-                            if (locationNote) locationNote.textContent = lat.toFixed(6) + ', ' + lon.toFixed(6) + ' · From photo GPS';
+                            if (locationNote) {
+                                locationNote.textContent = 'From photo GPS';
+                                const disclosure = document.createElement('details');
+                                disclosure.className = 'photo-coordinate-disclosure';
+                                const summary = document.createElement('summary');
+                                summary.textContent = 'Show coordinates';
+                                disclosure.append(summary, document.createTextNode(lat.toFixed(6) + ', ' + lon.toFixed(6)));
+                                locationNote.after(disclosure);
+                            }
                             if (locationName) {
                                 const key = 'photo-place:' + lat.toFixed(5) + ',' + lon.toFixed(5);
                                 let cached;
@@ -701,7 +709,7 @@ function syncLightbox(direction = null) {
                                     fetch('https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=' + lat + '&longitude=' + lon + '&localityLanguage=en', { signal: AbortSignal.timeout(10000) })
                                         .then(r => { if (!r.ok) throw Error('Location unavailable'); return r.json(); })
                                         .then(result => {
-                                            const label = [...new Set([result.locality || result.city, result.principalSubdivision, result.countryName].filter(Boolean))].join(', ');
+                                            const label = compactPhotoPlace(result);
                                             locationName.textContent = label || 'Photo location';
                                             if (label) { try { sessionStorage.setItem(key, label); } catch {} }
                                         }).catch(() => { locationName.textContent = 'Photo location'; })
@@ -850,7 +858,19 @@ function syncLightbox(direction = null) {
     }
 }
 
+function compactPhotoPlace(result) {
+    const city = result.city || result.locality;
+    let province = result.principalSubdivision;
+    if (/Cebu|Lapu.Lapu|Mandaue|Cordova|Compostela|Sibonga/i.test(city || '')) province = 'Cebu';
+    if (/Bacolod|Silay|Cadiz|Victorias|Murcia|Salvador Benedicto/i.test(city || '')) province = 'Negros Occidental';
+    return [...new Set([city, province].filter(Boolean))].join(', ') || result.countryName || '';
+}
 function photoCameraDetails(photo) {
+    photo = { ...photo };
+    if (photo.dateTaken) {
+        const date = new Date(photo.dateTaken.replace(/^(\d{4}):(\d{2}):(\d{2})/, '$1-$2-$3').replace(' ', 'T'));
+        if (!Number.isNaN(date.getTime())) photo.dateTaken = date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) + ' · ' + date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    }
     const labels = [['camera','Camera'],['lens','Lens'],['focalLength','Focal length'],['aperture','Aperture'],['shutter','Shutter speed'],['iso','ISO'],['dateTaken','Date taken']];
     const rows = labels.filter(([key]) => typeof photo?.[key] === 'string' && photo[key].trim());
     if (!rows.length) return '';
