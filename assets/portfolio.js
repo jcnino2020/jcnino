@@ -634,6 +634,31 @@ function syncLightbox(direction = null) {
             document.getElementById('lightbox-info-btn')?.setAttribute('aria-expanded', String(detailsOpen));
             document.getElementById('viewer-photo-title').textContent = (p.desc || p.title || p.alt || 'Photograph').split('•')[0].trim();
             document.getElementById('viewer-photo-location').textContent = (p.desc || '').split('•').slice(1).map(part=>part.trim()).join(' · ');
+            {
+                const photo = p.media || p;
+                const point = photo.location || photo.gps || photo.exif?.gps;
+                const lat = Number(point?.lat ?? point?.latitude);
+                const lon = Number(point?.lon ?? point?.longitude);
+                const subtitle = document.getElementById('viewer-photo-location');
+                const token = String(Date.now()) + Math.random();
+                subtitle.dataset.locationRequest = token;
+                if (photo.locationVisibility === 'hidden') subtitle.textContent = '';
+                else if (Number.isFinite(lat) && Number.isFinite(lon)) {
+                    const key = 'photo-place:' + lat.toFixed(5) + ',' + lon.toFixed(5);
+                    const apply = label => { if (subtitle.dataset.locationRequest === token) subtitle.textContent = label; };
+                    let cached;
+                    try { cached = sessionStorage.getItem(key); } catch {}
+                    if (cached) apply(cached);
+                    else fetch('https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=' + lat + '&longitude=' + lon + '&localityLanguage=en')
+                        .then(response => { if (!response.ok) throw Error('Location unavailable'); return response.json(); })
+                        .then(result => {
+                            const label = [...new Set([result.locality || result.city, result.principalSubdivision, result.countryName].filter(Boolean))].join(', ');
+                            if (!label) return;
+                            try { sessionStorage.setItem(key, label); } catch {}
+                            apply(label);
+                        }).catch(() => {});
+                }
+            }
 
             if (descTooltip) { descTooltip.classList.remove('active-mobile-desc'); descTooltip.hidden = !detailsOpen; }
 
