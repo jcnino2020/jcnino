@@ -307,3 +307,24 @@ body.editor-modal-open{overflow:hidden}
  .desktop-workspace-nav,.desktop-section-panel{display:contents}
  .desktop-workspace-nav>.desktop-overview-link,.desktop-workspace-nav>.desktop-analytics-link,.desktop-section-toggle{display:none!important}
 }
+
+/* Keep navigation content inside the rail at short heights and browser zoom. */
+.admin-sidebar > .sidebar-header,
+.admin-sidebar > .desktop-workspace-nav,
+.admin-sidebar > .sidebar-footer,
+.admin-sidebar > .mobile-sheet-actions {
+ flex-shrink:0;
+ min-width:0;
+}
+.admin-sidebar .sidebar-profile { min-width:0; gap:12px; }
+.admin-sidebar .sidebar-profile > div { min-width:0; }
+.admin-sidebar .profile-meta { min-width:0; overflow-wrap:anywhere; }
+.admin-sidebar .mobile-sheet-actions .btn { min-width:0; white-space:normal; text-align:left; }
+@media(min-width:769px){
+ .admin-sidebar { height:calc(100dvh - var(--header-height)); min-height:0; overflow-y:auto; overscroll-behavior:contain; padding-bottom:20px; }
+}
+@media(max-width:768px){
+ .admin-sidebar.mobile-open > .desktop-workspace-nav,
+ .admin-sidebar.mobile-open .desktop-section-panel { flex-shrink:0; }
+ .admin-sidebar.mobile-open > .mobile-sheet-actions { padding-bottom:4px; }
+}
