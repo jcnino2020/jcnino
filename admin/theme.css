@@ -65,3 +65,24 @@
   .admin-header { flex-wrap: wrap; height: auto; min-height: var(--header-height); padding-block: 8px; }
   .header-actions { flex-wrap: wrap; }
 }
+/* Photo actions need their own paired foreground/background in dark mode. */
+:root[data-theme="dark"] .media-hover-overlay .btn-primary {
+  background:var(--bg-surface);
+  border-color:var(--border-default);
+  color:var(--text-primary)!important;
+}
+:root[data-theme="dark"] .media-hover-overlay .btn-primary:hover {
+  background:var(--bg-hover);
+  border-color:var(--accent);
+  color:var(--text-primary)!important;
+}
+:root[data-theme="dark"] .media-hover-overlay .btn-danger {
+  background:var(--danger-bg);
+  border-color:var(--danger-border);
+  color:var(--danger);
+}
+:root[data-theme="dark"] .media-hover-overlay .btn-danger:hover {
+  background:var(--danger-bg);
+  border-color:var(--danger);
+  color:var(--danger);
+}
