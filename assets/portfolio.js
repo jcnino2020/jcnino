@@ -788,6 +788,7 @@ function syncLightbox(direction = null) {
         // Trigger smooth entry once loaded
         img.onload = function () {
             if (currentGallery[currentIndex] !== p) return;
+            if (img.naturalWidth && img.naturalHeight) document.getElementById('lightbox').style.setProperty('--viewer-photo-ratio', img.naturalWidth / img.naturalHeight);
             globalThis.PhotoViewerFeatures?.onLoaded();
             img.classList.remove('lb-loading');
             const loader = document.getElementById('lightbox-loader');
