@@ -319,7 +319,12 @@
 .enhanced-viewer #lightbox .viewer-tools button,.viewer-tools-menu .viewer-tools select{width:100%;font-size:13px;min-height:44px;padding:10px}
 .viewer-tools-menu .viewer-tools .viewer-share-link{position:static;grid-column:1/-1;width:100%;min-width:0;box-sizing:border-box}
 .viewer-tools-menu .viewer-tools select:focus-visible{outline:2px solid #ddd;outline-offset:3px}
-@media(min-width:768px){.enhanced-viewer #lightbox .viewer-stage,.enhanced-viewer #lightbox #lightbox-desc-tooltip{bottom:195px}}
+/* Reclaim the former filmstrip space while keeping the navigation clear. */
+@media(min-width:768px){
+ .enhanced-viewer #lightbox .viewer-stage,.enhanced-viewer #lightbox #lightbox-desc-tooltip{bottom:100px}
+ .enhanced-viewer #lightbox:has(.viewer-status:not(:empty)) .viewer-stage,
+ .enhanced-viewer #lightbox:has(.viewer-status:not(:empty)) #lightbox-desc-tooltip{bottom:128px}
+}
 @media(max-width:767px){
  .enhanced-viewer #lightbox .viewer-actions{gap:6px}
  .enhanced-viewer #lightbox .viewer-actions>button,.enhanced-viewer #lightbox .viewer-tools-toggle{padding:9px 10px}
