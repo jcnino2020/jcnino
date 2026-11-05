@@ -650,7 +650,7 @@ function syncLightbox(direction = null) {
                     }
                     if (captureHtml) {
                         descText.insertAdjacentHTML('beforeend', captureHtml);
-                        descText.querySelectorAll('.photo-location-map:not([data-ready])').forEach((el) => {
+                        const initializeLocationMaps = () => descText.querySelectorAll('.photo-location-map:not([data-ready])').forEach((el) => {
                             if (!window.L) return;
                             const lat = Number(el.dataset.lat), lon = Number(el.dataset.lon);
                             if (!Number.isFinite(lat) || !Number.isFinite(lon)) return;
@@ -660,6 +660,20 @@ function syncLightbox(direction = null) {
                             el.dataset.ready = 'true';
                             [0, 250, 750, 1500].forEach((delay) => setTimeout(() => map.invalidateSize({ pan: false }), delay));
                         });
+                        if (window.L) initializeLocationMaps();
+                        else {
+                            if (!document.querySelector('link[data-viewer-leaflet]')) {
+                                const css = document.createElement('link');
+                                css.rel = 'stylesheet'; css.href = '/assets/vendor/leaflet/leaflet.css'; css.dataset.viewerLeaflet = 'true';
+                                document.head.appendChild(css);
+                            }
+                            let script = document.querySelector('script[data-viewer-leaflet]');
+                            if (!script) {
+                                script = document.createElement('script'); script.src = '/assets/vendor/leaflet/leaflet.js'; script.dataset.viewerLeaflet = 'true';
+                                document.head.appendChild(script);
+                            }
+                            script.addEventListener('load', initializeLocationMaps, { once: true });
+                        }
                     }
                     descWrapper.classList.remove('hidden');
                     if (descDivider) descDivider.classList.remove('hidden');
