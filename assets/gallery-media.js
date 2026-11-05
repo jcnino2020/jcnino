@@ -45,6 +45,11 @@ function cameraDisplayName(value) {
 
 // Named places in captions take precedence; camera GPS is a fallback.
 function resolvePhotoLocation(photo) {
+  const coordinates = photo?.gps || photo?.exif?.gps;
+  if (coordinates && Number.isFinite(Number(coordinates.latitude)) && Number.isFinite(Number(coordinates.longitude))) {
+    const lat = Number(coordinates.latitude), lon = Number(coordinates.longitude);
+    return { lat, lon, label: lat.toFixed(6) + ', ' + lon.toFixed(6), source: 'gps' };
+  }
   const description=String(photo?.desc||'');
   const named=photoNamedPlaces.find(place=>new RegExp(place.pattern,'i').test(description));
   if(named)return named.location ? {...named.location,label:named.label,source:'place'} : {label:named.label,query:named.label,source:'unresolved'};
@@ -66,7 +71,7 @@ function photoLocation(photo) {
     const point=photo.publicLocation || (valid?manual:resolvePhotoLocation(photo));
     return point&&Number.isFinite(point.lat)&&Number.isFinite(point.lon)?{lat:Number(point.lat.toFixed(2)),lon:Number(point.lon.toFixed(2)),label:'Approximate area',source:'approximate'}:null;
   }
-  if(valid)return {...manual,label:manual.label||'Photo location',source:'place'};
+  if(valid)return {...manual,label:manual.lat.toFixed(6)+', '+manual.lon.toFixed(6),source:'gps'};
   return resolvePhotoLocation(photo);
 }
 function photoLocationDetails(photo) {
