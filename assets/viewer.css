@@ -344,3 +344,6 @@
 @media(min-width:768px) and (hover:hover) and (pointer:fine){
  .viewer-tools-menu::after{content:"";position:absolute;top:100%;left:0;right:0;height:12px}
 }
+.location-loading{width:220px;max-width:70%;border-radius:4px;background:linear-gradient(90deg,#242424 25%,#383838 50%,#242424 75%);background-size:200% 100%;animation:location-shimmer 1.4s ease-in-out infinite;color:transparent!important}
+@keyframes location-shimmer{to{background-position:-200% 0}}
+@media(prefers-reduced-motion:reduce){.location-loading{animation:none}}

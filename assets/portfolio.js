@@ -642,21 +642,29 @@ function syncLightbox(direction = null) {
                 const subtitle = document.getElementById('viewer-photo-location');
                 const token = String(Date.now()) + Math.random();
                 subtitle.dataset.locationRequest = token;
+                subtitle.classList.remove('location-loading');
+                subtitle.removeAttribute('aria-busy');
+                const fallback = subtitle.textContent;
                 if (photo.locationVisibility === 'hidden') subtitle.textContent = '';
                 else if (Number.isFinite(lat) && Number.isFinite(lon)) {
                     const key = 'photo-place:' + lat.toFixed(5) + ',' + lon.toFixed(5);
-                    const apply = label => { if (subtitle.dataset.locationRequest === token) subtitle.textContent = label; };
+                    const apply = label => { if (subtitle.dataset.locationRequest === token) { subtitle.textContent = label; subtitle.classList.remove('location-loading'); subtitle.removeAttribute('aria-busy'); } };
                     let cached;
                     try { cached = sessionStorage.getItem(key); } catch {}
                     if (cached) apply(cached);
-                    else fetch('https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=' + lat + '&longitude=' + lon + '&localityLanguage=en')
+                    else {
+                        subtitle.textContent = '\u00a0';
+                        subtitle.classList.add('location-loading');
+                        subtitle.setAttribute('aria-busy', 'true');
+                        fetch('https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=' + lat + '&longitude=' + lon + '&localityLanguage=en', { signal: AbortSignal.timeout(10000) })
                         .then(response => { if (!response.ok) throw Error('Location unavailable'); return response.json(); })
                         .then(result => {
                             const label = [...new Set([result.locality || result.city, result.principalSubdivision, result.countryName].filter(Boolean))].join(', ');
-                            if (!label) return;
+                            if (!label) { apply(fallback); return; }
                             try { sessionStorage.setItem(key, label); } catch {}
                             apply(label);
-                        }).catch(() => {});
+                        }).catch(() => apply(fallback));
+                    }
                 }
             }
 
