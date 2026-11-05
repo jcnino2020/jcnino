@@ -72,9 +72,6 @@ function photoLocation(photo) {
 function photoLocationDetails(photo) {
   if(photo?.locationVisibility==='hidden')return '';
   const location=photoLocation(photo);
-  // Do not expose precise coordinates sourced from image EXIF/GPS.
-  // Manually entered and descriptive locations remain available.
-  if(location?.source==='gps')return '';
   const caption=String(photo?.desc||'').split('•').slice(1).map(s=>s.trim()).join(', ');
   if(!location || location.source==='unresolved') return (location?.query || caption) ? '<section class="photo-location"><h3>Location</h3><p>'+escapeGalleryText(location?.query || caption)+'</p><a href="https://www.google.com/maps/search/?api=1&amp;query='+encodeURIComponent(location?.query || caption)+'" target="_blank" rel="noopener noreferrer">Find on Google Maps ↗</a></section>' : '';
   const {lat,lon,label,source}=location;
