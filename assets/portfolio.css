@@ -607,3 +607,5 @@ body .pb-\[13px\] {
  .portfolio-footer-copyright{grid-column:2;grid-row:2;font-size:11px}
 }
 @media(max-width:359px){.portfolio-footer-base{grid-template-columns:1fr;gap:6px}.portfolio-footer-copyright{grid-column:1;grid-row:3}}
+.explore-heading h1.text-4xl,.contact-main h1.text-4xl{font-size:2.25rem;line-height:2.5rem;font-weight:700;color:#fff}
+@media(min-width:640px){.explore-heading h1.text-4xl,.contact-main h1.text-4xl{font-size:3rem;line-height:1}}
