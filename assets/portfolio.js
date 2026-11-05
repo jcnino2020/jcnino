@@ -658,7 +658,7 @@ function syncLightbox(direction = null) {
                             window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a>' }).addTo(map);
                             window.L.marker([lat, lon]).addTo(map);
                             el.dataset.ready = 'true';
-                            setTimeout(() => map.invalidateSize(), 0);
+                            [0, 250, 750, 1500].forEach((delay) => setTimeout(() => map.invalidateSize({ pan: false }), delay));
                         });
                     }
                     descWrapper.classList.remove('hidden');
