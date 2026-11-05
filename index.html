@@ -646,6 +646,7 @@
 
   <script>
     function initAnimations() {
+      return;
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
       const animate = (element, delay = 0, move = true) => {
         if (!element.animate) return;

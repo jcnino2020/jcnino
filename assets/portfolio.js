@@ -1309,6 +1309,7 @@ function initLightboxListeners() {
  * Shared GSAP Animation Helpers
  */
 function revealOnScroll(elements, options = {}) {
+    return;
     if (!window.ScrollTrigger) return;
 
     gsap.utils.toArray(elements).forEach(el => {

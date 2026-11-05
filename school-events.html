@@ -73,12 +73,12 @@
     <div class="max-w-7xl mx-auto px-6 sm:px-10">
       <div class="flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
         <div>
-          <p id="header-eyebrow" class="gsap-header-item text-text-muted text-xs font-bold uppercase mb-4">Category 03</p>
-          <h1 id="header-title" class="gsap-header-item text-4xl sm:text-5xl text-white font-bold">School Events</h1>
-          <p id="header-desc" class="gsap-header-item text-text-muted text-lg max-w-lg mt-4">Publication-grade coverage of school activities, ceremonies, and campus life.</p>
+          <p id="header-eyebrow" class=" text-text-muted text-xs font-bold uppercase mb-4">Category 03</p>
+          <h1 id="header-title" class=" text-4xl sm:text-5xl text-white font-bold">School Events</h1>
+          <p id="header-desc" class=" text-text-muted text-lg max-w-lg mt-4">Publication-grade coverage of school activities, ceremonies, and campus life.</p>
         </div>
         <div class="flex justify-end">
-          <p id="photo-count" class="gsap-header-item text-text-muted text-xs font-bold"></p>
+          <p id="photo-count" class=" text-text-muted text-xs font-bold"></p>
         </div>
       </div>
     </div>
@@ -196,6 +196,7 @@
 
     // GSAP: ScrollTrigger.batch — animates cards as they scroll into view
     requestAnimationFrame(() => {
+      return;
       ScrollTrigger.batch('#main-grid .gallery-item', {
         onEnter: batch => gsap.fromTo(batch,
           { y: 50, opacity: 0 },
@@ -242,9 +243,10 @@
 
 <script>
   function initSchoolAnimations() {
+    return;
     const cleanHeader = () => {
-      document.querySelectorAll('.gsap-header-item').forEach(el => {
-        el.classList.remove('gsap-header-item');
+      document.querySelectorAll('.').forEach(el => {
+        el.classList.remove('');
         el.style.willChange = 'auto';
         el.style.opacity = '1';
       });
