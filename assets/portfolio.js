@@ -687,6 +687,27 @@ function syncLightbox(direction = null) {
                             if (!window.L) return;
                             const lat = Number(el.dataset.lat), lon = Number(el.dataset.lon);
                             if (!Number.isFinite(lat) || !Number.isFinite(lon)) return;
+                            const locationName = el.closest('.photo-location')?.querySelector('p');
+                            const locationNote = el.closest('.photo-location')?.querySelector('small');
+                            if (locationNote) locationNote.textContent = lat.toFixed(6) + ', ' + lon.toFixed(6) + ' · From photo GPS';
+                            if (locationName) {
+                                const key = 'photo-place:' + lat.toFixed(5) + ',' + lon.toFixed(5);
+                                let cached;
+                                try { cached = sessionStorage.getItem(key); } catch {}
+                                if (cached) locationName.textContent = cached;
+                                else {
+                                    locationName.textContent = '\u00a0';
+                                    locationName.classList.add('location-loading');
+                                    fetch('https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=' + lat + '&longitude=' + lon + '&localityLanguage=en', { signal: AbortSignal.timeout(10000) })
+                                        .then(r => { if (!r.ok) throw Error('Location unavailable'); return r.json(); })
+                                        .then(result => {
+                                            const label = [...new Set([result.locality || result.city, result.principalSubdivision, result.countryName].filter(Boolean))].join(', ');
+                                            locationName.textContent = label || 'Photo location';
+                                            if (label) { try { sessionStorage.setItem(key, label); } catch {} }
+                                        }).catch(() => { locationName.textContent = 'Photo location'; })
+                                        .finally(() => locationName.classList.remove('location-loading'));
+                                }
+                            }
                             const map = window.L.map(el, { zoomControl: true, attributionControl: true, scrollWheelZoom: false }).setView([lat, lon], 15);
                             window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a>' }).addTo(map);
                             window.L.circleMarker([lat, lon], { radius: 9, color: '#fff', weight: 3, fillColor: '#228b45', fillOpacity: 1 }).addTo(map);
