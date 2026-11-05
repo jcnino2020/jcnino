@@ -656,7 +656,8 @@ function syncLightbox(direction = null) {
                             if (!Number.isFinite(lat) || !Number.isFinite(lon)) return;
                             const map = window.L.map(el, { zoomControl: true, attributionControl: true, scrollWheelZoom: false }).setView([lat, lon], 13);
                             window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a>' }).addTo(map);
-                            window.L.marker([lat, lon]).addTo(map);
+                            window.L.circleMarker([lat, lon], { radius: 9, color: '#fff', weight: 3, fillColor: '#228b45', fillOpacity: 1 }).addTo(map);
+                            map.attributionControl.setPrefix(false);
                             el.dataset.ready = 'true';
                             [0, 250, 750, 1500].forEach((delay) => setTimeout(() => map.invalidateSize({ pan: false }), delay));
                         });
