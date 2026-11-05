@@ -29,7 +29,6 @@ const moreNavigationLinks = [
     ['Gallery', 'gallery.html'],
     ['Services', 'services.html'],
     ['Project stories', 'stories.html'],
-    ['Albums', 'gallery.html?view=albums'],
     ['Map', 'map.html'],
     ['Favourites', 'gallery.html?view=favourites'],
     ['About', 'index.html#about'],
