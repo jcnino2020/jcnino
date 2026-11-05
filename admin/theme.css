@@ -1,0 +1,65 @@
+/* Studio appearance: preserve the workspace layout and photographic colors. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg-primary: #151a18;
+  --bg-canvas: #151a18;
+  --bg-secondary: #1b211e;
+  --bg-surface: #222a26;
+  --bg-elevated: #29332d;
+  --bg-overlay: rgba(0, 0, 0, .65);
+  --bg-hover: #303c34;
+  --bg-active: #324d3e;
+  --text-primary: #edf2ef;
+  --text-secondary: #c2cfc7;
+  --text-muted: #a6b7ac;
+  --text-dim: #a6b7ac;
+  --text-inverse: #151a18;
+  --border-subtle: #3b4940;
+  --border-default: #526359;
+  --border-focus: #92ceac;
+  --border-accent: #92ceac;
+  --accent: #92ceac;
+  --accent-rgb: 146, 206, 172;
+  --success: #92ceac;
+  --success-bg: #293f32;
+  --success-border: #4e715b;
+  --danger: #ffaaa1;
+  --danger-bg: #4b2d2c;
+  --danger-border: #80504a;
+  --warning: #e5c17b;
+  --warning-bg: #403722;
+  --warning-border: #75613d;
+  --info: #a2cde1;
+  --info-bg: #263c46;
+  --info-border: #4d7181;
+  --purple: #c5bce2;
+  --purple-bg: #373145;
+  --purple-border: #655b7d;
+}
+.admin-theme-toggle { flex-shrink: 0; min-width: 44px; min-height: 44px; }
+.admin-theme-toggle[aria-pressed="true"] { background: var(--bg-active); color: var(--accent); }
+:root[data-theme="dark"] :is(.btn-primary, .login-submit-btn) { background: #356e50; border-color: #6aa580; }
+:root[data-theme="dark"] :is(.btn-primary, .login-submit-btn):hover { background: #407f5d; }
+:root[data-theme="dark"] .avatar-circle { background: var(--bg-active); color: var(--accent); }
+:root[data-theme="dark"] :is(.input-text, .input-textarea, .login-input)::placeholder { color: var(--text-muted); }
+:root[data-theme="dark"] .media-thumb-wrap { background: var(--bg-secondary); }
+:root[data-theme="dark"] .drop-zone-box { border-color: var(--border-default); }
+:root[data-theme="dark"] .empty-state-icon { color: var(--text-muted); }
+:root[data-theme="dark"] ::selection { background: #42654f; color: #f0f6f2; }
+:root[data-theme="dark"] ::-webkit-scrollbar-thumb { background: #64796b; }
+/* Supporting tools use the same surfaces and readable text. */
+:root[data-theme="dark"] :is(.library-tools, .inbox-item) { background: var(--bg-surface); color: var(--text-primary); border-color: var(--border-default); }
+:root[data-theme="dark"] :is(.library-tools-nav, .library-reference img, .library-quality figure) { background: var(--bg-secondary); }
+:root[data-theme="dark"] .library-tools-status { background: var(--success-bg); color: var(--success); }
+:root[data-theme="dark"] :is(.library-tools .btn, .library-field input, .library-field select, .library-reference select, #library-missing-filter, .inbox-toolbar select, .inbox-form input, .inbox-form textarea) { background: var(--bg-surface); color: var(--text-primary); border-color: var(--border-default); }
+:root[data-theme="dark"] .library-tools .btn:hover { background: var(--bg-hover); }
+:root[data-theme="dark"] :is(.library-field, .library-row small, .inbox-main > p, .inbox-item-heading span) { color: var(--text-secondary); }
+:root[data-theme="dark"] :is(.library-drop, .inbox-item a, .inbox-main [role="status"]) { color: var(--accent); }
+:root[data-theme="dark"] :is(.library-tools-header, .library-row, .library-reference, .library-drop, .inbox-testimonials) { border-color: var(--border-default); }
+:root[data-theme="dark"] .library-drop.over { background: var(--bg-active); }
+:root[data-theme="dark"] :is(.library-tools, .inbox-main) :focus-visible { outline-color: var(--accent); }
+.admin-header .header-actions > .admin-theme-toggle { display: inline-flex; }
+@media (max-width: 400px) {
+  .admin-header { flex-wrap: wrap; height: auto; min-height: var(--header-height); padding-block: 8px; }
+  .header-actions { flex-wrap: wrap; }
+}

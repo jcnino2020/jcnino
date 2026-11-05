@@ -65,3 +65,7 @@ Photo editing uses a centered two-column modal: contained preview on the left, s
 Mobile admin navigation uses a fixed four-destination bottom bar (Overview, Library, Analytics, More) below 769px. Library opens a gallery sheet with live counts; More opens a separate tools sheet. Sheets preserve existing destinations, trap keyboard focus, dismiss with Escape/backdrop/close, block background interaction, and restore desktop sidebar placement on resize. Publishing stays in the top bar.
 
 Desktop uses the same four navigation destinations in its persistent rail: Overview and Analytics are direct links, Library and More disclose nested real links. The active section expands automatically on route changes. Counts stay attached to the original gallery links; desktop and mobile share one set of destinations.
+
+## Optional dark appearance
+
+Every admin header includes a Dark mode toggle. Light remains the default; the browser saves the choice in `pm_admin_theme` and applies it before paint on every admin route. The dark variant uses forest charcoal canvas (#151a18), raised green charcoal surfaces (#222a26), pale text (#edf2ef), and mint accents (#92ceac). Primary actions keep white text on green (#356e50, hover #407f5d) with #6aa580 borders. Selection uses #42654f; scrollbars use #64796b. Photographs and public portfolio styles retain their original colors.
