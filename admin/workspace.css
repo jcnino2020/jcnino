@@ -328,3 +328,10 @@ body.editor-modal-open{overflow:hidden}
  .admin-sidebar.mobile-open .desktop-section-panel { flex-shrink:0; }
  .admin-sidebar.mobile-open > .mobile-sheet-actions { padding-bottom:4px; }
 }
+
+/* Reserve space for profile and workspace actions; only destinations scroll. */
+@media(min-width:769px) and (min-height:540px){
+ .admin-sidebar { overflow:hidden; }
+ .admin-sidebar > .desktop-workspace-nav { flex:1 1 0; min-height:0; overflow-y:auto; overscroll-behavior:contain; }
+ .admin-sidebar > .sidebar-footer { margin-top:0; }
+}

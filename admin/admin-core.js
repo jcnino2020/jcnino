@@ -575,7 +575,14 @@ function previewAccentColor(colorKey) {
     blue: "#315d81"
   };
   const hex = colorMap[colorKey] || "#295f4d";
-  document.documentElement.style.setProperty('--accent', hex);
+  const darkColors = {
+    default: '#92ceac', emerald: '#83d6ac', violet: '#c8b4ec',
+    gold: '#e5c17b', rose: '#f0abb7', blue: '#9ecbf0'
+  };
+  const style = document.documentElement.style;
+  style.setProperty('--admin-accent-light', hex);
+  style.setProperty('--admin-accent-dark', darkColors[colorKey] || darkColors.default);
+  style.setProperty('--accent', 'var(--appearance-accent)');
 }
 
 // ==========================================================================

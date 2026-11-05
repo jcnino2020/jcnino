@@ -1,6 +1,8 @@
+:root { --appearance-accent: var(--admin-accent-light, #295f4d); }
 /* Studio appearance: preserve the workspace layout and photographic colors. */
 :root[data-theme="dark"] {
   color-scheme: dark;
+  --appearance-accent: var(--admin-accent-dark, #92ceac);
   --bg-primary: #151a18;
   --bg-canvas: #151a18;
   --bg-secondary: #1b211e;
