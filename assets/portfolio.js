@@ -145,7 +145,7 @@ function injectComponents() {
 
     // 1. Inject Navbar
     const navPlaceholder = document.getElementById('navbar-placeholder');
-    if (navPlaceholder && !document.getElementById('main-nav')) {
+    if (navPlaceholder) {
         navPlaceholder.innerHTML = navHtml;
     }
 
@@ -1560,6 +1560,7 @@ async function toggleImageLike() {
     updateLightboxLikeUI();
 
     // Perform real database request in background
+    window.dispatchEvent(new Event('photo-likes-changed'));
     if (!isHttpContext()) return;
     try {
         const res = await fetch(LIKES_API_URL, {
