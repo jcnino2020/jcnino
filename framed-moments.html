@@ -73,12 +73,12 @@
     <div class="max-w-7xl mx-auto px-6 sm:px-10">
       <div class="flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
         <div>
-          <p id="header-eyebrow" class="gsap-header-item text-text-muted text-xs font-bold uppercase mb-4">Category 02</p>
-          <h1 id="header-title" class="gsap-header-item text-4xl sm:text-5xl text-white font-bold">Framed Moments</h1>
-          <p id="header-desc" class="gsap-header-item text-text-muted text-lg max-w-lg mt-4">A collection of quick glimpses — peaceful nature scenes and busy city lights, caught between motion and quiet moments.</p>
+          <p id="header-eyebrow" class="text-text-muted text-xs font-bold uppercase mb-4">Category 02</p>
+          <h1 id="header-title" class="text-4xl sm:text-5xl text-white font-bold">Framed Moments</h1>
+          <p id="header-desc" class="text-text-muted text-lg max-w-lg mt-4">A collection of quick glimpses — peaceful nature scenes and busy city lights, caught between motion and quiet moments.</p>
         </div>
         <div class="flex justify-end">
-          <p id="photo-count" class="gsap-header-item text-text-muted text-xs font-bold"></p>
+          <p id="photo-count" class="text-text-muted text-xs font-bold"></p>
         </div>
       </div>
     </div>
@@ -191,23 +191,7 @@
     document.getElementById('photo-count').textContent = allPhotos.length + ' photos';
     allPhotos.forEach(p => grid.appendChild(buildCard(p, allPhotos)));
 
-    // GSAP: batch animate gallery items as they enter viewport
-    requestAnimationFrame(() => {
-      ScrollTrigger.batch('#main-grid .gallery-item', {
-        onEnter: batch => gsap.fromTo(batch,
-          { y: 50, opacity: 0 },
-          {
-            y: 0, opacity: 1,
-            duration: 0.6,
-            stagger: 0.07,
-            ease: 'power3.out',
-            clearProps: 'transform'
-          }
-        ),
-        once: true,
-        start: 'top 95%'
-      });
-    });
+    // Photos remain visible while individual images load.
   }
 
   if (document.readyState === 'loading') {
@@ -241,6 +225,8 @@
 
 <script>
   function initFramedAnimations() {
+    // No entrance animation: keep the page visible from its first paint.
+    return;
     const cleanHeader = () => {
       document.querySelectorAll('.gsap-header-item').forEach(el => {
         el.classList.remove('gsap-header-item');
