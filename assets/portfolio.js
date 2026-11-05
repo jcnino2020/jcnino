@@ -648,7 +648,19 @@ function syncLightbox(direction = null) {
                     } else {
                         descText.textContent = descVal;
                     }
-                    if (captureHtml) descText.insertAdjacentHTML('beforeend', captureHtml);
+                    if (captureHtml) {
+                        descText.insertAdjacentHTML('beforeend', captureHtml);
+                        descText.querySelectorAll('.photo-location-map:not([data-ready])').forEach((el) => {
+                            if (!window.L) return;
+                            const lat = Number(el.dataset.lat), lon = Number(el.dataset.lon);
+                            if (!Number.isFinite(lat) || !Number.isFinite(lon)) return;
+                            const map = window.L.map(el, { zoomControl: true, attributionControl: true, scrollWheelZoom: false }).setView([lat, lon], 13);
+                            window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a>' }).addTo(map);
+                            window.L.marker([lat, lon]).addTo(map);
+                            el.dataset.ready = 'true';
+                            setTimeout(() => map.invalidateSize(), 0);
+                        });
+                    }
                     descWrapper.classList.remove('hidden');
                     if (descDivider) descDivider.classList.remove('hidden');
                 } else {
