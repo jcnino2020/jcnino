@@ -665,18 +665,6 @@
       document.querySelectorAll('.hero-item').forEach((element, index) => {
         animate(element, index * 60, element.id !== 'hero-img-col');
       });
-
-      if (!('IntersectionObserver' in window)) return;
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (!entry.isIntersecting) return;
-          observer.unobserve(entry.target);
-          animate(entry.target);
-        });
-      }, { threshold: 0.08, rootMargin: '0px 0px -4% 0px' });
-      document.querySelectorAll('.reveal-item, #highlights-grid .gallery-item, #site-footer').forEach(element => {
-        if (!element.parentElement.closest('.reveal-item')) observer.observe(element);
-      });
     }
 
     if (document.readyState === 'loading') {
