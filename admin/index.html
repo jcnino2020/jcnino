@@ -1503,10 +1503,6 @@
         `;
         container.appendChild(card);
       });
-      if (matchMedia('(min-width: 1100px)').matches) {
-        const index = activeEditIndex !== null && list.includes(fullList[activeEditIndex]) ? activeEditIndex : fullList.indexOf(list[0]);
-        openEditDrawer(index);
-      }
     }
 
     // Drag & Drop Handlers
@@ -2181,9 +2177,9 @@
       }
 
       renderGrid();
-      if (!matchMedia('(min-width: 1100px)').matches) closeEditDrawer();
       persistLocalState();
       takeSnapshot("Media Edit", `Modified properties for #${activeEditIndex + 1} in ${currentCategory}.`);
+      closeEditDrawer();
       showToast("Edits saved to your draft. Publish changes to make them live.", "success");
     }
 
