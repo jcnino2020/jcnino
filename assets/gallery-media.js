@@ -85,7 +85,7 @@ function photoLocationDetails(photo) {
   const bbox=[Math.max(-180,lon-delta),Math.max(-90,lat-delta),Math.min(180,lon+delta),Math.min(90,lat+delta)].join(',');
   const link='https://www.google.com/maps/search/?api=1&amp;query='+encodeURIComponent(lat+','+lon);
   const src='https://www.openstreetmap.org/export/embed.html?bbox='+encodeURIComponent(bbox)+'&layer=mapnik&marker='+encodeURIComponent(lat+','+lon);
-  return '<section class="photo-location" aria-label="Photo location"><h3>Location</h3><p>'+escapeGalleryText(label)+'</p><small>'+(source==='place'?'Named place · from description':source==='gps'?'From photo GPS':source==='approximate'?'Approximate area · precise coordinates hidden':'Approximate area · from description')+'</small><div class="photo-location-map" data-lat="'+lat+'" data-lon="'+lon+'" role="img" aria-label="Map showing photo location"></div><a href="'+link+'" target="_blank" rel="noopener noreferrer">Open in Google Maps ↗</a></section>';
+  return '<section class="photo-location" data-source="'+escapeGalleryText(source)+'" aria-label="Photo location"><h3>Location</h3><p class="photo-location-landmark" hidden></p><p>'+escapeGalleryText(label)+'</p><small>'+(source==='place'?'Named place · from description':source==='gps'?'From photo GPS':source==='approximate'?'Approximate area · precise coordinates hidden':'Approximate area · from description')+'</small><div class="photo-location-map" data-lat="'+lat+'" data-lon="'+lon+'" role="img" aria-label="Map showing photo location"></div><a href="'+link+'" target="_blank" rel="noopener noreferrer">Open in Google Maps ↗</a></section>';
 }
 
 // One-time cached OSM Nominatim lookup; no visitor geocoding requests.

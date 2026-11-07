@@ -682,14 +682,15 @@ function syncLightbox(direction = null) {
                     }
                     if (captureHtml) {
                         descText.insertAdjacentHTML('beforeend', captureHtml);
+                        enrichPhotoLocations(descText);
                         const initializeLocationMaps = () => descText.querySelectorAll('.photo-location-map:not([data-ready])').forEach((el) => {
                             if (!window.L) return;
                             const lat = Number(el.dataset.lat), lon = Number(el.dataset.lon);
                             if (!Number.isFinite(lat) || !Number.isFinite(lon)) return;
-                            const locationName = el.closest('.photo-location')?.querySelector('p');
+                            const locationName = el.closest('.photo-location')?.querySelector('p:not(.photo-location-landmark)');
                             const locationNote = el.closest('.photo-location')?.querySelector('small');
                             if (locationNote) {
-                                locationNote.textContent = 'From photo GPS';
+                                // Preserve the source and privacy label supplied by photoLocationDetails.
                                 const disclosure = document.createElement('details');
                                 disclosure.className = 'photo-coordinate-disclosure';
                                 const summary = document.createElement('summary');
@@ -856,6 +857,39 @@ function syncLightbox(direction = null) {
     if (p && p.base) {
         trackImageView(p.base);
     }
+}
+
+// Keep landmark lookup independent of Leaflet and the city/province lookup.
+const photoLandmarkRequests = new Map();
+function lookupPhotoLandmark(lat, lon) {
+    const key = 'photo-landmark:v1:' + Number(lat).toFixed(5) + ',' + Number(lon).toFixed(5);
+    if (photoLandmarkRequests.has(key)) return photoLandmarkRequests.get(key);
+    const request = (async () => {
+        try {
+            const cached = sessionStorage.getItem(key);
+            if (cached !== null) return cached;
+        } catch {}
+        const response = await fetch('/api/photo-place?lat=' + encodeURIComponent(lat) + '&lon=' + encodeURIComponent(lon), { signal: AbortSignal.timeout(12000) });
+        if (!response.ok) throw new Error('Place lookup unavailable');
+        const result = await response.json();
+        const name = typeof result.name === 'string' ? result.name : '';
+        try { sessionStorage.setItem(key, name); } catch {}
+        return name;
+    })();
+    photoLandmarkRequests.set(key, request);
+    request.catch(() => photoLandmarkRequests.delete(key));
+    return request;
+}
+function enrichPhotoLocations(root) {
+    root.querySelectorAll('.photo-location[data-source="gps"]').forEach(section => {
+        const map = section.querySelector('.photo-location-map');
+        const landmark = section.querySelector('.photo-location-landmark');
+        if (!map || !landmark) return;
+        lookupPhotoLandmark(map.dataset.lat, map.dataset.lon).then(name => {
+            landmark.textContent = name;
+            landmark.hidden = !name;
+        }).catch(() => {}); // The city/province remains useful if no landmark is found.
+    });
 }
 
 function compactPhotoPlace(result) {
