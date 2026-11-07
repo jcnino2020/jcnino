@@ -633,39 +633,7 @@ function syncLightbox(direction = null) {
             document.getElementById('lightbox-info-btn')?.setAttribute('aria-expanded', String(detailsOpen));
             document.getElementById('viewer-photo-title').textContent = (p.desc || p.title || p.alt || 'Photograph').split('•')[0].trim();
             document.getElementById('viewer-photo-location').textContent = (p.desc || '').split('•').slice(1).map(part=>part.trim()).join(' · ');
-            {
-                const photo = p.media || p;
-                const point = photo.location || photo.gps || photo.exif?.gps;
-                const lat = Number(point?.lat ?? point?.latitude);
-                const lon = Number(point?.lon ?? point?.longitude);
-                const subtitle = document.getElementById('viewer-photo-location');
-                const token = String(Date.now()) + Math.random();
-                subtitle.dataset.locationRequest = token;
-                subtitle.classList.remove('location-loading');
-                subtitle.removeAttribute('aria-busy');
-                const fallback = subtitle.textContent;
-                if (photo.locationVisibility === 'hidden') subtitle.textContent = '';
-                else if (Number.isFinite(lat) && Number.isFinite(lon)) {
-                    const key = 'photo-place:' + lat.toFixed(5) + ',' + lon.toFixed(5);
-                    const apply = label => { if (subtitle.dataset.locationRequest === token) { subtitle.textContent = label; subtitle.classList.remove('location-loading'); subtitle.removeAttribute('aria-busy'); } };
-                    let cached;
-                    try { cached = sessionStorage.getItem(key); } catch {}
-                    if (cached) apply(cached);
-                    else {
-                        subtitle.textContent = '\u00a0';
-                        subtitle.classList.add('location-loading');
-                        subtitle.setAttribute('aria-busy', 'true');
-                        fetch('https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=' + lat + '&longitude=' + lon + '&localityLanguage=en', { signal: AbortSignal.timeout(10000) })
-                        .then(response => { if (!response.ok) throw Error('Location unavailable'); return response.json(); })
-                        .then(result => {
-                            const label = compactPhotoPlace(result);
-                            if (!label) { apply(fallback); return; }
-                            try { sessionStorage.setItem(key, label); } catch {}
-                            apply(label);
-                        }).catch(() => apply(fallback));
-                    }
-                }
-            }
+            updatePhotoLocationSubtitle(document.getElementById('viewer-photo-location'), p.media || p);
 
             if (descTooltip) { descTooltip.classList.remove('active-mobile-desc'); descTooltip.hidden = !detailsOpen; }
 
@@ -856,6 +824,45 @@ function syncLightbox(direction = null) {
     // Track unique views
     if (p && p.base) {
         trackImageView(p.base);
+    }
+}
+
+// City and landmark requests can finish in either order; keep both in the header.
+function updatePhotoLocationSubtitle(subtitle, photo) {
+    const point = photo.locationVisibility === 'approximate' ? photoLocation(photo) : photo.location || photo.gps || photo.exif?.gps;
+    const lat = Number(point?.lat ?? point?.latitude);
+    const lon = Number(point?.lon ?? point?.longitude);
+    const token = String(Date.now()) + Math.random();
+    subtitle.dataset.locationRequest = token;
+    subtitle.classList.remove('location-loading');
+    subtitle.removeAttribute('aria-busy');
+    if (photo.locationVisibility === 'hidden') { subtitle.textContent = ''; return; }
+    if (!Number.isFinite(lat) || !Number.isFinite(lon)) return;
+    let area = subtitle.textContent;
+    let landmark = '';
+    const render = () => {
+        if (subtitle.dataset.locationRequest !== token) return;
+        subtitle.textContent = [...new Set([landmark, area].filter(Boolean))].join(' · ');
+        subtitle.classList.remove('location-loading');
+        subtitle.removeAttribute('aria-busy');
+    };
+    if (photo.locationVisibility !== 'approximate') {
+        lookupPhotoLandmark(lat, lon).then(name => { landmark = name; render(); }).catch(() => {});
+    }
+    const key = 'photo-place:' + lat.toFixed(5) + ',' + lon.toFixed(5);
+    let cached;
+    try { cached = sessionStorage.getItem(key); } catch {}
+    if (cached) { area = cached; render(); }
+    else {
+        subtitle.classList.add('location-loading');
+        subtitle.setAttribute('aria-busy', 'true');
+        fetch('https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=' + lat + '&longitude=' + lon + '&localityLanguage=en', { signal: AbortSignal.timeout(10000) })
+            .then(response => { if (!response.ok) throw Error('Location unavailable'); return response.json(); })
+            .then(result => {
+                const label = compactPhotoPlace(result);
+                if (label) { area = label; try { sessionStorage.setItem(key, label); } catch {} }
+                render();
+            }).catch(render);
     }
 }
 
