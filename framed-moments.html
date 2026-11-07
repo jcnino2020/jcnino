@@ -93,8 +93,9 @@
   <script src="assets/gallery-data.js"></script>
   <script src="/api/gallery?format=js"></script>
   <script src="/assets/gallery-media.js?v=gps-first-20261105"></script>
+  <script src="assets/gallery-order.js?v=1"></script>
   <script>
-  const allPhotos = window.galleryData.framed.map((p, i) => {
+  const allPhotos = shuffleGalleryPhotos(window.galleryData.framed.map((p, i) => {
     const base = p.file.replace(/\.[^/.]+$/, "");
     return {
       id: i,
@@ -105,7 +106,7 @@
       alt: p.alt || ('Street and editorial photograph by JC Niñonuevo — ' + base),
       desc: p.desc || ''
     };
-  });
+  }), 0);
 
   function buildCard(p, gallery) {
     const wrap = document.createElement('div');

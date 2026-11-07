@@ -557,8 +557,9 @@
   <script src="assets/gallery-data.js"></script>
   <script src="/api/gallery?format=js"></script>
   <script src="/assets/gallery-media.js?v=gps-first-20261105"></script>
+  <script src="assets/gallery-order.js?v=1"></script>
   <script>
-    const allPhotos = window.galleryData.highlights.map((p, i) => {
+    const allPhotos = shuffleGalleryPhotos(window.galleryData.highlights.map((p, i) => {
       const base = p.file.replace(/\.[^/.]+$/, ""); // e.g. "GH-01"
       return {
         id: i,
@@ -568,7 +569,7 @@
         alt: p.alt || ('Portfolio photograph by JC Niñonuevo — ' + base),
         desc: p.desc || ''
       };
-    });
+    }), 10);
 
     function buildCard(p, gallery) {
       const wrap = document.createElement('div');
