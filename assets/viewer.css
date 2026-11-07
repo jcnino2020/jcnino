@@ -370,3 +370,14 @@
 .enhanced-viewer #lightbox #lightbox-desc-tooltip{user-select:text;-webkit-user-select:text;cursor:auto}
 .photo-capture-details dd a{text-decoration:underline;text-decoration-color:#666;text-underline-offset:3px}
 .photo-capture-details dd a:hover{color:#fff;text-decoration-color:currentColor}
+
+.photo-description-editor{margin-top:16px;font-size:14px}
+.photo-description-editor button{padding:8px 12px;border:1px solid #555;border-radius:6px;cursor:pointer;color:#eee;background:#222}
+.photo-description-editor button:hover{border-color:#aaa}
+.photo-description-editor label{display:block;font-weight:600}
+.photo-description-editor textarea{display:block;box-sizing:border-box;width:100%;margin:8px 0;padding:10px;border:1px solid #777;border-radius:6px;background:#111;color:#fff;font:inherit;resize:vertical;min-height:100px}
+.photo-description-editor small{display:block;color:#aaa;line-height:1.5}
+.photo-edit-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.photo-description-editor [role=status]{margin-top:8px;line-height:1.5}
+.photo-description-editor :disabled{opacity:.6;cursor:wait}
+.photo-description-editor :focus-visible{outline:2px solid #fff;outline-offset:3px}

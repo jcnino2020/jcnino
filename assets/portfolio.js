@@ -648,6 +648,7 @@ function syncLightbox(direction = null) {
                     } else {
                         descText.textContent = descVal;
                     }
+                    attachPhotoDescriptionEditor(descText, p);
                     if (captureHtml) {
                         descText.insertAdjacentHTML('beforeend', captureHtml);
                         enrichPhotoLocations(descText);
@@ -923,6 +924,80 @@ function photoCameraDetails(photo) {
     }).join('') + '</dl></section>';
 }
 
+function attachPhotoDescriptionEditor(root, photo) {
+    let token;
+    try { token = sessionStorage.getItem('pm_auth'); } catch {}
+    if (!token) return;
+    try {
+        const payload = JSON.parse(atob(token.split('.')[0].replace(/-/g, '+').replace(/_/g, '/')));
+        if (payload.expiresAt <= Date.now()) return;
+    } catch { return; }
+    const file = photo.media?.file || photo.file || (photo.base ? photo.base + '.webp' : '');
+    if (!file) return;
+    const editor = document.createElement('div');
+    editor.className = 'photo-description-editor';
+    editor.innerHTML = '<button type="button" class="photo-edit-toggle">Edit description</button><form hidden><label>Description<textarea rows="4" maxlength="2000" required></textarea></label><small>Use • between the title and location. Saving publishes this photo’s description.</small><div class="photo-edit-actions"><button type="submit">Save description</button><button type="button" class="photo-edit-cancel">Cancel</button></div></form><p role="status" aria-live="polite"></p>';
+    const toggle = editor.querySelector('.photo-edit-toggle');
+    const form = editor.querySelector('form');
+    const field = editor.querySelector('textarea');
+    const status = editor.querySelector('[role="status"]');
+    if (photo.descriptionJustSaved) {
+        status.textContent = 'Description saved.';
+        delete photo.descriptionJustSaved;
+    }
+    toggle.addEventListener('click', () => {
+        field.value = photo.desc || photo.media?.desc || '';
+        form.hidden = false; toggle.hidden = true; status.textContent = ''; field.focus();
+    });
+    editor.querySelector('.photo-edit-cancel').addEventListener('click', () => {
+        form.hidden = true; toggle.hidden = false; status.textContent = ''; toggle.focus();
+    });
+    form.addEventListener('submit', async event => {
+        event.preventDefault();
+        const description = field.value.trim();
+        if (!description) { field.focus(); return; }
+        const controls = [...form.querySelectorAll('button,textarea')];
+        controls.forEach(el => el.disabled = true);
+        status.textContent = 'Saving…';
+        try {
+            const headers = { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' };
+            const response = await fetch('/api/gallery', { headers, cache: 'no-store' });
+            if (!response.ok) throw Error('Could not load the latest gallery. Try again.');
+            const saved = await response.json();
+            let matches = 0;
+            for (const category of ['highlights', 'drone', 'framed', 'events']) {
+                for (const item of saved.data?.[category] || []) {
+                    if (item.file === file) { item.desc = description; matches++; }
+                }
+            }
+            if (!matches) throw Error('This photo is no longer in the gallery. Reload before editing.');
+            const published = await fetch('/api/gallery', { method: 'POST', headers, body: JSON.stringify({ data: saved.data, revision: saved.revision }) });
+            if (published.status === 401) throw Error('Your admin session expired. Sign in again; your text is kept here.');
+            if (published.status === 409) throw Error('The gallery changed while saving. Your text is kept here; try saving again.');
+            const result = await published.json();
+            if (!published.ok || !result.success) throw Error(result.error || 'Could not save. Try again.');
+            photo.desc = description;
+            if (photo.media) photo.media.desc = description;
+            for (const category of ['highlights', 'drone', 'framed', 'events']) {
+                for (const item of window.galleryData?.[category] || []) if (item.file === file) item.desc = description;
+            }
+            window.galleryRevision = result.revision;
+            if (currentGallery[currentIndex] === photo) {
+                photo.descriptionJustSaved = true;
+                syncLightbox();
+            }
+            // Cards and derived captions refresh from the saved gallery on reload.
+            if (editor.isConnected) { form.hidden = true; toggle.hidden = false; status.textContent = 'Description saved.'; }
+            else {
+                const message = document.querySelector('#lightbox-desc-text .photo-description-editor [role="status"]');
+                if (currentGallery[currentIndex] === photo && message) message.textContent = 'Description saved.';
+            }
+        } catch (error) { status.textContent = error.message; }
+        finally { controls.forEach(el => el.disabled = false); }
+    });
+    root.append(editor);
+}
+
 function toggleLightboxDesc(e) {
     if (e) {
         e.stopPropagation();
@@ -1173,6 +1248,7 @@ function initLightboxListeners() {
     // Keyboard navigation & Focus Trap
     document.addEventListener('keydown', e => {
         if (lb.classList.contains('hidden')) return;
+        if (e.target.closest('textarea, input, [contenteditable="true"]')) return;
         if (e.key === 'Escape') closeLightbox();
         if (e.key === 'ArrowLeft') prevImage();
         if (e.key === 'ArrowRight') nextImage();
