@@ -365,3 +365,8 @@
  .enhanced-viewer #lightbox .viewer-photo-heading p{white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:anywhere;line-height:1.5}
  .enhanced-viewer #lightbox .viewer-stage,.enhanced-viewer #lightbox .viewer-footer{min-width:0;max-width:100%}
 }
+
+/* Metadata can be selected and copied independently of the photo gestures. */
+.enhanced-viewer #lightbox #lightbox-desc-tooltip{user-select:text;-webkit-user-select:text;cursor:auto}
+.photo-capture-details dd a{text-decoration:underline;text-decoration-color:#666;text-underline-offset:3px}
+.photo-capture-details dd a:hover{color:#fff;text-decoration-color:currentColor}

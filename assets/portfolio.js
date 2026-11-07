@@ -915,7 +915,12 @@ function photoCameraDetails(photo) {
     const labels = [['camera','Camera'],['lens','Lens'],['focalLength','Focal length'],['aperture','Aperture'],['shutter','Shutter speed'],['iso','ISO'],['dateTaken','Date taken']];
     const rows = labels.filter(([key]) => typeof photo?.[key] === 'string' && photo[key].trim());
     if (!rows.length) return '';
-    return '<section class="photo-capture-details" aria-label="Camera details"><h3>Camera details</h3><dl>' + rows.map(([key,label]) => '<div><dt>' + label + '</dt><dd>' + escapeGalleryText(key === 'camera' ? cameraDisplayName(photo[key]) : photo[key]) + '</dd></div>').join('') + '</dl></section>';
+    return '<section class="photo-capture-details" aria-label="Camera details"><h3>Camera details</h3><dl>' + rows.map(([key,label]) => {
+        const value = key === 'camera' ? cameraDisplayName(photo[key]) : photo[key];
+        const text = escapeGalleryText(value);
+        const content = ['camera', 'lens'].includes(key) ? '<a href="https://www.google.com/search?q=' + encodeURIComponent(value) + '" target="_blank" rel="noopener noreferrer">' + text + '</a>' : text;
+        return '<div><dt>' + label + '</dt><dd>' + content + '</dd></div>';
+    }).join('') + '</dl></section>';
 }
 
 function toggleLightboxDesc(e) {
