@@ -30,6 +30,7 @@
   <meta name="twitter:image" content="https://jcnino.dev/images/Framed%20Moments/FM-01.JPG">
 
   <!-- Preload Critical Bold Font -->
+  <link rel="preconnect" href="https://hrpupxen1pdkwvsa.public.blob.vercel-storage.com" crossorigin>
   <link rel="preload" href="assets/fonts/HelveticaNeue-Bold.woff2" as="font" type="font/woff2" crossorigin>
 
   <link rel="stylesheet" href="assets/tailwind.css?v=2">
@@ -108,7 +109,7 @@
     };
   }), 0, { sessionKey: 'framed', maxPhotos: 200, limit: 72 });
 
-  function buildCard(p, gallery) {
+  function buildCard(p, gallery, index) {
     const wrap = document.createElement('div');
     wrap.className = 'gallery-item relative rounded-xl overflow-hidden cursor-pointer group';
     const b = p.base;
@@ -133,12 +134,15 @@
             ${galleryMediaURL(p.media, 1200, `images/optimized/1200/${sf}/${b}-1200.webp`)} 1200w,
             ${galleryMediaURL(p.media, 1600, `images/optimized/1600/${sf}/${b}-1600.webp`)} 1600w
           "
-          sizes="(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          sizes="(max-width: 640px) calc(100vw - 48px), (max-width: 1024px) calc((100vw - 72px) / 2), (max-width: 1280px) calc((100vw - 96px) / 3), 400px"
         />
         <img
           src="${galleryMediaURL(p.media, 1200, `images/optimized/1200/${sf}/${b}-1200.webp`)}"
           alt="${escapeGalleryText(p.alt)}"
-          loading="lazy"
+          width="${p.media.width || 1200}"
+          height="${p.media.height || 800}"
+          loading="${index < 3 ? 'eager' : 'lazy'}"
+          fetchpriority="${index === 0 ? 'high' : 'auto'}"
           decoding="async"
           class="w-full h-auto block"
           onerror="this.parentElement.parentElement.querySelector('img').src='${p.src}'" />
@@ -190,7 +194,7 @@
     if(!grid) return;
     grid.innerHTML = '';
     document.getElementById('photo-count').textContent = allPhotos.length + ' photos';
-    allPhotos.forEach(p => grid.appendChild(buildCard(p, allPhotos)));
+    allPhotos.forEach((p, index) => grid.appendChild(buildCard(p, allPhotos, index)));
 
     // Photos remain visible while individual images load.
   }
