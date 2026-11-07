@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
-import { createPhotoPlaceHandler, landmarkName, nearbyLandmark } from '../api/photo-place.js';
+import { createPhotoPlaceHandler, landmarkName, nearbyLandmark } from '../lib/photo-place.js';
 
 const temple = { name: 'Temple of Leah', category: 'tourism', place_rank: 30, lat: '10.3688795', lon: '123.8733158' };
 test('GPS reverse lookup accepts close landmarks, rejects streets and distant features', () => {

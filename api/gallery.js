@@ -1,3 +1,4 @@
+import photoPlaceHandler from '../lib/photo-place.js';
 import { publicGallery } from '../lib/public-gallery.js';
 import { randomUUID } from 'node:crypto';
 import { authenticated, prepareResponse } from '../lib/admin-session.js';
@@ -6,6 +7,7 @@ import { galleryCollection, validateGallery } from '../lib/gallery-store.js';
 export function createGalleryHandler(getCollection = galleryCollection) {
   return async function handler(req, res) {
     if (!prepareResponse(req, res)) return;
+    if (req.method === 'GET' && req.query?.place === '1') return photoPlaceHandler(req, res);
     const script = req.method === 'GET' && req.query?.format === 'js';
     if (script) res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
     if (!['GET', 'POST'].includes(req.method)) return res.status(405).json({ error: 'Method not allowed.' });

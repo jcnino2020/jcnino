@@ -869,7 +869,7 @@ function lookupPhotoLandmark(lat, lon) {
             const cached = sessionStorage.getItem(key);
             if (cached !== null) return cached;
         } catch {}
-        const response = await fetch('/api/photo-place?lat=' + encodeURIComponent(lat) + '&lon=' + encodeURIComponent(lon), { signal: AbortSignal.timeout(12000) });
+        const response = await fetch('/api/gallery?place=1&lat=' + encodeURIComponent(lat) + '&lon=' + encodeURIComponent(lon), { signal: AbortSignal.timeout(12000) });
         if (!response.ok) throw new Error('Place lookup unavailable');
         const result = await response.json();
         const name = typeof result.name === 'string' ? result.name : '';
