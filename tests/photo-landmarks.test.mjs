@@ -20,8 +20,9 @@ test('endpoint validates GPS and shares/caches a concurrent reverse lookup', asy
   let calls = 0;
   const handler = createPhotoPlaceHandler(async (url, options) => {
     calls++;
-    const query = options.body;
-    assert.match(query.get('data'), /around:200,10\.36888,123\.87332/);
+    const query = new URL(url).searchParams;
+    const [west, south, east, north] = query.get('bbox').split(',').map(Number);
+    assert(west < 123.8733158 && east > 123.8733158 && south < 10.3688795 && north > 10.3688795);
     return { ok: true, json: async () => ({ elements: [{ tags: { name: temple.name, tourism: 'theme_park' }, center: { lat: Number(temple.lat), lon: Number(temple.lon) } }] }) };
   });
   for (const query of [{}, { lat: '100', lon: '120' }, { lat: '', lon: '120' }]) {
@@ -69,4 +70,16 @@ test('named landmark grounds take priority over a cafe inside them', () => {
   ];
   assert.equal(nearbyLandmark(elements, point.lat, point.lon), 'Temple of Leah');
   assert.equal(nearbyLandmark([], point.lat, point.lon), '');
+});
+
+test('raw map polygons identify the enclosing venue over a named feature inside it', () => {
+  const elements = [
+    { type: 'node', id: 1, lat: 10, lon: 120 },
+    { type: 'node', id: 2, lat: 10.001, lon: 120 },
+    { type: 'node', id: 3, lat: 10.001, lon: 120.001 },
+    { type: 'node', id: 4, lat: 10, lon: 120.001 },
+    { type: 'way', nodes: [1, 2, 3, 4, 1], tags: { name: 'Temple grounds', tourism: 'attraction' } },
+    { type: 'node', lat: 10.0005, lon: 120.0005, tags: { name: 'Statue', historic: 'memorial' } }
+  ];
+  assert.equal(nearbyLandmark(elements, 10.0005, 120.0005), 'Temple grounds');
 });
