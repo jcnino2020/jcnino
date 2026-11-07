@@ -95,7 +95,7 @@
 <script src="assets/gallery-data.js"></script>
   <script src="/api/gallery?format=js"></script>
   <script src="/assets/gallery-media.js?v=gps-landmarks-20261107"></script>
-  <script src="assets/gallery-order.js?v=1"></script>
+  <script src="assets/gallery-order.js?v=session-72-20261107"></script>
 <script>
   const allPhotos = shuffleGalleryPhotos(window.galleryData.drone.map((p, i) => {
     const base = p.file.replace(/\.[^/.]+$/, "");
@@ -109,7 +109,7 @@
       alt: p.alt || ('Drone aerial photograph by JC Niñonuevo — ' + base),
       desc: p.desc || ''
     };
-  }), 0);
+  }), 0, { sessionKey: 'drone' });
 
   function buildCard(p, gallery) {
     const wrap = document.createElement('div');

@@ -23,6 +23,9 @@ export function createGalleryHandler(getCollection = galleryCollection) {
         return res.status(200).json({ data: authenticated(req) ? saved?.data || null : publicGallery(saved?.data || null), revision: saved?.revision || null });
       }
       const { data, revision } = req.body || {};
+      if (Array.isArray(data?.framed) && data.framed.length > 200) {
+        return res.status(400).json({ error: 'Framed Moments holds up to 200 photos. Remove a photo before adding another.' });
+      }
       if (!validateGallery(data) || JSON.stringify(data).length > 3000000 || !(revision === null || typeof revision === 'string')) {
         return res.status(400).json({ error: 'Invalid gallery data or revision. Reload the admin and try again.' });
       }

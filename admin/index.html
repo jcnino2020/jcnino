@@ -2005,6 +2005,7 @@
           if (item.published) continue;
           const filename = item.filename || item.fileObj.name;
           const category = item.category || 'highlights';
+          if (category === 'framed' && (localData.framed || []).length >= 200) throw new Error('Framed Moments holds up to 200 photos. Remove a photo before adding another.');
           if ((localData[category] || []).some(photo => photo.file.toLowerCase() === filename.toLowerCase())) throw new Error(`${filename} already exists in this gallery. Rename the upload, or use Replace Photo on the existing item.`);
           targetCategory = category;
           label.textContent = `Uploading ${completed + 1}/${uploadQueue.length}…`;

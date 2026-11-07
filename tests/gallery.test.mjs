@@ -50,6 +50,22 @@ test('missing database preserves static fallback and refuses publishing', async 
   assert.equal(page.window.galleryData,baseline); assert.equal(page.window.galleryLiveAvailable,false);
   const post = response(); await handler({method:'POST',headers,body:{data:baseline,revision:null}},post); assert.equal(post.code,503);
 });
+test('Framed publishes up to 200 photos and refuses 201 without changing the live gallery', async () => {
+  const db = storage(); const handler = createGalleryHandler(async () => db);
+  const data = structuredClone(baseline);
+  data.framed = Array.from({length:200}, (_, i) => ({file:`framed-${i}.jpg`}));
+  const published = response();
+  await handler({method:'POST',headers,body:{data,revision:null}},published);
+  assert.equal(published.code,200);
+  const overflow = structuredClone(data);
+  overflow.framed.push({file:'overflow.jpg'});
+  const rejected = response();
+  await handler({method:'POST',headers,body:{data:overflow,revision:published.body.revision}},rejected);
+  assert.equal(rejected.code,400);
+  assert.match(rejected.body.error,/200 photos/);
+  const live = response(); await handler({method:'GET',headers:{},query:{}},live);
+  assert.equal(live.body.data.framed.length,200);
+});
 test('uploads and publishing require authentication, including localhost origins', async () => {
   for (const handler of [createGalleryHandler(), createUploadHandler()]) {
     const res = response(); await handler({method:'POST',headers:{host:'localhost',origin:'http://localhost'},body:{}},res); assert.equal(res.code,401);
