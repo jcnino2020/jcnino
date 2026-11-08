@@ -20,3 +20,6 @@
  .gallery-item>.photo-save{left:12px;right:auto;top:12px}
  .gallery-item>.info-btn{top:12px;right:12px;width:44px;height:44px}
 }
+.explore-map-popup .explore-map-preview{display:block;width:220px;max-width:100%;padding:0;margin-bottom:12px;background:#eee;overflow:hidden;border-radius:4px}
+.explore-map-preview img{display:block;width:100%;height:140px;object-fit:cover}
+.explore-map-preview:focus-visible{outline:2px solid #145c48;outline-offset:3px}
