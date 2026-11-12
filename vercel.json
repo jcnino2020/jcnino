@@ -39,7 +39,7 @@
       ]
     },
     {
-      "source": "/images/optimized/(.*)",
+      "source": "/images/(.*)",
       "headers": [
         {
           "key": "Cache-Control",

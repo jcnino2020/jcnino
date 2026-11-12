@@ -10,11 +10,22 @@ export function createGalleryHandler(getCollection = galleryCollection) {
     if (req.method === 'GET' && req.query?.place === '1') return photoPlaceHandler(req, res);
     const script = req.method === 'GET' && req.query?.format === 'js';
     if (script) res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+    if (req.method === 'HEAD') {
+      if (!authenticated(req)) {
+        res.setHeader('Cache-Control', 'public, max-age=60, s-maxage=300, stale-while-revalidate=600');
+      }
+      return res.status(200).end();
+    }
     if (!['GET', 'POST'].includes(req.method)) return res.status(405).json({ error: 'Method not allowed.' });
     if (req.method === 'POST' && !authenticated(req)) return res.status(401).json({ error: 'Sign in again before publishing.' });
     try {
       const collection = await getCollection();
       if (req.method === 'GET') {
+        if (!authenticated(req)) {
+          res.setHeader('Cache-Control', 'public, max-age=60, s-maxage=300, stale-while-revalidate=600');
+        } else {
+          res.setHeader('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+        }
         const saved = await collection.findOne({ _id: 'live' });
         if (script) {
           const data = JSON.stringify(authenticated(req) ? saved?.data || null : publicGallery(saved?.data || null)).replaceAll('<', '\\u003c');

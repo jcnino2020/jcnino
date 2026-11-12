@@ -65,6 +65,7 @@ export default async function handler(req, res) {
 
   try {
     if (req.method === 'GET') {
+      res.setHeader('Cache-Control', 'public, max-age=30, s-maxage=60, stale-while-revalidate=120');
       if (!hasMongo) {
         // Return mock data
         return res.status(200).json(localMockLikes);
@@ -72,12 +73,6 @@ export default async function handler(req, res) {
 
       const { db } = await connectToDatabase();
       const likesCollection = db.collection('likes');
-
-      // Auto-correct any existing negative like counts in the database
-      await likesCollection.updateMany(
-        { count: { $lt: 0 } },
-        { $set: { count: 0 } }
-      );
 
       const likesList = await likesCollection.find({}).toArray();
       

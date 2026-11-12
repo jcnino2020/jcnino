@@ -12,12 +12,17 @@ function initPortfolioApp() {
     initLightboxListeners();
     initInteractiveEffects();
 
-    // Initialize Likes & Hearts System
-    loadPortfolioLikes();
     initVideoLightboxObserver();
 
-    // Initialize Real-Time Visitor Tracking
-    initVisitorTracking();
+    // Defer non-critical metrics and analytics so initial rendering stays fast
+    const deferTask = (typeof window !== 'undefined' && 'requestIdleCallback' in window)
+        ? (cb) => window.requestIdleCallback(cb, { timeout: 1500 })
+        : (cb) => setTimeout(cb, 100);
+
+    deferTask(() => {
+        loadPortfolioLikes();
+        initVisitorTracking();
+    });
 }
 
 /**
@@ -1560,24 +1565,6 @@ async function initVisitorTracking() {
         referrer: document.referrer || 'Direct / Bookmark',
         screen_resolution: (window.screen ? `${window.screen.width}x${window.screen.height}` : 'Unknown')
     };
-
-    // Client-side lightweight Geo IP lookup fallback
-    try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 1200);
-        const geoRes = await fetch('https://ipapi.co/json/', { signal: controller.signal });
-        clearTimeout(timeoutId);
-        if (geoRes.ok) {
-            const geoData = await geoRes.json();
-            if (geoData && geoData.country_name) {
-                payload.country = geoData.country_name;
-                payload.country_code = geoData.country_code;
-                payload.city = geoData.city;
-                payload.region = geoData.region;
-                payload.isp = geoData.org || geoData.isp || geoData.asn || '';
-            }
-        }
-    } catch (err) {}
 
     try {
         await fetch('/api/track_visitor', {

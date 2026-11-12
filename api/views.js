@@ -64,6 +64,7 @@ export default async function handler(req, res) {
 
   try {
     if (req.method === 'GET') {
+      res.setHeader('Cache-Control', 'public, max-age=60, s-maxage=120, stale-while-revalidate=300');
       if (!hasMongo) {
         // Return mock data
         return res.status(200).json(localMockViews);
