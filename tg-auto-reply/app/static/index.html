@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <!-- APP_BASE_META -->
+  <title>TG Auto-Reply Console</title>
+  <link rel="stylesheet" href="static/styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <!-- Login View -->
+  <main id="login-view" class="auth-shell" hidden>
+    <section class="auth-card" aria-labelledby="login-heading">
+      <div class="auth-brand">
+        <svg class="icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          <path d="M9 12l2 2 4-4" />
+        </svg>
+        <div>
+          <h1 id="login-heading">TG Auto-Reply Console</h1>
+          <p class="muted-text">Private operator access for Telegram automation</p>
+        </div>
+      </div>
+
+      <form id="login-form" class="stack-md" novalidate>
+        <div class="field">
+          <label for="login-username">Username</label>
+          <input id="login-username" name="username" type="text" autocomplete="username" required value="admin" />
+        </div>
+        <div class="field">
+          <label for="login-password">Password</label>
+          <input id="login-password" name="password" type="password" autocomplete="current-password" required />
+        </div>
+        <div id="totp-field" class="field" hidden>
+          <label for="login-totp">2FA Authenticator Code</label>
+          <input id="login-totp" name="totp_code" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="one-time-code" placeholder="6-digit code" />
+        </div>
+        <p id="login-error" class="form-error" role="alert" hidden></p>
+        <button id="login-submit" type="submit" class="btn btn-primary btn-full">Sign in</button>
+      </form>
+    </section>
+  </main>
+
+  <!-- Authenticated Dashboard Shell -->
+  <div id="app-shell" class="app-shell" hidden>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="brand-row">
+          <svg class="icon-md accent-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+          </svg>
+          <span class="brand-title">TG Auto-Reply</span>
+          <span id="top-mode-badge" class="status-badge status-warn">DRY RUN</span>
+          <span id="top-sse-badge" class="status-dot" title="Live event stream"></span>
+        </div>
+
+        <div class="topbar-actions">
+          <button id="emergency-btn" type="button" class="btn btn-danger btn-sm">
+            Emergency Stop
+          </button>
+          <button id="theme-toggle" type="button" class="btn btn-ghost btn-sm" aria-label="Toggle color theme">
+            Theme
+          </button>
+          <button id="logout-btn" type="button" class="btn btn-ghost btn-sm">
+            Sign out
+          </button>
+        </div>
+      </div>
+
+      <nav class="tab-nav" aria-label="Dashboard sections">
+        <button type="button" class="tab-btn is-active" data-tab="overview">Overview</button>
+        <button type="button" class="tab-btn" data-tab="contacts">
+          Contacts <span id="nav-pending-count" class="count-chip" hidden>0</span>
+        </button>
+        <button type="button" class="tab-btn" data-tab="conversations">Conversations</button>
+        <button type="button" class="tab-btn" data-tab="ai-settings">AI Settings</button>
+        <button type="button" class="tab-btn" data-tab="system">System</button>
+      </nav>
+    </header>
+
+    <main id="main-content" class="main-wrap">
+      <!-- Emergency Banner -->
+      <div id="emergency-banner" class="alert-banner alert-danger" role="alert" hidden>
+        <div>
+          <strong>Emergency Stop Active:</strong> All pending replies cancelled and automatic responses disabled.
+        </div>
+        <button id="resume-all-btn" type="button" class="btn btn-sm btn-secondary">Resume Automation</button>
+      </div>
+
+      <!-- 1. OVERVIEW -->
+      <section id="tab-overview" class="tab-panel">
+        <div class="section-head">
+          <h1>System Overview</h1>
+          <button id="refresh-overview-btn" type="button" class="btn btn-secondary btn-sm">Refresh</button>
+        </div>
+
+        <div class="metrics-strip">
+          <article class="metric-cell">
+            <span class="metric-label">Telegram Client</span>
+            <strong id="ov-tg-status" class="metric-value">Checking…</strong>
+            <span id="ov-tg-sub" class="metric-sub">Pending</span>
+          </article>
+          <article class="metric-cell">
+            <span class="metric-label">AI Provider</span>
+            <strong id="ov-ai-status" class="metric-value">Pending</strong>
+            <span id="ov-ai-sub" class="metric-sub">Pending</span>
+          </article>
+          <article class="metric-cell">
+            <span class="metric-label">Active / Paused</span>
+            <strong id="ov-conv-counts" class="metric-value tabular">0 / 0</strong>
+            <span class="metric-sub">Approved contacts</span>
+          </article>
+          <article class="metric-cell">
+            <span class="metric-label">Pending Approvals</span>
+            <strong id="ov-pending-approvals" class="metric-value tabular">0</strong>
+            <span class="metric-sub">Never auto-replied</span>
+          </article>
+          <article class="metric-cell">
+            <span class="metric-label">Sent Today</span>
+            <strong id="ov-sent-today" class="metric-value tabular">0</strong>
+            <span class="metric-sub">Live outgoing replies</span>
+          </article>
+        </div>
+
+        <div class="two-col-grid">
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Free-Tier API Quota</h2>
+              <span id="ov-quota-date" class="mono-sm">PT: today</span>
+            </div>
+            <div class="stack-sm">
+              <div class="quota-row">
+                <div class="quota-label">
+                  <span>Daily Requests</span>
+                  <span id="ov-req-text" class="mono-sm tabular">0 / 0</span>
+                </div>
+                <div class="progress-track"><div id="ov-req-bar" class="progress-fill"></div></div>
+              </div>
+              <div class="quota-row">
+                <div class="quota-label">
+                  <span>Daily Tokens</span>
+                  <span id="ov-tok-text" class="mono-sm tabular">0 / 0</span>
+                </div>
+                <div class="progress-track"><div id="ov-tok-bar" class="progress-fill"></div></div>
+              </div>
+              <p id="ov-quota-note" class="muted-text"></p>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Server Health</h2>
+              <span id="ov-uptime" class="mono-sm tabular">Uptime: 0s</span>
+            </div>
+            <dl class="kv-list">
+              <div class="kv-item"><dt>1m Load Average</dt><dd id="ov-load" class="mono-sm tabular">0.00</dd></div>
+              <div class="kv-item"><dt>Free Disk Space</dt><dd id="ov-disk" class="mono-sm tabular">0 MB</dd></div>
+              <div class="kv-item"><dt>SQLite DB Size</dt><dd id="ov-db" class="mono-sm tabular">0 KB</dd></div>
+              <div class="kv-item"><dt>Rate Limit Hits (Today)</dt><dd id="ov-rl-hits" class="mono-sm tabular">0</dd></div>
+            </dl>
+          </section>
+        </div>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Upcoming Reply Timers</h2>
+          </div>
+          <div id="ov-pending-list" class="stack-xs">
+            <p class="muted-text">No replies currently scheduled.</p>
+          </div>
+        </section>
+      </section>
+
+      <!-- 2. CONTACTS -->
+      <section id="tab-contacts" class="tab-panel" hidden>
+        <div class="section-head">
+          <h1>Contacts &amp; Approvals</h1>
+          <div class="filter-pills" role="group" aria-label="Filter contacts by status">
+            <button type="button" class="filter-btn is-active" data-filter="all">All</button>
+            <button type="button" class="filter-btn" data-filter="pending">Pending</button>
+            <button type="button" class="filter-btn" data-filter="approved">Approved</button>
+            <button type="button" class="filter-btn" data-filter="blocked">Blocked</button>
+          </div>
+        </div>
+
+        <div id="contacts-list" class="contacts-grid">
+          <p class="muted-text">Loading contacts…</p>
+        </div>
+      </section>
+
+      <!-- 3. CONVERSATIONS -->
+      <section id="tab-conversations" class="tab-panel" hidden>
+        <div class="section-head">
+          <h1>Conversations</h1>
+        </div>
+        <div class="chat-layout">
+          <aside class="panel chat-sidebar">
+            <h2>Threads</h2>
+            <div id="chat-thread-list" class="stack-xs">
+              <p class="muted-text">No contacts yet.</p>
+            </div>
+          </aside>
+          <section class="panel chat-main">
+            <div id="chat-header" class="panel-head">
+              <div>
+                <h2 id="chat-contact-name">Select a contact</h2>
+                <p id="chat-contact-meta" class="muted-text">Choose a thread to inspect messages and timers.</p>
+              </div>
+              <div id="chat-controls" class="row-gap" hidden>
+                <button id="chat-pause-btn" type="button" class="btn btn-sm btn-secondary">Pause</button>
+                <button id="chat-cancel-timer-btn" type="button" class="btn btn-sm btn-secondary" hidden>Cancel Timer</button>
+              </div>
+            </div>
+            <div id="chat-messages" class="chat-messages">
+              <p class="muted-text">No messages selected.</p>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <!-- 4. AI SETTINGS -->
+      <section id="tab-ai-settings" class="tab-panel" hidden>
+        <div class="section-head">
+          <h1>AI &amp; Persona Settings</h1>
+        </div>
+        <form id="ai-settings-form" class="panel stack-md">
+          <div class="form-grid">
+            <div class="field">
+              <label for="cfg-ai-provider">AI Provider</label>
+              <select id="cfg-ai-provider" name="ai_provider">
+                <option value="gemini">Google Gemini Free Tier</option>
+                <option value="custom">Custom Free OpenAI-Compatible Endpoint</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="cfg-ai-model">Model ID</label>
+              <input id="cfg-ai-model" name="ai_model" type="text" placeholder="gemini-2.5-flash" required />
+            </div>
+            <div class="field">
+              <label for="cfg-default-language">Default Language</label>
+              <select id="cfg-default-language" name="default_language">
+                <option value="auto">Auto (Match Contact)</option>
+                <option value="english">English</option>
+                <option value="filipino">Filipino (Tagalog)</option>
+                <option value="taglish">Taglish</option>
+                <option value="hiligaynon">Hiligaynon</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="cfg-default-length">Response Length</label>
+              <select id="cfg-default-length" name="default_response_length">
+                <option value="short">Short (1–2 sentences)</option>
+                <option value="medium">Medium (2–3 sentences)</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="cfg-memory-limit">Conversation Memory (Messages)</label>
+              <input id="cfg-memory-limit" name="default_memory_limit" type="number" min="4" max="40" required />
+            </div>
+          </div>
+          <div class="field">
+            <label for="cfg-default-persona">Default AI Persona</label>
+            <textarea id="cfg-default-persona" name="default_persona" rows="4" required></textarea>
+          </div>
+          <div class="row-end">
+            <button type="submit" class="btn btn-primary">Save AI Settings</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- 5. SYSTEM SETTINGS & ONBOARDING -->
+      <section id="tab-system" class="tab-panel" hidden>
+        <div class="section-head">
+          <h1>System, Quotas &amp; Telegram Session</h1>
+        </div>
+
+        <div class="two-col-grid">
+          <!-- Telegram Onboarding -->
+          <section class="panel stack-md">
+            <div class="panel-head">
+              <h2>Telegram Account Session</h2>
+              <span id="sys-tg-badge" class="status-badge">—</span>
+            </div>
+            <p id="sys-tg-info" class="muted-text">Authenticate your personal Telegram account directly from this protected dashboard.</p>
+
+            <form id="tg-phone-form" class="stack-sm">
+              <div class="field">
+                <label for="tg-phone">Phone Number (with country code)</label>
+                <input id="tg-phone" type="tel" placeholder="+639171234567" required />
+              </div>
+              <button type="submit" class="btn btn-primary">Send Verification Code</button>
+            </form>
+
+            <form id="tg-code-form" class="stack-sm" hidden>
+              <div class="field">
+                <label for="tg-code">Telegram Login Code</label>
+                <input id="tg-code" type="text" inputmode="numeric" placeholder="12345" required />
+              </div>
+              <div id="tg-2fa-wrap" class="field" hidden>
+                <label for="tg-2fa">Two-Step Verification Password</label>
+                <input id="tg-2fa" type="password" placeholder="Telegram cloud password" />
+              </div>
+              <button type="submit" class="btn btn-primary">Verify &amp; Connect</button>
+            </form>
+
+            <div id="tg-connected-actions" class="row-gap" hidden>
+              <button id="tg-revoke-btn" type="button" class="btn btn-danger">Revoke &amp; Log Out Session</button>
+            </div>
+          </section>
+
+          <!-- Mode & Free-Tier Quotas -->
+          <form id="system-settings-form" class="panel stack-md">
+            <div class="panel-head">
+              <h2>Safety &amp; Free-Tier Quotas</h2>
+            </div>
+            <label class="toggle-row">
+              <input id="cfg-dry-run" type="checkbox" />
+              <span><strong>Dry-Run Mode</strong> — Generate and log AI replies without sending to Telegram</span>
+            </label>
+            <div class="form-grid">
+              <div class="field">
+                <label for="cfg-daily-req">Daily Request Limit</label>
+                <input id="cfg-daily-req" type="number" min="1" max="5000" required />
+              </div>
+              <div class="field">
+                <label for="cfg-daily-tok">Daily Token Limit</label>
+                <input id="cfg-daily-tok" type="number" min="1000" max="2000000" required />
+              </div>
+              <div class="field">
+                <label for="cfg-rpm">Max Requests / Min</label>
+                <input id="cfg-rpm" type="number" min="1" max="60" required />
+              </div>
+              <div class="field">
+                <label for="cfg-warn-pct">Warning Threshold (%)</label>
+                <input id="cfg-warn-pct" type="number" min="10" max="99" required />
+              </div>
+            </div>
+            <div class="row-end">
+              <button type="submit" class="btn btn-primary">Save System &amp; Quotas</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="two-col-grid">
+          <section class="panel stack-sm">
+            <div class="panel-head">
+              <h2>Database Backups</h2>
+              <button id="create-backup-btn" type="button" class="btn btn-secondary btn-sm">Create Backup</button>
+            </div>
+            <div id="backups-list" class="stack-xs">
+              <p class="muted-text">No backups yet.</p>
+            </div>
+          </section>
+
+          <section class="panel stack-sm">
+            <div class="panel-head">
+              <h2>Recent Audit Logs</h2>
+              <button id="refresh-logs-btn" type="button" class="btn btn-secondary btn-sm">Refresh</button>
+            </div>
+            <div id="audit-logs-list" class="logs-box">
+              <p class="muted-text">Loading logs…</p>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Contact Configuration Dialog -->
+  <dialog id="contact-dialog" class="modal-dialog" aria-labelledby="contact-dialog-title">
+    <form id="contact-edit-form" class="stack-md" method="dialog">
+      <div class="panel-head">
+        <h2 id="contact-dialog-title">Contact Settings</h2>
+        <button id="contact-dialog-close" type="button" class="btn btn-ghost btn-sm">Close</button>
+      </div>
+      <input id="edit-contact-id" type="hidden" />
+      <div class="form-grid">
+        <div class="field">
+          <label for="edit-min-delay">Min Delay (sec)</label>
+          <input id="edit-min-delay" type="number" min="5" max="600" required />
+        </div>
+        <div class="field">
+          <label for="edit-max-delay">Max Delay (sec)</label>
+          <input id="edit-max-delay" type="number" min="5" max="900" required />
+        </div>
+        <div class="field">
+          <label for="edit-max-replies">Max Replies</label>
+          <input id="edit-max-replies" type="number" min="1" max="500" required />
+        </div>
+        <div class="field">
+          <label for="edit-lang">Language</label>
+          <select id="edit-lang">
+            <option value="auto">Auto</option>
+            <option value="english">English</option>
+            <option value="filipino">Filipino</option>
+            <option value="taglish">Taglish</option>
+            <option value="hiligaynon">Hiligaynon</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="edit-length">Response Length</label>
+          <select id="edit-length">
+            <option value="short">Short</option>
+            <option value="medium">Medium</option>
+          </select>
+        </div>
+      </div>
+      <label class="toggle-row">
+        <input id="edit-typing" type="checkbox" />
+        <span>Show Telegram typing indicator before sending</span>
+      </label>
+      <div class="field">
+        <label for="edit-persona">Custom Persona Override (leave blank for default)</label>
+        <textarea id="edit-persona" rows="3"></textarea>
+      </div>
+      <div class="field">
+        <label for="edit-notes">Operator Notes</label>
+        <input id="edit-notes" type="text" maxlength="500" />
+      </div>
+      <div class="row-end">
+        <button type="submit" class="btn btn-primary">Save Contact</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <script type="module" src="static/app.js"></script>
+</body>
+</html>

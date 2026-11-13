@@ -1,0 +1,26 @@
+services:
+  tg-autoreply:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    container_name: tg-autoreply
+    restart: unless-stopped
+    env_file:
+      - ../.env
+    environment:
+      APP_HOST: 0.0.0.0
+      APP_PORT: 8080
+      DB_PATH: /app/data/tg_autoreply.db
+      BACKUP_DIR: /app/data/backups
+    ports:
+      # Bind ONLY to localhost on the VM so public internet cannot bypass Caddy/Cloudflare
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - ../data:/app/data
+    mem_limit: 384m
+    cpus: 0.75
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
