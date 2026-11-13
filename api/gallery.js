@@ -12,7 +12,7 @@ export function createGalleryHandler(getCollection = galleryCollection) {
     if (script) res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
     if (req.method === 'HEAD') {
       if (!authenticated(req)) {
-        res.setHeader('Cache-Control', 'public, max-age=60, s-maxage=300, stale-while-revalidate=600');
+        res.setHeader('Cache-Control', 'public, max-age=60, s-maxage=300, stale-while-revalidate=86400');
       }
       return res.status(200).end();
     }
@@ -22,7 +22,7 @@ export function createGalleryHandler(getCollection = galleryCollection) {
       const collection = await getCollection();
       if (req.method === 'GET') {
         if (!authenticated(req)) {
-          res.setHeader('Cache-Control', 'public, max-age=60, s-maxage=300, stale-while-revalidate=600');
+          res.setHeader('Cache-Control', 'public, max-age=60, s-maxage=300, stale-while-revalidate=86400');
         } else {
           res.setHeader('Cache-Control', 'private, no-cache, no-store, must-revalidate');
         }
