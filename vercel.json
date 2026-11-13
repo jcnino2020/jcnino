@@ -2,15 +2,16 @@
   "cleanUrls": true,
   "outputDirectory": ".",
   "rewrites": [
-    {
-      "source": "/",
-      "has": [{ "type": "host", "value": "ip.jcnino.dev" }],
-      "destination": "/ip.html"
-    },
     { "source": "/api/ip-telemetry", "destination": "/api/ai?ip=telemetry" },
     { "source": "/api/ip-summary", "destination": "/api/ai?ip=summary" }
   ],
   "redirects": [
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "ip.jcnino.dev" }],
+      "destination": "/ip",
+      "permanent": false
+    },
     {
       "source": "/admin",
       "destination": "/admin/",
