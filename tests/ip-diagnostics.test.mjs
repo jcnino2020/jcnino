@@ -1,7 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { extractClientIp, extractVercelGeo, getServerTelemetry } from '../api/ip-telemetry.js';
-import summaryHandler from '../api/ip-summary.js';
+import {
+  extractClientIp,
+  extractVercelGeo,
+  getServerTelemetry,
+  handleIpSummary as summaryHandler,
+} from '../lib/ip-diagnostics.js';
 
 function createMockRes() {
   const headers = {};

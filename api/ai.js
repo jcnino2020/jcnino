@@ -7,6 +7,8 @@
  * Model: deepseek-v4-flash (OpenAI-compatible /chat/completions)
  * Base URL: https://api.deepseek.com
  */
+import { handleIpTelemetry, handleIpSummary } from '../lib/ip-diagnostics.js';
+
 const DEEPSEEK_API_URL = 'https://api.deepseek.com/chat/completions';
 
 function isAllowedOrigin(origin) {
@@ -20,6 +22,14 @@ function isAllowedOrigin(origin) {
 }
 
 export default async function handler(req, res) {
+    const ipMode = req.query?.ip;
+    if (ipMode === 'telemetry') {
+        return handleIpTelemetry(req, res);
+    }
+    if (ipMode === 'summary') {
+        return handleIpSummary(req, res);
+    }
+
     // CORS Headers — mirror the existing API patterns
     res.setHeader('Access-Control-Allow-Credentials', true);
 

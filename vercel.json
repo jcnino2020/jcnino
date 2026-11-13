@@ -1,6 +1,10 @@
 {
   "cleanUrls": true,
   "outputDirectory": ".",
+  "rewrites": [
+    { "source": "/api/ip-telemetry", "destination": "/api/ai?ip=telemetry" },
+    { "source": "/api/ip-summary", "destination": "/api/ai?ip=summary" }
+  ],
   "redirects": [
     {
       "source": "/admin",
