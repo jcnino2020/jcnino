@@ -68,13 +68,14 @@
 
   <link rel="stylesheet" href="assets/tailwind.css?v=2">
   <link rel="stylesheet" href="assets/portfolio.css?v=footer-minimal-20261105">
-  <link rel="stylesheet" href="assets/home.css?v=6">
+  <link rel="stylesheet" href="assets/home.css?v=7">
   <link rel="stylesheet" href="assets/viewer.css?v=inline-description-20261107">
 
   <link rel="stylesheet" href="assets/gallery-explore.css?v=card-controls-1">
 </head>
 
 <body class="min-h-screen home-page enhanced-viewer">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
 
   <!-- Navigation -->
   <div id="navbar-placeholder">
@@ -100,7 +101,7 @@
       </div>
 
       <!-- Mobile Menu Button -->
-      <button id="hamburger" class="md:hidden text-white p-2 rounded-lg hover:bg-white/10 transition-colors" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu">
+      <button type="button" id="hamburger" class="md:hidden text-white p-2 rounded-lg hover:bg-white/10 transition-colors" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu">
         <svg id="ham-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
         <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/></svg>
       </button>
@@ -160,9 +161,9 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
               </a>
-              <a href="#about"
+              <a href="contact.html"
                 class="inline-flex items-center justify-center gap-3 px-8 pt-[18px] pb-[14px] border border-white/20 text-white font-bold text-sm rounded-full hover:bg-white/5 transition-all leading-none">
-                About Me
+                Book a Shoot
               </a>
             </div>
           </div>
@@ -176,7 +177,7 @@
                   images/hero/lakawon-2048.webp 2048w,
                   images/hero/lakawon-3200.webp 3200w,
                   images/hero/lakawon-4896.webp 4896w
-                " sizes="(min-width: 1024px) 1024px, (min-width: 640px) calc(100vw - 80px), calc(100vw - 48px)" />
+                " sizes="(min-width: 1024px) 100vw, (min-width: 640px) calc(100vw - 80px), calc(100vw - 48px)" />
                 <img src="images/hero/lakawon-1200.webp" alt="Aerial view of Lakawon Island by JC Niñonuevo"
                   fetchpriority="high" loading="eager" decoding="async" width="4896" height="3264"
                   class="w-full h-full object-cover" />
@@ -217,7 +218,7 @@
               <img src="images/optimized/800/Drone%20Shots/Drone-006-800.webp"
                 alt="Aerial view of Negros Island landscape captured by drone" loading="lazy" decoding="async"
                 width="800" height="533"
-                class="w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-700" />
+                class="w-full h-full object-cover scale-100 group-hover:scale-[1.03] transition-transform duration-700" />
             </picture>
             <!-- Overlay -->
             <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/15 to-transparent group-hover:from-black/30 transition-colors duration-300"></div>
@@ -252,7 +253,7 @@
               <img src="images/optimized/800/Framed%20Moments/FM-01-800.webp"
                 alt="Street and editorial portrait photography by JC Niñonuevo" loading="lazy" decoding="async"
                 width="800" height="533"
-                class="w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-700" />
+                class="w-full h-full object-cover scale-100 group-hover:scale-[1.03] transition-transform duration-700" />
             </picture>
             <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/15 to-transparent group-hover:from-black/30 transition-colors duration-300"></div>
             <div
@@ -285,7 +286,7 @@
               <img src="images/optimized/800/School%20Events/SE-01-800.webp"
                 alt="School event and campus life photography by JC Niñonuevo" loading="lazy" decoding="async"
                 width="800" height="533"
-                class="w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-700" />
+                class="w-full h-full object-cover scale-100 group-hover:scale-[1.03] transition-transform duration-700" />
             </picture>
             <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/15 to-transparent group-hover:from-black/30 transition-colors duration-300"></div>
             <div
@@ -317,7 +318,7 @@
                 sizes="(max-width: 768px) 100vw, 25vw" />
               <img src="images/optimized/800/VP-800.webp" alt="Cinematic video and film projects by JC Niñonuevo"
                 loading="lazy" decoding="async" width="800" height="533"
-                class="w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-700" />
+                class="w-full h-full object-cover scale-100 group-hover:scale-[1.03] transition-transform duration-700" />
             </picture>
             <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/15 to-transparent group-hover:from-black/30 transition-colors duration-300"></div>
             <div
@@ -352,6 +353,10 @@
           <div>
             <p class="text-text-muted text-xs font-bold uppercase mb-4">Gallery Highlights</p>
             <h2 class="text-4xl sm:text-5xl text-white font-bold">Visual Journal</h2>
+          </div>
+          <div class="gallery-header-links">
+            <a href="gallery.html" class="text-text-muted hover:text-white text-sm underline underline-offset-4 transition-colors">Explore full gallery →</a>
+            <a href="map.html" class="text-text-muted hover:text-white text-sm underline underline-offset-4 transition-colors">Photo map →</a>
           </div>
         </div>
         <div class="gallery-grid" id="highlights-grid">
@@ -422,13 +427,16 @@
     <!-- Selected Work Section -->
     <section id="selected-work" class="py-10 md:py-16 border-t border-border">
       <div class="max-w-7xl mx-auto px-6 sm:px-10">
-        <div class="mb-6 md:mb-10">
-          <p class="text-text-muted text-xs font-bold uppercase mb-4">Featured Projects</p>
-          <h2 class="text-4xl sm:text-5xl text-white font-bold">Selected Work</h2><a href="stories.html" class="text-text-muted text-sm underline">Read project stories →</a>
+        <div class="flex flex-col md:flex-row items-start md:items-end justify-between mb-6 md:mb-10 gap-6">
+          <div>
+            <p class="text-text-muted text-xs font-bold uppercase mb-4">Featured Projects</p>
+            <h2 class="text-4xl sm:text-5xl text-white font-bold">Selected Work</h2>
+          </div>
+          <a href="stories.html" class="text-text-muted hover:text-white text-sm underline underline-offset-4 transition-colors">Read project stories →</a>
         </div>
         <div class="grid md:grid-cols-3 gap-8">
           <!-- Project 01 -->
-          <div class="p-8 bg-surface border border-border rounded-2xl hover:border-white/20 transition-all group">
+          <a href="stories.html" class="selected-work-card block p-8 bg-surface border border-border rounded-2xl hover:border-white/20 transition-all group">
             <div
               class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center mb-6 group-hover:bg-white/10 transition-colors">
               <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -436,13 +444,13 @@
                   d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5s3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
               </svg>
             </div>
-            <h3 class="text-xl font-bold text-white mb-2">The La Salle Yearbook</h3>
+            <h3 class="text-xl font-bold text-white mb-2 group-hover:underline underline-offset-4">The La Salle Yearbook</h3>
             <p class="text-white/60 text-sm font-bold tracking-normal mb-4">Photo and Video Editor</p>
             <p class="text-text-muted leading-relaxed">Event coverage, portraits, publication-ready photo selection, and
               visual storytelling for school yearbook documentation.</p>
-          </div>
+          </a>
           <!-- Project 02 -->
-          <div class="p-8 bg-surface border border-border rounded-2xl hover:border-white/20 transition-all group">
+          <a href="stories.html" class="selected-work-card block p-8 bg-surface border border-border rounded-2xl hover:border-white/20 transition-all group">
             <div
               class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center mb-6 group-hover:bg-white/10 transition-colors">
               <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -450,14 +458,14 @@
                   d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
               </svg>
             </div>
-            <h3 class="text-xl font-bold text-white mb-2">Tigris Publication</h3>
+            <h3 class="text-xl font-bold text-white mb-2 group-hover:underline underline-offset-4">Tigris Publication</h3>
             <p class="text-white/60 text-sm font-bold tracking-normal mb-4">Photo and Video Editor / Apertura
               Editor</p>
             <p class="text-text-muted leading-relaxed">Campus publication work focused on photojournalism, visual
               coverage, and student media storytelling.</p>
-          </div>
+          </a>
           <!-- Project 03 -->
-          <div class="p-8 bg-surface border border-border rounded-2xl hover:border-white/20 transition-all group">
+          <a href="video-projects.html" class="selected-work-card block p-8 bg-surface border border-border rounded-2xl hover:border-white/20 transition-all group">
             <div
               class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center mb-6 group-hover:bg-white/10 transition-colors">
               <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -465,11 +473,11 @@
                   d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
               </svg>
             </div>
-            <h3 class="text-xl font-bold text-white mb-2">Video and Travel Projects</h3>
+            <h3 class="text-xl font-bold text-white mb-2 group-hover:underline underline-offset-4">Video and Travel Projects</h3>
             <p class="text-white/60 text-sm font-bold tracking-normal mb-4">Editor and Visual Storyteller</p>
             <p class="text-text-muted leading-relaxed">Short-form videos, travel edits, B-roll sequences, and cinematic
               social media cuts edited with Final Cut Pro.</p>
-          </div>
+          </a>
         </div>
       </div>
     </section>
@@ -488,9 +496,9 @@
           <p class="text-text-muted text-lg max-w-md mx-auto">Connect with me on social media or send an email.</p>
         </div>
 
-        <div class="contact-portfolio-actions" style="display:flex;flex-wrap:wrap;gap:20px;margin:0 0 24px"><a href="contact.html" style="text-decoration:underline;text-underline-offset:4px">Send a project enquiry →</a><a href="services.html" style="text-decoration:underline;text-underline-offset:4px">Photography services</a><a href="assets/downloads/jc-ninonuevo-media-kit.pdf" download style="text-decoration:underline;text-underline-offset:4px">Media kit (PDF)</a></div>
+        <div class="contact-portfolio-actions"><a href="contact.html">Send a project enquiry →</a><a href="services.html">Photography services</a><a href="assets/downloads/jc-ninonuevo-media-kit.pdf" download>Media kit (PDF)</a></div>
           <div id="contact-links" class="space-y-4 p-8 bg-surface border border-border rounded-2xl shadow-2xl">
-          <a href="https://facebook.com/jcninoo" target="_blank"
+          <a href="https://facebook.com/jcninoo" target="_blank" rel="noopener noreferrer"
             class="contact-link reveal-item flex items-center justify-between p-5 bg-black/20 border border-white/10 rounded-xl hover:bg-white hover:text-black transition-colors duration-300 group"
             data-reveal="up-25">
             <div class="flex items-center gap-4">
@@ -506,7 +514,7 @@
             </svg>
           </a>
 
-          <a href="https://instagram.com/photos.jcnino" target="_blank"
+          <a href="https://instagram.com/photos.jcnino" target="_blank" rel="noopener noreferrer"
             class="contact-link reveal-item flex items-center justify-between p-5 bg-black/20 border border-white/10 rounded-xl hover:bg-white hover:text-black transition-colors duration-300 group"
             data-reveal="up-25">
             <div class="flex items-center gap-4">
@@ -544,7 +552,7 @@
 
   <!-- Back to Top -->
   <div class="flex justify-center py-12 border-t border-border">
-    <button onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top"
+    <button type="button" id="back-to-top-btn" aria-label="Back to top"
       class="flex items-center justify-center gap-2 px-6 pt-[13px] pb-[11px] border border-white/20 text-white text-sm font-bold rounded-full hover:bg-white hover:text-black transition-all duration-300 group leading-none">
       <svg class="w-4 h-4 transform group-hover:-translate-y-0.5 transition-transform" fill="none" stroke="currentColor"
         viewBox="0 0 24 24">
@@ -555,21 +563,24 @@
   </div>
 
   <script src="assets/gallery-data.js"></script>
-  <script src="/api/gallery?format=js"></script>
   <script src="/assets/gallery-media.js?v=gps-landmarks-20261107"></script>
   <script src="assets/gallery-order.js?v=session-72-20261107"></script>
   <script>
-    const allPhotos = shuffleGalleryPhotos(window.galleryData.highlights.map((p, i) => {
-      const base = p.file.replace(/\.[^/.]+$/, ""); // e.g. "GH-01"
-      return {
-        id: i,
-        media: p,
-        src: p.url || 'images/' + p.file,
-        base: base,
-        alt: p.alt || ('Portfolio photograph by JC Niñonuevo — ' + base),
-        desc: p.desc || ''
-      };
-    }), 10, { sessionKey: 'highlights' });
+    function buildHighlightItems(list) {
+      return shuffleGalleryPhotos((list || []).map((p, i) => {
+        const base = p.file.replace(/\.[^/.]+$/, ""); // e.g. "GH-01"
+        return {
+          id: i,
+          media: p,
+          src: p.url || 'images/' + p.file,
+          base: base,
+          alt: p.alt || ('Portfolio photograph by JC Niñonuevo — ' + base),
+          desc: p.desc || ''
+        };
+      }), 9, { sessionKey: 'highlights' });
+    }
+
+    let allPhotos = buildHighlightItems(window.galleryData && window.galleryData.highlights);
 
     function buildCard(p, gallery) {
       const wrap = document.createElement('div');
@@ -654,10 +665,42 @@
       allPhotos.forEach(p => grid.appendChild(buildCard(p, allPhotos)));
     }
 
+    function refreshLiveHighlights() {
+      if (location.protocol !== 'http:' && location.protocol !== 'https:') return;
+      fetch('/api/gallery', { headers: { Accept: 'application/json' } })
+        .then(res => (res.ok ? res.json() : null))
+        .then(payload => {
+          if (!payload || !payload.data) return;
+          const prev = JSON.stringify((window.galleryData && window.galleryData.highlights) || []);
+          const next = JSON.stringify(payload.data.highlights || []);
+          window.galleryData = payload.data;
+          window.galleryRevision = payload.revision || null;
+          window.galleryLiveAvailable = true;
+          if (next !== prev && Array.isArray(payload.data.highlights) && payload.data.highlights.length) {
+            allPhotos = buildHighlightItems(payload.data.highlights);
+            renderHighlights();
+          }
+        })
+        .catch(() => {
+          window.galleryLiveAvailable = false;
+        });
+    }
+
+    const backToTopBtn = document.getElementById('back-to-top-btn');
+    if (backToTopBtn) {
+      backToTopBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', renderHighlights);
+      document.addEventListener('DOMContentLoaded', () => {
+        renderHighlights();
+        refreshLiveHighlights();
+      });
     } else {
       renderHighlights();
+      refreshLiveHighlights();
     }
   </script>
 
@@ -675,41 +718,21 @@
   <!-- Lightbox -->
   <div id="lightbox-placeholder"></div>
 
-
-
-  <script>
-    function initAnimations() {
-      return;
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      const animate = (element, delay = 0, move = true) => {
-        if (!element.animate) return;
-        element.animate([
-          { opacity: 0.2, transform: move ? 'translateY(16px)' : 'none' },
-          { opacity: 1, transform: 'none' }
-        ], { duration: 450, delay, easing: 'cubic-bezier(.2,.8,.2,1)' });
-      };
-
-      document.querySelectorAll('.hero-item').forEach((element, index) => {
-        animate(element, index * 60, element.id !== 'hero-img-col');
-      });
-    }
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initAnimations);
-    } else {
-      initAnimations();
-    }
-  </script>
-
   <script>
     window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    // Load Vercel Analytics on production domain and Vercel preview deployments
+    if (
+      location.protocol === 'https:' &&
+      (location.hostname === 'jcnino.dev' ||
+        location.hostname === 'www.jcnino.dev' ||
+        location.hostname.endsWith('.vercel.app'))
+    ) {
+      const vaScript = document.createElement('script');
+      vaScript.defer = true;
+      vaScript.src = '/_vercel/insights/script.js';
+      document.head.appendChild(vaScript);
+    }
   </script>
-  <script>
-  // Vercel Analytics: only load on Vercel-hosted pages (keeps local viewing console-clean)
-  if (location.protocol === 'https:' && location.hostname.endsWith('vercel.app')) {
-    document.write('<script defer src="/_vercel/insights/script.js"><\/script>');
-  }
-</script>
 
   <script>
     window.addEventListener('load', () => {
