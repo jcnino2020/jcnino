@@ -3,7 +3,8 @@
   "outputDirectory": ".",
   "rewrites": [
     { "source": "/api/ip-telemetry", "destination": "/api/ai?ip=telemetry" },
-    { "source": "/api/ip-summary", "destination": "/api/ai?ip=summary" }
+    { "source": "/api/ip-summary", "destination": "/api/ai?ip=summary" },
+    { "source": "/api/ip-chat", "destination": "/api/ai?ip=chat" }
   ],
   "redirects": [
     {

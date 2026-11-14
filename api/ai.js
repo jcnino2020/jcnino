@@ -7,7 +7,7 @@
  * Model: deepseek-v4-flash (OpenAI-compatible /chat/completions)
  * Base URL: https://api.deepseek.com
  */
-import { handleIpTelemetry, handleIpSummary } from '../lib/ip-diagnostics.js';
+import { handleIpTelemetry, handleIpSummary, handleIpChat } from '../lib/ip-diagnostics.js';
 
 const DEEPSEEK_API_URL = 'https://api.deepseek.com/chat/completions';
 
@@ -28,6 +28,9 @@ export default async function handler(req, res) {
     }
     if (ipMode === 'summary') {
         return handleIpSummary(req, res);
+    }
+    if (ipMode === 'chat') {
+        return handleIpChat(req, res);
     }
 
     // CORS Headers — mirror the existing API patterns

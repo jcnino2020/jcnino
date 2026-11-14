@@ -5,6 +5,7 @@ import {
   extractVercelGeo,
   getServerTelemetry,
   handleIpSummary as summaryHandler,
+  handleIpChat as chatHandler,
 } from '../lib/ip-diagnostics.js';
 
 function createMockRes() {
@@ -76,6 +77,19 @@ test('ip-summary rejects non-POST methods and disallowed origins', async () => {
 
   const resOrigin = createMockRes();
   await summaryHandler(
+    { method: 'POST', headers: { origin: 'https://evil.example.com' } },
+    resOrigin
+  );
+  assert.equal(resOrigin.statusCode, 403);
+});
+
+test('ip-chat rejects non-POST methods, disallowed origins, and empty messages', async () => {
+  const resGet = createMockRes();
+  await chatHandler({ method: 'GET', headers: {} }, resGet);
+  assert.equal(resGet.statusCode, 405);
+
+  const resOrigin = createMockRes();
+  await chatHandler(
     { method: 'POST', headers: { origin: 'https://evil.example.com' } },
     resOrigin
   );

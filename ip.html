@@ -166,6 +166,35 @@
 
       <!-- Error State -->
       <div id="ai-summary-error" class="hidden rounded-xl border border-rose-500/30 bg-rose-500/10 px-4 py-3 text-sm text-rose-200"></div>
+
+      <!-- Follow-up Chat with DeepSeek (with web search) -->
+      <div class="mt-5 border-t border-zinc-800/80 pt-5">
+        <div class="mb-3 flex flex-wrap items-center justify-between gap-2">
+          <p class="text-xs font-medium text-zinc-400">Ask DeepSeek about this connection (web search enabled)</p>
+          <button id="ai-chat-clear" type="button" class="hidden text-xs text-zinc-400 transition-colors hover:text-zinc-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 rounded px-1.5 py-0.5">Clear chat</button>
+        </div>
+
+        <div id="ai-chat-suggestions" class="mb-3 flex flex-wrap gap-2">
+          <button type="button" data-chat-prompt="Is this IP behind CGNAT or a residential pool?" class="rounded-lg border border-zinc-800 bg-zinc-950/70 px-2.5 py-1 text-xs text-zinc-300 transition-all hover:border-emerald-500/40 hover:text-emerald-200 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400">Is this CGNAT?</button>
+          <button type="button" data-chat-prompt="Check this ASN's peering, upstream providers, and IP reputation." class="rounded-lg border border-zinc-800 bg-zinc-950/70 px-2.5 py-1 text-xs text-zinc-300 transition-all hover:border-emerald-500/40 hover:text-emerald-200 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400">ASN peering &amp; reputation</button>
+          <button type="button" data-chat-prompt="Why might geolocation differ from my actual city?" class="rounded-lg border border-zinc-800 bg-zinc-950/70 px-2.5 py-1 text-xs text-zinc-300 transition-all hover:border-emerald-500/40 hover:text-emerald-200 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400">Why this geo?</button>
+          <button type="button" data-chat-prompt="Why is IPv6 missing or inactive on this ISP, and can I enable it?" class="rounded-lg border border-zinc-800 bg-zinc-950/70 px-2.5 py-1 text-xs text-zinc-300 transition-all hover:border-emerald-500/40 hover:text-emerald-200 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400">IPv6 status</button>
+        </div>
+
+        <div id="ai-chat-thread" class="hidden mb-3 max-h-72 space-y-2.5 overflow-y-auto pr-1" aria-live="polite"></div>
+
+        <form id="ai-chat-form" class="flex items-center gap-2">
+          <label for="ai-chat-input" class="sr-only">Ask a follow-up network question</label>
+          <input id="ai-chat-input" type="text" maxlength="1500" autocomplete="off" placeholder="Ask about PTR, CGNAT, peering, latency, or ISP routing…" class="min-w-0 flex-1 rounded-xl border border-zinc-800 bg-zinc-950/80 px-3.5 py-2 text-sm text-zinc-100 placeholder:text-zinc-500 transition-colors focus:border-emerald-500/50 focus:outline-none focus:ring-2 focus:ring-emerald-500/30">
+          <button id="ai-chat-send" type="submit" class="inline-flex shrink-0 items-center gap-1.5 rounded-xl border border-emerald-500/40 bg-emerald-500/15 px-4 py-2 text-xs font-medium text-emerald-200 transition-all hover:border-emerald-400/60 hover:bg-emerald-500/25 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 disabled:cursor-not-allowed disabled:opacity-50">
+            <span>Ask</span>
+            <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="m22 2-7 20-4-9-9-4Z" />
+              <path d="M22 2 11 13" />
+            </svg>
+          </button>
+        </form>
+      </div>
     </section>
 
     <!-- Telemetry Bento Grid -->

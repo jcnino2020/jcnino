@@ -5,6 +5,8 @@
     server: null,
     client: null,
     ai: null,
+    chatMessages: [],
+    chatBusy: false,
   };
 
   const el = {
@@ -26,6 +28,12 @@
     aiSkeleton: document.getElementById('ai-summary-skeleton'),
     aiList: document.getElementById('ai-summary-list'),
     aiError: document.getElementById('ai-summary-error'),
+    chatClear: document.getElementById('ai-chat-clear'),
+    chatSuggestions: document.getElementById('ai-chat-suggestions'),
+    chatThread: document.getElementById('ai-chat-thread'),
+    chatForm: document.getElementById('ai-chat-form'),
+    chatInput: document.getElementById('ai-chat-input'),
+    chatSend: document.getElementById('ai-chat-send'),
     dualStackBadge: document.getElementById('dual-stack-badge'),
     isp: document.getElementById('val-isp'),
     asn: document.getElementById('val-asn'),
@@ -405,6 +413,98 @@
     }
   }
 
+  function renderChatThread(pendingText = null) {
+    const hasMessages = state.chatMessages.length > 0 || Boolean(pendingText);
+    el.chatThread.classList.toggle('hidden', !hasMessages);
+    el.chatClear.classList.toggle('hidden', state.chatMessages.length === 0);
+    el.chatThread.replaceChildren();
+
+    for (const msg of state.chatMessages) {
+      const wrapper = document.createElement('div');
+      const isUser = msg.role === 'user';
+      wrapper.className = isUser
+        ? 'ml-auto max-w-[85%] rounded-xl border border-emerald-500/25 bg-emerald-500/10 px-3.5 py-2.5 text-sm text-emerald-100'
+        : msg.isError
+          ? 'mr-auto max-w-[92%] rounded-xl border border-rose-500/30 bg-rose-500/10 px-3.5 py-2.5 text-sm text-rose-200'
+          : 'mr-auto max-w-[92%] rounded-xl border border-zinc-800 bg-zinc-950/80 px-3.5 py-2.5 text-sm leading-relaxed text-zinc-200 whitespace-pre-wrap';
+
+      if (!isUser && !msg.isError && msg.meta) {
+        const meta = document.createElement('div');
+        meta.className = 'mb-1 font-mono text-[11px] text-zinc-400';
+        meta.textContent = msg.meta;
+        wrapper.appendChild(meta);
+      }
+
+      const body = document.createElement('div');
+      body.textContent = msg.content;
+      wrapper.appendChild(body);
+      el.chatThread.appendChild(wrapper);
+    }
+
+    if (pendingText) {
+      const loading = document.createElement('div');
+      loading.className =
+        'mr-auto inline-flex items-center gap-2 rounded-xl border border-zinc-800 bg-zinc-950/80 px-3.5 py-2.5 text-xs text-zinc-400';
+      loading.textContent = pendingText;
+      el.chatThread.appendChild(loading);
+    }
+
+    el.chatThread.scrollTop = el.chatThread.scrollHeight;
+  }
+
+  async function sendChatMessage(rawText) {
+    const text = String(rawText || '').trim();
+    if (!text || state.chatBusy) return;
+
+    state.chatBusy = true;
+    el.chatInput.value = '';
+    el.chatInput.disabled = true;
+    el.chatSend.disabled = true;
+
+    state.chatMessages.push({ role: 'user', content: text });
+    renderChatThread('Searching & analyzing with DeepSeek…');
+
+    const payloadMessages = state.chatMessages
+      .filter((m) => !m.isError)
+      .slice(-12)
+      .map(({ role, content }) => ({ role, content }));
+
+    try {
+      const response = await fetch('/api/ip-chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: payloadMessages,
+          clientTelemetry: state.client,
+          initialSummary: state.ai?.summary || null,
+        }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data?.error || `HTTP ${response.status}`);
+      }
+
+      state.chatMessages.push({
+        role: 'assistant',
+        content: data.reply,
+        meta: `DeepSeek (${data.model || 'deepseek-flash'}${data.webSearch ? ' + web search' : ''})`,
+      });
+    } catch (err) {
+      state.chatMessages.push({
+        role: 'assistant',
+        isError: true,
+        content: `Could not get reply: ${err?.message || 'Request failed'}`,
+      });
+    } finally {
+      state.chatBusy = false;
+      el.chatInput.disabled = false;
+      el.chatSend.disabled = false;
+      renderChatThread();
+      el.chatInput.focus();
+    }
+  }
+
   async function runDiagnostics() {
     el.rerunBtn.disabled = true;
     el.rerunIcon.classList.add('animate-spin');
@@ -493,6 +593,22 @@
 
     el.refreshAiBtn.addEventListener('click', () => {
       fetchAiSummary(true);
+    });
+
+    el.chatForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      sendChatMessage(el.chatInput.value);
+    });
+
+    el.chatSuggestions.addEventListener('click', (e) => {
+      const btn = e.target.closest('button[data-chat-prompt]');
+      if (!btn || state.chatBusy) return;
+      sendChatMessage(btn.dataset.chatPrompt || '');
+    });
+
+    el.chatClear.addEventListener('click', () => {
+      state.chatMessages = [];
+      renderChatThread();
     });
 
     el.rerunBtn.addEventListener('click', () => {
