@@ -351,7 +351,8 @@
     el.aiList.classList.remove('hidden');
 
     const cachedTag = payload.cached ? 'cached (30m TTL)' : 'live';
-    el.aiMeta.textContent = `DeepSeek (${payload.model || 'deepseek-flash'}) · ${cachedTag}`;
+    const searchTag = payload.webSearch ? ' + web search' : '';
+    el.aiMeta.textContent = `DeepSeek (${payload.model || 'deepseek-flash'}${searchTag}) · ${cachedTag}`;
   }
 
   function renderAiError(message) {
