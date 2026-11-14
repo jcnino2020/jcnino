@@ -335,6 +335,156 @@
       .map((line) => line.replace(/^[-*•]\s+/, '').replace(/^\d+\.\s+/, ''));
   }
 
+  function renderInlineMarkdown(text, parent) {
+    const tokenRegex = /(`[^`]+`|\*\*[^*]+\*\*|\[[^\]]+\]\((https?:\/\/[^)\s]+)\)|\*[^*\s][^*]*\*)/g;
+    let lastIndex = 0;
+    let match;
+
+    while ((match = tokenRegex.exec(text)) !== null) {
+      if (match.index > lastIndex) {
+        parent.appendChild(document.createTextNode(text.slice(lastIndex, match.index)));
+      }
+
+      const token = match[0];
+      if (token.startsWith('`') && token.endsWith('`')) {
+        const code = document.createElement('code');
+        code.className = 'rounded border border-zinc-800 bg-zinc-900 px-1.5 py-0.5 font-mono text-[12px] text-emerald-300';
+        code.textContent = token.slice(1, -1);
+        parent.appendChild(code);
+      } else if (token.startsWith('**') && token.endsWith('**')) {
+        const strong = document.createElement('strong');
+        strong.className = 'font-semibold text-zinc-50';
+        renderInlineMarkdown(token.slice(2, -2), strong);
+        parent.appendChild(strong);
+      } else if (token.startsWith('[') && match[2]) {
+        const labelMatch = token.match(/^\[([^\]]+)\]/);
+        const link = document.createElement('a');
+        link.href = match[2];
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.className = 'text-cyan-300 underline decoration-cyan-500/40 underline-offset-2 hover:text-cyan-200';
+        link.textContent = labelMatch ? labelMatch[1] : match[2];
+        parent.appendChild(link);
+      } else if (token.startsWith('*') && token.endsWith('*')) {
+        const em = document.createElement('em');
+        em.className = 'italic text-zinc-200';
+        em.textContent = token.slice(1, -1);
+        parent.appendChild(em);
+      } else {
+        parent.appendChild(document.createTextNode(token));
+      }
+
+      lastIndex = tokenRegex.lastIndex;
+    }
+
+    if (lastIndex < text.length) {
+      parent.appendChild(document.createTextNode(text.slice(lastIndex)));
+    }
+  }
+
+  function renderMarkdown(text, container) {
+    const lines = String(text || '').replace(/\r\n/g, '\n').split('\n');
+    let i = 0;
+
+    while (i < lines.length) {
+      const line = lines[i];
+      const trimmed = line.trim();
+
+      if (!trimmed) {
+        i += 1;
+        continue;
+      }
+
+      // Fenced code block
+      if (trimmed.startsWith('```')) {
+        const codeLines = [];
+        i += 1;
+        while (i < lines.length && !lines[i].trim().startsWith('```')) {
+          codeLines.push(lines[i]);
+          i += 1;
+        }
+        i += 1;
+        const pre = document.createElement('pre');
+        pre.className = 'my-2 overflow-x-auto rounded-lg border border-zinc-800 bg-zinc-950 p-3 font-mono text-xs text-emerald-200';
+        const code = document.createElement('code');
+        code.textContent = codeLines.join('\n');
+        pre.appendChild(code);
+        container.appendChild(pre);
+        continue;
+      }
+
+      // Heading
+      const headingMatch = trimmed.match(/^(#{1,4})\s+(.+)$/);
+      if (headingMatch) {
+        const h = document.createElement('h3');
+        h.className = 'mt-2.5 mb-1 text-sm font-semibold text-zinc-100';
+        renderInlineMarkdown(headingMatch[2], h);
+        container.appendChild(h);
+        i += 1;
+        continue;
+      }
+
+      // Blockquote
+      if (trimmed.startsWith('> ')) {
+        const bq = document.createElement('blockquote');
+        bq.className = 'my-2 border-l border-emerald-500/40 pl-3 text-zinc-300 italic';
+        renderInlineMarkdown(trimmed.slice(2), bq);
+        container.appendChild(bq);
+        i += 1;
+        continue;
+      }
+
+      // Unordered list
+      if (/^[-*•]\s+/.test(trimmed)) {
+        const ul = document.createElement('ul');
+        ul.className = 'my-1.5 list-disc space-y-1.5 pl-5 marker:text-emerald-400';
+        while (i < lines.length && /^[-*•]\s+/.test(lines[i].trim())) {
+          const li = document.createElement('li');
+          li.className = 'leading-relaxed';
+          renderInlineMarkdown(lines[i].trim().replace(/^[-*•]\s+/, ''), li);
+          ul.appendChild(li);
+          i += 1;
+        }
+        container.appendChild(ul);
+        continue;
+      }
+
+      // Ordered list
+      if (/^\d+\.\s+/.test(trimmed)) {
+        const ol = document.createElement('ol');
+        ol.className = 'my-1.5 list-decimal space-y-1.5 pl-5 marker:font-mono marker:text-xs marker:text-emerald-400';
+        while (i < lines.length && /^\d+\.\s+/.test(lines[i].trim())) {
+          const li = document.createElement('li');
+          li.className = 'leading-relaxed';
+          renderInlineMarkdown(lines[i].trim().replace(/^\d+\.\s+/, ''), li);
+          ol.appendChild(li);
+          i += 1;
+        }
+        container.appendChild(ol);
+        continue;
+      }
+
+      // Paragraph
+      const paraLines = [];
+      while (
+        i < lines.length &&
+        lines[i].trim() &&
+        !lines[i].trim().startsWith('```') &&
+        !/^(#{1,4})\s+/.test(lines[i].trim()) &&
+        !lines[i].trim().startsWith('> ') &&
+        !/^[-*•]\s+/.test(lines[i].trim()) &&
+        !/^\d+\.\s+/.test(lines[i].trim())
+      ) {
+        paraLines.push(lines[i].trim());
+        i += 1;
+      }
+      const p = document.createElement('p');
+      p.className = 'my-1.5 leading-relaxed first:mt-0 last:mb-0';
+      renderInlineMarkdown(paraLines.join(' '), p);
+      container.appendChild(p);
+    }
+  }
+
   function renderAiSummary(payload) {
     const bullets = parseBullets(payload.summary);
     el.aiList.replaceChildren();
@@ -348,7 +498,7 @@
       marker.setAttribute('aria-hidden', 'true');
 
       const text = document.createElement('span');
-      text.textContent = bullet;
+      renderInlineMarkdown(bullet, text);
 
       li.append(marker, text);
       el.aiList.appendChild(li);
@@ -426,17 +576,21 @@
         ? 'ml-auto max-w-[85%] rounded-xl border border-emerald-500/25 bg-emerald-500/10 px-3.5 py-2.5 text-sm text-emerald-100'
         : msg.isError
           ? 'mr-auto max-w-[92%] rounded-xl border border-rose-500/30 bg-rose-500/10 px-3.5 py-2.5 text-sm text-rose-200'
-          : 'mr-auto max-w-[92%] rounded-xl border border-zinc-800 bg-zinc-950/80 px-3.5 py-2.5 text-sm leading-relaxed text-zinc-200 whitespace-pre-wrap';
+          : 'mr-auto max-w-[92%] rounded-xl border border-zinc-800 bg-zinc-950/80 px-4 py-3 text-sm leading-relaxed text-zinc-200';
 
       if (!isUser && !msg.isError && msg.meta) {
         const meta = document.createElement('div');
-        meta.className = 'mb-1 font-mono text-[11px] text-zinc-400';
+        meta.className = 'mb-1.5 font-mono text-[11px] text-zinc-400';
         meta.textContent = msg.meta;
         wrapper.appendChild(meta);
       }
 
       const body = document.createElement('div');
-      body.textContent = msg.content;
+      if (isUser || msg.isError) {
+        body.textContent = msg.content;
+      } else {
+        renderMarkdown(msg.content, body);
+      }
       wrapper.appendChild(body);
       el.chatThread.appendChild(wrapper);
     }
