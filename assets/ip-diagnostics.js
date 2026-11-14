@@ -530,6 +530,38 @@
     return data.ip || null;
   }
 
+  async function readSseStream(response, onEvent) {
+    if (!response.body) {
+      throw new Error('Streaming is not supported by this browser');
+    }
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+
+      const blocks = buffer.split('\n\n');
+      buffer = blocks.pop() || '';
+
+      for (const block of blocks) {
+        for (const rawLine of block.split('\n')) {
+          const line = rawLine.trim();
+          if (!line.startsWith('data:')) continue;
+          const payload = line.slice(5).trim();
+          if (!payload) continue;
+          try {
+            onEvent(JSON.parse(payload));
+          } catch {
+            // Ignore malformed SSE event
+          }
+        }
+      }
+    }
+  }
+
   async function fetchAiSummary(refresh = false) {
     el.refreshAiBtn.disabled = true;
     el.refreshAiIcon.classList.add('animate-spin');
@@ -539,22 +571,58 @@
       el.aiSkeleton.classList.remove('hidden');
     }
 
+    let streamedSummary = '';
+    let finalMeta = null;
+
     try {
       const response = await fetch('/api/ip-summary', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'text/event-stream',
+        },
         body: JSON.stringify({
           refresh,
+          stream: true,
           clientTelemetry: state.client,
         }),
       });
-      const data = await response.json();
+
+      const contentType = response.headers.get('content-type') || '';
       if (!response.ok) {
-        throw new Error(data?.error || `HTTP ${response.status}`);
+        const errData = await response.json().catch(() => ({}));
+        throw new Error(errData?.error || `HTTP ${response.status}`);
       }
-      state.ai = data;
-      renderAiSummary(data);
-      updateRawJson();
+
+      if (contentType.includes('text/event-stream')) {
+        await readSseStream(response, (event) => {
+          if (event.type === 'delta' && event.content) {
+            streamedSummary += event.content;
+            renderAiSummary({
+              summary: streamedSummary,
+              cached: false,
+              model: 'deepseek-flash',
+              webSearch: true,
+            });
+          } else if (event.type === 'error') {
+            throw new Error(event.error || 'Stream error');
+          } else if (event.type === 'done') {
+            finalMeta = event;
+          }
+        });
+
+        state.ai = {
+          summary: streamedSummary,
+          ...(finalMeta || {}),
+        };
+        renderAiSummary(state.ai);
+        updateRawJson();
+      } else {
+        const data = await response.json();
+        state.ai = data;
+        renderAiSummary(data);
+        updateRawJson();
+      }
     } catch (err) {
       renderAiError(err?.message || 'Request failed');
     } finally {
@@ -616,40 +684,69 @@
     el.chatSend.disabled = true;
 
     state.chatMessages.push({ role: 'user', content: text });
-    renderChatThread('Searching & analyzing with DeepSeek…');
+    const assistantMsg = {
+      role: 'assistant',
+      content: '',
+      meta: 'DeepSeek (searching & streaming…)',
+      streaming: true,
+    };
+    state.chatMessages.push(assistantMsg);
+    renderChatThread();
 
     const payloadMessages = state.chatMessages
-      .filter((m) => !m.isError)
+      .filter((m) => !m.isError && !m.streaming)
       .slice(-12)
       .map(({ role, content }) => ({ role, content }));
 
     try {
       const response = await fetch('/api/ip-chat', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'text/event-stream',
+        },
         body: JSON.stringify({
+          stream: true,
           messages: payloadMessages,
           clientTelemetry: state.client,
           initialSummary: state.ai?.summary || null,
         }),
       });
 
-      const data = await response.json();
       if (!response.ok) {
-        throw new Error(data?.error || `HTTP ${response.status}`);
+        const errData = await response.json().catch(() => ({}));
+        throw new Error(errData?.error || `HTTP ${response.status}`);
       }
 
-      state.chatMessages.push({
-        role: 'assistant',
-        content: data.reply,
-        meta: `DeepSeek (${data.model || 'deepseek-flash'}${data.webSearch ? ' + web search' : ''})`,
-      });
+      const contentType = response.headers.get('content-type') || '';
+      if (contentType.includes('text/event-stream')) {
+        await readSseStream(response, (event) => {
+          if (event.type === 'delta' && event.content) {
+            assistantMsg.content += event.content;
+            renderChatThread();
+          } else if (event.type === 'error') {
+            throw new Error(event.error || 'Stream error');
+          } else if (event.type === 'done') {
+            assistantMsg.meta = `DeepSeek (${event.model || 'deepseek-flash'}${event.webSearch ? ' + web search' : ''})`;
+            assistantMsg.streaming = false;
+            renderChatThread();
+          }
+        });
+        if (assistantMsg.streaming) {
+          assistantMsg.streaming = false;
+          assistantMsg.meta = 'DeepSeek (deepseek-flash + web search)';
+        }
+      } else {
+        const data = await response.json();
+        assistantMsg.content = data.reply;
+        assistantMsg.meta = `DeepSeek (${data.model || 'deepseek-flash'}${data.webSearch ? ' + web search' : ''})`;
+        assistantMsg.streaming = false;
+      }
     } catch (err) {
-      state.chatMessages.push({
-        role: 'assistant',
-        isError: true,
-        content: `Could not get reply: ${err?.message || 'Request failed'}`,
-      });
+      assistantMsg.isError = true;
+      assistantMsg.streaming = false;
+      assistantMsg.meta = null;
+      assistantMsg.content = `Could not get reply: ${err?.message || 'Request failed'}`;
     } finally {
       state.chatBusy = false;
       el.chatInput.disabled = false;
