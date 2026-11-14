@@ -51,6 +51,40 @@
   color: #fff;
 }
 
+.collaborations-strip {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.collaborations-strip > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px 40px;
+}
+
+.collaborations-label {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.collaborations-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 36px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: #d4d4d4;
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
 .home-page #home {
   min-height: min(88svh, 840px);
   padding-top: 80px;
