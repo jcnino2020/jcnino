@@ -18,6 +18,12 @@
     copyIpIcon: document.getElementById('copy-ip-icon'),
     copyIpCheck: document.getElementById('copy-ip-check'),
     copyIpLabel: document.getElementById('copy-ip-label'),
+    heroSecondaryLabel: document.getElementById('hero-secondary-label'),
+    heroSecondaryIp: document.getElementById('hero-secondary-ip-value'),
+    copySecondaryIpBtn: document.getElementById('copy-secondary-ip-btn'),
+    copySecondaryIpIcon: document.getElementById('copy-secondary-ip-icon'),
+    copySecondaryIpCheck: document.getElementById('copy-secondary-ip-check'),
+    copySecondaryIpLabel: document.getElementById('copy-secondary-ip-label'),
     copyLive: document.getElementById('copy-live-region'),
     heroSubtitle: document.getElementById('hero-subtitle'),
     ipVersionBadge: document.getElementById('ip-version-badge'),
@@ -292,6 +298,26 @@
   }
 
   function renderDualStack(dualStack) {
+    const primaryIsV6 = state.server?.ip?.includes(':');
+    const secondaryLabel = primaryIsV6 ? 'IPv4' : 'IPv6';
+    const secondaryIp = primaryIsV6 ? dualStack.ipv4 : dualStack.ipv6;
+
+    el.heroSecondaryLabel.textContent = secondaryLabel;
+    if (secondaryIp) {
+      el.heroSecondaryIp.textContent = secondaryIp;
+      el.heroSecondaryIp.className = primaryIsV6
+        ? 'font-mono text-sm text-emerald-300 tabular-nums break-all'
+        : 'font-mono text-sm text-cyan-300 tabular-nums break-all';
+      el.copySecondaryIpBtn.disabled = false;
+      el.copySecondaryIpBtn.classList.remove('hidden');
+      el.copySecondaryIpBtn.setAttribute('aria-label', `Copy ${secondaryLabel} address`);
+    } else {
+      el.heroSecondaryIp.textContent = primaryIsV6 ? 'Not detected (IPv6-only)' : 'Not detected (IPv4-only)';
+      el.heroSecondaryIp.className = 'font-mono text-sm text-zinc-400';
+      el.copySecondaryIpBtn.disabled = true;
+      el.copySecondaryIpBtn.classList.add('hidden');
+    }
+
     if (dualStack.ipv4) {
       el.ipv4.textContent = dualStack.ipv4;
       el.ipv4.className = 'mt-1 font-mono text-sm text-emerald-300 tabular-nums break-all';
@@ -309,6 +335,7 @@
     }
 
     if (dualStack.ipv4 && dualStack.ipv6) {
+      setStatusPill(el.ipVersionBadge, 'cyan', 'Dual-Stack (v4 + v6)');
       el.dualStackBadge.textContent = 'Dual-Stack (v4 + v6)';
       el.dualStackBadge.className =
         'rounded-md border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 font-mono text-[11px] text-emerald-300';
@@ -829,6 +856,19 @@
       el.copyIpLabel,
       () => state.server?.ip || '',
       'Copy IP',
+      'Copied'
+    );
+
+    wireCopyButton(
+      el.copySecondaryIpBtn,
+      el.copySecondaryIpIcon,
+      el.copySecondaryIpCheck,
+      el.copySecondaryIpLabel,
+      () => {
+        const primaryIsV6 = state.server?.ip?.includes(':');
+        return primaryIsV6 ? state.client?.dualStack?.ipv4 || '' : state.client?.dualStack?.ipv6 || '';
+      },
+      'Copy',
       'Copied'
     );
 
