@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en" data-type="software">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skyward Express</title>
+  <meta name="description" content="Fly rooftop drone deliveries across five city districts. Play the career, the original Classic Shift, or Endless.">
+  <meta name="theme-color" content="#14232f">
+  <meta property="og:title" content="Skyward Express">
+  <meta property="og:description" content="An arcade drone delivery game with five districts and the original Classic Shift.">
+  <meta name="page-type" content="software">
+  <meta name="site-kind" content="gaming">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=JetBrains+Mono:wght@500;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="dispatch.css">
+</head>
+<body>
+
+  <main id="skyward">
+  <div id="stage" inert class="lvl1">
+
+    <!-- Sky and clouds -->
+    <div id="sky">
+      <div id="stars"></div>
+      <div id="stormRain"></div>
+      <div id="sun"></div>
+      <div class="cloud" style="top: 54px;"></div>
+      <div class="cloud" style="top: 124px;"></div>
+      <div class="cloud" style="top: 186px;"></div>
+      <div class="cloud" style="top: 88px;"></div>
+      <div class="cloud" style="top: 232px;"></div>
+    </div>
+
+    <!-- Main camera container -->
+    <div id="cam">
+      <div id="farLayer" class="layer"></div>
+      <div id="midLayer" class="layer"></div>
+
+      <div id="world" class="layer">
+        <div id="actors"></div>
+        <div id="pkgs"></div>
+        <div id="fx"></div>
+        <div id="aimGuide"></div>
+        <div id="dshadow"></div>
+      </div>
+
+      <div id="walk"></div>
+      <div id="road">
+        <div id="cars"></div>
+      </div>
+
+      <!-- Player drone (SVG) -->
+      <div id="drone" class="lvl1">
+        <div class="rig">
+          <div class="propeller prop-top-left">
+            <svg class="prop-svg" viewBox="0 0 60 60">
+              <circle cx="30" cy="30" r="25" fill="none" stroke="rgba(20,27,41,0.18)" stroke-width="1.5" stroke-dasharray="10 8"/>
+              <ellipse cx="30" cy="30" rx="26" ry="3.8" fill="#E2E8F0" stroke="#141B29" stroke-width="1.5"/>
+              <circle cx="30" cy="30" r="4.5" fill="#141B29"/>
+            </svg>
+          </div>
+          <div class="propeller prop-top-right">
+            <svg class="prop-svg" viewBox="0 0 60 60">
+              <circle cx="30" cy="30" r="25" fill="none" stroke="rgba(20,27,41,0.18)" stroke-width="1.5" stroke-dasharray="10 8"/>
+              <ellipse cx="30" cy="30" rx="26" ry="3.8" fill="#E2E8F0" stroke="#141B29" stroke-width="1.5"/>
+              <circle cx="30" cy="30" r="4.5" fill="#141B29"/>
+            </svg>
+          </div>
+          <div class="propeller prop-bottom-left">
+            <svg class="prop-svg" viewBox="0 0 60 60">
+              <circle cx="30" cy="30" r="25" fill="none" stroke="rgba(20,27,41,0.18)" stroke-width="1.5" stroke-dasharray="10 8"/>
+              <ellipse cx="30" cy="30" rx="26" ry="3.8" fill="#E2E8F0" stroke="#141B29" stroke-width="1.5"/>
+              <circle cx="30" cy="30" r="4.5" fill="#141B29"/>
+            </svg>
+          </div>
+          <div class="propeller prop-bottom-right">
+            <svg class="prop-svg" viewBox="0 0 60 60">
+              <circle cx="30" cy="30" r="25" fill="none" stroke="rgba(20,27,41,0.18)" stroke-width="1.5" stroke-dasharray="10 8"/>
+              <ellipse cx="30" cy="30" rx="26" ry="3.8" fill="#E2E8F0" stroke="#141B29" stroke-width="1.5"/>
+              <circle cx="30" cy="30" r="4.5" fill="#141B29"/>
+            </svg>
+          </div>
+
+          <svg class="drone-body" viewBox="0 0 120 120">
+            <line x1="42" y1="54" x2="10" y2="36" stroke="#27324A" stroke-width="6.5" stroke-linecap="round"/>
+            <line x1="78" y1="54" x2="110" y2="36" stroke="#27324A" stroke-width="6.5" stroke-linecap="round"/>
+            <line x1="38" y1="68" x2="6" y2="80" stroke="#141B29" stroke-width="7.5" stroke-linecap="round"/>
+            <line x1="82" y1="68" x2="114" y2="80" stroke="#141B29" stroke-width="7.5" stroke-linecap="round"/>
+
+            <circle cx="10" cy="36" r="5.5" fill="#334155" stroke="#141B29" stroke-width="2"/>
+            <circle cx="110" cy="36" r="5.5" fill="#334155" stroke="#141B29" stroke-width="2"/>
+            <circle cx="6" cy="80" r="6" fill="#334155" stroke="#141B29" stroke-width="2"/>
+            <circle cx="114" cy="80" r="6" fill="#334155" stroke="#141B29" stroke-width="2"/>
+
+            <path d="M38 74 L33 88 M82 74 L87 88" stroke="#475569" stroke-width="3" stroke-linecap="round"/>
+
+            <rect x="31" y="46" width="58" height="32" rx="12" fill="#1E293B" stroke="#0F172A" stroke-width="2.5"/>
+            <path d="M34 55 Q60 45 86 55 L86 62 Q60 57 34 62 Z" class="drone-accent"/>
+            <ellipse cx="60" cy="48" rx="15" ry="5.5" fill="#334155" stroke="#0F172A" stroke-width="2"/>
+            <rect x="42" y="59.5" width="36" height="11" rx="5.5" fill="#0F172A"/>
+            <rect x="45" y="62" width="30" height="6" rx="3" class="drone-visor"/>
+            <ellipse cx="52" cy="64" rx="4.5" ry="1.3" fill="rgba(255,255,255,0.6)"/>
+          </svg>
+
+          <div class="nav-light light-front-left"></div>
+          <div class="nav-light light-front-right"></div>
+
+          <div class="strap"></div>
+          <svg class="cargo" viewBox="0 0 32 32">
+            <rect x="2" y="2" width="28" height="28" rx="3" fill="#D49A6A" stroke="#5C3A21" stroke-width="2"/>
+            <rect x="2" y="2" width="28" height="9" rx="2" fill="#E3B287"/>
+            <rect x="13" y="2" width="6" height="28" fill="#F5E6D3"/>
+            <rect x="19" y="15" width="8" height="6" rx="1" fill="#F6F4EF" stroke="#8C5327" stroke-width="1"/>
+          </svg>
+        </div>
+      </div>
+
+      <div id="fxScreen"></div>
+    </div>
+
+    <div id="flash"></div>
+
+    <!-- Top HUD -->
+    <header id="hud">
+      <div class="hud-left">
+        <div class="chip">
+          <span class="chip-label">Score</span>
+          <span id="scoreVal">0</span>
+          <span class="chip-goal">/ 2500</span>
+        </div>
+        <div class="chip">
+          <span class="chip-label">Lives</span>
+          <span id="hearts"></span>
+        </div>
+        <div class="chip">
+          <span class="chip-label">Level</span>
+          <span id="levelVal">LV 1</span>
+        </div>
+        <div class="chip streak-chip" id="streakChip">
+          <span class="chip-label">Streak</span>
+          <span id="streakVal">x1</span>
+        </div>
+        <div class="chip">
+          <span class="chip-label">Boost</span>
+          <div class="boost-track">
+            <div id="boostFill"></div>
+          </div>
+        </div>
+      </div>
+      <div class="hud-right">
+        <button id="btnInfo" class="icon-btn" title="Controls">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M12 11v5"/>
+            <circle cx="12" cy="7.8" r="1" fill="currentColor" stroke="none"/>
+          </svg>
+        </button>
+        <button id="btnSound" class="icon-btn" title="Sound (M)">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+            <path d="M4 9v6h4l5 4V5L8 9H4z"/>
+            <path class="wv" d="M16 8.5a4.5 4.5 0 0 1 0 7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <path class="wv" d="M18.5 6a8 8 0 0 1 0 12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <path class="mx" d="M16 9l6 6M22 9l-6 6" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <button id="btnPause" class="icon-btn" title="Pause (P)">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+            <rect x="6" y="5" width="4" height="14" rx="1"/>
+            <rect x="14" y="5" width="4" height="14" rx="1"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Controls legend -->
+    <footer id="legend">
+      <div class="kcol">
+        <kbd>↑</kbd>
+        <div class="krow"><kbd>←</kbd><kbd>↓</kbd><kbd>→</kbd></div>
+      </div>
+      <span class="leg-label">Move</span>
+      <kbd class="space">SPACE</kbd>
+      <span class="leg-label">Drop</span>
+      <kbd>SHIFT</kbd>
+      <span class="leg-label">Boost</span>
+    </footer>
+
+    <!-- Mobile touch controls -->
+    <div id="touchControls">
+      <div class="dpad">
+        <button type="button" class="dpad-btn up" data-action="up" aria-label="Fly up">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
+        </button>
+        <div class="dpad-mid">
+          <button type="button" class="dpad-btn left" data-action="left" aria-label="Fly left">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <button type="button" class="dpad-btn down" data-action="down" aria-label="Fly down">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <button type="button" class="dpad-btn right" data-action="right" aria-label="Fly right">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="touch-actions">
+        <button type="button" id="btnBoost" data-action="boost" class="boost-btn">BOOST</button>
+        <button type="button" id="btnDrop" data-action="drop" class="drop-btn">DROP</button>
+      </div>
+    </div>
+
+    <!-- Level up toast notification -->
+    <div id="toast">
+      <h2 id="toastTitle"></h2>
+      <p id="toastSub"></p>
+    </div>
+
+    <!-- Start screen -->
+    <section class="screen" id="startScreen" hidden inert>
+      <div class="dispatch-sheet">
+        <div class="dispatch-head">
+          <span class="callsign">DRONE DELIVERY // 5-LEVEL SHIFT</span>
+          <span class="callsign">GOAL: 2500 PTS</span>
+        </div>
+        <div class="start-wrap">
+          <div class="logo-block">
+            <h1 class="logo">SKYWARD<br>EXPRESS</h1>
+            <p class="tag">Fly through the city and deliver packages to waiting customers.</p>
+          </div>
+          <div class="brief">
+            <h2>How to Play</h2>
+            <p>Drop packages onto customers waiting on rooftops, balconies, and sidewalks. Chain deliveries without missing to build a <b>3x streak</b>, and watch out for poles, wires, cranes, and birds.</p>
+            <div class="brief-keys">
+              <span><kbd>WASD</kbd> / <kbd>↑↓←→</kbd> Fly</span>
+              <span><kbd>SPACE</kbd> Drop</span>
+              <span><kbd>SHIFT</kbd> Boost</span>
+              <span><kbd>P</kbd> Pause</span>
+            </div>
+            <button class="btn big" id="btnStart">START SHIFT</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pause screen -->
+    <section class="screen" id="pauseScreen" hidden inert>
+      <div class="panel small">
+        <h2 class="pTitle">PAUSED</h2>
+        <p class="pSub">PRESS P OR CLICK RESUME</p>
+        <div class="end-actions"><button class="btn" id="btnResume">RESUME</button><button type="button" class="btn alt" data-classic-menu>Main menu</button></div>
+      </div>
+    </section>
+
+    <!-- End screen -->
+    <section class="screen" id="endScreen" hidden inert>
+      <div class="rain" id="rain"></div>
+      <div class="panel">
+        <div class="end-top">
+          <div class="grade-badge" id="endGrade">S</div>
+          <div>
+            <h2 class="pTitle" id="endTitle">SHIFT COMPLETE</h2>
+            <p class="pSub" id="endSub">2500 POINTS REACHED</p>
+          </div>
+        </div>
+        <div class="best-row" id="endBest"></div>
+        <div class="stats" id="endStats"></div>
+        <div class="end-actions">
+          <button class="btn" id="btnRetry">PLAY AGAIN</button>
+          <button class="btn alt" id="btnEndless" hidden>CONTINUE ENDLESS</button>
+          <button type="button" class="btn alt" data-classic-menu>Main menu</button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <section id="dispatch" hidden>
+    <div id="dispatch-content" class="route-sheet wrap" data-enter aria-label="Dispatch menu"></div>
+  </section>
+  <section id="contract-flight" tabindex="-1" aria-label="Contract flight" hidden>
+    <canvas id="contract-canvas" aria-hidden="true"></canvas>
+    <header id="contract-hud">
+      <div class="flight-objectives">
+        <strong id="flight-name"></strong>
+        <span id="flight-objective"></span>
+        <span id="flight-cargo"></span>
+      </div>
+      <div class="flight-telemetry">
+        <span id="flight-score"></span>
+        <span id="flight-hull"></span>
+        <span id="flight-battery"></span>
+        <span id="flight-boost"></span>
+        <span id="flight-wind"></span>
+      </div>
+      <button id="flight-pause" type="button" aria-label="Pause flight" class="route-btn flight-button">Ⅱ</button>
+    </header>
+    <p id="flight-countdown" hidden></p>
+    <p id="flight-guide" hidden></p>
+    <p id="flight-status" class="route-sr-only" role="status"></p>
+    <div id="flight-touch" aria-label="Touch flight controls">
+      <div class="flight-dpad">
+        <button class="route-btn" type="button" data-action="up" aria-label="Fly up">↑</button>
+        <button class="route-btn" type="button" data-action="left" aria-label="Fly left">←</button>
+        <button class="route-btn" type="button" data-action="down" aria-label="Fly down">↓</button>
+        <button class="route-btn" type="button" data-action="right" aria-label="Fly right">→</button>
+      </div>
+      <div class="flight-touch-actions">
+        <button class="route-btn" type="button" data-action="boost">Boost</button>
+        <button class="route-btn primary" type="button" data-action="drop">Drop</button>
+      </div>
+    </div>
+    <div id="flight-dialog" hidden>
+      <section class="route-sheet" role="dialog" aria-modal="true" aria-labelledby="flight-dialog-title">
+        <p class="route-kicker">FLIGHT ON HOLD</p>
+        <h2 id="flight-dialog-title">Paused</h2>
+        <div class="route-actions">
+          <button class="route-btn primary" id="flight-resume" type="button">Resume flight</button>
+          <button class="route-btn" id="flight-restart" type="button">Restart flight</button>
+          <button class="route-btn" id="flight-finish" type="button" hidden>Finish practice</button>
+          <button class="route-btn" id="flight-exit" type="button">Main menu</button>
+        </div>
+      </section>
+    </div>
+  </section>
+  <noscript><p class="route-noscript">Enable JavaScript to play Skyward Express.</p></noscript>
+  </main>
+  <input id="save-file" type="file" accept=".json,application/json" hidden>
+  <script type="module" src="game/dispatch.js"></script>
+</body>
+</html>
