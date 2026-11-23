@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <base href="/">
+  <script>
+    document.documentElement.classList.add('js');
+    window.addEventListener('error', function () {
+      document.documentElement.classList.remove('js');
+    });
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>404 — Page Not Found | JC Niñonuevo</title>
+  <meta name="robots" content="noindex, follow">
+  <meta name="description" content="The requested page could not be found on JC Niñonuevo’s photography and cinematography portfolio.">
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+
+  <style>
+    @media(max-width:767px){#main-nav #nav-links,#main-nav #nav-cta{display:none!important}#main-nav #hamburger{display:block}#main-nav #mobile-menu.closed{display:none}}
+    @media(min-width:768px){#main-nav #hamburger,#main-nav #mobile-menu{display:none}}
+
+    .not-found-main {
+      min-height: calc(100svh - 140px);
+      display: flex;
+      align-items: center;
+      padding-top: 6rem;
+      padding-bottom: 4.5rem;
+    }
+
+    .not-found-path {
+      display: inline-block;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      vertical-align: bottom;
+      padding: 0.25rem 0.65rem;
+      border: 1px solid var(--border);
+      border-radius: 9999px;
+      background: var(--surface);
+      color: #d4d4d4;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.8125rem;
+      line-height: 1.4;
+    }
+
+    .viewfinder-frame {
+      position: relative;
+      aspect-ratio: 3 / 2;
+      border-radius: 1rem;
+      overflow: hidden;
+      background: var(--surface);
+      border: 1px solid var(--border);
+    }
+
+    .viewfinder-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(35%) contrast(1.06) brightness(0.55);
+      transform: scale(1.02);
+      transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .viewfinder-frame:hover img {
+      transform: scale(1.04);
+      filter: grayscale(15%) contrast(1.08) brightness(0.65);
+    }
+
+    .viewfinder-scrim {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(0, 0, 0, 0.12) 0%, rgba(0, 0, 0, 0.72) 100%);
+      pointer-events: none;
+    }
+
+    .viewfinder-hud {
+      position: absolute;
+      inset: 1.25rem;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .vf-corner {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      border-color: rgba(255, 255, 255, 0.55);
+      border-style: solid;
+    }
+    .vf-tl { top: 0; left: 0; border-width: 1.5px 0 0 1.5px; }
+    .vf-tr { top: 0; right: 0; border-width: 1.5px 1.5px 0 0; }
+    .vf-bl { bottom: 0; left: 0; border-width: 0 0 1.5px 1.5px; }
+    .vf-br { bottom: 0; right: 0; border-width: 0 1.5px 1.5px 0; }
+
+    .vf-center-code {
+      position: relative;
+      z-index: 2;
+      align-self: center;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.04em;
+      font-size: clamp(3.5rem, 8vw, 5.75rem);
+      font-weight: 700;
+      line-height: 0.95;
+      color: #ffffff;
+      text-shadow: 0 4px 28px rgba(0, 0, 0, 0.65);
+    }
+
+    .vf-meta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.25rem 0.5rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.75rem;
+      font-variant-numeric: tabular-nums;
+      color: rgba(255, 255, 255, 0.72);
+      letter-spacing: 0.04em;
+    }
+
+    .vf-rec-dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.85);
+      margin-right: 0.45rem;
+      vertical-align: middle;
+    }
+
+    .not-found-quick-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem 1.35rem;
+      margin-top: 2.25rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .not-found-quick-links a {
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .not-found-quick-links a:hover,
+    .not-found-quick-links a:focus-visible {
+      color: var(--text-main);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .viewfinder-frame img {
+        transition: none;
+        transform: none;
+      }
+      .viewfinder-frame:hover img {
+        transform: none;
+      }
+    }
+  </style>
+
+  <link rel="preload" href="/assets/fonts/HelveticaNeue-Bold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/tailwind.css?v=2">
+  <link rel="stylesheet" href="/assets/portfolio.css?v=footer-minimal-20261105">
+  <link rel="stylesheet" href="/assets/home.css?v=7">
+</head>
+
+<body class="min-h-screen home-page flex flex-col">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Navigation -->
+  <div id="navbar-placeholder">
+    <nav id="main-nav" class="fixed top-0 left-0 right-0 z-50 bg-black border-b border-border">
+      <div class="max-w-7xl mx-auto px-6 sm:px-10">
+        <div class="flex items-center justify-between h-16 md:h-20">
+          <a href="/index.html" class="flex items-center">
+            <img src="/images/logo.png" alt="Portfolio" class="h-5 w-auto opacity-90 hover:opacity-100 transition-opacity" />
+          </a>
+
+          <div class="hidden md:flex items-center gap-10" id="nav-links">
+            <a href="/index.html" data-page="index.html" class="nav-link text-text-muted hover:text-white text-sm font-bold tracking-normal transition-colors">Home</a>
+            <a href="/drone-shots.html" data-page="drone-shots.html" class="nav-link text-text-muted hover:text-white text-sm font-bold tracking-normal transition-colors">Drone</a>
+            <a href="/framed-moments.html" data-page="framed-moments.html" class="nav-link text-text-muted hover:text-white text-sm font-bold tracking-normal transition-colors">Framed</a>
+            <a href="/school-events.html" data-page="school-events.html" class="nav-link text-text-muted hover:text-white text-sm font-bold tracking-normal transition-colors">Events</a>
+            <a href="/video-projects.html" data-page="video-projects.html" class="nav-link text-text-muted hover:text-white text-sm font-bold tracking-normal transition-colors">Videos</a>
+          </div>
+
+          <div class="hidden md:flex items-center gap-6" id="nav-cta">
+            <a href="/contact.html" class="inline-flex items-center justify-center px-6 pt-[11px] pb-[9px] border border-transparent bg-white text-black text-sm font-bold rounded-full hover:bg-opacity-90 transition-all hover:scale-105 leading-none">Contact</a>
+          </div>
+
+          <button type="button" id="hamburger" class="md:hidden text-white p-2 rounded-lg hover:bg-white/10 transition-colors" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu">
+            <svg id="ham-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <div id="mobile-menu" class="closed md:hidden" aria-hidden="true">
+          <div class="mobile-menu__inner">
+            <div class="py-6 flex flex-col gap-5 border-t border-white/10">
+              <a href="/index.html" data-page="index.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Home</a>
+              <a href="/drone-shots.html" data-page="drone-shots.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Drone Shots</a>
+              <a href="/framed-moments.html" data-page="framed-moments.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Framed Moments</a>
+              <a href="/school-events.html" data-page="school-events.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">School Events</a>
+              <a href="/video-projects.html" data-page="video-projects.html" class="text-text-muted hover:text-white text-2xl font-bold transition-colors">Video Projects</a>
+              <div class="pt-4 border-t border-white/10">
+                <a href="/contact.html" class="flex items-center justify-center w-full pt-[13px] pb-[11px] rounded-full text-lg font-bold bg-white text-black leading-none">Get in Touch</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <main id="main-content" class="not-found-main flex-1">
+    <div class="max-w-7xl mx-auto px-6 sm:px-10 w-full">
+      <div class="grid lg:grid-cols-12 gap-12 lg:gap-20 items-center">
+
+        <!-- Left Column: Copy & Recovery -->
+        <div class="lg:col-span-6">
+          <h1 class="text-5xl sm:text-7xl lg:text-8xl leading-[1.05] sm:tracking-tight font-bold text-white mb-6">
+            Out of<br><span class="font-light opacity-90">Frame.</span>
+          </h1>
+          <p class="text-text-muted text-lg sm:text-xl max-w-lg mb-5 leading-relaxed font-normal">
+            The page you requested isn’t at this address. It may have moved, or the link may be out of date.
+          </p>
+          <div id="missing-path-wrap" class="mb-10" hidden>
+            <code id="missing-path" class="not-found-path"></code>
+          </div>
+
+          <div class="flex flex-wrap gap-4">
+            <a href="/index.html"
+              class="inline-flex items-center justify-center gap-3 px-8 pt-[18px] pb-[14px] border border-transparent bg-white text-black font-bold text-sm rounded-full hover:bg-opacity-90 transition-all group leading-none">
+              Back to Home
+              <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none"
+                stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </a>
+            <a href="/gallery.html"
+              class="inline-flex items-center justify-center gap-3 px-8 pt-[18px] pb-[14px] border border-white/20 text-white font-bold text-sm rounded-full hover:bg-white/5 transition-all leading-none">
+              Explore Gallery
+            </a>
+          </div>
+
+          <nav aria-label="Popular collections" class="not-found-quick-links">
+            <a href="/drone-shots.html">Drone Shots</a>
+            <a href="/framed-moments.html">Framed Moments</a>
+            <a href="/school-events.html">School Events</a>
+            <a href="/video-projects.html">Video Projects</a>
+            <a href="/stories.html">Project Stories</a>
+            <a href="/contact.html">Contact</a>
+          </nav>
+        </div>
+
+        <!-- Right Column: Optical Viewfinder Frame -->
+        <div class="lg:col-span-6">
+          <div class="viewfinder-frame">
+            <picture>
+              <source type="image/webp" srcset="/images/hero/lakawon-1200.webp 1200w, /images/hero/lakawon-2048.webp 2048w" sizes="(min-width: 1024px) 50vw, 100vw" />
+              <img src="/images/hero/lakawon-1200.webp" alt="Aerial view of Lakawon Island by JC Niñonuevo" loading="eager" decoding="async" width="1200" height="800" />
+            </picture>
+            <div class="viewfinder-scrim" aria-hidden="true"></div>
+            <div class="viewfinder-hud" aria-hidden="true">
+              <span class="vf-corner vf-tl"></span>
+              <span class="vf-corner vf-tr"></span>
+              <span class="vf-corner vf-bl"></span>
+              <span class="vf-corner vf-br"></span>
+
+              <div class="vf-meta-row">
+                <span><span class="vf-rec-dot"></span>ERR 404</span>
+                <span>NO SIGNAL</span>
+              </div>
+
+              <div class="vf-center-code">404</div>
+
+              <div class="vf-meta-row">
+                <span>3:2 · RAW</span>
+                <span>BACOLOD, PH</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <footer id="site-footer" class="portfolio-footer">
+    <div class="portfolio-footer-inner">
+      <div class="portfolio-footer-base">
+        <a class="portfolio-footer-brand" href="/index.html" aria-label="JC Niñonuevo home"><img src="/images/logo.png" alt="JC Niñonuevo" width="120" height="18" loading="lazy"></a>
+        <p>Bacolod City, Philippines</p>
+        <span class="portfolio-footer-copyright">&copy; <span class="year">2026</span> JC Niñonuevo</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/assets/portfolio.js?v=inline-description-20261107" defer></script>
+  <script src="/assets/viewer-features.js?v=more-hover-1" defer></script>
+  <script>
+    (function () {
+      const path = window.location.pathname;
+      if (path && path !== '/404' && path !== '/404.html') {
+        const wrap = document.getElementById('missing-path-wrap');
+        const el = document.getElementById('missing-path');
+        if (wrap && el) {
+          el.textContent = path;
+          wrap.hidden = false;
+        }
+      }
+    })();
+  </script>
+</body>
+
+</html>
