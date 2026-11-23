@@ -45,109 +45,48 @@
       line-height: 1.4;
     }
 
-    .tv-screen {
+    .out-of-focus-frame {
       position: relative;
       aspect-ratio: 3 / 2;
-      padding: 1.25rem;
-      border-radius: 1.125rem;
+      padding: 1.5rem;
+      border-radius: 1rem;
       overflow: hidden;
-      background: #080808;
-      border: 1px solid #262626;
-      box-shadow:
-        inset 0 0 0 6px #050505,
-        inset 0 0 48px rgba(0, 0, 0, 0.92);
-    }
-
-    .tv-ghost-feed {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      opacity: 0.16;
-      filter: grayscale(100%) contrast(1.45) brightness(0.8);
-      transform: scale(1.03);
-      pointer-events: none;
-    }
-
-    .tv-static-canvas {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      display: block;
-      opacity: 0.78;
-      mix-blend-mode: screen;
-      pointer-events: none;
-    }
-
-    .tv-scanlines {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background: repeating-linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0) 0px,
-        rgba(0, 0, 0, 0) 2px,
-        rgba(0, 0, 0, 0.48) 2px,
-        rgba(0, 0, 0, 0.48) 4px
-      );
-    }
-
-    .tv-roll-bar {
-      position: absolute;
-      left: 0;
-      right: 0;
-      height: 18%;
-      top: 60%;
-      pointer-events: none;
-      background: linear-gradient(
-        to bottom,
-        transparent 0%,
-        rgba(255, 255, 255, 0.06) 45%,
-        rgba(255, 255, 255, 0.11) 50%,
-        rgba(255, 255, 255, 0.04) 55%,
-        transparent 100%
-      );
-    }
-
-    .tv-crt-vignette {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background:
-        radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 46%, rgba(0, 0, 0, 0.88) 100%),
-        linear-gradient(155deg, rgba(255, 255, 255, 0.06) 0%, transparent 28%);
-      box-shadow: inset 0 0 36px rgba(0, 0, 0, 0.95);
-    }
-
-    .tv-hud {
-      position: relative;
-      z-index: 2;
-      height: 100%;
-      padding: 0.5rem;
-      pointer-events: none;
+      background: var(--surface);
+      border: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
-    .vf-center-code {
+    .out-of-focus-frame img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: blur(16px) brightness(0.56) saturate(0.85);
+      transform: scale(1.08);
+      pointer-events: none;
+    }
+
+    .out-of-focus-scrim {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(0, 0, 0, 0.14) 0%, rgba(0, 0, 0, 0.58) 100%);
+      pointer-events: none;
+    }
+
+    .out-of-focus-code {
       position: relative;
       z-index: 2;
       text-align: center;
-      padding: 0.55rem 1.65rem;
-      border-radius: 0.75rem;
-      background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.76) 0%, rgba(0, 0, 0, 0.36) 70%, transparent 100%);
       font-variant-numeric: tabular-nums;
       letter-spacing: -0.04em;
       font-size: clamp(3.5rem, 8vw, 5.75rem);
       font-weight: 700;
       line-height: 0.95;
       color: #ffffff;
-      text-shadow:
-        0 0 20px rgba(255, 255, 255, 0.32),
-        0 4px 24px rgba(0, 0, 0, 0.92);
+      text-shadow: 0 4px 28px rgba(0, 0, 0, 0.65);
     }
 
     .not-found-quick-links {
@@ -268,21 +207,15 @@
           </nav>
         </div>
 
-        <!-- Right Column: Static TV Screen -->
+        <!-- Right Column: Out-of-Focus Photograph -->
         <div class="lg:col-span-6">
-          <div class="tv-screen">
+          <div class="out-of-focus-frame">
             <picture>
               <source type="image/webp" srcset="/images/hero/lakawon-1200.webp 1200w, /images/hero/lakawon-2048.webp 2048w" sizes="(min-width: 1024px) 50vw, 100vw" />
-              <img class="tv-ghost-feed" src="/images/hero/lakawon-1200.webp" alt="Weak aerial broadcast signal of Lakawon Island" loading="eager" decoding="async" width="1200" height="800" />
+              <img src="/images/hero/lakawon-1200.webp" alt="Out-of-focus aerial view of Lakawon Island by JC Niñonuevo" loading="eager" decoding="async" width="1200" height="800" />
             </picture>
-            <canvas id="tv-static-canvas" class="tv-static-canvas" width="720" height="480" aria-hidden="true"></canvas>
-            <div class="tv-scanlines" aria-hidden="true"></div>
-            <div class="tv-roll-bar" aria-hidden="true"></div>
-            <div class="tv-crt-vignette" aria-hidden="true"></div>
-
-            <div class="tv-hud" aria-hidden="true">
-              <div class="vf-center-code">404</div>
-            </div>
+            <div class="out-of-focus-scrim" aria-hidden="true"></div>
+            <div class="out-of-focus-code" aria-hidden="true">404</div>
           </div>
         </div>
 
@@ -313,37 +246,6 @@
           wrap.hidden = false;
         }
       }
-
-      const canvas = document.getElementById('tv-static-canvas');
-      if (!canvas) return;
-
-      const ctx = canvas.getContext('2d', { alpha: false });
-      if (!ctx) return;
-
-      const w = canvas.width;
-      const h = canvas.height;
-      const imgData = ctx.createImageData(w, h);
-      const buf = new Uint32Array(imgData.data.buffer);
-      const tearRow = Math.floor(h * 0.62);
-      const tearHeight = 8;
-
-      for (let y = 0; y < h; y++) {
-        const inTear = y >= tearRow && y < tearRow + tearHeight;
-        const rowShift = inTear ? 55 : 0;
-        const rowStart = y * w;
-        for (let x = 0; x < w; x++) {
-          let v = (Math.random() * 255) | 0;
-          if (v > 215) v = 245;
-          else if (v < 45) v = 12;
-          else v = (v * 0.65) | 0;
-
-          if (inTear) {
-            v = Math.min(255, v + rowShift);
-          }
-          buf[rowStart + x] = (255 << 24) | (v << 16) | (v << 8) | v;
-        }
-      }
-      ctx.putImageData(imgData, 0, 0);
     })();
   </script>
 </body>
