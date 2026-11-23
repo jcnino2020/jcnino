@@ -449,7 +449,7 @@ function results(run) {
       ${next ? button('next', 'Next contract', 'primary') : ''}${button('retry', 'Retry flight', next ? '' : 'primary')}
       ${button('previous', 'Back to routes')}${!contract.mode ? button('career', 'Career dashboard') : ''}
       ${button('garage', 'Garage')}${back()}
-    </div>`, { retry: () => launch(contract), previous: afterBrief, garage: () => garage(), career, next: () => briefing(next, career) })
+    </div>`, { retry: () => launch(contract), previous: afterBrief, garage: () => garage(), career, next: () => briefing(next, career) }, { view: 'results' })
 }
 
 function togglePause() {

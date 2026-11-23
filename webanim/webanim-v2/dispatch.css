@@ -41,6 +41,7 @@
 #dispatch[data-view='reveal']:has(.view-brief) { justify-items: end; }
 #dispatch[data-view='reveal'] { background: transparent; pointer-events: none; }
 #dispatch[data-view='board'], #dispatch[data-view='garage'] { align-items: start; }
+#dispatch[data-view='results'] { background: #101b26; color-scheme: dark; }
 
 .route-sheet {
   width: min(100%, 704px);
@@ -113,6 +114,18 @@
 .route-controls dd { margin-top: 2px; font-weight: 800; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
 .route-order { padding-inline-start: 23px; line-height: 1.73; }
 .route-notice { padding: 9px 13px; border: 1px solid #a4bcb2; border-radius: 4px; background: #e4ede6; color: #174d3f; }
+
+.view-results {
+  --dispatch-ink: #f3e8d8;
+  --dispatch-muted: #bbcad5;
+  --dispatch-line: #475b6d;
+  background: #1b2b3a;
+  border-color: #3e5366;
+}
+.view-results .route-btn:not(.primary) { color: var(--dispatch-ink); background: #263a4b; border-color: #6c8093; }
+.view-results .route-btn:not(.primary):not(:disabled):hover { background: #344c60; border-color: #a6bbcb; }
+.view-results h1:focus-visible, .view-results .route-btn:focus-visible { outline-color: var(--dispatch-amber); }
+.view-results .route-notice { color: #bce3d4; background: #223b3e; border-color: #507e75; }
 
 .view-home {
   width: min(100%, 510px);
