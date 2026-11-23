@@ -1,0 +1,9 @@
+{
+  "name": "skyward-express-rooftop-dispatch",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "for file in script.js game/*.js; do node --check \"$file\" || exit; done",
+    "test": "node --test"
+  }
+}
