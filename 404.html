@@ -45,39 +45,97 @@
       line-height: 1.4;
     }
 
-    .viewfinder-frame {
+    .tv-screen {
       position: relative;
       aspect-ratio: 3 / 2;
-      border-radius: 1rem;
+      padding: 1.25rem;
+      border-radius: 1.125rem;
       overflow: hidden;
-      background: var(--surface);
-      border: 1px solid var(--border);
+      background: #080808;
+      border: 1px solid #262626;
+      box-shadow:
+        inset 0 0 0 6px #050505,
+        inset 0 0 48px rgba(0, 0, 0, 0.92);
+      cursor: pointer;
+      user-select: none;
     }
 
-    .viewfinder-frame img {
+    .tv-ghost-feed {
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      filter: grayscale(35%) contrast(1.06) brightness(0.55);
-      transform: scale(1.02);
-      transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+      opacity: 0.16;
+      filter: grayscale(100%) contrast(1.45) brightness(0.8);
+      transform: scale(1.03);
+      pointer-events: none;
+      transition: opacity 0.25s ease, filter 0.25s ease;
     }
 
-    .viewfinder-frame:hover img {
-      transform: scale(1.04);
-      filter: grayscale(15%) contrast(1.08) brightness(0.65);
+    .tv-screen.is-retuning .tv-ghost-feed {
+      opacity: 0.3;
+      filter: grayscale(100%) contrast(1.7) brightness(1);
     }
 
-    .viewfinder-scrim {
+    .tv-static-canvas {
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at center, rgba(0, 0, 0, 0.12) 0%, rgba(0, 0, 0, 0.72) 100%);
+      width: 100%;
+      height: 100%;
+      display: block;
+      opacity: 0.88;
+      mix-blend-mode: screen;
+      image-rendering: pixelated;
       pointer-events: none;
     }
 
-    .viewfinder-hud {
+    .tv-scanlines {
       position: absolute;
-      inset: 1.25rem;
+      inset: 0;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0) 0px,
+        rgba(0, 0, 0, 0) 2px,
+        rgba(0, 0, 0, 0.48) 2px,
+        rgba(0, 0, 0, 0.48) 4px
+      );
+    }
+
+    .tv-roll-bar {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 22%;
+      top: -25%;
+      pointer-events: none;
+      background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(255, 255, 255, 0.08) 45%,
+        rgba(255, 255, 255, 0.14) 50%,
+        rgba(255, 255, 255, 0.05) 55%,
+        transparent 100%
+      );
+      animation: tv-roll 5.5s linear infinite;
+    }
+
+    .tv-crt-vignette {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 46%, rgba(0, 0, 0, 0.88) 100%),
+        linear-gradient(155deg, rgba(255, 255, 255, 0.06) 0%, transparent 28%);
+      box-shadow: inset 0 0 36px rgba(0, 0, 0, 0.95);
+    }
+
+    .tv-hud {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      padding: 0.5rem;
       pointer-events: none;
       display: flex;
       flex-direction: column;
@@ -86,9 +144,9 @@
 
     .vf-corner {
       position: absolute;
-      width: 18px;
-      height: 18px;
-      border-color: rgba(255, 255, 255, 0.55);
+      width: 16px;
+      height: 16px;
+      border-color: rgba(255, 255, 255, 0.52);
       border-style: solid;
     }
     .vf-tl { top: 0; left: 0; border-width: 1.5px 0 0 1.5px; }
@@ -101,13 +159,23 @@
       z-index: 2;
       align-self: center;
       text-align: center;
+      padding: 0.45rem 1.35rem;
+      border-radius: 0.5rem;
+      background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0.35) 68%, transparent 100%);
       font-variant-numeric: tabular-nums;
       letter-spacing: -0.04em;
       font-size: clamp(3.5rem, 8vw, 5.75rem);
       font-weight: 700;
       line-height: 0.95;
       color: #ffffff;
-      text-shadow: 0 4px 28px rgba(0, 0, 0, 0.65);
+      text-shadow:
+        0 0 20px rgba(255, 255, 255, 0.32),
+        0 4px 24px rgba(0, 0, 0, 0.92);
+      animation: tv-osd-flicker 4.2s steps(2, end) infinite;
+    }
+
+    .tv-screen.is-retuning .vf-center-code {
+      transform: translateX(3px) skewX(-4deg);
     }
 
     .vf-meta-row {
@@ -115,12 +183,13 @@
       align-items: center;
       justify-content: space-between;
       gap: 1rem;
-      padding: 0.25rem 0.5rem;
+      padding: 0.3rem 0.65rem;
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
       font-size: 0.75rem;
       font-variant-numeric: tabular-nums;
-      color: rgba(255, 255, 255, 0.72);
-      letter-spacing: 0.04em;
+      color: rgba(255, 255, 255, 0.82);
+      letter-spacing: 0.05em;
+      text-shadow: 0 1px 8px rgba(0, 0, 0, 0.95);
     }
 
     .vf-rec-dot {
@@ -128,9 +197,20 @@
       width: 6px;
       height: 6px;
       border-radius: 9999px;
-      background: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.75);
       margin-right: 0.45rem;
       vertical-align: middle;
+    }
+
+    @keyframes tv-roll {
+      0% { top: -25%; }
+      100% { top: 110%; }
+    }
+
+    @keyframes tv-osd-flicker {
+      0%, 94%, 100% { opacity: 1; transform: translateX(0); }
+      95% { opacity: 0.82; transform: translateX(-1px); }
+      97% { opacity: 0.95; transform: translateX(1px); }
     }
 
     .not-found-quick-links {
@@ -156,12 +236,9 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .viewfinder-frame img {
-        transition: none;
-        transform: none;
-      }
-      .viewfinder-frame:hover img {
-        transform: none;
+      .tv-roll-bar,
+      .vf-center-code {
+        animation: none;
       }
     }
   </style>
@@ -261,29 +338,33 @@
           </nav>
         </div>
 
-        <!-- Right Column: Optical Viewfinder Frame -->
+        <!-- Right Column: Static TV Screen -->
         <div class="lg:col-span-6">
-          <div class="viewfinder-frame">
+          <div class="tv-screen" id="tv-screen" title="Click to re-tune signal">
             <picture>
               <source type="image/webp" srcset="/images/hero/lakawon-1200.webp 1200w, /images/hero/lakawon-2048.webp 2048w" sizes="(min-width: 1024px) 50vw, 100vw" />
-              <img src="/images/hero/lakawon-1200.webp" alt="Aerial view of Lakawon Island by JC Niñonuevo" loading="eager" decoding="async" width="1200" height="800" />
+              <img class="tv-ghost-feed" src="/images/hero/lakawon-1200.webp" alt="Weak aerial broadcast signal of Lakawon Island" loading="eager" decoding="async" width="1200" height="800" />
             </picture>
-            <div class="viewfinder-scrim" aria-hidden="true"></div>
-            <div class="viewfinder-hud" aria-hidden="true">
+            <canvas id="tv-static-canvas" class="tv-static-canvas" width="240" height="160" aria-hidden="true"></canvas>
+            <div class="tv-scanlines" aria-hidden="true"></div>
+            <div class="tv-roll-bar" aria-hidden="true"></div>
+            <div class="tv-crt-vignette" aria-hidden="true"></div>
+
+            <div class="tv-hud" aria-hidden="true">
               <span class="vf-corner vf-tl"></span>
               <span class="vf-corner vf-tr"></span>
               <span class="vf-corner vf-bl"></span>
               <span class="vf-corner vf-br"></span>
 
               <div class="vf-meta-row">
-                <span><span class="vf-rec-dot"></span>ERR 404</span>
-                <span>NO SIGNAL</span>
+                <span><span class="vf-rec-dot"></span>CH 404</span>
+                <span id="tv-signal-label">NO SIGNAL</span>
               </div>
 
               <div class="vf-center-code">404</div>
 
               <div class="vf-meta-row">
-                <span>3:2 · RAW</span>
+                <span>AV-1 · NO SYNC</span>
                 <span>BACOLOD, PH</span>
               </div>
             </div>
@@ -316,6 +397,87 @@
           el.textContent = path;
           wrap.hidden = false;
         }
+      }
+
+      const canvas = document.getElementById('tv-static-canvas');
+      const screen = document.getElementById('tv-screen');
+      const signalLabel = document.getElementById('tv-signal-label');
+      if (!canvas) return;
+
+      const ctx = canvas.getContext('2d', { alpha: false });
+      if (!ctx) return;
+
+      const w = canvas.width;
+      const h = canvas.height;
+      const imgData = ctx.createImageData(w, h);
+      const buf = new Uint32Array(imgData.data.buffer);
+      const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      let burstFrames = 0;
+      let tearRow = -1;
+      let tearHeight = 0;
+
+      function drawStaticFrame() {
+        // Pick occasional horizontal interference band like analog UHF/VHS snow
+        if (burstFrames > 0 || Math.random() < 0.18) {
+          tearRow = Math.floor(Math.random() * h);
+          tearHeight = burstFrames > 0 ? 12 + Math.floor(Math.random() * 18) : 3 + Math.floor(Math.random() * 7);
+        } else {
+          tearRow = -1;
+          tearHeight = 0;
+        }
+
+        for (let y = 0; y < h; y++) {
+          const inTear = tearRow >= 0 && y >= tearRow && y < tearRow + tearHeight;
+          const rowShift = inTear ? (Math.random() * 70) | 0 : 0;
+          const rowStart = y * w;
+          for (let x = 0; x < w; x++) {
+            // Crisp high-contrast monochrome snow with phosphor grain
+            let v = (Math.random() * 255) | 0;
+            if (v > 215) v = 245;
+            else if (v < 45) v = 12;
+            else v = (v * 0.65) | 0;
+
+            if (inTear) {
+              v = Math.min(255, v + rowShift);
+            }
+            // Little-endian ABGR
+            buf[rowStart + x] = (255 << 24) | (v << 16) | (v << 8) | v;
+          }
+        }
+        ctx.putImageData(imgData, 0, 0);
+        if (burstFrames > 0) burstFrames--;
+      }
+
+      drawStaticFrame();
+
+      if (!reducedMotion) {
+        let lastTick = 0;
+        const frameInterval = 42; // ~24fps authentic broadcast snow
+
+        function tick(now) {
+          if (!document.hidden && now - lastTick >= frameInterval) {
+            lastTick = now;
+            drawStaticFrame();
+          }
+          requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+      }
+
+      if (screen) {
+        let retuneTimer = null;
+        screen.addEventListener('click', function () {
+          burstFrames = 8;
+          screen.classList.add('is-retuning');
+          if (signalLabel) signalLabel.textContent = 'SEARCHING...';
+          drawStaticFrame();
+          clearTimeout(retuneTimer);
+          retuneTimer = setTimeout(function () {
+            screen.classList.remove('is-retuning');
+            if (signalLabel) signalLabel.textContent = 'NO SIGNAL';
+          }, 650);
+        });
       }
     })();
   </script>
