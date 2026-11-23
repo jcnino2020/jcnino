@@ -56,8 +56,6 @@
       box-shadow:
         inset 0 0 0 6px #050505,
         inset 0 0 48px rgba(0, 0, 0, 0.92);
-      cursor: pointer;
-      user-select: none;
     }
 
     .tv-ghost-feed {
@@ -70,12 +68,6 @@
       filter: grayscale(100%) contrast(1.45) brightness(0.8);
       transform: scale(1.03);
       pointer-events: none;
-      transition: opacity 0.25s ease, filter 0.25s ease;
-    }
-
-    .tv-screen.is-retuning .tv-ghost-feed {
-      opacity: 0.3;
-      filter: grayscale(100%) contrast(1.7) brightness(1);
     }
 
     .tv-static-canvas {
@@ -107,18 +99,17 @@
       position: absolute;
       left: 0;
       right: 0;
-      height: 22%;
-      top: -25%;
+      height: 18%;
+      top: 60%;
       pointer-events: none;
       background: linear-gradient(
         to bottom,
         transparent 0%,
-        rgba(255, 255, 255, 0.08) 45%,
-        rgba(255, 255, 255, 0.14) 50%,
-        rgba(255, 255, 255, 0.05) 55%,
+        rgba(255, 255, 255, 0.06) 45%,
+        rgba(255, 255, 255, 0.11) 50%,
+        rgba(255, 255, 255, 0.04) 55%,
         transparent 100%
       );
-      animation: tv-roll 5.5s linear infinite;
     }
 
     .tv-crt-vignette {
@@ -171,11 +162,6 @@
       text-shadow:
         0 0 20px rgba(255, 255, 255, 0.32),
         0 4px 24px rgba(0, 0, 0, 0.92);
-      animation: tv-osd-flicker 4.2s steps(2, end) infinite;
-    }
-
-    .tv-screen.is-retuning .vf-center-code {
-      transform: translateX(3px) skewX(-4deg);
     }
 
     .vf-meta-row {
@@ -202,17 +188,6 @@
       vertical-align: middle;
     }
 
-    @keyframes tv-roll {
-      0% { top: -25%; }
-      100% { top: 110%; }
-    }
-
-    @keyframes tv-osd-flicker {
-      0%, 94%, 100% { opacity: 1; transform: translateX(0); }
-      95% { opacity: 0.82; transform: translateX(-1px); }
-      97% { opacity: 0.95; transform: translateX(1px); }
-    }
-
     .not-found-quick-links {
       display: flex;
       flex-wrap: wrap;
@@ -233,13 +208,6 @@
     .not-found-quick-links a:hover,
     .not-found-quick-links a:focus-visible {
       color: var(--text-main);
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .tv-roll-bar,
-      .vf-center-code {
-        animation: none;
-      }
     }
   </style>
 
@@ -340,7 +308,7 @@
 
         <!-- Right Column: Static TV Screen -->
         <div class="lg:col-span-6">
-          <div class="tv-screen" id="tv-screen" title="Click to re-tune signal">
+          <div class="tv-screen">
             <picture>
               <source type="image/webp" srcset="/images/hero/lakawon-1200.webp 1200w, /images/hero/lakawon-2048.webp 2048w" sizes="(min-width: 1024px) 50vw, 100vw" />
               <img class="tv-ghost-feed" src="/images/hero/lakawon-1200.webp" alt="Weak aerial broadcast signal of Lakawon Island" loading="eager" decoding="async" width="1200" height="800" />
@@ -400,8 +368,6 @@
       }
 
       const canvas = document.getElementById('tv-static-canvas');
-      const screen = document.getElementById('tv-screen');
-      const signalLabel = document.getElementById('tv-signal-label');
       if (!canvas) return;
 
       const ctx = canvas.getContext('2d', { alpha: false });
@@ -411,74 +377,26 @@
       const h = canvas.height;
       const imgData = ctx.createImageData(w, h);
       const buf = new Uint32Array(imgData.data.buffer);
-      const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const tearRow = Math.floor(h * 0.62);
+      const tearHeight = 8;
 
-      let burstFrames = 0;
-      let tearRow = -1;
-      let tearHeight = 0;
+      for (let y = 0; y < h; y++) {
+        const inTear = y >= tearRow && y < tearRow + tearHeight;
+        const rowShift = inTear ? 55 : 0;
+        const rowStart = y * w;
+        for (let x = 0; x < w; x++) {
+          let v = (Math.random() * 255) | 0;
+          if (v > 215) v = 245;
+          else if (v < 45) v = 12;
+          else v = (v * 0.65) | 0;
 
-      function drawStaticFrame() {
-        // Pick occasional horizontal interference band like analog UHF/VHS snow
-        if (burstFrames > 0 || Math.random() < 0.18) {
-          tearRow = Math.floor(Math.random() * h);
-          tearHeight = burstFrames > 0 ? 12 + Math.floor(Math.random() * 18) : 3 + Math.floor(Math.random() * 7);
-        } else {
-          tearRow = -1;
-          tearHeight = 0;
-        }
-
-        for (let y = 0; y < h; y++) {
-          const inTear = tearRow >= 0 && y >= tearRow && y < tearRow + tearHeight;
-          const rowShift = inTear ? (Math.random() * 70) | 0 : 0;
-          const rowStart = y * w;
-          for (let x = 0; x < w; x++) {
-            // Crisp high-contrast monochrome snow with phosphor grain
-            let v = (Math.random() * 255) | 0;
-            if (v > 215) v = 245;
-            else if (v < 45) v = 12;
-            else v = (v * 0.65) | 0;
-
-            if (inTear) {
-              v = Math.min(255, v + rowShift);
-            }
-            // Little-endian ABGR
-            buf[rowStart + x] = (255 << 24) | (v << 16) | (v << 8) | v;
+          if (inTear) {
+            v = Math.min(255, v + rowShift);
           }
+          buf[rowStart + x] = (255 << 24) | (v << 16) | (v << 8) | v;
         }
-        ctx.putImageData(imgData, 0, 0);
-        if (burstFrames > 0) burstFrames--;
       }
-
-      drawStaticFrame();
-
-      if (!reducedMotion) {
-        let lastTick = 0;
-        const frameInterval = 42; // ~24fps authentic broadcast snow
-
-        function tick(now) {
-          if (!document.hidden && now - lastTick >= frameInterval) {
-            lastTick = now;
-            drawStaticFrame();
-          }
-          requestAnimationFrame(tick);
-        }
-        requestAnimationFrame(tick);
-      }
-
-      if (screen) {
-        let retuneTimer = null;
-        screen.addEventListener('click', function () {
-          burstFrames = 8;
-          screen.classList.add('is-retuning');
-          if (signalLabel) signalLabel.textContent = 'SEARCHING...';
-          drawStaticFrame();
-          clearTimeout(retuneTimer);
-          retuneTimer = setTimeout(function () {
-            screen.classList.remove('is-retuning');
-            if (signalLabel) signalLabel.textContent = 'NO SIGNAL';
-          }, 650);
-        });
-      }
+      ctx.putImageData(imgData, 0, 0);
     })();
   </script>
 </body>
