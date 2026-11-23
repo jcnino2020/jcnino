@@ -19,6 +19,15 @@ function meets(condition, run) {
   }
 }
 
+function moveHazards(hazards, time) {
+  for (const hazard of hazards) {
+    if (!hazard.travel) continue
+    const [dx, dy, rate] = hazard.travel
+    hazard.x = hazard.startX + Math.sin(time * rate) * dx
+    hazard.y = hazard.startY + Math.sin(time * rate * 0.8) * dy
+  }
+}
+
 export function startMission(contract, stats = FLIGHT, settings = {}) {
   const lifecycle = stateMachine('notStarted', transitions)
   const difficulty = DIFFICULTIES[settings.difficulty] ?? DIFFICULTIES.standard
@@ -33,6 +42,8 @@ export function startMission(contract, stats = FLIGHT, settings = {}) {
   const padColliders = targets.map(target => ({ type: 'platform', x: target.x - target.physicalWidth / 2,
     y: target.y, w: target.physicalWidth, h: 15, damage: 18 }))
   const hazards = contract.hazards.map(hazard => ({ ...hazard, startX: hazard.x, startY: hazard.y }))
+  const forecastHazards = hazards.map(hazard => ({ ...hazard }))
+  const windAt = time => weather.wind + weather.gust * Math.sin(time * 0.7)
   const run = {
     contract, stats, settings, difficulty, weather, practice, targets, hazards,
     drone: { x, y, vx: 0, vy: 0, tilt: 0, health: stats.health, battery: stats.battery * (contract.reserve ?? 1), boost: 100, invulnerable: 0 },
@@ -61,12 +72,16 @@ export function startMission(contract, stats = FLIGHT, settings = {}) {
     return true
   }
 
-  const awardLanding = hit => {
-    const parcel = run.parcel
-    run.parcel = null
+  const landingOutcome = (hit, cargo, time) => {
     const target = run.target
     const adjusted = hit.surface === surfaces[run.targetIndex] ? { ...hit, surface: target } : hit
-    const outcome = judgeLanding(adjusted, target, difficulty, parcel.cargo, run.elapsed)
+    return judgeLanding(adjusted, target, difficulty, cargo, time)
+  }
+
+  const awardLanding = hit => {
+    const { cargo } = run.parcel
+    run.parcel = null
+    const outcome = landingOutcome(hit, cargo, run.elapsed)
     const points = registerDelivery(run.score, outcome)
     run.outcome = { type: outcome, x: hit.x, y: hit.y, time: run.elapsed, points }
     if (points) {
@@ -95,11 +110,21 @@ export function startMission(contract, stats = FLIGHT, settings = {}) {
       return true
     },
     predict() {
-      if (!contract.prediction || !settings.prediction || run.parcel) return null
+      if (run.phase !== 'active' || !contract.prediction || !settings.prediction || run.parcel || run.cooldown > 0) return null
       const parcel = release(run.drone, contract.cargo)
-      for (let i = 0; i < 84; i++) {
-        const hit = stepPackage(parcel, STEP * 3, landingSurfaces, hazards, run.wind * 0.34)
-        if (hit) return hit
+      const path = [{ x: parcel.x, y: parcel.y }]
+      let time = run.elapsed
+      for (let tick = 1; tick <= 240; tick++) {
+        time += STEP
+        if (run.timeLeft !== null && tick * STEP >= run.timeLeft) return null
+        moveHazards(forecastHazards, time)
+        const hit = stepPackage(parcel, STEP, landingSurfaces, forecastHazards, windAt(time) * 0.34)
+        if (hit) {
+          const y = hit.surface ? hit.y - DROP.size / 2 : hit.y
+          path.push({ x: hit.x, y })
+          return { ...hit, path, outcome: landingOutcome(hit, parcel.cargo, time) }
+        }
+        if (tick % 6 === 0) path.push({ x: parcel.x, y: parcel.y })
       }
       return null
     },
@@ -119,19 +144,14 @@ export function startMission(contract, stats = FLIGHT, settings = {}) {
           return
         }
       }
-      run.wind = weather.wind + weather.gust * Math.sin(run.elapsed * 0.7)
+      run.wind = windAt(run.elapsed)
       run.cooldown = Math.max(0, run.cooldown - dt)
       run.drone.invulnerable = Math.max(0, run.drone.invulnerable - dt)
       run.distance += fly(run.drone, input, dt, stats, difficulty, {
         worldWidth: contract.width, weight: CARGO[contract.cargo].weight, wind: run.wind,
         invert: settings.invert, stabilize: settings.stabilize && settings.difficulty !== 'expert', practice,
       })
-      for (const hazard of hazards) {
-        if (!hazard.travel) continue
-        const [dx, dy, rate] = hazard.travel
-        hazard.x = hazard.startX + Math.sin(run.elapsed * rate) * dx
-        hazard.y = hazard.startY + Math.sin(run.elapsed * rate * 0.8) * dy
-      }
+      moveHazards(hazards, run.elapsed)
       const drone = run.drone
       const depot = contract.depot
       if (depot && Math.abs(drone.x - depot.x) <= depot.width / 2 && Math.abs(drone.y - depot.y) < 34 && Math.hypot(drone.vx, drone.vy) < 48) {

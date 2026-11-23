@@ -71,6 +71,28 @@ export function damageDrone(drone, damage, stats, difficulty, collider) {
   return true
 }
 
+export const CLASSIC_PARCEL_SIZE = 32
+
+export function releaseClassic(drone, camera) {
+  return { x: drone.x + camera, y: drone.y + 30, vx: drone.vx * 0.35, vy: 60 }
+}
+
+export function stepClassicPackage(parcel, dt, surfaceAt) {
+  parcel.vy += 1500 * dt
+  parcel.x += parcel.vx * dt
+  parcel.y += parcel.vy * dt
+
+  const surface = surfaceAt(parcel.x, parcel.y)
+  if (parcel.y + CLASSIC_PARCEL_SIZE < surface) return null
+  parcel.y = surface - CLASSIC_PARCEL_SIZE
+  const bounced = parcel.vy > 260
+  if (bounced) {
+    parcel.vy *= -0.3
+    parcel.vx *= 0.6
+  }
+  return { surface, bounced }
+}
+
 export function release(drone, cargo) {
   return { x: drone.x, y: drone.y + DROP.gap, vx: drone.vx * DROP.inheritance, vy: Math.max(-75, drone.vy * 0.3), cargo }
 }
@@ -92,7 +114,9 @@ export function stepPackage(parcel, dt, surfaces, hazards, wind = 0) {
   let first = Infinity
   if (y > parcel.y) {
     for (const surface of surfaces) {
-      const t = (surface.y - half - parcel.y) / (y - parcel.y)
+      const startsOnSurface = parcel.y + half >= surface.y && parcel.y - half <= surface.y &&
+        Math.abs(parcel.x - surface.x) <= surface.width / 2
+      const t = startsOnSurface ? 0 : (surface.y - half - parcel.y) / (y - parcel.y)
       const impactX = parcel.x + (x - parcel.x) * t
       if (t >= 0 && t <= 1 && t < first && Math.abs(impactX - surface.x) <= surface.width / 2) {
         first = t

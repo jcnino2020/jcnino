@@ -148,3 +148,41 @@ for (const route of CONTRACTS) {
     assert.ok(run.result.stars >= 1)
   })
 }
+
+test('the drop guide agrees with the actual path under wind and inherited momentum', () => {
+  const engine = launch({ ...CONTRACTS[0], weather: 'windy', spawn: [165, 210] })
+  tick(engine, 0.23, new Set(['right']))
+  const guide = engine.predict()
+  assert.ok(guide.path.length > 5)
+  assert.ok(guide.path.at(-1).x > guide.path[0].x + 40)
+  assert.ok(engine.drop())
+  assert.equal(engine.predict(), null)
+  tick(engine, 1.2)
+  assert.equal(engine.run.outcome.type, guide.outcome)
+  assert.ok(Math.abs(engine.run.outcome.x - guide.x) < 1e-8)
+  assert.equal(engine.run.outcome.y, guide.y)
+})
+
+test('the drop guide predicts the future position of a moving obstacle without moving it', () => {
+  const engine = launch({ ...CONTRACTS[0], hazards: [{ x: 125, y: 318, w: 23, h: 14, damage: 20, travel: [144, 0, 2] }] })
+  const guide = engine.predict()
+  assert.equal(guide.outcome, 'damaged')
+  assert.equal(engine.run.hazards[0].x, 125)
+  assert.ok(engine.drop())
+  tick(engine, 1)
+  assert.equal(engine.run.outcome.type, 'damaged')
+  assert.equal(engine.run.outcome.x, guide.x)
+  assert.equal(engine.run.outcome.y, guide.y)
+})
+
+test('the drop guide checks whether a pad will be open on arrival', () => {
+  const route = CONTRACTS[0]
+  const first = { ...route.targets[0], window: { period: 10, open: 0.3 } }
+  const engine = launch({ ...route, targets: [first, route.targets[1]] })
+  const guide = engine.predict()
+  assert.equal(guide.outcome, 'missed')
+  assert.ok(engine.drop())
+  tick(engine, 1.1)
+  assert.equal(engine.run.outcome.type, 'missed')
+  assert.equal(engine.run.targetIndex, 0)
+})

@@ -1066,29 +1066,22 @@ body {
 }
 
 #aimGuide {
-  position:absolute; z-index:4; width:2px; margin-left:-1px;
-  border-left:2px dashed rgba(20, 27, 41, 0.32);
-  opacity:0; pointer-events:none; transition:opacity .15s, border-color .15s;
+  position:absolute; inset:0; z-index:17; width:100%; height:100%;
+  color:#f3f5ef; opacity:0; pointer-events:none; overflow:hidden;
 }
-#stage.lvl3 #aimGuide {
-  border-left-color: rgba(255,255,255,.35);
-}
-#aimGuide.active {
-  opacity: 1;
+#stage.playing #aimGuide.active {
+  opacity:1;
 }
 #aimGuide.locked {
-  border-left-color: #F59E0B;
+  color:#d9ffbe;
 }
-#aimGuide::after {
-  content:''; position:absolute; bottom:-4px; left:-5px; width:8px; height:8px;
-  border-radius:50%; background:rgba(20, 27, 41, 0.45);
+#aimGuide polyline {
+  fill:none; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:1.5 5;
 }
-#stage.lvl3 #aimGuide::after {
-  background: rgba(255,255,255,.6);
-}
-#aimGuide.locked::after {
-  background: #F59E0B;
-}
+#aimOutline { stroke:rgba(20, 35, 47, 0.78); stroke-width:4; }
+#aimLine { stroke:currentColor; stroke-width:1.6; }
+#aimPoint { fill:#14232f; stroke:currentColor; stroke-width:1.5; }
+#aimGuide.locked #aimPoint { fill:currentColor; stroke:#14232f; }
 
 .pickup {
   position: absolute;

@@ -18,8 +18,6 @@ export function createRenderer(canvas) {
   let camera = 0
   let skyKey = ''
   let sky
-  let forecast = null
-  let nextForecast = 0
 
   const rect = (x, y, w, h, color) => {
     ctx.fillStyle = color
@@ -194,8 +192,8 @@ export function createRenderer(canvas) {
     ctx.fill()
     rect(-15, -5, 30, 5, run.stats.color ?? '#e78552')
     rect(-9, 4, 18, 4, '#99e4de')
-    if (!run.parcel) parcel(0, DROP.gap, run.contract.cargo)
     ctx.restore()
+    if (!run.parcel) parcel(drone.x, drone.y + DROP.gap, run.contract.cargo)
     ctx.globalAlpha = 1
   }
 
@@ -206,11 +204,51 @@ export function createRenderer(canvas) {
     rect(x - 1, y - half + 1, 2, DROP.size - 2, pale)
   }
 
+  function drawForecast({ path, outcome }) {
+    const end = path.at(-1)
+    const blocked = outcome === 'damaged'
+    const lands = outcome !== 'missed' && !blocked
+    const color = blocked ? '#ffc2a1' : lands ? '#d9ffbe' : '#f3f5ef'
+    const unit = Math.max(0.68, 1 / scale)
+    ctx.save()
+    ctx.lineCap = 'round'
+    ctx.lineJoin = 'round'
+    ctx.beginPath()
+    ctx.moveTo(path[0].x, path[0].y)
+    for (const point of path.slice(1)) ctx.lineTo(point.x, point.y)
+    ctx.setLineDash([2 * unit, 5 * unit])
+    ctx.strokeStyle = '#14232fbf'
+    ctx.lineWidth = 4 * unit
+    ctx.stroke()
+    ctx.strokeStyle = color
+    ctx.lineWidth = 1.6 * unit
+    ctx.stroke()
+    ctx.setLineDash([])
+
+    ctx.beginPath()
+    ctx.arc(end.x, end.y, 5.5 * unit, 0, Math.PI * 2)
+    ctx.fillStyle = ink
+    ctx.fill()
+    ctx.stroke()
+    ctx.beginPath()
+    if (blocked) {
+      const arm = 2 * unit
+      ctx.moveTo(end.x - arm, end.y - arm)
+      ctx.lineTo(end.x + arm, end.y + arm)
+      ctx.moveTo(end.x + arm, end.y - arm)
+      ctx.lineTo(end.x - arm, end.y + arm)
+      ctx.stroke()
+    } else if (lands) {
+      ctx.arc(end.x, end.y, 2 * unit, 0, Math.PI * 2)
+      ctx.fillStyle = color
+      ctx.fill()
+    }
+    ctx.restore()
+  }
+
   return {
     reset() {
       camera = 0
-      forecast = null
-      nextForecast = 0
     },
     paint(scene, elapsed, terminalAge = 0) {
       const { run } = scene
@@ -250,21 +288,8 @@ export function createRenderer(canvas) {
       const accent = run.settings.contrast ? '#fff5a2' : district.accent
       run.targets.forEach((target, index) => { if (shown(target.x)) targetPad(target, run, index, accent) })
       for (const box of run.hazards) if (shown(box.x, box.w)) obstacle(box, run)
-      if (run.phase === 'active' && run.elapsed >= nextForecast) {
-        forecast = scene.predict()
-        nextForecast = run.elapsed + 0.045
-      }
-      if (forecast && !run.parcel && run.phase === 'active' && shown(forecast.x)) {
-        ctx.strokeStyle = forecast.damaged ? '#ff9f7a' : '#d8ffff'
-        ctx.lineWidth = 2
-        ctx.setLineDash([5, 6])
-        ctx.beginPath()
-        ctx.moveTo(run.drone.x, run.drone.y + DROP.gap + 8)
-        ctx.lineTo(forecast.x, forecast.y - 6)
-        ctx.stroke()
-        ctx.setLineDash([])
-        label('×', forecast.x, forecast.y - 4, '#fff', 21, 'center')
-      }
+      const forecast = scene.predict()
+      if (forecast) drawForecast(forecast)
       if (run.parcel) parcel(run.parcel.x, run.parcel.y, run.parcel.cargo)
       craft(run, terminalAge)
       if (run.outcome && impactAge < 1.35) {

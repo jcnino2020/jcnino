@@ -1,4 +1,5 @@
-import { classicThrust, fixedClock, stateMachine } from './game/core.js'
+import { classicThrust, fixedClock, stateMachine, STEP } from './game/core.js'
+import { CLASSIC_PARCEL_SIZE, releaseClassic, stepClassicPackage } from './game/physics.js'
 import { attachInput, bindings as defaultBindings } from './game/input.js'
 
 // Game constants and settings
@@ -12,9 +13,7 @@ const GOAL_SCORE = 2500;
 const MAX_LIVES = 3;
 const HIT_R = 22;
 const DROP_COOLDOWN = 0.45;
-const PKG_H = 32;
 const DELIVER_RADIUS = 88;
-const GRAVITY = 1500;
 
 // Drone speed and scroll speed for each level (5 levels)
 const LEVELS = [
@@ -144,6 +143,10 @@ const walkEl = document.getElementById('walk');
 const droneEl = document.getElementById('drone');
 const shadowEl = document.getElementById('dshadow');
 const aimEl = document.getElementById('aimGuide');
+const aimLine = document.getElementById('aimLine');
+const aimOutline = document.getElementById('aimOutline');
+const aimPoint = document.getElementById('aimPoint');
+let aimedCustomer = null;
 const legendEl = document.getElementById('legend');
 const scoreEl = document.getElementById('scoreVal');
 const heartsEl = document.getElementById('hearts');
@@ -829,10 +832,7 @@ function dropPackage() {
 
   const el = createBox('div', 'pkg', pkgsEl);
   packages.push({
-    x: player.x + cam,
-    y: player.y + 30,
-    vx: player.vx * 0.35,
-    vy: 60,
+    ...releaseClassic(player, cam),
     rot: randomRange(-8, 8),
     vr: randomRange(-100, 100),
     el: el,
@@ -845,24 +845,15 @@ function updatePackages(dt) {
     const p = packages[i];
     if (p.state !== 'fall') continue;
 
-    p.vy += GRAVITY * dt;
-    p.x += p.vx * dt;
-    p.y += p.vy * dt;
     p.rot += p.vr * dt;
-
-    const surf = surfaceTopY(p.x, p.y);
-    if (p.y + PKG_H >= surf) {
-      p.y = surf - PKG_H;
-      if (p.vy > 260) {
-        p.vy = -p.vy * 0.3;
-        p.vx *= 0.6;
-        p.vr *= -0.5;
-        SFX.thud();
-      } else {
-        resolvePackage(p, surf);
-        packages.splice(i, 1);
-        continue;
-      }
+    const impact = stepClassicPackage(p, dt, surfaceTopY);
+    if (impact?.bounced) {
+      p.vr *= -0.5;
+      SFX.thud();
+    } else if (impact) {
+      resolvePackage(p, impact.surface);
+      packages.splice(i, 1);
+      continue;
     }
     p.el.style.transform = 'translate(' + (p.x - 16) + 'px, ' + p.y + 'px) rotate(' + p.rot + 'deg)';
   }
@@ -878,14 +869,7 @@ function resolvePackage(p, surfY) {
   }, 800);
   dust(p.x, surfY);
 
-  let hitCustomer = null;
-  for (let i = 0; i < customers.length; i++) {
-    const c = customers[i];
-    if (c.state === 'idle' && Math.abs(c.x - p.x) < DELIVER_RADIUS && Math.abs(c.feetY - surfY) < 48) {
-      hitCustomer = c;
-      break;
-    }
-  }
+  const hitCustomer = deliveryCustomer(p.x, surfY);
 
   if (hitCustomer) {
     deliverSuccess(p, hitCustomer, surfY);
@@ -1369,11 +1353,6 @@ function renderDrone() {
   shadowEl.style.top = (sy - 8) + 'px';
   shadowEl.style.transform = 'scale(' + clampVal(1.05 - d / 700, 0.3, 1.05) + ')';
   shadowEl.style.opacity = clampVal(0.36 - d / 1600, 0.06, 0.36);
-
-  aimEl.classList.toggle('active', mode === 'play');
-  aimEl.style.left = wx + 'px';
-  aimEl.style.top = (player.y + 44) + 'px';
-  aimEl.style.height = Math.max(0, sy - (player.y + 44)) + 'px';
 }
 
 function updateCustomers(dt) {
@@ -1509,20 +1488,41 @@ function hurt() {
   if (lives <= 0) gameOver();
 }
 
-function targetCheck() {
-  let anyLocked = false;
-  for (let i = 0; i < customers.length; i++) {
-    const c = customers[i];
-    if (c.state !== 'idle') continue;
-    const onScreen = c.x - cam > -60 && c.x - cam < W + 60;
-    const inRange =
-      onScreen &&
-      Math.abs(player.x - (c.x - cam)) < 95 &&
-      player.y < c.feetY - 60;
-    if (inRange) anyLocked = true;
-    c.el.classList.toggle('targeted', inRange);
+function deliveryCustomer(x, surface) {
+  return customers.find(customer => customer.state === 'idle' &&
+    Math.abs(customer.x - x) < DELIVER_RADIUS && Math.abs(customer.feetY - surface) < 48);
+}
+
+function renderDropGuide() {
+  let customer = null;
+  let landing = null;
+  if (mode === 'play' && !dropCd && flightSettings.prediction !== false) {
+    const parcel = releaseClassic(player, cam);
+    const center = () => (parcel.x - cam).toFixed(2) + ',' + (parcel.y + CLASSIC_PARCEL_SIZE / 2).toFixed(2);
+    const points = [center()];
+    for (let tick = 1; tick <= 240; tick++) {
+      const impact = stepClassicPackage(parcel, STEP, surfaceTopY);
+      if (impact && !impact.bounced) {
+        landing = impact.surface;
+        customer = deliveryCustomer(parcel.x, landing);
+        const path = [...points, center()].join(' ');
+        aimLine.setAttribute('points', path);
+        aimOutline.setAttribute('points', path);
+        aimPoint.setAttribute('cx', (parcel.x - cam).toFixed(2));
+        aimPoint.setAttribute('cy', (landing - 2).toFixed(2));
+        break;
+      }
+      if (tick % 6 === 0 || impact) points.push(center());
+    }
   }
-  aimEl.classList.toggle('locked', anyLocked);
+
+  aimEl.classList.toggle('active', landing !== null);
+  aimEl.classList.toggle('locked', Boolean(customer));
+  if (customer !== aimedCustomer) {
+    aimedCustomer?.el.classList.remove('targeted');
+    customer?.el.classList.add('targeted');
+    aimedCustomer = customer;
+  }
 }
 
 // Reset, cleanup, and main loop
@@ -1545,7 +1545,6 @@ function resetGame(toMode) {
   worldEl.appendChild(actorsEl);
   worldEl.appendChild(pkgsEl);
   worldEl.appendChild(fxEl);
-  worldEl.appendChild(aimEl);
   worldEl.appendChild(shadowEl);
 
   statics.length = 0;
@@ -1606,6 +1605,7 @@ function resetGame(toMode) {
   keys.clear();
   clock.reset();
 
+  aimedCustomer = null;
   buildHearts();
   updateHUD();
   ensureWorld();
@@ -1670,6 +1670,7 @@ function render(elapsed = 0) {
   roadEl.style.setProperty('--rshift', (-cam % 96) + 'px');
   walkEl.style.setProperty('--wshift', (-cam % 63) + 'px');
   renderDrone();
+  renderDropGuide();
 
   boostFillEl.style.width = Math.round(boost) + '%';
   dispScore += (score - dispScore) * (1 - Math.exp(-elapsed * 12));
@@ -1708,7 +1709,6 @@ function updateSimulation(dt) {
     updateHazards(dt);
     checkHits();
     if (mode !== 'play') return false;
-    targetCheck();
 
     if (humOsc && !muted) {
       humOsc.frequency.value = 68 + Math.min(60, Math.abs(player.vx) * 0.06 + Math.abs(player.vy) * 0.05);

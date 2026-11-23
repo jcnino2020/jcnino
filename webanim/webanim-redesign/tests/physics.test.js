@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { DIFFICULTIES, FLIGHT } from '../game/balance.js'
-import { damageDrone, fly, judgeLanding, registerDelivery, release, stepPackage } from '../game/physics.js'
+import { DIFFICULTIES, DROP, FLIGHT } from '../game/balance.js'
+import { damageDrone, fly, judgeLanding, registerDelivery, release, releaseClassic, stepClassicPackage, stepPackage } from '../game/physics.js'
 
 const difficulty = DIFFICULTIES.standard
 const options = { worldWidth: 2000, weight: 1, wind: 0, stabilize: true }
@@ -60,4 +60,31 @@ test('one damage event wins when collisions overlap', () => {
   assert.equal(damageDrone(craft, 26, FLIGHT, difficulty, box), true)
   assert.equal(damageDrone(craft, 26, FLIGHT, difficulty, box), false)
   assert.equal(craft.health, 74)
+})
+
+test('a parcel already touching the top of a pad lands on its first downward step', () => {
+  const target = { x: 510, y: 450, width: 80 }
+  const parcel = { x: 510, y: target.y - DROP.size / 2 + 3, vx: 10, vy: 0, cargo: 'standard' }
+  const hit = stepPackage(parcel, 1 / 120, [target], [])
+  assert.equal(hit.surface, target)
+  assert.equal(hit.x, 510)
+})
+
+test('Classic parcels carry horizontal momentum through the original bounce', () => {
+  const parcel = releaseClassic({ x: 200, y: 255, vx: 100 }, 50)
+  const surface = () => 520
+  let bounces = 0
+  let landing
+  for (let tick = 0; tick < 240; tick++) {
+    const impact = stepClassicPackage(parcel, 1 / 120, surface)
+    if (!impact) continue
+    if (impact.bounced) bounces++
+    else {
+      landing = impact.surface
+      break
+    }
+  }
+  assert.equal(bounces, 1)
+  assert.equal(landing, 520)
+  assert.ok(Math.abs(parcel.x - 273.39) < 0.01)
 })
