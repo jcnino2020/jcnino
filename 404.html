@@ -52,29 +52,11 @@
       padding: 1.5rem;
       border-radius: 1rem;
       overflow: hidden;
-      background: var(--surface);
-      border: 1px solid var(--border);
+      background: radial-gradient(circle at center, #1e1e1e 0%, #121212 100%);
+      border: 1px solid #262626;
       display: flex;
       align-items: center;
       justify-content: center;
-    }
-
-    .out-of-focus-frame img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: blur(16px) brightness(0.56) saturate(0.85);
-      transform: scale(1.08);
-      pointer-events: none;
-    }
-
-    .out-of-focus-scrim {
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at center, rgba(0, 0, 0, 0.14) 0%, rgba(0, 0, 0, 0.58) 100%);
-      pointer-events: none;
     }
 
     .out-of-focus-code {
@@ -87,7 +69,6 @@
       font-weight: 700;
       line-height: 0.95;
       color: #ffffff;
-      text-shadow: 0 4px 28px rgba(0, 0, 0, 0.65);
     }
 
     .not-found-quick-links {
@@ -285,14 +266,9 @@
           </nav>
         </div>
 
-        <!-- Right Column (Desktop) / Top (Mobile): Out-of-Focus Photograph -->
+        <!-- Right Column (Desktop) / Top (Mobile): 404 Frame -->
         <div class="not-found-visual lg:col-span-6 min-w-0">
           <div class="out-of-focus-frame">
-            <picture>
-              <source type="image/webp" srcset="/images/hero/lakawon-1200.webp 1200w, /images/hero/lakawon-2048.webp 2048w" sizes="(min-width: 1024px) 50vw, 100vw" />
-              <img src="/images/hero/lakawon-1200.webp" alt="Out-of-focus aerial view of Lakawon Island by JC Niñonuevo" loading="eager" decoding="async" width="1200" height="800" />
-            </picture>
-            <div class="out-of-focus-scrim" aria-hidden="true"></div>
             <div class="out-of-focus-code" aria-hidden="true">404</div>
           </div>
         </div>
