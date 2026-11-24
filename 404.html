@@ -47,6 +47,7 @@
 
     .out-of-focus-frame {
       position: relative;
+      width: 100%;
       aspect-ratio: 3 / 2;
       padding: 1.5rem;
       border-radius: 1rem;
@@ -82,7 +83,7 @@
       text-align: center;
       font-variant-numeric: tabular-nums;
       letter-spacing: -0.04em;
-      font-size: clamp(3.5rem, 8vw, 5.75rem);
+      font-size: clamp(3rem, 8vw, 5.75rem);
       font-weight: 700;
       line-height: 0.95;
       color: #ffffff;
@@ -92,13 +93,16 @@
     .not-found-quick-links {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.65rem 1.35rem;
-      margin-top: 2.25rem;
-      padding-top: 1.5rem;
+      gap: 0.25rem 1rem;
+      margin-top: 2rem;
+      padding-top: 1.25rem;
       border-top: 1px solid var(--border);
     }
 
     .not-found-quick-links a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 40px;
       color: var(--text-muted);
       font-size: 0.875rem;
       font-weight: 500;
@@ -109,6 +113,80 @@
     .not-found-quick-links a:hover,
     .not-found-quick-links a:focus-visible {
       color: var(--text-main);
+    }
+
+    .not-found-grid > * {
+      min-width: 0;
+    }
+
+    @media (max-width: 1023px) {
+      .not-found-main {
+        min-height: 0;
+        align-items: flex-start;
+        padding-top: 5.5rem;
+        padding-bottom: 2.75rem;
+      }
+
+      .not-found-grid {
+        gap: 2rem;
+      }
+
+      .not-found-visual {
+        order: -1;
+      }
+
+      .out-of-focus-frame {
+        aspect-ratio: 16 / 9;
+      }
+    }
+
+    @media (max-width: 639px) {
+      .not-found-main {
+        padding-top: 5.25rem;
+        padding-bottom: 2.25rem;
+      }
+
+      .not-found-grid {
+        gap: 1.5rem;
+      }
+
+      .not-found-title {
+        font-size: 2.75rem;
+        line-height: 1.04;
+        margin-bottom: 1rem;
+      }
+
+      .not-found-desc {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .not-found-path-wrap {
+        margin-bottom: 1.35rem;
+      }
+
+      .not-found-actions {
+        gap: 0.625rem;
+      }
+
+      body .not-found-actions a {
+        padding: 15px 19px 13px;
+      }
+
+      .not-found-quick-links {
+        gap: 0.125rem 1.15rem;
+        margin-top: 1.5rem;
+        padding-top: 0.875rem;
+      }
+
+      .not-found-quick-links a {
+        min-height: 44px;
+      }
+
+      .out-of-focus-frame {
+        aspect-ratio: 2.15 / 1;
+        border-radius: 0.75rem;
+      }
     }
   </style>
 
@@ -168,21 +246,21 @@
 
   <main id="main-content" class="not-found-main flex-1">
     <div class="max-w-7xl mx-auto px-6 sm:px-10 w-full">
-      <div class="grid lg:grid-cols-12 gap-12 lg:gap-20 items-center">
+      <div class="not-found-grid grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-20 items-center">
 
-        <!-- Left Column: Copy & Recovery -->
-        <div class="lg:col-span-6">
-          <h1 class="text-5xl sm:text-7xl lg:text-8xl leading-[1.05] sm:tracking-tight font-bold text-white mb-6">
+        <!-- Left Column (Desktop) / Below Frame (Mobile): Copy & Recovery -->
+        <div class="lg:col-span-6 min-w-0">
+          <h1 class="not-found-title text-5xl sm:text-7xl lg:text-8xl leading-[1.05] sm:tracking-tight font-bold text-white mb-6">
             Out of<br><span class="font-light opacity-90">Frame.</span>
           </h1>
-          <p class="text-text-muted text-lg sm:text-xl max-w-lg mb-5 leading-relaxed font-normal">
+          <p class="not-found-desc text-text-muted text-lg sm:text-xl max-w-lg mb-5 leading-relaxed font-normal">
             The page you requested isn’t at this address. It may have moved, or the link may be out of date.
           </p>
-          <div id="missing-path-wrap" class="mb-10" hidden>
+          <div id="missing-path-wrap" class="not-found-path-wrap mb-10" hidden>
             <code id="missing-path" class="not-found-path"></code>
           </div>
 
-          <div class="flex flex-wrap gap-4">
+          <div class="not-found-actions flex flex-wrap gap-4">
             <a href="/index.html"
               class="inline-flex items-center justify-center gap-3 px-8 pt-[18px] pb-[14px] border border-transparent bg-white text-black font-bold text-sm rounded-full hover:bg-opacity-90 transition-all group leading-none">
               Back to Home
@@ -207,8 +285,8 @@
           </nav>
         </div>
 
-        <!-- Right Column: Out-of-Focus Photograph -->
-        <div class="lg:col-span-6">
+        <!-- Right Column (Desktop) / Top (Mobile): Out-of-Focus Photograph -->
+        <div class="not-found-visual lg:col-span-6 min-w-0">
           <div class="out-of-focus-frame">
             <picture>
               <source type="image/webp" srcset="/images/hero/lakawon-1200.webp 1200w, /images/hero/lakawon-2048.webp 2048w" sizes="(min-width: 1024px) 50vw, 100vw" />
